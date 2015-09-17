@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
         color: "#999",
         fontSize: 12,
         lineHeight: 21,
-        marginLeft: 8
+        marginHorizontal: 8,
+        paddingHorizontal: 8
     },
     avatar: {
         height: 16,
