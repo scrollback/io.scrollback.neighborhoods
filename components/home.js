@@ -4,10 +4,19 @@ import data from "./data";
 
 const {
     StyleSheet,
-    ListView
+    ListView,
+    View,
+    ToolbarAndroid
 } = React;
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
+    toolbar: {
+        backgroundColor: "#673AB7",
+        height: 56
+    },
     page: {
         backgroundColor: "#eee"
     }
@@ -26,11 +35,14 @@ export default class Home extends React.Component {
 
     render() {
         return (
+          <View style={styles.container}>
+            <ToolbarAndroid title="Hey, Neighbor!" titleColor="#fff" style={styles.toolbar} />
             <ListView
                 style={styles.page}
                 dataSource={this.state.dataSource}
                 renderRow={thread => <Discussion key={thread.id} thread={thread} />}
             />
+          </View>
         );
     }
 }
