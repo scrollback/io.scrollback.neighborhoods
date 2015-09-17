@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
     action: {
         fontWeight: "bold"
     },
+    loved: {
+        color: "#E91E63"
+    },
     icon: {
         height: 24,
         width: 24,
@@ -69,10 +72,10 @@ export default class DiscussionFooter extends React.Component {
         return (
             <View {...this.props} style={[ styles.footer, this.props.style ]}>
                 <View style={styles.left}>
-                    <TouchableHighlight underlayColor="#fff" onPress={this.onHeart.bind(this)}>
+                    <TouchableHighlight underlayColor="#fff" onPress={this.onHeart.bind(this)} style={this.state.loved ? null : styles.faded}>
                         <View style={styles.info}>
                             <Image style={styles.icon} source={this.state.loved ? require("image!ic_heart_colored") : require("image!ic_heart_empty")} />
-                            <Text style={[ styles.label, styles.action ]}>{this.state.num}</Text>
+                            <Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
