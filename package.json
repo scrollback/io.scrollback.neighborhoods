@@ -7,5 +7,12 @@
   },
   "dependencies": {
     "react-native": "^0.11.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-eslint": "^4.1.2",
+    "eslint": "^1.4.1",
+    "eslint-plugin-react": "^3.3.2",
+    "mocha": "^2.3.2"
   }
 }

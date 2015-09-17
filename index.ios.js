@@ -1,13 +1,30 @@
-'use strict';
+import React from "react-native";
 
-var React = require('react-native');
-
-var {
+const {
     AppRegistry,
     StyleSheet,
     Text,
-    View,
+    View
 } = React;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#F5FCFF"
+    },
+    welcome: {
+        fontSize: 20,
+        textAlign: "center",
+        margin: 10
+    },
+    instructions: {
+        textAlign: "center",
+        color: "#333333",
+        marginBottom: 5
+    }
+});
 
 class HeyNeighbor extends React.Component {
     render() {
@@ -24,23 +41,4 @@ class HeyNeighbor extends React.Component {
     }
 }
 
-var styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
-
-AppRegistry.registerComponent('HeyNeighbor', () => HeyNeighbor);
+AppRegistry.registerComponent("HeyNeighbor", () => HeyNeighbor);
