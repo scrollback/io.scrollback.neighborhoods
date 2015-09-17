@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     footer: {
         flexDirection: "row",
         paddingTop: 8,
-        borderColor: "rgba(0, 0, 0, .1)",
+        borderColor: "rgba(0, 0, 0, .08)",
         borderTopWidth: 1
     },
     left: {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     faded: {
-        opacity: 0.5
+        opacity: 0.3
     }
 });
 
