@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         height: 16,
         width: 16,
         borderRadius: 8,
-        backgroundColor: "#673AB7"
+        backgroundColor: "#999"
     },
     image: {
         flex: 1,

@@ -38,8 +38,8 @@ export default {
     }, {
         id: "def",
         title: "Some youtube video!",
-        text: "Broken angel - https://www.youtube.com/watch?v=-whp15J2n_M Must watch",
-        labels: [ "broken", "angel" ],
+        text: "Big Buck Bunny - https://www.youtube.com/watch?v=YE7VzlLtp-4 Must watch",
+        labels: [ "big", "buck", "bunny" ],
         from: "satya164",
         length: 8,
         "startTime": 1442314996328,

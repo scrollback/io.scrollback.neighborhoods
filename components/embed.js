@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         height: 240,
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     play: {
         backgroundColor: "transparent",
