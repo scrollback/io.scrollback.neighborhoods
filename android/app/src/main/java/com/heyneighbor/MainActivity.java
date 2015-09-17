@@ -19,6 +19,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mReactRootView = new ReactRootView(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
