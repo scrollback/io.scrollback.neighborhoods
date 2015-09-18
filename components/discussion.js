@@ -38,10 +38,11 @@ export default class Discussion extends React.Component {
         if (processedText.pictures.length) {
             cover = <Image style={styles.image} source={{ uri: processedText.pictures[0] }} />;
         } else if (processedText.links.length) {
-            const endpoint = oembed(processedText.links[0]);
+            const uri = processedText.links[0],
+                  endpoint = oembed(uri);
 
             if (endpoint) {
-                cover = <Embed endpoint={endpoint} />;
+                cover = <Embed uri={uri} endpoint={endpoint} />;
             }
         }
 
@@ -67,6 +68,7 @@ export default class Discussion extends React.Component {
                     displayName: thread.from,
                     picture: "http://scrollback.io/i/" + thread.from + "/picture"
                 }} />
+
                 <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
             </Card>
         );

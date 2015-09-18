@@ -1,6 +1,7 @@
 /* global fetch */
 
 import React from "react-native";
+import Linking from "./linking";
 
 const {
     StyleSheet,
@@ -24,7 +25,6 @@ const styles = StyleSheet.create({
         width: 36
     },
     thumbnail: {
-        resizeMode: "cover",
         height: 240,
         justifyContent: "center",
         alignItems: "center"
@@ -45,11 +45,15 @@ export default class Embed extends React.Component {
             .then(embed => this.setState({ embed }));
     }
 
+    onPress() {
+        Linking.openURL(this.props.uri);
+    }
+
     render() {
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
                 {this.state && this.state.embed && this.state.embed.thumbnail_url ?
-                    (<TouchableHighlight>
+                    (<TouchableHighlight onPress={this.onPress.bind(this)}>
                         <Image source={{ uri: this.state.embed.thumbnail_url }} style={styles.thumbnail}>
                             <Image source={require("image!embed_play")} style={styles.play} />
                         </Image>
@@ -64,5 +68,6 @@ export default class Embed extends React.Component {
 }
 
 Embed.propTypes = {
+    uri: React.PropTypes.string.isRequired,
     endpoint: React.PropTypes.string.isRequired
 };
