@@ -1,7 +1,6 @@
 package com.heyneighbor;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -20,14 +19,14 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WebSocketManager extends ReactContextBaseJavaModule {
+public class WebSocketModule extends ReactContextBaseJavaModule {
     private WebSocketClient mWebSocketClient;
 
     private List<WebSocketClient> mWebSocketConnections = new ArrayList<>();
 
     private ReactContext reactContext;
 
-    public WebSocketManager(ReactApplicationContext ctx) {
+    public WebSocketModule(ReactApplicationContext ctx) {
         super(ctx);
 
         reactContext = ctx;
@@ -41,7 +40,7 @@ public class WebSocketManager extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "WebSocketManager";
+        return "WebSocketModule";
     }
 
     @ReactMethod
