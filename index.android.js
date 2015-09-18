@@ -1,5 +1,5 @@
 import React from "react-native";
-import Home from "./components/home";
+import Home from "./views/home";
 
 const {
     AppRegistry,

@@ -10,15 +10,15 @@ const {
 const styles = StyleSheet.create({
     author: {
         flexDirection: "row",
-        paddingTop: 8,
-        paddingBottom: 8
+        alignItems: "center",
+        marginTop: 8,
+        marginBottom: 8
     },
     name: {
+        flex: 1,
         color: "#999",
         fontSize: 12,
-        lineHeight: 21,
-        marginHorizontal: 8,
-        paddingHorizontal: 8
+        marginHorizontal: 8
     },
     avatar: {
         height: 16,

@@ -1,7 +1,7 @@
 /* global fetch */
 
 import React from "react-native";
-import Linking from "./linking";
+import Linking from "../modules/linking";
 
 const {
     StyleSheet,

@@ -11,7 +11,8 @@ const {
 
 const styles = StyleSheet.create({
     footer: {
-        flexDirection: "row"
+        flexDirection: "row",
+        marginTop: 4
     },
     left: {
         flex: 1,

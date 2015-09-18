@@ -5,8 +5,7 @@ import data from "./data";
 const {
     StyleSheet,
     ListView,
-    View,
-    ToolbarAndroid
+    View
 } = React;
 
 const styles = StyleSheet.create({
@@ -36,7 +35,6 @@ export default class Home extends React.Component {
     render() {
         return (
           <View style={styles.container}>
-            <ToolbarAndroid title="Hey, Neighbor!" titleColor="#fff" style={styles.toolbar} />
             <ListView
                 style={styles.page}
                 dataSource={this.state.dataSource}
