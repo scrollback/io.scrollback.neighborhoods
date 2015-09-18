@@ -55,7 +55,7 @@ export default class Discussion extends React.Component {
                 ]} text={this.props.thread.title} />
 
                 {cover ? null :
-                    <CardSummary style={styles.item} text={thread.text} />
+                    <CardSummary style={styles.item} text={thread.text.trim()} />
                 }
 
                 {processedText.hashtags.length ?
