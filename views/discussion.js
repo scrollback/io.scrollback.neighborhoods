@@ -3,8 +3,8 @@ import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
 import CardHashtags from "./card-hashtags";
-import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
+import Author from "./author";
 import Embed from "./embed";
 import text from "../lib/text";
 import oembed from "../lib/oembed";
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         height: 160
     },
+    author: { marginVertical: 8, },
     item: { marginHorizontal: 16 },
     footer: { marginBottom: 8 }
 });
@@ -64,10 +65,7 @@ export default class Discussion extends React.Component {
                     null
                 }
 
-                <CardAuthor style={styles.item} user={{
-                    displayName: thread.from,
-                    picture: "http://scrollback.io/i/" + thread.from + "/picture"
-                }} />
+                <Author style={[ styles.item, styles.author ]} nick={thread.from} />
 
                 <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
             </Card>

@@ -10,9 +10,7 @@ const {
 const styles = StyleSheet.create({
     author: {
         flexDirection: "row",
-        alignItems: "center",
-        marginTop: 8,
-        marginBottom: 8
+        alignItems: "center"
     },
     name: {
         flex: 1,
@@ -35,20 +33,19 @@ const styles = StyleSheet.create({
 
 export default class CardAuthor extends React.Component {
     render() {
+        const { nick } = this.props;
+
         return (
             <View {...this.props} style={[ styles.author, this.props.style ]}>
                 <View style={styles.avatar}>
-                    <Image source={{ uri: this.props.user.picture }} style={styles.image} />
+                    <Image source={{ uri: "http://scrollback.io/i/" + nick + "/picture" }} style={styles.image} />
                 </View>
-                <Text style={styles.name}>{this.props.user.displayName}</Text>
+                <Text style={styles.name}>{nick}</Text>
             </View>
         );
     }
 }
 
 CardAuthor.propTypes = {
-    user: React.PropTypes.shape({
-        picture: React.PropTypes.string.isRequired,
-        displayName: React.PropTypes.string.isRequired
-    }).isRequired
+    nick: React.PropTypes.string.isRequired
 };

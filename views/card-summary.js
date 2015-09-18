@@ -1,8 +1,8 @@
 import React from "react-native";
+import RichText from "./rich-text";
 
 const {
-    StyleSheet,
-    Text
+    StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
@@ -16,9 +16,7 @@ const styles = StyleSheet.create({
 export default class TextSummary extends React.Component {
     render() {
         return (
-            <Text numberOfLines={3} {...this.props} style={[ styles.summary, this.props.style ]}>
-                {this.props.text}
-            </Text>
+            <RichText numberOfLines={3} {...this.props} style={[ styles.summary, this.props.style ]} text={this.props.text} />
         );
     }
 }
