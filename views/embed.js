@@ -1,12 +1,12 @@
 /* global fetch */
 
 import React from "react-native";
+import Loading from "./loading";
 import Linking from "../modules/linking";
 
 const {
     StyleSheet,
     View,
-    ProgressBarAndroid,
     Image,
     TouchableHighlight
 } = React;
@@ -59,7 +59,7 @@ export default class Embed extends React.Component {
                         </Image>
                     </TouchableHighlight>) :
                     (<View style={styles.overlay}>
-                        <ProgressBarAndroid style={styles.progress} />
+                        <Loading style={styles.progress} />
                     </View>)
                 }
             </View>
