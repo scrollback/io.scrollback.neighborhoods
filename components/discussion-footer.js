@@ -11,10 +11,7 @@ const {
 
 const styles = StyleSheet.create({
     footer: {
-        flexDirection: "row",
-        paddingTop: 8,
-        borderColor: "rgba(0, 0, 0, .08)",
-        borderTopWidth: 1
+        flexDirection: "row"
     },
     left: {
         flex: 1,
@@ -83,10 +80,6 @@ export default class DiscussionFooter extends React.Component {
                     <View style={[ styles.info, styles.faded ]}>
                         <Image style={styles.icon} source={require("image!ic_history")} />
                         <Text style={styles.label}>{time(this.props.thread.updateTime)}</Text>
-                    </View>
-                    <View style={[ styles.info, styles.faded ]}>
-                        <Image style={styles.icon} source={require("image!ic_people")} />
-                        <Text style={styles.label}>{this.props.thread.concerns ? this.props.thread.concerns.length : 1}</Text>
                     </View>
                     <View style={[ styles.info, styles.faded ]}>
                         <Image style={styles.icon} source={require("image!ic_forum")} />

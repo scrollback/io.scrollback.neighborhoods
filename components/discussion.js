@@ -6,6 +6,7 @@ import CardHashtags from "./card-hashtags";
 import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
+import text from "../lib/text";
 import oembed from "../lib/oembed";
 
 const {
@@ -30,19 +31,14 @@ export default class Discussion extends React.Component {
     render() {
         const { thread } = this.props;
 
+        const processedText = text.format(thread.text);
+
         let cover;
 
-        let parts = thread.text.match(/!\[([^\]]+)\]\((([^(\s\"\')]+)(\s+\".+\")?)(\))/),
-            picture;
-
-        if (parts) {
-            picture = parts[3];
-        }
-
-        if (picture) {
-            cover = <Image style={styles.image} source={{ uri: picture }} />;
-        } else {
-            const endpoint = oembed(thread.text);
+        if (processedText.pictures.length) {
+            cover = <Image style={styles.image} source={{ uri: processedText.pictures[0] }} />;
+        } else if (processedText.links.length) {
+            const endpoint = oembed(processedText.links[0]);
 
             if (endpoint) {
                 cover = <Embed endpoint={endpoint} />;
@@ -62,8 +58,8 @@ export default class Discussion extends React.Component {
                     <CardSummary style={styles.item} text={thread.text} />
                 }
 
-                {thread.labels ?
-                    <CardHashtags style={styles.item} hashtags={thread.labels} /> :
+                {processedText.hashtags.length ?
+                    <CardHashtags style={styles.item} hashtags={processedText.hashtags} /> :
                     null
                 }
 

@@ -6,7 +6,6 @@ export default {
         "from": "heyneighbor",
         "type": "thread",
         "title": "Open invitation from Hey Neighbor for all Football enthusiasts ",
-        labels: [ "football", "meetup", "heyneighbor" ],
         "color": 9,
         "length": 16,
         "concerns": [
@@ -34,12 +33,11 @@ export default {
         "startTime": 1442314996328,
         "updateTime": 1442409830645,
         "updater": "ashwakkawakka",
-        "text": "Hey everyone, \nwe've been watching the interest in a football match this weekend and have decided to join the community! This is an open invitation to all Hey Neighbor users and football enthusiasts to join us on Saturday. Pitch in here to tell us what you think about this. Meanwhile, we're working on fixing a time and venue. Check out this space for more updates."
+        "text": "Hey everyone, \nwe've been watching the interest in a football match this weekend and have decided to join the community! This is an open invitation to all Hey Neighbor users and football enthusiasts to join us on Saturday. Pitch in here to tell us what you think about this. Meanwhile, we're working on fixing a time and venue. Check out this space for more updates. #football #meetup #heyneighbor"
     }, {
         id: "def",
         title: "Some youtube video!",
-        text: "Big Buck Bunny - https://www.youtube.com/watch?v=YE7VzlLtp-4 Must watch",
-        labels: [ "big", "buck", "bunny" ],
+        text: "Big Buck Bunny - https://www.youtube.com/watch?v=YE7VzlLtp-4 Must watch #big #buck #bunny",
         from: "satya164",
         length: 8,
         "startTime": 1442314996328,
@@ -91,8 +89,7 @@ export default {
     }, {
         id: "ghi",
         title: "Grumpy Cat is awesome!",
-        text: "![Just deal with it](http://static5.businessinsider.com/image/511d104a69bedd1f7c000012/grumpy-cat-definitely-did-not-make-100-million.jpg)",
-        labels: [ "grmupy", "cat", "grumpycat", "no" ],
+        text: "![Just deal with it](http://static5.businessinsider.com/image/511d104a69bedd1f7c000012/grumpy-cat-definitely-did-not-make-100-million.jpg) #grmupy #cat #grumpycat #no",
         tags: [ "image" ],
         from: "satya164",
         length: 3,

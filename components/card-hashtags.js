@@ -17,7 +17,7 @@ export default class CardHashtags extends React.Component {
     render() {
         return (
             <Text {...this.props} style={[ styles.hashtags, this.props.style ]}>
-                {this.props.hashtags.map(label => "#" + label).join(" ")}
+                {this.props.hashtags.join(" ")}
             </Text>
         );
     }
