@@ -6,12 +6,15 @@ import CardHashtags from "./card-hashtags";
 import DiscussionFooter from "./discussion-footer";
 import Author from "./author";
 import Embed from "./embed";
+import Chat from "./chat";
 import text from "../lib/text";
 import oembed from "../lib/oembed";
 
 const {
     StyleSheet,
-    Image
+    Image,
+    View,
+    TouchableNativeFeedback
 } = React;
 
 const styles = StyleSheet.create({
@@ -19,16 +22,12 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         height: 160
     },
-    author: { marginVertical: 8, },
+    author: { marginVertical: 8 },
     item: { marginHorizontal: 16 },
     footer: { marginBottom: 8 }
 });
 
 export default class Discussion extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { thread } = this.props;
 
@@ -48,26 +47,30 @@ export default class Discussion extends React.Component {
         }
 
         return (
-            <Card {...this.props} style={[ styles.card, this.props.style ]}>
-                {cover}
+            <Card {...this.props}>
+                <TouchableNativeFeedback>
+                    <View>
+                        {cover}
 
-                <CardTitle style={[
-                    styles.item,
-                    cover ? { marginTop: 8 } : { marginTop: 16 }
-                ]} text={this.props.thread.title} />
+                        <CardTitle style={[
+                            styles.item,
+                            cover ? { marginTop: 8 } : { marginTop: 16 }
+                        ]} text={this.props.thread.title} />
 
-                {cover ? null :
-                    <CardSummary style={styles.item} text={thread.text.trim()} />
-                }
+                        {cover ? null :
+                            <CardSummary style={styles.item} text={thread.text.trim()} />
+                        }
 
-                {processedText.hashtags.length ?
-                    <CardHashtags style={styles.item} hashtags={processedText.hashtags} /> :
-                    null
-                }
+                        {processedText.hashtags.length ?
+                            <CardHashtags style={styles.item} hashtags={processedText.hashtags} /> :
+                            null
+                        }
 
-                <Author style={[ styles.item, styles.author ]} nick={thread.from} />
+                        <Author style={[ styles.item, styles.author ]} nick={thread.from} />
 
-                <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
+                        <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
+                    </View>
+                </TouchableNativeFeedback>
             </Card>
         );
     }

@@ -18,37 +18,39 @@ export default class RichText extends React.Component {
     render() {
         return (
             <Text {...this.props}>
-                {this.props.text.split("\n").map(text => {
+                {this.props.text.split("\n").map((text, index, arr) => {
                     return (
-                        <Text>
-                            {text.split(" ").map(t => {
+                        <Text key={"outer-" + index}>
+                            {text.split(" ").map((t, i) => {
+                                const key = "inner-" + index + "-" + i;
+
                                 if (/^@\S+$/.test(t)) {
                                     // a mention
-                                    return <Text style={styles.link}>{t} </Text>;
+                                    return <Text key={key} style={styles.link}>{t} </Text>;
                                 }
 
                                 if (/^#\S+$/.test(t)) {
                                     // a hashtag
-                                    return <Text style={styles.link}>{t} </Text>;
+                                    return <Text key={key} style={styles.link}>{t} </Text>;
                                 }
 
                                 if (/^(http|https):\/\/(\S+)$/i.test(t)) {
                                     // a link
-                                    return <Text onPress={() => this.openLink(t)} style={styles.link}>{t} </Text>;
+                                    return <Text key={key} onPress={() => this.openLink(t)} style={styles.link}>{t} </Text>;
                                 }
 
                                 if (/^\S+@\S+$/i.test(t)) {
                                     // an email id
-                                    return <Text onPress={() => this.openLink("mailto:" + t)} style={styles.link}>{t} </Text>;
+                                    return <Text key={key} onPress={() => this.openLink("mailto:" + t)} style={styles.link}>{t} </Text>;
                                 }
 
                                 if (/^(0|\+91)?[0-9]{10}$/.test(t)) {
                                     // a phone number
-                                    return <Text onPress={() => this.openLink("tel:" + t)} style={styles.link}>{t} </Text>;
+                                    return <Text key={key} onPress={() => this.openLink("tel:" + t)} style={styles.link}>{t} </Text>;
                                 }
 
-                                return <Text>{t} </Text>;
-                            })}{"\n"}
+                                return <Text key={key}>{t} </Text>;
+                            })}{index !== (arr.length - 1) ? "\n" : ""}
                         </Text>
                     );
                 })}

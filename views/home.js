@@ -38,7 +38,7 @@ export default class Home extends React.Component {
             <ListView
                 style={styles.page}
                 dataSource={this.state.dataSource}
-                renderRow={thread => <Discussion key={thread.id} thread={thread} />}
+                renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
             />
           </View>
         );

@@ -16,9 +16,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Card extends React.Component {
+    setNativeProps(nativeProps) {
+        this._root.setNativeProps(nativeProps);
+    }
+
     render() {
         return (
-            <View {...this.props} style={[ styles.card, this.props.style ]}>
+            <View ref={c => this._root = c} {...this.props} style={[ styles.card, this.props.style ]}>
                 {this.props.children}
             </View>
         );
