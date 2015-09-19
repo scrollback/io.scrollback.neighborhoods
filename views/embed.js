@@ -24,8 +24,10 @@ const styles = StyleSheet.create({
         height: 36,
         width: 36
     },
+    thumbnailContainer: { flex: 1 },
     thumbnail: {
-        height: 240,
+        flex: 1,
+        resizeMode: "cover",
         justifyContent: "center",
         alignItems: "center"
     },
@@ -53,7 +55,7 @@ export default class Embed extends React.Component {
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
                 {this.state && this.state.embed && this.state.embed.thumbnail_url ?
-                    (<TouchableHighlight onPress={this.onPress.bind(this)}>
+                    (<TouchableHighlight onPress={this.onPress.bind(this)} style={styles.thumbnailContainer}>
                         <Image source={{ uri: this.state.embed.thumbnail_url }} style={styles.thumbnail}>
                             <Image source={require("image!embed_play")} style={styles.play} />
                         </Image>

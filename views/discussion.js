@@ -3,11 +3,10 @@ import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
 import CardHashtags from "./card-hashtags";
+import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
-import Author from "./author";
 import Embed from "./embed";
-import Chat from "./chat";
-import text from "../lib/text";
+import textUtils from "../lib/text-utils";
 import oembed from "../lib/oembed";
 
 const {
@@ -31,15 +30,19 @@ export default class Discussion extends React.Component {
     render() {
         const { thread } = this.props;
 
-        const processedText = text.format(thread.text);
+        let trimmedText = thread.text.trim();
+
+        const hashtags = textUtils.getHashtags(trimmedText);
+        const links = textUtils.getLinks(trimmedText);
+        const pictures = textUtils.getPictures(trimmedText);
 
         let cover;
 
-        if (processedText.pictures.length) {
-            cover = <Image style={styles.image} source={{ uri: processedText.pictures[0] }} />;
-        } else if (processedText.links.length) {
-            const uri = processedText.links[0],
-                  endpoint = oembed(uri);
+        if (pictures.length) {
+            cover = <Image style={styles.image} source={{ uri: pictures[0] }} />;
+        } else if (links.length) {
+            const uri = links[0];
+            const endpoint = oembed(uri);
 
             if (endpoint) {
                 cover = <Embed uri={uri} endpoint={endpoint} />;
@@ -58,15 +61,15 @@ export default class Discussion extends React.Component {
                         ]} text={this.props.thread.title} />
 
                         {cover ? null :
-                            <CardSummary style={styles.item} text={thread.text.trim()} />
+                            <CardSummary style={styles.item} text={trimmedText} />
                         }
 
-                        {processedText.hashtags.length ?
-                            <CardHashtags style={styles.item} hashtags={processedText.hashtags} /> :
+                        {hashtags.length ?
+                            <CardHashtags style={styles.item} hashtags={hashtags} /> :
                             null
                         }
 
-                        <Author style={[ styles.item, styles.author ]} nick={thread.from} />
+                        <CardAuthor style={[ styles.item, styles.author ]} nick={thread.from} />
 
                         <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
                     </View>

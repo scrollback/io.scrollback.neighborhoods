@@ -7,7 +7,11 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-    link: { color: "#0af" }
+    text: {
+        fontSize: 14,
+        lineHeight: 21
+    },
+    link: { color: "#2196F3" }
 });
 
 export default class RichText extends React.Component {
@@ -17,7 +21,7 @@ export default class RichText extends React.Component {
 
     render() {
         return (
-            <Text {...this.props}>
+            <Text {...this.props} style={[ styles.text, this.props.style ]}>
                 {this.props.text.split("\n").map((text, index, arr) => {
                     return (
                         <Text key={"outer-" + index}>

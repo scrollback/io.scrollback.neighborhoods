@@ -1,10 +1,10 @@
 import React from "react-native";
+import Avatar from "./avatar";
 
 const {
     StyleSheet,
     Text,
-    View,
-    Image
+    View
 } = React;
 
 const styles = StyleSheet.create({
@@ -38,7 +38,7 @@ export default class CardAuthor extends React.Component {
         return (
             <View {...this.props} style={[ styles.author, this.props.style ]}>
                 <View style={styles.avatar}>
-                    <Image source={{ uri: "http://scrollback.io/i/" + nick + "/picture" }} style={styles.image} />
+                    <Avatar nick={nick} size={16} style={styles.image} />
                 </View>
                 <Text style={styles.name}>{nick}</Text>
             </View>

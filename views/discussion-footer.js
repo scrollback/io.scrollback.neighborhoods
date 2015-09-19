@@ -1,5 +1,5 @@
 import React from "react-native";
-import time from "../lib/time";
+import timeUtils from "../lib/time-utils";
 
 const {
     StyleSheet,
@@ -80,7 +80,7 @@ export default class DiscussionFooter extends React.Component {
                 <View style={styles.right}>
                     <View style={[ styles.info, styles.faded ]}>
                         <Image style={styles.icon} source={require("image!ic_history")} />
-                        <Text style={styles.label}>{time(this.props.thread.updateTime)}</Text>
+                        <Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
                     </View>
                     <View style={[ styles.info, styles.faded ]}>
                         <Image style={styles.icon} source={require("image!ic_forum")} />
