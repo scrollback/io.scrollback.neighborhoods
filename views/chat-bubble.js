@@ -27,11 +27,16 @@ const styles = StyleSheet.create({
     triangle: {
         position: "absolute",
         height: 12,
-        width: 10,
+        width: 10
+    },
+    triangleLeft: {
+        top: 0,
+        left: -8
+    },
+    triangleRight: {
+        right: -8,
         bottom: 0
     },
-    triangleLeft: { left: -8 },
-    triangleRight: { right: -8 },
     author: {
         fontSize: 12,
         paddingBottom: 4,
