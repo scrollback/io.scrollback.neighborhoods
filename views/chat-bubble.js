@@ -54,7 +54,10 @@ export default class ChatBubble extends React.Component {
                     <Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
                 }
                 <View style={[ styles.bubble, right ? styles.bubbleRight : null ]}>
-                    <Text style={styles.author}>{text.from}</Text>
+                    {this.props.showAuthor ?
+                        <Text style={styles.author}>{text.from}</Text> :
+                        null
+                    }
                     {this.props.children}
                     <RichText text={text.text} style={right ? styles.textRight : null} />
                 </View>
@@ -67,11 +70,16 @@ export default class ChatBubble extends React.Component {
     }
 }
 
+ChatBubble.defaultProps = {
+    showAuthor: false
+};
+
 ChatBubble.propTypes = {
     text: React.PropTypes.shape({
         text: React.PropTypes.string.isRequired,
         from: React.PropTypes.string.isRequired
     }).isRequired,
     type: React.PropTypes.oneOf([ "left", "right" ]),
+    showAuthor: React.PropTypes.bool,
     children: React.PropTypes.any
 };

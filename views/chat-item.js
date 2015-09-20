@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         height: 36,
         width: 36,
         borderRadius: 18,
-        marginVertical: 1,
+        marginVertical: 2,
         marginRight: 4,
         backgroundColor: "#999",
         alignSelf: "flex-end"
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 
 export default class ChatItem extends React.Component {
     render() {
-        const { text } = this.props;
+        const { text, previousText } = this.props;
 
         const received = Math.random() < 0.7;
 
@@ -83,6 +83,17 @@ export default class ChatItem extends React.Component {
             }
         }
 
+        let showAuthor = received,
+            showTime = false;
+
+        if (previousText) {
+            if (received) {
+                showAuthor = text.from !== previousText.from;
+            }
+
+            showTime = (text.time - previousText.time) > 300000;
+        }
+
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
                 <View style={[ styles.chat, received ? styles.received : null ]}>
@@ -92,11 +103,11 @@ export default class ChatItem extends React.Component {
                         </View> :
                         null
                     }
-                    <ChatBubble text={text} type={received ? "left" : "right"} style={styles.bubble}>
+                    <ChatBubble text={text} type={received ? "left" : "right"} showAuthor={showAuthor} style={styles.bubble}>
                         {cover}
                     </ChatBubble>
                 </View>
-                {Math.random() > 0.7 ?
+                {showTime ?
                     <Text style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>{timeUtils.long(text.time)}</Text> :
                     null
                 }
@@ -105,17 +116,14 @@ export default class ChatItem extends React.Component {
     }
 }
 
-ChatItem.defaultProps = {
-    showTime: false,
-    showAuthor: true
-};
-
 ChatItem.propTypes = {
     text: React.PropTypes.shape({
         text: React.PropTypes.string.isRequired,
         from: React.PropTypes.string.isRequired,
         time: React.PropTypes.number.isRequired
     }).isRequired,
-    showTime: React.PropTypes.bool,
-    showAuthor: React.PropTypes.bool
+    previousText: React.PropTypes.shape({
+        from: React.PropTypes.string.isRequired,
+        time: React.PropTypes.number.isRequired
+    })
 };

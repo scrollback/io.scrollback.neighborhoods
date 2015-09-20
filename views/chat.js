@@ -33,12 +33,22 @@ export default class Chat extends React.Component {
     }
 
     render() {
+        let { dataSource } = this.state;
+
         return (
           <View style={styles.container}>
             <ListView
                 style={styles.page}
-                dataSource={this.state.dataSource}
-                renderRow={text => <ChatItem key={text.id} text={text} />}
+                dataSource={dataSource}
+                renderRow={(text, sectionID, rowID) => {
+                    let previousText;
+
+                    if (rowID > 0) {
+                        previousText = dataSource.getRowData(0, rowID - 1);
+                    }
+
+                    return <ChatItem key={text.id} text={text} previousText={previousText} />;
+                }}
             />
           </View>
         );
