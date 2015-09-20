@@ -1,5 +1,5 @@
 import React from "react-native";
 
-const { LinkingIOS } = React.NativeModules;
+const { LinkingIOS } = React;
 
 export default LinkingIOS;

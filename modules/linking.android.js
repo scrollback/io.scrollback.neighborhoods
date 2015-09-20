@@ -1,5 +1,5 @@
 import React from "react-native";
 
-const { IntentAndroid } = React.NativeModules;
+const { IntentManager } = React.NativeModules;
 
-export default IntentAndroid;
+export default IntentManager;

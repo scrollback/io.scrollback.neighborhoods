@@ -1,103 +1,110 @@
-import React from "react-native";
-import WebSocketBase from "WebSocketBase";
-import RCTDeviceEventEmitter from "RCTDeviceEventEmitter";
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @providesModule WebSocket
+ *
+ */
+'use strict';
 
-const {
-    NativeModules
-} = React;
+var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
+var RCTWebSocketManager = require('NativeModules').WebSocketManager;
 
-const {
-    WebSocketManager
-} = NativeModules;
+var WebSocketBase = require('WebSocketBase');
 
-let WebSocketId = 0;
+var WebSocketId = 0;
+
+var CLOSE_NORMAL = 1000;
 
 class WebSocket extends WebSocketBase {
-    _socketId: number;
-    _subs: any;
+  _socketId: number;
+  _subs: any;
 
-    connectToSocketImpl(url: string): void {
-        this._socketId = WebSocketId++;
+  connectToSocketImpl(url: string): void {
+    this._socketId = WebSocketId++;
 
-        WebSocketManager.connect(url, this._socketId);
+    RCTWebSocketManager.connect(url, this._socketId);
 
-        this._registerEvents(this._socketId);
-    }
+    this._registerEvents(this._socketId);
+  }
 
-    closeConnectionImpl(): void {
-        WebSocketManager.close(this._socketId);
-    }
+  closeConnectionImpl(code?: number, reason?: string): void {
+    /*
+     * The status code 1000 means 'CLOSE_NORMAL'
+     * Reason is empty string by to match browser behaviour
+     * More info: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
+     */
+    let statusCode = typeof code === 'number' ? code : CLOSE_NORMAL,
+        closeReason = typeof reason === 'string' ? reason : '';
 
-    cancelConnectionImpl(): void {
-        WebSocketManager.close(this._socketId);
-    }
+    RCTWebSocketManager.close(statusCode, closeReason, this._socketId);
+  }
 
-    sendStringImpl(message: string): void {
-        WebSocketManager.send(message, this._socketId);
-    }
+  cancelConnectionImpl(): void {
+    RCTWebSocketManager.close(CLOSE_NORMAL, '', this._socketId);
+  }
 
-    sendArrayBufferImpl(): void {
-        console.warn("Sending ArrayBuffers is not yet supported");
-    }
+  sendStringImpl(message: string): void {
+    RCTWebSocketManager.send(message, this._socketId);
+  }
 
-    _unregisterEvents(): void {
-        this._subs.forEach(e => e.remove());
-        this._subs = [];
-    }
+  sendArrayBufferImpl(): void {
+    // TODO
+    console.warn('Sending ArrayBuffers is not yet supported');
+  }
 
-    _registerEvents(id: number): void {
-        this._subs = [
-            RCTDeviceEventEmitter.addListener("websocketMessage", ev => {
-                if (ev.id !== id) {
-                    return;
-                }
+  _unregisterEvents(): void {
+    this._subs.forEach(e => e.remove());
+    this._subs = [];
+  }
 
-                if (this.onmessage) {
-                    this.onmessage({ data: ev.data });
-                }
-            }),
-            RCTDeviceEventEmitter.addListener("websocketOpen", ev => {
-                if (ev.id !== id) {
-                    return;
-                }
+  _registerEvents(id: number): void {
+    this._subs = [
+      RCTDeviceEventEmitter.addListener('websocketMessage', ev => {
+        if (ev.id !== id) {
+          return;
+        }
 
-                this.readyState = this.OPEN;
+        this.onmessage && this.onmessage({
+          data: ev.data
+        });
+      }),
+      RCTDeviceEventEmitter.addListener('websocketOpen', ev => {
+        if (ev.id !== id) {
+          return;
+        }
 
-                if (this.onopen) {
-                    this.onopen();
-                }
-            }),
-            RCTDeviceEventEmitter.addListener("websocketClosed", ev => {
-                if (ev.id !== id) {
-                    return;
-                }
+        this.readyState = this.OPEN;
+        this.onopen && this.onopen();
+      }),
+      RCTDeviceEventEmitter.addListener('websocketClosed', ev => {
+          if (ev.id !== id) {
+            return;
+          }
 
-                this.readyState = this.CLOSED;
+          this.readyState = this.CLOSED;
+          this.onclose && this.onclose(ev);
 
-                if (this.onclose) {
-                    this.onclose(ev);
-                }
+          this._unregisterEvents();
 
-                this._unregisterEvents();
+          RCTWebSocketManager.close(CLOSE_NORMAL, '', id);
+      }),
+      RCTDeviceEventEmitter.addListener('websocketFailed', ev => {
+        if (ev.id !== id) {
+          return;
+        }
 
-                WebSocketManager.close(id);
-            }),
-            RCTDeviceEventEmitter.addListener("websocketFailed", ev => {
-                if (ev.id !== id) {
-                    return;
-                }
+        this.onerror && this.onerror(new Error(ev.message));
+        this._unregisterEvents();
 
-                if (this.onerror) {
-                    this.onerror(new Error(ev.message));
-                }
-
-                this._unregisterEvents();
-
-                WebSocketManager.close(id);
-            })
-        ];
-    }
-
+        RCTWebSocketManager.close(CLOSE_NORMAL, '', id);
+      })
+    ];
+  }
 }
 
 module.exports = WebSocket;

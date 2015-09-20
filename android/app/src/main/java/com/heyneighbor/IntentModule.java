@@ -9,10 +9,10 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-public class IntentManager extends ReactContextBaseJavaModule {
+public class IntentModule extends ReactContextBaseJavaModule {
     ReactApplicationContext reactContext;
 
-    public IntentManager(ReactApplicationContext ctx) {
+    public IntentModule(ReactApplicationContext ctx) {
         super(ctx);
 
         reactContext = ctx;
@@ -20,7 +20,7 @@ public class IntentManager extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "IntentAndroid";
+        return "IntentManager";
     }
 
     @ReactMethod
