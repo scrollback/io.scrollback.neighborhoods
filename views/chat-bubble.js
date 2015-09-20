@@ -24,12 +24,6 @@ const styles = StyleSheet.create({
     text: {
         paddingHorizontal: 4
     },
-    textRight: {
-        textAlign: "right"
-    },
-    bubbleRight: {
-        alignItems: "flex-end"
-    },
     triangle: {
         position: "absolute",
         height: 12,
@@ -56,13 +50,13 @@ export default class ChatBubble extends React.Component {
                 {right ? null :
                     <Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
                 }
-                <View style={[ styles.bubble, right ? styles.bubbleRight : null ]}>
+                <View style={styles.bubble}>
                     {this.props.showAuthor ?
                         <Text style={styles.author}>{text.from}</Text> :
                         null
                     }
                     {this.props.children}
-                    <RichText text={text.text} style={[ styles.text, right ? styles.textRight : null ]} />
+                    <RichText text={text.text} style={styles.text} />
                 </View>
                 {right ?
                     <Image style={[ styles.triangle, styles.triangleRight ]} source={require("image!triangle_right")} /> :
