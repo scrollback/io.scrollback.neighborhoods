@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     hashtags: {
         fontSize: 12,
         lineHeight: 21,
-        color: "#0af"
+        color: "#2196F3"
     }
 });
 

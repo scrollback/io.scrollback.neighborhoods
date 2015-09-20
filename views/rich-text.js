@@ -1,5 +1,5 @@
 import React from "react-native";
-import Linking from "../modules/linking";
+import Link from "./link";
 
 const {
     StyleSheet,
@@ -10,15 +10,10 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
         lineHeight: 21
-    },
-    link: { color: "#2196F3" }
+    }
 });
 
 export default class RichText extends React.Component {
-    openLink(link) {
-        Linking.openURL(link);
-    }
-
     render() {
         return (
             <Text {...this.props} style={[ styles.text, this.props.style ]}>
@@ -26,34 +21,41 @@ export default class RichText extends React.Component {
                     return (
                         <Text key={"outer-" + index}>
                             {text.split(" ").map((t, i) => {
+                                let items = [];
+
                                 const key = "inner-" + index + "-" + i;
 
-                                if (/^@\S+$/.test(t)) {
+                                // Strip out ending punctuations
+                                let punctuation = "";
+
+                                if (/[\.,\?!:;]$/.test(t)) {
+                                    punctuation = t.substring(t.length - 1);
+
+                                    t = t.replace(/.$/, "");
+                                }
+
+                                if (/^@[a-z0-9\-]+$/.test(t)) {
                                     // a mention
-                                    return <Text key={key} style={styles.link}>{t} </Text>;
-                                }
-
-                                if (/^#\S+$/.test(t)) {
+                                    items.push(<Link key={key}>{t}</Link>);
+                                } else if (/^#\S+$/.test(t)) {
                                     // a hashtag
-                                    return <Text key={key} style={styles.link}>{t} </Text>;
-                                }
-
-                                if (/^(http|https):\/\/(\S+)$/i.test(t)) {
+                                    items.push(<Link key={key}>{t}</Link>);
+                                } else if (/^(http|https):\/\/(\S+)$/i.test(t)) {
                                     // a link
-                                    return <Text key={key} onPress={() => this.openLink(t)} style={styles.link}>{t} </Text>;
-                                }
-
-                                if (/^\S+@\S+$/i.test(t)) {
+                                    items.push(<Link key={key} href={t}>{t}</Link>);
+                                } else if (/^[^@]+@[^@]+\.[^@]+$/i.test(t)) {
                                     // an email id
-                                    return <Text key={key} onPress={() => this.openLink("mailto:" + t)} style={styles.link}>{t} </Text>;
-                                }
-
-                                if (/^(0|\+91)?[0-9]{10}$/.test(t)) {
+                                    items.push(<Link key={key} href={"mailto:" + t}>{t}</Link>);
+                                } else if (/^(?:\+?(\d{1,3}))?[-.\s(]*(\d{3})?[-.\s)]*(\d{3})[-.\s]*(\d{4})(?: *x(\d+))?$/.test(t)) {
                                     // a phone number
-                                    return <Text key={key} onPress={() => this.openLink("tel:" + t)} style={styles.link}>{t} </Text>;
+                                    items.push(<Link key={key} href={"tel:" + t}>{t}</Link>);
+                                } else {
+                                    return t + punctuation + " ";
                                 }
 
-                                return <Text key={key}>{t} </Text>;
+                                items.push(punctuation + " ");
+
+                                return items;
                             })}{index !== (arr.length - 1) ? "\n" : ""}
                         </Text>
                     );
