@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
 });
 
 export default class Embed extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+
     componentDidMount() {
         fetch(this.props.endpoint)
             .then(response => response.json())
@@ -51,12 +57,17 @@ export default class Embed extends React.Component {
     }
 
     render() {
+        const { embed } = this.state;
+
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
-                {this.state && this.state.embed && this.state.embed.thumbnail_url ?
+                {embed && embed.thumbnail_url ?
                     (<TouchableHighlight onPress={this.onPress.bind(this)} style={styles.thumbnailContainer}>
-                        <Image source={{ uri: this.state.embed.thumbnail_url }} style={styles.thumbnail}>
-                            <Image source={require("image!embed_play")} style={styles.play} />
+                        <Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
+                            {embed.type === "video" ?
+                                <Image source={require("image!embed_play")} style={styles.play} /> :
+                                null
+                            }
                         </Image>
                     </TouchableHighlight>) :
                     (<View style={styles.overlay}>
