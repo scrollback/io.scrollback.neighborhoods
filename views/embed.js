@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     thumbnailContainer: { flex: 1 },
     thumbnail: {
         flex: 1,
-        resizeMode: "cover",
         justifyContent: "center",
         alignItems: "center"
     },

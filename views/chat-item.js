@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     timestamp: {
         fontSize: 12,
         marginTop: 4,
-        paddingHorizontal: 4,
+        paddingHorizontal: 8,
         opacity: 0.5
     },
     timestampLeft: { marginLeft: 52 },

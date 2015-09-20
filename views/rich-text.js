@@ -1,5 +1,6 @@
 import React from "react-native";
 import Link from "./link";
+import smiley from "../lib/smiley";
 
 const {
     StyleSheet,
@@ -17,7 +18,7 @@ export default class RichText extends React.Component {
     render() {
         return (
             <Text {...this.props} style={[ styles.text, this.props.style ]}>
-                {this.props.text.split("\n").map((text, index, arr) => {
+                {smiley.format(this.props.text).split("\n").map((text, index, arr) => {
                     return ([
                         text.split(" ").map((t, i) => {
                             let items = [];
