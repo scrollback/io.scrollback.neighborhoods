@@ -1,6 +1,6 @@
 import React from "react-native";
 import ChatItem from "./chat-item";
-import data from "./data";
+import data from "../data";
 
 const {
     StyleSheet,

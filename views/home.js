@@ -1,6 +1,6 @@
 import React from "react-native";
 import Discussion from "./discussion";
-import data from "./data";
+import data from "../data";
 
 const {
     StyleSheet,
