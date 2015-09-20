@@ -65,10 +65,8 @@ export default class ChatItem extends React.Component {
 
         const received = Math.random() < 0.7;
 
-        let trimmedText = text.text.trim();
-
-        const links = textUtils.getLinks(trimmedText);
-        const pictures = textUtils.getPictures(trimmedText);
+        const links = textUtils.getLinks(text.text);
+        const pictures = textUtils.getPictures(text.text);
 
         let cover;
 

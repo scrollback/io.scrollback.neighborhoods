@@ -18,10 +18,11 @@ export default class RichText extends React.Component {
     render() {
         return (
             <Text {...this.props} style={[ styles.text, this.props.style ]}>
-                {smiley.format(this.props.text).split("\n").map((text, index, arr) => {
+                {smiley.format(this.props.text.trim()).split("\n").map((text, index, arr) => {
                     return ([
-                        text.split(" ").map((t, i) => {
-                            let items = [];
+                        text.split(" ").map((inner, i) => {
+                            let t = inner,
+                                items = [];
 
                             const key = "inner-" + index + "-" + i;
 
