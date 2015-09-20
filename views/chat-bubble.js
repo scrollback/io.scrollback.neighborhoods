@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 3
     },
+    text: {
+        paddingHorizontal: 4
+    },
     textRight: {
         textAlign: "right"
     },
@@ -59,7 +62,7 @@ export default class ChatBubble extends React.Component {
                         null
                     }
                     {this.props.children}
-                    <RichText text={text.text} style={right ? styles.textRight : null} />
+                    <RichText text={text.text} style={[ styles.text, right ? styles.textRight : null ]} />
                 </View>
                 {right ?
                     <Image style={[ styles.triangle, styles.triangleRight ]} source={require("image!triangle_right")} /> :
