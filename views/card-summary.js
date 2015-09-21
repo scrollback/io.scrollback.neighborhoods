@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
 });
 
 export default class TextSummary extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (this.props.text !== nextProps.text);
+    }
+
     render() {
         return (
             <RichText numberOfLines={3} {...this.props} style={[ styles.summary, this.props.style ]} text={this.props.text} />

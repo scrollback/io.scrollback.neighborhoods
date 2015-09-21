@@ -59,6 +59,13 @@ export default class DiscussionFooter extends React.Component {
         };
     }
 
+    shouldComponentUpdate(nextProps) {
+        return (
+                this.props.thread.updateTime !== nextProps.thread.updateTime ||
+                this.props.thread.length !== nextProps.thread.length
+            );
+    }
+
     onHeart() {
         this.setState({
             loved: !this.state.loved,
@@ -95,7 +102,6 @@ export default class DiscussionFooter extends React.Component {
 DiscussionFooter.propTypes = {
     thread: React.PropTypes.shape({
         updateTime: React.PropTypes.number.isRequired,
-        concerns: React.PropTypes.array.isRequired,
         length: React.PropTypes.number.isRequired
     }).isRequired
 };

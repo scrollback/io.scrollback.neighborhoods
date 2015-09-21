@@ -15,6 +15,10 @@ const styles = StyleSheet.create({
 });
 
 export default class RichText extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (this.props.text !== nextProps.text);
+    }
+
     render() {
         return (
             <Text {...this.props} style={[ styles.text, this.props.style ]}>

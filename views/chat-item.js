@@ -59,6 +59,16 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatItem extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+                this.props.text.text !== nextProps.text.text ||
+                this.props.text.from !== nextProps.text.from ||
+                this.props.text.time !== nextProps.text.time ||
+                this.props.previousText.from !== nextProps.previousText.from ||
+                this.props.previousText.time !== nextProps.previousText.time
+            );
+    }
+
     render() {
         const { text, previousText } = this.props;
 

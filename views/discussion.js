@@ -34,6 +34,14 @@ export default class Discussion extends React.Component {
         });
     }
 
+    shouldComponentUpdate(nextProps) {
+        return (
+                this.props.thread.title !== nextProps.thread.title ||
+                this.props.thread.text !== nextProps.thread.text ||
+                this.props.thread.from !== nextProps.thread.text
+            );
+    }
+
     render() {
         const { thread } = this.props;
 
@@ -88,11 +96,8 @@ export default class Discussion extends React.Component {
 
 Discussion.propTypes = {
     thread: React.PropTypes.shape({
-        picture: React.PropTypes.string,
         title: React.PropTypes.string.isRequired,
         text: React.PropTypes.string.isRequired,
-        from: React.PropTypes.string.isRequired,
-        tags: React.PropTypes.arrayOf(React.PropTypes.string),
-        labels: React.PropTypes.arrayOf(React.PropTypes.string)
+        from: React.PropTypes.string.isRequired
     }).isRequired
 };
