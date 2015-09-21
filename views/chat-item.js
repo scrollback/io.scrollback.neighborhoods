@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     },
     received: {
         alignItems: "flex-start",
-        marginLeft: 48
+        marginLeft: 44
     },
     timestamp: {
         fontSize: 12,
@@ -37,12 +37,11 @@ const styles = StyleSheet.create({
     timestampRight: { alignSelf: "flex-end" },
     avatar: {
         position: "absolute",
-        left: -48,
+        left: -44,
         top: 0,
         height: 36,
         width: 36,
         borderRadius: 18,
-        marginVertical: 2,
         marginRight: 4,
         backgroundColor: "#999",
         alignSelf: "flex-end"
