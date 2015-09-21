@@ -6,19 +6,18 @@ import socket from "../lib/socket";
 const {
     StyleSheet,
     ListView,
-    View
+    View,
+    InteractionManager
 } = React;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: "#eee"
     },
     toolbar: {
         backgroundColor: "#673AB7",
         height: 56
-    },
-    page: {
-        backgroundColor: "#eee"
     },
     loadingContainer: {
         flex: 1,
@@ -53,7 +52,11 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        socket.on("data", data => this._onDataArrived(data.threads));
+        socket.on("data", data => {
+            InteractionManager.runAfterInteractions(() => {
+                this._onDataArrived(data.threads);
+            });
+        });
 
         socket.emit("get");
     }
@@ -63,7 +66,6 @@ export default class Home extends React.Component {
             <View style={styles.container}>
                 {this._data.length ?
                     <ListView
-                        style={styles.page}
                         dataSource={this.state.dataSource}
                         renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
                     /> :

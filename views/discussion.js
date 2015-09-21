@@ -27,6 +27,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Discussion extends React.Component {
+    _onPress() {
+        this.props.navigator.push({
+            id: "chat",
+            name: "Chat"
+        });
+    }
+
     render() {
         const { thread } = this.props;
 
@@ -51,7 +58,7 @@ export default class Discussion extends React.Component {
 
         return (
             <Card {...this.props}>
-                <TouchableNativeFeedback>
+                <TouchableNativeFeedback onPress={this._onPress.bind(this)}>
                     <View>
                         {cover}
 
