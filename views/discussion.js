@@ -30,7 +30,7 @@ export default class Discussion extends React.Component {
     _onPress() {
         this.props.navigator.push({
             id: "chat",
-            name: "Chat"
+            title: "Chat"
         });
     }
 

@@ -1,34 +1,13 @@
 import React from "react-native";
 import ChatItem from "./chat-item";
-import Loading from "./loading";
+import PageLoading from "./page-loading";
 import socket from "../lib/socket";
 
 const {
-    StyleSheet,
     ListView,
     View,
     InteractionManager
 } = React;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#eee"
-    },
-    toolbar: {
-        backgroundColor: "#673AB7",
-        height: 56
-    },
-    loadingContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    loading: {
-        height: 36,
-        width: 36
-    }
-});
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -53,9 +32,7 @@ export default class Chat extends React.Component {
 
     componentDidMount() {
         socket.on("data", data => {
-            InteractionManager.runAfterInteractions(() => {
-                this._onDataArrived(data.texts);
-            });
+            InteractionManager.runAfterInteractions(() => this._onDataArrived(data.texts));
         });
 
         socket.emit("get");
@@ -65,7 +42,7 @@ export default class Chat extends React.Component {
         let { dataSource } = this.state;
 
         return (
-            <View style={styles.container}>
+            <View {...this.props}>
                 {this._data.length ?
                     <ListView
                         dataSource={dataSource}
@@ -79,9 +56,7 @@ export default class Chat extends React.Component {
                             return <ChatItem key={text.id} text={text} previousText={previousText} />;
                         }}
                     /> :
-                    <View style={styles.loadingContainer}>
-                        <Loading style={styles.loading} />
-                    </View>
+                    <PageLoading />
                 }
             </View>
         );

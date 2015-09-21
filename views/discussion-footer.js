@@ -72,18 +72,18 @@ export default class DiscussionFooter extends React.Component {
                 <View style={styles.left}>
                     <TouchableHighlight underlayColor="#fff" onPress={this.onHeart.bind(this)} style={this.state.loved ? null : styles.faded}>
                         <View style={styles.info}>
-                            <Image style={styles.icon} source={this.state.loved ? require("image!ic_heart_colored") : require("image!ic_heart_empty")} />
+                            <Image style={styles.icon} source={this.state.loved ? require("image!ic_heart_colored") : require("image!ic_heart_empty_black")} />
                             <Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>
                         </View>
                     </TouchableHighlight>
                 </View>
                 <View style={styles.right}>
                     <View style={[ styles.info, styles.faded ]}>
-                        <Image style={styles.icon} source={require("image!ic_history")} />
+                        <Image style={styles.icon} source={require("image!ic_history_black")} />
                         <Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
                     </View>
                     <View style={[ styles.info, styles.faded ]}>
-                        <Image style={styles.icon} source={require("image!ic_forum")} />
+                        <Image style={styles.icon} source={require("image!ic_forum_black")} />
                         <Text style={styles.label}>{this.props.thread.length}</Text>
                     </View>
                 </View>
