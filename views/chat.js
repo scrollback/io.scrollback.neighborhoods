@@ -1,7 +1,7 @@
 import React from "react-native";
 import ChatItem from "./chat-item";
 import Loading from "./loading";
-import data from "../data";
+import socket from "../lib/socket";
 
 const {
     StyleSheet,
@@ -53,33 +53,35 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => this._onDataArrived(data.texts), 3000);
+        socket.on("data", data => this._onDataArrived(data.texts));
+
+        socket.emit("get");
     }
 
     render() {
         let { dataSource } = this.state;
 
         return (
-          <View style={styles.container}>
-            {this._data.length ?
-                <ListView
-                    style={styles.page}
-                    dataSource={dataSource}
-                    renderRow={(text, sectionID, rowID) => {
-                        let previousText;
+            <View style={styles.container}>
+                {this._data.length ?
+                    <ListView
+                        style={styles.page}
+                        dataSource={dataSource}
+                        renderRow={(text, sectionID, rowID) => {
+                            let previousText;
 
-                        if (rowID > 0) {
-                            previousText = dataSource.getRowData(0, rowID - 1);
-                        }
+                            if (rowID > 0) {
+                                previousText = dataSource.getRowData(0, rowID - 1);
+                            }
 
-                        return <ChatItem key={text.id} text={text} previousText={previousText} />;
-                    }}
-                /> :
-                <View style={styles.loadingContainer}>
-                    <Loading style={styles.loading} />
-                </View>
-            }
-          </View>
+                            return <ChatItem key={text.id} text={text} previousText={previousText} />;
+                        }}
+                    /> :
+                    <View style={styles.loadingContainer}>
+                        <Loading style={styles.loading} />
+                    </View>
+                }
+            </View>
         );
     }
 }

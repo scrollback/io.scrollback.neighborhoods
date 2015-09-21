@@ -1,7 +1,7 @@
 import React from "react-native";
 import Discussion from "./discussion";
 import Loading from "./loading";
-import data from "../data";
+import socket from "../lib/socket";
 
 const {
     StyleSheet,
@@ -53,23 +53,25 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => this._onDataArrived(data.threads), 3000);
+        socket.on("data", data => this._onDataArrived(data.threads));
+
+        socket.emit("get");
     }
 
     render() {
         return (
-          <View style={styles.container}>
-            {this._data.length ?
-                <ListView
-                    style={styles.page}
-                    dataSource={this.state.dataSource}
-                    renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
-                /> :
-                <View style={styles.loadingContainer}>
-                    <Loading style={styles.loading} />
-                </View>
-            }
-          </View>
+            <View style={styles.container}>
+                {this._data.length ?
+                    <ListView
+                        style={styles.page}
+                        dataSource={this.state.dataSource}
+                        renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
+                    /> :
+                    <View style={styles.loadingContainer}>
+                        <Loading style={styles.loading} />
+                    </View>
+                }
+            </View>
         );
     }
 }

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
     threads: [{
         "id": "85111f1a7aa5240d018897fcc8e442",
         "to": "bangalore",
@@ -1743,4 +1743,4 @@ export default {
         "updateTime": 1442602194462,
         "updater": "hermione"
     }]
-};
+}
