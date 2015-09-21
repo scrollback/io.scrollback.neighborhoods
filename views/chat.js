@@ -31,11 +31,21 @@ export default class Chat extends React.Component {
     }
 
     componentDidMount() {
-        socket.on("data", data => {
-            InteractionManager.runAfterInteractions(() => this._onDataArrived(data.texts));
+        socket.on("message", message => {
+            let parsed;
+
+            try {
+                parsed = JSON.parse(message);
+            } catch (e) {
+                // do nothing
+            }
+
+            if (parsed && parsed.type === "data") {
+                InteractionManager.runAfterInteractions(() => this._onDataArrived(parsed.data.texts));
+            }
         });
 
-        socket.emit("get");
+        socket.send(JSON.stringify({ type: "get" }));
     }
 
     render() {

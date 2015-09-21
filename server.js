@@ -1,14 +1,32 @@
 "use strict";
 
-var io = require("socket.io").listen(8321),
+var engine = require("engine.io"),
+    http = require("http").createServer().listen(8321),
+    server = engine.attach(http),
     data = require("./data");
 
-io.on("connection", function(socket) {
-    console.log("Socket connected");
+server.on("connection", function (socket) {
+    console.log("Socket connected:", socket.id);
 
-    socket.on("get", function() {
-        console.log("Sending data");
+    socket.on("message", function(message) {
+        var parsed;
 
-        socket.emit("data", data);
+        try {
+            parsed = JSON.parse(message);
+        } catch (e) {
+            // do nothing
+        }
+
+        if (parsed && parsed.type === "get") {
+            console.log("Sending data");
+
+            socket.send(JSON.stringify({
+                type: "data",
+                data: data
+            }));
+        } else {
+            console.log("Socket received:", message);
+        }
     });
 });
+

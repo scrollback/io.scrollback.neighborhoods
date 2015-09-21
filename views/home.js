@@ -31,11 +31,21 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        socket.on("data", data => {
-            InteractionManager.runAfterInteractions(() => this._onDataArrived(data.threads));
+        socket.on("message", message => {
+            let parsed;
+
+            try {
+                parsed = JSON.parse(message);
+            } catch (e) {
+                // do nothing
+            }
+
+            if (parsed && parsed.type === "data") {
+                InteractionManager.runAfterInteractions(() => this._onDataArrived(parsed.data.threads));
+            }
         });
 
-        socket.emit("get");
+        socket.send(JSON.stringify({ type: "get" }));
     }
 
     render() {
