@@ -59,10 +59,12 @@ export default class DiscussionFooter extends React.Component {
         };
     }
 
-    shouldComponentUpdate(nextProps) {
+    shouldComponentUpdate(nextProps, nextState) {
         return (
                 this.props.thread.updateTime !== nextProps.thread.updateTime ||
-                this.props.thread.length !== nextProps.thread.length
+                this.props.thread.length !== nextProps.thread.length ||
+                this.state.loved !== nextState.loved ||
+                this.state.num !== nextState.num
             );
     }
 
