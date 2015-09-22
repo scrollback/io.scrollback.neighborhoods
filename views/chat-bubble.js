@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     author: {
         fontSize: 12,
         paddingBottom: 4,
+        paddingHorizontal: 4,
         opacity: 0.5
     }
 });
