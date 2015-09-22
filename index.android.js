@@ -1,12 +1,14 @@
 import React from "react-native";
 import Home from "./views/home";
 import Chat from "./views/chat";
+import Avatar from "./views/avatar";
 
 const {
     AppRegistry,
     StyleSheet,
     Navigator,
     Text,
+    View,
     Image,
     TouchableOpacity
 } = React;
@@ -18,8 +20,8 @@ const styles = StyleSheet.create({
     title: {
         color: "#fff",
         fontWeight: "bold",
-        fontSize: 20,
-        marginVertical: 13,
+        fontSize: 18,
+        marginVertical: 14,
         paddingHorizontal: 4
     },
     icon: {
@@ -31,6 +33,20 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 56,
         backgroundColor: "#eee"
+    },
+    avatar: {
+        height: 24,
+        width: 24,
+        borderRadius: 12,
+        backgroundColor: "#999",
+        borderColor: "#fff",
+        borderWidth: 2,
+        margin: 16
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        borderRadius: 12
     }
 });
 
@@ -46,7 +62,11 @@ function renderScene(route, navigator) {
 const NavigationBarRouteMapper = {
     LeftButton(route, navigator) {
         if (route.id === "home") {
-            return null;
+            return (
+                <View style={styles.avatar}>
+                    <Avatar nick="satya164" size={24} style={styles.image} />
+                </View>
+            );
         }
 
         return (
