@@ -1,6 +1,7 @@
 import React from "react-native";
 import Discussion from "./discussion";
 import PageLoading from "./page-loading";
+import PageRetry from "./page-retry";
 import socket from "../lib/socket";
 
 const {
@@ -18,6 +19,7 @@ export default class Home extends React.Component {
         let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
+            failed: false,
             dataSource: ds.cloneWithRows(this._data)
         };
     }
@@ -28,10 +30,25 @@ export default class Home extends React.Component {
                 this._data = this._data.concat(newData);
 
                 this.setState({
+                    failed: false,
                     dataSource: this.state.dataSource.cloneWithRows(this._data)
                 });
             }
         });
+    }
+
+    _onError() {
+        InteractionManager.runAfterInteractions(() => {
+            if (this._mounted) {
+                this.setState({
+                    failed: true
+                });
+            }
+        });
+    }
+
+    _onRetry() {
+
     }
 
     _onSocketMessage(message) {
@@ -51,8 +68,10 @@ export default class Home extends React.Component {
     componentDidMount() {
         this._mounted = true;
         this._socketMessageHandler = this._onSocketMessage.bind(this);
+        this._errorHandler = this._onError.bind(this);
 
         socket.on("message", this._socketMessageHandler);
+        socket.on("error", this._errorHandler);
 
         socket.send(JSON.stringify({ type: "get" }));
     }
@@ -61,18 +80,26 @@ export default class Home extends React.Component {
         this._mounted = false;
 
         socket.off("message", this._socketMessageHandler);
+        socket.off("error", this._errorHandler);
     }
 
     render() {
         return (
             <View {...this.props}>
-                {this._data.length ?
-                    <ListView
-                        dataSource={this.state.dataSource}
-                        renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
-                    /> :
-                    <PageLoading />
-                }
+                {(() => {
+                    if (this._data.length) {
+                        return (
+                            <ListView
+                                dataSource={this.state.dataSource}
+                                renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
+                            />
+                        );
+                    } else if (this.state.failed) {
+                        return <PageRetry onRetry={this._onRetry.bind(this)} />;
+                    } else {
+                        return <PageLoading />;
+                    }
+                })()}
             </View>
         );
     }

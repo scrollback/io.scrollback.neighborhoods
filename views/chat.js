@@ -1,6 +1,7 @@
 import React from "react-native";
 import ChatItem from "./chat-item";
 import PageLoading from "./page-loading";
+import PageRetry from "./page-retry";
 import socket from "../lib/socket";
 
 const {
@@ -48,6 +49,10 @@ export default class Chat extends React.Component {
         }
     }
 
+    _onRetry() {
+
+    }
+
     componentDidMount() {
         this._mounted = true;
         this._socketMessageHandler = this._onSocketMessage.bind(this);
@@ -68,21 +73,30 @@ export default class Chat extends React.Component {
 
         return (
             <View {...this.props}>
-                {this._data.length ?
-                    <ListView
-                        dataSource={dataSource}
-                        renderRow={(text, sectionID, rowID) => {
-                            let previousText;
+                {(() => {
+                    if (this._data.length) {
+                        if (this._data.indexOf("FAILED") === 0) {
+                            return <PageRetry onRetry={this._onRetry.bind(this)} />;
+                        } else {
+                            return (
+                                <ListView
+                                    dataSource={dataSource}
+                                    renderRow={(text, sectionID, rowID) => {
+                                        let previousText;
 
-                            if (rowID > 0) {
-                                previousText = dataSource.getRowData(0, rowID - 1);
-                            }
+                                        if (rowID > 0) {
+                                            previousText = dataSource.getRowData(0, rowID - 1);
+                                        }
 
-                            return <ChatItem key={text.id} text={text} previousText={previousText} />;
-                        }}
-                    /> :
-                    <PageLoading />
-                }
+                                        return <ChatItem key={text.id} text={text} previousText={previousText} />;
+                                    }}
+                                />
+                            );
+                        }
+                    } else {
+                        return <PageLoading />;
+                    }
+                })()}
             </View>
         );
     }
