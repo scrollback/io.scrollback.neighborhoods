@@ -47,9 +47,19 @@ export default class Embed extends React.Component {
     }
 
     componentDidMount() {
+        this._mounted = true;
+
         fetch(this.props.endpoint)
             .then(response => response.json())
-            .then(embed => this.setState({ embed }));
+            .then(embed => {
+                if (this._mounted) {
+                    this.setState({ embed });
+                }
+            });
+    }
+
+    componentWillUnmount() {
+        this._mounted = false;
     }
 
     onPress() {

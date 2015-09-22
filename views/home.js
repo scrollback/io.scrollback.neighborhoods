@@ -23,29 +23,44 @@ export default class Home extends React.Component {
     }
 
     _onDataArrived(newData) {
-        this._data = this._data.concat(newData);
+        InteractionManager.runAfterInteractions(() => {
+            if (this._mounted) {
+                this._data = this._data.concat(newData);
 
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._data)
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(this._data)
+                });
+            }
         });
     }
 
+    _onSocketMessage(message) {
+        let parsed;
+
+        try {
+            parsed = JSON.parse(message);
+        } catch (e) {
+            // do nothing
+        }
+
+        if (parsed && parsed.type === "data") {
+            this._onDataArrived(parsed.data.threads);
+        }
+    }
+
     componentDidMount() {
-        socket.on("message", message => {
-            let parsed;
+        this._mounted = true;
+        this._socketMessageHandler = this._onSocketMessage.bind(this);
 
-            try {
-                parsed = JSON.parse(message);
-            } catch (e) {
-                // do nothing
-            }
-
-            if (parsed && parsed.type === "data") {
-                InteractionManager.runAfterInteractions(() => this._onDataArrived(parsed.data.threads));
-            }
-        });
+        socket.on("message", this._socketMessageHandler);
 
         socket.send(JSON.stringify({ type: "get" }));
+    }
+
+    componentWillUnmount() {
+        this._mounted = false;
+
+        socket.off("message", this._socketMessageHandler);
     }
 
     render() {
