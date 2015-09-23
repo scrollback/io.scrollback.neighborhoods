@@ -1,6 +1,5 @@
 import React from "react-native";
 import Discussions from "./views/discussions";
-import Chat from "./views/chat";
 import Avatar from "./views/avatar";
 
 const {
@@ -50,18 +49,9 @@ const styles = StyleSheet.create({
     }
 });
 
-function renderScene(route, navigator) {
-    switch (route.id) {
-    case "discussions":
-        return <Discussions navigator={navigator} style={styles.scene} />;
-    case "chat":
-        return <Chat navigator={navigator} style={styles.scene} />;
-    }
-}
-
 const NavigationBarRouteMapper = {
     LeftButton(route, navigator) {
-        if (route.id === "home") {
+        if (route.index === 0) {
             return (
                 <View style={styles.avatar}>
                     <Avatar nick="satya164" size={24} style={styles.image} />
@@ -70,15 +60,20 @@ const NavigationBarRouteMapper = {
         }
 
         return (
-            <TouchableOpacity
-                onPress={() => navigator.pop()}>
+            <TouchableOpacity onPress={() => navigator.pop()}>
                 <Image source={require("image!ic_back_white")} style={styles.icon} />
             </TouchableOpacity>
         );
     },
 
-    RightButton() {
-        return null;
+    RightButton(route) {
+        if (route.rightButtonIcon) {
+            return (
+                <TouchableOpacity onPress={route.onRightButtonPress}>
+                    <route.rightButtonIcon style={styles.icon} />
+                </TouchableOpacity>
+            );
+        }
     },
 
     Title(route) {
@@ -94,8 +89,18 @@ class HeyNeighbor extends React.Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ id: "discussions", title: "Discussions" }}
-                renderScene={renderScene.bind(this)}
+                initialRoute={{
+                    title: "Discussions",
+                    component: Discussions,
+                    index: 0
+                }}
+                renderScene={(route, navigator) =>
+                    <route.component
+                        {...route.passProps}
+                        navigator={navigator}
+                        style={styles.scene}
+                        />
+                }
                 navigationBar={
                     <Navigator.NavigationBar
                         routeMapper={NavigationBarRouteMapper}

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Chat from "./chat";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -29,8 +30,8 @@ const styles = StyleSheet.create({
 export default class DiscussionItem extends React.Component {
     _onPress() {
         this.props.navigator.push({
-            id: "chat",
-            title: "Chat"
+            title: "Chat",
+            component: Chat
         });
     }
 

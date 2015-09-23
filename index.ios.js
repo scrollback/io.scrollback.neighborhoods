@@ -3,14 +3,18 @@ import Discussions from "./views/discussions";
 
 const {
     AppRegistry,
-    Navigator
+    NavigatorIOS
 } = React;
 
 class HeyNeighbor extends React.Component {
     render() {
         return (
-            <Navigator
-                initialRoute={{ name: "Discussions", index: 0 }}
+            <NavigatorIOS
+                initialRoute={{
+                    title: "Discussions",
+                    component: Discussions,
+                    index: 0
+                }}
                 renderScene={(route, navigator) => <Discussions navigator={navigator} />}
             />
         );
