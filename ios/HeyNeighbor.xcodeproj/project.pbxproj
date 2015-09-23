@@ -605,7 +605,7 @@
 				INFOPLIST_FILE = HeyNeighbor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrollback.neighborhoods;
 				PRODUCT_NAME = HeyNeighbor;
 			};
 			name = Debug;
@@ -622,7 +622,7 @@
 				INFOPLIST_FILE = HeyNeighbor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = io.scrollback.neighborhoods;
 				PRODUCT_NAME = HeyNeighbor;
 			};
 			name = Release;
