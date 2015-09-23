@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     footer: { marginBottom: 8 }
 });
 
-export default class Discussion extends React.Component {
+export default class DiscussionItem extends React.Component {
     _onPress() {
         this.props.navigator.push({
             id: "chat",
@@ -94,7 +94,7 @@ export default class Discussion extends React.Component {
     }
 }
 
-Discussion.propTypes = {
+DiscussionItem.propTypes = {
     thread: React.PropTypes.shape({
         title: React.PropTypes.string.isRequired,
         text: React.PropTypes.string.isRequired,

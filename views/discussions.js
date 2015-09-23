@@ -1,5 +1,5 @@
 import React from "react-native";
-import Discussion from "./discussion";
+import DiscussionItem from "./discussion-item";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 import socket from "../lib/socket";
@@ -10,7 +10,7 @@ const {
     InteractionManager
 } = React;
 
-export default class Home extends React.Component {
+export default class Discussions extends React.Component {
     constructor(props) {
         super(props);
 
@@ -91,7 +91,7 @@ export default class Home extends React.Component {
                         return (
                             <ListView
                                 dataSource={this.state.dataSource}
-                                renderRow={thread => <Discussion key={thread.id} thread={thread} navigator={this.props.navigator} />}
+                                renderRow={thread => <DiscussionItem key={thread.id} thread={thread} navigator={this.props.navigator} />}
                             />
                         );
                     } else if (this.state.failed) {

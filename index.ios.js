@@ -1,5 +1,5 @@
 import React from "react-native";
-import Home from "./views/home";
+import Discussions from "./views/discussions";
 
 const {
     AppRegistry,
@@ -10,8 +10,8 @@ class HeyNeighbor extends React.Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ name: "Home", index: 0 }}
-                renderScene={(route, navigator) => <Home navigator={navigator} />}
+                initialRoute={{ name: "Discussions", index: 0 }}
+                renderScene={(route, navigator) => <Discussions navigator={navigator} />}
             />
         );
     }

@@ -1,5 +1,5 @@
 import React from "react-native";
-import Home from "./views/home";
+import Discussions from "./views/discussions";
 import Chat from "./views/chat";
 import Avatar from "./views/avatar";
 
@@ -52,8 +52,8 @@ const styles = StyleSheet.create({
 
 function renderScene(route, navigator) {
     switch (route.id) {
-    case "home":
-        return <Home navigator={navigator} style={styles.scene} />;
+    case "discussions":
+        return <Discussions navigator={navigator} style={styles.scene} />;
     case "chat":
         return <Chat navigator={navigator} style={styles.scene} />;
     }
@@ -94,7 +94,7 @@ class HeyNeighbor extends React.Component {
     render() {
         return (
             <Navigator
-                initialRoute={{ id: "home", title: "Home" }}
+                initialRoute={{ id: "discussions", title: "Discussions" }}
                 renderScene={renderScene.bind(this)}
                 navigationBar={
                     <Navigator.NavigationBar
