@@ -15,7 +15,6 @@ class HeyNeighbor extends React.Component {
                     component: Discussions,
                     index: 0
                 }}
-                renderScene={(route, navigator) => <Discussions navigator={navigator} />}
             />
         );
     }
