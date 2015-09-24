@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
     title: {
         color: "#fff",
         fontWeight: "bold",
-        fontSize: 18,
-        marginVertical: 14,
+        fontSize: 16,
+        marginVertical: 16,
+        marginRight: 16,
         paddingHorizontal: 4
     },
     icon: {
@@ -85,7 +86,7 @@ const NavigationBarRouteMapper = {
         }
 
         return (
-            <Text style={styles.title}>
+            <Text style={styles.title} numberOfLines={1}>
                 {route.title}
             </Text>
         );
@@ -109,7 +110,7 @@ class HeyNeighbor extends React.Component {
         return (
             <Navigator
                 initialRoute={{
-                    title: "Hey, Neighbor",
+                    title: "Hey, Neighbor!",
                     component: Home,
                     index: 0
                 }}
