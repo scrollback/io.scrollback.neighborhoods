@@ -9,7 +9,8 @@ const {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    BackAndroid
 } = React;
 
 const styles = StyleSheet.create({
@@ -85,6 +86,18 @@ const NavigationBarRouteMapper = {
     }
 };
 
+let _navigator;
+
+BackAndroid.addEventListener("hardwareBackPress", () => {
+    if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+        _navigator.pop();
+
+        return true;
+    }
+
+    return false;
+});
+
 class HeyNeighbor extends React.Component {
     render() {
         return (
@@ -94,13 +107,17 @@ class HeyNeighbor extends React.Component {
                     component: Discussions,
                     index: 0
                 }}
-                renderScene={(route, navigator) =>
-                    <route.component
-                        {...route.passProps}
-                        navigator={navigator}
-                        style={styles.scene}
-                        />
-                }
+                renderScene={(route, navigator) => {
+                    _navigator = navigator;
+
+                    return (
+                        <route.component
+                            {...route.passProps}
+                            navigator={navigator}
+                            style={styles.scene}
+                            />
+                    );
+                }}
                 navigationBar={
                     <Navigator.NavigationBar
                         routeMapper={NavigationBarRouteMapper}
