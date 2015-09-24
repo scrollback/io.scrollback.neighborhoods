@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
 const NavigationBarRouteMapper = {
     LeftButton(route, navigator) {
-        if (route.index === 0) {
+        if (route.index === 0 || navigator.getCurrentRoutes().length === 1) {
             return (
                 <View style={styles.avatar}>
                     <Avatar nick="satya164" size={24} style={styles.image} />
