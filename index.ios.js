@@ -1,5 +1,5 @@
 import React from "react-native";
-import Discussions from "./views/discussions";
+import Home from "./views/Home";
 
 const {
     AppRegistry,
@@ -11,8 +11,8 @@ class HeyNeighbor extends React.Component {
         return (
             <NavigatorIOS
                 initialRoute={{
-                    title: "Discussions",
-                    component: Discussions,
+                    title: "Hey, Neighbor",
+                    component: Home,
                     index: 0
                 }}
             />

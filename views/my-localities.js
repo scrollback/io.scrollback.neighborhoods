@@ -1,7 +1,8 @@
 import React from "react-native";
-import DiscussionItem from "./discussion-item";
+import RoomItem from "./room-item";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
+import locationUtils from "../lib/location-utils";
 import socket from "../lib/socket";
 
 const {
@@ -9,6 +10,11 @@ const {
     View,
     InteractionManager
 } = React;
+
+const currentLocation = {
+    latitude: 12.9667,
+    longitude: 77.5667
+};
 
 export default class Discussions extends React.Component {
     constructor(props) {
@@ -28,6 +34,8 @@ export default class Discussions extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
                 this._data = newData;
+
+                this._data.sort((a, b) => locationUtils.compareAreas(currentLocation, a, b));
 
                 this.setState({
                     failed: false,
@@ -61,7 +69,7 @@ export default class Discussions extends React.Component {
         }
 
         if (parsed && parsed.type === "data") {
-            this._onDataArrived(parsed.data.threads);
+            this._onDataArrived(parsed.data.rooms);
         }
     }
 
@@ -91,7 +99,7 @@ export default class Discussions extends React.Component {
                         return (
                             <ListView
                                 dataSource={this.state.dataSource}
-                                renderRow={thread => <DiscussionItem key={thread.id} thread={thread} navigator={this.props.navigator} />}
+                                renderRow={room => <RoomItem key={room.id} room={room} navigator={this.props.navigator} />}
                             />
                         );
                     } else if (this.state.failed) {
@@ -104,3 +112,4 @@ export default class Discussions extends React.Component {
         );
     }
 }
+

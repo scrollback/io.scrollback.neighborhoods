@@ -26,7 +26,7 @@ export default class Chat extends React.Component {
     _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this._data = this._data.concat(newData);
+                this._data = newData;
 
                 this.setState({
                     dataSource: this.state.dataSource.cloneWithRows(this._data)

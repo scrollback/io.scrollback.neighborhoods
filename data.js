@@ -1,4 +1,174 @@
 module.exports = {
+    rooms: [{
+        "id": "abbigere",
+        "displayName": "Abbigere",
+        "description": "Abbigere is a village in the southern state of Karnataka, India. It is located in the Bangalore North taluk of Bangalore district in Karnataka. Abbigere is one of the fast developing residential layouts in north Bangalore.",
+        "latitude": 13.0762712,
+        "longitude": 77.5255683
+    }, {
+        "id": "adugodi",
+        "displayName": "Adugodi",
+        "description": "Audogudi is between Koramangala and Diary Circle best known for the forum mall.",
+        "latitude": 12.9441334,
+        "longitude": 77.607615
+    }, {
+        "id": "aecs-layout",
+        "displayName": "AECS Layout",
+        "description": "Join the community of awesome AECS Layout Residents. AECS layout is comapratively new but one of the most happening neighborhood of Bangalore",
+        "latitude": 12.9650431,
+        "longitude": 77.7184358
+    }, {
+        "id": "akshayanagar",
+        "displayName": "Akshayanagar",
+        "description": "Connecting the people of Akshayanagar",
+        "latitude": 12.8689407,
+        "longitude": 77.6162491
+    }, {
+        "id": "amrutha-halli",
+        "displayName": "Amrutha Halli",
+        "description": "Connecting the people of Amrutha Halli",
+        "latitude": 13.0657764,
+        "longitude": 77.6007973
+    }, {
+        "id": "andrahalli",
+        "displayName": "Andrahalli",
+        "description": "Connecting the people of Andrahalli",
+        "latitude": 13.0097181,
+        "longitude": 77.4783959
+    }, {
+        "id": "anekal",
+        "displayName": "Anekal",
+        "description": "Anekal is a town and taluk of Bangalore Urban district. It lies in the southern part of the Bangalore metropolitan area around 35 km from downtown Bangalore, located close to Tamil Nadu border.",
+        "latitude": 12.7767878,
+        "longitude": 77.7694906
+    }, {
+        "id": "anjanapura",
+        "displayName": "Anjanapura",
+        "description": "Situated over NICE ring road in Bengaluru Rural",
+        "latitude": 12.8617961,
+        "longitude": 77.5606545
+    }, {
+        "id": "anjaneya-complex",
+        "displayName": "Anjaneya Complex",
+        "description": "Anjaneya Techpark is prominently located at Old Airport Road. Do you work here? Join the group",
+        "latitude": 12.9597545,
+        "longitude": 77.6451625
+    }, {
+        "id": "annapurneshwari-nagar",
+        "displayName": "Annapurneshwari Nagar",
+        "description": "Connecting the people of Annapurneshwari Nagar",
+        "latitude": 12.9703346,
+        "longitude": 77.4942715
+    }, {
+        "id": "ashok-nagar",
+        "displayName": "Ashok Nagar",
+        "description": "Connecting the people of Ashok Nagar",
+        "latitude": 12.970872,
+        "longitude": 77.6047905
+    }, {
+        "id": "attibele",
+        "displayName": "Attibele",
+        "description": "Connecting the people of Attibele",
+        "latitude": 13.169665,
+        "longitude": 77.793923
+    }, {
+        "id": "attiguppe",
+        "displayName": "Attiguppe",
+        "description": "Connecting the neigborhoods of Attiguppe",
+        "latitude": 12.9597914,
+        "longitude": 77.5289797
+    }, {
+        "id": "azad-nagar",
+        "displayName": "Azad Nagar",
+        "description": "Connecting the people of Azadnagar",
+        "latitude": 12.9553875,
+        "longitude": 77.554777
+    }, {
+        "id": "ba-tech-park",
+        "displayName": "B.A.Tech Park",
+        "description": "Join the community of people working at the BA Tech Park",
+        "latitude": 13.0260802,
+        "longitude": 77.6349478
+    }, {
+        "id": "bagalakunte",
+        "displayName": "Bagalakunte",
+        "description": "Connecting the people of Bagalakunte",
+        "latitude": 13.0526818,
+        "longitude": 77.4954718
+    }, {
+        "id": "bagaluru",
+        "displayName": "Bagaluru",
+        "description": "Connecting the people of Bagaluru",
+        "latitude": 13.00127,
+        "longitude": 77.6182601
+    }, {
+        "id": "bagmane-tech-park",
+        "displayName": "Bagmane Tech Park",
+        "description": "Join the community of people working at Bagmane Tech Park",
+        "latitude": 12.979495,
+        "longitude": 77.66112
+    }, {
+        "id": "baiyyappanahalli",
+        "displayName": "Baiyyappanahalli",
+        "description": "Connecting the people of Baiyyappanahalli",
+        "latitude": 12.9935666,
+        "longitude": 77.6435896
+    }, {
+        "id": "banashankari",
+        "displayName": "Banashankari",
+        "description": "Connecting the people of Banashankari",
+        "latitude": 12.9416066,
+        "longitude": 77.5578535
+    }, {
+        "id": "banaswadi",
+        "displayName": "Banaswadi",
+        "description": "Banaswadi is a locality situated to the north east of Bangalore, about 6 km from the city centre. It is Ward no 27 of the BBMP and is further divided into two regions; Chikka Banaswadi and Dodda Banaswadi.",
+        "latitude": 13.0119571,
+        "longitude": 77.6471307
+    }, {
+        "id": "bial",
+        "displayName": "Bangalore International Airport",
+        "description": "",
+        "latitude": 13.1987992,
+        "longitude": 77.6902539
+    }, {
+        "id": "bannerghatta-road",
+        "displayName": "Bannerghatta Road",
+        "description": "Bannerghatta Road is an Indian State Highway in Karnataka that connects Bangalore with towns of Bannerghatta, Jigani and Anekal . It has a total length of 49 kilometres.",
+        "latitude": 12.8444493,
+        "longitude": 77.5834352
+    }, {
+        "id": "bapuji-nagar",
+        "displayName": "Bapuji Nagar",
+        "description": "Connecting the people of Azad Nagar",
+        "latitude": 12.95678,
+        "longitude": 77.5397293
+    }, {
+        "id": "basapura",
+        "displayName": "Basapura",
+        "description": "Connecting the people of Basapura",
+        "latitude": 12.8647805,
+        "longitude": 77.6509528
+    }, {
+        "id": "basavanagudi",
+        "displayName": "Basavanagudi",
+        "description": "Basavanagudi is a residential and commercial locality in the Indian city of Bangalore. The residential area is located in South Bangalore along the borders of Jayanagar. The name Basavanagudi refers to the Bull Temple that is located here.",
+        "latitude": 12.9421166,
+        "longitude": 77.5753609
+    }, {
+        "id": "basavanna-nagar",
+        "displayName": "Basavanna Nagar",
+        "description": "The online community of the neibourhood of Basavannanagar",
+        "latitude": 12.9866294,
+        "longitude": 77.7201699
+    }, {
+        "id": "basaveshwara-nagar",
+        "displayName": "Basaveshwara Nagar",
+        "description": "Basaveshwaranagar is a locality of Bangalore. It is named after Basavanna, a social reformer. It is located in the western part of the city.",
+        "latitude": 12.9886182,
+        "longitude": 77.5382864
+    }],
+
     threads: [{
         "id": "85111f1a7aa5240d018897fcc8e442",
         "to": "bangalore",
