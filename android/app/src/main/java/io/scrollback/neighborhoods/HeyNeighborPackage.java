@@ -1,4 +1,4 @@
-package com.heyneighbor;
+package io.scrollback.neighborhoods;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

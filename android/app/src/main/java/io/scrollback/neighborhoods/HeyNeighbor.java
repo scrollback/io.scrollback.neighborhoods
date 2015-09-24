@@ -1,4 +1,4 @@
-package com.heyneighbor;
+package io.scrollback.neighborhoods;
 
 import android.app.Application;
 
