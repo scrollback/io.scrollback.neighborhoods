@@ -21,7 +21,7 @@ export default class ChatController extends React.Component {
             if (this._mounted) {
                 this.setState({
                     failed: false,
-                    data: newData
+                    data: newData.reverse()
                 });
             }
         });

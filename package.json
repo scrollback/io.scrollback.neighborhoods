@@ -15,6 +15,7 @@
     "babel-eslint": "^4.1.2",
     "eslint": "^1.4.1",
     "eslint-plugin-react": "^3.3.2",
-    "mocha": "^2.3.2"
+    "mocha": "^2.3.2",
+    "react-native-invertible-scroll-view": "^0.1.2"
   }
 }

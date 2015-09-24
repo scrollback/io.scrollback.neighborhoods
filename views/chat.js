@@ -1,4 +1,5 @@
 import React from "react-native";
+import InvertibleScrollView from "react-native-invertible-scroll-view";
 import ChatItem from "./chat-item";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
@@ -25,6 +26,12 @@ export default class Chat extends React.Component {
         });
     }
 
+    componentDidMount() {
+        if (this._scroll) {
+            this._scroll.scrollTo(0);
+        }
+    }
+
     render() {
         return (
             <View {...this.props}>
@@ -32,6 +39,7 @@ export default class Chat extends React.Component {
                     if (this.props.data.length) {
                         return (
                             <ListView
+                                renderScrollComponent={props => <InvertibleScrollView {...props} inverted ref={c => this._scroll = c} />}
                                 dataSource={this.state.dataSource}
                                 renderRow={(text, sectionID, rowID) => {
                                     let previousText;
