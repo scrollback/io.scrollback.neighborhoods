@@ -1,5 +1,5 @@
 import React from "react-native";
-import FilteredLocalities from "./views/filtered-localities";
+import Home from "./views/home";
 import Avatar from "./views/avatar";
 
 const {
@@ -110,7 +110,7 @@ class HeyNeighbor extends React.Component {
             <Navigator
                 initialRoute={{
                     title: "Hey, Neighbor",
-                    component: FilteredLocalities,
+                    component: Home,
                     index: 0
                 }}
                 renderScene={(route, navigator) => {

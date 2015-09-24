@@ -1,6 +1,6 @@
 import React from "react-native";
 import SearchBar from "./searchbar";
-import MyLocalities from "./my-localities";
+import MyLocalitiesController from "./my-localities-controller";
 
 const {
     StyleSheet,
@@ -34,7 +34,7 @@ export default class FilteredLocalities extends React.Component {
                     onChange={this._onSearchChange.bind(this)}
                     placeholder="Search for places..."
                 />
-                <MyLocalities filter={this.state.filter} style={styles.scene} navigator={this.props.navigator} />
+                <MyLocalitiesController filter={this.state.filter} style={styles.scene} navigator={this.props.navigator} />
             </View>
         );
     }
