@@ -1,5 +1,5 @@
 import React from "react-native";
-import Discussions from "./discussions";
+import DiscussionsController from "./discussions-controller";
 import locationUtils from "../lib/location-utils";
 
 const {
@@ -37,7 +37,7 @@ export default class RoomItem extends React.Component {
     _onPress() {
         this.props.navigator.push({
             title: this.props.room.displayName,
-            component: Discussions
+            component: DiscussionsController
         });
     }
 
