@@ -2,12 +2,14 @@ import React from "react-native";
 import RoomItem from "./room-item";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
+import Page from "./page";
 import locationUtils from "../lib/location-utils";
 import socket from "../lib/socket";
 
 const {
     ListView,
     View,
+    Text,
     InteractionManager
 } = React;
 
@@ -16,7 +18,7 @@ const currentLocation = {
     longitude: 77.5667
 };
 
-export default class Discussions extends React.Component {
+export default class MyLocalities extends React.Component {
     constructor(props) {
         super(props);
 
@@ -30,17 +32,28 @@ export default class Discussions extends React.Component {
         };
     }
 
+    _setFilteredData(data, filter) {
+        let filteredData = filter ? data.filter(room => {
+            return (
+                room.id.toLowerCase().indexOf(filter) > -1 ||
+                room.displayName.toLowerCase().indexOf(filter) > -1
+            );
+        }) : data;
+
+        filteredData.sort((a, b) => locationUtils.compareAreas(currentLocation, a, b));
+
+        this.setState({
+            failed: false,
+            dataSource: this.state.dataSource.cloneWithRows(filteredData)
+        });
+    }
+
     _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
                 this._data = newData;
 
-                this._data.sort((a, b) => locationUtils.compareAreas(currentLocation, a, b));
-
-                this.setState({
-                    failed: false,
-                    dataSource: this.state.dataSource.cloneWithRows(this._data)
-                });
+                this._setFilteredData(newData, this.props.filter);
             }
         });
     }
@@ -71,6 +84,10 @@ export default class Discussions extends React.Component {
         if (parsed && parsed.type === "data") {
             this._onDataArrived(parsed.data.rooms);
         }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this._setFilteredData(this._data, nextProps.filter);
     }
 
     componentDidMount() {
@@ -105,6 +122,14 @@ export default class Discussions extends React.Component {
                     } else if (this.state.failed) {
                         return <PageRetry onRetry={this._onRetry.bind(this)} />;
                     } else {
+                        if (this.props.filter) {
+                            return (
+                                <Page>
+                                    <Text>No results found.</Text>
+                                </Page>
+                            );
+                        }
+
                         return <PageLoading />;
                     }
                 })()}
@@ -113,3 +138,6 @@ export default class Discussions extends React.Component {
     }
 }
 
+MyLocalities.propTypes = {
+    filter: React.PropTypes.string
+};

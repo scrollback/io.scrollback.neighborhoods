@@ -1,4 +1,5 @@
 import React from "react-native";
+import Page from "./page";
 
 const {
     StyleSheet,
@@ -9,11 +10,6 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-    loadingContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
     failed: {
         fontSize: 18
     },
@@ -36,7 +32,7 @@ const styles = StyleSheet.create({
 export default class PageRetry extends React.Component {
     render() {
         return (
-            <View style={styles.loadingContainer}>
+            <Page {...this.props}>
                 <Text style={styles.failed}>Failed to load data</Text>
                 {this.props.onRetry ?
                     <TouchableOpacity onPress={this.props.onRetry}>
@@ -47,7 +43,7 @@ export default class PageRetry extends React.Component {
                     </TouchableOpacity> :
                     null
                 }
-            </View>
+            </Page>
         );
     }
 }

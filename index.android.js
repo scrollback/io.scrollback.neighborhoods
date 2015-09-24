@@ -1,5 +1,5 @@
 import React from "react-native";
-import Home from "./views/home";
+import FilteredLocalities from "./views/filtered-localities";
 import Avatar from "./views/avatar";
 
 const {
@@ -67,17 +67,23 @@ const NavigationBarRouteMapper = {
         );
     },
 
-    RightButton(route) {
+    RightButton(route, navigator) {
         if (route.rightButtonIcon) {
             return (
-                <TouchableOpacity onPress={route.onRightButtonPress}>
-                    <route.rightButtonIcon style={styles.icon} />
+                <TouchableOpacity onPress={() => route.onRightButtonPress(route, navigator)}>
+                    <Image source={route.rightButtonIcon} style={styles.icon} />
                 </TouchableOpacity>
             );
         }
+
+        return null;
     },
 
     Title(route) {
+        if (route.titleComponent) {
+            return <route.titleComponent {...route.titleComponentProps} />;
+        }
+
         return (
             <Text style={styles.title}>
                 {route.title}
@@ -104,7 +110,7 @@ class HeyNeighbor extends React.Component {
             <Navigator
                 initialRoute={{
                     title: "Hey, Neighbor",
-                    component: Home,
+                    component: FilteredLocalities,
                     index: 0
                 }}
                 renderScene={(route, navigator) => {

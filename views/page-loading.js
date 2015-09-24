@@ -1,17 +1,12 @@
 import React from "react-native";
 import Loading from "./loading";
+import Page from "./page";
 
 const {
-    StyleSheet,
-    View
+    StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
-    loadingContainer: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
-    },
     loading: {
         height: 36,
         width: 36
@@ -21,9 +16,9 @@ const styles = StyleSheet.create({
 export default class PageLoading extends React.Component {
     render() {
         return (
-            <View style={styles.loadingContainer}>
+            <Page {...this.props}>
                 <Loading style={styles.loading} />
-            </View>
+            </Page>
         );
     }
 }

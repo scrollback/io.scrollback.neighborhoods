@@ -4,169 +4,1919 @@ module.exports = {
         "displayName": "Abbigere",
         "description": "Abbigere is a village in the southern state of Karnataka, India. It is located in the Bangalore North taluk of Bangalore district in Karnataka. Abbigere is one of the fast developing residential layouts in north Bangalore.",
         "latitude": 13.0762712,
-        "longitude": 77.5255683
+        "longitude": 77.5255683,
+        "tags": "Abbigere, Kempegowda Garden, Lakshmaiah Layout"
     }, {
         "id": "adugodi",
         "displayName": "Adugodi",
         "description": "Audogudi is between Koramangala and Diary Circle best known for the forum mall.",
         "latitude": 12.9441334,
-        "longitude": 77.607615
+        "longitude": 77.607615,
+        "tags": "Ayappa Garden, New Mico Road, Bosch Limited"
     }, {
         "id": "aecs-layout",
         "displayName": "AECS Layout",
         "description": "Join the community of awesome AECS Layout Residents. AECS layout is comapratively new but one of the most happening neighborhood of Bangalore",
         "latitude": 12.9650431,
-        "longitude": 77.7184358
+        "longitude": 77.7184358,
+        "tags": "AECS Layout"
     }, {
         "id": "akshayanagar",
         "displayName": "Akshayanagar",
         "description": "Connecting the people of Akshayanagar",
         "latitude": 12.8689407,
-        "longitude": 77.6162491
+        "longitude": 77.6162491,
+        "tags": "Akshayanagar, DLF Newtown, Akshaya Vana, Nobanagar, NICE Ring Road"
     }, {
         "id": "amrutha-halli",
         "displayName": "Amrutha Halli",
         "description": "Connecting the people of Amrutha Halli",
         "latitude": 13.0657764,
-        "longitude": 77.6007973
+        "longitude": 77.6007973,
+        "tags": "Amrutha Halli, Talacauvery Layout, Amrutha Halli Bus Stop"
     }, {
         "id": "andrahalli",
         "displayName": "Andrahalli",
         "description": "Connecting the people of Andrahalli",
         "latitude": 13.0097181,
-        "longitude": 77.4783959
+        "longitude": 77.4783959,
+        "tags": "Andrahalli"
     }, {
         "id": "anekal",
         "displayName": "Anekal",
         "description": "Anekal is a town and taluk of Bangalore Urban district. It lies in the southern part of the Bangalore metropolitan area around 35 km from downtown Bangalore, located close to Tamil Nadu border.",
         "latitude": 12.7767878,
-        "longitude": 77.7694906
+        "longitude": 77.7694906,
+        "tags": "Anekal, Weaver Colony, Bayasabhi Layout, Anekal Rural, KSRTC  Colony, KHDC Colony, SRR Exurbia, Saval Hosahalli, Brindavan Gardens, Alliance University, Chikka Hagade"
     }, {
         "id": "anjanapura",
         "displayName": "Anjanapura",
         "description": "Situated over NICE ring road in Bengaluru Rural",
         "latitude": 12.8617961,
-        "longitude": 77.5606545
+        "longitude": 77.5606545,
+        "tags": "Capital Club Resort, NICE Ring Road, Jitendra Nagar"
     }, {
         "id": "anjaneya-complex",
         "displayName": "Anjaneya Complex",
         "description": "Anjaneya Techpark is prominently located at Old Airport Road. Do you work here? Join the group",
         "latitude": 12.9597545,
-        "longitude": 77.6451625
+        "longitude": 77.6451625,
+        "tags": ""
     }, {
         "id": "annapurneshwari-nagar",
         "displayName": "Annapurneshwari Nagar",
         "description": "Connecting the people of Annapurneshwari Nagar",
         "latitude": 12.9703346,
-        "longitude": 77.4942715
+        "longitude": 77.4942715,
+        "tags": "Annapurneshwari Nagar, Byregowda Layout, MPM Layout, UPKAR Layout, ITI Employees Layout, Visheshwaraiah Layout, Chandrashekhara Layout, Gidada Konnenahalli, Papareddipalya, Bharath Nagar"
     }, {
         "id": "ashok-nagar",
         "displayName": "Ashok Nagar",
         "description": "Connecting the people of Ashok Nagar",
         "latitude": 12.970872,
-        "longitude": 77.6047905
+        "longitude": 77.6047905,
+        "tags": "Ashok Nagar, Craig Park Layout, Garuda Mall, Residency Road, MG Road, Rest House Road, Brigade Road"
     }, {
         "id": "attibele",
         "displayName": "Attibele",
         "description": "Connecting the people of Attibele",
         "latitude": 13.169665,
-        "longitude": 77.793923
+        "longitude": 77.793923,
+        "tags": "Attibele, Kevumpu Nagar, N R Hospital, Theater Road, ICON Apartments"
     }, {
         "id": "attiguppe",
         "displayName": "Attiguppe",
         "description": "Connecting the neigborhoods of Attiguppe",
         "latitude": 12.9597914,
-        "longitude": 77.5289797
+        "longitude": 77.5289797,
+        "tags": "Attiguppe, Maruthi Nagar, Dwarka Nagar,m Widida Layout, Vijaynagar, Chandra Layout"
     }, {
         "id": "azad-nagar",
         "displayName": "Azad Nagar",
         "description": "Connecting the people of Azadnagar",
         "latitude": 12.9553875,
-        "longitude": 77.554777
+        "longitude": 77.554777,
+        "tags": "Azad Nagar, Vittal Nagar, Hanumanth Nagar, Mysore Road"
     }, {
         "id": "ba-tech-park",
         "displayName": "B.A.Tech Park",
         "description": "Join the community of people working at the BA Tech Park",
         "latitude": 13.0260802,
-        "longitude": 77.6349478
+        "longitude": 77.6349478,
+        "tags": "Office"
     }, {
         "id": "bagalakunte",
         "displayName": "Bagalakunte",
         "description": "Connecting the people of Bagalakunte",
         "latitude": 13.0526818,
-        "longitude": 77.4954718
+        "longitude": 77.4954718,
+        "tags": "Bagalakunte, Vijayalakshmi Layout, Andanappa Layout, Manjunatha Nagar, Defence Colony"
     }, {
         "id": "bagaluru",
         "displayName": "Bagaluru",
         "description": "Connecting the people of Bagaluru",
         "latitude": 13.00127,
-        "longitude": 77.6182601
+        "longitude": 77.6182601,
+        "tags": "Bagaluru"
     }, {
         "id": "bagmane-tech-park",
         "displayName": "Bagmane Tech Park",
         "description": "Join the community of people working at Bagmane Tech Park",
         "latitude": 12.979495,
-        "longitude": 77.66112
+        "longitude": 77.66112,
+        "tags": "Office"
     }, {
         "id": "baiyyappanahalli",
         "displayName": "Baiyyappanahalli",
         "description": "Connecting the people of Baiyyappanahalli",
         "latitude": 12.9935666,
-        "longitude": 77.6435896
+        "longitude": 77.6435896,
+        "tags": "Baiyyappanahalli, Ambedkarnagar, Venkatappa Layout, Krishnamurthi Nagar, Baiyyappanahalli Metro"
     }, {
         "id": "banashankari",
         "displayName": "Banashankari",
         "description": "Connecting the people of Banashankari",
         "latitude": 12.9416066,
-        "longitude": 77.5578535
+        "longitude": 77.5578535,
+        "tags": "Banashankari, Girinagar, ThyagarajNagar, Srinagar, Ittamadu, Dasarahalli, ITI Layout, SBM Colony, Veerabhadra Nagar,Vidyapeta Layout"
     }, {
         "id": "banaswadi",
         "displayName": "Banaswadi",
         "description": "Banaswadi is a locality situated to the north east of Bangalore, about 6 km from the city centre. It is Ward no 27 of the BBMP and is further divided into two regions; Chikka Banaswadi and Dodda Banaswadi.",
         "latitude": 13.0119571,
-        "longitude": 77.6471307
+        "longitude": 77.6471307,
+        "tags": "Dodda Banaswadi, Chikka Banaswadi, Lakshmamma Layout, TK Reddy Layout"
     }, {
         "id": "bial",
         "displayName": "Bangalore International Airport",
         "description": "",
         "latitude": 13.1987992,
-        "longitude": 77.6902539
+        "longitude": 77.6902539,
+        "tags": "BIAL, Bangalore Airport, Devanahalli Airport"
     }, {
         "id": "bannerghatta-road",
         "displayName": "Bannerghatta Road",
         "description": "Bannerghatta Road is an Indian State Highway in Karnataka that connects Bangalore with towns of Bannerghatta, Jigani and Anekal . It has a total length of 49 kilometres.",
         "latitude": 12.8444493,
-        "longitude": 77.5834352
+        "longitude": 77.5834352,
+        "tags": "Bannerghatta Road, Bannerughatta, Bannerghatta Zoo"
     }, {
         "id": "bapuji-nagar",
         "displayName": "Bapuji Nagar",
         "description": "Connecting the people of Azad Nagar",
         "latitude": 12.95678,
-        "longitude": 77.5397293
+        "longitude": 77.5397293,
+        "tags": "Bapuji Nagar, Shamana Nagar, Baji Nagar"
     }, {
         "id": "basapura",
         "displayName": "Basapura",
         "description": "Connecting the people of Basapura",
         "latitude": 12.8647805,
-        "longitude": 77.6509528
+        "longitude": 77.6509528,
+        "tags": "chikkathoguru, Basapura"
     }, {
         "id": "basavanagudi",
         "displayName": "Basavanagudi",
         "description": "Basavanagudi is a residential and commercial locality in the Indian city of Bangalore. The residential area is located in South Bangalore along the borders of Jayanagar. The name Basavanagudi refers to the Bull Temple that is located here.",
         "latitude": 12.9421166,
-        "longitude": 77.5753609
+        "longitude": 77.5753609,
+        "tags": "Basavanagudi, Vishweshwarapura, Thyagaraja Nagar, Lalbagh"
     }, {
         "id": "basavanna-nagar",
         "displayName": "Basavanna Nagar",
         "description": "The online community of the neibourhood of Basavannanagar",
         "latitude": 12.9866294,
-        "longitude": 77.7201699
+        "longitude": 77.7201699,
+        "tags": "Basavanna Nagar, ITPL Main Road"
     }, {
         "id": "basaveshwara-nagar",
         "displayName": "Basaveshwara Nagar",
         "description": "Basaveshwaranagar is a locality of Bangalore. It is named after Basavanna, a social reformer. It is located in the western part of the city.",
         "latitude": 12.9886182,
-        "longitude": 77.5382864
+        "longitude": 77.5382864,
+        "tags": "Basaveshwara Nagar, Gruhalakshmi Layout, Kamala Nagar, Sharada Colony, Tumkur, Teacher's Layout, Bovi Colony"
+    }, {
+        "id": "battarahalli",
+        "displayName": "Battarahalli",
+        "description": "Connecting the people of Battarahalli",
+        "latitude": 13.0243273,
+        "longitude": 77.7077906,
+        "tags": "Battarahalli, Anandapura, P and T Layout, SBI Bank colony, Pavithra Layout, Parvathinagar, Medahalli"
+    }, {
+        "id": "begur",
+        "displayName": "Begur",
+        "description": "Begur is a village in the Indian state of Karnataka. It is in the state capital Bangalore. It is off Bangalore-Hosur highway. It is said to have been a prominent place during the rule of the Western Ganga Dynasty and later the Chola Kingdom.",
+        "latitude": 12.8787673,
+        "longitude": 77.6376676,
+        "tags": "Begur, Wellington Paradise, Manipal County Road"
+    }, {
+        "id": "belathur",
+        "displayName": "Belathur",
+        "description": "Belathur is a village in the southern state of Karnataka. It is located in the Bangalore South taluk of Bangalore Urban district in Karnataka.",
+        "latitude": 13.0072468,
+        "longitude": 77.7523608,
+        "tags": "Belathur, Thondebavi"
+    }, {
+        "id": "bellandur",
+        "displayName": "Bellandur",
+        "description": "Bellandur Lake is a lake which lies to the southeast of the city of Bangalore, and is the largest lake in the city. It is a part of Bellandur drainage system that drains the southern and the southeastern parts of the city.",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Bellandur Lake, Green Glen Layout, Iblur Village, Lakeview Residency, Kariyammana Agraha, Kempapura, Belur nagasandra, Yemalur, Adarsh palm Retreat, Belandur"
+    }, {
+        "id": "bellary road",
+        "displayName": "Bellary Road",
+        "description": "Connecting the people in and around Bellary Road",
+        "latitude": 13.0571605,
+        "longitude": 77.5934258,
+        "tags": "Bellary Road"
+    }, {
+        "id": "bennigana-halli",
+        "displayName": "Bennigana Halli",
+        "description": "Connecting the people of Benniganahalli",
+        "latitude": 12.9966659,
+        "longitude": 77.6539609,
+        "tags": "Bennigana Halli, NGEF Layout, Byappanahalli"
+    }, {
+        "id": "benson-town",
+        "displayName": "Benson Town",
+        "description": "The online community of the neibourhood of Benson Town",
+        "latitude": 13.004155,
+        "longitude": 77.6045925,
+        "tags": "Chinnapa Garden, Pottery Town, SK Garden"
+    }, {
+        "id": "bhuvaneshwari-nagar",
+        "displayName": "Bhuvaneshwari Nagar",
+        "description": "Connecting the people of Bhuvaneshwati Nagar",
+        "latitude": 12.942467,
+        "longitude": 77.4871358,
+        "tags": "Bhuvaneshwari Nagar, Dasarahalli Main Road"
+    }, {
+        "id": "bidadi",
+        "displayName": "Bidadi",
+        "description": "Connecting the people of Bidadi",
+        "latitude": 12.8005252,
+        "longitude": 77.3903984,
+        "tags": "Bidadi, Yogeswar Layout, Gollarapalya"
+    }, {
+        "id": "bidrahalli",
+        "displayName": "Bidrahalli",
+        "description": "Connecting the people of Bidrahalli",
+        "latitude": 13.0613596,
+        "longitude": 77.7158771,
+        "tags": "Bidrahalli"
+    }, {
+        "id": "bilekahalli",
+        "displayName": "Bilekahalli",
+        "description": "Bilekahalli is a village in Bangalore, India. It is situated off Bannerghatta Road. It has gained prominence in recent times due to a boom in real estate and profusion of Information technology companies",
+        "latitude": 12.8970168,
+        "longitude": 77.6071578,
+        "tags": "Bilekahalli, IIM Bangalore, Ranka colony, Dollar Layout, Sundar Ram Shetty Nagar, Thayappa Garden"
+    }, {
+        "id": "bommanahalli",
+        "displayName": "Bommanahalli",
+        "description": "Bommanahalli is a suburb of the city of Bangalore located adjacent to Hosur Road National Highway 7 in India. It is eleven kilometres from MG Road. HSR Layout is within Bommanahalli CMC limits. Bommanahalli is very near to Electronic City.",
+        "latitude": 12.8983601,
+        "longitude": 77.6179465,
+        "tags": "Kaveri Nagar, Virat Nagar, Lake City"
+    }, {
+        "id": "bommasandra",
+        "displayName": "Bommasandra",
+        "description": "Bommasandra is a suburb of Bangalore in the state of Karnataka, India.",
+        "latitude": 12.8168473,
+        "longitude": 77.6989492,
+        "tags": "Bommasandra, Chandapura, Andapura"
+    }, {
+        "id": "brigade road",
+        "displayName": "Brigade Road",
+        "description": "Brigade Road is one of the biggest commercial centres and busiest shopping areas of Bangalore, the state capital of Karnataka, India. It is also a connecting road between the M G Road and Residency Road in the city.",
+        "latitude": 12.9715384,
+        "longitude": 77.606701,
+        "tags": "Brigade Road, Residency Road, Rex Theatre"
+    }, {
+        "id": "brigade-tech-park",
+        "displayName": "Brigade Tech Park",
+        "description": "Located at Whitefield. Several companies are operating from Brigade TechPark: Qualcomm India Pvt. Ltd; LG CNS India; IBS Software Services; Spice Communications.Do you work here? Join the group",
+        "latitude": 12.9931216,
+        "longitude": 77.705736,
+        "tags": "Brigade Tech Park, Whitefield"
+    }, {
+        "id": "brookefield",
+        "displayName": "Brookefield",
+        "description": "Connecting the people of Brookefield",
+        "latitude": 12.9712301,
+        "longitude": 77.7148376,
+        "tags": "Brookefield, Kundalahalli, Tigalarpalya, BEML Layout, AECS Layout, Epip Zone, B Block"
+    }, {
+        "id": "btm-layout",
+        "displayName": "BTM Layout",
+        "description": "Connecting the people of BTM Layout",
+        "latitude": 12.9165757,
+        "longitude": 77.6101163,
+        "tags": "BTM 2nd Stage, Mico layout, IAS Colony, Lakshmi Layout, NS Palya, BTM 2nd Stage, KAS Officers colony"
+    }, {
+        "id": "budigere",
+        "displayName": "Budigere",
+        "description": "Budigere is a village in the southern state of Karnataka, India. It is located in the Devanahalli taluk of Bangalore Rural district in Karnataka.",
+        "latitude": 13.1342839,
+        "longitude": 77.7466387,
+        "tags": "Budigere Amanikere"
+    }, {
+        "id": "cambridge-layout",
+        "displayName": "Cambridge Layout",
+        "description": "Connecting the people at Cambridge Layout",
+        "latitude": 12.9725546,
+        "longitude": 77.6253315,
+        "tags": "Cambridge Layout, Jogupalya"
+    }, {
+        "id": "cessna-sez",
+        "displayName": "Cessna Business Park",
+        "description": "Cessna Tech Park is prominently located at Outer Ring Road. Join the group if you work here.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": ""
+    }, {
+        "id": "chandapura",
+        "displayName": "Chandapura",
+        "description": "Chandapura is a suburb of Bangalore in the Indian state of Karnataka. Chandapura can be reached a 6 km drive from Electronics City towards Hosur on NH 7 widely known as Hosur Road.",
+        "latitude": 12.8004945,
+        "longitude": 77.713612,
+        "tags": "Anekal Main Road, Venkateshappa Lyout, Head Master Layout, Terracon Doctors Enclave, Guala Reddy layout, Teachers Colony, Iggaluru Village, Suryanagar"
+    }, {
+        "id": "channasandra",
+        "displayName": "Channasandra",
+        "description": "Channasandra is a town located in the Eastern periphery of Bangalore city.",
+        "latitude": 13.0112861,
+        "longitude": 77.6630975,
+        "tags": "Channasandra, SJP Layout, Pruthvi Layout, AK Gopalan Colony, SJP Layout,"
+    }, {
+        "id": "chickpet",
+        "displayName": "Chickpet",
+        "description": "Bengaluru Pete is an area of Bangalore city. It which was established by Kempegowda I in 1537 with roads laid in cardinal directions, and entrance gates at the end of each road and has three taluks",
+        "latitude": 12.9709232,
+        "longitude": 77.5763139,
+        "tags": "Chickpet, Santhusapet, Balepet, Mamulpet"
+    }, {
+        "id": "chikbanavara",
+        "displayName": "Chikbanavara",
+        "description": "Connecting the neighborhood of Chikbanavara",
+        "latitude": 13.0791284,
+        "longitude": 77.5132117,
+        "tags": "Chikbanavara, Guddahalli, Myadarahalli, Kempegowda Garden"
+    }, {
+        "id": "chikka-tirupathi",
+        "displayName": "Chikka Tirupathi",
+        "description": "Connecting the people at Chikka Tirupathi",
+        "latitude": 12.8954158,
+        "longitude": 77.8669766,
+        "tags": "Chikka Tirupathi, Sri Venkateshwara Temple, Gangamma temple"
+    }, {
+        "id": "chikkaballapur",
+        "displayName": "Chikkaballapur",
+        "description": "Connecting the residents of Chikkaballapur",
+        "latitude": 13.4001557,
+        "longitude": 78.0539346,
+        "tags": "Chikkaballapur, SJC Instituet of Technology"
+    }, {
+        "id": "chikkabidarakallu",
+        "displayName": "Chikkabidarakallu",
+        "description": "Connecting the people of Chikkabidarakallu",
+        "latitude": 13.0452907,
+        "longitude": 77.4859711,
+        "tags": "Chikkabidarakallu, Vinayaka Nagar, Kamath Layout, Channanayakana Palya"
+    }, {
+        "id": "chikkajala",
+        "displayName": "Chikkajala",
+        "description": "Chikkajala is a place in Bengaluru, Karnataka, India. It is referred as a Pre-Historic site by ASI monument list. This place has 950 years old Channarayaswamy Temple built by Hoysala king Vishnuvardhana.",
+        "latitude": 13.1715223,
+        "longitude": 77.6356486,
+        "tags": "Chikkajala, Maranayakanahalli, DecathlonAnubhava"
+    }, {
+        "id": "chikkanahalli",
+        "displayName": "Chikkanahalli",
+        "description": "Connecting the people of Chikkanahalli",
+        "latitude": 13.014763,
+        "longitude": 77.383393,
+        "tags": "Chikkanahalli, Begur, Shidallagatta"
+    }, {
+        "id": "chintamani",
+        "displayName": "Chintamani",
+        "description": "Chintamani is a Taluk Headquarters in the Indian state of Karnataka. Located on the Deccan Plateau in the south-eastern part of Karnataka.",
+        "latitude": 13.3818177,
+        "longitude": 78.0435222,
+        "tags": "Chintamani, Tippu Nagar, Ashwini Layout, Malapalli, Ashraya Colony, Gandhi Nagar, Gopasandra, NR Extension"
+    }, {
+        "id": "choodasandra",
+        "displayName": "Choodasandra",
+        "description": "Connecting the people of Choodasandra",
+        "latitude": 12.8836788,
+        "longitude": 77.6793813,
+        "tags": "Choodasandra, Sriramapura, Amritanagar, CHIKKANAYAKANAHALLI"
+    }, {
+        "id": "commercial-street",
+        "displayName": "Commercial Street",
+        "description": "Connecting the people in and around Commercial Street",
+        "latitude": 12.9815168,
+        "longitude": 77.6102972,
+        "tags": "Commercial Street"
+    }, {
+        "id": "cooke-town",
+        "displayName": "Cooke Town",
+        "description": "The neigborhood of Cooke Town",
+        "latitude": 13.0031678,
+        "longitude": 77.6228252,
+        "tags": "Cooke Town, Balaji Layout, St. Thomas Town, D Costa Layout, Lazar Layout"
+    }, {
+        "id": "cox-town",
+        "displayName": "Cox Town",
+        "description": "Cox Town is located North in the Bangalore Cantonment, named after the last collector and District Magistrate of the Bangalore Civil and Military Station, Alexander Ranken Cox, Indian Civil Services.",
+        "latitude": 12.9954659,
+        "longitude": 77.6234053,
+        "tags": "Cox Town, ITC Infotech, ITC Colony, Doddigunta"
+    }, {
+        "id": "cv-raman-nagar",
+        "displayName": "CV Raman Nagar",
+        "description": "CV Raman Nagar is a neighbourhood located in the eastern part of the city of Bangalore. It is at a distance of 12 km from Majestic. It is bounded by Indiranagar, Kaggadasapura and Baiyappanahalli. The locality is named after C. V.",
+        "latitude": 12.9854542,
+        "longitude": 77.6639248,
+        "tags": "CV Raman Nagar, Vishwa Vihar, Krishnappa Garden, Nagavarapalya, Ankappa Reddy Layout, Varsova Layout, Vignana Nagar"
+    }, {
+        "id": "cyber-park",
+        "displayName": "Cyber Park",
+        "description": "Cyber Park is located at Electronic city and hosts some major tech companies. Do you work here? Join the group.",
+        "latitude": 12.9882453,
+        "longitude": 77.5797958,
+        "tags": ""
+    }, {
+        "id": "dabaspete",
+        "displayName": "Dabaspete",
+        "description": "Connecting the people of Dabaspete",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "Dabaspete, Halenjagal"
+    }, {
+        "id": "dasarahalli",
+        "displayName": "Dasarahalli",
+        "description": "Dasarahalli is the name of multiple localities in Bangalore. This is the community of Dasarahalli, Hoskote, a town and a city municipal council in Bangalore Rural district in the state of Karnataka, India.",
+        "latitude": 13.0458075,
+        "longitude": 77.5110614,
+        "tags": "Dasarahalli,"
+    }, {
+        "id": "devanahalli",
+        "displayName": "Devanahalli",
+        "description": "Devanahalli, also called Devandahalli, Dyaavandalli, Devanadoddi and Devanapura, is a town and Town Municipal Council in Bangalore Rural district in the state of Karnataka in India.",
+        "latitude": 13.2417155,
+        "longitude": 77.7137306,
+        "tags": "Devanahalli, Southegowdanahalli, Boodihal, Bychapura, Chikkasanne"
+    }, {
+        "id": "devarachikkana-halli",
+        "displayName": "Devarachikkana Halli",
+        "description": "Connecting the people of Devarachikkana Halli, Bangalore, Karnataka",
+        "latitude": 12.8834305,
+        "longitude": 77.6189388,
+        "tags": "Devarachikkana Halli, Bangalore, Karnataka"
+    }, {
+        "id": "divyasree-technopark",
+        "displayName": "Divyasree Technopark",
+        "description": "Located at Whitefield, the Divyasree Technopark hosts several companies and is one of major office locations in the neighborhood. Do you work here? Join the group.",
+        "latitude": 12.9686297,
+        "longitude": 77.7261617,
+        "tags": ""
+    }, {
+        "id": "dodda-aalada-mara-road",
+        "displayName": "Dodda Aalada Mara Road",
+        "description": "The Dodda Alada Mara or Doda Alada Mara, literally translated to Big Banyan Tree, is a giant 400 year old Banyan tree, located in the village of Kettohalli in the Bangalore Urban district of Karnataka, India.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "Dodda Aalada Mara Road"
+    }, {
+        "id": "dodda-banasvadi",
+        "displayName": "Dodda Banasvadi",
+        "description": "Connecting the people of Dodda Banasvadi",
+        "latitude": 13.0159203,
+        "longitude": 77.6528966,
+        "tags": "Dodda Banasvadi, Muniswamy Reddy Layout, Banaswadi"
+    }, {
+        "id": "doddaballapur-road",
+        "displayName": "Doddaballapur Road",
+        "description": "Connecting the people in or around Doddaballapur Road",
+        "latitude": 13.1182138,
+        "longitude": 77.5775428,
+        "tags": "Doddaballapur Road, Puttanahalli, Nagenahalli Layout"
+    }, {
+        "id": "doddaballapur",
+        "displayName": "Doddaballapur",
+        "description": "Doddaballapura, is a town and municipal council in Bangalore Rural district in the state of Karnataka, India. Dodda means big in the native Kannada",
+        "latitude": 13.2927263,
+        "longitude": 77.5389069,
+        "tags": "Doddaballapur, Kodigehalli, Veerapura, Rojipur, Muthasandra"
+    }, {
+        "id": "doddabommasandra",
+        "displayName": "Doddabommasandra",
+        "description": "Connecting the residents of Doddabommasandra",
+        "latitude": 13.0631929,
+        "longitude": 77.5633748,
+        "tags": "Doddabommasandra, Ramanna Gardens, Chikka Venkatappa Layout, Nagaland Colony"
+    }, {
+        "id": "doddenakundi",
+        "displayName": "Doddenakundi",
+        "description": "Connecting the people of Doddenakundi",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Doddenakundi, Kartik Nagar, Ferns City, Brindavan Extension"
+    }, {
+        "id": "dollars-colony",
+        "displayName": "Dollars Colony",
+        "description": "Connecting the people of Dollars Colony",
+        "latitude": 13.041526,
+        "longitude": 77.5683899,
+        "tags": "Dollars Colony, Nagashetty halli, Krishnappa Layout, AECS Layout, Sanjeepa Colony, MSR Nagar"
+    }, {
+        "id": "domlur",
+        "displayName": "Domlur",
+        "description": "Domlur is a small township located in the eastern part of Bangalore city in India. Domulur was included in the erstwhile Bangalore Civil and Military Station under the British Madras Presidency till it was transferred to the Mysore State in 1949.",
+        "latitude": 13.0129981,
+        "longitude": 77.6306967,
+        "tags": "Domlur, BDA Colony, Defense Colony, Deena Bandu Nagar, ISRO Housing Colony, ISRO Colony, Amar Jyoti Layout, Domlur Bridge, Domlur VIllage"
+    }, {
+        "id": "dommasandra",
+        "displayName": "Dommasandra",
+        "description": "Dommasandra is a village in the southern state of Karnataka, India. It is located in the Anekal taluk of Bangalore Urban district in Karnataka.",
+        "latitude": 12.87807,
+        "longitude": 77.75428,
+        "tags": "Dommasandra Circle, ABR Sports, Sarjapura Main Rd"
+    }, {
+        "id": "ejipura",
+        "displayName": "Ejipura",
+        "description": "Connecting the people of Ejipura",
+        "latitude": 12.9385333,
+        "longitude": 77.6308174,
+        "tags": "Ejipura, Gowda Muniswamy Garden, Ashwini Layout, Venkata Reddy Layout, Chandra Reddy Layout"
+    }, {
+        "id": "electronic-city-phase-ii",
+        "displayName": "Electronic City Phase II",
+        "description": "Connecting the people of Electronic City Phase II",
+        "latitude": 12.8441489,
+        "longitude": 77.6793813,
+        "tags": "Electronic City Phase II, Bhovi Palya, Shanthi Pura"
+    }, {
+        "id": "electronic-city-phase-1",
+        "displayName": "Electronic City, Phase 1",
+        "description": "Connecting the residents of Electronic City, Phase 1, Bengaluru, Karnataka",
+        "latitude": 12.8473582,
+        "longitude": 77.6705933,
+        "tags": "Electronic City, Phase 1, Bengaluru, Karnataka, Doddathoguru, Infosys, Celebrity Paradise Layout, Indra Nagar"
+    }, {
+        "id": "embassy-golf-links-business-park",
+        "displayName": "Embassy Golf Links Business Park",
+        "description": "Centrally located, EGL is a prominent landmark on the Inner Ring Road. It hosts several large companies including IBM India, Goldman Sachs, 24/7 Customer, NetApp India etc. Do you work here? Join the group.",
+        "latitude": 12.9513154,
+        "longitude": 77.6464534,
+        "tags": "EGL, Chalagatta"
+    }, {
+        "id": "embassy-techvillage",
+        "displayName": "EmbassyTech Village",
+        "description": "Embassy TechVillage is located in Bellandur on Outer Ring Road and close to the residential suburbs in Bangalore like Whitefield and Sarjapur. It was earlier known as earlier known as Vrindavan Tech Village before the acquisition by Embassy Group. Several companies like Altimetrik India, Arctern Consulting, Brocade Communications Systems, Cisco, Nokia, Quest Software, Sony, TAAL Tech, Talisma Corporation, ValueLabs, XL Group etc. have their offices here. Do you work here? Join the group.",
+        "latitude": 12.9320824,
+        "longitude": 77.6904202,
+        "tags": "EmbassyTech Village, Techvillage"
+    }, {
+        "id": "frazer-town",
+        "displayName": "Frazer Town",
+        "description": "Pulakeshinagar, formerly known as Frazer Town, is one of the oldest neighbourhoods in the city of Bangalore, India. It is located in central Bangalore, and begins roughly near the eastern end of Cantonment railway station.",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Frazer Town, Pulikeshi Nagar, Mosque Road, MM Road"
+    }, {
+        "id": "gandhi-nagar",
+        "displayName": "Gandhi Nagar",
+        "description": "Connecting the people of Gandhi Nagar",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Gandhi Nagar, Racecourse, Madhava Nagar, Danvanthri Road, Race Course Road"
+    }, {
+        "id": "ganga-nagar",
+        "displayName": "Ganga Nagar",
+        "description": "Ganganagar is one of the neighbourhoods of Bangalore. It is located in the north of Bangalore and is on the east of NH-7 before Hebbal. Ganganagar is primarily a residential and a busy shopping area. It is also known as Gangenahalli.",
+        "latitude": 13.0266605,
+        "longitude": 77.590791,
+        "tags": "Ganga Nagar, Krishnappa Block, A K Colony, HMT Layout, RBI Colony, Dena Bank Colony"
+    }, {
+        "id": "gayatri-tech-park",
+        "displayName": "Gayatri Tech Park",
+        "description": "Gayatri Tech park is located close to ITPL. Connect with everyone working here. Join the group.",
+        "latitude": 12.972756,
+        "longitude": 77.7195193,
+        "tags": ""
+    }, {
+        "id": "global-village",
+        "displayName": "Global Village Tech Park",
+        "description": "Global Village Tech Park is a software technology park in Bangalore, India. The park is situated in Rajarajeshwari Nagar offMysore Road, behind R.V. College of Engineering. Several companies like Accenture Crompton Greaves Global Edge Software Limited Magnasoft Consulting India Ltd Mindtree Mphasis Northern Operating Services NTT DATA Sonata Software are hosted in the park. Join in to connect with everyone working here.  Texas Instruments Textron HGS",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": ""
+    }, {
+        "id": "gnr-tech-park",
+        "displayName": "GNR Tech park",
+        "description": "Do you work at GNR Tech Park? Join the group to connect with other employees who work here.",
+        "latitude": 12.8914807,
+        "longitude": 77.6411733,
+        "tags": ""
+    }, {
+        "id": "gunjur",
+        "displayName": "Gunjur",
+        "description": "Gunjur, between Varthur and Sarjapura is an upcoming locality of Bangalore",
+        "latitude": 12.9208949,
+        "longitude": 77.7344781,
+        "tags": "Gunjur, Hanuman Statue, Gunjur High School"
+    }, {
+        "id": "hsr-layout",
+        "displayName": "H S R Layout",
+        "description": "Hosur Sarjapur Road Layout popularly known as HSR Layout is a relatively new suburb located to the south-east of Bangalore, India. The layout, which is built on land reclaimed from the Agara lake, is located between Hosur Road and Sarjapur Road.",
+        "latitude": 13.0129981,
+        "longitude": 77.6306967,
+        "tags": "H S R Layout, Parangi Palaya, Somsandrapalya, PWD Quarters, Amblipura, Agara Village"
+    }, {
+        "id": "hal",
+        "displayName": "HAL",
+        "description": "Connecting the people of the neigborhoods around HAL",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "HAL, Old Airport Road, Air View Colony"
+    }, {
+        "id": "harita-it-park",
+        "displayName": "Harita IT Park, Electronic City",
+        "description": "Harita IT Park is an address that any IT company would love to have and rue to miss. The IT Park, as its name suggests, suits the green business of IT the most. Conecting all the employees of IT companies like Infosys, Wipro, HP, Siemens, Birla 3M, ITI, G.E., Digital, Tata, Motorola, Yokogawa, Cyber Park etc.",
+        "latitude": 12.8399389,
+        "longitude": 77.6770031,
+        "tags": "Harita IT Park, Harita Tech Park, HIP"
+    }, {
+        "id": "harlur",
+        "displayName": "Harlur",
+        "description": "Connecting the people of Harlur",
+        "latitude": 12.8998046,
+        "longitude": 77.6628428,
+        "tags": "Harlur, Lakedew, Royal Placid Layout, Valliyamma Layout, Central Jail Road"
+    }, {
+        "id": "haudin-road",
+        "displayName": "Haudin Road",
+        "description": "Connecting the people of Haudin Road",
+        "latitude": 12.9762986,
+        "longitude": 77.618777,
+        "tags": "Haudin Road, Yellappa Chetty Layout, Gangadhar Chetty Road"
+    }, {
+        "id": "hbr-layout",
+        "displayName": "HBR Layout",
+        "description": "Connecting the people of HBR Layout",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "HBR Layout, Ashwath Nagar, Nagawara, hennur bande, Kamraj Nagar, Muniswamappa, Chellikere"
+    }, {
+        "id": "hcl-technologies-ltd",
+        "displayName": "HCL Technologies, Whitefield",
+        "description": "Are you an HCL Technology Employee working out of Whitefield? Join the group.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": ""
+    }, {
+        "id": "hebbal",
+        "displayName": "Hebbal",
+        "description": "Connecting the people of Hebbal, bengaluru",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Hebbal, Vinayakanagar, Chola Nagar, Chamundi Nagar, Anand Nagar, Doddamma Layout, SBM Layout"
+    }, {
+        "id": "hegde-nagar",
+        "displayName": "Hegde Nagar",
+        "description": "Connecting the people of Hegde Nagar",
+        "latitude": 13.0724417,
+        "longitude": 77.6323623,
+        "tags": "Hegde Nagar, BDS Layout, Kaveri Nagaar, Narayanapura,"
+    }, {
+        "id": "hennur",
+        "displayName": "Hennur",
+        "description": "Connecting the people of Hennur",
+        "latitude": 13.0402801,
+        "longitude": 77.6450215,
+        "tags": "Hennur Gardens, Lakeview Rwsidency, Vadarpalya, Divya Unnathi Layout, Prakruthi TWP, Balaji Layout"
+    }, {
+        "id": "hesaraghatta",
+        "displayName": "Hesaraghatta",
+        "description": "Connecting the people of Hesaraghatta",
+        "latitude": 13.1377799,
+        "longitude": 77.4791265,
+        "tags": "Hesaraghatta, T.B. Cross, Dasenahalli, Bilijaji, Aivarkhandpur"
+    }, {
+        "id": "hombegowda-nagar",
+        "displayName": "Hombegowda Nagar",
+        "description": "Connecting the people of Hombegowda Nagar",
+        "latitude": 12.9375448,
+        "longitude": 77.5948946,
+        "tags": "Hombegowda Nagar, Someshwara Nagar, Laljinagar"
+    }, {
+        "id": "hongasandra",
+        "displayName": "Hongasandra",
+        "description": "Connecting the residents of Hongasandra",
+        "latitude": 12.8942722,
+        "longitude": 77.6289517,
+        "tags": "Maruthi Layout, Mico Layout, Begur Road, Hongasandra"
+    }, {
+        "id": "hoodi",
+        "displayName": "Hoodi",
+        "description": "Connecting the residents of Hoodi",
+        "latitude": 12.9922145,
+        "longitude": 77.7159001,
+        "tags": "Hoodi, Seetharampalya, Maruthi Nagar"
+    }, {
+        "id": "hosakerehalli",
+        "displayName": "Hosakerehalli",
+        "description": "Connecting the residents of Hosakerehalli",
+        "latitude": 12.9163636,
+        "longitude": 77.5361462,
+        "tags": "Srinivasan Layout, Gurudatta Layout, Dattareya Nagar, Hosakerehalli"
+    }, {
+        "id": "hoskote",
+        "displayName": "Hoskote",
+        "description": "Hosakote is a taluk in Bangalore Rural District. Headquartered at the Hosakote town, it consists of 5 Hoblis - Anugondanahalli, Jadigenahalli, Kasaba, Nandagudi and Sulibele.",
+        "latitude": 13.07,
+        "longitude": 77.8,
+        "tags": "Hoskote, Nisarga Layout, MV Extension, Alappanahalli, Dandupalya, Parijata Layout"
+    }, {
+        "id": "hosur-road",
+        "displayName": "Hosur Road",
+        "description": "Connecting the people in and around Hosur Road",
+        "latitude": 12.9029367,
+        "longitude": 77.6315264,
+        "tags": "Hosur Road, Mangammanapalya, Bandepalya, Garebhavipalya, Bandepalya, HAL Layout"
+    }, {
+        "id": "hrbr-layout",
+        "displayName": "HRBR Layout",
+        "description": "Hennur Bellary Road Layout, well known as HBR Layout, is a major residential colony in the northern Bangalore. It comes under Sarvagnanagar constituency. The layout is located in North-East Bangalore and spread on both sides of Outer Ring Road",
+        "latitude": 13.0191445,
+        "longitude": 77.6464534,
+        "tags": "HRBR Layout, Jal Vayu Vihar"
+    }, {
+        "id": "hulimavu",
+        "displayName": "Hulimavu",
+        "description": "Connecting the residents of Hulimavu",
+        "latitude": 12.8789001,
+        "longitude": 77.6089869,
+        "tags": "Hulimavu, Muthurayya Swamy Layout, Shantiniketan Layout, Tejaswini Nagar"
+    }, {
+        "id": "huskur",
+        "displayName": "Huskur",
+        "description": "Connecting the people of Huskur",
+        "latitude": 12.8615733,
+        "longitude": 77.7052823,
+        "tags": "Huskur"
+    }, {
+        "id": "ibc-knowledge-park",
+        "displayName": "IBC Knowledge Park",
+        "description": "IBC Knowledge Park is based out of Bannergatta road Bangalore. Do you work here? Join the group to connect with everyone working here.",
+        "latitude": 12.932639,
+        "longitude": 77.603742,
+        "tags": ""
+    }, {
+        "id": "indiranagar",
+        "displayName": "Indira Nagar",
+        "description": "Indiranagar is a medium-sized neighbourhood in east Bangalore, Karnataka, India. It is bounded by the Ulsoor to the west, Domlur to the south, Byappanahalli to the north and Vimanapura to the east.",
+        "latitude": 12.9718915,
+        "longitude": 77.6411545,
+        "tags": "Doopanahalli, HAL 2nd Stage, Defence Colony, H Colony, Old Madras Road, Cambridge Layout"
+    }, {
+        "id": "infantry-road",
+        "displayName": "Infantry Road",
+        "description": "Connecting the people around Infantry Road",
+        "latitude": 12.9810027,
+        "longitude": 77.6021903,
+        "tags": "Infantry Road"
+    }, {
+        "id": "infosys-electronics-city",
+        "displayName": "Infosys, Electronic City",
+        "description": "Working at Infosys Electronic City? Join the group.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": ""
+    }, {
+        "id": "integrated-hitech-software-park",
+        "displayName": "Integrated Hitech Software Park",
+        "description": "Integrated Hitech Software Park, IHSP is based out of Malleshwaram. Do you work here? Join in to connect with others working at IHSP.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "Integrated Hitech Software Park, IHSP"
+    }, {
+        "id": "bia-road",
+        "displayName": "International Airport Road",
+        "description": "Connecting the people at International Airport Road, Bangalore",
+        "latitude": 13.2044921,
+        "longitude": 77.7076907,
+        "tags": "Kempegowda Int'l Airport Rd, BIAL, Devanahalli Road"
+    }, {
+        "id": "international-tech-park",
+        "displayName": "International Tech Park (ITPL)",
+        "description": "International Tech Park (commonly called ITPL and ITPB) is a tech park located in Whitefield. This park provides campus facilities for multi national giants like GE, Xerox, iGATE, IBM, Mu Sigma, Airtel, Vodafone, TCS, Unisys, Delphi, Huawei, Oracle, Perot Systems and other medium and small sized companies. Outside ITPB, numerous companies have come up like Dell, Tesco, Shell, Aviva, GM, Schneider Electric, Sapient, Goodrich / UTC aerospace and DaimlerChrysler, Symphony Teleca Corp and Tangoe are also located in Whitefield.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "ITPL Office area"
+    }, {
+        "id": "isro-layout",
+        "displayName": "ISRO Layout",
+        "description": "Connecting the residents of ISRO Layout",
+        "latitude": 12.8984834,
+        "longitude": 77.5590645,
+        "tags": "ISRO Layout"
+    }, {
+        "id": "itpl",
+        "displayName": "ITPL",
+        "description": "Connecting the people in and around ITPL",
+        "latitude": 12.986598,
+        "longitude": 77.743531,
+        "tags": "ITPL Main Road, Upkar layout, Prasanth Extension"
+    }, {
+        "id": "jp-nagar",
+        "displayName": "J P Nagar",
+        "description": "JP Nagar is one of the prominent neighborhoods of Bangalore. Join the group to connect with other residents staying here.",
+        "latitude": 12.910491,
+        "longitude": 77.5857168,
+        "tags": "JP Nagar"
+    }, {
+        "id": "jakkur",
+        "displayName": "Jakkur",
+        "description": "Connecting the people of Jakkur",
+        "latitude": 13.0631411,
+        "longitude": 77.6206769,
+        "tags": "Jakkur, Mesthri Palya, Srirampura, Rachenahalli"
+    }, {
+        "id": "jalahalli-cross",
+        "displayName": "Jalahalli Cross",
+        "description": "Connecting the people of Jalahalli Cross",
+        "latitude": 13.0399748,
+        "longitude": 77.5183484,
+        "tags": "Jalahalli Cross, Jalahalli Metro"
+    }, {
+        "id": "jalahalli-west",
+        "displayName": "Jalahalli West",
+        "description": "Connecting the people of Jalahalli West",
+        "latitude": 13.0612203,
+        "longitude": 77.5192657,
+        "tags": "Jalahalli West, Ravetha Nagar, Ravindra Nagar, Chikkasandra, Myadrahalli"
+    }, {
+        "id": "jaya-chamarajendra-nagar",
+        "displayName": "Jaya Chamarajendra Nagar",
+        "description": "Connecting the people of Jaya Chamarajendra Nagar",
+        "latitude": 13.0081816,
+        "longitude": 77.5948946,
+        "tags": "Jaya Chamarajendra Nagar, JC Nagar Main Road, Munimarappa Garden"
+    }, {
+        "id": "jayamahal",
+        "displayName": "Jayamahal",
+        "description": "Connecting the people in and around Jayamahal",
+        "latitude": 12.9998698,
+        "longitude": 77.5950525,
+        "tags": "Jayamahal, Bangalore Palace, Snow City, Fun World, Nandi Durga Road"
+    }, {
+        "id": "jayanagar",
+        "displayName": "Jayanagar",
+        "description": "Jayanagar is a residential and commercial neighbourhood of the city of Bangalore in Karnataka, India. It is sub-divided into ten blocks, most of which are residential areas. A prominent shopping complex is located in Jayanagar IV Block.",
+        "latitude": 12.9250074,
+        "longitude": 77.5938028,
+        "tags": "Jayanagar, LIC Colony, TATA Silk Farm, Someshwara Nagar, SR Krishnappa Garden, KV Layout, RBI Extension"
+    }, {
+        "id": "jeevanbheema-nagar",
+        "displayName": "Jeevanbheema Nagar",
+        "description": "Connecting the residents of Jeevanbheema Nagar",
+        "latitude": 12.9628593,
+        "longitude": 77.6595082,
+        "tags": "Jeevanbheema Nagar, BDA Colony, Nanja Reddy Colony, Sudhama Nagar, Shivalingaiah Colony, DOS Colony,"
+    }, {
+        "id": "jigani",
+        "displayName": "Jigani",
+        "description": "Connecting the people of Jigani",
+        "latitude": 12.779326,
+        "longitude": 77.644157,
+        "tags": "Jigani, Vaddarpalya, Mada Patna, Nanjapura, Masthenahalli, Harapanahalli, Haragadde"
+    }, {
+        "id": "jnana-ganga-nagar",
+        "displayName": "Jnana Ganga Nagar",
+        "description": "Connecting the people of Jnana Ganga Nagar",
+        "latitude": 12.9545241,
+        "longitude": 77.4968175,
+        "tags": "Jnana Ganga Nagar, Jnanajyothinagar, Jnana Bharti Layout, Railway Layout, SMV"
+    }, {
+        "id": "kr-puram",
+        "displayName": "K R Puram",
+        "description": "Krishnarajapuram, also known as K.R. Puram, is a suburb of Bangalore in the Indian state of Karnataka. It is located 15 kilometers from Bangalore City railway station. Old Madras Road is located in Krishnarajapuram.",
+        "latitude": 13.0040167,
+        "longitude": 77.6877765,
+        "tags": "K R Puram, krishnarajapura, Kurudusonnenahalli, , Domsandra, Kodigehalli, Bethel Nagar, Kumbena Agraha, Sai Colony, Saketha Nagar, Ayyappa Nagar, Devasandra, Railway Colony, Kaveri Nagar"
+    }, {
+        "id": "kadabagere",
+        "displayName": "Kadabagere",
+        "description": "Connecting the people of Kadabagere",
+        "latitude": 12.9968854,
+        "longitude": 77.4331027,
+        "tags": "Kadabagere, Janapriya Township"
+    }, {
+        "id": "kadugodi",
+        "displayName": "kadugodi",
+        "description": "Connecting the people of kadugodi",
+        "latitude": 12.9908404,
+        "longitude": 77.7607805,
+        "tags": "kadugodi, Siddharta Layout, VS Reddy Colony, Subbanna Extension, 3G Homes Crimson Layout, MV Jayaraman College of Engineering, Whitefield Railway"
+    }, {
+        "id": "kadugondanahalli",
+        "displayName": "Kadugondanahalli",
+        "description": "Connecting the people of Kadugondanahalli",
+        "latitude": 13.0186924,
+        "longitude": 77.6186204,
+        "tags": "Kadugondanahalli, Arabic College Main Road, Ashok Nagar, Mukthi Nagar, Venkateshpuram, Lidkar colony, HBR Layout, BDA Shopping Complex"
+    }, {
+        "id": "kaggadasapura",
+        "displayName": "Kaggadasapura",
+        "description": "Kaggadasapura is a relatively new suburb located near DRDO township in CV Raman Nagar, Bangalore, India. Kaggadasapura is one of the fastest developing sub-urban areas in Bangalore, and home to more than 500 apartment complexes",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Kaggadasapura, Balaji Layout, Varsova Layout, Nagappa Reddy layout, Vignana Nagar"
+    }, {
+        "id": "kaikondrahalli",
+        "displayName": "kaikondrahalli",
+        "description": "Connecting the people of kaikondrahalli",
+        "latitude": 12.9127307,
+        "longitude": 77.6873868,
+        "tags": "kaikondrahalli, Sarjapur Main Road, Saul Kere, Doddakannahalli"
+    }, {
+        "id": "kalena-agrahara",
+        "displayName": "Kalena Agrahara",
+        "description": "Connecting the people of Kalena Agrahara",
+        "latitude": 12.8710738,
+        "longitude": 77.5934927,
+        "tags": "Kalena Agrahara, Classic Orchards Layout, Nobo Nagar, BDA Layout, Surabhi Nagar, Kothnur, Bannerghatta Main Road"
+    }, {
+        "id": "kalkere",
+        "displayName": "Kalkere",
+        "description": "Connecting the people of Kalkere",
+        "latitude": 13.0334934,
+        "longitude": 77.673888,
+        "tags": "Kalkere, Green Garrden, Riches Regal Layout, Pooja Layout, Raghavendra Nagar"
+    }, {
+        "id": "kalyan-nagar",
+        "displayName": "Kalyan Nagar",
+        "description": "Connecting the people of Kalyan Nagar",
+        "latitude": 13.0280047,
+        "longitude": 77.6399711,
+        "tags": "Kalyan Nagar, Babusabpalya, Arkavathy Layout, Meganahalli, Chellikere, Hennur Bande, Chikkatayappa Reddy Layout"
+    }, {
+        "id": "kalyani-magnum-tech-park",
+        "displayName": "Kalyani Magnum Tech Park",
+        "description": "Kalynai Magnum Tech Park hosts companies like YellAdworks, Oracle, Honeywell, VMware, E&Y. Do you work here? Join the group.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": ""
+    }, {
+        "id": "kammanahalli",
+        "displayName": "Kammanahalli",
+        "description": "Connecting the people of Kammanahalli",
+        "latitude": 13.0159044,
+        "longitude": 77.6378619,
+        "tags": "Kammanahalli, HRBR Layout, Chikkana Layout, Kalyan Nagar"
+    }, {
+        "id": "kammasandra-agrahara",
+        "displayName": "Kammasandra Agrahara",
+        "description": "Connecting the people of Kammasandra Agrahara",
+        "latitude": 12.834002,
+        "longitude": 77.688267,
+        "tags": "Kammasandra Agrahara, Marathi Layout, Eastern Silk Industries"
+    }, {
+        "id": "kammasandra",
+        "displayName": "Kammasandra",
+        "description": "Kotilingeshwara is the presiding deity of the temple of the same name in the village of Kammasandra in India. Kammasandra is a small village situated in Kolar district of Karnataka state.",
+        "latitude": 12.834002,
+        "longitude": 77.688267,
+        "tags": "Kammasandra, Sri Kotilingeshwara Temple"
+    }, {
+        "id": "kanakapura-road",
+        "displayName": "Kanakapura Road",
+        "description": "Connecting the people in or around Kanakpura Road",
+        "latitude": 12.7456283,
+        "longitude": 77.4876724,
+        "tags": "Kanakapura Road, Bolare, Gabbadi, Vaderahalli, Nettigere"
+    }, {
+        "id": "kanakapura",
+        "displayName": "Kanakapura",
+        "description": "Kanakapura is a town and the headquarters of Kanakapura Taluk in the Ramanagar district in the state of Karnataka, India. Situated 55 km from the city Bangalore, this town is famous for the production of silk and granite.",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Kanakapura, Kallahalli"
+    }, {
+        "id": "kannamangala",
+        "displayName": "Kannamangala",
+        "description": "Connecting the people of Kannamangala",
+        "latitude": 13.196403,
+        "longitude": 77.410384,
+        "tags": "Kannamangala, Nagenahalli, Ramadevanahalli, Guttepalya, Kasaba Hobli"
+    }, {
+        "id": "kasavanahalli",
+        "displayName": "Kasavanahalli",
+        "description": "Connecting the people of Kasavanahalli",
+        "latitude": 12.9066841,
+        "longitude": 77.6757011,
+        "tags": "Kasavanahalli, Sarjapur Main Road, CSB Layout, Rainbow Drive"
+    }, {
+        "id": "kasturi-nagar",
+        "displayName": "Kasturi Nagar",
+        "description": "Connecting the people of Kasturi Nagar",
+        "latitude": 13.0060924,
+        "longitude": 77.6594498,
+        "tags": "Kasturi Nagar, B Channasandra, Gurijya Gutta"
+    }, {
+        "id": "kattigenahalli",
+        "displayName": "Kattigenahalli",
+        "description": "Connecting the people of Kattigenahalli",
+        "latitude": 13.1215607,
+        "longitude": 77.6211888,
+        "tags": "Kattigenahalli, Munneshwara Block, Vinayak Nagar, Varaha Layout, Reva University, Bharti Nagar"
+    }, {
+        "id": "kempapura",
+        "displayName": "Kempapura",
+        "description": "Connecting the people of Kempapura",
+        "latitude": 13.043505,
+        "longitude": 77.6000404,
+        "tags": "Kempapura, NAL, Bannappa Colony, Yemalur"
+    }, {
+        "id": "kempegowda-nagar",
+        "displayName": "Kempegowda Nagar",
+        "description": "Connecting the people of Kempegowda Nagar",
+        "latitude": 12.9473279,
+        "longitude": 77.5633748,
+        "tags": "Kempegowda Nagar, Hayavadana Rao Road, Bull Temple Road"
+    }, {
+        "id": "kengeri-satellite-town",
+        "displayName": "Kengeri Satellite Town",
+        "description": "Connecting the people of Kengeri Satellite Town",
+        "latitude": 12.9230523,
+        "longitude": 77.4846519,
+        "tags": "Kengeri Satellite Town, Kommaghatta, Manasa Layout, BSM Extension, Sun City, Beedi Workers Colony, Duvasapalya, Gnanabharathi, Sonnehalli, Mysore Road, RV College of Engineering"
+    }, {
+        "id": "kengeri",
+        "displayName": "Kengeri",
+        "description": "Connecting the people of Kengeri",
+        "latitude": 12.899623,
+        "longitude": 77.4826976,
+        "tags": "Kengeri, Soundarya Layout, NICE Ring Road"
+    }, {
+        "id": "kodichikkanahalli",
+        "displayName": "Kodichikkanahalli",
+        "description": "Connecting the people of Kodichikkanahalli",
+        "latitude": 12.8953449,
+        "longitude": 77.6150369,
+        "tags": "Kodichikkanahalli, Doctors Layout, Duo Layout"
+    }, {
+        "id": "kodigehalli",
+        "displayName": "Kodigehalli",
+        "description": "Connecting the people of Kodigehalli",
+        "latitude": 13.0695205,
+        "longitude": 77.5822844,
+        "tags": "Kodigehalli, Canara Bank Layout, Rajiv Gandhi Nagar, Sonappa Layout, GKVK Campus Road, Judicial Layout, yashoda Nagar"
+    }, {
+        "id": "kodihalli",
+        "displayName": "Kodihalli",
+        "description": "Kodihalli is a locality in the eastern part of Bangalore. It starts from 80 feet Indiranagar, Jeevanbhima Nagar junction and extends up to Leela Palace on Old Airport Road.",
+        "latitude": 12.9611228,
+        "longitude": 77.6472466,
+        "tags": "Kodihalli, NAL Colony, Manipal Hospitals, Old Airport Road, Domlur Flyover, Leela Palace"
+    }, {
+        "id": "kodipur",
+        "displayName": "Kodipur",
+        "description": "Connecting the people of Kodipur",
+        "latitude": 12.9090978,
+        "longitude": 77.5318463,
+        "tags": "Kodipur, Dr Vishnuvardhan Road"
+    }, {
+        "id": "kogilu",
+        "displayName": "Kogilu",
+        "description": "Connecting the people of Kogilu",
+        "latitude": 13.1012065,
+        "longitude": 77.6125498,
+        "tags": "Kogilu, Prakruthi nagar, Touch Golf School"
+    }, {
+        "id": "konanakunte",
+        "displayName": "Konanakunte",
+        "description": "Connecting the people of Konanakunte",
+        "latitude": 12.8857037,
+        "longitude": 77.566548,
+        "tags": "Konanakunte, Navaratan Gardens, Beereshwara Nagar, PNB Layout,  Ayyappa Nagar"
+    }, {
+        "id": "koramangala",
+        "displayName": "Koramangala",
+        "description": "Koramangala is a locality in Bangalore, India. Situated in the south-eastern part of the city, it is one of the largest neighborhoods, and is a highly sought after residential locality.",
+        "latitude": 12.9279232,
+        "longitude": 77.6271078,
+        "tags": "Koramangala, John Nagar, Jakkasandra Extension, CV Raman Nagar, The Forum, Hosur Road, Venkatapura"
+    }, {
+        "id": "kothanur",
+        "displayName": "Kothanur",
+        "description": "Connecting the people of Kothanur",
+        "latitude": 13.0551956,
+        "longitude": 77.6422206,
+        "tags": "Kothanur, Ferns Residency, The Defence Enclave, Wajid Layout, Hiremath Layout, Hennur Main Road"
+    }, {
+        "id": "kudlu",
+        "displayName": "Kudlu",
+        "description": "Connecting the people of Kudlu",
+        "latitude": 12.8901858,
+        "longitude": 77.6528966,
+        "tags": "Kudlu, VGP Layout, Reliable Woods Layout, Harlur Road, Hosapalya, kudlu gate"
+    }, {
+        "id": "kumaraswamy-layout",
+        "displayName": "Kumaraswamy Layout",
+        "description": "Connecting the people of Kumaraswamy Layout",
+        "latitude": 12.9037594,
+        "longitude": 77.5618439,
+        "tags": "Kumaraswamy Layout, Chandra Nagar, Kanka Nagar, Ilyas Nagar, Vittal Nagar, Rose Garden, Dayananda Sagar College of Engineering"
+    }, {
+        "id": "laggere",
+        "displayName": "Laggere",
+        "description": "Connecting the people of Laggere",
+        "latitude": 13.0097647,
+        "longitude": 77.5253962,
+        "tags": "Laggere, Preethy Nagar, Narasimhaswamy Nagar, Freedom Fighters Colony"
+    }, {
+        "id": "lal-bagh",
+        "displayName": "lal bagh",
+        "description": "Connecting the people of lal bagh",
+        "latitude": 12.9541003,
+        "longitude": 77.5857312,
+        "tags": "lal bagh"
+    }, {
+        "id": "langford-road",
+        "displayName": "Langford Road",
+        "description": "Connecting the people in and around Langford Road",
+        "latitude": 12.9608171,
+        "longitude": 77.6006194,
+        "tags": "Langford Road, Shanthi Nagar Hockey Stadium, Langford Gardens, Shanti Nagar, Lakshiamma Garden"
+    }, {
+        "id": "langford-town",
+        "displayName": "Langford Town",
+        "description": "Connecting the people at Langford Town",
+        "latitude": 12.9569911,
+        "longitude": 77.6027732,
+        "tags": "Langford Town"
+    }, {
+        "id": "lavelle-road",
+        "displayName": "Lavelle Road",
+        "description": "Connecting the people in and around Lavelle Road",
+        "latitude": 12.9712262,
+        "longitude": 77.5978581,
+        "tags": "Lavelle Road, D Souza Layout"
+    }, {
+        "id": "lb-shastr-nagar",
+        "displayName": "LB Shastri Nagar",
+        "description": "Connecting the people of LB Shastri Nagar",
+        "latitude": 12.9670714,
+        "longitude": 77.6704859,
+        "tags": "Vimanapura, LB Shastri, Lal Bahadur Shastri"
+    }, {
+        "id": "lingarajapuram",
+        "displayName": "Lingarajapuram",
+        "description": "Connecting the people of Lingarajapuram",
+        "latitude": 13.0083649,
+        "longitude": 77.6306383,
+        "tags": "Lingarajapuram, Kankadasa Layout, YK Layout, Peace Layout, KSFC Layout, Shamanna Layout"
+    }, {
+        "id": "madiwala",
+        "displayName": "Madiwala",
+        "description": "Madiwala is a locality in Bangalore, India. It is a bustling center of activity from grocery markets to IT to shopping mall. Being at the center of the IT corridor it is well known across Bangalore.",
+        "latitude": 12.9226373,
+        "longitude": 77.6174442,
+        "tags": "Madiwala, Ayyappa Temple, Hosur road, madival Post office"
+    }, {
+        "id": "magadi-road",
+        "displayName": "Magadi Road",
+        "description": "Connecting the people in and around Magadi Road",
+        "latitude": 12.9867551,
+        "longitude": 77.4765501,
+        "tags": "Magadi Road, Thavarakere, Bychaguppe, Kurubarahalli"
+    }, {
+        "id": "mahadevapura",
+        "displayName": "Mahadevapura",
+        "description": "Mahadevapura is a town and a city municipal council in Bangalore district in the Indian state of Karnataka.",
+        "latitude": 12.9912802,
+        "longitude": 77.687367,
+        "tags": "Mahadevapura, Brigad Metropolis, Ranganatha layout"
+    }, {
+        "id": "mahalakshmi-layout",
+        "displayName": "Mahalakshmi Layout",
+        "description": "Mahalakshmi Layout is a suburb in north-west Bengaluru, India. It is near Rajajinagar, Basaveshwaranagar and Yeshwanthapura. Together with Nandini Layout and Mahalakshmipuram, it is one of the biggest layouts in Bengaluru.",
+        "latitude": 13.0145937,
+        "longitude": 77.5514047,
+        "tags": "Mahalakshmi Layout, ISKCON Bangalore, Rahman Khan road, Mahalaxmi"
+    }, {
+        "id": "majestic",
+        "displayName": "Majestic",
+        "description": "Connecting the people of Majestic",
+        "latitude": 12.9766637,
+        "longitude": 77.5712556,
+        "tags": "Majestic, Sevashrama, Bangalore City Junction"
+    }, {
+        "id": "mallathahalli",
+        "displayName": "Mallathahalli",
+        "description": "Connecting the people of Mallathahalli",
+        "latitude": 12.9610894,
+        "longitude": 77.4974416,
+        "tags": "Mallathahalli, Vishweshwaraiah Layout, NGEF layout, HMT Layout"
+    }, {
+        "id": "malleshwaram",
+        "displayName": "Malleshwaram",
+        "description": "Malleshwaram, Malleswaram or Malleshwara is a north-western district of Bengaluru city. It was developed as a planned suburb after the great plague of 1898, which caused many people to move out of the city center.",
+        "latitude": 13.0030624,
+        "longitude": 77.5642928,
+        "tags": "Malleshwaram, Swimming Pool Extension, Vyalikaval, IISC Gymnasium, Guttahalli"
+    }, {
+        "id": "manipal-eta-infotech-limited",
+        "displayName": "Manipal Tech Park",
+        "description": "Connecting everyone at MANIPAL ETA INFOTECH LIMITED",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "MANIPAL ETA INFOTECH LIMITED"
+    }, {
+        "id": "manyata-tech-park",
+        "displayName": "Manyata Tech Park",
+        "description": "Manyata Embassy Business Park (also called Manyata Tech Park) is a software technology park near Hebbal. It hosts a workforce of around 80,000 professionals. Some of the tenant companies of the tech park are AXA Technologies Shared Services, IBM, Larsen & Toubro, Cognizant, Atlas Copco (India) Ltd., Nokia Siemens, Philips, Alcatel-Lucent, Target Corporation, Northern Trust, Nvidia, indegene and Cerner.",
+        "latitude": 13.0448306,
+        "longitude": 77.6221091,
+        "tags": ""
+    }, {
+        "id": "marathahalli",
+        "displayName": "Marathahalli",
+        "description": "Marathahalli is a suburb of Bangalore city in Karnataka state of India. Marut in Sanskrit refers to the god of wind/air in Hindu mythology. Halli in Kannada means village. The Outer Ring Road of Bangalore passes through Marathahalli.",
+        "latitude": 12.9591722,
+        "longitude": 77.697419,
+        "tags": "Marathahalli, Jawahar Nagar, Ramesh nagar, Chandra Layout, Manjunatha Layout, Matrix Layout, Aswath Nagar"
+    }, {
+        "id": "maruthi-nagar",
+        "displayName": "Maruthi Nagar",
+        "description": "Connecting the people of Maruthi Nagar",
+        "latitude": 12.9619295,
+        "longitude": 77.5217178,
+        "tags": "Maruthi Nagar"
+    }, {
+        "id": "maruthi-sevanagar",
+        "displayName": "Maruthi Sevanagar",
+        "description": "Connecting the people of Maruthi Sevanagar",
+        "latitude": 13.0019125,
+        "longitude": 77.6322142,
+        "tags": "Maruthi Sevanagar, Seva Nagar, Ambedkar Nagar, Baiyappanahalli, Nagayana palya, Mukunda Theare"
+    }, {
+        "id": "mg-road",
+        "displayName": "MG Road",
+        "description": "Mahatma Gandhi Road also known as M.G. Road is a road in Bangalore, India. It runs east from Trinity Circle at one end to Anil Kumble circle at the other.",
+        "latitude": 12.9756295,
+        "longitude": 77.6066227,
+        "tags": "Trinity, Bangalore Central Mall, MG Road Metro"
+    }, {
+        "id": "millers-road",
+        "displayName": "Millers Road, bangalore",
+        "description": "Connecting the people in and around Millers Road, bangalore",
+        "latitude": 12.99515,
+        "longitude": 77.60285,
+        "tags": "Millers Road, bangalore, Fun Cinemas"
+    }, {
+        "id": "munnekolala",
+        "displayName": "Munnekollal",
+        "description": "Connecting the people of Munnekolala",
+        "latitude": 12.9518129,
+        "longitude": 77.7068437,
+        "tags": "Munnekolala"
+    }, {
+        "id": "murugeshpalya",
+        "displayName": "Murugeshpalya",
+        "description": "Murugeshpalya is a centrally located neighborhood with good connectivity with every part of Bangalore. Join the group to connect with other residents of Murugeshpalya.",
+        "latitude": 12.9545517,
+        "longitude": 77.6550442,
+        "tags": "Rustam Bagh, Murugeshpalya, Konena Agrahara"
+    }, {
+        "id": "mysore-road",
+        "displayName": "Mysore Road",
+        "description": "Connecting the people in and around Mysore Road",
+        "latitude": 13.121167,
+        "longitude": 77.6078805,
+        "tags": "Mysore Road"
+    }, {
+        "id": "nagarabhavi",
+        "displayName": "Nagarabhavi",
+        "description": "Nagarbhavi is a residential area of Bangalore, Karnataka, India. Located in West Bangalore, Nagarbhavi is located between Mysore road and Magadi road.",
+        "latitude": 12.9599448,
+        "longitude": 77.5082833,
+        "tags": "Nagarabhavi, Vijay Nagar, BDA Layout, Nagarbhavi Circle"
+    }, {
+        "id": "nagasandra",
+        "displayName": "Nagasandra",
+        "description": "Connecting the people of Nagasandra",
+        "latitude": 13.0431638,
+        "longitude": 77.5003091,
+        "tags": "Nagasandra, Belmar Layout, Rukmini Nagar, Nagasandra Metro"
+    }, {
+        "id": "nagavara",
+        "displayName": "Nagavara",
+        "description": "Connecting the people of Nagavara",
+        "latitude": 13.0422567,
+        "longitude": 77.6135523,
+        "tags": "Nagavara, Lumbini Gardens, Manyata Tech park, Jogappa Layout, Mahbub Nagar, Byrappa Layout"
+    }, {
+        "id": "nandi-hill",
+        "displayName": "Nandi Hill",
+        "description": "Nandi Hill is a prominent tourist attraction in Bangalore. It is a hot spot for adventurists, naturalists and travel enthusiasts. Join the group if you love hanging out at Nandi Hill and have somehthing you want to share about it with everyone.",
+        "latitude": 13.3666667,
+        "longitude": 77.6833333,
+        "tags": ""
+    }, {
+        "id": "nandini-layout",
+        "displayName": "Nandini Layout",
+        "description": "Connecting the people of Nandini Layout",
+        "latitude": 13.0159906,
+        "longitude": 77.5338233,
+        "tags": "Nandini Layout, Sreenivas Nagar, Ganesha Block, Parimala Nagar"
+    }, {
+        "id": "neelasandra",
+        "displayName": "Neelasandra",
+        "description": "Connecting the people of Neelasandra",
+        "latitude": 12.9550291,
+        "longitude": 77.6142102,
+        "tags": "Neelasandra, Muniswamy Garden, Yerappa Garden"
+    }, {
+        "id": "nelamangala",
+        "displayName": "Nelamangala",
+        "description": "Connecting the people of Nelamangala",
+        "latitude": 13.0874193,
+        "longitude": 77.4110064,
+        "tags": "Nelamangala, Vajarahalli, Nagarur, Visveswarapura, Jakkasandra, Mallapur"
+    }, {
+        "id": "netra-tech-park",
+        "displayName": "Netra Tech Park",
+        "description": "Netra Tech Park is based out of Whitefield. Do you work here? Join the group of people working out of Netra-Tech-Park.",
+        "latitude": 12.9734048,
+        "longitude": 77.7207065,
+        "tags": ""
+    }, {
+        "id": "old-airport-road",
+        "displayName": "Old Airport Road",
+        "description": "Connecting the people around Old Airport Road",
+        "latitude": 12.9549134,
+        "longitude": 77.6851102,
+        "tags": "Old Airport Road, HAL Heritage Museum, Manipal Hospitals"
+    }, {
+        "id": "old-madras-road",
+        "displayName": "Old Madras Road",
+        "description": "Connecting the people in and around Old Madras Road",
+        "latitude": 12.9857608,
+        "longitude": 77.6451119,
+        "tags": "Old Madras Road, New Bayappanahalli, Swamy Vivekananda Road Metro, Binna Mangala"
+    }, {
+        "id": "ombr-layout",
+        "displayName": "OMBR Layout",
+        "description": "Connecting the people of OMBR Layout",
+        "latitude": 13.0075666,
+        "longitude": 77.6504664,
+        "tags": "OMBR Layout, Banaswadi, Chikka Banaswadi, Dodda Banaswadi, Ramaiah Reddy Layout"
+    }, {
+        "id": "ozone-manay-tech-park",
+        "displayName": "Ozone Manay Tech Park",
+        "description": "Ozone Manay Tech Park is designed as a premier office space to cater to Software, ITES, BPO and BT companies.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "Office Space"
+    }, {
+        "id": "padmanabha-nagar",
+        "displayName": "Padmanabha Nagar",
+        "description": "Connecting the people of Padmanabha Nagar",
+        "latitude": 12.9155691,
+        "longitude": 77.5567733,
+        "tags": "Padmanabha Nagar, Radha Krishna Layout, Sarvabhouma Nagar, Kadarenahalli"
+    }, {
+        "id": "pai-layout",
+        "displayName": "Pai Layout",
+        "description": "Connecting the people of Pai Layout",
+        "latitude": 12.8812029,
+        "longitude": 77.5977596,
+        "tags": "Pai Layout, Are Kere"
+    }, {
+        "id": "panathur",
+        "displayName": "Panathur",
+        "description": "Connecting the people of Panathur",
+        "latitude": 12.9355734,
+        "longitude": 77.7057495,
+        "tags": "Panathur, Munnireddy Layout, JCR layout, Lords Steps Layout"
+    }, {
+        "id": "panduranga-nagar",
+        "displayName": "Panduranga Nagar",
+        "description": "Connecting the people of Panduranga Nagar",
+        "latitude": 12.8961381,
+        "longitude": 77.5962816,
+        "tags": "Panduranga Nagar, Krishnaraju Layout, T Muniyappa Layout, Anthappa Layout, Lakshmi Layout"
+    }, {
+        "id": "peenya",
+        "displayName": "Peenya",
+        "description": "Peenya is the name of an industrial area of the Bangalore city in India. It is considered to be one of the largest industrial areas in Asia. Peenya lies on Bangalore - Tumkur Highway. It houses small, medium, and large scale industries",
+        "latitude": 12.9933834,
+        "longitude": 77.5993711,
+        "tags": "Peenya, Nalagadderanahalli, Shivapura, UBMEC Layout, Chamundi Nagar, Belmar Layout"
+    }, {
+        "id": "prashanth-nagar",
+        "displayName": "Prashanth Nagar",
+        "description": "Connecting the people of Prashanth Nagar",
+        "latitude": 13.0440017,
+        "longitude": 77.5175123,
+        "tags": "Prashanth Nagar, Officers Model Colony"
+    }, {
+        "id": "prestige-shantiniketan-techpark",
+        "displayName": "Prestige Shantiniketan Techpark",
+        "description": "Prestige Shantiniketan is an integrated township, the first of its kind in Bangalore. The development has three distinct zones – residential, a business precinct, retail & hospitality. The Business Precinct consists of approx. 3.6 million sft of commercial space spread across 7 towers while a five star Hotel, proposed Forum Mall, and a Convention Center constitute the retail & hospitality. In addition the residential zone consists of approx. 3000 apartments with its independent access and support facilities. With this unique combination, Prestige Shantiniketan is a novel project that redefines property development in Bangalore. The property is strategically located on Whitefield Road, Bangalore with an excellent frontage and separate access points for entry and exit. Join the community if you work here.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "PSN"
+    }, {
+        "id": "prestige-tech-park-i",
+        "displayName": "Prestige Tech Park I (Outer Ring Road)",
+        "description": "Prestige Tech Park one is located at Outer ring road and is one of the prominent offices locations. Do you work here? Join the group.",
+        "latitude": 12.942016,
+        "longitude": 77.6939632,
+        "tags": ""
+    }, {
+        "id": "prestige-tech-park-ii",
+        "displayName": "Prestige Tech Park II (Outer Ring Road)",
+        "description": "Prestige Tech Park II – Electra is located on the 2nd mile on the Sarjapur - Marathahalli Outer Ring Road, Bangalore. It is 45 kms from the new Bangalore International Airport and 15 kms from the Central Business District. Primary access to the park is through main Prestige Technology Park while secondary access is through Yamalur Road. It houses many big corporates such as JP Morgan Chase, Oracle, Nokia, Airtel, Altair Engineering etc.",
+        "latitude": 12.942016,
+        "longitude": 77.6939632,
+        "tags": ""
+    }, {
+        "id": "rk-hegde-nagar",
+        "displayName": "R K Hegde Nagar",
+        "description": "Connecting the people of R.K. Hegde Nagar",
+        "latitude": 13.0724417,
+        "longitude": 77.6323623,
+        "tags": "R.K. Hegde Nagar, Nagareshwara Nagenahalli, Kothnur Nagenahalli, BDS Layout, Apoorva Enclave"
+    }, {
+        "id": "ragavendra-nagar",
+        "displayName": "Ragavendra Nagar",
+        "description": "Connecting the people of Ragavendra Nagar",
+        "latitude": 13.01152,
+        "longitude": 77.4888388,
+        "tags": "Ragavendra Nagar, Kalika Nagar, Shree Vinayaka Nagar"
+    }, {
+        "id": "raja-rajeshwari-nagar",
+        "displayName": "Raja Rajeshwari Nagar",
+        "description": "Connecting the people of Raja Rajeshwari Nagar",
+        "latitude": 12.9242199,
+        "longitude": 77.5191195,
+        "tags": "Raja Rajeshwari Nagar, Janankshi Layout,, BEML Layout, Ideal Homes TWP"
+    }, {
+        "id": "rajaji-nagar",
+        "displayName": "Rajaji Nagar",
+        "description": "Rajajinagar is a residential locality in the west of Bangalore. It is bordered by Basaveshwaranagar, Malleshwaram, Mahalakshmipuram alias West of Chord road 2nd stage, Mahalakshmi Layout, Vijayanagar and Rajajinagar Industrial Suburb",
+        "latitude": 12.9900578,
+        "longitude": 77.5524925,
+        "tags": "Rajaji Nagar, Dayananda Nagar, Ramchandrapuram, Malleshwara, Agrahara Dasarahalli, Rajajinagar"
+    }, {
+        "id": "ramamurthy-nagar",
+        "displayName": "Ramamurthy Nagar",
+        "description": "Ramamurthy Nagar is an area in Bangalore in Indian state of Karnataka. It is located in the North-Eastern part of Bangalore and comes under E3 sub division of BBMP.",
+        "latitude": 13.0148905,
+        "longitude": 77.6711243,
+        "tags": "Ramamurthy Nagar, Ramesh Nagar, ACL Layout, Sir MV Nagar, Hoysala Nagar, Krishna Reddy Layout, Kodanda Reddy Layout"
+    }, {
+        "id": "ramohalli",
+        "displayName": "Ramohalli",
+        "description": "Connecting the people of Ramohalli",
+        "latitude": 12.907323,
+        "longitude": 77.417983,
+        "tags": "Ramohalli, Haridasa Nagar"
+    }, {
+        "id": "residency-road",
+        "displayName": "Residency Road",
+        "description": "Connecting the people in and around Residency Road",
+        "latitude": 12.9694839,
+        "longitude": 77.6024402,
+        "tags": "Residency Road, Bangalkore club, Richmond Circle"
+    }, {
+        "id": "richards-town",
+        "displayName": "Richards Town",
+        "description": "Connecting the people of Richards Town",
+        "latitude": 13.0063217,
+        "longitude": 77.614948,
+        "tags": "Richards Town"
+    }, {
+        "id": "richmond-road",
+        "displayName": "Richmond Road",
+        "description": "Connecting the people in and around Richmond Road",
+        "latitude": 12.9664423,
+        "longitude": 77.6074688,
+        "tags": "Richmond Road"
+    }, {
+        "id": "richmond-town",
+        "displayName": "Richmond Town",
+        "description": "Connecting the people of Richmond Town",
+        "latitude": 12.9633823,
+        "longitude": 77.6034894,
+        "tags": "Richmond Town, General KS Thimayya Road, Langford Gardens"
+    }, {
+        "id": "rmv-2nd-stage",
+        "displayName": "RMV 2nd Stage",
+        "description": "Connecting the people of RMV 2nd Stage",
+        "latitude": 13.0438651,
+        "longitude": 77.5705973,
+        "tags": "RMV 2nd Stage, New BEL Road"
+    }, {
+        "id": "rmz-ecospace",
+        "displayName": "RMZ Ecospace",
+        "description": "Ecospace is a prominent business park on Outer Ring Road with comapnies like Broadcom, Microland, Bosch, Harman, Freescale, Northern Operating Services, TAS Analytics, Accenture, Syniverse, Symbol, Cadence, Digital Insight, Kerry, Societe Generale etc. having their offices there.",
+        "latitude": 12.9245092,
+        "longitude": 77.6812929,
+        "tags": "Office Space,RMZ Ecospace, ecospace"
+    }, {
+        "id": "rmz-infinity",
+        "displayName": "RMZ Infinity",
+        "description": "RMZ Infinity is a well located Business park on Old Madras road housing the offices of companies like Google, Synopsys, Thomson Reuters, State Street, LM Wind Power, Cassidian, British Telecom, GE, Etisalat, Avnet, AXA, Analog Devices, E&Y, Boeing. Join the group to connect with all the employees working here.",
+        "latitude": 12.9715987,
+        "longitude": 77.5945627,
+        "tags": "RMZ Infinity, Office for Google, Synopsys, Thomson Reuters, State Street, LM Wind Power, Cassidian, British Telecom, GE, Etisalat, Avnet, AXA, Analog Devices, E&Y, Boeing"
+    }, {
+        "id": "rt-nagar",
+        "displayName": "RT Nagar",
+        "description": "RT Nagar is a prominent location in Bangalore. Join the group to connect with other residednts of RT Nagar.",
+        "latitude": 13.0223141,
+        "longitude": 77.5948946,
+        "tags": "RT NAGAR, RTNagar, R T Nagar"
+    }, {
+        "id": "sadasivanagar",
+        "displayName": "Sadasiva Nagar",
+        "description": "Sadashivanagar is an upscale residential neighborhood in Bangalore, India. It is considered to be the most expensive residential area in Bangalore. Sadashivanagar is close to downtown Bangalore and accessible to the northern suburbs.",
+        "latitude": 13.0068182,
+        "longitude": 77.5812849,
+        "tags": "Sadasiva Nagar, Sankey's Road, Palace Grounds,"
+    }, {
+        "id": "sadduguntepalya",
+        "displayName": "Sadduguntepalya",
+        "description": "Connecting the people of Sadduguntepalya",
+        "latitude": 12.9309643,
+        "longitude": 77.6049218,
+        "tags": "Sadduguntepalya, Bhavani Nagar, Christ University, Bharati Layout, Tavarekere, Bannerghatta main road"
+    }, {
+        "id": "sahakara-nagar",
+        "displayName": "Sahakara Nagar",
+        "description": "Connecting the people of Sahakara Nagar",
+        "latitude": 13.0623425,
+        "longitude": 77.5871032,
+        "tags": "Judicial Layout, Coal Layout, Sahakara Nagar, Sahakar Nagar"
+    }, {
+        "id": "salarpuria-infinity",
+        "displayName": "Salarpuria Infinity",
+        "description": "People of Adobe Systems, Aztecsoft, LSI, Versata, etc, Join the conversation!",
+        "latitude": 12.9319152,
+        "longitude": 77.6017436,
+        "tags": ""
+    }, {
+        "id": "sanjay-nagar",
+        "displayName": "Sanjay Nagar",
+        "description": "Sanjaynagar is a residential area located in north Bangalore, India. Established in the late seventies, it is now a sprawling locality in Bangalore",
+        "latitude": 13.0364641,
+        "longitude": 77.5767631,
+        "tags": "Sanjay Nagar"
+    }, {
+        "id": "sarjapur-attibele-road",
+        "displayName": "Sarjapur Attibele Road",
+        "description": "Connecting the people in and around Sarjapur Attibele Road, Bangalore",
+        "latitude": 12.9037557,
+        "longitude": 77.703405,
+        "tags": "Sarjapur Attibele Road, Doddakannehalli, Decathlon Sarjapur, Carmelaram, Ambedkar Nagar"
+    }, {
+        "id": "sarjapur-orr",
+        "displayName": "Sarjapur Outer Ring Road",
+        "description": "Connecting the people in and around Sarjapur Outer Ring Road",
+        "latitude": 12.9243632,
+        "longitude": 77.649853,
+        "tags": "Sarjapur Outer Ring Road, Kadabeesanahalli, Bellandur, Chandana"
+    }, {
+        "id": "sarjapur-road",
+        "displayName": "Sarjapur Road",
+        "description": "Connecting the people of Sarjapur Road",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Sarjapur Road"
+    }, {
+        "id": "sarjapur",
+        "displayName": "Sarjapur",
+        "description": "Sarjapura is a town situated in Bangalore, Karnataka, India. It is a hobli of Anekal taluk, Bangalore Urban district and is located towards the south-east of Bangalore.",
+        "latitude": 12.8613781,
+        "longitude": 77.7863255,
+        "tags": "Sarjapur, Wipro HQ, Akshya Garden"
+    }, {
+        "id": "seshadripuram",
+        "displayName": "Seshadripuram",
+        "description": "Connecting the people of Seshadripuram",
+        "latitude": 12.9935334,
+        "longitude": 77.5787401,
+        "tags": "Seshadripuram, Seshadripuram College"
+    }, {
+        "id": "shanthi-nagar",
+        "displayName": "Shanthi Nagar",
+        "description": "Connecting the people of Shanthi Nagar",
+        "latitude": 13.026172,
+        "longitude": 77.473142,
+        "tags": "Shanthi Nagar, Lakshiamma Garden, KSRTC Colony, Langford Road"
+    }, {
+        "id": "shivaji-nagar",
+        "displayName": "Shivaji Nagar",
+        "description": "Connecting the people of Shivaji Nagar",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Shivaji Nagar, Rajiv Gandhi Colony, Tasker Town, Sulthangunta, Infantry Road, M Chinnaswamy Stadium"
+    }, {
+        "id": "sidedahalli",
+        "displayName": "Sidedahalli",
+        "description": "Connecting the people of Soundarya Layout",
+        "latitude": 13.0654332,
+        "longitude": 77.4948136,
+        "tags": "Soundarya Layout, Sidedahalli, Royal Enclave"
+    }, {
+        "id": "sigma-tech-park",
+        "displayName": "Sigma Tech Park",
+        "description": "Sigma Tech Park hosts offices of companies like Aricent, Wyse, LifeStyle, L&T, Wipro, Tulip, Ukn, GyanSys Infotech, DMC systems etc. Join the group if you work at Sigma Tech Park.",
+        "latitude": 12.9581993,
+        "longitude": 77.7445822,
+        "tags": ""
+    }, {
+        "id": "silk-board",
+        "displayName": "Silk Board",
+        "description": "Connecting the people of Silk Board",
+        "latitude": 12.9177456,
+        "longitude": 77.6237883,
+        "tags": "Silk Board"
+    }, {
+        "id": "singasandra",
+        "displayName": "Singasandra",
+        "description": "Connecting the people of Singasandra",
+        "latitude": 12.8801665,
+        "longitude": 77.6460458,
+        "tags": "Singasandra, Venkateswara, HAL Layout"
+    }, {
+        "id": "smv-layout",
+        "displayName": "SMV Layout",
+        "description": "Connecting the people of SMV Layout",
+        "latitude": 12.9307172,
+        "longitude": 77.4749013,
+        "tags": "SMV Layout, Dodda Basti"
+    }, {
+        "id": "spice-garden",
+        "displayName": "Spice garden",
+        "description": "Connecting the people of Spice garden",
+        "latitude": 12.9564845,
+        "longitude": 77.7089998,
+        "tags": "Spice garden, Marathahalli, PFS, Vasantha, Riviera"
+    }, {
+        "id": "srinivasa-nagar",
+        "displayName": "Srinivasa Nagar",
+        "description": "Connecting the people of Srinivasa Nagar",
+        "latitude": 13.00127,
+        "longitude": 77.6182601,
+        "tags": "Srinivasa Nagar, NR Colony, Vinayakanagar"
+    }, {
+        "id": "st-johns-road",
+        "displayName": "St. Johns Road",
+        "description": "Connecting the people in and around St. Johns Road",
+        "latitude": 12.92928,
+        "longitude": 77.615993,
+        "tags": "St. Johns Road, Lavanya Theatre, RBANMS Ground"
+    }, {
+        "id": "subramanyapura",
+        "displayName": "Subramanyapura",
+        "description": "Connecting the people of Subramanyapura",
+        "latitude": 12.8964518,
+        "longitude": 77.5406717,
+        "tags": "Subramanyapura, Maruthi Nagar, Gubbala, Vasanthapura"
+    }, {
+        "id": "sudhama-nagar",
+        "displayName": "Sudhama Nagar",
+        "description": "Thanisandra is a village in the southern state of Karnataka, India. It is located in the Bangalore South taluk of Bangalore Urban district in Karnataka.",
+        "latitude": 12.9591024,
+        "longitude": 77.5867915,
+        "tags": "Sudhama Nagar, Raja Ram Mohanroy Extension, Doddamavalli, Vision Cinemas, Jayachamaraja Wodeyar Rd"
+    }, {
+        "id": "sunkadakatte",
+        "displayName": "Sunkadakatte",
+        "description": "Connecting the people of Sunkadakatte",
+        "latitude": 12.9919691,
+        "longitude": 77.5071806,
+        "tags": "Sunkadakatte, Srgandha Nagar, Rajaiv Gandhi Nagar, Kareemsab Nagar, Anjana Nagar"
+    }, {
+        "id": "t-dasarahalli",
+        "displayName": "T Dasarahalli",
+        "description": "Connecting the people of T Dasarahalli, Bangalore",
+        "latitude": 13.042967,
+        "longitude": 77.51316,
+        "tags": "T Dasarahalli, Santosh Nagar, Maheshwari Nagar, Bhel Mini Colony, Bhuvaneshwari Nagar, Ravindra Nagar, Defence Colony, Bagalagunte"
+    }, {
+        "id": "thanisandra",
+        "displayName": "Thanisandra",
+        "description": "Connecting the people of Thanisandra",
+        "latitude": 13.0568653,
+        "longitude": 77.6235264,
+        "tags": "Thanisandra, Mesthri Palya, Dynasty Layout, Jakkur, Geddalahalli"
+    }, {
+        "id": "thavarekere-magadi-road",
+        "displayName": "Thavarekere Magadi Road",
+        "description": "Connecting the people in and around Thavarekere-Magadi Road",
+        "latitude": 12.9662711,
+        "longitude": 77.4011079,
+        "tags": "Thavarekere, Kurubarahalli"
+    }, {
+        "id": "thippasandra",
+        "displayName": "Thippasandra",
+        "description": "Connecting the people of Thippasandra",
+        "latitude": 12.9123424,
+        "longitude": 77.7529293,
+        "tags": "Thippasandra, Bhoomi Reddy Colony, Puttappaa layout, BEML Hospital"
+    }, {
+        "id": "thubarahalli",
+        "displayName": "Thubarahalli",
+        "description": "Connecting the people of Thubarahalli",
+        "latitude": 12.9520393,
+        "longitude": 77.7208853,
+        "tags": "Thubarahalli, Kumarapalli, Varthur Road"
+    }, {
+        "id": "thurahalli",
+        "displayName": "Thurahalli",
+        "description": "Connecting the people of Thurahalli",
+        "latitude": 12.8816584,
+        "longitude": 77.5189458,
+        "tags": "Thurahalli, Bhanashankari 6th Stage"
+    }, {
+        "id": "tumkur-road",
+        "displayName": "Tumkur Road",
+        "description": "Connecting the people in and around Tumkur Road",
+        "latitude": 13.0536105,
+        "longitude": 77.483492,
+        "tags": "Tumkur Road, Madanayakahalli"
+    }, {
+        "id": "ullal",
+        "displayName": "Ullal",
+        "description": "Connecting the people of Ullal",
+        "latitude": 12.9500587,
+        "longitude": 77.5011155,
+        "tags": "Ullal Uppanagara"
+    }, {
+        "id": "ulsoor",
+        "displayName": "Ulsoor",
+        "description": "Connecting the people of Ulsoor",
+        "latitude": 12.9817147,
+        "longitude": 77.6285585,
+        "tags": "Ulsoor, Halasuru, Kalhalli, MV Garden"
+    }, {
+        "id": "uttarahalli",
+        "displayName": "Uttarahalli",
+        "description": "Connecting the people of Uttarahalli",
+        "latitude": 12.9069823,
+        "longitude": 77.552059,
+        "tags": "Uttarahalli, Canara Bank Colony, Uday Nagar"
+    }, {
+        "id": "varthur",
+        "displayName": "Varthur",
+        "description": "Connecting the people of Varthur",
+        "latitude": 12.9388787,
+        "longitude": 77.7412047,
+        "tags": "Varthur, Chinnappa Layout, Balagere Road"
+    }, {
+        "id": "vasanth-nagar",
+        "displayName": "Vasanth Nagar",
+        "description": "Connecting the people of Vasanth Nagar",
+        "latitude": 12.9910869,
+        "longitude": 77.5920295,
+        "tags": "Vasanth Nagar, Cunningham Road"
+    }, {
+        "id": "velankani-tech-park",
+        "displayName": "Velankani Tech Park",
+        "description": "Velankani Tech Park hosts several companies like: Siemens Deutsche Network Services Deutsche Bank  Patni Computers  Velankani Software  Viteos Capital  National Marketing Services  Elcoteq Electronics",
+        "latitude": 12.8488517,
+        "longitude": 77.6575381,
+        "tags": ""
+    }, {
+        "id": "victoria-layout",
+        "displayName": "Victoria Layout",
+        "description": "Connecting the people of Victoria Layout",
+        "latitude": 12.9667581,
+        "longitude": 77.614948,
+        "tags": "Victoria Layout"
+    }, {
+        "id": "vidyaranyapura",
+        "displayName": "Vidyaranyapura",
+        "description": "Vidyaranyapura is situated in the northern part of Bangalore city in the state of Karnataka, India. Vidyaranyapura, along with several other extensions of the city comes under a constituency called Byatarayanapura.",
+        "latitude": 13.0857908,
+        "longitude": 77.556098,
+        "tags": "MS Palya, Mohammed Sab Palya, Yelahanka Road, Singapura Paradise, Vidyaranyapura, Adityanagar, Defence Colony, BHEL Layout, Bluemoon Garden, Bettahalli Layout"
+    }, {
+        "id": "vignana-nagar",
+        "displayName": "Vignana Nagar",
+        "description": "Connecting the people of Vignana Nagar",
+        "latitude": 12.9780267,
+        "longitude": 77.6814627,
+        "tags": "Vignana Nagar"
+    }, {
+        "id": "vijaypura",
+        "displayName": "Vijaypura",
+        "description": "Connecting the people of Vijaypura",
+        "latitude": 13.2934333,
+        "longitude": 77.7892181,
+        "tags": "Vijaypura, Shidlaghatta Cross, Gandi Chouka"
+    }, {
+        "id": "vimanapura",
+        "displayName": "Vimanapura",
+        "description": "Vimanapura is an eastern suburb of Bangalore in Karnataka in India. It is so called because it is near Bangalore HAL airport. Vimanapura houses many of the HAL offices and the HAL hospital. The busy Old Airport Road goes through it.",
+        "latitude": 12.9517694,
+        "longitude": 77.6653692,
+        "tags": "Vimanapura, Basavanagar, Jagadish Nagar, Islampur, LBS Nagar, Vinayaka Nagar, Sector C Ramaiah Reddy Colony, Vibhutipura, Nelluru Puram"
+    }, {
+        "id": "vishweshwaraiah-layout",
+        "displayName": "Vishweshwaraiah Layout",
+        "description": "Connecting the people of Vishweshwaraiah Layout",
+        "latitude": 12.9639778,
+        "longitude": 77.4972874,
+        "tags": "Vishweshwaraiah Layout"
+    }, {
+        "id": "vittal-mallya-road",
+        "displayName": "Vittal Mallya Road",
+        "description": "Connecting the people in and around Vittal Mallya Road",
+        "latitude": 12.9711797,
+        "longitude": 77.5972528,
+        "tags": "Vittal Mallya Road"
+    }, {
+        "id": "viveka-nagar",
+        "displayName": "Viveka Nagar",
+        "description": "Connecting the people of Viveka Nagar",
+        "latitude": 12.9544874,
+        "longitude": 77.6190723,
+        "tags": "Viveka Nagar"
+    }, {
+        "id": "whitefield",
+        "displayName": "Whitefield",
+        "description": "Whitefield is a neighbourhood of Bangalore in the state of Karnataka, India. Established in the late 1800s as a settlement for the Eurasians and Anglo Indians of Bangalore, Whitefield remained a quaint little settlement to the east of Bangalore city till the late 1990s when the IT boom of Bangalore turned it as a major suburb, and it is now a major part of Greater Bangalore.",
+        "latitude": 12.9697999,
+        "longitude": 77.7499467,
+        "tags": "Whitefield, Palm meadows, Vijayanagar, Gandhipuram, Basavanna Nagar, Inner Valley, Kumarapalli, Sathya Sai Layout, Nallurhalli"
+    }, {
+        "id": "williams-town",
+        "displayName": "Williams Town",
+        "description": "Connecting the people of Williams Town",
+        "latitude": 12.9999537,
+        "longitude": 77.6074284,
+        "tags": "Williams Town, Bore Bank Road, BWSSO Water Tank"
+    }, {
+        "id": "wilson-garden",
+        "displayName": "Wilson Garden",
+        "description": "Connecting the people of Wilson Garden",
+        "latitude": 12.9481933,
+        "longitude": 77.5971865,
+        "tags": "Wilson Garden, Lakkasandra Extension, Vinayaka Nagar"
+    }, {
+        "id": "wipro-sarjapura",
+        "displayName": "Wipro, Sarjpura",
+        "description": "Do you work at Wipro Sarjapura? Join the community to connect with others who work here.",
+        "latitude": 12.8422557,
+        "longitude": 77.6646801,
+        "tags": ""
+    }, {
+        "id": "yelachena-halli",
+        "displayName": "Yelachena Halli",
+        "description": "Connecting the people of Yelachena Halli",
+        "latitude": 12.885651,
+        "longitude": 77.5576384,
+        "tags": "Yelachena Halli, Kanakpura Road"
+    }, {
+        "id": "yelahanka-new-town",
+        "displayName": "Yelahanka New Town",
+        "description": "Connecting the people of Yelahanka New Town",
+        "latitude": 13.1042445,
+        "longitude": 77.5713193,
+        "tags": "Yelahanka New Town, Atturu, RWF West Colony, Doddabellapur Road"
+    }, {
+        "id": "yelahanka",
+        "displayName": "Yelahanka",
+        "description": "Yelahanka is a suburb of Bangalore in the state of Karnataka originally envisaged as a satellite town of Bangalore city, but now part of the Bruhat Bangalore Mahanagara Palike.",
+        "latitude": 13.0944536,
+        "longitude": 77.5860122,
+        "tags": "Yelahanka, KB Sandra, Chowdeshwari Layout, Palanahalli, Venkatala Village, Manchenahalli"
+    }, {
+        "id": "yemalur",
+        "displayName": "Yemalur",
+        "description": "Connecting the people of Yemalur",
+        "latitude": 12.9446164,
+        "longitude": 77.6836756,
+        "tags": "Yemalur"
+    }, {
+        "id": "yeshwanthpur",
+        "displayName": "Yeshwanthpur",
+        "description": "Yeshwanthapur is a sub locality in the north western part of Bangalore City in the Indian state of Karnataka. It is located to the north of Malleswaram and west of Hebbal.",
+        "latitude": 13.0279661,
+        "longitude": 77.5409156,
+        "tags": "Yeshwanthpur, Muniswara Nagar, Dr Ambedkar Nagar"
     }],
 
     threads: [{

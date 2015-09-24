@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderColor: "rgba(0, 0, 0, .04)",
         borderBottomWidth: 1,
-        padding: 16
+        paddingHorizontal: 16,
+        paddingVertical: 12
     },
     title: {
         fontSize: 14,
