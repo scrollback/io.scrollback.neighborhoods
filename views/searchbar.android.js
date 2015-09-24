@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     icon: {
         width: 24,
         height: 24,
-        marginHorizontal: 16,
+        marginHorizontal: 22,
         opacity: 0.5
     }
 });
@@ -37,7 +37,7 @@ export default class SearchBar extends React.Component {
         return (
             <View {...this.props} style={[ styles.searchbar, this.props.style ]}>
                 <TouchableNativeFeedback
-                    onPress={() => this.refs.input && this.refs.input.focus()}>
+                    onPress={() => this._input && this._input.focus()}>
                     <View>
                         <Image
                           source={require("image!ic_search_black")}
@@ -46,6 +46,7 @@ export default class SearchBar extends React.Component {
                     </View>
                 </TouchableNativeFeedback>
                 <TextInput
+                    ref={c => this._input = c}
                     autoFocus={this.props.autoFocus}
                     onChange={this.props.onSearchChange}
                     placeholder={this.props.placeholder}
