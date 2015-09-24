@@ -1,5 +1,5 @@
 import React from "react-native";
-import Chat from "./chat";
+import ChatController from "./chat-controller";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 export default class DiscussionItem extends React.Component {
     _onPress() {
         this.props.navigator.push({
-            title: "Chat",
-            component: Chat
+            title: this.props.thread.title,
+            component: ChatController
         });
     }
 
@@ -39,7 +39,7 @@ export default class DiscussionItem extends React.Component {
         return (
                 this.props.thread.title !== nextProps.thread.title ||
                 this.props.thread.text !== nextProps.thread.text ||
-                this.props.thread.from !== nextProps.thread.text
+                this.props.thread.from !== nextProps.thread.from
             );
     }
 
