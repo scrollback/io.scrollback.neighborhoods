@@ -13,11 +13,7 @@ export default class Chat extends React.Component {
     constructor(props) {
         super(props);
 
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
-        this.state = {
-            dataSource: ds.cloneWithRows(this.props.data)
-        };
+        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     }
 
     componentDidMount() {
@@ -26,13 +22,13 @@ export default class Chat extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.data)
-        });
+    _getDataSource() {
+        return this.dataSource.cloneWithRows(this.props.data);
     }
 
     render() {
+        const dataSource = this._getDataSource();
+
         return (
             <View {...this.props}>
                 {(() => {
@@ -46,12 +42,12 @@ export default class Chat extends React.Component {
                                         ref={c => this._scroll = c}
                                     />
                                 }
-                                dataSource={this.state.dataSource}
+                                dataSource={dataSource}
                                 renderRow={(text, sectionID, rowID) => {
                                     let previousText;
 
                                     if (rowID > 0) {
-                                        previousText = this.state.dataSource.getRowData(0, rowID - 1);
+                                        previousText = dataSource.getRowData(0, rowID - 1);
                                     }
 
                                     return (

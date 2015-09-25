@@ -12,18 +12,11 @@ export default class Discussions extends React.Component {
     constructor(props) {
         super(props);
 
-        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
-        this.state = {
-            failed: false,
-            dataSource: ds.cloneWithRows(this.props.data)
-        };
+        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(nextProps.data)
-        });
+    _getDataSource() {
+        return this.dataSource.cloneWithRows(this.props.data);
     }
 
     render() {
@@ -33,7 +26,7 @@ export default class Discussions extends React.Component {
                     if (this.props.data.length) {
                         return (
                             <ListView
-                                dataSource={this.state.dataSource}
+                                dataSource={this._getDataSource()}
                                 renderRow={thread =>
                                     <DiscussionItem
                                         key={thread.id}
