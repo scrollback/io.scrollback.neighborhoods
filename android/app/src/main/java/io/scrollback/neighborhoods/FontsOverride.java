@@ -1,8 +1,9 @@
 package io.scrollback.neighborhoods;
 
-import java.lang.reflect.Field;
 import android.content.Context;
 import android.graphics.Typeface;
+
+import java.lang.reflect.Field;
 
 public final class FontsOverride {
     public static void setDefaultFont(Context context,
