@@ -16,7 +16,12 @@ export default class TextSummary extends React.Component {
 
     render() {
         return (
-            <RichText numberOfLines={3} {...this.props} style={[ styles.summary, this.props.style ]} text={this.props.text} />
+            <RichText
+                {...this.props}
+                style={[ styles.summary, this.props.style ]}
+                numberOfLines={3}
+                text={this.props.text}
+            />
         );
     }
 }

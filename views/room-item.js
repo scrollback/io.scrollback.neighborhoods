@@ -65,5 +65,6 @@ RoomItem.propTypes = {
         displayName: React.PropTypes.string.isRequired,
         latitude: React.PropTypes.number.isRequired,
         longitude: React.PropTypes.number.isRequired
-    })
+    }),
+    navigator: React.PropTypes.object.isRequired
 };

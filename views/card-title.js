@@ -21,7 +21,11 @@ export default class CardTitle extends React.Component {
 
     render() {
         return (
-            <Text numberOfLines={2} {...this.props} style={[ styles.title, this.props.style ]}>
+            <Text
+                {...this.props}
+                style={[ styles.title, this.props.style ]}
+                numberOfLines={2}
+            >
                 {this.props.text}
             </Text>
         );

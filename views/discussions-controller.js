@@ -16,6 +16,24 @@ export default class DiscussionsController extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this._mounted = true;
+        this._socketMessageHandler = this._onSocketMessage.bind(this);
+        this._errorHandler = this._onError.bind(this);
+
+        socket.on("message", this._socketMessageHandler);
+        socket.on("error", this._errorHandler);
+
+        socket.send(JSON.stringify({ type: "get" }));
+    }
+
+    componentWillUnmount() {
+        this._mounted = false;
+
+        socket.off("message", this._socketMessageHandler);
+        socket.off("error", this._errorHandler);
+    }
+
     _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
@@ -55,25 +73,13 @@ export default class DiscussionsController extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this._mounted = true;
-        this._socketMessageHandler = this._onSocketMessage.bind(this);
-        this._errorHandler = this._onError.bind(this);
-
-        socket.on("message", this._socketMessageHandler);
-        socket.on("error", this._errorHandler);
-
-        socket.send(JSON.stringify({ type: "get" }));
-    }
-
-    componentWillUnmount() {
-        this._mounted = false;
-
-        socket.off("message", this._socketMessageHandler);
-        socket.off("error", this._errorHandler);
-    }
-
     render() {
-        return <Discussions {...this.props} {...this.state} />;
+        return (
+            <Discussions
+                {...this.props}
+                {...this.state}
+                onRetry={this._onRetry.bind(this)}
+            />
+        );
     }
 }

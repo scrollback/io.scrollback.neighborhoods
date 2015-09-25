@@ -14,7 +14,7 @@ export default class MyLocalities extends React.Component {
     constructor(props) {
         super(props);
 
-        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
             dataSource: ds.cloneWithRows(this.props.data)
@@ -27,10 +27,6 @@ export default class MyLocalities extends React.Component {
         });
     }
 
-    _onRetry() {
-
-    }
-
     render() {
         return (
             <View {...this.props}>
@@ -39,11 +35,17 @@ export default class MyLocalities extends React.Component {
                         return (
                             <ListView
                                 dataSource={this.state.dataSource}
-                                renderRow={room => <RoomItem key={room.id} room={room} navigator={this.props.navigator} />}
+                                renderRow={room =>
+                                    <RoomItem
+                                        key={room.id}
+                                        room={room}
+                                        navigator={this.props.navigator}
+                                    />
+                                }
                             />
                         );
                     } else if (this.props.failed) {
-                        return <PageRetry onRetry={this._onRetry.bind(this)} />;
+                        return <PageRetry onRetry={this.props.onRetry} />;
                     } else {
                         if (this.props.filter) {
                             return (
@@ -66,5 +68,7 @@ MyLocalities.propTypes = {
     failed: React.PropTypes.bool,
     data: React.PropTypes.arrayOf(React.PropTypes.shape({
         id: React.PropTypes.string.isRequired
-    })).isRequired
+    })).isRequired,
+    onRetry: React.PropTypes.func,
+    navigator: React.PropTypes.object.isRequired
 };

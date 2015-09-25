@@ -39,8 +39,8 @@ export default class SearchBar extends React.Component {
                 <TouchableNativeFeedback onPress={() => this._input && this._input.focus()}>
                     <View>
                         <Image
-                          source={require("image!ic_search_black")}
-                          style={styles.icon}
+                            source={require("image!ic_search_black")}
+                            style={styles.icon}
                         />
                     </View>
                 </TouchableNativeFeedback>

@@ -79,7 +79,11 @@ export default class DiscussionFooter extends React.Component {
         return (
             <View {...this.props} style={[ styles.footer, this.props.style ]}>
                 <View style={styles.left}>
-                    <TouchableHighlight underlayColor="#fff" onPress={this.onHeart.bind(this)} style={this.state.loved ? null : styles.faded}>
+                    <TouchableHighlight
+                        underlayColor="#fff"
+                        onPress={this.onHeart.bind(this)}
+                        style={this.state.loved ? null : styles.faded}
+                    >
                         <View style={styles.info}>
                             <Image style={styles.icon} source={this.state.loved ? require("image!ic_heart_colored") : require("image!ic_heart_empty_black")} />
                             <Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>

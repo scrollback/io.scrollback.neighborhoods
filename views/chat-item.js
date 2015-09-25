@@ -86,7 +86,13 @@ export default class ChatItem extends React.Component {
             const endpoint = oembed(uri);
 
             if (endpoint) {
-                cover = <Embed uri={uri} endpoint={endpoint} style={styles.embed} />;
+                cover = (
+                    <Embed
+                        uri={uri}
+                        endpoint={endpoint}
+                        style={styles.embed}
+                    />
+                );
             }
         }
 
@@ -106,11 +112,20 @@ export default class ChatItem extends React.Component {
                 <View style={[ styles.chat, received ? styles.received : null ]}>
                     {received ?
                         <View style={styles.avatar}>
-                            <Avatar nick={text.from} size={48} style={styles.image} />
+                            <Avatar
+                                size={48}
+                                nick={text.from}
+                                style={styles.image}
+                            />
                         </View> :
                         null
                     }
-                    <ChatBubble text={text} type={received ? "left" : "right"} showAuthor={showAuthor} style={styles.bubble}>
+                    <ChatBubble
+                        text={text}
+                        type={received ? "left" : "right"}
+                        showAuthor={showAuthor}
+                        style={styles.bubble}
+                    >
                         {cover}
                     </ChatBubble>
                 </View>

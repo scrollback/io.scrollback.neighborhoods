@@ -28,13 +28,6 @@ const styles = StyleSheet.create({
 });
 
 export default class DiscussionItem extends React.Component {
-    _onPress() {
-        this.props.navigator.push({
-            title: this.props.thread.title,
-            component: ChatController
-        });
-    }
-
     shouldComponentUpdate(nextProps) {
         return (
                 this.props.thread.title !== nextProps.thread.title ||
@@ -43,10 +36,17 @@ export default class DiscussionItem extends React.Component {
             );
     }
 
+    _onPress() {
+        this.props.navigator.push({
+            title: this.props.thread.title,
+            component: ChatController
+        });
+    }
+
     render() {
         const { thread } = this.props;
 
-        let trimmedText = thread.text.trim();
+        const trimmedText = thread.text.trim();
 
         const hashtags = textUtils.getHashtags(trimmedText);
         const links = textUtils.getLinks(trimmedText);
@@ -71,10 +71,13 @@ export default class DiscussionItem extends React.Component {
                     <View>
                         {cover}
 
-                        <CardTitle style={[
-                            styles.item,
-                            cover ? { marginTop: 8 } : { marginTop: 16 }
-                        ]} text={this.props.thread.title} />
+                        <CardTitle
+                            style={[
+                                styles.item,
+                                cover ? { marginTop: 8 } : { marginTop: 16 }
+                            ]}
+                            text={this.props.thread.title}
+                        />
 
                         {cover ? null :
                             <CardSummary style={styles.item} text={trimmedText} />
@@ -100,5 +103,6 @@ DiscussionItem.propTypes = {
         title: React.PropTypes.string.isRequired,
         text: React.PropTypes.string.isRequired,
         from: React.PropTypes.string.isRequired
-    }).isRequired
+    }).isRequired,
+    navigator: React.PropTypes.object.isRequired
 };

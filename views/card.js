@@ -22,7 +22,11 @@ export default class Card extends React.Component {
 
     render() {
         return (
-            <View ref={c => this._root = c} {...this.props} style={[ styles.card, this.props.style ]}>
+            <View
+                {...this.props}
+                style={[ styles.card, this.props.style ]}
+                ref={c => this._root = c}
+            >
                 {this.props.children}
             </View>
         );

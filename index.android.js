@@ -56,7 +56,11 @@ const NavigationBarRouteMapper = {
         if (route.index === 0 || navigator.getCurrentRoutes().length === 1) {
             return (
                 <View style={styles.avatar}>
-                    <Avatar nick="satya164" size={24} style={styles.image} />
+                    <Avatar
+                        size={24}
+                        nick="satya164"
+                        style={styles.image}
+                    />
                 </View>
             );
         }
@@ -122,7 +126,7 @@ class HeyNeighbor extends React.Component {
                             {...route.passProps}
                             navigator={navigator}
                             style={styles.scene}
-                            />
+                        />
                     );
                 }}
                 navigationBar={

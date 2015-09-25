@@ -24,8 +24,30 @@ export default class MyLocalitiesController extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this._mounted = true;
+        this._socketMessageHandler = this._onSocketMessage.bind(this);
+        this._errorHandler = this._onError.bind(this);
+
+        socket.on("message", this._socketMessageHandler);
+        socket.on("error", this._errorHandler);
+
+        socket.send(JSON.stringify({ type: "get" }));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this._setFilteredData(this._data, nextProps.filter);
+    }
+
+    componentWillUnmount() {
+        this._mounted = false;
+
+        socket.off("message", this._socketMessageHandler);
+        socket.off("error", this._errorHandler);
+    }
+
     _setFilteredData(data, filter) {
-        let filteredData = filter ? data.filter(room => {
+        const filteredData = filter ? data.filter(room => {
             return (
                 room.id.toLowerCase().indexOf(filter) > -1 ||
                 room.displayName.toLowerCase().indexOf(filter) > -1
@@ -76,30 +98,14 @@ export default class MyLocalitiesController extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this._setFilteredData(this._data, nextProps.filter);
-    }
-
-    componentDidMount() {
-        this._mounted = true;
-        this._socketMessageHandler = this._onSocketMessage.bind(this);
-        this._errorHandler = this._onError.bind(this);
-
-        socket.on("message", this._socketMessageHandler);
-        socket.on("error", this._errorHandler);
-
-        socket.send(JSON.stringify({ type: "get" }));
-    }
-
-    componentWillUnmount() {
-        this._mounted = false;
-
-        socket.off("message", this._socketMessageHandler);
-        socket.off("error", this._errorHandler);
-    }
-
     render() {
-        return <MyLocalities {...this.props} {...this.state} />;
+        return (
+            <MyLocalities
+                {...this.props}
+                {...this.state}
+                onRetry={this._onRetry.bind(this)}
+            />
+        );
     }
 }
 

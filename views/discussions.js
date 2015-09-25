@@ -12,7 +12,7 @@ export default class Discussions extends React.Component {
     constructor(props) {
         super(props);
 
-        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
         this.state = {
             failed: false,
@@ -34,11 +34,17 @@ export default class Discussions extends React.Component {
                         return (
                             <ListView
                                 dataSource={this.state.dataSource}
-                                renderRow={thread => <DiscussionItem key={thread.id} thread={thread} navigator={this.props.navigator} />}
+                                renderRow={thread =>
+                                    <DiscussionItem
+                                        key={thread.id}
+                                        thread={thread}
+                                        navigator={this.props.navigator}
+                                    />
+                                }
                             />
                         );
                     } else if (this.props.failed) {
-                        return <PageRetry onRetry={this._onRetry.bind(this)} />;
+                        return <PageRetry onRetry={this.props.onRetry} />;
                     } else {
                         return <PageLoading />;
                     }
@@ -52,5 +58,7 @@ Discussions.propTypes = {
     failed: React.PropTypes.bool,
     data: React.PropTypes.arrayOf(React.PropTypes.shape({
         id: React.PropTypes.string.isRequired
-    })).isRequired
+    })).isRequired,
+    onRetry: React.PropTypes.func,
+    navigator: React.PropTypes.object.isRequired
 };

@@ -24,7 +24,7 @@ export default class RichText extends React.Component {
     }
 
     render() {
-        let textWithEmoji = smiley.format(this.props.text.trim());
+        const textWithEmoji = smiley.format(this.props.text.trim());
 
         if (/^([\uD800-\uDBFF][\uDC00-\uDFFF])$/gi.test(textWithEmoji)) {
             return <Text {...this.props} style={[ styles.emojiOnly, this.props.style ]}>{textWithEmoji}</Text>;
@@ -34,8 +34,9 @@ export default class RichText extends React.Component {
                     {textWithEmoji.split("\n").map((text, index, arr) => {
                         return ([
                             text.split(" ").map((inner, i) => {
-                                let t = inner,
-                                    items = [];
+                                let t = inner;
+
+                                const items = [];
 
                                 const key = "inner-" + index + "-" + i;
 
