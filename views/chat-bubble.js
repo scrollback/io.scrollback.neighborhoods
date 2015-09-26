@@ -88,5 +88,5 @@ ChatBubble.propTypes = {
     }).isRequired,
     type: React.PropTypes.oneOf([ "left", "right" ]),
     showAuthor: React.PropTypes.bool,
-    children: React.PropTypes.any
+    children: React.PropTypes.node
 };

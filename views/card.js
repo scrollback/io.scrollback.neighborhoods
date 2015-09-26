@@ -34,5 +34,5 @@ export default class Card extends React.Component {
 }
 
 Card.propTypes = {
-    children: React.PropTypes.any
+    children: React.PropTypes.node
 };

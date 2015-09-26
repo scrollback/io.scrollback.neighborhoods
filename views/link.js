@@ -33,6 +33,6 @@ Link.defaultProps = {
 };
 
 Link.propTypes = {
-    children: React.PropTypes.any.isRequired,
+    children: React.PropTypes.string.isRequired,
     href: React.PropTypes.string
 };

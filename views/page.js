@@ -24,5 +24,5 @@ export default class PageRetry extends React.Component {
 }
 
 PageRetry.propTypes = {
-    children: React.PropTypes.any.isRequired
+    children: React.PropTypes.node.isRequired
 };
