@@ -81,6 +81,11 @@ export default class Chat extends React.Component {
 }
 
 Chat.propTypes = {
-    data: React.PropTypes.array.isRequired,
+    data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+        React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+        React.PropTypes.shape({
+            id: React.PropTypes.string
+        })
+    ])).isRequired,
     refreshData: React.PropTypes.func
 };

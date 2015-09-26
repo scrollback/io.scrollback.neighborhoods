@@ -57,7 +57,12 @@ export default class MyLocalities extends React.Component {
 }
 
 MyLocalities.propTypes = {
-    data: React.PropTypes.array.isRequired,
+    data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+        React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+        React.PropTypes.shape({
+            id: React.PropTypes.string
+        })
+    ])).isRequired,
     refreshData: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
 };
