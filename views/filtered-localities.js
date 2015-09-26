@@ -20,9 +20,7 @@ export default class FilteredLocalities extends React.Component {
         };
     }
 
-    _onSearchChange(e) {
-        const filter = e.nativeEvent.text.toLowerCase();
-
+    _onSearchChange(filter) {
         this.setState({ filter });
     }
 
@@ -31,7 +29,7 @@ export default class FilteredLocalities extends React.Component {
             <View {...this.props}>
                 <SearchBar
                     autoFocus={false}
-                    onChange={this._onSearchChange.bind(this)}
+                    onSearchChange={this._onSearchChange.bind(this)}
                     placeholder="Search for places..."
                 />
                 <MyLocalitiesController
