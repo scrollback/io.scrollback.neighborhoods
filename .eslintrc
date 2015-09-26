@@ -133,7 +133,7 @@
         "id-length": 0,
         "id-match": 0,
         "indent": [1, 4],
-        "jsx-quotes": [1, "double"],
+        "jsx-quotes": [1, "prefer-double"],
         "key-spacing": [1, { "beforeColon": false, "afterColon": true }],
         "lines-around-comment": 1,
         "linebreak-style": 1,
