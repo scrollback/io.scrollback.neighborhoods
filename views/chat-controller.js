@@ -11,8 +11,7 @@ export default class ChatController extends React.Component {
         super(props);
 
         this.state = {
-            failed: false,
-            data: []
+            data: [ "LOADING" ]
         };
     }
 
@@ -38,7 +37,6 @@ export default class ChatController extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
                 this.setState({
-                    failed: false,
                     data: newData.reverse()
                 });
             }
@@ -49,13 +47,13 @@ export default class ChatController extends React.Component {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
                 this.setState({
-                    failed: true
+                    data: [ "FAILED" ]
                 });
             }
         });
     }
 
-    _onRetry() {
+    _onRefresh() {
 
     }
 
@@ -78,7 +76,7 @@ export default class ChatController extends React.Component {
             <Chat
                 {...this.props}
                 {...this.state}
-                onRetry={this._onRetry.bind(this)}
+                refreshData={this._onRefresh.bind(this)}
             />
         );
     }

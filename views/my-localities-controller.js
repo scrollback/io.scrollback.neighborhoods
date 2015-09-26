@@ -16,10 +16,9 @@ export default class MyLocalitiesController extends React.Component {
     constructor(props) {
         super(props);
 
-        this._data = [];
+        this._data = [ "LOADING" ];
 
         this.state = {
-            failed: false,
             data: this._data
         };
     }
@@ -57,7 +56,6 @@ export default class MyLocalitiesController extends React.Component {
         filteredData.sort((a, b) => locationUtils.compareAreas(currentLocation, a, b));
 
         this.setState({
-            failed: false,
             data: filteredData
         });
     }
@@ -75,12 +73,14 @@ export default class MyLocalitiesController extends React.Component {
     _onError() {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this.setState({ failed: true });
+                this.setState({
+                    data: [ "FAILED" ]
+                });
             }
         });
     }
 
-    _onRetry() {
+    _onRefresh() {
 
     }
 
@@ -103,7 +103,7 @@ export default class MyLocalitiesController extends React.Component {
             <MyLocalities
                 {...this.props}
                 {...this.state}
-                onRetry={this._onRetry.bind(this)}
+                refreshData={this._onRefresh.bind(this)}
             />
         );
     }

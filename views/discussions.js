@@ -1,5 +1,6 @@
 import React from "react-native";
 import DiscussionItem from "./discussion-item";
+import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 
@@ -23,24 +24,32 @@ export default class Discussions extends React.Component {
         return (
             <View {...this.props}>
                 {(() => {
-                    if (this.props.data.length) {
-                        return (
-                            <ListView
-                                dataSource={this._getDataSource()}
-                                renderRow={thread =>
-                                    <DiscussionItem
-                                        key={thread.id}
-                                        thread={thread}
-                                        navigator={this.props.navigator}
-                                    />
-                                }
-                            />
-                        );
-                    } else if (this.props.failed) {
-                        return <PageRetry onRetry={this.props.onRetry} />;
-                    } else {
-                        return <PageLoading />;
+                    if (this.props.data.length === 0) {
+                        return <PageEmpty />;
                     }
+
+                    if (this.props.data.length === 1) {
+                        if (this.props.data[0] === "LOADING") {
+                            return <PageLoading />;
+                        }
+
+                        if (this.props.data[0] === "FAILED") {
+                            return <PageRetry onRetry={this.props.refreshData} />;
+                        }
+                    }
+
+                    return (
+                        <ListView
+                            dataSource={this._getDataSource()}
+                            renderRow={thread =>
+                                <DiscussionItem
+                                    key={thread.id}
+                                    thread={thread}
+                                    navigator={this.props.navigator}
+                                />
+                            }
+                        />
+                    );
                 })()}
             </View>
         );
@@ -48,10 +57,7 @@ export default class Discussions extends React.Component {
 }
 
 Discussions.propTypes = {
-    failed: React.PropTypes.bool,
-    data: React.PropTypes.arrayOf(React.PropTypes.shape({
-        id: React.PropTypes.string.isRequired
-    })).isRequired,
-    onRetry: React.PropTypes.func,
+    data: React.PropTypes.array.isRequired,
+    refreshData: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
 };
