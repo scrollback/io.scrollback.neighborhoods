@@ -9,7 +9,7 @@ const {
     View
 } = React;
 
-export default class MyLocalities extends React.Component {
+export default class Localities extends React.Component {
     constructor(props) {
         super(props);
 
@@ -56,7 +56,7 @@ export default class MyLocalities extends React.Component {
     }
 }
 
-MyLocalities.propTypes = {
+Localities.propTypes = {
     data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
         React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
         React.PropTypes.shape({

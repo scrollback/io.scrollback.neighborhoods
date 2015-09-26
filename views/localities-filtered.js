@@ -1,6 +1,6 @@
 import React from "react-native";
 import SearchBar from "./searchbar";
-import MyLocalitiesController from "./my-localities-controller";
+import LocalitiesController from "./localities-controller";
 
 const {
     StyleSheet,
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     scene: { flex: 1 }
 });
 
-export default class FilteredLocalities extends React.Component {
+export default class LocalitiesFiltered extends React.Component {
     constructor(props) {
         super(props);
 
@@ -32,7 +32,7 @@ export default class FilteredLocalities extends React.Component {
                     onSearchChange={this._onSearchChange.bind(this)}
                     placeholder="Search for places..."
                 />
-                <MyLocalitiesController
+                <LocalitiesController
                     filter={this.state.filter}
                     style={styles.scene}
                     navigator={this.props.navigator}
@@ -42,7 +42,7 @@ export default class FilteredLocalities extends React.Component {
     }
 }
 
-FilteredLocalities.propTypes = {
+LocalitiesFiltered.propTypes = {
     filter: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
 };

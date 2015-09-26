@@ -1,5 +1,5 @@
 import React from "react-native";
-import MyLocalities from "./my-localities";
+import Localities from "./localities";
 import locationUtils from "../lib/location-utils";
 import socket from "../lib/socket";
 
@@ -12,7 +12,7 @@ const currentLocation = {
     longitude: 77.5667
 };
 
-export default class MyLocalitiesController extends React.Component {
+export default class LocalitiesController extends React.Component {
     constructor(props) {
         super(props);
 
@@ -100,7 +100,7 @@ export default class MyLocalitiesController extends React.Component {
 
     render() {
         return (
-            <MyLocalities
+            <Localities
                 {...this.props}
                 {...this.state}
                 refreshData={this._onRefresh.bind(this)}
@@ -109,6 +109,6 @@ export default class MyLocalitiesController extends React.Component {
     }
 }
 
-MyLocalitiesController.propTypes = {
+LocalitiesController.propTypes = {
     filter: React.PropTypes.string
 };
