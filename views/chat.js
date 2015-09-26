@@ -28,8 +28,6 @@ export default class Chat extends React.Component {
     }
 
     render() {
-        const dataSource = this._getDataSource();
-
         return (
             <View {...this.props}>
                 {(() => {
@@ -46,6 +44,8 @@ export default class Chat extends React.Component {
                             return <PageRetry onRetry={this.props.refreshData} />;
                         }
                     }
+
+                    const dataSource = this._getDataSource();
 
                     return (
                         <ListView

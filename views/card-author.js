@@ -42,7 +42,11 @@ export default class CardAuthor extends React.Component {
         return (
             <View {...this.props} style={[ styles.author, this.props.style ]}>
                 <View style={styles.avatar}>
-                    <Avatar nick={nick} size={16} style={styles.image} />
+                    <Avatar
+                        size={16}
+                        nick={nick}
+                        style={styles.image}
+                    />
                 </View>
                 <Text style={styles.name}>{nick}</Text>
             </View>

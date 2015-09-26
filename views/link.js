@@ -20,7 +20,8 @@ export default class Link extends React.Component {
             <Text
                 {...this.props}
                 onPress={() => this.props.href ? this.openLink(this.props.href) : false}
-                style={[ styles.link, this.props.style ]}>
+                style={[ styles.link, this.props.style ]}
+            >
                     {this.props.children}
             </Text>
         );

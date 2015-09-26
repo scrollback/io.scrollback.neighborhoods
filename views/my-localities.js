@@ -3,7 +3,6 @@ import RoomItem from "./room-item";
 import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
-import Page from "./page";
 
 const {
     ListView,

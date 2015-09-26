@@ -34,12 +34,17 @@ export default class FilteredLocalities extends React.Component {
                     onChange={this._onSearchChange.bind(this)}
                     placeholder="Search for places..."
                 />
-                <MyLocalitiesController filter={this.state.filter} style={styles.scene} navigator={this.props.navigator} />
+                <MyLocalitiesController
+                    filter={this.state.filter}
+                    style={styles.scene}
+                    navigator={this.props.navigator}
+                />
             </View>
         );
     }
 }
 
 FilteredLocalities.propTypes = {
-    filter: React.PropTypes.func
+    filter: React.PropTypes.func,
+    navigator: React.PropTypes.object.isRequired
 };
