@@ -8,7 +8,8 @@
   "dependencies": {
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
-    "react-native": "^0.11.0"
+    "react-native": "^0.11.0",
+    "ebus": "latest"
   },
   "devDependencies": {
     "babel": "^5.8.23",
