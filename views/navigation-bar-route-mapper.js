@@ -6,7 +6,7 @@ const {
     Text,
     View,
     Image,
-    TouchableOpacity
+    TouchableHighlight
 } = React;
 
 const styles = StyleSheet.create({
@@ -53,18 +53,18 @@ const NavigationBarRouteMapper = {
         }
 
         return (
-            <TouchableOpacity onPress={() => navigator.pop()}>
+            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={() => navigator.pop()}>
                 <Image source={require("image!ic_back_white")} style={styles.icon} />
-            </TouchableOpacity>
+            </TouchableHighlight>
         );
     },
 
     RightButton(route, navigator) {
         if (route.rightButtonIcon) {
             return (
-                <TouchableOpacity onPress={() => route.onRightButtonPress(route, navigator)}>
+                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={() => route.onRightButtonPress(route, navigator)}>
                     <Image source={route.rightButtonIcon} style={styles.icon} />
-                </TouchableOpacity>
+                </TouchableHighlight>
             );
         }
 
