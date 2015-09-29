@@ -43,6 +43,9 @@ Store.prototype.with = function(obj) {
     return new Store(objs);
 };
 
+
+
+
 Store.prototype.getEntity = function(id) {
     return this.get("entities", id);
 };
@@ -282,10 +285,3 @@ module.exports = function(core, config, initState) {
     store.config = config;
     return store;
 };
-
-    // require("./state-manager.js")(core, config, store, state);
-    // require("./action-handler.js")(core, config, store, state);
-    // require("./rule-manager.js")(core, config, store, state);
-    // require("./socket.js")(core, config, store, state);
-    // require("./session-manager.js")(core, config, store, state);
-    // require("./guest-params-handler.js")(core, config, store, state);
