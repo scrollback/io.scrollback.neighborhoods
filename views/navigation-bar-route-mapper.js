@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         marginVertical: 16,
-        marginRight: 16,
         paddingHorizontal: 4
     },
     icon: {
@@ -69,12 +68,16 @@ const NavigationBarRouteMapper = {
             );
         }
 
+        if (route.rightComponent) {
+            return <route.rightComponent {...route.passProps} />;
+        }
+
         return null;
     },
 
     Title(route) {
         if (route.titleComponent) {
-            return <route.titleComponent {...route.titleComponentProps} />;
+            return <route.titleComponent {...route.passProps} />;
         }
 
         return (

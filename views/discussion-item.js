@@ -7,6 +7,7 @@ import CardHashtags from "./card-hashtags";
 import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
+import ChatTitleController from "./chat-title-controller";
 import TouchFeedback from "./touch-feedback";
 import textUtils from "../lib/text-utils";
 import oembed from "../lib/oembed";
@@ -38,8 +39,9 @@ export default class DiscussionItem extends React.Component {
 
     _onPress() {
         this.props.navigator.push({
-            title: this.props.thread.title,
-            component: ChatController
+            component: ChatController,
+            titleComponent: ChatTitleController,
+            passProps: { thread: this.props.thread }
         });
     }
 
