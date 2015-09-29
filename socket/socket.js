@@ -29,7 +29,8 @@ function onOpen() {
     backOff = 1;
     socket.on('message', onMessage);
     socket.on('close', onClose);
-    core.emit("setstate", {app:{connectionStatus: "online"});
+    sendInit();
+    //core.emit("setstate", {app:{connectionStatus: "online"});
 }
 
 function onClose() {
@@ -111,7 +112,7 @@ function connect {
     if(socket) return;
 
     socket = eio.Socket("ws://localhost:7528", { jsonp: createElement in document });
-    socket.on('open', onOpen());
+    socket.on('open', onOpen;
 
 
 }
