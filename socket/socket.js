@@ -1,82 +1,10 @@
+var eio = require("../../lib/socket"),
+generate =require("../lib/generate.browser.js"),
+userUtils = require("../lib/user-utils.js"),
+objectUtils = require("../lib/object-utils.js"),
+pending = require("../lib/pendingQueries.js");
 
-var generate = require("../lib/generate.browser.js"),
-    config, core, client, store, backOff = 1, pendingQueries = {}, pendingActions = {}, session, queue = [], initDone = false, actionQueue = [];
-
-
-function onMessage() {
-
-}
-
-function onClose() {
-
-}
-
-function onOpen() {
-    backOff = 1;
-    socket.on('message', onMessage);
-    socket.on('close', onClose);
-}
-
-function connect {
-    socket = eio.Socket("ws://localhost:7528", { jsonp: createElement in document });
-    socket.on('open', onOpen());
-}
-
-
-
-module.exports = function(c, conf, st) {
-    core = c;
-    config = conf;
-    store = st;
-};
-
-
-/********************************/
-
-/* eslint-env browser */
-/* global SockJS*/
-
-"use strict";
-
-import eio from "../../lib/socket";
-import generate from "../lib/generate.browser.js";
-import userUtils from "../lib/user-utils.js";
-import objectUtils from "../lib/object-utils.js";
-import pending from "../lib/pendingQueries.js";
-
-
-var config, core, store;
-
-var backOff = 1,
-    pendingQueries = {},
-    pendingActions = {},
-    session,
-    queue = [],
-    initDone = false,
-    actionQueue = [];
-
-
-function sendAction(action) {
-    action.session = session;
-    action.from = store.get("user");
-    socket.send(JSON.stringify(action));
-}
-
-function sendQuery(query, next) {
-    var queryState ;
-    queryState = store.getPendingQueryState(query);
-    query.session = session;
-    query.from = store.get("user");
-
-    socket.send(JSON.stringify(query));
-
-    pendingQueries[query.id] = next;
-    pendingQueries[query.id].query = query;
-
-    core.emit("setState", queryState);
-}
-
-/***********************************************************
+var config, core, socket, store, backOff = 1, pendingQueries = {}, pendingActions = {}, session, queue = [], initDone = false, actionQueue = [];
 
 /*
     {
@@ -94,16 +22,31 @@ function sendQuery(query, next) {
             }
         ]
     }
-
-var currentQueries = {};
-
+*/
 
 
-function sendInit() {
-    core.emit("init-up", { id: generate.uid(), resource: generate.uid() });
+function onOpen() {
+    backOff = 1;
+    socket.on('message', onMessage);
+    socket.on('close', onClose);
+    core.emit("setstate", {app:{connectionStatus: "online"});
 }
 
-function receiveMessage(event) {
+function onClose() {
+    socket = null;
+    core.emit("setstate", {
+        app: { connectionStatus: "offline", reconnectingIn: backOff }
+    }, function(err) {
+        if (err) console.log(err.message);
+    });
+    setTimeout(connect, backOff * 1000);
+
+    if (backOff <= 256) {
+        backOff *= 2;
+    }
+}
+
+function onMessage() {
     var data, note, userId;
 
     try {
@@ -161,49 +104,73 @@ function receiveMessage(event) {
     }
 }
 
-function disconnected() {
 
-    /* eslint-disable block-scoped-var, no-use-before-define
 
-    if (backOff === 1) {
-        core.emit("setstate", {
-            app: { connectionStatus: "offline" }
-        }, function(err) {
-            if (err) console.log(err.message);
-        });
-    }
-    if (backOff < 180) {
-        backOff *= 2;
-    } else {
-        backOff = 180;
-    }
+function connect {
+    if (!navigator.onLine) return onClose()();
+    if(socket) return;
 
-    setTimeout(connect, backOff * 1000);
+    socket = eio.Socket("ws://localhost:7528", { jsonp: createElement in document });
+    socket.on('open', onOpen());
+
+
 }
 
-function connect() {
-    if (!navigator.onLine) return disconnected();
 
-    client = new SockJS(config.server.protocol + "//" + config.server.apiHost + "/socket");
-    client.onclose = disconnected;
-
-    client.onopen = function() {
-        backOff = 1;
-        sendInit();
-    };
-
-    client.onmessage = receiveMessage;
+function sendAction(action) {
+    action.session = session;
+    action.from = store.get("user");
+    socket.send(JSON.stringify(action));
 }
 
-window.addEventListener("offline", disconnected);
-window.addEventListener("online", connect);
+function sendQuery(query, next) {
+    var queryState ;
+    queryState = store.getPendingQueryState(query);
+    query.session = session;
+    query.from = store.get("user");
 
-module.exports = function(c, conf, s) {
+    socket.send(JSON.stringify(query));
+
+    pendingQueries[query.id] = next;
+    pendingQueries[query.id].query = query;
+
+    core.emit("setState", queryState);
+}
+
+function sendInit() {
+    core.emit("init-up", { id: generate.uid(), resource: generate.uid() });
+}
+
+module.exports = function(c, conf, st) {
     core = c;
     config = conf;
-    store = s;
+    store = st;
 
     connect();
+
+    core.on("init-up", function(init, next) {
+        if (!init.session) session = init.session = "web://" + generate.uid();
+        else session = init.session;
+        init.type = "init";
+        init.to = "me";
+        socket.send(JSON.stringify(init));
+
+        pendingActions[init.id] = function(action) {
+            if (action.type === "init") {
+                initDone = true;
+                while (queue.length) {
+                    queue.splice(0, 1)[0]();
+                }
+                core.emit("setstate", {
+                    app: {
+                        connectionStatus: "online"
+                    },
+                    user: action.user.id
+                });
+            }
+        };
+        next();
+    }, 1);
 
     [ "getTexts", "getUsers", "getRooms", "getThreads", "getEntities", "upload/getPolicy", "getNotes" ].forEach(function(e) {
         core.on(e, function(q, n) {
@@ -224,8 +191,7 @@ module.exports = function(c, conf, s) {
                     /*
                         When multiple queries have been aggregated, clones of the object
                         need to be sent as results to avoid the callbacks interfering with
-                        each other by manipulating the same results objects.
-
+                        each other by manipulating the same results objects.*/
                     item.query.results = (i === currentQueries.length - 1 ? q.results : objUtils.clone(q.results));
                     item.next(err);
                 });
@@ -245,78 +211,54 @@ module.exports = function(c, conf, s) {
                 });
             }
 
-        }, 10);
-    });
+        }, 501);
 
-    [
-        "text-up", "edit-up", "back-up", "away-up",
-        "join-up", "part-up", "admit-up", "expel-up",
-        "room-up", "note-up"
-    ].forEach(function(event) {
-        core.on(event, function(action, next) {
-            action.type = event.replace(/-up$/, "");
-            if (initDone) {
-                sendAction(action);
-            } else {
-                actionQueue.push(function() {
-                    sendAction(action);
-                });
-h            }
-            next();
-        }, 1);
-    });
-
-    core.on("user-up", function(userUp, next) {
-        if (userUtils.isGuest(userUp.user.id)) {
-            next();
-            core.emit("user-dn", userUp);
-        } else {
-            userUp.type = "user";
-            if (initDone) {
-                sendAction(userUp);
-            } else {
-                actionQueue.push(function() {
-                    sendAction(userUp);
-                });
-            }
-            next();
-        }
-    }, 1);
-
-    core.on("init-up", function(init, next) {
-        if (!init.session) session = init.session = "web://" + generate.uid();
-
-        init.type = "init";
-        init.to = "me";
-
-        client.send(JSON.stringify(init));
-
-        pendingActions[init.id] = function(action) {
-            if (action.type === "init") {
+        core.on("statechange", function(changes, next) {
+            if (changes.app && changes.app.connectionStatus === "online") {
                 initDone = true;
                 while (queue.length) {
                     queue.splice(0, 1)[0]();
                 }
-                core.emit("setstate", {
-                    app: {
-                        connectionStatus: "online"
-                    },
-                    user: action.user.id
-                });
             }
-        };
+            next();
+        }, 1000);
 
-        next();
-    }, 1);
-
-    core.on("statechange", function(changes, next) {
-        if (changes.app && changes.app.connectionStatus === "online") {
-            initDone = true;
-            while (queue.length) {
-                queue.splice(0, 1)[0]();
+        core.on("user-up", function(userUp, next) {
+            if (userUtils.isGuest(userUp.user.id)) {
+                next();
+                core.emit("user-dn", userUp);
+            } else {
+                userUp.type = "user";
+                if (initDone) {
+                    sendAction(userUp);
+                } else {
+                    actionQueue.push(function() {
+                        sendAction(userUp);
+                    });
+                }
+                next();
             }
-        }
-        next();
-    }, 1000);
+        }, 1);
+
+        [
+            "text-up", "edit-up", "back-up", "away-up",
+            "join-up", "part-up", "admit-up", "expel-up",
+            "room-up", "note-up"
+        ].forEach(function(event) {
+            core.on(event, function(action, next) {
+                action.type = event.replace(/-up$/, "");
+                if (initDone) {
+                    sendAction(action);
+                } else {
+                    actionQueue.push(function() {
+                        sendAction(action);
+                    });
+    h            }
+                next();
+            }, 1);
+        });
+    });
 };
-*/
+
+window.addEventListener("offline", onClose());
+window.addEventListener("online", connect);
