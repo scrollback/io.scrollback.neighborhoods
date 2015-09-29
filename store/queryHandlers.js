@@ -95,4 +95,45 @@ module.exports = function(sto, c, conf, st) {
         if(!query.results) return next();
         core.emit("setstate", processRooms(query));
     }, 100);
+
+
+
+     core.on("getUsers", function(query, next) {
+        var wait = true, isErr = false;
+        if(!query.relatedTo) return next();
+
+        function done(err, q) {
+            if(isErr) return;
+            if(err) {
+                isErr = true;
+                return next(err);
+            } else if(!wait) {
+                return next();
+            }
+            wait = false;
+        }
+
+        core.emit("getUsers", {memberOf: query.relatedTo}, done);
+        core.emit("getUsers", {occupantOf: query.relatedTo}, done);
+    }, 900);
+
+
+     core.on("getRooms", function(query, next) {
+        var wait = true, isErr = false;
+        if(!query.relatedTo) return next();
+
+        function done(err, q) {
+            if(isErr) return;
+            if(err) {
+                isErr = true;
+                return next(err);
+            } else if(!wait) {
+                return next();
+            }
+            wait = false;
+        }
+
+        core.emit("getRooms", {hasOccupant: query.relatedTo}, done);
+        core.emit("getRooms", {hasMember: query.relatedTo}, done);
+    }, 900);
 };
