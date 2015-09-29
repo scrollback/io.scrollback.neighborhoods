@@ -1,15 +1,11 @@
 import React from "react-native";
+import NavigationBarRouteMapper from "./views/navigation-bar-route-mapper";
 import Home from "./views/home";
-import Avatar from "./views/avatar";
 
 const {
     AppRegistry,
     StyleSheet,
     Navigator,
-    Text,
-    View,
-    Image,
-    TouchableOpacity,
     BackAndroid
 } = React;
 
@@ -17,85 +13,12 @@ const styles = StyleSheet.create({
     navbar: {
         backgroundColor: "#673ab7"
     },
-    title: {
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: 16,
-        marginVertical: 16,
-        marginRight: 16,
-        paddingHorizontal: 4
-    },
-    icon: {
-        height: 24,
-        width: 24,
-        margin: 16
-    },
     scene: {
         flex: 1,
         marginTop: 56,
         backgroundColor: "#eee"
-    },
-    avatar: {
-        height: 24,
-        width: 24,
-        borderRadius: 12,
-        backgroundColor: "#999",
-        borderColor: "#fff",
-        borderWidth: 2,
-        margin: 16
-    },
-    image: {
-        flex: 1,
-        resizeMode: "cover",
-        borderRadius: 12
     }
 });
-
-const NavigationBarRouteMapper = {
-    LeftButton(route, navigator) {
-        if (route.index === 0 || navigator.getCurrentRoutes().length === 1) {
-            return (
-                <View style={styles.avatar}>
-                    <Avatar
-                        size={24}
-                        nick="satya164"
-                        style={styles.image}
-                    />
-                </View>
-            );
-        }
-
-        return (
-            <TouchableOpacity onPress={() => navigator.pop()}>
-                <Image source={require("image!ic_back_white")} style={styles.icon} />
-            </TouchableOpacity>
-        );
-    },
-
-    RightButton(route, navigator) {
-        if (route.rightButtonIcon) {
-            return (
-                <TouchableOpacity onPress={() => route.onRightButtonPress(route, navigator)}>
-                    <Image source={route.rightButtonIcon} style={styles.icon} />
-                </TouchableOpacity>
-            );
-        }
-
-        return null;
-    },
-
-    Title(route) {
-        if (route.titleComponent) {
-            return <route.titleComponent {...route.titleComponentProps} />;
-        }
-
-        return (
-            <Text style={styles.title} numberOfLines={1}>
-                {route.title}
-            </Text>
-        );
-    }
-};
 
 let _navigator;
 
