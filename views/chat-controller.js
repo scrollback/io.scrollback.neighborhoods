@@ -32,7 +32,7 @@ export default class ChatController extends React.Component {
 
                 for (let i = newData.length, l = 0; i >= l; i--) {
                     const text = newData[i];
-                    const previousText = newData[i + 1];
+                    const previousText = newData[i - 1];
 
                     if (typeof text === "object" && text !== null) {
                         data.push({
