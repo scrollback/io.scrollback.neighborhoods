@@ -51,9 +51,14 @@ Store.prototype.getEntity = function(id) {
 };
 
 Store.prototype.getUser = function(id) {
-    var userObj = this.getEntity(id || this.get("user"));
+    var userObj = this.getEntity(id || this.get("user")), newState = {};
 
-    if (typeof userObj === "object") {
+    if(!userObj) {
+        newState.entities = {};
+        newState.entities[id] = "loading";
+        core.emit("setstate", newState);
+        core.emit("getUsers", {ref: id});
+    } else if (typeof userObj === "object") {
         if (userObj.type === "user") {
             return userObj;
         }
@@ -63,9 +68,14 @@ Store.prototype.getUser = function(id) {
 };
 
 Store.prototype.getRoom = function(id) {
-    var roomObj = this.getEntity(id || this.get("nav", "room"));
+    var roomObj = this.getEntity(id || this.get("room")), newState = {};
 
-    if (typeof roomObj === "object") {
+    if(!roomObj) {
+        newState.entities = {};
+        newState.entities[id] = "loading";
+        core.emit("setstate", newState);
+        core.emit("getRooms", {ref: id});
+    } else if (typeof roomObj === "object") {
         if (roomObj.type === "room") {
             return roomObj;
         }
@@ -110,10 +120,11 @@ Store.prototype.getThreads = function(roomId, time, range) {
 };
 
 Store.prototype.getRelation = function(roomId, userId) {
+    var response;
     roomId = roomId || this.get("nav", "room");
     userId = userId || this.get("user");
 
-    return this.get("entities", roomId + "_" + userId);
+    response = this.get("entities", roomId + "_" + userId);
 };
 
 Store.prototype.getRelatedRooms = function(id, filter) {
@@ -133,7 +144,14 @@ Store.prototype.getRelatedRooms = function(id, filter) {
 
     relations = this.get("indexes", "userRooms", user);
 
-    if (Array.isArray(relations)) {
+
+    if(!relation) {
+        if(store.isPendingQuery({type:"getRooms", relatedTo: id})) return "loading";
+        else {
+            core.emit("getRooms", {relatedTo: id});
+            return "loading";
+        }
+    } else if (Array.isArray(relations)) {
         relations.forEach(function(roomRelation) {
             var roomObj, filterKeys, i;
 
@@ -173,7 +191,15 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 
     relations = this.get("indexes", "roomUsers", roomId);
 
-    if (Array.isArray(relations)) {
+
+
+    if(!relation) {
+        if(store.isPendingQuery({type:"getUsers", relatedTo: id})) return "loading";
+        else {
+            core.emit("getUsers", {relatedTo: id});
+            return "loading";
+        }
+    } elseif (Array.isArray(relations)) {
         relations.forEach(function(relation) {
             var userObj, filterKeys, i;
 
@@ -206,7 +232,9 @@ Store.prototype.getFeaturedRooms = function() {
         self = this;
 
     if (!rooms) {
-        return [];
+        core.emit("getRooms", {featured:true});
+        return "loading";
+
     }
 
     return rooms.map(function(room) {
