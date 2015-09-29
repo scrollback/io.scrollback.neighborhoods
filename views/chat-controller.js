@@ -28,9 +28,21 @@ export default class ChatController extends React.Component {
     _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this.setState({
-                    data: newData.reverse()
-                });
+                const data = [];
+
+                for (let i = newData.length, l = 0; i >= l; i--) {
+                    const text = newData[i];
+                    const previousText = newData[i + 1];
+
+                    if (typeof text === "object" && text !== null) {
+                        data.push({
+                            text,
+                            previousText
+                        });
+                    }
+                }
+
+                this.setState({ data });
             }
         });
     }

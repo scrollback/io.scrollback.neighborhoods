@@ -57,18 +57,12 @@ export default class Chat extends React.Component {
                                 />
                             }
                             dataSource={dataSource}
-                            renderRow={(text, sectionID, rowID) => {
-                                let previousText;
-
-                                if (rowID > 0) {
-                                    previousText = dataSource.getRowData(0, rowID - 1);
-                                }
-
+                            renderRow={item => {
                                 return (
                                     <ChatItem
-                                        key={text.id}
-                                        text={text}
-                                        previousText={previousText}
+                                        key={item.text.id}
+                                        text={item.text}
+                                        previousText={item.previousText}
                                     />
                                 );
                             }}
