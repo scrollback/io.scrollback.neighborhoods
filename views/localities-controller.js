@@ -1,7 +1,7 @@
 import React from "react-native";
 import Localities from "./localities";
 import locationUtils from "../lib/location-utils";
-import socket from "../lib/socket";
+import store from "../store/store";
 
 const {
     InteractionManager
@@ -25,13 +25,8 @@ export default class LocalitiesController extends React.Component {
 
     componentDidMount() {
         this._mounted = true;
-        this._socketMessageHandler = this._onSocketMessage.bind(this);
-        this._errorHandler = this._onError.bind(this);
 
-        socket.on("message", this._socketMessageHandler);
-        socket.on("error", this._errorHandler);
-
-        socket.send(JSON.stringify({ type: "get" }));
+        setTimeout(() => this._onDataArrived(store.getRelatedRooms()), 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,9 +35,6 @@ export default class LocalitiesController extends React.Component {
 
     componentWillUnmount() {
         this._mounted = false;
-
-        socket.off("message", this._socketMessageHandler);
-        socket.off("error", this._errorHandler);
     }
 
     _setFilteredData(data, filter) {
@@ -82,20 +74,6 @@ export default class LocalitiesController extends React.Component {
 
     _onRefresh() {
 
-    }
-
-    _onSocketMessage(message) {
-        let parsed;
-
-        try {
-            parsed = JSON.parse(message);
-        } catch (e) {
-            // do nothing
-        }
-
-        if (parsed && parsed.type === "data") {
-            this._onDataArrived(parsed.data.rooms);
-        }
     }
 
     render() {

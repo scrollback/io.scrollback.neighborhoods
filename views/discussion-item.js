@@ -7,14 +7,14 @@ import CardHashtags from "./card-hashtags";
 import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
+import TouchFeedback from "./touch-feedback";
 import textUtils from "../lib/text-utils";
 import oembed from "../lib/oembed";
 
 const {
     StyleSheet,
     Image,
-    View,
-    TouchableNativeFeedback
+    View
 } = React;
 
 const styles = StyleSheet.create({
@@ -67,7 +67,7 @@ export default class DiscussionItem extends React.Component {
 
         return (
             <Card {...this.props}>
-                <TouchableNativeFeedback onPress={this._onPress.bind(this)}>
+                <TouchFeedback onPress={this._onPress.bind(this)}>
                     <View>
                         {cover}
 
@@ -92,7 +92,7 @@ export default class DiscussionItem extends React.Component {
 
                         <DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
                     </View>
-                </TouchableNativeFeedback>
+                </TouchFeedback>
             </Card>
         );
     }

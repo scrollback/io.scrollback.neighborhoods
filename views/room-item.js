@@ -1,10 +1,10 @@
 import React from "react-native";
 import DiscussionsController from "./discussions-controller";
+import TouchFeedback from "./touch-feedback";
 import locationUtils from "../lib/location-utils";
 
 const {
     StyleSheet,
-    TouchableNativeFeedback,
     View,
     Text
 } = React;
@@ -48,12 +48,12 @@ export default class RoomItem extends React.Component {
 
         return (
             <View {...this.props}>
-                <TouchableNativeFeedback onPress={this._onPress.bind(this)}>
+                <TouchFeedback onPress={this._onPress.bind(this)}>
                     <View style={styles.item}>
                         <Text style={styles.title}>{room.displayName}</Text>
                         <Text style={styles.distance}>{formattedDistance}</Text>
                     </View>
-                </TouchableNativeFeedback>
+                </TouchFeedback>
             </View>
         );
     }

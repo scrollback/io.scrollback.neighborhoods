@@ -1,10 +1,10 @@
 import React from "react-native";
+import TouchFeedback from "./touch-feedback";
 
 const {
+    StyleSheet,
     Image,
     TextInput,
-    StyleSheet,
-    TouchableNativeFeedback,
     View
 } = React;
 
@@ -82,14 +82,14 @@ export default class SearchBar extends React.Component {
     render() {
         return (
             <View {...this.props} style={[ styles.searchbar, this.props.style ]}>
-                <TouchableNativeFeedback onPress={() => this._input && this._input.focus()}>
+                <TouchFeedback onPress={() => this._input && this._input.focus()}>
                     <View style={styles.iconContainer}>
                         <Image
                             source={require("image!ic_search_black")}
                             style={styles.icon}
                         />
                     </View>
-                </TouchableNativeFeedback>
+                </TouchFeedback>
 
                 <TextInput
                     ref={c => this._input = c}
@@ -102,14 +102,14 @@ export default class SearchBar extends React.Component {
                 />
 
                 {this.state.showClear ?
-                    <TouchableNativeFeedback onPress={this._clearInput.bind(this)}>
+                    <TouchFeedback onPress={this._clearInput.bind(this)}>
                         <View style={styles.iconContainer}>
                             <Image
                                 source={require("image!ic_close_black")}
                                 style={styles.icon}
                             />
                         </View>
-                    </TouchableNativeFeedback> :
+                    </TouchFeedback> :
                     null
                 }
             </View>

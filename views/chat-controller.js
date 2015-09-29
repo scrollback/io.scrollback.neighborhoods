@@ -1,6 +1,6 @@
 import React from "react-native";
 import Chat from "./chat";
-import socket from "../lib/socket";
+import store from "../store/store";
 
 const {
     InteractionManager
@@ -17,20 +17,12 @@ export default class ChatController extends React.Component {
 
     componentDidMount() {
         this._mounted = true;
-        this._socketMessageHandler = this._onSocketMessage.bind(this);
-        this._errorHandler = this._onError.bind(this);
 
-        socket.on("message", this._socketMessageHandler);
-        socket.on("error", this._errorHandler);
-
-        socket.send(JSON.stringify({ type: "get" }));
+        setTimeout(() => this._onDataArrived(store.getTexts()), 0);
     }
 
     componentWillUnmount() {
         this._mounted = false;
-
-        socket.off("message", this._socketMessageHandler);
-        socket.off("error", this._errorHandler);
     }
 
     _onDataArrived(newData) {
@@ -55,20 +47,6 @@ export default class ChatController extends React.Component {
 
     _onRefresh() {
 
-    }
-
-    _onSocketMessage(message) {
-        let parsed;
-
-        try {
-            parsed = JSON.parse(message);
-        } catch (e) {
-            // do nothing
-        }
-
-        if (parsed && parsed.type === "data") {
-            this._onDataArrived(parsed.data.texts);
-        }
     }
 
     render() {
