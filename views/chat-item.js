@@ -72,7 +72,7 @@ export default class ChatItem extends React.Component {
     render() {
         const { text, previousText } = this.props;
 
-        const received = Math.random() < 0.7;
+        const received = text.from !== "miracleonreathrth";
 
         const links = textUtils.getLinks(text.text);
         const pictures = textUtils.getPictures(text.text);
@@ -110,7 +110,7 @@ export default class ChatItem extends React.Component {
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
                 <View style={[ styles.chat, received ? styles.received : null ]}>
-                    {received ?
+                    {received && showAuthor ?
                         <View style={styles.avatar}>
                             <Avatar
                                 size={48}
@@ -120,15 +120,18 @@ export default class ChatItem extends React.Component {
                         </View> :
                         null
                     }
+
                     <ChatBubble
                         text={text}
                         type={received ? "left" : "right"}
                         showAuthor={showAuthor}
+                        showArrow={received ? showAuthor : true}
                         style={styles.bubble}
                     >
                         {cover}
                     </ChatBubble>
                 </View>
+
                 {showTime ?
                     <Text style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>{timeUtils.long(text.time)}</Text> :
                     null

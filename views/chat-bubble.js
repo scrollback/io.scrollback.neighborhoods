@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
 
 export default class ChatBubble extends React.Component {
     render() {
-        const { text } = this.props;
+        const { text, type, showArrow } = this.props;
 
-        const right = this.props.type === "right";
+        const right = type === "right";
 
         return (
             <View style={right ? styles.containerRight : styles.containerLeft}>
-                {right ? null :
+                {right || !showArrow ? null :
                     <Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
                 }
 
@@ -68,7 +68,7 @@ export default class ChatBubble extends React.Component {
                     <RichText text={text.text} style={styles.text} />
                 </View>
 
-                {right ?
+                {right && showArrow ?
                     <Image style={[ styles.triangle, styles.triangleRight ]} source={require("image!triangle_right")} /> :
                     null
                 }
@@ -78,7 +78,8 @@ export default class ChatBubble extends React.Component {
 }
 
 ChatBubble.defaultProps = {
-    showAuthor: false
+    showAuthor: false,
+    showArrow: true
 };
 
 ChatBubble.propTypes = {
@@ -88,5 +89,6 @@ ChatBubble.propTypes = {
     }).isRequired,
     type: React.PropTypes.oneOf([ "left", "right" ]),
     showAuthor: React.PropTypes.bool,
+    showArrow: React.PropTypes.bool,
     children: React.PropTypes.node
 };
