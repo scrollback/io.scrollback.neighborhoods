@@ -265,6 +265,7 @@ Store.prototype.isUserAdmin = function(userId, roomId) {
 
     rel = this.getRelation(roomId, userId);
 
+    if(typeof rel === "string") return rel;
     if (rel && rel.role && rel.role !== "none") {
         role = rel.role;
     } else {
