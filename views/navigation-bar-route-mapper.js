@@ -1,10 +1,9 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import routes from "./routes";
 
 const {
     StyleSheet,
     Text,
-    View,
     Image,
     TouchableHighlight
 } = React;
@@ -22,42 +21,30 @@ const styles = StyleSheet.create({
         height: 24,
         width: 24,
         margin: 16
-    },
-    avatar: {
-        height: 24,
-        width: 24,
-        borderRadius: 12,
-        backgroundColor: "#999",
-        borderColor: "#fff",
-        borderWidth: 2,
-        margin: 16
-    },
-    image: {
-        flex: 1,
-        resizeMode: "cover",
-        borderRadius: 12
     }
 });
 
 const NavigationBarRouteMapper = {
     LeftButton(route, navigator) {
-        if (route.index === 0 || navigator.getCurrentRoutes().length === 1) {
-            return (
-                <View style={styles.avatar}>
-                    <Avatar
-                        size={24}
-                        nick="satya164"
-                        style={styles.image}
-                    />
-                </View>
-            );
+        const goBack = () => {
+            if (navigator.getCurrentRoutes().length > 1) {
+                navigator.pop();
+            } else {
+                navigator.push(routes.home());
+            }
+        };
+
+        if (route.leftComponent) {
+            return <route.leftComponent {...route.passProps} navigator={navigator} />;
         }
 
-        return (
-            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={() => navigator.pop()}>
-                <Image source={require("image!ic_back_white")} style={styles.icon} />
-            </TouchableHighlight>
-        );
+        if (route.index !== 0) {
+            return (
+                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={goBack}>
+                    <Image source={require("image!ic_back_white")} style={styles.icon} />
+                </TouchableHighlight>
+            );
+        }
     },
 
     RightButton(route, navigator) {

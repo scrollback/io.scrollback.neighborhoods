@@ -3,16 +3,18 @@ import ChatController from "./chat-controller";
 import ChatTitleController from "./chat-title-controller";
 import DiscussionsController from "./discussions-controller";
 import NotificationCenterController from "./notification-center-controller.js";
+import UserIcon from "./user-icon";
 import Home from "./home";
 
 const routes = {};
 
-routes.home = (props) => {
+routes.home = () => {
     return {
         title: "Hey, Neighbor!",
+        leftComponent: UserIcon,
         rightComponent: NotificationIconController,
         component: Home,
-        passProps: props
+        index: 0
     };
 };
 
