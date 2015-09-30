@@ -9,7 +9,8 @@ const {
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 10
+        marginRight: 64,
+        paddingVertical: 10
     },
     title: {
         color: "#fff",
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
 export default class ChatTitle extends React.Component {
     render() {
         return (
-            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)">
-                <View style={styles.container}>
+            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" style={styles.container}>
+                <View>
                     <Text numberOfLines={1} style={styles.title}>
                         {this.props.thread.title}
                     </Text>

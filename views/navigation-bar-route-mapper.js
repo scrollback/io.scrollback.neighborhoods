@@ -1,4 +1,5 @@
 import React from "react-native";
+import NotificationIconController from "./notification-icon-controller";
 import Avatar from "./avatar";
 
 const {
@@ -15,6 +16,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 16,
         marginVertical: 16,
+        marginRight: 64,
         paddingHorizontal: 4
     },
     icon: {
@@ -60,8 +62,10 @@ const NavigationBarRouteMapper = {
     },
 
     RightButton(route, navigator) {
+        let rightComponent;
+
         if (route.rightButtonIcon) {
-            return (
+            rightComponent = (
                 <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={() => route.onRightButtonPress(route, navigator)}>
                     <Image source={route.rightButtonIcon} style={styles.icon} />
                 </TouchableHighlight>
@@ -69,10 +73,15 @@ const NavigationBarRouteMapper = {
         }
 
         if (route.rightComponent) {
-            return <route.rightComponent {...route.passProps} />;
+            rightComponent = <route.rightComponent {...route.passProps} />;
         }
 
-        return null;
+        return (
+            <View>
+                <NotificationIconController navigator={navigator} />
+                {rightComponent}
+            </View>
+        );
     },
 
     Title(route) {
