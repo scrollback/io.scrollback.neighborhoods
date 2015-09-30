@@ -40,6 +40,7 @@ export default class Localities extends React.Component {
 
                     return (
                         <ListView
+                            initialListSize={15}
                             dataSource={this._getDataSource()}
                             renderRow={room =>
                                 <RoomItem
