@@ -1,4 +1,5 @@
 import React from "react-native";
+import routes from "./routes";
 
 const {
     StyleSheet,
@@ -36,12 +37,16 @@ const styles = StyleSheet.create({
 });
 
 export default class NotificationIcon extends React.Component {
+    _onPress() {
+        this.props.navigator.push(routes.notes());
+    }
+
     render() {
         const { count } = this.props;
 
         return (
             <View style={styles.container}>
-                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)">
+                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
                     <Image source={require("image!ic_notifications_white")} style={styles.icon} />
                 </TouchableHighlight>
                 {count ?
@@ -58,5 +63,6 @@ export default class NotificationIcon extends React.Component {
 }
 
 NotificationIcon.propTypes = {
-    count: React.PropTypes.number.isRequired
+    count: React.PropTypes.number.isRequired,
+    navigator: React.PropTypes.object.isRequired
 };

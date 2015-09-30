@@ -1,6 +1,6 @@
 import React from "react-native";
 import NavigationBarRouteMapper from "./views/navigation-bar-route-mapper";
-import Home from "./views/home";
+import routes from "./views/routes";
 
 const {
     AppRegistry,
@@ -36,11 +36,7 @@ class HeyNeighbor extends React.Component {
     render() {
         return (
             <Navigator
-                initialRoute={{
-                    title: "Hey, Neighbor!",
-                    component: Home,
-                    index: 0
-                }}
+                initialRoute={routes.home()}
                 renderScene={(route, navigator) => {
                     _navigator = navigator;
 

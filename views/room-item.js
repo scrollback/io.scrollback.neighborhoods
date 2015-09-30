@@ -1,6 +1,6 @@
 import React from "react-native";
-import DiscussionsController from "./discussions-controller";
 import TouchFeedback from "./touch-feedback";
+import routes from "./routes";
 import locationUtils from "../lib/location-utils";
 
 const {
@@ -35,10 +35,7 @@ const currentLocation = {
 
 export default class RoomItem extends React.Component {
     _onPress() {
-        this.props.navigator.push({
-            title: this.props.room.displayName,
-            component: DiscussionsController
-        });
+        this.props.navigator.push(routes.room({ room: this.props.room }));
     }
 
     render() {

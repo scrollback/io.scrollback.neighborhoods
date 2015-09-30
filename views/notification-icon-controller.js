@@ -1,11 +1,12 @@
 import React from "react-native";
 import NotificationIcon from "./notification-icon";
+import store from "../store/store";
 
 export default class NotificationIconController extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { count: Math.round(Math.random() * 200) };
+        this.state = { count: store.getNotes().length };
     }
 
     render() {

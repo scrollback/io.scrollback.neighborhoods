@@ -44,6 +44,10 @@ class Store {
     getRelatedUsers() {
         return this._data.users;
     }
+
+    getNotes() {
+        return this._data.notes;
+    }
 }
 
 export default new Store(data);

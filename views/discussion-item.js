@@ -1,5 +1,4 @@
 import React from "react-native";
-import ChatController from "./chat-controller";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -7,8 +6,8 @@ import CardHashtags from "./card-hashtags";
 import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
-import ChatTitleController from "./chat-title-controller";
 import TouchFeedback from "./touch-feedback";
+import routes from "./routes";
 import textUtils from "../lib/text-utils";
 import oembed from "../lib/oembed";
 
@@ -38,11 +37,7 @@ export default class DiscussionItem extends React.Component {
     }
 
     _onPress() {
-        this.props.navigator.push({
-            component: ChatController,
-            titleComponent: ChatTitleController,
-            passProps: { thread: this.props.thread }
-        });
+        this.props.navigator.push(routes.chat({ thread: this.props.thread }));
     }
 
     render() {

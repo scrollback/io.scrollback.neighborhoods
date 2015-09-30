@@ -1,5 +1,4 @@
 import React from "react-native";
-import NotificationIconController from "./notification-icon-controller";
 import Avatar from "./avatar";
 
 const {
@@ -62,31 +61,16 @@ const NavigationBarRouteMapper = {
     },
 
     RightButton(route, navigator) {
-        let rightComponent;
-
-        if (route.rightButtonIcon) {
-            rightComponent = (
-                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={() => route.onRightButtonPress(route, navigator)}>
-                    <Image source={route.rightButtonIcon} style={styles.icon} />
-                </TouchableHighlight>
-            );
-        }
-
         if (route.rightComponent) {
-            rightComponent = <route.rightComponent {...route.passProps} />;
+            return <route.rightComponent {...route.passProps} navigator={navigator} />;
         }
 
-        return (
-            <View>
-                <NotificationIconController navigator={navigator} />
-                {rightComponent}
-            </View>
-        );
+        return null;
     },
 
-    Title(route) {
+    Title(route, navigator) {
         if (route.titleComponent) {
-            return <route.titleComponent {...route.passProps} />;
+            return <route.titleComponent {...route.passProps} navigator={navigator} />;
         }
 
         return (
