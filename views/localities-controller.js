@@ -72,7 +72,7 @@ export default class LocalitiesController extends React.Component {
         });
     }
 
-    _onRefresh() {
+    _refreshData() {
 
     }
 
@@ -81,7 +81,7 @@ export default class LocalitiesController extends React.Component {
             <Localities
                 {...this.props}
                 {...this.state}
-                refreshData={this._onRefresh.bind(this)}
+                refreshData={this._refreshData.bind(this)}
             />
         );
     }

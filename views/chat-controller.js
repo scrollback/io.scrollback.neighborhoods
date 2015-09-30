@@ -57,7 +57,7 @@ export default class ChatController extends React.Component {
         });
     }
 
-    _onRefresh() {
+    _refreshData() {
 
     }
 
@@ -66,7 +66,7 @@ export default class ChatController extends React.Component {
             <Chat
                 {...this.props}
                 {...this.state}
-                refreshData={this._onRefresh.bind(this)}
+                refreshData={this._refreshData.bind(this)}
             />
         );
     }

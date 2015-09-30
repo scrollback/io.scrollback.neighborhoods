@@ -45,7 +45,7 @@ export default class DiscussionsController extends React.Component {
         });
     }
 
-    _onRefresh() {
+    _refreshData() {
 
     }
 
@@ -54,7 +54,7 @@ export default class DiscussionsController extends React.Component {
             <Discussions
                 {...this.props}
                 {...this.state}
-                refreshData={this._onRefresh.bind(this)}
+                refreshData={this._refreshData.bind(this)}
             />
         );
     }
