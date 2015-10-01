@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         width: 36,
         borderRadius: 18,
         backgroundColor: "#999",
-        marginHorizontal: 8,
+        marginHorizontal: 16,
         marginVertical: 12
     },
     image: {
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        margin: 8
+        marginVertical: 8
     },
     title: {
         lineHeight: 21,
