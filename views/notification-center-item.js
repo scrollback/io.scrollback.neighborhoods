@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
         color: "#555"
     },
     timestampContainer: {
-        flexDirection: "row",
-        marginTop: 4
+        flexDirection: "row"
     },
     timestamp: {
         fontSize: 12,
