@@ -1,12 +1,12 @@
 import React from "react-native";
+import NotificationCenterItem from "./notification-center-item";
 import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 
 const {
     ListView,
-    View,
-    Text
+    View
 } = React;
 
 export default class NotificationCenter extends React.Component {
@@ -44,13 +44,7 @@ export default class NotificationCenter extends React.Component {
                         <ListView
                             initialListSize={15}
                             dataSource={dataSource}
-                            renderRow={item => {
-                                return (
-                                    <View>
-                                        <Text>This</Text>
-                                    </View>
-                                );
-                            }}
+                            renderRow={note => <NotificationCenterItem key={note.id} note={note} />}
                         />
                     );
                 })()}

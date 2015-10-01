@@ -51,7 +51,7 @@ export default class NotificationIcon extends React.Component {
                 </TouchableHighlight>
                 {count ?
                     <View style={styles.badge}>
-                        <Text style={styles.count}>
+                        <Text style={styles.count} onPress={this._onPress.bind(this)}>
                             {count < 100 ? count : "99+"}
                         </Text>
                     </View> :
