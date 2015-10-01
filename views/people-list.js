@@ -42,7 +42,7 @@ export default class PeopleList extends React.Component {
 
                     return (
                         <ListView
-                            initialListSize={15}
+                            initialListSize={5}
                             dataSource={dataSource}
                             renderRow={user => {
                                 return (

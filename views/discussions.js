@@ -40,7 +40,7 @@ export default class Discussions extends React.Component {
 
                     return (
                         <ListView
-                            initialListSize={5}
+                            initialListSize={3}
                             dataSource={this._getDataSource()}
                             renderRow={thread =>
                                 <DiscussionItem

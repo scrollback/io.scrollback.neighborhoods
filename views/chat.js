@@ -49,7 +49,7 @@ export default class Chat extends React.Component {
 
                     return (
                         <ListView
-                            initialListSize={15}
+                            initialListSize={5}
                             renderScrollComponent={props =>
                                 <InvertibleScrollView
                                     {...props}
