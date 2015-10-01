@@ -1,6 +1,7 @@
 import React from "react-native";
 import Avatar from "./avatar";
 import TouchFeedback from "./touch-feedback";
+import routes from "./routes";
 import timeUtils from "../lib/time-utils";
 
 const {
@@ -97,57 +98,72 @@ export default class NotificationCenterItem extends React.Component {
         switch (noteType) {
         case "mention":
             if (count > max) {
-                summary.push(<Text style={styles.strong}>{count}</Text>, " new mentions in");
+                summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new mentions in");
             } else {
-                summary.push(<Text style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
+                summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
             }
 
             if (noteData.title) {
-                summary.push(" ", <Text style={styles.strong}>{noteData.title}</Text>);
+                summary.push(" ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
             }
 
-            summary.push(" - ", <Text style={styles.strong}>{room}</Text>);
+            summary.push(" - ", <Text key={3} style={styles.strong}>{room}</Text>);
 
             break;
         case "reply":
             if (count > max) {
-                summary.push(<Text style={styles.strong}>{count}</Text>, " new replies");
+                summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new replies");
             } else {
-                summary.push(<Text style={styles.strong}>{noteData.from}</Text>, " replied");
+                summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " replied");
             }
 
             if (noteData.title) {
-                summary.push(" to ", <Text style={styles.strong}>{noteData.title}</Text>);
+                summary.push(" to ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
             }
 
-            summary.push(" in ", <Text style={styles.strong}>{room}</Text>);
+            summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
 
             break;
         case "thread":
             if (count > max) {
-                summary.push(<Text style={styles.strong}>{count}</Text>, " new discussions");
+                summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new discussions");
             } else {
-                summary.push(<Text style={styles.strong}>{noteData.from}</Text>, " started a discussion");
+                summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " started a discussion");
 
                 if (noteData.title) {
-                    summary.push(" on ", <Text style={styles.strong}>{noteData.title}</Text>);
+                    summary.push(" on ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
                 }
             }
 
-            summary.push(" in ", <Text style={styles.strong}>{room}</Text>);
+            summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
 
             break;
         default:
             if (count > max) {
-                summary.push(<Text style={styles.strong}>{count}</Text>, " new notifications");
+                summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new notifications");
             } else {
-                summary.push("New notification from ", <Text style={styles.strong}>{noteData.from}</Text>);
+                summary.push("New notification from ", <Text key={1} style={styles.strong}>{noteData.from}</Text>);
             }
 
-            summary.push(" in ", <Text style={styles.strong}>{room}</Text>);
+            summary.push(" in ", <Text key={2} style={styles.strong}>{room}</Text>);
         }
 
         return summary;
+    }
+
+    _onPress() {
+        const { note } = this.props;
+
+        switch (note.noteType) {
+        case "mention":
+        case "reply":
+        case "thread":
+            // navigate to chat
+
+            break;
+        default:
+            // navigate to room
+        }
     }
 
     render() {
@@ -155,7 +171,7 @@ export default class NotificationCenterItem extends React.Component {
 
         return (
             <View style={styles.item}>
-                <TouchFeedback>
+                <TouchFeedback onPress={this._onPress.bind(this)}>
                     <View style={styles.note}>
                         <View style={styles.avatar}>
                             <Avatar
@@ -190,7 +206,7 @@ export default class NotificationCenterItem extends React.Component {
 
 NotificationCenterItem.propTypes = {
     note: React.PropTypes.shape({
-        count: React.PropTypes.number.isRequired,
+        count: React.PropTypes.number,
         group: React.PropTypes.string.isRequired,
         noteType: React.PropTypes.string.isRequired,
         noteData: React.PropTypes.shape({
@@ -198,5 +214,6 @@ NotificationCenterItem.propTypes = {
             text: React.PropTypes.string.isRequired,
             from: React.PropTypes.string.isRequired
         }).isRequired
-    }).isRequired
+    }).isRequired,
+    navigator: React.PropTypes.object.isRequired
 };

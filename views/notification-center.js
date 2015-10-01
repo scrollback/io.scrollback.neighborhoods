@@ -44,7 +44,15 @@ export default class NotificationCenter extends React.Component {
                         <ListView
                             initialListSize={15}
                             dataSource={dataSource}
-                            renderRow={note => <NotificationCenterItem key={note.id} note={note} />}
+                            renderRow={note => {
+                                return (
+                                    <NotificationCenterItem
+                                        key={note.ref + note.type}
+                                        note={note}
+                                        navigator={this.props.navigator}
+                                    />
+                                );
+                            }}
                         />
                     );
                 })()}
@@ -60,5 +68,6 @@ NotificationCenter.propTypes = {
             id: React.PropTypes.string
         })
     ])).isRequired,
-    refreshData: React.PropTypes.func
+    refreshData: React.PropTypes.func,
+    navigator: React.PropTypes.object.isRequired
 };
