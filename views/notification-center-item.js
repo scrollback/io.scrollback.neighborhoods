@@ -14,6 +14,7 @@ const {
 
 const styles = StyleSheet.create({
     item: {
+        backgroundColor: "#fff",
         borderColor: "rgba(0, 0, 0, .04)",
         borderBottomWidth: 1
     },
