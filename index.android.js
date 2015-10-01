@@ -1,4 +1,5 @@
 import React from "react-native";
+import DrawerManager from "./views/drawer-manager";
 import NavigationBarRouteMapper from "./views/navigation-bar-route-mapper";
 import routes from "./views/routes";
 
@@ -35,26 +36,28 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
 class HeyNeighbor extends React.Component {
     render() {
         return (
-            <Navigator
-                initialRoute={routes.home()}
-                renderScene={(route, navigator) => {
-                    _navigator = navigator;
+            <DrawerManager.DrawerWrapper>
+                <Navigator
+                    initialRoute={routes.home()}
+                    renderScene={(route, navigator) => {
+                        _navigator = navigator;
 
-                    return (
-                        <route.component
-                            {...route.passProps}
-                            navigator={navigator}
-                            style={styles.scene}
+                        return (
+                            <route.component
+                                {...route.passProps}
+                                navigator={navigator}
+                                style={styles.scene}
+                            />
+                        );
+                    }}
+                    navigationBar={
+                        <Navigator.NavigationBar
+                            routeMapper={NavigationBarRouteMapper}
+                            style={styles.navbar}
                         />
-                    );
-                }}
-                navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={styles.navbar}
-                    />
-                }
-            />
+                    }
+                />
+            </DrawerManager.DrawerWrapper>
         );
     }
 }
