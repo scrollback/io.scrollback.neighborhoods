@@ -48,6 +48,26 @@ class Store {
     getNotes() {
         return this._data.notes;
     }
+
+    getThreadById(id) {
+        const threads = this._data.threads;
+
+        for (let i = 0, l = threads.length; i < l; i++) {
+            if (threads[i] && threads[i].id === id) {
+                return threads[i];
+            }
+        }
+    }
+
+    getRoomById(id) {
+        const rooms = this._data.rooms;
+
+        for (let i = 0, l = rooms.length; i < l; i++) {
+            if (rooms[i] && rooms[i].id === id) {
+                return rooms[i];
+            }
+        }
+    }
 }
 
 export default new Store(data);

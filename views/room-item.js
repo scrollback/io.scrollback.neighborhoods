@@ -35,7 +35,7 @@ const currentLocation = {
 
 export default class RoomItem extends React.Component {
     _onPress() {
-        this.props.navigator.push(routes.room({ room: this.props.room }));
+        this.props.navigator.push(routes.room({ room: this.props.room.id }));
     }
 
     render() {

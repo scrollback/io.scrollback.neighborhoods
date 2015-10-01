@@ -18,19 +18,17 @@ export default class DiscussionsController extends React.Component {
     componentDidMount() {
         this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getThreads()), 0);
+        setTimeout(() => this._onDataArrived(store.getThreads(this.props.room)), 0);
     }
 
     componentWillUnmount() {
         this._mounted = false;
     }
 
-    _onDataArrived(newData) {
+    _onDataArrived(data) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this.setState({
-                    data: newData
-                });
+                this.setState({ data });
             }
         });
     }
@@ -59,3 +57,7 @@ export default class DiscussionsController extends React.Component {
         );
     }
 }
+
+DiscussionsController.propTypes = {
+    room: React.PropTypes.string.isRequired
+};

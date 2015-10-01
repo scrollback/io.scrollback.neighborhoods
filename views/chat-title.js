@@ -25,14 +25,26 @@ const styles = StyleSheet.create({
 
 export default class ChatTitle extends React.Component {
     render() {
+        const { thread } = this.props;
+
+        let title = "…",
+            concerns = 1;
+
+        if (thread && thread.title) {
+            title = thread.title;
+            concerns = thread.concerns.length || 1;
+        } else if (thread === "LOADING") {
+            title = "Loading…";
+        }
+
         return (
             <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" style={styles.container}>
                 <View>
                     <Text numberOfLines={1} style={styles.title}>
-                        {this.props.thread.title}
+                        {title}
                     </Text>
                     <Text numberOfLines={1} style={styles.subtitle}>
-                        {this.props.thread.concerns.length || 1} people talking
+                        {concerns} {concerns > 1 ? " people" : " person"} talking
                     </Text>
                 </View>
             </TouchableHighlight>
@@ -41,8 +53,11 @@ export default class ChatTitle extends React.Component {
 }
 
 ChatTitle.propTypes = {
-    thread: React.PropTypes.shape({
-        title: React.PropTypes.string.isRequired,
-        concerns: React.PropTypes.arrayOf(React.PropTypes.string)
-    }).isRequired
+    thread: React.PropTypes.oneOfType([
+        React.PropTypes.shape({
+            title: React.PropTypes.string.isRequired,
+            concerns: React.PropTypes.arrayOf(React.PropTypes.string)
+        }),
+        React.PropTypes.string
+    ]).isRequired
 };

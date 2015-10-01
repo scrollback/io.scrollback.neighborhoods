@@ -152,17 +152,20 @@ export default class NotificationCenterItem extends React.Component {
     }
 
     _onPress() {
-        const { note } = this.props;
+        const { note, navigator } = this.props;
+
+        const room = this._getRoom(note);
+        const thread = this._getThread(note);
 
         switch (note.noteType) {
         case "mention":
         case "reply":
         case "thread":
-            // navigate to chat
+            navigator.push(routes.chat({ thread }));
 
             break;
         default:
-            // navigate to room
+            navigator.push(routes.room({ room }));
         }
     }
 

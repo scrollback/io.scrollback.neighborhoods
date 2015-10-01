@@ -29,10 +29,14 @@ export default class UserIcon extends React.Component {
             <View style={styles.avatar}>
                 <Avatar
                     size={24}
-                    nick="satya164"
+                    nick={this.props.nick}
                     style={styles.image}
                 />
             </View>
         );
     }
 }
+
+UserIcon.propTypes = {
+    nick: React.PropTypes.string.isRequired
+};

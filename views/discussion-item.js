@@ -37,7 +37,7 @@ export default class DiscussionItem extends React.Component {
     }
 
     _onPress() {
-        this.props.navigator.push(routes.chat({ thread: this.props.thread }));
+        this.props.navigator.push(routes.chat({ thread: this.props.thread.id }));
     }
 
     render() {
@@ -97,6 +97,7 @@ export default class DiscussionItem extends React.Component {
 
 DiscussionItem.propTypes = {
     thread: React.PropTypes.shape({
+        id: React.PropTypes.string.isRequired,
         title: React.PropTypes.string.isRequired,
         text: React.PropTypes.string.isRequired,
         from: React.PropTypes.string.isRequired
