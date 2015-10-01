@@ -36,12 +36,17 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 8
     },
-    summary: {
+    title: {
         lineHeight: 21,
-        color: "#aaa"
+        color: "#888"
+    },
+    summary: {
+        lineHeight: 18,
+        fontSize: 12,
+        color: "#888"
     },
     strong: {
-        color: "#777"
+        color: "#555"
     },
     timestampContainer: {
         flexDirection: "row",
@@ -162,7 +167,10 @@ export default class NotificationCenterItem extends React.Component {
                         </View>
                         <View style={styles.content}>
                             <View>
-                                <Text numberOfLines={5} style={styles.summary} >{this._getSummary(note)}</Text>
+                                <Text numberOfLines={5} style={styles.title} >{this._getSummary(note)}</Text>
+                            </View>
+                            <View>
+                                <Text numberOfLines={1} style={styles.summary} >{note.noteData.text}</Text>
                             </View>
                             <View style={styles.timestampContainer}>
                                 <Image style={styles.icon} source={require("image!ic_history_black")} />
