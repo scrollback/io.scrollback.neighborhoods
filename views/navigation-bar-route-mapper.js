@@ -30,7 +30,7 @@ const NavigationBarRouteMapper = {
             if (navigator.getCurrentRoutes().length > 1) {
                 navigator.pop();
             } else {
-                navigator.push(routes.home());
+                navigator.replace(routes.home());
             }
         };
 
