@@ -4,6 +4,7 @@ import ChatTitleController from "./chat-title-controller";
 import RoomTitleController from "./room-title-controller";
 import DiscussionsController from "./discussions-controller";
 import NotificationCenterController from "./notification-center-controller.js";
+import PeopleListController from "./people-list-controller";
 import UserIconController from "./user-icon-controller";
 import Home from "./home";
 
@@ -24,6 +25,14 @@ routes.chat = props => {
         titleComponent: ChatTitleController,
         rightComponent: NotificationIconController,
         component: ChatController,
+        passProps: props
+    };
+};
+
+routes.people = props => {
+    return {
+        title: "People talking",
+        component: PeopleListController,
         passProps: props
     };
 };

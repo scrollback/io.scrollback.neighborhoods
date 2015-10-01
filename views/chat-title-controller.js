@@ -44,7 +44,7 @@ export default class ChatTitleController extends React.Component {
     }
 
     render() {
-        return <ChatTitle {...this.state} />;
+        return <ChatTitle {...this.props} {...this.state} />;
     }
 }
 

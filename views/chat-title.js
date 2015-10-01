@@ -1,4 +1,5 @@
 import React from "react-native";
+import routes from "./routes";
 
 const {
     StyleSheet,
@@ -24,6 +25,10 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatTitle extends React.Component {
+    _onPress() {
+        this.props.navigator.push(routes.people({ thread: this.props.thread.id }));
+    }
+
     render() {
         const { thread } = this.props;
 
@@ -38,7 +43,11 @@ export default class ChatTitle extends React.Component {
         }
 
         return (
-            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" style={styles.container}>
+            <TouchableHighlight
+                onPress={this._onPress.bind(this)}
+                underlayColor="rgba(0, 0, 0, .16)"
+                style={styles.container}
+            >
                 <View>
                     <Text numberOfLines={1} style={styles.title}>
                         {title}
@@ -59,5 +68,6 @@ ChatTitle.propTypes = {
             concerns: React.PropTypes.arrayOf(React.PropTypes.string)
         }),
         React.PropTypes.string
-    ]).isRequired
+    ]).isRequired,
+    navigator: React.PropTypes.object.isRequired
 };
