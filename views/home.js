@@ -1,8 +1,8 @@
 import React from "react-native";
-import LocalitiesFiltered from "./localities-filtered";
+import LocalitiesController from "./localities-controller";
 
 export default class Home extends React.Component {
     render() {
-        return <LocalitiesFiltered {...this.props} />;
+        return <LocalitiesController {...this.props} />;
     }
 }
