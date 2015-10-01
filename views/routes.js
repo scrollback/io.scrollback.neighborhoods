@@ -3,7 +3,7 @@ import ChatController from "./chat-controller";
 import ChatTitleController from "./chat-title-controller";
 import DiscussionsController from "./discussions-controller";
 import NotificationCenterController from "./notification-center-controller.js";
-import DrawerIcon from "./drawer-icon";
+import UserIcon from "./user-icon";
 import Home from "./home";
 
 const routes = {};
@@ -11,14 +11,14 @@ const routes = {};
 routes.home = () => {
     return {
         title: "Hey, Neighbor!",
-        leftComponent: DrawerIcon,
+        leftComponent: UserIcon,
         rightComponent: NotificationIconController,
         component: Home,
         index: 0
     };
 };
 
-routes.chat = props => {
+routes.chat = (props) => {
     return {
         titleComponent: ChatTitleController,
         rightComponent: NotificationIconController,
@@ -27,7 +27,7 @@ routes.chat = props => {
     };
 };
 
-routes.room = props => {
+routes.room = (props) => {
     return {
         title: props.room.displayName,
         rightComponent: NotificationIconController,
