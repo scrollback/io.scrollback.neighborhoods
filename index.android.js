@@ -1,6 +1,6 @@
 import React from "react-native";
-import NavigationBarRouteMapper from "./views/navigation-bar-route-mapper";
-import routes from "./views/routes";
+import NavigationBarRouteMapper from "./views/utils/navigation-bar-route-mapper";
+import routes from "./views/utils/routes";
 
 const {
     AppRegistry,

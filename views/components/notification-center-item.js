@@ -1,8 +1,8 @@
 import React from "react-native";
 import Avatar from "./avatar";
 import TouchFeedback from "./touch-feedback";
-import routes from "./routes";
-import timeUtils from "../lib/time-utils";
+import routes from "../utils/routes";
+import timeUtils from "../../lib/time-utils";
 
 const {
     StyleSheet,

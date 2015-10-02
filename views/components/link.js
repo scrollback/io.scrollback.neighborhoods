@@ -1,5 +1,5 @@
 import React from "react-native";
-import Linking from "../modules/linking";
+import Linking from "../../modules/linking";
 
 const {
     StyleSheet,

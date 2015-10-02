@@ -1,7 +1,7 @@
 import React from "react-native";
 import TouchFeedback from "./touch-feedback";
-import routes from "./routes";
-import locationUtils from "../lib/location-utils";
+import routes from "../utils/routes";
+import locationUtils from "../../lib/location-utils";
 
 const {
     StyleSheet,

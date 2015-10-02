@@ -1,6 +1,6 @@
 import React from "react-native";
-import ChatTitle from "./chat-title";
-import store from "../store/store";
+import ChatTitle from "../components/chat-title";
+import store from "../../store/store";
 
 const {
     InteractionManager

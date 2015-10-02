@@ -1,20 +1,41 @@
 import React from "react-native";
-import Home from "./views/Home";
+import NavigationBarRouteMapper from "./views/utils/navigation-bar-route-mapper";
+import routes from "./views/utils/routes";
 
 const {
     AppRegistry,
-    NavigatorIOS
+    StyleSheet,
+    Navigator
 } = React;
+
+const styles = StyleSheet.create({
+    scene: {
+        flex: 1,
+        marginTop: 56,
+        backgroundColor: "#eee"
+    }
+});
 
 class HeyNeighbor extends React.Component {
     render() {
         return (
-            <NavigatorIOS
-                initialRoute={{
-                    title: "Hey, Neighbor",
-                    component: Home,
-                    index: 0
+            <Navigator
+                initialRoute={routes.home()}
+                renderScene={(route, navigator) => {
+                    return (
+                        <route.component
+                            {...route.passProps}
+                            navigator={navigator}
+                            style={styles.scene}
+                        />
+                    );
                 }}
+                navigationBar={
+                    <Navigator.NavigationBar
+                        routeMapper={NavigationBarRouteMapper}
+                        style={styles.navbar}
+                    />
+                }
             />
         );
     }

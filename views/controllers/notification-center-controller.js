@@ -1,12 +1,12 @@
 import React from "react-native";
-import PeopleList from "./people-list";
-import store from "../store/store";
+import NotificationCenter from "../components/notification-center";
+import store from "../../store/store";
 
 const {
     InteractionManager
 } = React;
 
-export default class PeopleListController extends React.Component {
+export default class NotificationCenterController extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,33 +18,19 @@ export default class PeopleListController extends React.Component {
     componentDidMount() {
         this._mounted = true;
 
-        const thread = store.getThreadById(this.props.thread);
-
-        if (thread && thread.concerns) {
-            const users = store.getRelatedUsers(thread.to);
-
-            const data = [];
-
-            for (let i = 0, l = users.length; i < l; i++) {
-                if (thread.concerns.indexOf(users[i].id) > -1) {
-                    data.push(users[i]);
-                }
-            }
-
-            this._onDataArrived(data);
-        } else {
-            this._onError();
-        }
+        setTimeout(() => this._onDataArrived(store.getNotes()), 0);
     }
 
     componentWillUnmount() {
         this._mounted = false;
     }
 
-    _onDataArrived(data) {
+    _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this.setState({ data });
+                this.setState({
+                    data: newData
+                });
             }
         });
     }
@@ -65,7 +51,7 @@ export default class PeopleListController extends React.Component {
 
     render() {
         return (
-            <PeopleList
+            <NotificationCenter
                 {...this.props}
                 {...this.state}
                 refreshData={this._refreshData.bind(this)}
@@ -73,7 +59,3 @@ export default class PeopleListController extends React.Component {
         );
     }
 }
-
-PeopleListController.propTypes = {
-    thread: React.PropTypes.string.isRequired
-};

@@ -1,5 +1,5 @@
 import React from "react-native";
-import routes from "./routes";
+import routes from "../utils/routes";
 
 const {
     StyleSheet,

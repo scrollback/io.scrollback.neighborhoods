@@ -1,6 +1,6 @@
 import React from "react-native";
 import Link from "./link";
-import smiley from "../lib/smiley";
+import smiley from "../../lib/smiley";
 
 const {
     StyleSheet,

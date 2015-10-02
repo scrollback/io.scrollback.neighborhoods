@@ -1,12 +1,12 @@
 import React from "react-native";
-import NotificationCenter from "./notification-center";
-import store from "../store/store";
+import Chat from "../components/chat";
+import store from "../../store/store";
 
 const {
     InteractionManager
 } = React;
 
-export default class NotificationCenterController extends React.Component {
+export default class ChatController extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,7 +18,7 @@ export default class NotificationCenterController extends React.Component {
     componentDidMount() {
         this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getNotes()), 0);
+        setTimeout(() => this._onDataArrived(store.getTexts()), 0);
     }
 
     componentWillUnmount() {
@@ -28,9 +28,21 @@ export default class NotificationCenterController extends React.Component {
     _onDataArrived(newData) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                this.setState({
-                    data: newData
-                });
+                const data = [];
+
+                for (let i = newData.length, l = 0; i >= l; i--) {
+                    const text = newData[i];
+                    const previousText = newData[i - 1];
+
+                    if (typeof text === "object" && text !== null) {
+                        data.push({
+                            text,
+                            previousText
+                        });
+                    }
+                }
+
+                this.setState({ data });
             }
         });
     }
@@ -51,7 +63,7 @@ export default class NotificationCenterController extends React.Component {
 
     render() {
         return (
-            <NotificationCenter
+            <Chat
                 {...this.props}
                 {...this.state}
                 refreshData={this._refreshData.bind(this)}

@@ -1,6 +1,6 @@
 import React from "react-native";
-import UserIcon from "./user-icon";
-import store from "../store/store";
+import UserIcon from "../components/user-icon";
+import store from "../../store/store";
 
 export default class UserIconController extends React.Component {
     render() {

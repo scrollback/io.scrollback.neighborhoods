@@ -1,5 +1,5 @@
 import React from "react-native";
-import timeUtils from "../lib/time-utils";
+import timeUtils from "../../lib/time-utils";
 
 const {
     StyleSheet,

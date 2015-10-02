@@ -1,6 +1,6 @@
 import React from "react-native";
-import Discussions from "./discussions";
-import store from "../store/store";
+import Discussions from "../components/discussions";
+import store from "../../store/store";
 
 const {
     InteractionManager

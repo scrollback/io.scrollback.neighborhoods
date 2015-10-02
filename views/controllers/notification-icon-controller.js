@@ -1,6 +1,6 @@
 import React from "react-native";
-import NotificationIcon from "./notification-icon";
-import store from "../store/store";
+import NotificationIcon from "../components/notification-icon";
+import store from "../../store/store";
 
 export default class NotificationIconController extends React.Component {
     constructor(props) {

@@ -2,7 +2,7 @@
 
 import React from "react-native";
 import Loading from "./loading";
-import Linking from "../modules/linking";
+import Linking from "../../modules/linking";
 
 const {
     StyleSheet,
@@ -53,7 +53,7 @@ export default class Embed extends React.Component {
             .then(response => response.json())
             .then(embed => {
                 if (this._mounted) {
-                    this.setState({ embed });
+                    this.setState({ embed }); // eslint-disable-line react/no-did-mount-set-state
                 }
             });
     }

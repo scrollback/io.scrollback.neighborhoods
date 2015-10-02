@@ -1,12 +1,12 @@
 import React from "react-native";
-import Chat from "./chat";
-import store from "../store/store";
+import PeopleList from "../components/people-list";
+import store from "../../store/store";
 
 const {
     InteractionManager
 } = React;
 
-export default class ChatController extends React.Component {
+export default class PeopleListController extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,30 +18,32 @@ export default class ChatController extends React.Component {
     componentDidMount() {
         this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getTexts()), 0);
+        const thread = store.getThreadById(this.props.thread);
+
+        if (thread && thread.concerns) {
+            const users = store.getRelatedUsers(thread.to);
+
+            const data = [];
+
+            for (let i = 0, l = users.length; i < l; i++) {
+                if (thread.concerns.indexOf(users[i].id) > -1) {
+                    data.push(users[i]);
+                }
+            }
+
+            this._onDataArrived(data);
+        } else {
+            this._onError();
+        }
     }
 
     componentWillUnmount() {
         this._mounted = false;
     }
 
-    _onDataArrived(newData) {
+    _onDataArrived(data) {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
-                const data = [];
-
-                for (let i = newData.length, l = 0; i >= l; i--) {
-                    const text = newData[i];
-                    const previousText = newData[i - 1];
-
-                    if (typeof text === "object" && text !== null) {
-                        data.push({
-                            text,
-                            previousText
-                        });
-                    }
-                }
-
                 this.setState({ data });
             }
         });
@@ -63,7 +65,7 @@ export default class ChatController extends React.Component {
 
     render() {
         return (
-            <Chat
+            <PeopleList
                 {...this.props}
                 {...this.state}
                 refreshData={this._refreshData.bind(this)}
@@ -71,3 +73,7 @@ export default class ChatController extends React.Component {
         );
     }
 }
+
+PeopleListController.propTypes = {
+    thread: React.PropTypes.string.isRequired
+};

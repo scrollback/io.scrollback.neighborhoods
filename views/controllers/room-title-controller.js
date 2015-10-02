@@ -1,6 +1,6 @@
 import React from "react-native";
-import RoomTitle from "./room-title";
-import store from "../store/store";
+import RoomTitle from "../components/room-title";
+import store from "../../store/store";
 
 const {
     InteractionManager

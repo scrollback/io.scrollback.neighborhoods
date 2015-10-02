@@ -1,12 +1,12 @@
-import NotificationIconController from "./notification-icon-controller";
-import ChatController from "./chat-controller";
-import ChatTitleController from "./chat-title-controller";
-import RoomTitleController from "./room-title-controller";
-import DiscussionsController from "./discussions-controller";
-import NotificationCenterController from "./notification-center-controller.js";
-import PeopleListController from "./people-list-controller";
-import UserIconController from "./user-icon-controller";
-import Home from "./home";
+import NotificationIconController from "../controllers/notification-icon-controller";
+import ChatController from "../controllers/chat-controller";
+import ChatTitleController from "../controllers/chat-title-controller";
+import RoomTitleController from "../controllers/room-title-controller";
+import DiscussionsController from "../controllers/discussions-controller";
+import NotificationCenterController from "../controllers/notification-center-controller.js";
+import PeopleListController from "../controllers/people-list-controller";
+import UserIconController from "../controllers/user-icon-controller";
+import Home from "../components/home";
 
 const routes = {};
 

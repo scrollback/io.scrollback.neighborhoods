@@ -2,9 +2,9 @@ import React from "react-native";
 import ChatBubble from "./chat-bubble";
 import Avatar from "./avatar";
 import Embed from "./embed";
-import textUtils from "../lib/text-utils";
-import timeUtils from "../lib/time-utils";
-import oembed from "../lib/oembed";
+import textUtils from "../../lib/text-utils";
+import timeUtils from "../../lib/time-utils";
+import oembed from "../../lib/oembed";
 
 const {
     StyleSheet,

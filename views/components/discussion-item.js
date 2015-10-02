@@ -7,9 +7,9 @@ import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
-import routes from "./routes";
-import textUtils from "../lib/text-utils";
-import oembed from "../lib/oembed";
+import routes from "../utils/routes";
+import textUtils from "../../lib/text-utils";
+import oembed from "../../lib/oembed";
 
 const {
     StyleSheet,
