@@ -8,14 +8,14 @@ export default class App extends React.Component {
         const { user } = this.props;
 
         if (user === "FAILED") {
-            return <SignIn />;
+            return <SignIn navigator={this.props.navigator} />;
         }
 
         if (user && user.id) {
-            return <Home />;
+            return <Home navigator={this.props.navigator} />;
         }
 
-        return <Splash />;
+        return <Splash navigator={this.props.navigator} />;
     }
 }
 
@@ -26,4 +26,8 @@ App.propTypes = {
             id: React.PropTypes.string
         })
     ])).isRequired
+};
+
+App.propTypes = {
+    navigator: React.PropTypes.object.isRequired
 };

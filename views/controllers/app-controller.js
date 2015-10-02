@@ -1,6 +1,5 @@
 import React from "react-native";
 import App from "../components/app";
-import store from "../../store/store";
 
 export default class AppController extends React.Component {
     constructor(props) {
@@ -16,7 +15,7 @@ export default class AppController extends React.Component {
 
         setTimeout(() => {
             if (this._mounted) {
-                this._onDataArrived(store.getUser());
+                this._onDataArrived("FAILED");
             }
         }, 1000);
     }
@@ -36,6 +35,6 @@ export default class AppController extends React.Component {
     }
 
     render() {
-        return <App {...this.state} />;
+        return <App {...this.props} {...this.state} />;
     }
 }

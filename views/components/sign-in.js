@@ -1,5 +1,6 @@
 import React from "react-native";
 import SignInButton from "./sign-in-button";
+import Home from "./home";
 
 const {
     StyleSheet,
@@ -22,7 +23,6 @@ const styles = StyleSheet.create({
         alignItems: "stretch",
         justifyContent: "center",
         padding: 32,
-        paddingTop: 96,
         backgroundColor: "rgba(0, 0, 0, 0.5)"
     },
     image: {
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
     logoContainer: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: 96
     },
     tip: {
         color: "#fff",
@@ -51,12 +52,20 @@ const styles = StyleSheet.create({
 });
 
 export default class SignIn extends React.Component {
-    _onFacebookPress() {
+    _onSignIn() {
+        this.props.navigator.replace({ component: Home });
+    }
+
+    _onSignUp() {
 
     }
 
-    _onGooglePress() {
+    _onFacebookPress() {
+        this._onSignIn();
+    }
 
+    _onGooglePress() {
+        this._onSignIn();
     }
 
     render() {
@@ -89,3 +98,7 @@ export default class SignIn extends React.Component {
         );
     }
 }
+
+SignIn.propTypes = {
+    navigator: React.PropTypes.object.isRequired
+};
