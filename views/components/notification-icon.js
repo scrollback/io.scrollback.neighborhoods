@@ -45,19 +45,19 @@ export default class NotificationIcon extends React.Component {
         const { count } = this.props;
 
         return (
-            <View style={styles.container}>
-                <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
+            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
+                <View style={styles.container}>
                     <Image source={require("image!ic_notifications_white")} style={styles.icon} />
-                </TouchableHighlight>
-                {count ?
-                    <View style={styles.badge}>
-                        <Text style={styles.count} onPress={this._onPress.bind(this)}>
-                            {count < 100 ? count : "99+"}
-                        </Text>
-                    </View> :
-                    null
-                }
-            </View>
+                    {count ?
+                        <View style={styles.badge}>
+                            <Text style={styles.count}>
+                                {count < 100 ? count : "99+"}
+                            </Text>
+                        </View> :
+                        null
+                    }
+                </View>
+            </TouchableHighlight>
         );
     }
 }
