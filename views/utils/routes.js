@@ -7,7 +7,7 @@ import NotificationCenterController from "../controllers/notification-center-con
 import PeopleListController from "../controllers/people-list-controller";
 import UserIconController from "../controllers/user-icon-controller";
 import LocalitiesController from "../controllers/localities-controller";
-import SignIn from "../components/sign-in";
+import SignInController from "../controllers/sign-in-controller";
 
 const routes = {};
 
@@ -54,11 +54,10 @@ routes.notes = () => {
     };
 };
 
-routes.signin = props => {
+routes.signin = () => {
     return {
         title: "Sign in",
-        component: SignIn,
-        passProps: props
+        component: SignInController
     };
 };
 

@@ -1,6 +1,6 @@
 import React from "react-native";
 import Splash from "./splash";
-import SignIn from "./sign-in";
+import Onboard from "./onboard";
 import Home from "./home";
 
 export default class App extends React.Component {
@@ -8,14 +8,14 @@ export default class App extends React.Component {
         const { user } = this.props;
 
         if (user === "FAILED") {
-            return <SignIn navigator={this.props.navigator} />;
+            return <Onboard />;
         }
 
         if (user && user.id) {
-            return <Home navigator={this.props.navigator} />;
+            return <Home />;
         }
 
-        return <Splash navigator={this.props.navigator} />;
+        return <Splash />;
     }
 }
 
@@ -26,8 +26,4 @@ App.propTypes = {
             id: React.PropTypes.string
         })
     ])).isRequired
-};
-
-App.propTypes = {
-    navigator: React.PropTypes.object.isRequired
 };

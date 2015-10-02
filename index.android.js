@@ -1,20 +1,13 @@
 import React from "react-native";
 import AppController from "./views/controllers/app-controller";
-import renderScene from "./views/utils/render-scene";
 
 const {
-    AppRegistry,
-    Navigator
+    AppRegistry
 } = React;
 
-class HeyNeighbor extends React.Component {
+export default class HeyNeighbor extends React.Component {
     render() {
-        return (
-            <Navigator
-                initialRoute={{ component: AppController }}
-                renderScene={renderScene}
-            />
-        );
+        return <AppController />;
     }
 }
 
