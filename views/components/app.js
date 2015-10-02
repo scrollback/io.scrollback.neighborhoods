@@ -1,10 +1,15 @@
 import React from "react-native";
 import Splash from "./splash";
+import SignIn from "./sign-in";
 import Home from "./home";
 
 export default class App extends React.Component {
     render() {
         const { user } = this.props;
+
+        if (user === "FAILED") {
+            return <SignIn />;
+        }
 
         if (user && user.id) {
             return <Home />;
