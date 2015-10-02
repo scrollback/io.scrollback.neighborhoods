@@ -6,7 +6,7 @@ import DiscussionsController from "../controllers/discussions-controller";
 import NotificationCenterController from "../controllers/notification-center-controller.js";
 import PeopleListController from "../controllers/people-list-controller";
 import UserIconController from "../controllers/user-icon-controller";
-import Home from "../components/home";
+import LocalitiesController from "../controllers/localities-controller";
 
 const routes = {};
 
@@ -15,7 +15,7 @@ routes.home = () => {
         title: "Hey, Neighbor!",
         leftComponent: UserIconController,
         rightComponent: NotificationIconController,
-        component: Home,
+        component: LocalitiesController,
         index: 0
     };
 };

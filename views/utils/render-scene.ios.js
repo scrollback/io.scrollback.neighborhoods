@@ -6,8 +6,7 @@ const {
 
 const styles = StyleSheet.create({
     scene: {
-        flex: 1,
-        backgroundColor: "#eee"
+        flex: 1
     }
 });
 

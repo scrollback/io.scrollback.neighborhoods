@@ -1,20 +1,24 @@
 import React from "react-native";
-import NavigationBar from "../utils/navigation-bar";
-import renderScene from "../utils/render-scene";
-import routes from "../utils/routes";
-
-const {
-    Navigator
-} = React;
+import Splash from "./splash";
+import Home from "./home";
 
 export default class App extends React.Component {
     render() {
-        return (
-            <Navigator
-                initialRoute={routes.home()}
-                renderScene={renderScene}
-                navigationBar={NavigationBar}
-            />
-        );
+        const { user } = this.props;
+
+        if (user && user.id) {
+            return <Home />;
+        }
+
+        return <Splash />;
     }
 }
+
+App.propTypes = {
+    user: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+        React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+        React.PropTypes.shape({
+            id: React.PropTypes.string
+        })
+    ])).isRequired
+};

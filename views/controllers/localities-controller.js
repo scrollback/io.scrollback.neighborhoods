@@ -1,5 +1,5 @@
 import React from "react-native";
-import Localities from "./localities";
+import Localities from "../components/localities";
 import locationUtils from "../../lib/location-utils";
 import store from "../../store/store";
 

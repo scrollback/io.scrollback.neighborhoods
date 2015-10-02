@@ -1,5 +1,5 @@
 import React from "react-native";
-import App from "./views/components/app";
+import AppController from "./views/controllers/app-controller";
 
 const {
     AppRegistry
@@ -7,7 +7,7 @@ const {
 
 class HeyNeighbor extends React.Component {
     render() {
-        return <App />;
+        return <AppController />;
     }
 }
 

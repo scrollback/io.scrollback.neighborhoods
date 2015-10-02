@@ -9,7 +9,7 @@ const {
 const styles = StyleSheet.create({
     navbar: {
         backgroundColor: "#673ab7"
-    }
+    },
 });
 
 export default (

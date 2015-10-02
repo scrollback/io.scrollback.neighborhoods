@@ -7,9 +7,7 @@ const {
 
 const styles = StyleSheet.create({
     scene: {
-        flex: 1,
-        marginTop: 56,
-        backgroundColor: "#eee"
+        flex: 1
     }
 });
 
