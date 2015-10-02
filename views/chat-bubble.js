@@ -21,6 +21,9 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 3
     },
+    bubbleRight: {
+        backgroundColor: "#ddd"
+    },
     text: {
         paddingHorizontal: 4
     },
@@ -57,7 +60,7 @@ export default class ChatBubble extends React.Component {
                     <Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
                 }
 
-                <View style={styles.bubble}>
+                <View style={[ styles.bubble, right ? styles.bubbleRight : null ]}>
                     {this.props.showAuthor ?
                         <Text style={styles.author}>{text.from}</Text> :
                         null

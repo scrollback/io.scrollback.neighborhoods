@@ -12,7 +12,7 @@
 'use strict';
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var RCTWebSocketManager = require('NativeModules').WebSocketManager;
+var RCTWebSocketModule = require('NativeModules').WebSocketModule;
 
 var WebSocketBase = require('WebSocketBase');
 
@@ -27,7 +27,7 @@ class WebSocket extends WebSocketBase {
   connectToSocketImpl(url: string): void {
     this._socketId = WebSocketId++;
 
-    RCTWebSocketManager.connect(url, this._socketId);
+    RCTWebSocketModule.connect(url, this._socketId);
 
     this._registerEvents(this._socketId);
   }
@@ -37,19 +37,20 @@ class WebSocket extends WebSocketBase {
      * The status code 1000 means 'CLOSE_NORMAL'
      * Reason is empty string by to match browser behaviour
      * More info: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
+     * More info: https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
      */
-    let statusCode = typeof code === 'number' ? code : CLOSE_NORMAL,
-        closeReason = typeof reason === 'string' ? reason : '';
+    var statusCode = typeof code === 'number' ? code : CLOSE_NORMAL;
+    var closeReason = typeof reason === 'string' ? reason : '';
 
-    RCTWebSocketManager.close(statusCode, closeReason, this._socketId);
+    RCTWebSocketModule.close(statusCode, closeReason, this._socketId);
   }
 
   cancelConnectionImpl(): void {
-    RCTWebSocketManager.close(CLOSE_NORMAL, '', this._socketId);
+    RCTWebSocketModule.close(CLOSE_NORMAL, '', this._socketId);
   }
 
   sendStringImpl(message: string): void {
-    RCTWebSocketManager.send(message, this._socketId);
+    RCTWebSocketModule.send(message, this._socketId);
   }
 
   sendArrayBufferImpl(): void {
@@ -82,16 +83,16 @@ class WebSocket extends WebSocketBase {
         this.onopen && this.onopen();
       }),
       RCTDeviceEventEmitter.addListener('websocketClosed', ev => {
-          if (ev.id !== id) {
-            return;
-          }
+        if (ev.id !== id) {
+          return;
+        }
 
-          this.readyState = this.CLOSED;
-          this.onclose && this.onclose(ev);
+        this.readyState = this.CLOSED;
+        this.onclose && this.onclose(ev);
 
-          this._unregisterEvents();
+        this._unregisterEvents();
 
-          RCTWebSocketManager.close(CLOSE_NORMAL, '', id);
+        RCTWebSocketModule.close(CLOSE_NORMAL, '', id);
       }),
       RCTDeviceEventEmitter.addListener('websocketFailed', ev => {
         if (ev.id !== id) {
@@ -101,7 +102,14 @@ class WebSocket extends WebSocketBase {
         this.onerror && this.onerror(new Error(ev.message));
         this._unregisterEvents();
 
-        RCTWebSocketManager.close(CLOSE_NORMAL, '', id);
+        RCTWebSocketModule.close(CLOSE_NORMAL, '', id);
+      }),
+      RCTDeviceEventEmitter.addListener('websocketErrored', ev => {
+        if (ev.id !== id) {
+          return;
+        }
+
+        this.onerror && this.onerror(new Error(ev.message));
       })
     ];
   }
