@@ -26,7 +26,11 @@ const styles = StyleSheet.create({
 
 export default class ChatTitle extends React.Component {
     _onPress() {
-        this.props.navigator.push(routes.people({ thread: this.props.thread.id }));
+        const { thread } = this.props;
+
+        if (thread.id) {
+            this.props.navigator.push(routes.people({ thread: thread.id }));
+        }
     }
 
     render() {

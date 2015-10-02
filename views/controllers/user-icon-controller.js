@@ -6,6 +6,6 @@ export default class UserIconController extends React.Component {
     render() {
         const user = store.getUser();
 
-        return <UserIcon nick={user.id} />;
+        return <UserIcon {...this.props} nick={user.id} />;
     }
 }

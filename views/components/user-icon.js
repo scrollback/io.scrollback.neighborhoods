@@ -1,8 +1,10 @@
 import React from "react-native";
 import Avatar from "./avatar";
+import routes from "../utils/routes";
 
 const {
     StyleSheet,
+    TouchableHighlight,
     View
 } = React;
 
@@ -24,19 +26,26 @@ const styles = StyleSheet.create({
 });
 
 export default class UserIcon extends React.Component {
+    _onPress() {
+        this.props.navigator.push(routes.account());
+    }
+
     render() {
         return (
-            <View style={styles.avatar}>
-                <Avatar
-                    size={24}
-                    nick={this.props.nick}
-                    style={styles.image}
-                />
-            </View>
+            <TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
+                <View style={styles.avatar}>
+                    <Avatar
+                        size={24}
+                        nick={this.props.nick}
+                        style={styles.image}
+                    />
+                </View>
+            </TouchableHighlight>
         );
     }
 }
 
 UserIcon.propTypes = {
-    nick: React.PropTypes.string.isRequired
+    nick: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.object.isRequired
 };

@@ -7,6 +7,7 @@ import NotificationCenterController from "../controllers/notification-center-con
 import PeopleListController from "../controllers/people-list-controller";
 import UserIconController from "../controllers/user-icon-controller";
 import LocalitiesController from "../controllers/localities-controller";
+import AccountController from "../controllers/account-controller";
 import SignInController from "../controllers/sign-in-controller";
 
 const routes = {};
@@ -51,6 +52,13 @@ routes.notes = () => {
     return {
         title: "Notifications",
         component: NotificationCenterController
+    };
+};
+
+routes.account = () => {
+    return {
+        title: "My account",
+        component: AccountController
     };
 };
 

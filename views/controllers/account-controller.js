@@ -1,8 +1,12 @@
 import React from "react-native";
-import App from "../components/app";
+import Account from "../components/account";
 import store from "../../store/store";
 
-export default class AppController extends React.Component {
+const {
+    InteractionManager
+} = React;
+
+export default class AccountController extends React.Component {
     constructor(props) {
         super(props);
 
@@ -14,11 +18,7 @@ export default class AppController extends React.Component {
     componentDidMount() {
         this._mounted = true;
 
-        setTimeout(() => {
-            if (this._mounted) {
-                this._onDataArrived(store.getUser());
-            }
-        }, 500);
+        setTimeout(() => this._onDataArrived(store.getUser()), 100);
     }
 
     componentWillUnmount() {
@@ -26,7 +26,11 @@ export default class AppController extends React.Component {
     }
 
     _onDataArrived(user) {
-        this.setState({ user });
+        InteractionManager.runAfterInteractions(() => {
+            if (this._mounted) {
+                this.setState({ user });
+            }
+        });
     }
 
     _onError() {
@@ -36,6 +40,6 @@ export default class AppController extends React.Component {
     }
 
     render() {
-        return <App {...this.props} {...this.state} />;
+        return <Account {...this.props} {...this.state} />;
     }
 }
