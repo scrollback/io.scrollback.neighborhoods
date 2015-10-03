@@ -39,7 +39,19 @@ export default class AccountController extends React.Component {
         });
     }
 
+    _saveUser(user) {
+        store.setUser(user);
+
+        this.setState({ user });
+    }
+
     render() {
-        return <Account {...this.props} {...this.state} />;
+        return (
+            <Account
+                {...this.props}
+                {...this.state}
+                saveUser={this._saveUser.bind(this)}
+            />
+        );
     }
 }

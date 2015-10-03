@@ -20,10 +20,10 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-    user: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+    user: React.PropTypes.oneOfType([
         React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
         React.PropTypes.shape({
             id: React.PropTypes.string
         })
-    ])).isRequired
+    ]).isRequired
 };

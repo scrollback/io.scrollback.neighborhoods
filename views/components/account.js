@@ -70,6 +70,42 @@ const styles = StyleSheet.create({
 });
 
 export default class Account extends React.Component {
+    _onPushNotificationChange(value) {
+        const user = Object.assign({}, this.props.user);
+
+        const params = user.params ? Object.assign({}, user.params) : {};
+        const notifications = params.notifications ? Object.assign({}, params.notifications) : {};
+
+        notifications.push = value;
+
+        params.notifications = notifications;
+        user.params = params;
+
+        this.props.saveUser(user);
+    }
+
+    _onEmailNotificationChange(value) {
+        const user = Object.assign({}, this.props.user);
+
+        const params = user.params ? Object.assign({}, user.params) : {};
+        const email = params.email ? Object.assign({}, params.email) : {};
+
+        email.notifications = value;
+
+        params.email = email;
+        user.params = params;
+
+        this.props.saveUser(user);
+    }
+
+    _onStatusChange(e) {
+        const user = Object.assign({}, this.props.user);
+
+        user.description = e.nativeEvent.text;
+
+        this.props.saveUser(user);
+    }
+
     render() {
         const { user } = this.props;
 
@@ -107,19 +143,26 @@ export default class Account extends React.Component {
                                     placeholder="Status message"
                                     autoCapitalize="sentences"
                                     numberOfLines={3}
+                                    onChange={this._onStatusChange.bind(this)}
                                 />
                             </View>
                             <View style={styles.item}>
                                 <View style={styles.itemLabel}>
                                     <Text style={styles.itemText}>Push notifications</Text>
                                 </View>
-                                <SwitchAndroid value />
+                                <SwitchAndroid
+                                    value={user.params && user.params.notifications ? user.params.notifications.push !== false : false}
+                                    onValueChange={this._onPushNotificationChange.bind(this)}
+                                />
                             </View>
                             <View style={styles.item}>
                                 <View style={styles.itemLabel}>
                                     <Text style={styles.itemText}>Email notifications</Text>
                                 </View>
-                                <SwitchAndroid value />
+                                <SwitchAndroid
+                                    value={user.params && user.params.email ? user.params.email.notifications !== false : false}
+                                    onValueChange={this._onEmailNotificationChange.bind(this)}
+                                />
                             </View>
                         </View>
                     );
@@ -130,10 +173,11 @@ export default class Account extends React.Component {
 }
 
 Account.propTypes = {
-    user: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+    user: React.PropTypes.oneOfType([
         React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
         React.PropTypes.shape({
             id: React.PropTypes.string
         })
-    ])).isRequired
+    ]).isRequired,
+    saveUser: React.PropTypes.func.isRequired
 };

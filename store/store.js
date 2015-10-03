@@ -1,40 +1,47 @@
 import data from "../data";
 
+let user = {
+    id: "satya164",
+    type: "user",
+    createTime: 1421602250498,
+    description: "After all this time? Always.",
+    identities: [
+        "mailto:satyajit.happy@gmail.com"
+    ],
+    params: {
+        email: {
+            frequency: "daily",
+            notifications: false
+        },
+        pictures: [
+            "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAOkw/wjtabXxcxVk/photo.jpg",
+            "https://gravatar.com/avatar/84d56ea2b15f524765efe80e7fa6be06/?d=retro",
+            "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAV-A/qhYBmlcKM0Q/photo.jpg",
+            "https://graph.facebook.com/100000665916861/picture?type=square",
+            "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAWxo/nZWZsz5-oBs/photo.jpg",
+            "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAXE0/JzoTI5aD00o/photo.jpg",
+            "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAX3g/6vQ62-glx3g/photo.jpg"
+        ],
+        notifications: {
+            sound: false,
+            desktop: false,
+            push: true
+        }
+    },
+    picture: "https://graph.facebook.com/100000665916861/picture?type=square"
+};
+
 class Store {
     constructor(d) {
         this._data = d;
     }
 
     getUser() {
-        return {
-            id: "satya164",
-            type: "user",
-            createTime: 1421602250498,
-            description: "After all this time? Always.",
-            identities: [
-                "mailto:satyajit.happy@gmail.com"
-            ],
-            params: {
-                email: {
-                    frequency: "daily",
-                    notifications: true
-                },
-                pictures: [
-                    "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAOkw/wjtabXxcxVk/photo.jpg",
-                    "https://gravatar.com/avatar/84d56ea2b15f524765efe80e7fa6be06/?d=retro",
-                    "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAV-A/qhYBmlcKM0Q/photo.jpg",
-                    "https://graph.facebook.com/100000665916861/picture?type=square",
-                    "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAWxo/nZWZsz5-oBs/photo.jpg",
-                    "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAXE0/JzoTI5aD00o/photo.jpg",
-                    "https://lh4.googleusercontent.com/-oj3ghzcr1Qg/AAAAAAAAAAI/AAAAAAAAX3g/6vQ62-glx3g/photo.jpg"
-                ],
-                notifications: {
-                    sound: false,
-                    desktop: false
-                }
-            },
-            picture: "https://graph.facebook.com/100000665916861/picture?type=square"
-        };
+        return user;
+    }
+
+    setUser(u) {
+        user = u;
     }
 
     getRoom(roomId) {

@@ -31,6 +31,10 @@ export default class GrowingTextInput extends React.Component {
     }
 
     _onChange(e) {
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+
         this.setState({ value: e.nativeEvent.text });
     }
 
@@ -64,5 +68,6 @@ export default class GrowingTextInput extends React.Component {
 GrowingTextInput.propTypes = {
     defaultValue: React.PropTypes.string,
     placeholder: React.PropTypes.string,
-    numberOfLines: React.PropTypes.number
+    numberOfLines: React.PropTypes.number,
+    onChange: React.PropTypes.func
 };
