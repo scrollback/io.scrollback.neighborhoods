@@ -26,11 +26,13 @@ const styles = StyleSheet.create({
 
 export default class ChatTitle extends React.Component {
     _onPress() {
-        const { thread } = this.props;
+        global.requestAnimationFrame(() => {
+            const { thread } = this.props;
 
-        if (thread.id) {
-            this.props.navigator.push(routes.people({ thread: thread.id }));
-        }
+            if (thread.id) {
+                this.props.navigator.push(routes.people({ thread: thread.id }));
+            }
+        });
     }
 
     render() {

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 
 export default class NotificationIcon extends React.Component {
     _onPress() {
-        this.props.navigator.push(routes.notes());
+        global.requestAnimationFrame(() => this.props.navigator.push(routes.notes()));
     }
 
     render() {

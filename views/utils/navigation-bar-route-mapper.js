@@ -27,11 +27,13 @@ const styles = StyleSheet.create({
 const NavigationBarRouteMapper = {
     LeftButton(route, navigator) {
         const goBack = () => {
-            if (navigator.getCurrentRoutes().length > 1) {
-                navigator.pop();
-            } else {
-                navigator.replace(routes.home());
-            }
+            global.requestAnimationFrame(() => {
+                if (navigator.getCurrentRoutes().length > 1) {
+                    navigator.pop();
+                } else {
+                    navigator.replace(routes.home());
+                }
+            });
         };
 
         if (route.leftComponent) {

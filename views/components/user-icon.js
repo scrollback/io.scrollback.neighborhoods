@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 
 export default class UserIcon extends React.Component {
     _onPress() {
-        this.props.navigator.push(routes.account());
+        global.requestAnimationFrame(() => this.props.navigator.push(routes.account()));
     }
 
     render() {
