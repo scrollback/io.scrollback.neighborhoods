@@ -3,6 +3,7 @@ import DiscussionItem from "./discussion-item";
 import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
+import StartDiscussionButton from "./start-discussion-button";
 
 const {
     ListView,
@@ -52,6 +53,8 @@ export default class Discussions extends React.Component {
                         />
                     );
                 })()}
+
+                <StartDiscussionButton room={this.props.room} />
             </View>
         );
     }
@@ -64,6 +67,7 @@ Discussions.propTypes = {
             id: React.PropTypes.string
         })
     ])).isRequired,
+    room: React.PropTypes.string.isRequired,
     refreshData: React.PropTypes.func,
     navigator: React.PropTypes.object.isRequired
 };

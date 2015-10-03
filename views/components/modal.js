@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     },
     menuItemText: {
         fontSize: 16,
-        fontWeight: "bold",
+        color: "#333",
         paddingHorizontal: 4
     }
 });
