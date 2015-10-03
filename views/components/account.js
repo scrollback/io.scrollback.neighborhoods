@@ -2,12 +2,12 @@ import React from "react-native";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 import Avatar from "./avatar";
+import GrowingTextInput from "./growing-text-input";
 
 const {
     StyleSheet,
     View,
     Text,
-    TextInput,
     SwitchAndroid
 } = React;
 
@@ -101,13 +101,12 @@ export default class Account extends React.Component {
                             </View>
                             <View style={styles.inputContainer}>
                                 <Text style={styles.inputLabelText}>Status message</Text>
-                                <TextInput
+                                <GrowingTextInput
                                     style={styles.input}
                                     defaultValue={user.description}
                                     placeholder="Status message"
                                     autoCapitalize="sentences"
                                     numberOfLines={3}
-                                    multiline
                                 />
                             </View>
                             <View style={styles.item}>
