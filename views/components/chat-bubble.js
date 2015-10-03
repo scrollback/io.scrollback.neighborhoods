@@ -21,8 +21,12 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         borderRadius: 3
     },
+    bubbleLeft: {
+        marginLeft: 8
+    },
     bubbleRight: {
-        backgroundColor: "#ddd"
+        backgroundColor: "#ddd",
+        marginRight: 8
     },
     text: {
         paddingHorizontal: 4
@@ -34,10 +38,10 @@ const styles = StyleSheet.create({
     },
     triangleLeft: {
         top: 0,
-        left: -8
+        left: 0
     },
     triangleRight: {
-        right: -8,
+        right: 0,
         bottom: 0
     },
     author: {
@@ -49,18 +53,22 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatBubble extends React.Component {
+    setNativeProps(nativeProps) {
+        this._root.setNativeProps(nativeProps);
+    }
+
     render() {
         const { text, type, showArrow } = this.props;
 
         const right = type === "right";
 
         return (
-            <View style={right ? styles.containerRight : styles.containerLeft}>
+            <View style={[ right ? styles.containerRight : styles.containerLeft, this.props.style ]} ref={c => this._root = c}>
                 {right || !showArrow ? null :
                     <Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
                 }
 
-                <View style={[ styles.bubble, right ? styles.bubbleRight : null ]}>
+                <View style={[ styles.bubble, right ? styles.bubbleRight : styles.bubbleLeft ]}>
                     {this.props.showAuthor ?
                         <Text style={styles.author}>{text.from}</Text> :
                         null
@@ -93,5 +101,6 @@ ChatBubble.propTypes = {
     type: React.PropTypes.oneOf([ "left", "right" ]),
     showAuthor: React.PropTypes.bool,
     showArrow: React.PropTypes.bool,
+    onPress: React.PropTypes.func,
     children: React.PropTypes.node
 };

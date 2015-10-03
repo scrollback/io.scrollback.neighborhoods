@@ -1,4 +1,5 @@
 import React from "react-native";
+import Modal from "../components/modal";
 
 const {
     StyleSheet,
@@ -14,6 +15,12 @@ const styles = StyleSheet.create({
 let _navigator;
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
+    if (Modal.isShown()) {
+        Modal.renderComponent(null);
+
+        return true;
+    }
+
     if (_navigator && _navigator.getCurrentRoutes().length > 1) {
         _navigator.pop();
 

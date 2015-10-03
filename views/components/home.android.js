@@ -1,5 +1,6 @@
 import React from "react-native";
-import NavigationBar from "../utils/navigation-bar";
+import Modal from "./modal";
+import navigationBar from "../utils/navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
 
@@ -11,7 +12,8 @@ const {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        position: "relative"
     },
     statusbar: {
         height: 25, // offset for statusbar height
@@ -31,9 +33,10 @@ export default class Home extends React.Component {
                 <Navigator
                     initialRoute={this.props.initialRoute || routes.home()}
                     renderScene={renderScene}
-                    navigationBar={NavigationBar}
+                    navigationBar={navigationBar}
                     sceneStyle={styles.scene}
                 />
+                <Modal />
             </View>
         );
     }

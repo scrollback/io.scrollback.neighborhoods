@@ -2,12 +2,14 @@ import React from "react-native";
 import ChatBubble from "./chat-bubble";
 import Avatar from "./avatar";
 import Embed from "./embed";
+import Modal from "./modal";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
 
 const {
     StyleSheet,
+    TouchableOpacity,
     View,
     Text,
     Image
@@ -15,7 +17,7 @@ const {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 16,
+        marginHorizontal: 8,
         marginVertical: 4
     },
     chat: {
@@ -37,12 +39,11 @@ const styles = StyleSheet.create({
     timestampRight: { alignSelf: "flex-end" },
     avatar: {
         position: "absolute",
-        left: -44,
         top: 0,
+        left: -36,
         height: 36,
         width: 36,
         borderRadius: 18,
-        marginRight: 4,
         backgroundColor: "#999",
         alignSelf: "flex-end"
     },
@@ -55,6 +56,12 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         borderRadius: 36
+    },
+    bubbleReceived: {
+        marginRight: 8
+    },
+    bubbleSent: {
+        marginLeft: 8
     }
 });
 
@@ -67,6 +74,14 @@ export default class ChatItem extends React.Component {
                 this.props.previousText.from !== nextProps.previousText.from ||
                 this.props.previousText.time !== nextProps.previousText.time
             );
+    }
+
+    _showMenu() {
+        Modal.renderMenu([
+            { label: "Copy text" },
+            { label: "Reply" },
+            { label: "Quote" }
+        ]);
     }
 
     render() {
@@ -121,15 +136,17 @@ export default class ChatItem extends React.Component {
                         null
                     }
 
-                    <ChatBubble
-                        text={text}
-                        type={received ? "left" : "right"}
-                        showAuthor={showAuthor}
-                        showArrow={received ? showAuthor : true}
-                        style={styles.bubble}
-                    >
-                        {cover}
-                    </ChatBubble>
+                    <TouchableOpacity onPress={this._showMenu.bind(this)}>
+                        <ChatBubble
+                            text={text}
+                            type={received ? "left" : "right"}
+                            showAuthor={showAuthor}
+                            showArrow={received ? showAuthor : true}
+                            style={received ? styles.bubbleReceived : styles.bubbleSent}
+                        >
+                            {cover}
+                        </ChatBubble>
+                    </TouchableOpacity>
                 </View>
 
                 {showTime ?

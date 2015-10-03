@@ -7,12 +7,14 @@ import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
+import Modal from "./modal";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 import oembed from "../../lib/oembed";
 
 const {
     StyleSheet,
+    TouchableOpacity,
     Image,
     View
 } = React;
@@ -22,9 +24,33 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
         height: 160
     },
-    author: { marginVertical: 8 },
-    item: { marginHorizontal: 16 },
-    footer: { marginBottom: 8 }
+    author: {
+        marginVertical: 8
+    },
+    cover: {
+        marginTop: 4,
+        marginBottom: 12
+    },
+    item: {
+        marginHorizontal: 16
+    },
+    footer: {
+        marginBottom: 8
+    },
+    topArea: {
+        flexDirection: "row"
+    },
+    title: {
+        flex: 1,
+        marginTop: 16
+    },
+    expand: {
+        height: 24,
+        width: 24,
+        marginHorizontal: 16,
+        marginVertical: 12,
+        opacity: 0.5
+    }
 });
 
 export default class DiscussionItem extends React.Component {
@@ -34,6 +60,14 @@ export default class DiscussionItem extends React.Component {
                 this.props.thread.text !== nextProps.thread.text ||
                 this.props.thread.from !== nextProps.thread.from
             );
+    }
+
+    _showMenu() {
+        Modal.renderMenu([
+            { label: "Copy title" },
+            { label: "Copy summary" },
+            { label: "Share discussion" }
+        ]);
     }
 
     _onPress() {
@@ -52,33 +86,38 @@ export default class DiscussionItem extends React.Component {
         let cover;
 
         if (pictures.length) {
-            cover = <Image style={styles.image} source={{ uri: pictures[0] }} />;
+            cover = <Image style={[ styles.image, styles.cover ]} source={{ uri: pictures[0] }} />;
         } else if (links.length) {
             const uri = links[0];
             const endpoint = oembed(uri);
 
             if (endpoint) {
-                cover = <Embed uri={uri} endpoint={endpoint} />;
+                cover = (
+                    <Embed
+                        style={styles.cover}
+                        uri={uri}
+                        endpoint={endpoint}
+                    />
+                );
             }
         }
 
         return (
             <Card {...this.props}>
-                <TouchFeedback onPress={this._onPress.bind(this)}>
+                <TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
                     <View>
-                        {cover}
+                        <View style={styles.topArea}>
+                            <CardTitle
+                                style={[ styles.item, styles.title ]}
+                                text={this.props.thread.title}
+                            />
 
-                        <CardTitle
-                            style={[
-                                styles.item,
-                                cover ? { marginTop: 8 } : { marginTop: 16 }
-                            ]}
-                            text={this.props.thread.title}
-                        />
+                            <TouchableOpacity onPress={this._showMenu.bind(this)}>
+                                <Image style={styles.expand} source={require("image!ic_expand_black")} />
+                            </TouchableOpacity>
+                        </View>
 
-                        {cover ? null :
-                            <CardSummary style={styles.item} text={trimmedText} />
-                        }
+                        {cover || <CardSummary style={styles.item} text={trimmedText} />}
 
                         {hashtags.length ?
                             <CardHashtags style={styles.item} hashtags={hashtags} /> :
