@@ -8,14 +8,15 @@
   "dependencies": {
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
-    "react-native": "^0.11.0"
+    "react-native": "^0.11.4",
+    "react-native-dropdown-android": "0.0.3",
+    "react-native-invertible-scroll-view": "^0.1.2"
   },
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.2",
     "eslint": "^1.4.1",
     "eslint-plugin-react": "^3.4.2",
-    "mocha": "^2.3.2",
-    "react-native-invertible-scroll-view": "^0.1.2"
+    "mocha": "^2.3.2"
   }
 }

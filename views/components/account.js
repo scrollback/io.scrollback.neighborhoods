@@ -1,4 +1,5 @@
 import React from "react-native";
+import Dropdown from "react-native-dropdown-android";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 import Avatar from "./avatar";
@@ -66,10 +67,22 @@ const styles = StyleSheet.create({
     itemText: {
         fontSize: 16,
         lineHeight: 24
+    },
+    dropdown: {
+        height: 24,
+        width: 80
     }
 });
 
 export default class Account extends React.Component {
+    _onStatusChange(e) {
+        const user = Object.assign({}, this.props.user);
+
+        user.description = e.nativeEvent.text;
+
+        this.props.saveUser(user);
+    }
+
     _onPushNotificationChange(value) {
         const user = Object.assign({}, this.props.user);
 
@@ -98,16 +111,34 @@ export default class Account extends React.Component {
         this.props.saveUser(user);
     }
 
-    _onStatusChange(e) {
+    _onEmailFrequencyChange(data) {
         const user = Object.assign({}, this.props.user);
 
-        user.description = e.nativeEvent.text;
+        const params = user.params ? Object.assign({}, user.params) : {};
+        const email = params.email ? Object.assign({}, params.email) : {};
+
+        email.frequency = data.value.toLowerCase();
+
+        params.email = email;
+        user.params = params;
 
         this.props.saveUser(user);
     }
 
     render() {
         const { user } = this.props;
+
+        const digestFrequnecyValues = [ "Daily", "Never" ];
+
+        let digestFrequnecySelected = 0;
+
+        if (user.params && user.params.email && user.params.email.frequency) {
+            const frequency = user.params.email.frequency;
+
+            digestFrequnecySelected = digestFrequnecyValues.indexOf(frequency.charAt(0).toUpperCase() + frequency.slice(1));
+
+            digestFrequnecySelected = Math.max(Math.min(digestFrequnecySelected, digestFrequnecyValues.length - 1), 0);
+        }
 
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
@@ -157,11 +188,22 @@ export default class Account extends React.Component {
                             </View>
                             <View style={styles.item}>
                                 <View style={styles.itemLabel}>
-                                    <Text style={styles.itemText}>Email notifications</Text>
+                                    <Text style={styles.itemText}>Mention notifications via email</Text>
                                 </View>
                                 <SwitchAndroid
                                     value={user.params && user.params.email ? user.params.email.notifications !== false : false}
                                     onValueChange={this._onEmailNotificationChange.bind(this)}
+                                />
+                            </View>
+                            <View style={styles.item}>
+                                <View style={styles.itemLabel}>
+                                    <Text style={styles.itemText}>Email digest frequency</Text>
+                                </View>
+                                <Dropdown
+                                    style={styles.dropdown}
+                                    values={digestFrequnecyValues}
+                                    selected={digestFrequnecySelected}
+                                    onChange={this._onEmailFrequencyChange.bind(this)}
                                 />
                             </View>
                         </View>
