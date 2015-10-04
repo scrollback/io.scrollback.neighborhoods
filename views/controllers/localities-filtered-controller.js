@@ -39,6 +39,10 @@ export default class LocalitiesFilterController extends React.Component {
 
             this._cachedResults[filter] = data;
 
+            if (filter !== this.state.filter) {
+                return;
+            }
+
             this._onDataArrived(data);
         }, 500);
     }
@@ -57,10 +61,12 @@ export default class LocalitiesFilterController extends React.Component {
                 if (this._mounted) {
                     if (this._cachedResults[filter]) {
                         this.setState({
+                            filter,
                             data: this._cachedResults[filter]
                         });
                     } else {
                         this.setState({
+                            filter,
                             data: [ "LOADING" ]
                         });
                     }
@@ -70,6 +76,7 @@ export default class LocalitiesFilterController extends React.Component {
             this._fetchMatchingRooms(filter);
         } else {
             this.setState({
+                filter,
                 data: []
             });
         }
