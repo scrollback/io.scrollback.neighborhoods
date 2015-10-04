@@ -142,18 +142,6 @@ export default class Account extends React.Component {
     render() {
         const { user } = this.props;
 
-        const digestFrequnecyValues = [ "Daily", "Never" ];
-
-        let digestFrequnecySelected = 0;
-
-        if (user.params && user.params.email && user.params.email.frequency) {
-            const frequency = user.params.email.frequency;
-
-            digestFrequnecySelected = digestFrequnecyValues.indexOf(frequency.charAt(0).toUpperCase() + frequency.slice(1));
-
-            digestFrequnecySelected = Math.max(Math.min(digestFrequnecySelected, digestFrequnecyValues.length - 1), 0);
-        }
-
         return (
             <View {...this.props} style={[ styles.container, this.props.style ]}>
                 {(() => {

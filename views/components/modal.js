@@ -130,11 +130,13 @@ Modal.showActionSheetWithOptions = (options, callback) => {
             <TouchableHighlight
                 key={index}
                 underlayColor="rgba(0, 0, 0, .16)"
-                onPress={() => {
-                    callback(index);
+                onPress={() =>
+                    global.requestAnimationFrame(() => {
+                        callback(index);
 
-                    Modal.renderComponent(null);
-                }}
+                        Modal.renderComponent(null);
+                    }
+                )}
             >
                 <View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
                     <Text style={styles.menuItemText}>{item}</Text>
