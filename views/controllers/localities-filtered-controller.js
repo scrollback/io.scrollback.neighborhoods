@@ -1,5 +1,6 @@
 import React from "react-native";
 import LocalitiesFiltered from "../components/localities-filtered";
+import debounce from "../../lib/debounce";
 import store from "../../store/store";
 
 const {
@@ -13,6 +14,8 @@ export default class LocalitiesFilterController extends React.Component {
         this.state = {
             data: []
         };
+
+        this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
     }
 
     componentDidMount() {
@@ -21,6 +24,17 @@ export default class LocalitiesFilterController extends React.Component {
 
     componentWillUnmount() {
         this._mounted = false;
+    }
+
+    _fetchMatchingRoomsImmediate(filter) {
+        setTimeout(() => {
+            this._onDataArrived(store.getAllRooms().filter(room => {
+                return (
+                    room.id.toLowerCase().indexOf(filter) === 0 ||
+                    room.displayName.toLowerCase().indexOf(filter) === 0
+                );
+            }).slice(0, 10));
+        }, 500);
     }
 
     _onDataArrived(data) {
@@ -32,12 +46,21 @@ export default class LocalitiesFilterController extends React.Component {
     }
 
     _onSearchChange(filter) {
-        this._onDataArrived(store.getAllRooms().filter(room => {
-            return (
-                room.id.toLowerCase().indexOf(filter) === 0 ||
-                room.displayName.toLowerCase().indexOf(filter) === 0
-            );
-        }).slice(0, 10));
+        if (filter) {
+            InteractionManager.runAfterInteractions(() => {
+                if (this._mounted) {
+                    this.setState({
+                        data: [ "LOADING" ]
+                    });
+                }
+            });
+
+            this._fetchMatchingRooms(filter);
+        } else {
+            this.setState({
+                data: []
+            });
+        }
     }
 
     _onError() {
