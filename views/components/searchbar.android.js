@@ -1,8 +1,8 @@
 import React from "react-native";
-import TouchFeedback from "./touch-feedback";
 
 const {
     StyleSheet,
+    TouchableHighlight,
     Image,
     TextInput,
     View
@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         borderColor: "rgba(0, 0, 0, .16)",
         borderBottomWidth: 1,
-        height: 56
+        height: 56,
+        marginTop: 25
     },
     input: {
         flex: 1,
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent"
     },
     iconContainer: {
-        paddingHorizontal: 22,
+        marginHorizontal: 4,
         alignSelf: "stretch",
         alignItems: "center",
         justifyContent: "center"
@@ -33,7 +34,8 @@ const styles = StyleSheet.create({
     icon: {
         width: 24,
         height: 24,
-        opacity: 0.5
+        opacity: 0.5,
+        margin: 16
     }
 });
 
@@ -82,14 +84,14 @@ export default class SearchBar extends React.Component {
     render() {
         return (
             <View {...this.props} style={[ styles.searchbar, this.props.style ]}>
-                <TouchFeedback onPress={() => this._input && this._input.focus()}>
+                <TouchableHighlight onPress={() => global.requestAnimationFrame(this.props.onBack)} underlayColor="rgba(0, 0, 0, .16)">
                     <View style={styles.iconContainer}>
                         <Image
-                            source={require("image!ic_search_black")}
+                            source={require("image!ic_back_black")}
                             style={styles.icon}
                         />
                     </View>
-                </TouchFeedback>
+                </TouchableHighlight>
 
                 <TextInput
                     ref={c => this._input = c}
@@ -102,14 +104,14 @@ export default class SearchBar extends React.Component {
                 />
 
                 {this.state.showClear ?
-                    <TouchFeedback onPress={this._clearInput.bind(this)}>
+                    <TouchableHighlight onPress={this._clearInput.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
                         <View style={styles.iconContainer}>
                             <Image
                                 source={require("image!ic_close_black")}
                                 style={styles.icon}
                             />
                         </View>
-                    </TouchFeedback> :
+                    </TouchableHighlight> :
                     null
                 }
             </View>
@@ -118,8 +120,9 @@ export default class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
+    onBack: React.PropTypes.func.isRequired,
+    onSearchChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func,
-    onSearchChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     autoFocus: React.PropTypes.bool
 };

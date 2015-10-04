@@ -1,6 +1,6 @@
 import React from "react-native";
+import LocalitiesBase from "./localities-base";
 import SearchBar from "./searchbar";
-import LocalitiesController from "./localities-controller";
 
 const {
     StyleSheet,
@@ -8,41 +8,32 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-    scene: { flex: 1 }
+    container: {
+        flex: 1,
+        backgroundColor: "#eee"
+    },
+    inner: {
+        flex: 1
+    }
 });
 
 export default class LocalitiesFiltered extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            fliter: ""
-        };
-    }
-
-    _onSearchChange(filter) {
-        this.setState({ filter });
-    }
-
     render() {
         return (
-            <View {...this.props}>
+            <View style={styles.container}>
                 <SearchBar
-                    autoFocus={false}
-                    onSearchChange={this._onSearchChange.bind(this)}
-                    placeholder="Search for places..."
+                    placeholder="Type a name..."
+                    onBack={this.props.dismiss}
+                    onSearchChange={this.props.onSearchChange}
+                    autoFocus
                 />
-                <LocalitiesController
-                    filter={this.state.filter}
-                    style={styles.scene}
-                    navigator={this.props.navigator}
-                />
+                <LocalitiesBase {...this.props} style={[ styles.inner, this.props.style ]} />
             </View>
         );
     }
 }
 
 LocalitiesFiltered.propTypes = {
-    filter: React.PropTypes.func,
-    navigator: React.PropTypes.object.isRequired
+    dismiss: React.PropTypes.func.isRequired,
+    onSearchChange: React.PropTypes.func.isRequired
 };

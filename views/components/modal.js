@@ -93,15 +93,9 @@ export default class Modal extends React.Component {
         const win = Dimensions.get("window");
 
         return (
-            <View style={[ styles.container, { height: win.height, width: win.width } ]}>
-                <TouchableWithoutFeedback onPress={() => this._renderComponent(null)}>
-                    <Animated.View style={[ styles.overlay, { opacity: this.state.fadeAnim } ]}>
-                        <View {...this.props} style={[ styles.dialog, this.props.style ]}>
-                            {this.state.component}
-                        </View>
-                    </Animated.View>
-                </TouchableWithoutFeedback>
-            </View>
+            <Animated.View style={[ styles.container, { height: win.height, width: win.width, opacity: this.state.fadeAnim } ]}>
+                {this.state.component}
+            </Animated.View>
         );
     }
 }
@@ -124,8 +118,20 @@ Modal.renderComponent = component => {
     return false;
 };
 
+Modal.renderModal = component => {
+    return Modal.renderComponent((
+        <TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
+            <View style={styles.overlay}>
+                <View style={styles.dialog}>
+                    {component}
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
+    ));
+};
+
 Modal.showActionSheetWithOptions = (options, callback) => {
-    return Modal.renderComponent(options.options.map((item, index) =>
+    return Modal.renderModal(options.options.map((item, index) =>
         (
             <TouchableHighlight
                 key={index}

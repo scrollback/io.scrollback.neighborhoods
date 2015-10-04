@@ -1,24 +1,22 @@
 import React from "react-native";
-import Localities from "../components/localities";
+import LocalitiesFiltered from "../components/localities-filtered";
 import store from "../../store/store";
 
 const {
     InteractionManager
 } = React;
 
-export default class LocalitiesController extends React.Component {
+export default class LocalitiesFilterController extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            data: [ "LOADING" ]
+            data: []
         };
     }
 
     componentDidMount() {
         this._mounted = true;
-
-        setTimeout(() => this._onDataArrived(store.getRelatedRooms()), 0);
     }
 
     componentWillUnmount() {
@@ -33,6 +31,15 @@ export default class LocalitiesController extends React.Component {
         });
     }
 
+    _onSearchChange(filter) {
+        this._onDataArrived(store.getAllRooms().filter(room => {
+            return (
+                room.id.toLowerCase().indexOf(filter) === 0 ||
+                room.displayName.toLowerCase().indexOf(filter) === 0
+            );
+        }).slice(0, 10));
+    }
+
     _onError() {
         InteractionManager.runAfterInteractions(() => {
             if (this._mounted) {
@@ -43,21 +50,17 @@ export default class LocalitiesController extends React.Component {
         });
     }
 
-    _refreshData() {
-
-    }
-
     render() {
         return (
-            <Localities
+            <LocalitiesFiltered
                 {...this.props}
                 {...this.state}
-                refreshData={this._refreshData.bind(this)}
+                onSearchChange={this._onSearchChange.bind(this)}
             />
         );
     }
 }
 
-LocalitiesController.propTypes = {
+LocalitiesFilterController.propTypes = {
     filter: React.PropTypes.string
 };

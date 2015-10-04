@@ -62,6 +62,10 @@ class Store {
         return this._data.threads;
     }
 
+    getAllRooms() {
+        return this._data.rooms;
+    }
+
     getRelation(roomId, userId) {
         return {
             user: userId,
