@@ -5,6 +5,7 @@ import Avatar from "./avatar";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
+import debounce from "../../lib/debounce";
 
 const {
     StyleSheet,
@@ -81,12 +82,18 @@ const styles = StyleSheet.create({
 });
 
 export default class Account extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this._saveUserDebounced = debounce(this.props.saveUser, 1000);
+    }
+
     _onStatusChange(e) {
         const user = Object.assign({}, this.props.user);
 
         user.description = e.nativeEvent.text;
 
-        this.props.saveUser(user);
+        this._saveUserDebounced(user);
     }
 
     _onPushNotificationChange(value) {
