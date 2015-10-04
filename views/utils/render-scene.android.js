@@ -1,16 +1,6 @@
-import React from "react-native";
+import { BackAndroid } from "react-native";
 import Modal from "../components/modal";
-
-const {
-    StyleSheet,
-    BackAndroid
-} = React;
-
-const styles = StyleSheet.create({
-    scene: {
-        flex: 1
-    }
-});
+import renderSceneBase from "./render-scene-base";
 
 let _navigator;
 
@@ -30,14 +20,8 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
     return false;
 });
 
-export default (route, navigator) => {
+export default (route, navigator, ...rest) => {
     _navigator = navigator;
 
-    return (
-        <route.component
-            {...route.passProps}
-            navigator={navigator}
-            style={styles.scene}
-        />
-    );
+    return renderSceneBase(route, navigator, ...rest);
 };

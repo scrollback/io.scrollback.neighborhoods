@@ -24,10 +24,20 @@ export default class LocalitiesBase extends React.Component {
     componentWillMount() {
         geolocation.getCurrentPosition(position => this.setState({ position }));
 
-        this._watchID = geolocation.watchPosition(position => this.setState({ position }));
+        this._watchID = geolocation.watchPosition(position => {
+            if (this._mounted) {
+                this.setState({ position });
+            }
+        });
+    }
+
+    componentDidMount() {
+        this._mounted = true;
     }
 
     componentWillUnmount() {
+        this._mounted = false;
+
         if (this._watchID) {
             geolocation.clearWatch(this._watchID);
         }
