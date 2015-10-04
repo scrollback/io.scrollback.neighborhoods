@@ -10,8 +10,10 @@ export default class RoomTitleController extends React.Component {
     constructor(props) {
         super(props);
 
+        const displayName = this.props.room.replace(/-+/g, " ").replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim();
+
         this.state = {
-            room: { displayName: this.props.room }
+            room: { displayName }
         };
     }
 
