@@ -3,6 +3,7 @@ import RoomItem from "./room-item";
 import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
+import geolocation from "../../modules/geolocation";
 
 const {
     ListView,
@@ -14,6 +15,22 @@ export default class LocalitiesBase extends React.Component {
         super(props);
 
         this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
+        this.state = {
+            position: null
+        };
+    }
+
+    componentWillMount() {
+        geolocation.getCurrentPosition(position => this.setState({ position }));
+
+        this._watchID = geolocation.watchPosition(position => this.setState({ position }));
+    }
+
+    componentWillUnmount() {
+        if (this._watchID) {
+            geolocation.clearWatch(this._watchID);
+        }
     }
 
     _getDataSource() {
@@ -46,6 +63,7 @@ export default class LocalitiesBase extends React.Component {
                                 <RoomItem
                                     key={room.id}
                                     room={room}
+                                    position={this.state.position}
                                     navigator={this.props.navigator}
                                 />
                             }

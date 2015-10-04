@@ -12,27 +12,24 @@ const {
 
 const styles = StyleSheet.create({
     item: {
+        justifyContent: "center",
         backgroundColor: "#fff",
         borderColor: "rgba(0, 0, 0, .08)",
         borderBottomWidth: 1 / PixelRatio.get(),
         paddingHorizontal: 16,
-        paddingVertical: 12
+        height: 64
     },
     title: {
         fontSize: 14,
+        lineHeight: 21,
         fontWeight: "bold"
     },
     distance: {
         fontSize: 12,
-        opacity: 0.7,
-        marginTop: 4
+        lineHeight: 18,
+        opacity: 0.7
     }
 });
-
-const currentLocation = {
-    latitude: 12.9667,
-    longitude: 77.5667
-};
 
 export default class RoomItem extends React.Component {
     _onPress() {
@@ -40,16 +37,17 @@ export default class RoomItem extends React.Component {
     }
 
     render() {
-        const { room } = this.props;
-
-        const formattedDistance = locationUtils.getFormattedDistance(currentLocation, room);
+        const { room, position } = this.props;
 
         return (
             <View {...this.props}>
                 <TouchFeedback onPress={this._onPress.bind(this)}>
                     <View style={styles.item}>
                         <Text style={styles.title}>{room.displayName}</Text>
-                        <Text style={styles.distance}>{formattedDistance}</Text>
+                        {position ?
+                            <Text style={styles.distance}>{locationUtils.getFormattedDistance(position.coords, room)}</Text> :
+                            null
+                        }
                     </View>
                 </TouchFeedback>
             </View>
@@ -63,6 +61,12 @@ RoomItem.propTypes = {
         displayName: React.PropTypes.string.isRequired,
         latitude: React.PropTypes.number.isRequired,
         longitude: React.PropTypes.number.isRequired
+    }),
+    position: React.PropTypes.shape({
+        coords: React.PropTypes.shape({
+            latitude: React.PropTypes.number.isRequired,
+            longitude: React.PropTypes.number.isRequired
+        })
     }),
     navigator: React.PropTypes.object.isRequired
 };
