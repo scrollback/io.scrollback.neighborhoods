@@ -15,7 +15,8 @@ public class HeyNeighborPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
                 new WebSocketModule(reactContext),
-                new IntentModule(reactContext)
+                new IntentModule(reactContext),
+                new ClipboardModule(reactContext)
         );
     }
 

@@ -3,6 +3,7 @@ import ChatBubble from "./chat-bubble";
 import Avatar from "./avatar";
 import Embed from "./embed";
 import Modal from "./modal";
+import Clipboard from "../../modules/clipboard";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
@@ -79,7 +80,13 @@ export default class ChatItem extends React.Component {
     _showMenu() {
         const options = [ "Copy text", "Reply", "Quote" ];
 
-        Modal.showActionSheetWithOptions({ options }, () => {});
+        Modal.showActionSheetWithOptions({ options }, index => {
+            switch (index) {
+            case 0:
+                Clipboard.setText(this.props.text.text);
+                break;
+            }
+        });
     }
 
     render() {

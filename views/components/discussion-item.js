@@ -8,6 +8,7 @@ import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
+import Clipboard from "../../modules/clipboard";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 import oembed from "../../lib/oembed";
@@ -65,7 +66,16 @@ export default class DiscussionItem extends React.Component {
     _showMenu() {
         const options = [ "Copy title", "Copy summary", "Share discussion" ];
 
-        Modal.showActionSheetWithOptions({ options }, () => {});
+        Modal.showActionSheetWithOptions({ options }, index => {
+            switch (index) {
+            case 0:
+                Clipboard.setText(this.props.thread.title);
+                break;
+            case 1:
+                Clipboard.setText(this.props.thread.text);
+                break;
+            }
+        });
     }
 
     _onPress() {

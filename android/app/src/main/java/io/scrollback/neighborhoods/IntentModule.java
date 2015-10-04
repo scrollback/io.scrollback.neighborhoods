@@ -10,17 +10,17 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 public class IntentModule extends ReactContextBaseJavaModule {
-    ReactApplicationContext reactContext;
+    ReactApplicationContext mReactContext;
 
     public IntentModule(ReactApplicationContext ctx) {
         super(ctx);
 
-        reactContext = ctx;
+        mReactContext = ctx;
     }
 
     @Override
     public String getName() {
-        return "IntentManager";
+        return "IntentModule";
     }
 
     @ReactMethod
@@ -29,12 +29,12 @@ public class IntentModule extends ReactContextBaseJavaModule {
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        reactContext.startActivity(intent);
+        mReactContext.startActivity(intent);
     }
 
     @ReactMethod
     public void canOpenURL(final String url, final Callback callback) {
-        PackageManager packageManager = reactContext.getPackageManager();
+        PackageManager packageManager = mReactContext.getPackageManager();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
