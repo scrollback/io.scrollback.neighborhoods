@@ -16,6 +16,8 @@ export default class LocalitiesFilterController extends React.Component {
         };
 
         this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
+
+        this._cachedResults = {};
     }
 
     componentDidMount() {
@@ -28,12 +30,16 @@ export default class LocalitiesFilterController extends React.Component {
 
     _fetchMatchingRoomsImmediate(filter) {
         setTimeout(() => {
-            this._onDataArrived(store.getAllRooms().filter(room => {
+            const data = store.getAllRooms().filter(room => {
                 return (
                     room.id.toLowerCase().indexOf(filter) === 0 ||
                     room.displayName.toLowerCase().indexOf(filter) === 0
                 );
-            }).slice(0, 10));
+            }).slice(0, 10);
+
+            this._cachedResults[filter] = data;
+
+            this._onDataArrived(data);
         }, 500);
     }
 
@@ -49,9 +55,15 @@ export default class LocalitiesFilterController extends React.Component {
         if (filter) {
             InteractionManager.runAfterInteractions(() => {
                 if (this._mounted) {
-                    this.setState({
-                        data: [ "LOADING" ]
-                    });
+                    if (this._cachedResults[filter]) {
+                        this.setState({
+                            data: this._cachedResults[filter]
+                        });
+                    } else {
+                        this.setState({
+                            data: [ "LOADING" ]
+                        });
+                    }
                 }
             });
 
