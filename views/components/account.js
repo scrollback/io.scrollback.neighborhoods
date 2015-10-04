@@ -1,9 +1,10 @@
 import React from "react-native";
-import Dropdown from "react-native-dropdown-android";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 import Avatar from "./avatar";
 import GrowingTextInput from "./growing-text-input";
+import Modal from "./modal";
+import TouchFeedback from "./touch-feedback";
 
 const {
     StyleSheet,
@@ -65,8 +66,13 @@ const styles = StyleSheet.create({
         flex: 1
     },
     itemText: {
+        color: "#333",
         fontSize: 16,
         lineHeight: 24
+    },
+    itemValueText: {
+        fontSize: 14,
+        lineHeight: 21
     },
     dropdown: {
         height: 24,
@@ -111,18 +117,39 @@ export default class Account extends React.Component {
         this.props.saveUser(user);
     }
 
-    _onEmailFrequencyChange(data) {
+    _onEmailFrequencyChange(value) {
         const user = Object.assign({}, this.props.user);
 
         const params = user.params ? Object.assign({}, user.params) : {};
         const email = params.email ? Object.assign({}, params.email) : {};
 
-        email.frequency = data.value.toLowerCase();
+        email.frequency = value;
 
         params.email = email;
         user.params = params;
 
         this.props.saveUser(user);
+    }
+
+    _selectFrequency() {
+        Modal.renderMenu([
+            {
+                label: "Daily",
+                action: () => {
+                    this._onEmailFrequencyChange("daily");
+
+                    Modal.renderComponent(null);
+                }
+            },
+            {
+                label: "Never",
+                action: () => {
+                    this._onEmailFrequencyChange("never");
+
+                    Modal.renderComponent(null);
+                }
+            }
+        ]);
     }
 
     render() {
@@ -195,17 +222,19 @@ export default class Account extends React.Component {
                                     onValueChange={this._onEmailNotificationChange.bind(this)}
                                 />
                             </View>
-                            <View style={styles.item}>
-                                <View style={styles.itemLabel}>
-                                    <Text style={styles.itemText}>Email digest frequency</Text>
+                            <TouchFeedback onPress={this._selectFrequency.bind(this)}>
+                                <View style={styles.item}>
+                                    <View style={styles.itemLabel}>
+                                        <Text style={styles.itemText}>Email digest frequency</Text>
+                                        <Text style={styles.itemValueText}>
+                                            {user.params && user.params.email && user.params.email.frequency ?
+                                                user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
+                                                "Daily"
+                                            }
+                                        </Text>
+                                    </View>
                                 </View>
-                                <Dropdown
-                                    style={styles.dropdown}
-                                    values={digestFrequnecyValues}
-                                    selected={digestFrequnecySelected}
-                                    onChange={this._onEmailFrequencyChange.bind(this)}
-                                />
-                            </View>
+                            </TouchFeedback>
                         </View>
                     );
                 })()}

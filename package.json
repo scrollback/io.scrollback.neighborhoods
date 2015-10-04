@@ -9,7 +9,6 @@
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
     "react-native": "^0.11.4",
-    "react-native-dropdown-android": "0.0.3",
     "react-native-invertible-scroll-view": "^0.1.2"
   },
   "devDependencies": {

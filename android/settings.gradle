@@ -1,6 +1,3 @@
 rootProject.name = 'HeyNeighbor'
 
-include ':ReactNativeDropdownAndroid'
-project(':ReactNativeDropdownAndroid').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-dropdown-android/android')
-
 include ':app'
