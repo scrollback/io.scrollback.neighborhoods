@@ -63,11 +63,9 @@ export default class DiscussionItem extends React.Component {
     }
 
     _showMenu() {
-        Modal.renderMenu([
-            { label: "Copy title" },
-            { label: "Copy summary" },
-            { label: "Share discussion" }
-        ]);
+        const options = [ "Copy title", "Copy summary", "Share discussion" ];
+
+        Modal.showActionSheetWithOptions({ options }, () => {});
     }
 
     _onPress() {

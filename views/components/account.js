@@ -132,24 +132,11 @@ export default class Account extends React.Component {
     }
 
     _selectFrequency() {
-        Modal.renderMenu([
-            {
-                label: "Daily",
-                action: () => {
-                    this._onEmailFrequencyChange("daily");
+        const options = [ "Daily", "Never" ];
 
-                    Modal.renderComponent(null);
-                }
-            },
-            {
-                label: "Never",
-                action: () => {
-                    this._onEmailFrequencyChange("never");
-
-                    Modal.renderComponent(null);
-                }
-            }
-        ]);
+        Modal.showActionSheetWithOptions({ options }, i =>
+            this._onEmailFrequencyChange(options[i].toLowerCase())
+        );
     }
 
     render() {

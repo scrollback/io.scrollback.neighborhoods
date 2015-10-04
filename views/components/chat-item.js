@@ -77,11 +77,9 @@ export default class ChatItem extends React.Component {
     }
 
     _showMenu() {
-        Modal.renderMenu([
-            { label: "Copy text" },
-            { label: "Reply" },
-            { label: "Quote" }
-        ]);
+        const options = [ "Copy text", "Reply", "Quote" ];
+
+        Modal.showActionSheetWithOptions({ options }, () => {});
     }
 
     render() {

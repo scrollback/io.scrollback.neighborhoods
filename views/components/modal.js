@@ -124,18 +124,22 @@ Modal.renderComponent = component => {
     return false;
 };
 
-Modal.renderMenu = items => {
-    return Modal.renderComponent(items.map((item, index) => {
-        return (
+Modal.showActionSheetWithOptions = (options, callback) => {
+    return Modal.renderComponent(options.options.map((item, index) =>
+        (
             <TouchableHighlight
                 key={index}
                 underlayColor="rgba(0, 0, 0, .16)"
-                onPress={item.action}
+                onPress={() => {
+                    callback(index);
+
+                    Modal.renderComponent(null);
+                }}
             >
                 <View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
-                    <Text style={styles.menuItemText}>{item.label}</Text>
+                    <Text style={styles.menuItemText}>{item}</Text>
                 </View>
             </TouchableHighlight>
-        );
-    }));
+        )
+    ));
 };
