@@ -29,7 +29,7 @@ export default class ChatTitle extends React.Component {
         global.requestAnimationFrame(() => {
             const { thread } = this.props;
 
-            if (thread.id) {
+            if (thread && thread.id) {
                 this.props.navigator.push(routes.people({ thread: thread.id }));
             }
         });
