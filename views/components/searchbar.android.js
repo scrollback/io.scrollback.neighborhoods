@@ -3,6 +3,7 @@ import React from "react-native";
 const {
     StyleSheet,
     TouchableHighlight,
+    PixelRatio,
     Image,
     TextInput,
     View
@@ -13,8 +14,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#fff",
-        borderColor: "rgba(0, 0, 0, .16)",
-        borderBottomWidth: 1,
+        borderColor: "rgba(0, 0, 0, .24)",
+        borderBottomWidth: 1 / PixelRatio.get(),
         height: 56,
         marginTop: 25
     },
@@ -100,6 +101,7 @@ export default class SearchBar extends React.Component {
                     placeholder={this.props.placeholder}
                     placeholderTextColor="rgba(0, 0, 0, 0.5)"
                     onFocus={this.props.onFocus}
+                    onBlur={this.props.onBlur}
                     style={styles.input}
                 />
 
@@ -123,6 +125,7 @@ SearchBar.propTypes = {
     onBack: React.PropTypes.func.isRequired,
     onSearchChange: React.PropTypes.func.isRequired,
     onFocus: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     autoFocus: React.PropTypes.bool
 };

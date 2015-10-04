@@ -2,15 +2,16 @@ import React from "react-native";
 
 const {
     StyleSheet,
-    View
+    View,
+    PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
     card: {
         backgroundColor: "#fff",
         borderColor: "rgba(0, 0, 0, .08)",
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
+        borderTopWidth: 1 / PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         marginVertical: 4
     }
 });

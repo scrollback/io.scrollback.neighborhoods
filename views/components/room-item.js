@@ -5,6 +5,7 @@ import locationUtils from "../../lib/location-utils";
 
 const {
     StyleSheet,
+    PixelRatio,
     View,
     Text
 } = React;
@@ -12,8 +13,8 @@ const {
 const styles = StyleSheet.create({
     item: {
         backgroundColor: "#fff",
-        borderColor: "rgba(0, 0, 0, .04)",
-        borderBottomWidth: 1,
+        borderColor: "rgba(0, 0, 0, .08)",
+        borderBottomWidth: 1 / PixelRatio.get(),
         paddingHorizontal: 16,
         paddingVertical: 12
     },

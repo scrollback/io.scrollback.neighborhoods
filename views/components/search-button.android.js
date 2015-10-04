@@ -5,6 +5,7 @@ import LocalitiesFilterController from "../controllers/localities-filtered-contr
 const {
     StyleSheet,
     TouchableHighlight,
+    PixelRatio,
     Image,
     Text,
     View
@@ -15,8 +16,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#fff",
-        borderColor: "rgba(0, 0, 0, .16)",
-        borderBottomWidth: 1,
+        borderColor: "rgba(0, 0, 0, .24)",
+        borderBottomWidth: 1 / PixelRatio.get(),
         height: 56
     },
     searchbarText: {

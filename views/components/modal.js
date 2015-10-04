@@ -6,6 +6,7 @@ const {
     TouchableWithoutFeedback,
     TouchableHighlight,
     Animated,
+    PixelRatio,
     View,
     Text
 } = React;
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
         borderRadius: 3
     },
     menuItem: {
-        borderColor: "rgba(0, 0, 0, .04)",
-        borderTopWidth: 1,
+        borderColor: "rgba(0, 0, 0, .08)",
+        borderTopWidth: 1 / PixelRatio.get(),
         padding: 16,
         width: 240
     },

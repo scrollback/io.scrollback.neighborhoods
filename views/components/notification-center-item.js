@@ -9,14 +9,15 @@ const {
     View,
     Text,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
     item: {
         backgroundColor: "#fff",
-        borderColor: "rgba(0, 0, 0, .04)",
-        borderBottomWidth: 1
+        borderColor: "rgba(0, 0, 0, .08)",
+        borderBottomWidth: 1 / PixelRatio.get()
     },
     note: {
         flexDirection: "row"

@@ -11,7 +11,8 @@ const {
     StyleSheet,
     View,
     Text,
-    SwitchAndroid
+    SwitchAndroid,
+    PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
@@ -45,8 +46,8 @@ const styles = StyleSheet.create({
         alignItems: "stretch"
     },
     inputContainer: {
-        borderColor: "rgba(0, 0, 0, .04)",
-        borderBottomWidth: 1,
+        borderColor: "rgba(0, 0, 0, .08)",
+        borderBottomWidth: 1 / PixelRatio.get(),
         paddingVertical: 8
     },
     inputLabelText: {
@@ -59,8 +60,8 @@ const styles = StyleSheet.create({
     item: {
         flexDirection: "row",
         alignItems: "center",
-        borderColor: "rgba(0, 0, 0, .04)",
-        borderBottomWidth: 1,
+        borderColor: "rgba(0, 0, 0, .08)",
+        borderBottomWidth: 1 / PixelRatio.get(),
         padding: 16
     },
     itemLabel: {
