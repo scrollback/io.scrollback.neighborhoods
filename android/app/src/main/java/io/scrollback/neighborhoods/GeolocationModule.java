@@ -63,11 +63,12 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         coords.putDouble("longitude", loc.getLongitude());
         coords.putDouble("altitude", loc.getAltitude());
         coords.putDouble("accuracy", loc.getAccuracy());
-        coords.putDouble("spped", loc.getSpeed());
+        coords.putDouble("speed", loc.getSpeed());
 
         WritableMap map = Arguments.createMap();
 
         map.putMap("coords", coords);
+        map.putDouble("timestamp", loc.getTime());
 
         return map;
     }
