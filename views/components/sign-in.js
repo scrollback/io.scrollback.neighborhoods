@@ -2,6 +2,7 @@ import React from "react-native";
 import SignInButton from "./sign-in-button";
 import Home from "./home";
 import GoogleLogin from "../../modules/google-login";
+import FacebookLogin from "../../modules/facebook-login";
 
 const {
     StyleSheet,
@@ -62,7 +63,7 @@ export default class SignIn extends React.Component {
     }
 
     _onFacebookPress() {
-        this._onSignIn();
+        FacebookLogin.pickAccount(e => console.log(e));
     }
 
     _onGooglePress() {

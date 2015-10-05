@@ -54,8 +54,15 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         if (mRetrieveCallback != null) {
             WritableMap map = Arguments.createMap();
 
-            map.putString("accountName", mAccountName);
-            map.putString("token", mAccessToken);
+            if (mAccessToken != null) {
+                map.putString("type", "success");
+                map.putString("accountName", mAccountName);
+                map.putString("token", mAccessToken);
+                map.putBoolean("cache", true);
+            } else {
+                map.putString("type", "cancel");
+                map.putString("message", "Cannot register multiple callbacks");
+            }
 
             mRetrieveCallback.invoke(map);
         }
@@ -100,10 +107,30 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     token = GoogleAuthUtil.getToken(mActivityContext, accountName, scopes);
                 } catch (IOException e) {
                     Log.e(Constants.TAG, e.getMessage());
+
+                    if (mRetrieveCallback != null) {
+                        WritableMap map = Arguments.createMap();
+
+                        map.putString("type", "error");
+                        map.putString("message", e.getMessage());
+
+                        mRetrieveCallback.invoke(map);
+                        mRetrieveCallback = null;
+                    }
                 } catch (UserRecoverableAuthException e) {
                     ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
                 } catch (GoogleAuthException e) {
                     Log.e(Constants.TAG, e.getMessage());
+
+                    if (mRetrieveCallback != null) {
+                        WritableMap map = Arguments.createMap();
+
+                        map.putString("type", "error");
+                        map.putString("message", e.getMessage());
+
+                        mRetrieveCallback.invoke(map);
+                        mRetrieveCallback = null;
+                    }
                 }
 
                 return token;
@@ -117,25 +144,27 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     dialog.dismiss();
                 }
 
-                if (token != null) {
-                    mAccessToken = token;
+                if (mRetrieveCallback != null) {
+                    if (token != null) {
+                        mAccessToken = token;
 
-                    WritableMap map = Arguments.createMap();
+                        WritableMap map = Arguments.createMap();
 
-                    map.putString("accountName", accountName);
-                    map.putString("token", mAccessToken);
+                        map.putString("type", "success");
+                        map.putString("accountName", accountName);
+                        map.putString("token", mAccessToken);
 
-                    if (mRetrieveCallback != null) {
                         mRetrieveCallback.invoke(map);
+                        mRetrieveCallback = null;
+                    } else {
+                        WritableMap map = Arguments.createMap();
 
+                        map.putString("type", "error");
+                        map.putString("message", "No access token found");
+
+                        mRetrieveCallback.invoke(map);
                         mRetrieveCallback = null;
                     }
-                }
-
-                if (mRetrieveCallback != null) {
-                    mRetrieveCallback.invoke();
-
-                    mRetrieveCallback = null;
                 }
             }
         }.execute(accountName);

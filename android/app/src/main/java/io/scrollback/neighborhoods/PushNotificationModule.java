@@ -26,13 +26,13 @@ import java.io.IOException;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
-    private final String SENDER_ID = "949615022713";
-    private final int PLAY_SERVICES_RESOLUTION_REQUEST = 5000;
-
     private String mCurrentRegId;
     private ReactContext mReactContext;
     private Context mActivityContext;
     private GoogleCloudMessaging mGcmInstance;
+
+
+    private final String senderId;
 
     private boolean isSupported = false;
 
@@ -41,6 +41,8 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         mReactContext = reactContext;
         mActivityContext = activityContext;
+
+        senderId = mActivityContext.getString(R.string.gcm_sender_id);
 
         // Showing status
         if (checkPlayServices()) {
@@ -59,7 +61,8 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mReactContext);
+        final int PLAY_SERVICES_RESOLUTION_REQUEST = 5000;
+        final int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mReactContext);
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
@@ -114,7 +117,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
             return "";
         }
 
-        // check if app was updated; if so, it must clear registration id to
+        // Check if app was updated; if so, it must clear registration id to
         // avoid a race condition if GCM sends a message
         int registeredVersion = prefs.getInt(Constants.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentVersion = getAppVersion(context);
@@ -151,7 +154,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                         mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
                     }
 
-                    mCurrentRegId = mGcmInstance.register(SENDER_ID);
+                    mCurrentRegId = mGcmInstance.register(senderId);
 
                     msg = "Device registered, registration ID: " + mCurrentRegId;
 
