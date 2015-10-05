@@ -54,7 +54,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     @Override
     public void onBackPressed() {
-    if (mReactInstanceManager != null) {
+        if (mReactInstanceManager != null) {
             mReactInstanceManager.onBackPressed();
         } else {
             super.onBackPressed();

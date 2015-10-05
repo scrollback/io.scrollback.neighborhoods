@@ -17,7 +17,8 @@ public class HeyNeighborPackage implements ReactPackage {
                 new WebSocketModule(reactContext),
                 new IntentModule(reactContext),
                 new GeolocationModule(reactContext),
-                new ClipboardModule(reactContext)
+                new ClipboardModule(reactContext),
+                new PushNotificationModule(reactContext)
         );
     }
 
