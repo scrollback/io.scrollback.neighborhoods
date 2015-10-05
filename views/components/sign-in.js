@@ -62,7 +62,9 @@ const styles = StyleSheet.create({
 });
 
 export default class SignIn extends React.Component {
-    _onSignIn() {
+    _onSignIn(e) {
+        console.log(e);
+
         this.props.navigator.replace({ component: Home });
     }
 
@@ -71,11 +73,11 @@ export default class SignIn extends React.Component {
     }
 
     _onFacebookPress() {
-        FacebookLogin.pickAccount(e => console.log(e));
+        FacebookLogin.pickAccount(e => this._onSignIn(e));
     }
 
     _onGooglePress() {
-        GoogleLogin.pickAccount(e => console.log(e));
+        GoogleLogin.pickAccount(e => this._onSignIn(e));
     }
 
     render() {
