@@ -25,8 +25,8 @@ export default class AppController extends React.Component {
         this._mounted = false;
     }
 
-    _onDataArrived(user) {
-        this.setState({ user });
+    _onDataArrived() {
+        this.setState({ user: "FAILED" });
     }
 
     _onError() {

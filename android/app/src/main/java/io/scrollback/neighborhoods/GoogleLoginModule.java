@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
@@ -30,13 +31,15 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     private String mAccountName;
     private String mAccessToken;
     private ReactContext mReactContext;
+    private Context mActivityContext;
 
     private Dialog dialog;
 
-    public GoogleLoginModule(ReactApplicationContext ctx) {
+    public GoogleLoginModule(ReactApplicationContext ctx, Context aCtx) {
         super(ctx);
 
         mReactContext = ctx;
+        mActivityContext = aCtx;
     }
 
     @Override
@@ -56,7 +59,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 null, null, new String[] {"com.google"},
                 false, null, null, null, null);
 
-        ((Activity) mReactContext.getBaseContext()).startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
+        ((Activity) mActivityContext).startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
     }
 
     @ReactMethod
@@ -64,14 +67,14 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         deleteToken(mAccountName);
     }
 
-    public void retrieveToken(final String accountName) {
+    protected void retrieveToken(final String accountName) {
         new AsyncTask<String, Void, String>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                dialog = new ProgressDialog(mReactContext);
+                dialog = new ProgressDialog(mActivityContext);
                 dialog.show();
             }
 
@@ -82,11 +85,11 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 String token = null;
 
                 try {
-                    token = GoogleAuthUtil.getToken(mReactContext, accountName, scopes);
+                    token = GoogleAuthUtil.getToken(mActivityContext, accountName, scopes);
                 } catch (IOException e) {
                     Log.e(Constants.TAG, e.getMessage());
                 } catch (UserRecoverableAuthException e) {
-                    ((Activity) mReactContext.getApplicationContext()).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+                    ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
                 } catch (GoogleAuthException e) {
                     Log.e(Constants.TAG, e.getMessage());
                 }
@@ -116,7 +119,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         }.execute(accountName);
     }
 
-    public void deleteToken(final String accountName) {
+    protected void deleteToken(final String accountName) {
         new AsyncTask<String, Void, String>() {
             @Override
             protected void onPreExecute() {
@@ -130,7 +133,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 String result = null;
 
                 try {
-                    GoogleAuthUtil.clearToken(mReactContext, mAccessToken);
+                    GoogleAuthUtil.clearToken(mActivityContext, mAccessToken);
 
                     result = "true";
                 } catch (GoogleAuthException e) {
@@ -159,6 +162,10 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
 
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return false;
+        }
+
         if (requestCode == CHOOSE_ACCOUNT_REQUIRED && resultCode == Activity.RESULT_OK) {
             mAccountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 

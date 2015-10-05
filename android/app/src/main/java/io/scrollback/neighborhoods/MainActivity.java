@@ -16,12 +16,13 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
 
-    private GoogleLoginPackage mGoogleLoginPackage = new GoogleLoginPackage();
+    private GoogleLoginPackage mGoogleLoginPackage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mGoogleLoginPackage = new GoogleLoginPackage(this);
         mReactRootView = new ReactRootView(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
@@ -29,7 +30,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setBundleAssetName("index.android.bundle")
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
-                .addPackage(new HeyNeighborPackage())
+                .addPackage(new HeyNeighborPackage(this))
                 .addPackage(mGoogleLoginPackage)
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
@@ -84,7 +85,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         mGoogleLoginPackage.onActivityResult(requestCode, resultCode, data);

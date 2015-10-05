@@ -31,14 +31,16 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     private String mCurrentRegId;
     private ReactContext mReactContext;
+    private Context mActivityContext;
     private GoogleCloudMessaging mGcmInstance;
 
     private boolean isSupported = false;
 
-    public PushNotificationModule(ReactApplicationContext ctx) {
-        super(ctx);
+    public PushNotificationModule(ReactApplicationContext reactContext, Context activityContext) {
+        super(reactContext);
 
-        mReactContext = ctx;
+        mReactContext = reactContext;
+        mActivityContext = activityContext;
 
         // Showing status
         if (checkPlayServices()) {
@@ -61,7 +63,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mReactContext.getBaseContext(),
+                GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mActivityContext,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Log.e(Constants.TAG, "This device is not supported");

@@ -1,6 +1,7 @@
 import React from "react-native";
 import SignInButton from "./sign-in-button";
 import Home from "./home";
+import GoogleLogin from "../../modules/google-login";
 
 const {
     StyleSheet,
@@ -65,7 +66,7 @@ export default class SignIn extends React.Component {
     }
 
     _onGooglePress() {
-        this._onSignIn();
+        GoogleLogin.login();
     }
 
     render() {
