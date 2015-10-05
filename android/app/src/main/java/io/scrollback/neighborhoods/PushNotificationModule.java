@@ -1,5 +1,6 @@
 package io.scrollback.neighborhoods;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -17,6 +18,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
@@ -24,22 +27,50 @@ import java.io.IOException;
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     private final String SENDER_ID = "949615022713";
+    private final int PLAY_SERVICES_RESOLUTION_REQUEST = 5000;
 
     private String mCurrentRegId;
     private ReactContext mReactContext;
     private GoogleCloudMessaging mGcmInstance;
 
+    private boolean isSupported = false;
+
     public PushNotificationModule(ReactApplicationContext ctx) {
         super(ctx);
 
         mReactContext = ctx;
-        mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
-        mCurrentRegId = getRegistrationId(mReactContext);
+
+        // Showing status
+        if (checkPlayServices()) {
+            mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
+            mCurrentRegId = getRegistrationId(mReactContext);
+
+            isSupported = true;
+        } else {
+            Log.e(Constants.TAG, "No valid Google Play Services APK found");
+        }
     }
 
     @Override
     public String getName() {
         return "PushNotificationModule";
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mReactContext);
+
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mReactContext.getApplicationContext(),
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.e(Constants.TAG, "This device is not supported");
+            }
+
+            return false;
+        }
+
+        return true;
     }
 
     private SharedPreferences getGCMPreferences() {
@@ -97,6 +128,12 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void registerGCM(final Callback callback) {
+        if (!isSupported) {
+            callback.invoke();
+
+            return;
+        }
+
         new AsyncTask<Void, Void, String>() {
             @Override
             protected void onPreExecute() {
@@ -142,6 +179,12 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void unRegisterGCM(final Callback callback) {
+        if (!isSupported) {
+            callback.invoke();
+
+            return;
+        }
+
         new AsyncTask<Void, Void, String>() {
 
             @Override
