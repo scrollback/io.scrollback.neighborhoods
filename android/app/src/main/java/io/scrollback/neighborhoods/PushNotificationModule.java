@@ -61,7 +61,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mReactContext.getApplicationContext(),
+                GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mReactContext.getBaseContext(),
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 Log.e(Constants.TAG, "This device is not supported");

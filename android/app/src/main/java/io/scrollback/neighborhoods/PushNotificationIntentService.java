@@ -14,6 +14,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -89,7 +90,7 @@ public class PushNotificationIntentService extends IntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_status)
-                        .setColor(getResources().getColor(R.color.primary))
+                        .setColor(ContextCompat.getColor(this, R.color.primary))
                         .setTicker(n.getTitle())
                         .setContentTitle(n.getTitle())
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(n.getText()))
@@ -167,9 +168,7 @@ public class PushNotificationIntentService extends IntentService {
 
             if (url != null) {
                 try {
-                    Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-
-                    return image;
+                    return BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 } catch (IOException e) {
                     Log.e(TAG, "Couldn't fetch image from " + picture, e);
                 }
