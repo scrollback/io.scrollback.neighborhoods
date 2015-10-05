@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     cover: {
-        flex: 1,
-        resizeMode: "cover"
+        flex: 1
     },
     overlay: {
         flex: 1,
@@ -28,7 +27,16 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(0, 0, 0, 0.5)"
     },
     image: {
-        resizeMode: "contain"
+        resizeMode: "contain",
+        margin: 4
+    },
+    imageLogo: {
+        height: 59,
+        width: 108
+    },
+    imageLogoType: {
+        height: 35,
+        width: 219
     },
     logoContainer: {
         flex: 1,
@@ -78,8 +86,8 @@ export default class SignIn extends React.Component {
                 <Image source={require("image!signin_bg")} style={[ styles.cover, { height: win.height, width: win.width } ]}>
                     <View style={styles.overlay}>
                         <View style={styles.logoContainer}>
-                            <Image source={require("image!logo")} style={styles.image} />
-                            <Image source={require("image!logotype")} style={styles.image} />
+                            <Image source={require("image!logo")} style={[ styles.image, styles.imageLogo ]} />
+                            <Image source={require("image!logotype")} style={[ styles.image, styles.imageLogoType ]} />
                         </View>
                         <View style={styles.buttonContainer}>
                             <Text style={styles.tip}>SIGN IN OR SIGN UP WITH</Text>
