@@ -23,9 +23,12 @@ import com.google.android.gms.common.AccountPicker;
 import java.io.IOException;
 
 public class GoogleLoginModule extends ReactContextBaseJavaModule {
+
     public final int REQ_SIGN_IN_REQUIRED = 1000;
     public final int CHOOSE_ACCOUNT_REQUIRED = 1500;
-
+    private final String CALLBACK_TYPE_SUCCESS = "success";
+    private final String CALLBACK_TYPE_ERROR = "error";
+    private final String CALLBACK_TYPE_CANCEL = "cancel";
     private String mAccountName;
     private String mAccessToken;
     private Context mActivityContext;
@@ -45,26 +48,36 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         return "GoogleLoginModule";
     }
 
+    private void consumeCallback(String type, WritableMap map) {
+        if (mRetrieveCallback != null) {
+            map.putString("type", type);
+            map.putString("provider", "google");
+
+            mRetrieveCallback.invoke(map);
+            mRetrieveCallback = null;
+        }
+    }
+
     @ReactMethod
     public void pickAccount(final Callback callback) {
         Intent intent = AccountPicker.newChooseAccountIntent(
-                null, null, new String[] {"com.google"},
+                null, null, new String[]{"com.google"},
                 false, null, null, null, null);
 
         if (mRetrieveCallback != null) {
             WritableMap map = Arguments.createMap();
 
             if (mAccessToken != null) {
-                map.putString("type", "success");
                 map.putString("accountName", mAccountName);
                 map.putString("token", mAccessToken);
                 map.putBoolean("cache", true);
-            } else {
-                map.putString("type", "cancel");
-                map.putString("message", "Cannot register multiple callbacks");
-            }
 
-            mRetrieveCallback.invoke(map);
+                consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+            } else {
+                map.putString("message", "Cannot register multiple callbacks");
+
+                consumeCallback(CALLBACK_TYPE_CANCEL, map);
+            }
         }
 
         mRetrieveCallback = callback;
@@ -111,11 +124,9 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     if (mRetrieveCallback != null) {
                         WritableMap map = Arguments.createMap();
 
-                        map.putString("type", "error");
                         map.putString("message", e.getMessage());
 
-                        mRetrieveCallback.invoke(map);
-                        mRetrieveCallback = null;
+                        consumeCallback(CALLBACK_TYPE_ERROR, map);
                     }
                 } catch (UserRecoverableAuthException e) {
                     ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
@@ -125,11 +136,9 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     if (mRetrieveCallback != null) {
                         WritableMap map = Arguments.createMap();
 
-                        map.putString("type", "error");
                         map.putString("message", e.getMessage());
 
-                        mRetrieveCallback.invoke(map);
-                        mRetrieveCallback = null;
+                        consumeCallback(CALLBACK_TYPE_ERROR, map);
                     }
                 }
 
@@ -150,20 +159,16 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
                         WritableMap map = Arguments.createMap();
 
-                        map.putString("type", "success");
                         map.putString("accountName", accountName);
                         map.putString("token", mAccessToken);
 
-                        mRetrieveCallback.invoke(map);
-                        mRetrieveCallback = null;
+                        consumeCallback(CALLBACK_TYPE_SUCCESS, map);
                     } else {
                         WritableMap map = Arguments.createMap();
 
-                        map.putString("type", "error");
                         map.putString("message", "No access token found");
 
-                        mRetrieveCallback.invoke(map);
-                        mRetrieveCallback = null;
+                        consumeCallback(CALLBACK_TYPE_ERROR, map);
                     }
                 }
             }

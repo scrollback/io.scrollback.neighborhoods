@@ -26,14 +26,11 @@ import java.io.IOException;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
+    private final String senderId;
     private String mCurrentRegId;
     private ReactContext mReactContext;
     private Context mActivityContext;
     private GoogleCloudMessaging mGcmInstance;
-
-
-    private final String senderId;
-
     private boolean isSupported = false;
 
     public PushNotificationModule(ReactApplicationContext reactContext, Context activityContext) {
@@ -52,6 +49,18 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
             isSupported = true;
         } else {
             Log.e(Constants.TAG, "No valid Google Play Services APK found");
+        }
+    }
+
+    private static int getAppVersion(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // Should never happen
+            throw new RuntimeException("Could not get package name: " + e);
         }
     }
 
@@ -80,18 +89,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     private SharedPreferences getGCMPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(mReactContext);
-    }
-
-    private static int getAppVersion(Context context) {
-        try {
-            PackageInfo packageInfo = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), 0);
-
-            return packageInfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            // Should never happen
-            throw new RuntimeException("Could not get package name: " + e);
-        }
     }
 
     private void setRegistrationId(Context context, String regId) {

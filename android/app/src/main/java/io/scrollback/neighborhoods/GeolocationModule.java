@@ -21,6 +21,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     private final ReactApplicationContext mReactContext;
 
     private final LocationManager mLocationManager;
+    private Location mCurrentlocation;
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -43,8 +44,6 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         public void onProviderDisabled(String provider) {
         }
     };
-
-    private Location mCurrentlocation;
     private boolean isWatching = false;
 
     public GeolocationModule(ReactApplicationContext ctx) {

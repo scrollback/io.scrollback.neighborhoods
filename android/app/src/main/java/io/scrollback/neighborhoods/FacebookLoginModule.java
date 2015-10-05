@@ -1,10 +1,8 @@
 package io.scrollback.neighborhoods;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -28,6 +26,10 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 public class FacebookLoginModule extends ReactContextBaseJavaModule {
+
+    private final String CALLBACK_TYPE_SUCCESS = "success";
+    private final String CALLBACK_TYPE_ERROR = "error";
+    private final String CALLBACK_TYPE_CANCEL = "cancel";
 
     private Context mActivityContext;
     private CallbackManager mCallbackManager;
@@ -58,7 +60,6 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                                                 if (error != null) {
                                                     WritableMap map = Arguments.createMap();
 
-                                                    map.putString("type", "error");
                                                     map.putString("errorType", error.getErrorType());
                                                     map.putString("message", error.getErrorMessage());
                                                     map.putString("recoveryMessage", error.getErrorRecoveryMessage());
@@ -66,40 +67,30 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                                                     map.putString("userTitle", error.getErrorUserTitle());
                                                     map.putInt("code", error.getErrorCode());
 
-                                                    mTokenCallback.invoke(map);
+                                                    consumeCallback(CALLBACK_TYPE_ERROR, map);
                                                 } else {
                                                     WritableMap map = Arguments.createMap();
 
-                                                    map.putString("type", "success");
                                                     map.putString("token", loginResult.getAccessToken().getToken());
 
-                                                    mTokenCallback.invoke(map);
+                                                    consumeCallback(CALLBACK_TYPE_SUCCESS, map);
                                                 }
-
-                                                mTokenCallback = null;
                                             }
                                         }
                                     }).executeAsync();
                         } else {
                             WritableMap map = Arguments.createMap();
 
-                            map.putString("type", "error");
                             map.putString("message", "Insufficient permissions");
 
-                            mTokenCallback.invoke(map);
-                            mTokenCallback = null;
+                            consumeCallback(CALLBACK_TYPE_ERROR, map);
                         }
                     }
 
                     @Override
                     public void onCancel() {
                         if (mTokenCallback != null) {
-                            WritableMap map = Arguments.createMap();
-
-                            map.putString("type", "cancel");
-
-                            mTokenCallback.invoke(map);
-                            mTokenCallback = null;
+                            consumeCallback(CALLBACK_TYPE_CANCEL, Arguments.createMap());
                         }
                     }
 
@@ -108,14 +99,22 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                         if (mTokenCallback != null) {
                             WritableMap map = Arguments.createMap();
 
-                            map.putString("type", "error");
                             map.putString("message", exception.getMessage());
 
-                            mTokenCallback.invoke(map);
-                            mTokenCallback = null;
+                            consumeCallback(CALLBACK_TYPE_ERROR, map);
                         }
                     }
                 });
+    }
+
+    private void consumeCallback(String type, WritableMap map) {
+        if (mTokenCallback != null) {
+            map.putString("type", type);
+            map.putString("provider", "facebook");
+
+            mTokenCallback.invoke(map);
+            mTokenCallback = null;
+        }
     }
 
     @Override
@@ -131,12 +130,14 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
             WritableMap map = Arguments.createMap();
 
             if (accessToken != null) {
-                map.putString("type", "success");
                 map.putString("token", AccessToken.getCurrentAccessToken().getToken());
                 map.putBoolean("cache", true);
+
+                consumeCallback(CALLBACK_TYPE_SUCCESS, map);
             } else {
-                map.putString("type", "cancel");
                 map.putString("message", "Cannot register multiple callbacks");
+
+                consumeCallback(CALLBACK_TYPE_CANCEL, map);
             }
 
             mTokenCallback.invoke(map);
