@@ -66,7 +66,7 @@ export default class SignIn extends React.Component {
     }
 
     _onGooglePress() {
-        GoogleLogin.login();
+        GoogleLogin.pickAccount(e => console.log(e));
     }
 
     render() {

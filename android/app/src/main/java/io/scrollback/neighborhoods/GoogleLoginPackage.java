@@ -41,11 +41,11 @@ public class GoogleLoginPackage implements ReactPackage {
         return Arrays.asList();
     }
 
-    public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (mModuleInstance == null) {
             return false;
         }
 
-        return mModuleInstance.onActivityResult(requestCode, resultCode, data);
+        return mModuleInstance.handleActivityResult(requestCode, resultCode, data);
     }
 }

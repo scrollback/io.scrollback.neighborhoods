@@ -88,6 +88,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        mGoogleLoginPackage.onActivityResult(requestCode, resultCode, data);
+        mGoogleLoginPackage.handleActivityResult(requestCode, resultCode, data);
     }
 }

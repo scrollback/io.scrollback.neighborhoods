@@ -7,16 +7,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -30,16 +28,16 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
     private String mAccountName;
     private String mAccessToken;
-    private ReactContext mReactContext;
     private Context mActivityContext;
+
+    private Callback mRetrieveCallback;
 
     private Dialog dialog;
 
-    public GoogleLoginModule(ReactApplicationContext ctx, Context aCtx) {
-        super(ctx);
+    public GoogleLoginModule(ReactApplicationContext reactContext, Context activityContext) {
+        super(reactContext);
 
-        mReactContext = ctx;
-        mActivityContext = aCtx;
+        mActivityContext = activityContext;
     }
 
     @Override
@@ -47,24 +45,38 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         return "GoogleLoginModule";
     }
 
-    private void sendEvent(String eventName, @Nullable WritableMap params) {
-        mReactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
-    }
-
     @ReactMethod
-    public void login() {
+    public void pickAccount(final Callback callback) {
         Intent intent = AccountPicker.newChooseAccountIntent(
                 null, null, new String[] {"com.google"},
                 false, null, null, null, null);
+
+        if (mRetrieveCallback != null) {
+            WritableMap map = Arguments.createMap();
+
+            map.putString("accountName", mAccountName);
+            map.putString("token", mAccessToken);
+
+            mRetrieveCallback.invoke(map);
+        }
+
+        mRetrieveCallback = callback;
 
         ((Activity) mActivityContext).startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
     }
 
     @ReactMethod
-    public void logout() {
-        deleteToken(mAccountName);
+    public void getAccountName(final Callback callback) {
+        if (mAccountName != null) {
+            callback.invoke(mAccountName);
+        } else {
+            callback.invoke();
+        }
+    }
+
+    @ReactMethod
+    public void deleteAccountToken(final Callback callback) {
+        deleteToken(mAccountName, callback);
     }
 
     protected void retrieveToken(final String accountName) {
@@ -113,13 +125,23 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     map.putString("accountName", accountName);
                     map.putString("token", mAccessToken);
 
-                    sendEvent("googleTokenReceived", map);
+                    if (mRetrieveCallback != null) {
+                        mRetrieveCallback.invoke(map);
+
+                        mRetrieveCallback = null;
+                    }
+                }
+
+                if (mRetrieveCallback != null) {
+                    mRetrieveCallback.invoke();
+
+                    mRetrieveCallback = null;
                 }
             }
         }.execute(accountName);
     }
 
-    protected void deleteToken(final String accountName) {
+    protected void deleteToken(final String accountName, final Callback callback) {
         new AsyncTask<String, Void, String>() {
             @Override
             protected void onPreExecute() {
@@ -149,19 +171,14 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
             protected void onPostExecute(String token) {
                 super.onPostExecute(token);
 
-                mAccessToken = token;
+                mAccessToken = null;
 
-                WritableMap map = Arguments.createMap();
-
-                map.putString("accountName", accountName);
-                map.putString("token", mAccessToken);
-
-                sendEvent("googleTokenDeleted", map);
+                callback.invoke();
             }
         }.execute(accountName);
     }
 
-    public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_CANCELED) {
             return false;
         }
