@@ -26,12 +26,15 @@ import java.io.IOException;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
+    private final String CALLBACK_TYPE_SUCCESS = "success";
+    private final String CALLBACK_TYPE_ERROR = "error";
+
     private final String senderId;
     private String mCurrentRegId;
     private ReactContext mReactContext;
     private Context mActivityContext;
     private GoogleCloudMessaging mGcmInstance;
-    private boolean isSupported = false;
+    private boolean isPlayServicesAvailable = false;
 
     public PushNotificationModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);
@@ -39,14 +42,14 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
         mReactContext = reactContext;
         mActivityContext = activityContext;
 
-        senderId = mActivityContext.getString(R.string.gcm_sender_id);
+        senderId = activityContext.getString(R.string.gcm_sender_id);
 
         // Showing status
         if (checkPlayServices()) {
             mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
             mCurrentRegId = getRegistrationId(mReactContext);
 
-            isSupported = true;
+            isPlayServicesAvailable = true;
         } else {
             Log.e(Constants.TAG, "No valid Google Play Services APK found");
         }
@@ -130,8 +133,13 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void registerGCM(final Callback callback) {
-        if (!isSupported) {
-            callback.invoke();
+        if (!isPlayServicesAvailable) {
+            WritableMap map = Arguments.createMap();
+
+            map.putString("type", CALLBACK_TYPE_ERROR);
+            map.putString("message", "Google Play services not found on device");
+
+            callback.invoke(map);
 
             return;
         }
@@ -144,8 +152,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
             @Override
             protected String doInBackground(Void... params) {
-                String msg;
-
                 try {
                     if (mGcmInstance == null) {
                         mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
@@ -153,23 +159,33 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
                     mCurrentRegId = mGcmInstance.register(senderId);
 
-                    msg = "Device registered, registration ID: " + mCurrentRegId;
-
                     setRegistrationId(mReactContext, mCurrentRegId);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
 
-                return msg;
+                    return CALLBACK_TYPE_SUCCESS;
+                } catch (IOException e) {
+                    WritableMap map = Arguments.createMap();
+
+                    map.putString("type", CALLBACK_TYPE_ERROR);
+                    map.putString("message", e.getMessage());
+
+                    callback.invoke(map);
+
+                    return CALLBACK_TYPE_ERROR;
+                }
             }
 
             @Override
             protected void onPostExecute(String msg) {
+                if (msg.equals(CALLBACK_TYPE_ERROR)) {
+                    return;
+                }
+
                 String uuid = Settings.Secure.getString(mReactContext.getContentResolver(),
                         Settings.Secure.ANDROID_ID);
 
                 WritableMap map = Arguments.createMap();
 
+                map.putString("type", CALLBACK_TYPE_SUCCESS);
                 map.putString("registrationId", mCurrentRegId);
                 map.putString("uuid", uuid);
                 map.putString("deviceModel", Build.MODEL);
@@ -181,8 +197,13 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void unRegisterGCM(final Callback callback) {
-        if (!isSupported) {
-            callback.invoke();
+        if (!isPlayServicesAvailable) {
+            WritableMap map = Arguments.createMap();
+
+            map.putString("type", CALLBACK_TYPE_ERROR);
+            map.putString("message", "Google Play services not found on device");
+            
+            callback.invoke(map);
 
             return;
         }
@@ -196,8 +217,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
             @Override
             protected String doInBackground(Void... params) {
-                String msg = "";
-
                 try {
                     if (mGcmInstance == null) {
                         mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
@@ -206,17 +225,29 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                     mGcmInstance.unregister();
 
                     setRegistrationId(mReactContext, mCurrentRegId);
-                } catch (IOException ex) {
-                    msg = "Error :" + ex.getMessage();
-                }
 
-                return msg;
+                    return CALLBACK_TYPE_SUCCESS;
+                } catch (IOException e) {
+                    WritableMap map = Arguments.createMap();
+
+                    map.putString("type", CALLBACK_TYPE_ERROR);
+                    map.putString("message", e.getMessage());
+
+                    callback.invoke(map);
+
+                    return CALLBACK_TYPE_ERROR;
+                }
             }
 
             @Override
             protected void onPostExecute(String msg) {
+                if (msg.equals(CALLBACK_TYPE_ERROR)) {
+                    return;
+                }
+
                 WritableMap map = Arguments.createMap();
 
+                map.putString("type", CALLBACK_TYPE_SUCCESS);
                 map.putString("registrationId", mCurrentRegId);
 
                 callback.invoke(map);

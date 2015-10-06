@@ -3,6 +3,7 @@ import SignInButton from "./sign-in-button";
 import Home from "./home";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
+import PushNotification from "../../modules/push-notification";
 
 const {
     StyleSheet,
@@ -68,6 +69,8 @@ export default class SignIn extends React.Component {
         console.log(e);
 
         this.props.navigator.replace({ component: Home });
+
+        PushNotification.registerGCM(ev => console.log(ev));
     }
 
     _onSignUp() {
