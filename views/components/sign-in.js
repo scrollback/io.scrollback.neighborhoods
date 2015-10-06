@@ -8,21 +8,23 @@ const {
     StyleSheet,
     View,
     Text,
-    Image,
-    Dimensions
+    Image
 } = React;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "stretch"
     },
     cover: {
-        flex: 1
+        flex: 1,
+        width: null,
+        height: null
     },
     overlay: {
         flex: 1,
         alignItems: "stretch",
-        justifyContent: "center",
         padding: 32,
         backgroundColor: "rgba(0, 0, 0, 0.5)"
     },
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        marginTop: 96
+        margin: 16
     },
     tip: {
         color: "#fff",
@@ -81,11 +83,9 @@ export default class SignIn extends React.Component {
     }
 
     render() {
-        const win = Dimensions.get("window");
-
         return (
             <View style={styles.container}>
-                <Image source={require("image!signin_bg")} style={[ styles.cover, { height: win.height, width: win.width } ]}>
+                <Image source={require("image!signin_bg")} style={styles.cover}>
                     <View style={styles.overlay}>
                         <View style={styles.logoContainer}>
                             <Image source={require("image!logo")} style={[ styles.image, styles.imageLogo ]} />
