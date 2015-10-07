@@ -62,7 +62,7 @@ public class PushNotificationIntentService extends IntentService {
                 Log.d(TAG, "path: " + extras.getString("path"));
                 Log.d(TAG, "picture: " + extras.getString("picture"));
 
-                Notification notif = new Notification();
+                Notification notif = new Notification(getBaseContext());
 
                 notif.setTitle(extras.getString("title"));
                 notif.setText(extras.getString("text"));
@@ -106,7 +106,7 @@ public class PushNotificationIntentService extends IntentService {
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .setAutoCancel(true);
 
-        Bitmap largeIcon = n.getBitmap(Constants.PROTOCOL, Constants.HOST);
+        Bitmap largeIcon = n.getBitmap(getString(R.string.app_protocol), getString(R.string.app_host));
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -119,10 +119,16 @@ public class PushNotificationIntentService extends IntentService {
 
     private static class Notification {
 
+        private final Context mContext;
+
         private String title;
         private String text;
         private String path;
         private String picture;
+
+        Notification(Context c) {
+            mContext = c;
+        }
 
         public String getTitle() {
             return title;
@@ -160,11 +166,11 @@ public class PushNotificationIntentService extends IntentService {
             URL url = null;
 
             if (protocol == null) {
-                protocol = Constants.PROTOCOL;
+                protocol = mContext.getString(R.string.app_protocol);
             }
 
             if (host == null) {
-                host = Constants.HOST;
+                host = mContext.getString(R.string.app_host);
             }
 
             try {

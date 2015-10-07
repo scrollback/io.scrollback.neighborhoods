@@ -26,6 +26,9 @@ import java.io.IOException;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
+    public final String PROPERTY_REG_ID = "push_notif_registration_id";
+    public final String PROPERTY_APP_VERSION = "push_notif_app_version";
+
     private final String CALLBACK_TYPE_SUCCESS = "success";
     private final String CALLBACK_TYPE_ERROR = "error";
 
@@ -102,14 +105,14 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString(Constants.PROPERTY_REG_ID, regId);
-        editor.putInt(Constants.PROPERTY_APP_VERSION, appVersion);
+        editor.putString(PROPERTY_REG_ID, regId);
+        editor.putInt(PROPERTY_APP_VERSION, appVersion);
         editor.apply();
     }
 
     private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences();
-        final String registrationId = prefs.getString(Constants.PROPERTY_REG_ID, "");
+        final String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 
         if (registrationId.length() == 0) {
             Log.d(Constants.TAG, "No registration ID found");
@@ -119,7 +122,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         // Check if app was updated; if so, it must clear registration id to
         // avoid a race condition if GCM sends a message
-        int registeredVersion = prefs.getInt(Constants.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
         int currentVersion = getAppVersion(context);
 
         if (registeredVersion != currentVersion) {

@@ -38,8 +38,8 @@ export default class AppController extends React.Component {
         this._mounted = false;
     }
 
-    _onDataArrived() {
-        this.setState({ user: "FAILED" });
+    _onDataArrived(user) {
+        this.setState({ user });
     }
 
     _onError() {
