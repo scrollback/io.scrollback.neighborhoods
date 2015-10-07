@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
         marginVertical: 16
     },
     button: {
+        backgroundColor: "#673AB7",
         padding: 12,
         borderRadius: 3
     },
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class SignInButton extends React.Component {
+export default class LargeButton extends React.Component {
     render() {
         return (
             <View style={styles.container}>
@@ -36,7 +37,7 @@ export default class SignInButton extends React.Component {
     }
 }
 
-SignInButton.propTypes = {
+LargeButton.propTypes = {
     text: React.PropTypes.string.isRequired,
     onPress: React.PropTypes.func.isRequired
 };

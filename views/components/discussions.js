@@ -54,7 +54,7 @@ export default class Discussions extends React.Component {
                     );
                 })()}
 
-                <StartDiscussionButton room={this.props.room} />
+                <StartDiscussionButton room={this.props.room} navigator={this.props.navigator} />
             </View>
         );
     }

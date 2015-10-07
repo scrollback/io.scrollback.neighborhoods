@@ -1,5 +1,5 @@
 import React from "react-native";
-import SignInButton from "./sign-in-button";
+import LargeButton from "./large-button";
 import Home from "./home";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
@@ -99,12 +99,12 @@ export default class SignIn extends React.Component {
                         </View>
                         <View style={styles.buttonContainer}>
                             <Text style={styles.tip}>SIGN IN OR SIGN UP WITH</Text>
-                            <SignInButton
+                            <LargeButton
                                 style={styles.facebook}
                                 text="Facebook"
                                 onPress={this._onFacebookPress.bind(this)}
                             />
-                            <SignInButton
+                            <LargeButton
                                 style={styles.google}
                                 text="Google"
                                 onPress={this._onGooglePress.bind(this)}

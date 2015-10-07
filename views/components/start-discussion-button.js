@@ -1,4 +1,5 @@
 import React from "react-native";
+import routes from "../utils/routes";
 
 const {
     StyleSheet,
@@ -31,9 +32,17 @@ const styles = StyleSheet.create({
 });
 
 export default class StartDiscussionButton extends React.Component {
+    _onPress() {
+        this.props.navigator.push(routes.startthread({ room: this.props.room }));
+    }
+
     render() {
         return (
-            <TouchableHighlight {...this.props} style={styles.container}>
+            <TouchableHighlight
+                {...this.props}
+                style={styles.container}
+                onPress={this._onPress.bind(this)}
+            >
                 <View style={styles.fab}>
                     <Image source={require("image!ic_create_black")} style={styles.icon} />
                 </View>
@@ -43,5 +52,6 @@ export default class StartDiscussionButton extends React.Component {
 }
 
 StartDiscussionButton.propTypes = {
-    room: React.PropTypes.string.isRequired
+    room: React.PropTypes.string.isRequired,
+    navigator: React.PropTypes.object.isRequired
 };

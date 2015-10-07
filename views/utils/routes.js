@@ -9,6 +9,7 @@ import UserIconController from "../controllers/user-icon-controller";
 import LocalitiesController from "../controllers/localities-controller";
 import AccountController from "../controllers/account-controller";
 import SignInController from "../controllers/sign-in-controller";
+import StartDiscussionController from "../controllers/start-discussion-controller";
 
 const routes = {};
 
@@ -66,6 +67,14 @@ routes.signin = props => {
     return {
         title: "Sign in",
         component: SignInController,
+        passProps: props
+    };
+};
+
+routes.startthread = props => {
+    return {
+        title: "Start new discussion",
+        component: StartDiscussionController,
         passProps: props
     };
 };
