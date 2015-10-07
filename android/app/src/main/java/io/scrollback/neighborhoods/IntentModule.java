@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -37,8 +36,6 @@ public class IntentModule extends ReactContextBaseJavaModule {
         Uri uri = intent.getData();
 
         if (Intent.ACTION_VIEW.equals(action) && uri != null) {
-            Log.d("INTENT", uri.toString());
-
             callback.invoke(uri.toString());
         } else {
             callback.invoke();
@@ -49,9 +46,7 @@ public class IntentModule extends ReactContextBaseJavaModule {
     public void openURL(final String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        mReactContext.startActivity(intent);
+        mActivityContext.startActivity(intent);
     }
 
     @ReactMethod
