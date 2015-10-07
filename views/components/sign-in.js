@@ -68,7 +68,10 @@ export default class SignIn extends React.Component {
     _onSignIn(e) {
         console.log(e);
 
-        this.props.navigator.replace({ component: Home });
+        this.props.navigator.replace({
+            component: Home,
+            passProps: { initialRoute: this.props.initialRoute }
+        });
 
         PushNotification.registerGCM(ev => console.log(ev));
     }
@@ -115,5 +118,6 @@ export default class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
-    navigator: React.PropTypes.object.isRequired
+    navigator: React.PropTypes.object.isRequired,
+    initialRoute: React.PropTypes.object
 };

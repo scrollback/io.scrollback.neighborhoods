@@ -40,9 +40,9 @@ public class IntentModule extends ReactContextBaseJavaModule {
             Log.d("INTENT", uri.toString());
 
             callback.invoke(uri.toString());
+        } else {
+            callback.invoke();
         }
-
-        callback.invoke();
     }
 
     @ReactMethod

@@ -5,14 +5,14 @@ import Home from "./home";
 
 export default class App extends React.Component {
     render() {
-        const { user } = this.props;
+        const { user, initialRoute } = this.props;
 
         if (user === "FAILED") {
-            return <Onboard />;
+            return <Onboard initialRoute={initialRoute} />;
         }
 
         if (user && user.id) {
-            return <Home />;
+            return <Home initialRoute={initialRoute} />;
         }
 
         return <Splash />;
@@ -25,5 +25,6 @@ App.propTypes = {
         React.PropTypes.shape({
             id: React.PropTypes.string
         })
-    ]).isRequired
+    ]).isRequired,
+    initialRoute: React.PropTypes.object
 };

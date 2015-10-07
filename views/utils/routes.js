@@ -62,11 +62,28 @@ routes.account = () => {
     };
 };
 
-routes.signin = () => {
+routes.signin = props => {
     return {
         title: "Sign in",
-        component: SignInController
+        component: SignInController,
+        passProps: props
     };
+};
+
+routes.fromURL = url => {
+    const parts = url.replace(/^\/|\/$/g, "").split("/");
+
+    switch (parts.length) {
+    case 1:
+        return routes.room({ room: parts[0] });
+    case 2:
+        return routes.chat({
+            room: parts[1],
+            thread: parts[1]
+        });
+    default:
+        return routes.home();
+    }
 };
 
 export default routes;

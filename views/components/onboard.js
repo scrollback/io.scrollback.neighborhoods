@@ -10,9 +10,13 @@ export default class Onboard extends React.Component {
     render() {
         return (
             <Navigator
-                initialRoute={routes.signin()}
+                initialRoute={routes.signin({ initialRoute: this.props.initialRoute })}
                 renderScene={renderScene}
             />
         );
     }
 }
+
+Onboard.propTypes = {
+    initialRoute: React.PropTypes.object
+};
