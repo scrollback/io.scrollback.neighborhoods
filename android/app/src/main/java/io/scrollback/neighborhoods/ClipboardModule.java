@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 public class ClipboardModule extends ReactContextBaseJavaModule {
+
     ReactApplicationContext mReactContext;
 
     public ClipboardModule(ReactApplicationContext ctx) {

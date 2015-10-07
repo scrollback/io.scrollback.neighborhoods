@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -83,7 +84,13 @@ public class PushNotificationIntentService extends IntentService {
 
         Intent i = new Intent(this, MainActivity.class);
 
-        i.putExtra("scrollback_path", n.getPath());
+        i.setAction(Intent.ACTION_VIEW);
+
+        String path = n.getPath();
+
+        if (path != null) {
+            i.setData(Uri.parse(path));
+        }
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 

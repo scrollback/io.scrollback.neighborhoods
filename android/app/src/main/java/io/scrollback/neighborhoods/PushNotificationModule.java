@@ -202,7 +202,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
             map.putString("type", CALLBACK_TYPE_ERROR);
             map.putString("message", "Google Play services not found on device");
-            
+
             callback.invoke(map);
 
             return;
