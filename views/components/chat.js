@@ -1,75 +1,28 @@
 import React from "react-native";
-import InvertibleScrollView from "react-native-invertible-scroll-view";
-import ChatItem from "./chat-item";
-import PageEmpty from "./page-empty";
-import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
+import ChatMessagesController from "../controllers/chat-messages-controller";
+import ChatInputController from "../controllers/chat-input-controller";
 
 const {
-    ListView,
-    View
+    View,
+    StyleSheet
 } = React;
 
+const styles = StyleSheet.create({
+    messages: {
+        flex: 1
+    }
+});
+
 export default class Chat extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    }
-
-    componentDidMount() {
-        if (this._scroll) {
-            this._scroll.scrollTo(0);
-        }
-    }
-
-    _getDataSource() {
-        return this.dataSource.cloneWithRows(this.props.data);
-    }
-
     render() {
         return (
             <View {...this.props}>
-                {(() => {
-                    if (this.props.data.length === 0) {
-                        return <PageEmpty />;
-                    }
-
-                    if (this.props.data.length === 1) {
-                        if (this.props.data[0] === "LOADING") {
-                            return <PageLoading />;
-                        }
-
-                        if (this.props.data[0] === "FAILED") {
-                            return <PageRetry onRetry={this.props.refreshData} />;
-                        }
-                    }
-
-                    const dataSource = this._getDataSource();
-
-                    return (
-                        <ListView
-                            initialListSize={5}
-                            renderScrollComponent={props =>
-                                <InvertibleScrollView
-                                    {...props}
-                                    inverted
-                                    ref={c => this._scroll = c}
-                                />
-                            }
-                            dataSource={dataSource}
-                            renderRow={item => {
-                                return (
-                                    <ChatItem
-                                        key={item.text.id}
-                                        text={item.text}
-                                        previousText={item.previousText}
-                                    />
-                                );
-                            }}
-                        />
-                    );
-                })()}
+                <ChatMessagesController
+                    style={styles.messages}
+                    data={this.props.data}
+                    refreshData={this.props.refreshData}
+                />
+                <ChatInputController />
             </View>
         );
     }
