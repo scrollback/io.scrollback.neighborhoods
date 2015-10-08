@@ -3,55 +3,55 @@ import Account from "../components/account";
 import store from "../../store/store";
 
 const {
-    InteractionManager
+	InteractionManager
 } = React;
 
 export default class AccountController extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            user: "LOADING"
-        };
-    }
+		this.state = {
+			user: "LOADING"
+		};
+	}
 
-    componentDidMount() {
-        this._mounted = true;
+	componentDidMount() {
+		this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getUser()), 100);
-    }
+		setTimeout(() => this._onDataArrived(store.getUser()), 100);
+	}
 
-    componentWillUnmount() {
-        this._mounted = false;
-    }
+	componentWillUnmount() {
+		this._mounted = false;
+	}
 
-    _onDataArrived(user) {
-        InteractionManager.runAfterInteractions(() => {
-            if (this._mounted) {
-                this.setState({ user });
-            }
-        });
-    }
+	_onDataArrived(user) {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				this.setState({ user });
+			}
+		});
+	}
 
-    _onError() {
-        this.setState({
-            user: "FAILED"
-        });
-    }
+	_onError() {
+		this.setState({
+			user: "FAILED"
+		});
+	}
 
-    _saveUser(user) {
-        store.setUser(user);
+	_saveUser(user) {
+		store.setUser(user);
 
-        this.setState({ user });
-    }
+		this.setState({ user });
+	}
 
-    render() {
-        return (
-            <Account
-                {...this.props}
-                {...this.state}
-                saveUser={this._saveUser.bind(this)}
-            />
-        );
-    }
+	render() {
+		return (
+			<Account
+				{...this.props}
+				{...this.state}
+				saveUser={this._saveUser.bind(this)}
+			/>
+		);
+	}
 }

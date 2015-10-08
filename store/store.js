@@ -296,13 +296,15 @@ Store.prototype.isRoomWritable = function(roomId, userId) {
 	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[writeLevel]);
 };
 
-	var store = new Store([ state ]);
+const store = new Store([ state ]);
 
-	require("./state-manager.js")(core, config, store, state);
-	require("./action-handler.js")(core, config, store, state);
-	require("./rule-manager.js")(core, config, store, state);
-	require("./socket.js")(core, config, store, state);
-	require("./session-manager.js")(core, config, store, state);
+global.store = store;
+
+require("./state-manager.js")(core, config, store, state);
+require("./action-handler.js")(core, config, store, state);
+require("./rule-manager.js")(core, config, store, state);
+require("./socket.js")(core, config, store, state);
+require("./session-manager.js")(core, config, store, state);
 
 
 export default store;

@@ -6,68 +6,68 @@ import PageRetry from "./page-retry";
 import StartDiscussionButton from "./start-discussion-button";
 
 const {
-    ListView,
-    View
+	ListView,
+	View
 } = React;
 
 export default class Discussions extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    }
+		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+	}
 
-    _getDataSource() {
-        return this.dataSource.cloneWithRows(this.props.data);
-    }
+	_getDataSource() {
+		return this.dataSource.cloneWithRows(this.props.data);
+	}
 
-    render() {
-        return (
-            <View {...this.props}>
-                {(() => {
-                    if (this.props.data.length === 0) {
-                        return <PageEmpty />;
-                    }
+	render() {
+		return (
+			<View {...this.props}>
+				{(() => {
+					if (this.props.data.length === 0) {
+						return <PageEmpty />;
+					}
 
-                    if (this.props.data.length === 1) {
-                        if (this.props.data[0] === "LOADING") {
-                            return <PageLoading />;
-                        }
+					if (this.props.data.length === 1) {
+						if (this.props.data[0] === "LOADING") {
+							return <PageLoading />;
+						}
 
-                        if (this.props.data[0] === "FAILED") {
-                            return <PageRetry onRetry={this.props.refreshData} />;
-                        }
-                    }
+						if (this.props.data[0] === "FAILED") {
+							return <PageRetry onRetry={this.props.refreshData} />;
+						}
+					}
 
-                    return (
-                        <ListView
-                            initialListSize={3}
-                            dataSource={this._getDataSource()}
-                            renderRow={thread =>
-                                <DiscussionItem
-                                    key={thread.id}
-                                    thread={thread}
-                                    navigator={this.props.navigator}
-                                />
-                            }
-                        />
-                    );
-                })()}
+					return (
+						<ListView
+							initialListSize={3}
+							dataSource={this._getDataSource()}
+							renderRow={thread =>
+								<DiscussionItem
+									key={thread.id}
+									thread={thread}
+									navigator={this.props.navigator}
+								/>
+							}
+						/>
+					);
+				})()}
 
-                <StartDiscussionButton room={this.props.room} navigator={this.props.navigator} />
-            </View>
-        );
-    }
+				<StartDiscussionButton room={this.props.room} navigator={this.props.navigator} />
+			</View>
+		);
+	}
 }
 
 Discussions.propTypes = {
-    data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-        React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
-        React.PropTypes.shape({
-            id: React.PropTypes.string
-        })
-    ])).isRequired,
-    room: React.PropTypes.string.isRequired,
-    refreshData: React.PropTypes.func,
-    navigator: React.PropTypes.object.isRequired
+	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+		React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+		React.PropTypes.shape({
+			id: React.PropTypes.string
+		})
+	])).isRequired,
+	room: React.PropTypes.string.isRequired,
+	refreshData: React.PropTypes.func,
+	navigator: React.PropTypes.object.isRequired
 };

@@ -1,11 +1,11 @@
 import React from "react-native";
 
 const {
-    ProgressBarAndroid
+	ProgressBarAndroid
 } = React;
 
 export default class Loading extends React.Component {
-    render() {
-        return <ProgressBarAndroid style={this.props.style} />;
-    }
+	render() {
+		return <ProgressBarAndroid style={this.props.style} />;
+	}
 }
