@@ -8,17 +8,26 @@ root = true
 [*]
 
 # change these settings to your own preference
-indent_style = space
+indent_style = tab
 indent_size = 4
 
 # we recommend you to keep these unchanged
 end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = true
+trim_trailing_whitespace = false
+# results in annoying behavior in brackets
 insert_final_newline = true
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
+
+[*.{css,less,scss}]
+indent_style = space
+indent_size = 4
 
 [{package,bower}.json]
 indent_style = space

@@ -3,51 +3,51 @@ import ChatTitle from "../components/chat-title";
 import store from "../../store/store";
 
 const {
-    InteractionManager
+	InteractionManager
 } = React;
 
 export default class ChatTitleController extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            thread: "LOADING"
-        };
-    }
+		this.state = {
+			thread: "LOADING"
+		};
+	}
 
-    componentDidMount() {
-        this._mounted = true;
+	componentDidMount() {
+		this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getThreadById(this.props.thread)), 0);
-    }
+		setTimeout(() => this._onDataArrived(store.getThreadById(this.props.thread)), 0);
+	}
 
-    componentWillUnmount() {
-        this._mounted = false;
-    }
+	componentWillUnmount() {
+		this._mounted = false;
+	}
 
-    _onDataArrived(thread) {
-        InteractionManager.runAfterInteractions(() => {
-            if (this._mounted) {
-                this.setState({ thread });
-            }
-        });
-    }
+	_onDataArrived(thread) {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				this.setState({ thread });
+			}
+		});
+	}
 
-    _onError() {
-        InteractionManager.runAfterInteractions(() => {
-            if (this._mounted) {
-                this.setState({
-                    thread: "FAILED"
-                });
-            }
-        });
-    }
+	_onError() {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				this.setState({
+					thread: "FAILED"
+				});
+			}
+		});
+	}
 
-    render() {
-        return <ChatTitle {...this.props} {...this.state} />;
-    }
+	render() {
+		return <ChatTitle {...this.props} {...this.state} />;
+	}
 }
 
 ChatTitleController.propTypes = {
-    thread: React.PropTypes.string.isRequired
+	thread: React.PropTypes.string.isRequired
 };

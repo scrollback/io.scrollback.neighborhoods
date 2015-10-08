@@ -3,13 +3,13 @@ import NotificationIcon from "../components/notification-icon";
 import store from "../../store/store";
 
 export default class NotificationIconController extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = { count: store.getNotes().length };
-    }
+		this.state = { count: store.getNotes().length };
+	}
 
-    render() {
-        return <NotificationIcon {...this.props} {...this.state} />;
-    }
+	render() {
+		return <NotificationIcon {...this.props} {...this.state} />;
+	}
 }

@@ -8,31 +8,31 @@ const watchCallbacks = {};
 let watchID = 0;
 
 RCTDeviceEventEmitter.addListener("geolocationChange", ev => {
-    for (const id in watchCallbacks) {
-        watchCallbacks[id](ev);
-    }
+	for (const id in watchCallbacks) {
+		watchCallbacks[id](ev);
+	}
 });
 
 export default {
-    getCurrentPosition(success) {
-        GeolocationModule.getCurrentPosition(success);
-    },
+	getCurrentPosition(success) {
+		GeolocationModule.getCurrentPosition(success);
+	},
 
-    watchPosition(success) {
-        GeolocationModule.startWatching();
+	watchPosition(success) {
+		GeolocationModule.startWatching();
 
-        watchID++;
+		watchID++;
 
-        watchCallbacks[watchID] = success;
+		watchCallbacks[watchID] = success;
 
-        return watchID;
-    },
+		return watchID;
+	},
 
-    clearWatch(id) {
-        delete watchCallbacks[id];
+	clearWatch(id) {
+		delete watchCallbacks[id];
 
-        if (Object.keys(watchCallbacks).length === 0) {
-            GeolocationModule.stopWatching();
-        }
-    }
+		if (Object.keys(watchCallbacks).length === 0) {
+			GeolocationModule.stopWatching();
+		}
+	}
 };

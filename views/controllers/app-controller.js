@@ -5,50 +5,50 @@ import store from "../../store/store";
 import routes from "../utils/routes";
 
 export default class AppController extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            user: "LOADING",
-            initialRoute: null
-        };
-    }
+		this.state = {
+			user: "LOADING",
+			initialRoute: null
+		};
+	}
 
-    componentWillMount() {
-        Linking.getInitialURL(url => {
-            if (url) {
-                this.setState({
-                    initialRoute: routes.fromURL(url)
-                });
-            }
-        });
-    }
+	componentWillMount() {
+		Linking.getInitialURL(url => {
+			if (url) {
+				this.setState({
+					initialRoute: routes.fromURL(url)
+				});
+			}
+		});
+	}
 
-    componentDidMount() {
-        this._mounted = true;
+	componentDidMount() {
+		this._mounted = true;
 
-        setTimeout(() => {
-            if (this._mounted) {
-                this._onDataArrived(store.getUser());
-            }
-        }, 500);
-    }
+		setTimeout(() => {
+			if (this._mounted) {
+				this._onDataArrived(store.getUser());
+			}
+		}, 500);
+	}
 
-    componentWillUnmount() {
-        this._mounted = false;
-    }
+	componentWillUnmount() {
+		this._mounted = false;
+	}
 
-    _onDataArrived(user) {
-        this.setState({ user });
-    }
+	_onDataArrived(user) {
+		this.setState({ user });
+	}
 
-    _onError() {
-        this.setState({
-            user: "FAILED"
-        });
-    }
+	_onError() {
+		this.setState({
+			user: "FAILED"
+		});
+	}
 
-    render() {
-        return <App {...this.props} {...this.state} />;
-    }
+	render() {
+		return <App {...this.props} {...this.state} />;
+	}
 }

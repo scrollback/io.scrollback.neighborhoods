@@ -3,9 +3,9 @@ import UserIcon from "../components/user-icon";
 import store from "../../store/store";
 
 export default class UserIconController extends React.Component {
-    render() {
-        const user = store.getUser();
+	render() {
+		const user = store.getUser();
 
-        return <UserIcon {...this.props} nick={user.id} />;
-    }
+		return <UserIcon {...this.props} nick={user.id} />;
+	}
 }

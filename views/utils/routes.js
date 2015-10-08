@@ -14,85 +14,85 @@ import StartDiscussionController from "../controllers/start-discussion-controlle
 const routes = {};
 
 routes.home = () => {
-    return {
-        title: "Hey, Neighbor!",
-        leftComponent: UserIconController,
-        rightComponent: NotificationIconController,
-        component: LocalitiesController,
-        index: 0
-    };
+	return {
+		title: "Hey, Neighbor!",
+		leftComponent: UserIconController,
+		rightComponent: NotificationIconController,
+		component: LocalitiesController,
+		index: 0
+	};
 };
 
 routes.chat = props => {
-    return {
-        titleComponent: ChatTitleController,
-        rightComponent: NotificationIconController,
-        component: ChatController,
-        passProps: props
-    };
+	return {
+		titleComponent: ChatTitleController,
+		rightComponent: NotificationIconController,
+		component: ChatController,
+		passProps: props
+	};
 };
 
 routes.people = props => {
-    return {
-        title: "People talking",
-        component: PeopleListController,
-        passProps: props
-    };
+	return {
+		title: "People talking",
+		component: PeopleListController,
+		passProps: props
+	};
 };
 
 routes.room = props => {
-    return {
-        titleComponent: RoomTitleController,
-        rightComponent: NotificationIconController,
-        component: DiscussionsController,
-        passProps: props
-    };
+	return {
+		titleComponent: RoomTitleController,
+		rightComponent: NotificationIconController,
+		component: DiscussionsController,
+		passProps: props
+	};
 };
 
 routes.notes = () => {
-    return {
-        title: "Notifications",
-        component: NotificationCenterController
-    };
+	return {
+		title: "Notifications",
+		component: NotificationCenterController
+	};
 };
 
 routes.account = () => {
-    return {
-        title: "My account",
-        component: AccountController
-    };
+	return {
+		title: "My account",
+		component: AccountController
+	};
 };
 
 routes.signin = props => {
-    return {
-        title: "Sign in",
-        component: SignInController,
-        passProps: props
-    };
+	return {
+		title: "Sign in",
+		component: SignInController,
+		passProps: props
+	};
 };
 
 routes.startthread = props => {
-    return {
-        title: "Start new discussion",
-        component: StartDiscussionController,
-        passProps: props
-    };
+	return {
+		title: "Start new discussion",
+		component: StartDiscussionController,
+		passProps: props
+	};
 };
 
 routes.fromURL = url => {
-    const parts = url.replace(/^\/|\/$/g, "").split("/");
+	const parts = url.replace(/^\/|\/$/g, "").split("/");
 
-    switch (parts.length) {
-    case 1:
-        return routes.room({ room: parts[0] });
-    case 2:
-        return routes.chat({
-            room: parts[1],
-            thread: parts[1]
-        });
-    default:
-        return routes.home();
-    }
+	switch (parts.length) {
+	case 1:
+		return routes.room({ room: parts[0] });
+	case 2:
+		return routes.chat({
+			room: parts[1],
+			thread: parts[1]
+		});
+	default:
+		return routes.home();
+	}
 };
 
 export default routes;

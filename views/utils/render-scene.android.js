@@ -5,23 +5,23 @@ import renderSceneBase from "./render-scene-base";
 let _navigator;
 
 BackAndroid.addEventListener("hardwareBackPress", () => {
-    if (Modal.isShown()) {
-        Modal.renderComponent(null);
+	if (Modal.isShown()) {
+		Modal.renderComponent(null);
 
-        return true;
-    }
+		return true;
+	}
 
-    if (_navigator && _navigator.getCurrentRoutes().length > 1) {
-        _navigator.pop();
+	if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+		_navigator.pop();
 
-        return true;
-    }
+		return true;
+	}
 
-    return false;
+	return false;
 });
 
 export default (route, navigator, ...rest) => {
-    _navigator = navigator;
+	_navigator = navigator;
 
-    return renderSceneBase(route, navigator, ...rest);
+	return renderSceneBase(route, navigator, ...rest);
 };

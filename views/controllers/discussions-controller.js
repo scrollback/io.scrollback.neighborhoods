@@ -3,61 +3,61 @@ import Discussions from "../components/discussions";
 import store from "../../store/store";
 
 const {
-    InteractionManager
+	InteractionManager
 } = React;
 
 export default class DiscussionsController extends React.Component {
-    constructor(props) {
-        super(props);
+	constructor(props) {
+		super(props);
 
-        this.state = {
-            data: [ "LOADING" ]
-        };
-    }
+		this.state = {
+			data: [ "LOADING" ]
+		};
+	}
 
-    componentDidMount() {
-        this._mounted = true;
+	componentDidMount() {
+		this._mounted = true;
 
-        setTimeout(() => this._onDataArrived(store.getThreads(this.props.room)), 0);
-    }
+		setTimeout(() => this._onDataArrived(store.getThreads(this.props.room)), 0);
+	}
 
-    componentWillUnmount() {
-        this._mounted = false;
-    }
+	componentWillUnmount() {
+		this._mounted = false;
+	}
 
-    _onDataArrived(data) {
-        InteractionManager.runAfterInteractions(() => {
-            if (this._mounted) {
-                this.setState({ data });
-            }
-        });
-    }
+	_onDataArrived(data) {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				this.setState({ data });
+			}
+		});
+	}
 
-    _onError() {
-        InteractionManager.runAfterInteractions(() => {
-            if (this._mounted) {
-                this.setState({
-                    data: [ "FAILED" ]
-                });
-            }
-        });
-    }
+	_onError() {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				this.setState({
+					data: [ "FAILED" ]
+				});
+			}
+		});
+	}
 
-    _refreshData() {
+	_refreshData() {
 
-    }
+	}
 
-    render() {
-        return (
-            <Discussions
-                {...this.props}
-                {...this.state}
-                refreshData={this._refreshData.bind(this)}
-            />
-        );
-    }
+	render() {
+		return (
+			<Discussions
+				{...this.props}
+				{...this.state}
+				refreshData={this._refreshData.bind(this)}
+			/>
+		);
+	}
 }
 
 DiscussionsController.propTypes = {
-    room: React.PropTypes.string.isRequired
+	room: React.PropTypes.string.isRequired
 };
