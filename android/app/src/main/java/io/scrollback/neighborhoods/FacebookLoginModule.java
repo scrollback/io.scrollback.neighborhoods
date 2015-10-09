@@ -139,8 +139,6 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
                 consumeCallback(CALLBACK_TYPE_CANCEL, map);
             }
-
-            mTokenCallback.invoke(map);
         }
 
         mTokenCallback = callback;
