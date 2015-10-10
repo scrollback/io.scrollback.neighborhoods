@@ -8,6 +8,7 @@ import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
+import Icon from "./icon";
 import Clipboard from "../../modules/clipboard";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
@@ -46,10 +47,10 @@ const styles = StyleSheet.create({
 		marginTop: 16
 	},
 	expand: {
-		height: 24,
-		width: 24,
 		marginHorizontal: 16,
 		marginVertical: 12,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -121,7 +122,7 @@ export default class DiscussionItem extends React.Component {
 							/>
 
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
-								<Image style={styles.expand} source={require("image!ic_expand_black")} />
+								<Icon name="expand-more" style={styles.expand} />
 							</TouchableOpacity>
 						</View>
 

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
 
 const {
@@ -6,7 +7,6 @@ const {
 	Animated,
 	View,
 	TouchableHighlight,
-	Image,
 	PixelRatio,
 	DeviceEventEmitter
 } = React;
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	icon: {
-		width: 24,
-		height: 24,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5,
 		margin: 16
 	}
@@ -90,10 +90,7 @@ export default class ChatInput extends React.Component {
 						/>
 						<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
 							<View style={styles.iconContainer}>
-								<Image
-									source={require("image!ic_send_black")}
-									style={styles.icon}
-								/>
+								<Icon name="send" style={styles.icon} />
 							</View>
 						</TouchableHighlight>
 					</View>

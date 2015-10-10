@@ -1,4 +1,5 @@
 import React from "react-native";
+import Icon from "./icon";
 import Modal from "./modal";
 import LocalitiesFilterController from "../controllers/localities-filtered-controller";
 
@@ -6,7 +7,6 @@ const {
 	StyleSheet,
 	TouchableHighlight,
 	PixelRatio,
-	Image,
 	Text,
 	View
 } = React;
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	icon: {
-		width: 24,
-		height: 24,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -50,10 +50,7 @@ export default class SearchBar extends React.Component {
 					<Text style={styles.searchbarText}>Search for places...</Text>
 
 					<View style={styles.iconContainer}>
-						<Image
-							source={require("image!ic_search_black")}
-							style={styles.icon}
-						/>
+						<Icon name="search" style={styles.icon} />
 					</View>
 				</View>
 			</TouchableHighlight>

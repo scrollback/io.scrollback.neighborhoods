@@ -1,10 +1,11 @@
 import React from "react-native";
+import Icon from "../components/icon";
 import routes from "./routes";
 
 const {
 	StyleSheet,
+	View,
 	Text,
-	Image,
 	TouchableHighlight
 } = React;
 
@@ -18,9 +19,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	icon: {
-		height: 24,
-		width: 24,
-		margin: 16
+		margin: 16,
+		fontSize: 24,
+		color: "#fff"
 	}
 });
 
@@ -43,7 +44,9 @@ const NavigationBarRouteMapper = {
 		if (route.index !== 0) {
 			return (
 				<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={goBack}>
-					<Image source={require("image!ic_back_white")} style={styles.icon} />
+					<View>
+						<Icon name="arrow-back" style={styles.icon} />
+					</View>
 				</TouchableHighlight>
 			);
 		}

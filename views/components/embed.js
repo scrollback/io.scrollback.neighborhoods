@@ -1,6 +1,7 @@
 /* global fetch */
 
 import React from "react-native";
+import Icon from "./icon";
 import Loading from "./loading";
 import Linking from "../../modules/linking";
 
@@ -31,11 +32,10 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	play: {
-		backgroundColor: "transparent",
-		height: 64,
-		width: 64,
-		borderRadius: 32,
-		opacity: 0.7
+		backgroundColor: "rgba(0, 0, 0, .7)",
+		color: "#fff",
+		fontSize: 64,
+		borderRadius: 32
 	}
 });
 
@@ -70,15 +70,17 @@ export default class Embed extends React.Component {
 		const { embed } = this.state;
 
 		return (
-			<View {...this.props} style={[ styles.container, this.props.style ]}>
+			<View {...this.props}>
 				{embed && embed.thumbnail_url ?
-					(<TouchableHighlight onPress={this.onPress.bind(this)} style={styles.thumbnailContainer}>
-						<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
-							{embed.type === "video" ?
-								<Image source={require("image!embed_play")} style={styles.play} /> :
-								null
-							}
-						</Image>
+					(<TouchableHighlight onPress={this.onPress.bind(this)}>
+						<View style={styles.container}>
+							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
+								{embed.type === "video" ?
+									<Icon name="play-arrow" style={styles.play} /> :
+									null
+								}
+							</Image>
+						</View>
 					</TouchableHighlight>) :
 					(<View style={styles.overlay}>
 						<Loading style={styles.progress} />

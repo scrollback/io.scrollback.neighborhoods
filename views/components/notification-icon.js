@@ -1,12 +1,12 @@
 import React from "react-native";
+import Icon from "./icon";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
 	TouchableHighlight,
 	View,
-	Text,
-	Image
+	Text
 } = React;
 
 const styles = StyleSheet.create({
@@ -14,9 +14,9 @@ const styles = StyleSheet.create({
 		position: "relative"
 	},
 	icon: {
-		height: 24,
-		width: 24,
-		margin: 16
+		margin: 16,
+		fontSize: 24,
+		color: "#fff"
 	},
 	badge: {
 		position: "absolute",
@@ -47,7 +47,7 @@ export default class NotificationIcon extends React.Component {
 		return (
 			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
 				<View style={styles.container}>
-					<Image source={require("image!ic_notifications_white")} style={styles.icon} />
+					<Icon name="notifications" style={styles.icon} />
 					{count ?
 						<View style={styles.badge}>
 							<Text style={styles.count}>

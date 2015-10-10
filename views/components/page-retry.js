@@ -1,11 +1,11 @@
 import React from "react-native";
+import Icon from "./icon";
 import Page from "./page";
 
 const {
 	StyleSheet,
 	View,
 	Text,
-	Image,
 	TouchableOpacity
 } = React;
 
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8
 	},
 	icon: {
-		height: 24,
-		width: 24,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -44,7 +44,7 @@ export default class PageRetry extends React.Component {
 
 					{this.props.onRetry ?
 					<View style={styles.button}>
-						<Image style={styles.icon} source={require("image!ic_refresh_black")} />
+						<Icon name="refresh" style={styles.icon} />
 						<Text style={styles.label}>Retry</Text>
 					</View> :
 					null

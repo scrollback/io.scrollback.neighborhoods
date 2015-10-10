@@ -1,11 +1,11 @@
 import React from "react-native";
+import Icon from "./icon";
 import timeUtils from "../../lib/time-utils";
 
 const {
 	StyleSheet,
 	Text,
 	View,
-	Image,
 	TouchableHighlight
 } = React;
 
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
 		color: "#000",
 		fontSize: 12,
 		marginLeft: 8,
-		marginRight: 16
+		marginRight: 16,
+		paddingHorizontal: 4
 	},
 	action: {
 		fontWeight: "bold"
@@ -40,9 +41,8 @@ const styles = StyleSheet.create({
 		color: "#E91E63"
 	},
 	icon: {
-		height: 24,
-		width: 24,
-		resizeMode: "contain"
+		color: "#000",
+		fontSize: 24
 	},
 	faded: {
 		opacity: 0.3
@@ -85,18 +85,18 @@ export default class DiscussionFooter extends React.Component {
 						style={this.state.loved ? null : styles.faded}
 					>
 						<View style={styles.info}>
-							<Image style={styles.icon} source={this.state.loved ? require("image!ic_heart_colored") : require("image!ic_heart_empty_black")} />
+							<Icon name="favorite" style={[ styles.icon, this.state.loved ? styles.loved : null ]} />
 							<Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>
 						</View>
 					</TouchableHighlight>
 				</View>
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
-						<Image style={styles.icon} source={require("image!ic_history_black")} />
+						<Icon name="history" style={styles.icon} />
 						<Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
-						<Image style={styles.icon} source={require("image!ic_forum_black")} />
+						<Icon name="forum" style={styles.icon} />
 						<Text style={styles.label}>{this.props.thread.length}</Text>
 					</View>
 				</View>

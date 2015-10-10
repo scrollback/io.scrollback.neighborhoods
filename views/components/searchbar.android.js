@@ -1,10 +1,10 @@
 import React from "react-native";
+import Icon from "./icon";
 
 const {
 	StyleSheet,
 	TouchableHighlight,
 	PixelRatio,
-	Image,
 	TextInput,
 	View
 } = React;
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	icon: {
-		width: 24,
-		height: 24,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5,
 		margin: 16
 	}
@@ -87,10 +87,7 @@ export default class SearchBar extends React.Component {
 			<View {...this.props} style={[ styles.searchbar, this.props.style ]}>
 				<TouchableHighlight onPress={() => global.requestAnimationFrame(this.props.onBack)} underlayColor="rgba(0, 0, 0, .16)">
 					<View style={styles.iconContainer}>
-						<Image
-							source={require("image!ic_back_black")}
-							style={styles.icon}
-						/>
+						<Icon name="arrow-back" style={styles.icon} />
 					</View>
 				</TouchableHighlight>
 
@@ -108,10 +105,7 @@ export default class SearchBar extends React.Component {
 				{this.state.showClear ?
 					<TouchableHighlight onPress={this._clearInput.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
 						<View style={styles.iconContainer}>
-							<Image
-								source={require("image!ic_close_black")}
-								style={styles.icon}
-							/>
+							<Icon name="close" style={styles.icon} />
 						</View>
 					</TouchableHighlight> :
 					null

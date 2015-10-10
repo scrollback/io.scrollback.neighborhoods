@@ -1,11 +1,11 @@
 import React from "react-native";
+import Icon from "./icon";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
 	TouchableHighlight,
-	View,
-	Image
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
 		borderRadius: 28
 	},
 	icon: {
-		height: 24,
-		width: 24,
 		margin: 16,
+		color: "#000",
+		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -44,7 +44,7 @@ export default class StartDiscussionButton extends React.Component {
 				onPress={this._onPress.bind(this)}
 			>
 				<View style={styles.fab}>
-					<Image source={require("image!ic_create_black")} style={styles.icon} />
+					<Icon name="create" style={styles.icon} />
 				</View>
 			</TouchableHighlight>
 		);

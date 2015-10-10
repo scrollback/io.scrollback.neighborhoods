@@ -1,4 +1,5 @@
 import React from "react-native";
+import Icon from "./icon";
 import Avatar from "./avatar";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
@@ -8,7 +9,6 @@ const {
 	StyleSheet,
 	View,
 	Text,
-	Image,
 	TouchableHighlight,
 	PixelRatio
 } = React;
@@ -61,10 +61,9 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	icon: {
-		height: 14,
-		width: 14,
+		fontSize: 14,
+		color: "#000",
 		marginVertical: 2,
-		resizeMode: "contain",
 		opacity: 0.3
 	},
 	close: {
@@ -193,13 +192,13 @@ export default class NotificationCenterItem extends React.Component {
 								<Text numberOfLines={1} style={styles.summary} >{note.noteData.text}</Text>
 							</View>
 							<View style={styles.timestampContainer}>
-								<Image style={styles.icon} source={require("image!ic_history_black")} />
+								<Icon name="access-time" style={styles.icon} />
 								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
 							</View>
 						</View>
 						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)">
 							<View style={styles.close}>
-								<Image style={styles.icon} source={require("image!ic_close_black")} />
+								<Icon name="close" style={styles.icon} />
 							</View>
 						</TouchableHighlight>
 					</View>
