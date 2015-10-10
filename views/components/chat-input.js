@@ -2,8 +2,9 @@ import React from "react-native";
 import GrowingTextInput from "./growing-text-input";
 
 const {
-	View,
 	StyleSheet,
+	Animated,
+	View,
 	TouchableHighlight,
 	Image,
 	PixelRatio,
@@ -45,30 +46,30 @@ export default class ChatInput extends React.Component {
 		super(props);
 
 		this.state = {
-			keyboardHeight: 0
+			keyboardHeightAnim: new Animated.Value(0)
 		};
 	}
 
 	componentWillMount() {
-		this._keyboardWillShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
-		this._keyboardWillHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
+		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
+		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
 	}
 
 	componentWillUnmount() {
-		this._keyboardWillShowSubscription.remove();
-		this._keyboardWillHideSubscription.remove();
+		this._keyboardDidShowSubscription.remove();
+		this._keyboardDidHideSubscription.remove();
 	}
 
 	_keyboardDidShow(e) {
-		this.setState({
-			keyboardHeight: e.endCoordinates.height
-		});
+		Animated.spring(this.state.keyboardHeightAnim, {
+			toValue: e.endCoordinates.height
+		}).start();
 	}
 
 	_keyboardDidHide() {
-		this.setState({
-			keyboardHeight: 0
-		});
+		Animated.spring(this.state.keyboardHeightAnim, {
+			toValue: 0
+		}).start();
 	}
 
 	_sendMessage() {
@@ -96,7 +97,7 @@ export default class ChatInput extends React.Component {
 							</View>
 						</TouchableHighlight>
 					</View>
-					<View style={{ height: this.state.keyboardHeight }} />
+					<Animated.View style={{ height: this.state.keyboardHeightAnim }} />
 				</View>
 		);
 	}
