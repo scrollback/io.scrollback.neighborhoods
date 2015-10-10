@@ -5,7 +5,7 @@ const { TouchableNativeFeedback } = React;
 export default class TouchFeedback extends React.Component {
 	render() {
 		return (
-			<TouchableNativeFeedback {...this.props} type="RippleAndroid">
+			<TouchableNativeFeedback {...this.props}>
 				{this.props.children}
 			</TouchableNativeFeedback>
 		);
