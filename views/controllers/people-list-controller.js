@@ -1,11 +1,12 @@
 import React from "react-native";
 import PeopleList from "../components/people-list";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class PeopleListController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,12 +17,10 @@ export default class PeopleListController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		const thread = store.getThreadById(this.props.thread);
+		const thread = this.store.getThreadById(this.props.thread);
 
 		if (thread && thread.concerns) {
-			const users = store.getRelatedUsers(thread.to);
+			const users = this.store.getRelatedUsers(thread.to);
 
 			const data = [];
 
@@ -35,10 +34,6 @@ export default class PeopleListController extends React.Component {
 		} else {
 			this._onError();
 		}
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
 	}
 
 	_onDataArrived(data) {

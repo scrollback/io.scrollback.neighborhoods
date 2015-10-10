@@ -1,11 +1,12 @@
 import React from "react-native";
 import ChatMessages from "../components/chat-messages";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class ChatController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +17,7 @@ export default class ChatController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getTexts()), 0);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getTexts()), 0);
 	}
 
 	_onDataArrived(newData) {

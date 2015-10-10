@@ -1,11 +1,12 @@
 import React from "react-native";
 import Discussions from "../components/discussions";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class DiscussionsController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +17,7 @@ export default class DiscussionsController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getThreads(this.props.room)), 0);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getThreads(this.props.room)), 0);
 	}
 
 	_onDataArrived(data) {

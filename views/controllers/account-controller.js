@@ -1,11 +1,12 @@
 import React from "react-native";
 import Account from "../components/account";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class AccountController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +17,7 @@ export default class AccountController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getUser()), 100);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getUser()), 100);
 	}
 
 	_onDataArrived(user) {
@@ -40,7 +35,7 @@ export default class AccountController extends React.Component {
 	}
 
 	_saveUser(user) {
-		store.setUser(user);
+		this.store.setUser(user);
 
 		this.setState({ user });
 	}

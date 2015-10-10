@@ -1,11 +1,12 @@
 import React from "react-native";
 import ChatTitle from "../components/chat-title";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class ChatTitleController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +17,7 @@ export default class ChatTitleController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getThreadById(this.props.thread)), 0);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getThreadById(this.props.thread)), 0);
 	}
 
 	_onDataArrived(thread) {

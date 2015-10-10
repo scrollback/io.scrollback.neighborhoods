@@ -1,11 +1,12 @@
 import React from "react-native";
 import RoomTitle from "../components/room-title";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class RoomTitleController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -18,13 +19,7 @@ export default class RoomTitleController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getRoomById(this.props.room)), 0);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getRoomById(this.props.room)), 0);
 	}
 
 	_onDataArrived(room) {

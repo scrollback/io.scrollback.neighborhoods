@@ -1,11 +1,12 @@
 import React from "react-native";
 import NotificationCenter from "../components/notification-center";
-import store from "../../store/store";
+import controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
+@controller
 export default class NotificationCenterController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +17,7 @@ export default class NotificationCenterController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
-		setTimeout(() => this._onDataArrived(store.getNotes()), 0);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
+		setTimeout(() => this._onDataArrived(this.store.getNotes()), 0);
 	}
 
 	_onDataArrived(newData) {

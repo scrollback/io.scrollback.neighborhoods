@@ -1,9 +1,10 @@
 import React from "react-native";
 import App from "../components/app";
 import Linking from "../../modules/linking";
-import store from "../../store/store";
 import routes from "../utils/routes";
+import controller from "./controller";
 
+@controller
 export default class AppController extends React.Component {
 	constructor(props) {
 		super(props);
@@ -25,17 +26,11 @@ export default class AppController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._mounted = true;
-
 		setTimeout(() => {
 			if (this._mounted) {
-				this._onDataArrived(store.getUser());
+				this._onDataArrived(this.store.getUser());
 			}
 		}, 500);
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
 	}
 
 	_onDataArrived(user) {

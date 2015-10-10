@@ -1,10 +1,11 @@
 import React from "react-native";
 import UserIcon from "../components/user-icon";
-import store from "../../store/store";
+import controller from "./controller";
 
+@controller
 export default class UserIconController extends React.Component {
 	render() {
-		const user = store.getUser();
+		const user = this.store.getUser();
 
 		return <UserIcon {...this.props} nick={user.id} />;
 	}
