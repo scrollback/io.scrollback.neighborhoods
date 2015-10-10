@@ -38,6 +38,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.facebook.react:react-native:0.11.+'
+    compile 'com.facebook.react:react-native:0.12.+'
     compile 'com.squareup.okhttp:okhttp-ws:2.4.0'
 }
