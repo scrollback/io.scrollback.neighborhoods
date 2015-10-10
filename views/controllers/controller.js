@@ -8,17 +8,17 @@ export default function(Target) {
 			return store;
 		}
 
-		componentDidMount(...args) {
+		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {
-				super.componentDidMount(...args);
+				super.componentDidMount();
 			}
 
 			this._mounted = true;
 		}
 
-		componentWillUnmount(...args) {
+		componentWillUnmount() {
 			if (typeof super.componentWillUnmount === "function") {
-				super.componentWillUnmount(...args);
+				super.componentWillUnmount();
 			}
 
 			this._mounted = false;
@@ -29,7 +29,11 @@ export default function(Target) {
 			}
 		}
 
-		handle(event, cb, prio = 100) {
+		handle(event, cb, prio = 100, ...rest) {
+			if (typeof super.handle === "function") {
+				return super.handle(event, cb, prio, ...rest);
+			}
+
 			const handler = cb.bind(this);
 
 			// Attach the event handler
@@ -43,7 +47,11 @@ export default function(Target) {
 			return this._handlers.length - 1;
 		}
 
-		query(type, params = {}) {
+		query(type, params = {}, ...rest) {
+			if (typeof super.query === "function") {
+				return super.query(type, params, ...rest);
+			}
+
 			return new Promise((resolve, reject) => {
 				core.emit(type, params, (err, res) => {
 					if (err) {
@@ -55,7 +63,11 @@ export default function(Target) {
 			});
 		}
 
-		dispatch(name, params = {}, prio = 1) {
+		dispatch(name, params = {}, prio = 1, ...rest) {
+			if (typeof super.dispatch === "function") {
+				return super.dispatch(name, params, prio, ...rest);
+			}
+
 			return new Promise((resolve, reject) => {
 				const down = name + "-dn";
 
