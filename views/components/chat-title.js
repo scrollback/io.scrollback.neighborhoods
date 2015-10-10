@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 	},
 	subtitle: {
 		color: "rgba(255, 255, 255, .5)",
-		fontSize: 12
+		fontSize: 12,
+		width: 160
 	}
 });
 
