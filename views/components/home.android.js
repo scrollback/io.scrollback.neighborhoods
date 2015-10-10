@@ -1,5 +1,6 @@
 import React from "react-native";
 import Modal from "./modal";
+import DeviceVersion from "../../modules/device-version";
 import navigationBar from "../utils/navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 		position: "relative"
 	},
 	statusbar: {
-		height: 25, // offset for statusbar height
+		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25, // offset for statusbar height
 		backgroundColor: "#673ab7"
 	},
 	scene: {
