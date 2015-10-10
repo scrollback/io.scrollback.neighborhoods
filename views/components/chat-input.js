@@ -6,7 +6,8 @@ const {
 	StyleSheet,
 	TouchableHighlight,
 	Image,
-	PixelRatio
+	PixelRatio,
+	DeviceEventEmitter
 } = React;
 
 const styles = StyleSheet.create({
@@ -40,29 +41,62 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatInput extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			keyboardHeight: 0
+		};
+	}
+
+	componentWillMount() {
+		this._keyboardWillShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
+		this._keyboardWillHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
+	}
+
+	componentWillUnmount() {
+		this._keyboardWillShowSubscription.remove();
+		this._keyboardWillHideSubscription.remove();
+	}
+
+	_keyboardDidShow(e) {
+		this.setState({
+			keyboardHeight: e.endCoordinates.height
+		});
+	}
+
+	_keyboardDidHide() {
+		this.setState({
+			keyboardHeight: 0
+		});
+	}
+
 	_sendMessage() {
 
 	}
 
 	render() {
 		return (
-				<View {...this.props} style={[ this.props.style, styles.container ]}>
-					<GrowingTextInput
-						ref={c => this.input = c}
-						style={styles.inputContainer}
-						inputStyle={styles.inputStyle}
-						underlineColorAndroid="transparent"
-						placeholder="Type a message"
-						numberOfLines={5}
-					/>
-					<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
-						<View style={styles.iconContainer}>
-							<Image
-								source={require("image!ic_send_black")}
-								style={styles.icon}
-							/>
-						</View>
-					</TouchableHighlight>
+				<View {...this.props}>
+					<View style={styles.container}>
+						<GrowingTextInput
+							ref={c => this.input = c}
+							style={styles.inputContainer}
+							inputStyle={styles.inputStyle}
+							underlineColorAndroid="transparent"
+							placeholder="Type a message"
+							numberOfLines={5}
+						/>
+						<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
+							<View style={styles.iconContainer}>
+								<Image
+									source={require("image!ic_send_black")}
+									style={styles.icon}
+								/>
+							</View>
+						</TouchableHighlight>
+					</View>
+					<View style={{ height: this.state.keyboardHeight }} />
 				</View>
 		);
 	}

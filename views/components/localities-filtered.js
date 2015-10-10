@@ -4,7 +4,8 @@ import SearchBar from "./searchbar";
 
 const {
 	StyleSheet,
-	View
+	View,
+	DeviceEventEmitter
 } = React;
 
 const styles = StyleSheet.create({
@@ -18,6 +19,36 @@ const styles = StyleSheet.create({
 });
 
 export default class LocalitiesFiltered extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			keyboardHeight: 0
+		};
+	}
+
+	componentWillMount() {
+		this._keyboardWillShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
+		this._keyboardWillHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
+	}
+
+	componentWillUnmount() {
+		this._keyboardWillShowSubscription.remove();
+		this._keyboardWillHideSubscription.remove();
+	}
+
+	_keyboardDidShow(e) {
+		this.setState({
+			keyboardHeight: e.endCoordinates.height
+		});
+	}
+
+	_keyboardDidHide() {
+		this.setState({
+			keyboardHeight: 0
+		});
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>
@@ -28,6 +59,7 @@ export default class LocalitiesFiltered extends React.Component {
 					autoFocus
 				/>
 				<LocalitiesBase {...this.props} style={[ styles.inner, this.props.style ]} />
+				<View style={{ height: this.state.keyboardHeight }} />
 			</View>
 		);
 	}
