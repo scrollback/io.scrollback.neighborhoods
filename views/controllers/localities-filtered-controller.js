@@ -66,16 +66,6 @@ export default class LocalitiesFilterController extends React.Component {
 		}
 	}
 
-	_onError() {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					data: [ "missing" ]
-				});
-			}
-		});
-	}
-
 	render() {
 		return (
 			<LocalitiesFiltered

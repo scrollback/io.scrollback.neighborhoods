@@ -24,30 +24,23 @@ export default class DiscussionsController extends React.Component {
 				this._updateData();
 			}
 		});
+
+		this.emit("setstate", {
+			nav: {
+				room: this.props.room,
+				mode: "room"
+			}
+		});
 	}
 
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
-			const data = this.store.getThreads(this.props.room, null, -10);
-
-			if (this._mounted) {
-				this.setState({ data });
-			}
-		});
-	}
-
-	_onError() {
-		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "missing" ]
+					data: this.store.getThreads(this.props.room, null, -10)
 				});
 			}
 		});
-	}
-
-	_refreshData() {
-
 	}
 
 	render() {
@@ -55,7 +48,6 @@ export default class DiscussionsController extends React.Component {
 			<Discussions
 				{...this.props}
 				{...this.state}
-				refreshData={this._refreshData.bind(this)}
 			/>
 		);
 	}

@@ -26,6 +26,10 @@ export default class LocalitiesController extends React.Component {
 				this._updateData();
 			}
 		});
+
+		this.emit("setstate", {
+			nav: { mode: "home" }
+		});
 	}
 
 	_updateData() {

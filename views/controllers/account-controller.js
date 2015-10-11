@@ -17,24 +17,25 @@ export default class AccountController extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getUser()), 100);
+		this._updateData();
 
-		this.emit("setstate", {
-			nav: { mode: "home" }
-		});
-	}
+		this.handle("statechange", changes => {
+			const user = this.store.get("user");
 
-	_onDataArrived(user) {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({ user });
+			if (changes.entities && changes.entities[user]) {
+				this._updateData();
 			}
 		});
 	}
 
-	_onError() {
-		this.setState({
-			user: "missing"
+	_updateData() {
+		InteractionManager.runAfterInteractions(() => {
+
+			if (this._mounted) {
+				this.setState({
+					user: this.store.getUser()
+				});
+			}
 		});
 	}
 
