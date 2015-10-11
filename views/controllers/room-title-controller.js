@@ -19,13 +19,23 @@ export default class RoomTitleController extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getRoomById(this.props.room)), 0);
+		this._updateData();
+
+		this.handle("statechange", changes => {
+			if (changes.entities && changes.entities[this.props.room]) {
+				this._updateData();
+			}
+		});
 	}
 
-	_onDataArrived(room) {
+	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				this.setState({ room });
+				const room = this.store.getRoom(this.props.room);
+
+				if (room.displayName) {
+					this.setState({ room });
+				}
 			}
 		});
 	}
