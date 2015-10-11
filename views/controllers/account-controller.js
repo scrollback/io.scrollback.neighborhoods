@@ -18,6 +18,10 @@ export default class AccountController extends React.Component {
 
 	componentDidMount() {
 		setTimeout(() => this._onDataArrived(this.store.getUser()), 100);
+
+		this.emit("setstate", {
+			nav: { mode: "home" }
+		});
 	}
 
 	_onDataArrived(user) {
@@ -35,7 +39,10 @@ export default class AccountController extends React.Component {
 	}
 
 	_saveUser(user) {
-		this.store.setUser(user);
+		this.dispatch("user", {
+			to: user.id,
+			user
+		});
 
 		this.setState({ user });
 	}

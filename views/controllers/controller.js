@@ -49,6 +49,10 @@ export default function(Target) {
 			return this._handlers.length - 1;
 		}
 
+		emit(...args) {
+			core.emit(...args);
+		}
+
 		query(type, params = {}, ...rest) {
 			if (typeof super.query === "function") {
 				return super.query(type, params, ...rest);

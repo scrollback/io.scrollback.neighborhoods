@@ -170,6 +170,10 @@ export default class NotificationCenterItem extends React.Component {
 		}
 	}
 
+	_onDismiss() {
+		this.props.dismissNote(this.props.note);
+	}
+
 	render() {
 		const { note } = this.props;
 
@@ -196,7 +200,7 @@ export default class NotificationCenterItem extends React.Component {
 								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
 							</View>
 						</View>
-						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)">
+						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)" onPress={this._onDismiss.bind(this)}>
 							<View style={styles.close}>
 								<Icon name="close" style={styles.icon} />
 							</View>
@@ -219,5 +223,6 @@ NotificationCenterItem.propTypes = {
 			from: React.PropTypes.string.isRequired
 		}).isRequired
 	}).isRequired,
+	dismissNote: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

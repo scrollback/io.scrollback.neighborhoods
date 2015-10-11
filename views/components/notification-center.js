@@ -50,6 +50,7 @@ export default class NotificationCenter extends React.Component {
 										key={note.ref + note.type}
 										note={note}
 										navigator={this.props.navigator}
+										dismissNote={this.props.dismissNote}
 									/>
 								);
 							}}
@@ -68,6 +69,7 @@ NotificationCenter.propTypes = {
 			id: React.PropTypes.string
 		})
 	])).isRequired,
+	dismissNote: React.PropTypes.func.isRequired,
 	refreshData: React.PropTypes.func,
 	navigator: React.PropTypes.object.isRequired
 };

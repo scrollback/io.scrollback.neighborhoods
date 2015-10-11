@@ -21,11 +21,10 @@ module.exports = function(core) {
 				initUp.session = value;
 				next();
 			})
-			.catch(next)
-			.done();
+			.catch(next);
 	}, 999);
 
-	core.on("init-dn", initDn => AsyncStorage.setItem(key, initDn.session).done(), 999);
+	core.on("init-dn", initDn => AsyncStorage.setItem(key, initDn.session), 999);
 
-	core.on("logout", () => AsyncStorage.removeItem(key).done(), 1000);
+	core.on("logout", () => AsyncStorage.removeItem(key), 1000);
 };

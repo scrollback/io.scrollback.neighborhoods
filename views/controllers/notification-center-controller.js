@@ -17,31 +17,31 @@ export default class NotificationCenterController extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getNotes()), 0);
-	}
+		this._updateData();
 
-	_onDataArrived(newData) {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					data: newData
-				});
+		this.handle("statechange", changes => {
+			if (changes && changes.notes) {
+				this._updateData();
 			}
 		});
 	}
 
-	_onError() {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					data: [ "missing" ]
-				});
-			}
+	_dismissNote(note) {
+		this.dispatch("note", {
+			ref: note.ref,
+			noteType: note.noteType,
+			dismissTime: Date.now()
 		});
 	}
 
-	_refreshData() {
+	_updateData() {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				const data = this.store.getNotes();
 
+				this.setState({ data });
+			}
+		});
 	}
 
 	render() {
@@ -49,7 +49,7 @@ export default class NotificationCenterController extends React.Component {
 			<NotificationCenter
 				{...this.props}
 				{...this.state}
-				refreshData={this._refreshData.bind(this)}
+				dismissNote={this._dismissNote.bind(this)}
 			/>
 		);
 	}

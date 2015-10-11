@@ -6,10 +6,13 @@ import WebSocket from "../modules/websocket";
 global.WebSocket = WebSocket;
 global.navigator.userAgent = "react-native";
 
+
 const store = require("../store.orig/store")(core, config);
 
 global.core = core;
 global.store = store;
+
+require("babel/polyfill");
 
 init(core);
 
