@@ -24,8 +24,10 @@ export default function(Target) {
 			this._mounted = false;
 
 			// Clean up handlers
-			for (let i = 0, l = this._handlers.length; i < l; i++) {
-				core.off(...this._handlers[i]);
+			if (this._handlers && this._handlers.length) {
+				for (let i = 0, l = this._handlers.length; i < l; i++) {
+					core.off(...this._handlers[i]);
+				}
 			}
 		}
 

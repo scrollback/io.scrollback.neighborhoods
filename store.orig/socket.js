@@ -118,7 +118,6 @@ function receiveMessage(event) {
 function disconnected() {
 
 	/* eslint-disable block-scoped-var, no-use-before-define */
-
 	if (backOff === 1) {
 		core.emit("setstate", {
 			app: { connectionStatus: "offline" }
@@ -136,8 +135,6 @@ function disconnected() {
 }
 
 function connect() {
-	if (!navigator.onLine) return disconnected();
-
 	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.apiHost, {
 		jsonp: "document" in window // Disable JSONP in non-web environments, e.g.- react-native
 	});
@@ -152,9 +149,6 @@ function connect() {
 
 	client.on("message", receiveMessage);
 }
-
-window.addEventListener("offline", disconnected);
-window.addEventListener("online", connect);
 
 module.exports = function(c, conf, s) {
 	core = c;
@@ -246,6 +240,12 @@ module.exports = function(c, conf, s) {
 
 		init.type = "init";
 		init.to = "me";
+
+		// TODO: Handle properly in react-native
+		init.origin = init.origin || {
+			host: "io.scrollback.neighborhoods",
+			verified: true
+		};
 
 		client.send(JSON.stringify(init));
 

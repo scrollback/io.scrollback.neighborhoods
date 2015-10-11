@@ -2,20 +2,21 @@ import React from "react-native";
 import Splash from "./splash";
 import Onboard from "./onboard";
 import Home from "./home";
+import userUtils from "../../lib/user-utils";
 
 export default class App extends React.Component {
 	render() {
 		const { user, initialRoute } = this.props;
 
-		if (user === "FAILED") {
+		if (user === "LOADING") {
+			return <Splash />;
+		}
+
+		if (user === "FAILED" || userUtils.isGuest(user)) {
 			return <Onboard initialRoute={initialRoute} />;
 		}
 
-		if (user && user.id) {
-			return <Home initialRoute={initialRoute} />;
-		}
-
-		return <Splash />;
+		return <Home initialRoute={initialRoute} />;
 	}
 }
 

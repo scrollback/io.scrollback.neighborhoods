@@ -23,23 +23,15 @@ export default class AppController extends React.Component {
 				});
 			}
 		});
-	}
 
-	componentDidMount() {
-		setTimeout(() => {
-			if (this._mounted) {
-				this._onDataArrived(this.store.getUser());
+		this.handle("statechange", changes => {
+			if (changes && changes.user) {
+				const user = this.store.get("user");
+
+				if (user !== this.state.user) {
+					this.setState({ user });
+				}
 			}
-		}, 500);
-	}
-
-	_onDataArrived(user) {
-		this.setState({ user });
-	}
-
-	_onError() {
-		this.setState({
-			user: "FAILED"
 		});
 	}
 

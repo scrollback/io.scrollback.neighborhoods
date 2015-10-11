@@ -261,6 +261,11 @@ Store.prototype.getUserRole = function(userId, roomId) {
 	return role;
 };
 
+
+Store.prototype.getNotes = function() {
+	return this.get("notes");
+};
+
 Store.prototype.isUserAdmin = function(userId, roomId) {
 	var rel, role;
 
@@ -301,7 +306,6 @@ module.exports = function(core, config) {
 	require("./rule-manager.js")(core, config, store, state);
 	require("./socket.js")(core, config, store, state);
 	require("./session-manager.js")(core, config, store, state);
-	require("./guest-params-handler.js")(core, config, store, state);
 
 	return store;
 };
