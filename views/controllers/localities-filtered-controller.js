@@ -51,7 +51,7 @@ export default class LocalitiesFilterController extends React.Component {
 					} else {
 						this.setState({
 							filter,
-							data: [ "LOADING" ]
+							data: [ "loading" ]
 						});
 					}
 				}
@@ -70,7 +70,7 @@ export default class LocalitiesFilterController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "FAILED" ]
+					data: [ "missing" ]
 				});
 			}
 		});

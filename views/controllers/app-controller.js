@@ -10,7 +10,7 @@ export default class AppController extends React.Component {
 		super(props);
 
 		this.state = {
-			user: "LOADING",
+			user: "loading",
 			initialRoute: null
 		};
 	}

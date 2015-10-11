@@ -12,7 +12,7 @@ export default class AccountController extends React.Component {
 		super(props);
 
 		this.state = {
-			user: "LOADING"
+			user: "loading"
 		};
 	}
 
@@ -30,7 +30,7 @@ export default class AccountController extends React.Component {
 
 	_onError() {
 		this.setState({
-			user: "FAILED"
+			user: "missing"
 		});
 	}
 

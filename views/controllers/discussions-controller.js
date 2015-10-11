@@ -12,16 +12,24 @@ export default class DiscussionsController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "LOADING" ]
+			data: [ "loading" ]
 		};
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getThreads(this.props.room)), 0);
+		this._updateData();
+
+		this.handle("statechange", changes => {
+			if (changes.threads && changes.threads[this.props.room]) {
+				this._updateData();
+			}
+		});
 	}
 
-	_onDataArrived(data) {
+	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
+			const data = this.store.getThreads(this.props.room, null, -10);
+
 			if (this._mounted) {
 				this.setState({ data });
 			}
@@ -32,7 +40,7 @@ export default class DiscussionsController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "FAILED" ]
+					data: [ "missing" ]
 				});
 			}
 		});

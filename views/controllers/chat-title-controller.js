@@ -12,7 +12,7 @@ export default class ChatTitleController extends React.Component {
 		super(props);
 
 		this.state = {
-			thread: "LOADING"
+			thread: "loading"
 		};
 	}
 
@@ -32,7 +32,7 @@ export default class ChatTitleController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					thread: "FAILED"
+					thread: "missing"
 				});
 			}
 		});

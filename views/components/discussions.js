@@ -30,11 +30,11 @@ export default class Discussions extends React.Component {
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "LOADING") {
+						if (this.props.data[0] === "loading") {
 							return <PageLoading />;
 						}
 
-						if (this.props.data[0] === "FAILED") {
+						if (this.props.data[0] === "missing") {
 							return <PageRetry onRetry={this.props.refreshData} />;
 						}
 					}
@@ -43,13 +43,19 @@ export default class Discussions extends React.Component {
 						<ListView
 							initialListSize={3}
 							dataSource={this._getDataSource()}
-							renderRow={thread =>
-								<DiscussionItem
-									key={thread.id}
-									thread={thread}
-									navigator={this.props.navigator}
-								/>
-							}
+							renderRow={thread => {
+								if (thread === "missing") {
+									return null;
+								}
+
+								return (
+									<DiscussionItem
+										key={thread.id}
+										thread={thread}
+										navigator={this.props.navigator}
+									/>
+								);
+							}}
 						/>
 					);
 				})()}
@@ -62,7 +68,7 @@ export default class Discussions extends React.Component {
 
 Discussions.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+		React.PropTypes.oneOf([ "loading", "missing" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center"
 	},
-	failed: {
+	missing: {
 		fontSize: 18
 	},
 	button: {
@@ -40,7 +40,7 @@ export default class PageRetry extends React.Component {
 		return (
 			<Page {...this.props}>
 				<TouchableOpacity onPress={this.props.onRetry} style={styles.container}>
-					<Text style={styles.failed}>Failed to load data</Text>
+					<Text style={styles.missing}>Failed to load data</Text>
 
 					{this.props.onRetry ?
 					<View style={styles.button}>

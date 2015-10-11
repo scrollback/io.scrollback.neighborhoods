@@ -12,7 +12,7 @@ export default class ChatController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "LOADING" ]
+			data: [ "loading" ]
 		};
 	}
 
@@ -46,7 +46,7 @@ export default class ChatController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "FAILED" ]
+					data: [ "missing" ]
 				});
 			}
 		});

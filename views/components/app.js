@@ -8,11 +8,11 @@ export default class App extends React.Component {
 	render() {
 		const { user, initialRoute } = this.props;
 
-		if (user === "LOADING") {
+		if (user === "loading") {
 			return <Splash />;
 		}
 
-		if (user === "FAILED" || userUtils.isGuest(user)) {
+		if (user === "missing" || userUtils.isGuest(user)) {
 			return <Onboard initialRoute={initialRoute} />;
 		}
 
@@ -22,7 +22,7 @@ export default class App extends React.Component {
 
 App.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+		React.PropTypes.oneOf([ "loading", "missing" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

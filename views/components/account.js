@@ -153,11 +153,11 @@ export default class Account extends React.Component {
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				{(() => {
-					if (this.props.user === "LOADING") {
+					if (this.props.user === "loading") {
 						return <PageLoading />;
 					}
 
-					if (this.props.user === "FAILED") {
+					if (this.props.user === "missing") {
 						return <PageRetry />;
 					}
 
@@ -228,7 +228,7 @@ export default class Account extends React.Component {
 
 Account.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+		React.PropTypes.oneOf([ "loading", "missing" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

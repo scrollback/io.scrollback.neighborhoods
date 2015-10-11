@@ -29,11 +29,11 @@ export default class PeopleList extends React.Component {
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "LOADING") {
+						if (this.props.data[0] === "loading") {
 							return <PageLoading />;
 						}
 
-						if (this.props.data[0] === "FAILED") {
+						if (this.props.data[0] === "missing") {
 							return <PageRetry onRetry={this.props.refreshData} />;
 						}
 					}
@@ -63,7 +63,7 @@ export default class PeopleList extends React.Component {
 
 PeopleList.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "LOADING", "FAILED" ]),
+		React.PropTypes.oneOf([ "loading", "missing" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
