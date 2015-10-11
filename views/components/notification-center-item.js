@@ -55,15 +55,16 @@ const styles = StyleSheet.create({
 		flexDirection: "row"
 	},
 	timestamp: {
-		fontSize: 12,
+		fontSize: 11,
+		marginVertical: 2,
 		color: "#aaa",
-		marginLeft: 8,
+		marginLeft: 4,
 		paddingHorizontal: 4
 	},
 	icon: {
-		fontSize: 14,
+		fontSize: 12,
 		color: "#000",
-		marginVertical: 2,
+		marginVertical: 4,
 		opacity: 0.3
 	},
 	close: {
