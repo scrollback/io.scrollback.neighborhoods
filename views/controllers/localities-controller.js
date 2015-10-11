@@ -17,29 +17,25 @@ export default class LocalitiesController extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getRelatedRooms()), 0);
-	}
+		this._updateData();
 
-	_onDataArrived(data) {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({ data });
+		this.handle("statechange", changes => {
+			const user = this.store.get("user");
+
+			if (changes.indexes && changes.indexes.userRooms && changes.indexes.userRooms[user]) {
+				this._updateData();
 			}
 		});
 	}
 
-	_onError() {
+	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "FAILED" ]
+					data: this.store.getRelatedRooms()
 				});
 			}
 		});
-	}
-
-	_refreshData() {
-
 	}
 
 	render() {
@@ -47,7 +43,6 @@ export default class LocalitiesController extends React.Component {
 			<Localities
 				{...this.props}
 				{...this.state}
-				refreshData={this._refreshData.bind(this)}
 			/>
 		);
 	}

@@ -44,7 +44,7 @@ export default class RoomItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.item}>
 						<Text style={styles.title}>{room.displayName || room.id}</Text>
-						{position ?
+						{position && position.coords && room.latitude && room.longitude ?
 							<Text style={styles.distance}>{locationUtils.getFormattedDistance(position.coords, room)}</Text> :
 							null
 						}
