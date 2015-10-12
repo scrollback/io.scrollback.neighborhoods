@@ -12,11 +12,13 @@ var permissionWeights = require("../authorizer/permissionWeights.js"),
 			"dialog": null,
 			"textRange": {
 				time: null,
-				after: 30
+				after: 0,
+				before: 20
 			},
 			"threadRange": {
 				time: null,
-				after: 20
+				after: 0,
+				before: 20
 			}
 		},
 		session: "",
@@ -138,6 +140,14 @@ Store.prototype.getThreads = function(roomId, time, range) {
 	}
 
 	return rangeOps.getItems(threads[roomId], req, "startTime");
+};
+
+Store.prototype.getThreadById = function(threadId) {
+	return this.get("indexes", "threadsById", threadId);
+};
+
+Store.prototype.getTextById = function(threadId) {
+	return this.get("indexes", "textsById", threadId);
 };
 
 Store.prototype.getRelation = function(roomId, userId) {

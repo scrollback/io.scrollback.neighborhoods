@@ -86,7 +86,7 @@ export default class DiscussionItem extends React.Component {
 	render() {
 		const { thread } = this.props;
 
-		const trimmedText = thread.text.trim();
+		const trimmedText = (thread.text || "This is a text").trim();
 
 		const hashtags = textUtils.getHashtags(trimmedText);
 		const links = textUtils.getLinks(trimmedText);

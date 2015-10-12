@@ -6,9 +6,16 @@ import PageRetry from "./page-retry";
 import StartDiscussionButton from "./start-discussion-button";
 
 const {
+	StyleSheet,
 	ListView,
 	View
 } = React;
+
+const styles = StyleSheet.create({
+	item: {
+		overflow: "hidden"
+	}
+});
 
 export default class Discussions extends React.Component {
 	constructor(props) {
@@ -41,7 +48,11 @@ export default class Discussions extends React.Component {
 
 					return (
 						<ListView
+							removeClippedSubviews
+							style={styles.item}
 							initialListSize={3}
+							onEndReachedThreshold={1000}
+							onEndReached={this.props.onEndReached}
 							dataSource={this._getDataSource()}
 							renderRow={thread => {
 								if (thread === "missing") {
@@ -53,6 +64,7 @@ export default class Discussions extends React.Component {
 										key={thread.id}
 										thread={thread}
 										navigator={this.props.navigator}
+										style={styles.item}
 									/>
 								);
 							}}
@@ -75,5 +87,6 @@ Discussions.propTypes = {
 	])).isRequired,
 	room: React.PropTypes.string.isRequired,
 	refreshData: React.PropTypes.func,
+	onEndReached: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

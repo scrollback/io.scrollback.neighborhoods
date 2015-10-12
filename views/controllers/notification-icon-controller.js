@@ -27,9 +27,9 @@ export default class NotificationIconController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const count = this.store.getNotes().length;
-
-				this.setState({ count });
+				this.setState({
+					count: this.store.getNotes().length
+				});
 			}
 		});
 	}

@@ -6,9 +6,16 @@ import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
 
 const {
+	StyleSheet,
 	ListView,
 	View
 } = React;
+
+const styles = StyleSheet.create({
+	item: {
+		overflow: "hidden"
+	}
+});
 
 export default class ChatMessages extends React.Component {
 	constructor(props) {
@@ -49,6 +56,8 @@ export default class ChatMessages extends React.Component {
 
 					return (
 						<ListView
+							removeClippedSubviews
+							style={styles.item}
 							initialListSize={5}
 							renderScrollComponent={props =>
 								<InvertibleScrollView

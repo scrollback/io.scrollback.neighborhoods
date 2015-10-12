@@ -37,9 +37,9 @@ export default class NotificationCenterController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const data = this.store.getNotes();
-
-				this.setState({ data });
+				this.setState({
+					data: this.store.getNotes()
+				});
 			}
 		});
 	}

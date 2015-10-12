@@ -21,11 +21,6 @@ export default class App extends React.Component {
 }
 
 App.propTypes = {
-	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
-		React.PropTypes.shape({
-			id: React.PropTypes.string
-		})
-	]).isRequired,
+	user: React.PropTypes.string.isRequired,
 	initialRoute: React.PropTypes.object
 };

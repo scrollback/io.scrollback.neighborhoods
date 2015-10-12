@@ -30,7 +30,6 @@ export default class AccountController extends React.Component {
 
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
-
 			if (this._mounted) {
 				this.setState({
 					user: this.store.getUser()
