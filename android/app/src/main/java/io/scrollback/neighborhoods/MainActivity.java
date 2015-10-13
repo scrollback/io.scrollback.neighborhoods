@@ -11,7 +11,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
-
 import com.oblador.vectoricons.VectorIconsPackage;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
@@ -21,6 +20,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     private GoogleLoginPackage mGoogleLoginPackage;
     private FacebookLoginPackage mFacebookLoginPackage;
+    private ImageChooserPackage mImageChooserPackage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         mGoogleLoginPackage = new GoogleLoginPackage(this);
         mFacebookLoginPackage = new FacebookLoginPackage(this);
+        mImageChooserPackage = new ImageChooserPackage(this);
 
         mReactRootView = new ReactRootView(this);
 
@@ -40,6 +41,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new HeyNeighborPackage(this))
                 .addPackage(mGoogleLoginPackage)
                 .addPackage(mFacebookLoginPackage)
+                .addPackage(mImageChooserPackage)
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -102,5 +104,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         mGoogleLoginPackage.handleActivityResult(requestCode, resultCode, data);
         mFacebookLoginPackage.handleActivityResult(requestCode, resultCode, data);
+        mImageChooserPackage.handleActivityResult(requestCode, resultCode, data);
     }
 }

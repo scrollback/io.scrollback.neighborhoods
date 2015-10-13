@@ -1,6 +1,7 @@
 import React from "react-native";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
+import ImageChooser from "../../modules/image-chooser";
 
 const {
 	StyleSheet,
@@ -89,6 +90,10 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
+	_uploadImage() {
+		ImageChooser.pickImage(result => console.log(result));
+	}
+
 	_onValueChange(text) {
 		this.setState({
 			text
@@ -126,9 +131,12 @@ export default class ChatInput extends React.Component {
 						numberOfLines={7}
 					/>
 
-					<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
+					<TouchableHighlight
+						onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}
+						underlayColor="rgba(0, 0, 0, .16)"
+					>
 						<View style={styles.iconContainer}>
-							<Icon name="send" style={styles.icon} />
+							<Icon name={this.state.text ? "send" : "image"} style={styles.icon} />
 						</View>
 					</TouchableHighlight>
 				</View>
