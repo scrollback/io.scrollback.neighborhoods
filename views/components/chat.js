@@ -20,9 +20,15 @@ export default class Chat extends React.Component {
 				<ChatMessagesController
 					room={this.props.room}
 					thread={this.props.thread}
+					user={this.props.user}
 					style={styles.messages}
 				/>
-				<ChatInputController room={this.props.room} thread={this.props.thread} />
+
+				<ChatInputController
+					room={this.props.room}
+					thread={this.props.thread}
+					user={this.props.user}
+				/>
 			</View>
 		);
 	}
@@ -30,5 +36,6 @@ export default class Chat extends React.Component {
 
 Chat.propTypes = {
 	room: React.PropTypes.string.isRequired,
-	thread: React.PropTypes.string.isRequired
+	thread: React.PropTypes.string.isRequired,
+	user: React.PropTypes.string.isRequired
 };

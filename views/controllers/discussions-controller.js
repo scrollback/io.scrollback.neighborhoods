@@ -12,7 +12,8 @@ export default class DiscussionsController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "loading" ],
+			user: ""
 		};
 	}
 

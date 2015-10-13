@@ -73,7 +73,15 @@ export default class ChatInput extends React.Component {
 	}
 
 	_sendMessage() {
+		this.props.sendMessage(this._input.value);
 
+		this._input.value = "";
+	}
+
+	_onChange() {
+		this.setState({
+			text: this._input.value
+		});
 	}
 
 	render() {
@@ -81,7 +89,8 @@ export default class ChatInput extends React.Component {
 				<View {...this.props}>
 					<View style={styles.container}>
 						<GrowingTextInput
-							ref={c => this.input = c}
+							ref={c => this._input = c}
+							onChange={this._onChange.bind(this)}
 							style={styles.inputContainer}
 							inputStyle={styles.inputStyle}
 							underlineColorAndroid="transparent"
@@ -99,3 +108,7 @@ export default class ChatInput extends React.Component {
 		);
 	}
 }
+
+ChatInput.propTypes = {
+	sendMessage: React.PropTypes.func.isRequired
+};

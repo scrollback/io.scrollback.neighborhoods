@@ -46,6 +46,16 @@ export default class GrowingTextInput extends React.Component {
 		this.input.focus(...args);
 	}
 
+	get value() {
+		return this.state.value;
+	}
+
+	set value(value) {
+		this.setState({
+			value
+		});
+	}
+
 	render() {
 		return (
 			<View style={[ styles.container, this.props.style ]}>

@@ -65,8 +65,7 @@ export default class ChatMessagesController extends React.Component {
 				}
 
 				this.setState({
-					data,
-					user: this.store.get("user")
+					data
 				});
 			}
 		});
