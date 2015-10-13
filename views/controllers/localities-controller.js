@@ -27,8 +27,10 @@ export default class LocalitiesController extends React.Component {
 			}
 		});
 
-		this.emit("setstate", {
-			nav: { mode: "home" }
+		InteractionManager.runAfterInteractions(() => {
+			this.emit("setstate", {
+				nav: { mode: "home" }
+			});
 		});
 	}
 

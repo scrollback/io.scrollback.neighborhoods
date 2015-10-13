@@ -17,6 +17,8 @@ export default class DiscussionsController extends React.Component {
 	}
 
 	componentDidMount() {
+		this._updateData();
+
 		this.handle("statechange", changes => {
 			if (changes.threads && changes.threads[this.props.room] || changes.nav && changes.nav.threadRange) {
 				this._updateData();
@@ -24,8 +26,6 @@ export default class DiscussionsController extends React.Component {
 		});
 
 		InteractionManager.runAfterInteractions(() => {
-			this._updateData();
-
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -36,20 +36,22 @@ export default class DiscussionsController extends React.Component {
 	}
 
 	_updateData() {
-		if (this._mounted) {
-			const time = this.store.get("nav", "threadRange", "time");
-			const before = this.store.get("nav", "threadRange", "before");
-			const after = this.store.get("nav", "threadRange", "after");
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				const time = this.store.get("nav", "threadRange", "time");
+				const before = this.store.get("nav", "threadRange", "before");
+				const after = this.store.get("nav", "threadRange", "after");
 
-			const beforeData = this.store.getThreads(this.props.room, time, -before);
-			const afterData = this.store.getThreads(this.props.room, time, after);
+				const beforeData = this.store.getThreads(this.props.room, time, -before);
+				const afterData = this.store.getThreads(this.props.room, time, after);
 
-			afterData.splice(-1, 1);
+				afterData.splice(-1, 1);
 
-			this.setState({
-				data: beforeData.concat(afterData).reverse()
-			});
-		}
+				this.setState({
+					data: beforeData.concat(afterData).reverse()
+				});
+			}
+		});
 	}
 
 	_onEndReached() {
