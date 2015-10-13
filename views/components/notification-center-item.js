@@ -163,7 +163,10 @@ export default class NotificationCenterItem extends React.Component {
 		case "mention":
 		case "reply":
 		case "thread":
-			navigator.push(routes.chat({ thread }));
+			navigator.push(routes.chat({
+				thread,
+				room
+			}));
 
 			break;
 		default:

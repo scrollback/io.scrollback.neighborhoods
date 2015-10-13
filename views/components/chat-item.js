@@ -68,13 +68,17 @@ const styles = StyleSheet.create({
 
 export default class ChatItem extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (
-				this.props.text.text !== nextProps.text.text ||
-				this.props.text.from !== nextProps.text.from ||
-				this.props.text.time !== nextProps.text.time ||
-				this.props.previousText.from !== nextProps.previousText.from ||
-				this.props.previousText.time !== nextProps.previousText.time
-			);
+		if (this.props.text && nextProps.text && this.props.previousText && nextProps.previousText) {
+			return (
+					this.props.text.text !== nextProps.text.text ||
+					this.props.text.from !== nextProps.text.from ||
+					this.props.text.time !== nextProps.text.time ||
+					this.props.previousText.from !== nextProps.previousText.from ||
+					this.props.previousText.time !== nextProps.previousText.time
+				);
+		} else {
+			return true;
+		}
 	}
 
 	_showMenu() {
@@ -90,9 +94,9 @@ export default class ChatItem extends React.Component {
 	}
 
 	render() {
-		const { text, previousText } = this.props;
+		const { text, previousText, currentUser } = this.props;
 
-		const received = text.from !== "miracleonreathrth";
+		const received = text.from !== currentUser;
 
 		const links = textUtils.getLinks(text.text);
 		const pictures = textUtils.getPictures(text.text);
@@ -172,5 +176,6 @@ ChatItem.propTypes = {
 	previousText: React.PropTypes.shape({
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
-	})
+	}),
+	currentUser: React.PropTypes.string.isRequired
 };

@@ -17,9 +17,18 @@ export default class Chat extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
-				<ChatMessagesController style={styles.messages} />
-				<ChatInputController />
+				<ChatMessagesController
+					room={this.props.room}
+					thread={this.props.thread}
+					style={styles.messages}
+				/>
+				<ChatInputController room={this.props.room} thread={this.props.thread} />
 			</View>
 		);
 	}
 }
+
+Chat.propTypes = {
+	room: React.PropTypes.string.isRequired,
+	thread: React.PropTypes.string.isRequired
+};

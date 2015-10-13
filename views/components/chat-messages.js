@@ -59,6 +59,8 @@ export default class ChatMessages extends React.Component {
 							removeClippedSubviews
 							style={styles.item}
 							initialListSize={5}
+							onEndReachedThreshold={1000}
+							onEndReached={this.props.onEndReached}
 							renderScrollComponent={props =>
 								<InvertibleScrollView
 									{...props}
@@ -68,11 +70,16 @@ export default class ChatMessages extends React.Component {
 							}
 							dataSource={dataSource}
 							renderRow={item => {
+								if (item === "missing") {
+									return null;
+								}
+
 								return (
 									<ChatItem
 										key={item.text.id}
 										text={item.text}
 										previousText={item.previousText}
+										currentUser={this.props.user}
 									/>
 								);
 							}}
@@ -91,5 +98,7 @@ ChatMessages.propTypes = {
 			id: React.PropTypes.string
 		})
 	])).isRequired,
+	user: React.PropTypes.string.isRequired,
+	onEndReached: React.PropTypes.func.isRequired,
 	refreshData: React.PropTypes.func
 };

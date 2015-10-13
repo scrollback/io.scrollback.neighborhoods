@@ -80,7 +80,10 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	_onPress() {
-		this.props.navigator.push(routes.chat({ thread: this.props.thread.id }));
+		this.props.navigator.push(routes.chat({
+			thread: this.props.thread.id,
+			room: this.props.thread.to
+		}));
 	}
 
 	render() {
@@ -148,7 +151,8 @@ DiscussionItem.propTypes = {
 		id: React.PropTypes.string.isRequired,
 		title: React.PropTypes.string.isRequired,
 		text: React.PropTypes.string.isRequired,
-		from: React.PropTypes.string.isRequired
+		from: React.PropTypes.string.isRequired,
+		to: React.PropTypes.string.isRequired
 	}).isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
