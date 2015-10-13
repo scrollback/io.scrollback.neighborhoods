@@ -20,8 +20,6 @@ export default class ChatTitleController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			console.log(changes);
-
 			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
 				this._updateData();
 			}
