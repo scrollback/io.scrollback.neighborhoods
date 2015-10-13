@@ -15,15 +15,46 @@ const styles = StyleSheet.create({
 });
 
 export default class StartDiscussionButton extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			title: "",
+			text: ""
+		};
+	}
+
 	_onPress() {
-		this.props.postDiscussion();
+		this.props.postDiscussion(this.state.title, this.state.text);
+	}
+
+	_onTitleChange(e) {
+		this.setState({
+			title: e.nativeEvent.text
+		});
+	}
+
+	_onTextChange(e) {
+		this.setState({
+			text: e.nativeEvent.text
+		});
 	}
 
 	render() {
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
-				<TextInput placeholder="Enter discussion title" autoFocus />
-				<GrowingTextInput placeholder="Enter discussion summary" numberOfLines={5} />
+				<TextInput
+					autoFocus
+					onChange={this._onTitleChange.bind(this)}
+					placeholder="Enter discussion title"
+				/>
+
+				<GrowingTextInput
+					numberOfLines={5}
+					onChange={this._onTextChange.bind(this)}
+					placeholder="Enter discussion summary"
+				/>
+
 				<LargeButton
 					style={styles.facebook}
 					text="Start discussion"

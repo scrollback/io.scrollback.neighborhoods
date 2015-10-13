@@ -72,7 +72,11 @@ export default class Discussions extends React.Component {
 					);
 				})()}
 
-				<StartDiscussionButton room={this.props.room} navigator={this.props.navigator} />
+				<StartDiscussionButton
+					room={this.props.room}
+					user={this.props.user}
+					navigator={this.props.navigator}
+				/>
 			</View>
 		);
 	}
@@ -86,6 +90,7 @@ Discussions.propTypes = {
 		})
 	])).isRequired,
 	room: React.PropTypes.string.isRequired,
+	user: React.PropTypes.string.isRequired,
 	refreshData: React.PropTypes.func,
 	onEndReached: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired

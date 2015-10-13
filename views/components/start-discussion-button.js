@@ -33,7 +33,10 @@ const styles = StyleSheet.create({
 
 export default class StartDiscussionButton extends React.Component {
 	_onPress() {
-		this.props.navigator.push(routes.startthread({ room: this.props.room }));
+		this.props.navigator.push(routes.startthread({
+			room: this.props.room,
+			user: this.props.user
+		}));
 	}
 
 	render() {
@@ -53,5 +56,6 @@ export default class StartDiscussionButton extends React.Component {
 
 StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
+	user: React.PropTypes.string.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

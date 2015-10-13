@@ -48,7 +48,8 @@ export default class DiscussionsController extends React.Component {
 				afterData.splice(-1, 1);
 
 				this.setState({
-					data: beforeData.concat(afterData).reverse()
+					data: beforeData.concat(afterData).reverse(),
+					user: this.store.get("user")
 				});
 			}
 		});
