@@ -5,23 +5,18 @@ import timeUtils from "../../lib/time-utils";
 const {
 	StyleSheet,
 	Text,
-	View,
-	TouchableHighlight
+	View
 } = React;
 
 const styles = StyleSheet.create({
 	footer: {
 		flexDirection: "row",
-		marginTop: 4
-	},
-	left: {
-		flex: 1,
-		flexDirection: "row",
-		alignSelf: "flex-start"
+		marginTop: 6
 	},
 	right: {
+		flex: 1,
 		flexDirection: "row",
-		alignSelf: "flex-end"
+		justifyContent: "flex-end"
 	},
 	info: {
 		flexDirection: "row",
@@ -50,46 +45,16 @@ const styles = StyleSheet.create({
 });
 
 export default class DiscussionFooter extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			loved: Math.random() > 0.5,
-			num: Math.round(Math.random() * 10) + 1
-		};
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		return (
-				this.props.thread.updateTime !== nextProps.thread.updateTime ||
-				this.props.thread.length !== nextProps.thread.length ||
-				this.state.loved !== nextState.loved ||
-				this.state.num !== nextState.num
-			);
-	}
-
-	onHeart() {
-		this.setState({
-			loved: !this.state.loved,
-			num: this.state.loved ? (this.state.num - 1) : (this.state.num + 1)
-		});
+			this.props.thread.updateTime !== nextProps.thread.updateTime ||
+			this.props.thread.length !== nextProps.thread.length
+		);
 	}
 
 	render() {
 		return (
 			<View {...this.props} style={[ styles.footer, this.props.style ]}>
-				<View style={styles.left}>
-					<TouchableHighlight
-						underlayColor="#fff"
-						onPress={this.onHeart.bind(this)}
-						style={this.state.loved ? null : styles.faded}
-					>
-						<View style={styles.info}>
-							<Icon name="favorite" style={[ styles.icon, this.state.loved ? styles.loved : null ]} />
-							<Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>
-						</View>
-					</TouchableHighlight>
-				</View>
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon name="history" style={styles.icon} />
