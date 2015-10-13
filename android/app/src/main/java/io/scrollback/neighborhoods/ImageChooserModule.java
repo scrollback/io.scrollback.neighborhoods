@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 
+
 public class ImageChooserModule extends ReactContextBaseJavaModule {
 
     public final int PICK_IMAGE = 3500;
@@ -48,9 +49,13 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
     }
 
     private String getPathFromUri(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
+        if (!contentUri.getScheme().equals("content")) {
+            return contentUri.getPath();
+        }
 
-        CursorLoader loader = new CursorLoader(mActivityContext, contentUri, proj, null, null, null);
+        String[] projection = {MediaStore.Images.Media.DATA};
+
+        CursorLoader loader = new CursorLoader(mActivityContext, contentUri, projection, null, null, null);
         Cursor cursor = loader.loadInBackground();
 
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -62,6 +67,28 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
         cursor.close();
 
         return result;
+    }
+
+    private String getNameFromUri(Uri contentUri) {
+        if (!contentUri.getScheme().equals("content")) {
+            return contentUri.getLastPathSegment();
+        }
+
+        String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
+
+        Cursor metaCursor = mActivityContext.getContentResolver().query(contentUri, projection, null, null, null);
+
+        if (metaCursor != null) {
+            try {
+                if (metaCursor.moveToFirst()) {
+                    return metaCursor.getString(0);
+                }
+            } finally {
+                metaCursor.close();
+            }
+        }
+
+        return contentUri.getLastPathSegment();
     }
 
     @ReactMethod
@@ -97,6 +124,7 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
                         map.putInt("height", options.outHeight);
                         map.putInt("width", options.outWidth);
                         map.putString("uri", uri.toString());
+                        map.putString("name", getNameFromUri(uri));
 
                         consumeCallback(CALLBACK_TYPE_SUCCESS, map);
                     } else {
