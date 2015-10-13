@@ -10,6 +10,7 @@ import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
 import Clipboard from "../../modules/clipboard";
+import Share from "../../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 import oembed from "../../lib/oembed";
@@ -75,6 +76,10 @@ export default class DiscussionItem extends React.Component {
 			case 1:
 				Clipboard.setText(this.props.thread.text);
 				break;
+			case 2:
+				const { id, to } = this.props.thread;
+
+				Share.shareItem("Share discussion", `https://heyneighbor.chat/${to}/${id}`);
 			}
 		});
 	}
