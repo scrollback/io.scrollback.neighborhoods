@@ -17,22 +17,22 @@ export default class ChatTitleController extends React.Component {
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getThreadById(this.props.thread)), 0);
-	}
+		this._updateData();
 
-	_onDataArrived(thread) {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({ thread });
+		this.handle("statechange", changes => {
+			console.log(changes);
+
+			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
+				this._updateData();
 			}
 		});
 	}
 
-	_onError() {
+	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					thread: "missing"
+					thread: this.store.getThreadById(this.props.thread) || "missing"
 				});
 			}
 		});
