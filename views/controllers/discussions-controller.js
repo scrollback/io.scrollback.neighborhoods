@@ -17,45 +17,45 @@ export default class DiscussionsController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
-
 		this.handle("statechange", changes => {
 			if (changes.threads && changes.threads[this.props.room] || changes.nav && changes.nav.threadRange) {
 				this._updateData();
 			}
 		});
 
-		this.emit("setstate", {
-			nav: {
-				room: this.props.room,
-				mode: "room"
-			}
+		InteractionManager.runAfterInteractions(() => {
+			this._updateData();
+
+			this.emit("setstate", {
+				nav: {
+					room: this.props.room,
+					mode: "room"
+				}
+			});
 		});
 	}
 
 	_updateData() {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const time = this.store.get("nav", "threadRange", "time");
-				const before = this.store.get("nav", "threadRange", "before");
-				const after = this.store.get("nav", "threadRange", "after");
-				const beforeData = this.store.getThreads(this.props.room, time, -before);
-				const afterData = this.store.getThreads(this.props.room, time, after);
+		if (this._mounted) {
+			const time = this.store.get("nav", "threadRange", "time");
+			const before = this.store.get("nav", "threadRange", "before");
+			const after = this.store.get("nav", "threadRange", "after");
 
-				afterData.splice(-1, 1);
+			const beforeData = this.store.getThreads(this.props.room, time, -before);
+			const afterData = this.store.getThreads(this.props.room, time, after);
 
-				this.setState({
-					data: beforeData.concat(afterData).reverse()
-				});
-			}
-		});
+			afterData.splice(-1, 1);
+
+			this.setState({
+				data: beforeData.concat(afterData).reverse()
+			});
+		}
 	}
 
 	_onEndReached() {
 		this.emit("setstate", {
 			nav: {
 				threadRange: {
-					time: null,
 					before: this.store.get("nav", "threadRange", "before") + 20
 				}
 			}
