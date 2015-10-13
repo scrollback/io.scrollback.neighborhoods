@@ -85,9 +85,17 @@ export default class ChatItem extends React.Component {
 		const options = [ "Copy text", "Reply", "Quote" ];
 
 		Modal.showActionSheetWithOptions({ options }, index => {
+			const { text } = this.props;
+
 			switch (index) {
 			case 0:
-				Clipboard.setText(this.props.text.text);
+				Clipboard.setText(text.text);
+				break;
+			case 1:
+				this.props.replyToMessage(text);
+				break;
+			case 2:
+				this.props.quoteMessage(text);
 				break;
 			}
 		});
@@ -177,5 +185,7 @@ ChatItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
 	}),
-	currentUser: React.PropTypes.string.isRequired
+	currentUser: React.PropTypes.string.isRequired,
+	quoteMessage: React.PropTypes.func.isRequired,
+	replyToMessage: React.PropTypes.func.isRequired
 };

@@ -1,6 +1,6 @@
 import React from "react-native";
 import ChatMessagesController from "../controllers/chat-messages-controller";
-import ChatInputController from "../controllers/chat-input-controller";
+import ChatInput from "./chat-input";
 
 const {
 	View,
@@ -18,16 +18,20 @@ export default class Chat extends React.Component {
 		return (
 			<View {...this.props}>
 				<ChatMessagesController
+					style={styles.messages}
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}
-					style={styles.messages}
+					quoteMessage={this.props.quoteMessage}
+					replyToMessage={this.props.replyToMessage}
 				/>
 
-				<ChatInputController
-					room={this.props.room}
-					thread={this.props.thread}
-					user={this.props.user}
+				<ChatInput
+					sendMessage={this.props.sendMessage}
+					quoteMessage={this.props.quoteMessage}
+					replyToMessage={this.props.replyToMessage}
+					quotedText={this.props.quotedText}
+					replyTo={this.props.replyTo}
 				/>
 			</View>
 		);
@@ -37,5 +41,10 @@ export default class Chat extends React.Component {
 Chat.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired,
-	user: React.PropTypes.string.isRequired
+	user: React.PropTypes.string.isRequired,
+	sendMessage: React.PropTypes.func.isRequired,
+	quoteMessage: React.PropTypes.func.isRequired,
+	replyToMessage: React.PropTypes.func.isRequired,
+	quotedText: React.PropTypes.string,
+	replyTo: React.PropTypes.string
 };

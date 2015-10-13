@@ -80,6 +80,8 @@ export default class ChatMessages extends React.Component {
 										text={item.text}
 										previousText={item.previousText}
 										currentUser={this.props.user}
+										replyToMessage={this.props.replyToMessage}
+										quoteMessage={this.props.quoteMessage}
 									/>
 								);
 							}}
@@ -100,5 +102,7 @@ ChatMessages.propTypes = {
 	])).isRequired,
 	user: React.PropTypes.string.isRequired,
 	onEndReached: React.PropTypes.func.isRequired,
+	quoteMessage: React.PropTypes.func.isRequired,
+	replyToMessage: React.PropTypes.func.isRequired,
 	refreshData: React.PropTypes.func
 };

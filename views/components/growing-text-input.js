@@ -46,6 +46,10 @@ export default class GrowingTextInput extends React.Component {
 		this.input.focus(...args);
 	}
 
+	blur(...args) {
+		this.input.blur(...args);
+	}
+
 	get value() {
 		return this.state.value;
 	}

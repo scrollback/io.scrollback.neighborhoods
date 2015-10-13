@@ -55,6 +55,20 @@ export default class ChatInput extends React.Component {
 		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const computedValue = this._getComputedValue(nextProps, this._input.value);
+
+		if (computedValue) {
+			this._input.value = computedValue;
+
+			// Need to blur first to trigger showing keyboard
+			this._input.blur();
+
+			// Add a timeout so that blur() and focus() are not batched at the same time
+			setTimeout(() => this._input.focus(), 50);
+		}
+	}
+
 	componentWillUnmount() {
 		this._keyboardDidShowSubscription.remove();
 		this._keyboardDidHideSubscription.remove();
@@ -84,31 +98,53 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
+	_getComputedValue(opts, value = "") {
+		let newValue = value;
+
+		if (opts.quotedText) {
+			if (newValue) {
+				newValue += "\n\n";
+			}
+
+			newValue += "> " + (opts.replyTo ? "@" + opts.replyTo + " - " : "") + opts.quotedText + "\n\n";
+		} else if (opts.replyTo) {
+			newValue += `@${opts.replyTo} `;
+		}
+
+		return newValue;
+	}
+
 	render() {
 		return (
-				<View {...this.props}>
-					<View style={styles.container}>
-						<GrowingTextInput
-							ref={c => this._input = c}
-							onChange={this._onChange.bind(this)}
-							style={styles.inputContainer}
-							inputStyle={styles.inputStyle}
-							underlineColorAndroid="transparent"
-							placeholder="Type a message"
-							numberOfLines={5}
-						/>
-						<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
-							<View style={styles.iconContainer}>
-								<Icon name="send" style={styles.icon} />
-							</View>
-						</TouchableHighlight>
-					</View>
-					<Animated.View style={{ height: this.state.keyboardHeightAnim }} />
+			<View {...this.props}>
+				<View style={styles.container}>
+					<GrowingTextInput
+						ref={c => this._input = c}
+						onChange={this._onChange.bind(this)}
+						defaultValue={this._getComputedValue(this.props)}
+						style={styles.inputContainer}
+						inputStyle={styles.inputStyle}
+						underlineColorAndroid="transparent"
+						placeholder="Type a message"
+						numberOfLines={5}
+					/>
+
+					<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
+						<View style={styles.iconContainer}>
+							<Icon name="send" style={styles.icon} />
+						</View>
+					</TouchableHighlight>
 				</View>
+				<Animated.View style={{ height: this.state.keyboardHeightAnim }} />
+			</View>
 		);
 	}
 }
 
 ChatInput.propTypes = {
-	sendMessage: React.PropTypes.func.isRequired
+	sendMessage: React.PropTypes.func.isRequired,
+	quoteMessage: React.PropTypes.func.isRequired,
+	replyToMessage: React.PropTypes.func.isRequired,
+	quotedText: React.PropTypes.string,
+	replyTo: React.PropTypes.string
 };
