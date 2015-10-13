@@ -46,7 +46,8 @@ export default class ChatInput extends React.Component {
 		super(props);
 
 		this.state = {
-			keyboardHeightAnim: new Animated.Value(0)
+			keyboardHeightAnim: new Animated.Value(0),
+			text: this._getComputedText(this.props)
 		};
 	}
 
@@ -56,16 +57,10 @@ export default class ChatInput extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const computedValue = this._getComputedValue(nextProps, this._input.value);
+		const text = this._getComputedText(nextProps, this.state.text);
 
-		if (computedValue) {
-			this._input.value = computedValue;
-
-			// Need to blur first to trigger showing keyboard
-			this._input.blur();
-
-			// Add a timeout so that blur() and focus() are not batched at the same time
-			setTimeout(() => this._input.focus(), 50);
+		if (text && text !== this.state.text) {
+			this.setState({ text }, () => this._input.focusKeyboard());
 		}
 	}
 
@@ -87,18 +82,20 @@ export default class ChatInput extends React.Component {
 	}
 
 	_sendMessage() {
-		this.props.sendMessage(this._input.value);
+		this.props.sendMessage(this.state.text);
 
-		this._input.value = "";
-	}
-
-	_onChange() {
 		this.setState({
-			text: this._input.value
+			text: ""
 		});
 	}
 
-	_getComputedValue(opts, value = "") {
+	_onValueChange(text) {
+		this.setState({
+			text
+		});
+	}
+
+	_getComputedText(opts, value = "") {
 		let newValue = value;
 
 		if (opts.quotedText) {
@@ -120,13 +117,13 @@ export default class ChatInput extends React.Component {
 				<View style={styles.container}>
 					<GrowingTextInput
 						ref={c => this._input = c}
-						onChange={this._onChange.bind(this)}
-						defaultValue={this._getComputedValue(this.props)}
+						value={this.state.text}
+						onValueChange={this._onValueChange.bind(this)}
 						style={styles.inputContainer}
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
 						placeholder="Type a message"
-						numberOfLines={5}
+						numberOfLines={7}
 					/>
 
 					<TouchableHighlight onPress={this._sendMessage.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
