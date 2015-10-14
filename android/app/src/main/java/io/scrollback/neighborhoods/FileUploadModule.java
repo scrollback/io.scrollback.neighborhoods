@@ -19,6 +19,8 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.internal.Util;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -48,57 +50,61 @@ public class FileUploadModule extends ReactContextBaseJavaModule {
         return "FileUploadModule";
     }
 
-    private static class RequestBodyUtil {
-        public static RequestBody create(final MediaType mediaType, final InputStream inputStream) {
-            return new RequestBody() {
-                @Override
-                public MediaType contentType() {
-                    return mediaType;
-                }
+    private RequestBody createRequestBody(final MediaType mediaType, final InputStream inputStream) {
+        return new RequestBody() {
+            @Override
+            public MediaType contentType() {
+                return mediaType;
+            }
 
-                @Override
-                public long contentLength() {
-                    try {
-                        return inputStream.available();
-                    } catch (IOException e) {
-                        return 0;
-                    }
+            @Override
+            public long contentLength() {
+                try {
+                    return inputStream.available();
+                } catch (IOException e) {
+                    return 0;
                 }
+            }
 
-                @Override
-                public void writeTo(BufferedSink sink) throws IOException {
-                    Source source = null;
-                    try {
-                        source = Okio.source(inputStream);
-                        sink.writeAll(source);
-                    } finally {
-                        Util.closeQuietly(source);
-                    }
+            @Override
+            public void writeTo(BufferedSink sink) throws IOException {
+                Source source = null;
+
+                try {
+                    source = Okio.source(inputStream);
+                    sink.writeAll(source);
+                } finally {
+                    Util.closeQuietly(source);
                 }
-            };
-        }
+            }
+        };
     }
 
     @ReactMethod
-    public void uploadFile(final int id, final String baseUrl, final String uriString, final ReadableMap formData, final Callback callback) {
+    public void uploadFile(final int id, final String baseUrl, final String fileUri, final String fileName, final ReadableMap formData, final Callback callback) {
         final WritableMap map = Arguments.createMap();
         final OkHttpClient client = new OkHttpClient();
 
         map.putInt("id", id);
         mCurrentUploads.put(id, client);
 
-        AsyncTask.execute(new Runnable() {
+        new AsyncTask<Void, Void, Void>() {
             @Override
-            public void run() {
-                Uri uri = Uri.parse(uriString);
-                MediaType mediaType = MediaType.parse(MimeTypes.get(uriString.substring(uriString.lastIndexOf(".") + 1)) + "; charset=utf-8");
+            protected Void doInBackground( Void... voids ) {
+                Uri uri = Uri.parse(fileUri);
+                MediaType mediaType = MediaType.parse(MimeTypes.get(fileName.substring(fileName.lastIndexOf(".") + 1)) + "; charset=utf-8");
 
                 try {
-                    InputStream inputStream = mReactContext.getContentResolver().openInputStream(uri);
+                    InputStream inputStream;
+
+                    if (uri.getScheme().equals("file")) {
+                        inputStream = new FileInputStream(uri.getPath());
+                    } else {
+                        inputStream = mReactContext.getContentResolver().openInputStream(uri);
+                    }
 
                     MultipartBuilder builder = new MultipartBuilder()
-                            .type(MultipartBuilder.FORM)
-                            .addPart(RequestBodyUtil.create(mediaType, inputStream));
+                            .type(MultipartBuilder.FORM);
 
                     ReadableMapKeySeyIterator it = formData.keySetIterator();
 
@@ -107,6 +113,8 @@ public class FileUploadModule extends ReactContextBaseJavaModule {
 
                         builder.addFormDataPart(key, formData.getString(key));
                     }
+
+                    builder.addFormDataPart("file", fileName, createRequestBody(mediaType, inputStream));
 
                     Request request = new Request.Builder()
                             .tag(OKHTTP_REQUEST_TAG)
@@ -118,6 +126,7 @@ public class FileUploadModule extends ReactContextBaseJavaModule {
 
                     if (response.isSuccessful()) {
                         map.putString("type", CALLBACK_TYPE_SUCCESS);
+                        map.putString("responseBody", response.body().string());
 
                         callback.invoke(map);
                     } else {
@@ -131,8 +140,10 @@ public class FileUploadModule extends ReactContextBaseJavaModule {
                 }
 
                 mCurrentUploads.remove(id);
+
+                return null;
             }
-        });
+        }.execute();
     }
 
     @ReactMethod
