@@ -1,5 +1,6 @@
 import React from "react-native";
 import Modal from "./modal";
+import KeyboardSpacer from "./keyboard-spacer";
 import DeviceVersion from "../../modules/device-version";
 import navigationBar from "../utils/navigation-bar";
 import renderScene from "../utils/render-scene";
@@ -31,12 +32,15 @@ export default class Home extends React.Component {
 		return (
 			<View style={styles.container}>
 				<View style={styles.statusbar} />
+
 				<Navigator
 					initialRoute={this.props.initialRoute || routes.home()}
 					renderScene={renderScene}
 					navigationBar={navigationBar}
 					sceneStyle={styles.scene}
 				/>
+
+				<KeyboardSpacer />
 				<Modal />
 			</View>
 		);

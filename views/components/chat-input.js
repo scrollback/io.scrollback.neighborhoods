@@ -7,11 +7,9 @@ import ImageChooser from "../../modules/image-chooser";
 
 const {
 	StyleSheet,
-	Animated,
 	View,
 	TouchableHighlight,
-	PixelRatio,
-	DeviceEventEmitter
+	PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
@@ -52,15 +50,9 @@ export default class ChatInput extends React.Component {
 		super(props);
 
 		this.state = {
-			keyboardHeightAnim: new Animated.Value(0),
 			text: this._getComputedText(this.props),
 			imageData: null
 		};
-	}
-
-	componentWillMount() {
-		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
-		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -69,23 +61,6 @@ export default class ChatInput extends React.Component {
 		if (text && text !== this.state.text) {
 			this.setState({ text }, () => this._input.focusKeyboard());
 		}
-	}
-
-	componentWillUnmount() {
-		this._keyboardDidShowSubscription.remove();
-		this._keyboardDidHideSubscription.remove();
-	}
-
-	_keyboardDidShow(e) {
-		Animated.spring(this.state.keyboardHeightAnim, {
-			toValue: e.endCoordinates.height
-		}).start();
-	}
-
-	_keyboardDidHide() {
-		Animated.spring(this.state.keyboardHeightAnim, {
-			toValue: 0
-		}).start();
 	}
 
 	_sendMessage() {
@@ -166,8 +141,6 @@ export default class ChatInput extends React.Component {
 						/> : null
 					}
 				</View>
-
-				<Animated.View style={{ height: this.state.keyboardHeightAnim }} />
 			</View>
 		);
 	}
