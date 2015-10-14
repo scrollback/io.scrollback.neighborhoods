@@ -59,7 +59,7 @@ export default class ChatMessagesController extends React.Component {
 					} else {
 						data.push({
 							text,
-							previousText: mergedData[i + 1]
+							previousText: mergedData[i - 1]
 						});
 					}
 				}

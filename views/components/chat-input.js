@@ -1,6 +1,8 @@
 import React from "react-native";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
+import ImageUploadController from "../controllers/image-upload-controller";
+import ImageUploadChat from "./image-upload-chat";
 import ImageChooser from "../../modules/image-chooser";
 
 const {
@@ -15,14 +17,14 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "stretch",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
-		borderTopWidth: 1 / PixelRatio.get()
+		alignItems: "stretch"
 	},
 	inputContainer: {
 		flex: 1,
-		paddingHorizontal: 16
+		paddingHorizontal: 16,
+		backgroundColor: "#fff",
+		borderColor: "rgba(0, 0, 0, .24)",
+		borderTopWidth: 1 / PixelRatio.get()
 	},
 	input: {
 		color: "#000",
@@ -32,7 +34,10 @@ const styles = StyleSheet.create({
 	},
 	iconContainer: {
 		alignItems: "center",
-		justifyContent: "center"
+		justifyContent: "center",
+		backgroundColor: "#fff",
+		borderColor: "rgba(0, 0, 0, .24)",
+		borderTopWidth: 1 / PixelRatio.get()
 	},
 	icon: {
 		color: "#000",
@@ -48,7 +53,8 @@ export default class ChatInput extends React.Component {
 
 		this.state = {
 			keyboardHeightAnim: new Animated.Value(0),
-			text: this._getComputedText(this.props)
+			text: this._getComputedText(this.props),
+			imageData: null
 		};
 	}
 
@@ -91,7 +97,19 @@ export default class ChatInput extends React.Component {
 	}
 
 	_uploadImage() {
-		ImageChooser.pickImage(result => console.log(result));
+		ImageChooser.pickImage(result => {
+			if (result.type === "success") {
+				this.setState({
+					imageData: result
+				});
+			}
+		});
+	}
+
+	_onUploadClose() {
+		this.setState({
+			imageData: ""
+		});
 	}
 
 	_onValueChange(text) {
@@ -139,7 +157,16 @@ export default class ChatInput extends React.Component {
 							<Icon name={this.state.text ? "send" : "image"} style={styles.icon} />
 						</View>
 					</TouchableHighlight>
+
+					{this.state.imageData ?
+						<ImageUploadController
+							component={ImageUploadChat}
+							imageData={this.state.imageData}
+							onUploadClose={this._onUploadClose.bind(this)}
+						/> : null
+					}
 				</View>
+
 				<Animated.View style={{ height: this.state.keyboardHeightAnim }} />
 			</View>
 		);
