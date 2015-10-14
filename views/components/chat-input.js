@@ -15,14 +15,14 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "stretch"
-	},
-	inputContainer: {
-		flex: 1,
-		paddingHorizontal: 16,
+		alignItems: "stretch",
 		backgroundColor: "#fff",
 		borderColor: "rgba(0, 0, 0, .24)",
 		borderTopWidth: 1 / PixelRatio.get()
+	},
+	inputContainer: {
+		flex: 1,
+		paddingHorizontal: 16
 	},
 	input: {
 		color: "#000",
@@ -32,10 +32,7 @@ const styles = StyleSheet.create({
 	},
 	iconContainer: {
 		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
-		borderTopWidth: 1 / PixelRatio.get()
+		justifyContent: "center"
 	},
 	icon: {
 		color: "#000",
@@ -132,15 +129,15 @@ export default class ChatInput extends React.Component {
 							<Icon name={this.state.text ? "send" : "image"} style={styles.icon} />
 						</View>
 					</TouchableHighlight>
-
-					{this.state.imageData ?
-						<ImageUploadController
-							component={ImageUploadChat}
-							imageData={this.state.imageData}
-							onUploadClose={this._onUploadClose.bind(this)}
-						/> : null
-					}
 				</View>
+
+				{this.state.imageData ?
+					<ImageUploadController
+						component={ImageUploadChat}
+						imageData={this.state.imageData}
+						onUploadClose={this._onUploadClose.bind(this)}
+					/> : null
+				}
 			</View>
 		);
 	}
