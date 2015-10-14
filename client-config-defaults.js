@@ -9,7 +9,7 @@ var defaults = {
 		apiHost: "heyneighbor.chat"
 	},
 	pushNotification: {
-		defaultPackageName: "io.scrollback.app"
+		defaultPackageName: "io.scrollback.neighborhoods"
 	}
 };
 

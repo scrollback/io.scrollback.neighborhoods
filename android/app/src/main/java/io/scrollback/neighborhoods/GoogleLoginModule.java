@@ -213,8 +213,12 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return false;
+        if ((requestCode == CHOOSE_ACCOUNT_REQUIRED || requestCode == REQ_SIGN_IN_REQUIRED) && resultCode == Activity.RESULT_CANCELED) {
+            if (mRetrieveCallback != null) {
+                consumeCallback(CALLBACK_TYPE_CANCEL, Arguments.createMap());
+            }
+
+            return true;
         }
 
         if (requestCode == CHOOSE_ACCOUNT_REQUIRED && resultCode == Activity.RESULT_OK) {

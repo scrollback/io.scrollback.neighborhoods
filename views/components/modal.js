@@ -1,4 +1,5 @@
 import React from "react-native";
+import KeyboardSpacer from "./keyboard-spacer";
 
 const {
 	StyleSheet,
@@ -96,6 +97,8 @@ export default class Modal extends React.Component {
 		return (
 			<Animated.View style={[ styles.container, { height: win.height, width: win.width, opacity: this.state.fadeAnim } ]}>
 				{this.state.component}
+
+				<KeyboardSpacer />
 			</Animated.View>
 		);
 	}

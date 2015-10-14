@@ -20,12 +20,19 @@ export default class StartDiscussionButton extends React.Component {
 
 		this.state = {
 			title: "",
-			text: ""
+			text: "",
+			status: null
 		};
 	}
 
 	_onPress() {
-		this.props.postDiscussion(this.state.title, this.state.text);
+		if (this.state.title && this.state.text) {
+			this.props.postDiscussion(this.state.title, this.state.text);
+
+			this.setState({
+				status: "loading"
+			});
+		}
 	}
 
 	_onTitleChange(e) {
@@ -41,6 +48,8 @@ export default class StartDiscussionButton extends React.Component {
 	}
 
 	render() {
+		const isLoading = this.state.status === "loading";
+
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				<TextInput
@@ -57,7 +66,9 @@ export default class StartDiscussionButton extends React.Component {
 
 				<LargeButton
 					style={styles.facebook}
-					text="Start discussion"
+					spinner={isLoading}
+					disabled={isLoading}
+					text={isLoading ? "" : "Start discussion"}
 					onPress={this._onPress.bind(this)}
 				/>
 			</View>

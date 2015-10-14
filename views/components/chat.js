@@ -1,4 +1,5 @@
 import React from "react-native";
+import PageLoading from "./page-loading";
 import ChatMessagesController from "../controllers/chat-messages-controller";
 import ChatInput from "./chat-input";
 
@@ -15,6 +16,10 @@ const styles = StyleSheet.create({
 
 export default class Chat extends React.Component {
 	render() {
+		if (this.props.user === "loading") {
+			return <PageLoading />;
+		}
+
 		return (
 			<View {...this.props}>
 				<ChatMessagesController

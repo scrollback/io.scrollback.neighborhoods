@@ -57,9 +57,11 @@ export default class ChatMessagesController extends React.Component {
 					if (typeof text === "string") {
 						data.push(text);
 					} else {
+						const previousText = mergedData[i - 1];
+
 						data.push({
 							text,
-							previousText: mergedData[i + 1]
+							previousText: typeof previousText === "object" ? previousText : null
 						});
 					}
 				}

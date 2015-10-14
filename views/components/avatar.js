@@ -1,4 +1,5 @@
 import React from "react-native";
+import config from "../../store/config";
 
 const {
 	Image
@@ -11,7 +12,7 @@ export default class CardAuthor extends React.Component {
 
 	render() {
 		return (
-			<Image {...this.props} source={{ uri: "http://scrollback.io/i/" + this.props.nick + "/picture?size=" + (this.props.size || 48) }} />
+			<Image {...this.props} source={{ uri: config.protocol + "//" + config.host + "/i/" + this.props.nick + "/picture?size=" + (this.props.size || 48) }} />
 		);
 	}
 }

@@ -1,5 +1,4 @@
 import React from "react-native";
-import InvertibleScrollView from "react-native-invertible-scroll-view";
 import ChatItem from "./chat-item";
 import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
@@ -12,6 +11,11 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	inverted: {
+		transform: [
+			{ scaleY: -1 }
+		]
+	},
 	item: {
 		overflow: "hidden"
 	}
@@ -57,17 +61,10 @@ export default class ChatMessages extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
-							style={styles.item}
+							style={styles.inverted}
 							initialListSize={5}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
-							renderScrollComponent={props =>
-								<InvertibleScrollView
-									{...props}
-									inverted
-									ref={c => this._scroll = c}
-								/>
-							}
 							dataSource={dataSource}
 							renderRow={item => {
 								if (item === "missing") {
@@ -82,6 +79,7 @@ export default class ChatMessages extends React.Component {
 										currentUser={this.props.user}
 										replyToMessage={this.props.replyToMessage}
 										quoteMessage={this.props.quoteMessage}
+										style={[ styles.item, styles.inverted ]}
 									/>
 								);
 							}}
