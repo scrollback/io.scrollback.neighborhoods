@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.support.v4.content.CursorLoader;
 
 import com.facebook.react.bridge.Arguments;
@@ -15,6 +16,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+
+import java.io.File;
 
 
 public class ImageChooserModule extends ReactContextBaseJavaModule {
@@ -91,6 +94,22 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
         return contentUri.getLastPathSegment();
     }
 
+    private long getSizeFromUri(Uri contentUri) {
+        if (!contentUri.getScheme().equals("content")) {
+            return new File(contentUri.getPath()).length();
+        }
+
+        Cursor cursor = mActivityContext.getContentResolver().query(contentUri, null, null, null, null);
+
+        cursor.moveToFirst();
+
+        long size = cursor.getLong(cursor.getColumnIndex(OpenableColumns.SIZE));
+
+        cursor.close();
+
+        return size;
+    }
+
     @ReactMethod
     public void pickImage(final Callback callback) {
         final Intent galleryIntent = new Intent(Intent.ACTION_PICK);
@@ -123,8 +142,9 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
                         map.putInt("height", options.outHeight);
                         map.putInt("width", options.outWidth);
-                        map.putString("uri", uri.toString());
+                        map.putDouble("size", getSizeFromUri(uri));
                         map.putString("name", getNameFromUri(uri));
+                        map.putString("uri", uri.toString());
 
                         consumeCallback(CALLBACK_TYPE_SUCCESS, map);
                     } else {
