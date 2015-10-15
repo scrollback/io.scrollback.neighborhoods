@@ -52,7 +52,7 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
     }
 
     private String getPathFromUri(Uri contentUri) {
-        if (!contentUri.getScheme().equals("content")) {
+        if (contentUri.getScheme().equals("file")) {
             return contentUri.getPath();
         }
 
@@ -73,7 +73,7 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
     }
 
     private String getNameFromUri(Uri contentUri) {
-        if (!contentUri.getScheme().equals("content")) {
+        if (contentUri.getScheme().equals("file")) {
             return contentUri.getLastPathSegment();
         }
 
@@ -95,7 +95,7 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
     }
 
     private long getSizeFromUri(Uri contentUri) {
-        if (!contentUri.getScheme().equals("content")) {
+        if (contentUri.getScheme().equals("file")) {
             return new File(contentUri.getPath()).length();
         }
 

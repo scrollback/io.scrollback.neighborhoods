@@ -1,4 +1,5 @@
 /* eslint-env browser */
+import WebSocket from "../modules/websocket";
 
 "use strict";
 
@@ -135,6 +136,8 @@ function disconnected() {
 }
 
 function connect() {
+	global.WebSocket = WebSocket;
+
 	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.apiHost, {
 		jsonp: "document" in window // Disable JSONP in non-web environments, e.g.- react-native
 	});

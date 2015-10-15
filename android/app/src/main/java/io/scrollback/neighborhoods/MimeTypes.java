@@ -83,7 +83,7 @@ public class MimeTypes {
     }
 
     public static String get(String extension) {
-        if (mimeTypes != null) {
+        if (mimeTypes == null) {
             addTypes();
         }
 

@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
 	iconContainer: {
 		alignItems: "center",
 		justifyContent: "center",
+		height: 56,
+		width: 56,
 		borderRadius: 32
 	},
 	iconSendContainer: {
@@ -95,7 +97,7 @@ export default class ChatInput extends React.Component {
 	_onPress() {
 		if (this.props.status === "loading") {
 			this.props.cancelUpload();
-		} else {
+		} else if (this.props.status === "idle" || this.props.status === "error") {
 			this.props.startUpload();
 		}
 	}
