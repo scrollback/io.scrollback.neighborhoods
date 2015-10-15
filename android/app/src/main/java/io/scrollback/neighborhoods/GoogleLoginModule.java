@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -106,7 +107,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                dialog = new ProgressDialog(mActivityContext);
+                dialog = new ProgressDialog(mActivityContext, DialogFragment.STYLE_NO_TITLE);
                 dialog.show();
             }
 
