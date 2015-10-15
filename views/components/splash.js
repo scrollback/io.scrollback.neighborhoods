@@ -1,4 +1,5 @@
 import React from "react-native";
+import Loading from "./loading";
 
 const {
 	StyleSheet,
@@ -17,7 +18,13 @@ const styles = StyleSheet.create({
 	logo: {
 		flex: 1,
 		resizeMode: "contain",
-		marginTop: 96
+		marginTop: 160
+	},
+	loading: {
+		height: 24,
+		width: 24,
+		marginHorizontal: 16,
+		marginVertical: 32
 	},
 	attribution: {
 		alignItems: "center",
@@ -38,6 +45,7 @@ export default class Splash extends React.Component {
 		return (
 			<View style={styles.container}>
 				<Image style={styles.logo} source={require("image!logo")} />
+				<Loading style={styles.loading} />
 				<View style={styles.attribution}>
 					<Text style={styles.by}>by</Text>
 					<Image style={styles.scrollback} source={require("image!scrollback_logo")} />
