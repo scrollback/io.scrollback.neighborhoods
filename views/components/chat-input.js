@@ -125,6 +125,7 @@ export default class ChatInput extends React.Component {
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
 						placeholder="Type a message"
+						autoCapitalize="sentences"
 						numberOfLines={7}
 					/>
 
