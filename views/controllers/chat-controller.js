@@ -24,13 +24,19 @@ export default class ChatController extends React.Component {
 		});
 	}
 
-	_sendMessage(text) {
-		this.dispatch("text", {
+	_sendMessage(text, textId) {
+		const textObj = {
 			text,
 			thread: this.props.thread,
 			to: this.props.room,
 			from: this.state.user
-		});
+		};
+
+		if (textId) {
+			textObj.id = textId;
+		}
+
+		this.dispatch("text", textObj);
 	}
 
 	render() {

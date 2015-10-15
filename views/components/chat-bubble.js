@@ -76,7 +76,10 @@ export default class ChatBubble extends React.Component {
 
 					{this.props.children}
 
-					<RichText text={text.text} style={styles.text} />
+					{text.text ?
+						<RichText text={text.text} style={styles.text} /> :
+						null
+					}
 				</View>
 
 				{right && showArrow ?
@@ -95,7 +98,7 @@ ChatBubble.defaultProps = {
 
 ChatBubble.propTypes = {
 	text: React.PropTypes.shape({
-		text: React.PropTypes.string.isRequired,
+		text: React.PropTypes.string,
 		from: React.PropTypes.string.isRequired
 	}).isRequired,
 	type: React.PropTypes.oneOf([ "left", "right" ]),
