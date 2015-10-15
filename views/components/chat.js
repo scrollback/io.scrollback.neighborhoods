@@ -15,6 +15,14 @@ const styles = StyleSheet.create({
 });
 
 export default class Chat extends React.Component {
+	_quoteMessage(text) {
+		this._input.quotedText = text;
+	}
+
+	_replyToMessage(user) {
+		this._input.replyTo = user;
+	}
+
 	render() {
 		if (this.props.user === "loading") {
 			return <PageLoading />;
@@ -27,11 +35,12 @@ export default class Chat extends React.Component {
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}
-					quoteMessage={this.props.quoteMessage}
-					replyToMessage={this.props.replyToMessage}
+					quoteMessage={this._quoteMessage.bind(this)}
+					replyToMessage={this._replyToMessage.bind(this)}
 				/>
 
 				<ChatInput
+					ref={c => this._input = c}
 					sendMessage={this.props.sendMessage}
 					quoteMessage={this.props.quoteMessage}
 					replyToMessage={this.props.replyToMessage}

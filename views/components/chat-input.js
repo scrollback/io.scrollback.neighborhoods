@@ -47,17 +47,22 @@ export default class ChatInput extends React.Component {
 		super(props);
 
 		this.state = {
-			text: this._getComputedText(this.props),
+			text: "",
 			imageData: null
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const text = this._getComputedText(nextProps, this.state.text);
+	set quotedText(text) {
+		this._computedAndSetText({
+			replyTo: text.from,
+			quotedText: text.text
+		});
+	}
 
-		if (text && text !== this.state.text) {
-			this.setState({ text }, () => this._input.focusKeyboard());
-		}
+	set replyTo(text) {
+		this._computedAndSetText({
+			replyTo: text.from
+		});
 	}
 
 	_sendMessage() {
@@ -90,8 +95,8 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
-	_getComputedText(opts, value = "") {
-		let newValue = value;
+	_computedAndSetText(opts) {
+		let newValue = this.state.text;
 
 		if (opts.quotedText) {
 			if (newValue) {
@@ -103,7 +108,9 @@ export default class ChatInput extends React.Component {
 			newValue += `@${opts.replyTo} `;
 		}
 
-		return newValue;
+		this.setState({
+			text: newValue
+		}, () => this._input.focusKeyboard());
 	}
 
 	render() {
