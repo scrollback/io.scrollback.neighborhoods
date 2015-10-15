@@ -121,7 +121,7 @@ export default class ChatItem extends React.Component {
 						height: parseInt(metaData.height, 10) || 160,
 						width: parseInt(metaData.width, 10) || 160
 					} ]}
-					source={{ uri: encodeURI(metaData.thumbnailUrl) }}
+					source={{ uri: metaData.thumbnailUrl }}
 				/>
 			);
 		} else if (links.length) {

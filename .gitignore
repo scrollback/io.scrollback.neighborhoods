@@ -65,6 +65,10 @@ proguard/
 # IDE
 .idea
 
+# Built files
+index.android.bundle
+index.ios.bundle
+
 # Hey Neighbor
 server-config.js
 client-config.js
