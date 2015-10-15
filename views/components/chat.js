@@ -42,10 +42,6 @@ export default class Chat extends React.Component {
 				<ChatInput
 					ref={c => this._input = c}
 					sendMessage={this.props.sendMessage}
-					quoteMessage={this.props.quoteMessage}
-					replyToMessage={this.props.replyToMessage}
-					quotedText={this.props.quotedText}
-					replyTo={this.props.replyTo}
 				/>
 			</View>
 		);
@@ -56,9 +52,5 @@ Chat.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired,
 	user: React.PropTypes.string.isRequired,
-	sendMessage: React.PropTypes.func.isRequired,
-	quoteMessage: React.PropTypes.func.isRequired,
-	replyToMessage: React.PropTypes.func.isRequired,
-	quotedText: React.PropTypes.string,
-	replyTo: React.PropTypes.string
+	sendMessage: React.PropTypes.func.isRequired
 };

@@ -151,9 +151,5 @@ export default class ChatInput extends React.Component {
 }
 
 ChatInput.propTypes = {
-	sendMessage: React.PropTypes.func.isRequired,
-	quoteMessage: React.PropTypes.func.isRequired,
-	replyToMessage: React.PropTypes.func.isRequired,
-	quotedText: React.PropTypes.string,
-	replyTo: React.PropTypes.string
+	sendMessage: React.PropTypes.func.isRequired
 };
