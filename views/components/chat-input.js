@@ -4,6 +4,7 @@ import GrowingTextInput from "./growing-text-input";
 import ImageUploadController from "../controllers/image-upload-controller";
 import ImageUploadChat from "./image-upload-chat";
 import ImageChooser from "../../modules/image-chooser";
+import textUtils from "../../lib/text-utils";
 
 const {
 	StyleSheet,
@@ -83,13 +84,30 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
+	_onUploadFinish(result) {
+		const { height, width, name } = this.state.imageData;
+
+		const aspectRatio = height / width;
+
+		this.props.sendMessage(textUtils.getTextFromMetadata({
+			type: "image",
+			caption: name,
+			height: 160 * aspectRatio,
+			width: 160,
+			thumbnailUrl: result.thumbnailUrl,
+			originalUrl: result.originalUrl
+		}), result.textId);
+
+		setTimeout(() => this._onUploadClose(), 500);
+	}
+
 	_onUploadClose() {
 		this.setState({
 			imageData: ""
 		});
 	}
 
-	_onValueChange(text) {
+	_onChangeText(text) {
 		this.setState({
 			text
 		});
@@ -120,7 +138,7 @@ export default class ChatInput extends React.Component {
 					<GrowingTextInput
 						ref={c => this._input = c}
 						value={this.state.text}
-						onValueChange={this._onValueChange.bind(this)}
+						onChangeText={this._onChangeText.bind(this)}
 						style={styles.inputContainer}
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
@@ -144,6 +162,7 @@ export default class ChatInput extends React.Component {
 						component={ImageUploadChat}
 						imageData={this.state.imageData}
 						onUploadClose={this._onUploadClose.bind(this)}
+						onUploadFinish={this._onUploadFinish.bind(this)}
 					/> : null
 				}
 			</View>

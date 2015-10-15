@@ -32,7 +32,7 @@ export default class ImageUploadController extends React.Component {
 					clearTimeout(thumbTimer);
 				}
 
-				fetch(opts.thumbUrl)
+				fetch(opts.thumbnailUrl)
 					.then(() => resolve(opts))
 					.catch(() => {
 						if (Date.now() - startTime > 30000) {
@@ -107,8 +107,9 @@ export default class ImageUploadController extends React.Component {
 				const uploadId = FileUpload.uploadFile(baseurl, this.props.imageData.uri, filename, formData, result => {
 					if (result.type === "success") {
 						resolve({
+							textId,
 							responseBody: result.responseBody,
-							thumbUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
+							thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
 							originalUrl: url
 						});
 					} else {
@@ -133,16 +134,12 @@ export default class ImageUploadController extends React.Component {
 				this.props.onUploadFinish(result);
 			}
 
-			console.log(result);
-
 			this.setState({
 				status: FINISHED,
 				uploadId: null
 			});
 		})
 		.catch(err => {
-			console.log(err);
-
 			this.setState({
 				status: ERROR,
 				uploadId: null

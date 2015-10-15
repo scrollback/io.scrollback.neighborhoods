@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
 		height: 160,
 		marginVertical: 4
 	},
+	thumbnail: {
+		marginVertical: 4
+	},
 	image: {
 		flex: 1,
 		resizeMode: "cover",
@@ -107,12 +110,20 @@ export default class ChatItem extends React.Component {
 		const received = text.from !== currentUser;
 
 		const links = textUtils.getLinks(text.text);
-		const pictures = textUtils.getPictures(text.text);
+		const metaData = textUtils.getMetadata(text.text);
 
 		let cover;
 
-		if (pictures.length) {
-			cover = <Image style={null} source={{ uri: pictures[0] }} />;
+		if (metaData && metaData.type === "image") {
+			cover = (
+				<Image
+					style={[ styles.thumbnail, {
+						height: parseInt(metaData.height, 10) || 160,
+						width: parseInt(metaData.width, 10) || 160
+					} ]}
+					source={{ uri: encodeURI(metaData.thumbnailUrl) }}
+				/>
+			);
 		} else if (links.length) {
 			const uri = links[0];
 			const endpoint = oembed(uri);
@@ -155,7 +166,7 @@ export default class ChatItem extends React.Component {
 
 					<TouchableOpacity onPress={this._showMenu.bind(this)}>
 						<ChatBubble
-							text={text}
+							text={metaData && metaData.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
 							showAuthor={showAuthor}
 							showArrow={received ? showAuthor : true}

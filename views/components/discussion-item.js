@@ -18,7 +18,6 @@ import oembed from "../../lib/oembed";
 const {
 	StyleSheet,
 	TouchableOpacity,
-	Image,
 	View
 } = React;
 
@@ -98,13 +97,10 @@ export default class DiscussionItem extends React.Component {
 
 		const hashtags = textUtils.getHashtags(trimmedText);
 		const links = textUtils.getLinks(trimmedText);
-		const pictures = textUtils.getPictures(trimmedText);
 
 		let cover;
 
-		if (pictures.length) {
-			cover = <Image style={[ styles.image, styles.cover ]} source={{ uri: pictures[0] }} />;
-		} else if (links.length) {
+		if (links.length) {
 			const uri = links[0];
 			const endpoint = oembed(uri);
 
