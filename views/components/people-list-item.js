@@ -67,7 +67,7 @@ export default class PeopleListItem extends React.Component {
 						</View>
 						<View>
 							<Text style={[ styles.status, user.status === "online" ? styles.online : null ]}>
-								{user.status.toUpperCase()}
+								{user.status ? user.status.toUpperCase() : "OFFLINE"}
 							</Text>
 						</View>
 					</View>

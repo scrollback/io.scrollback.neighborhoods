@@ -20,17 +20,21 @@ export default class PeopleListController extends React.Component {
 		const thread = this.store.getThreadById(this.props.thread);
 
 		if (thread && thread.concerns) {
-			const currentUser = this.store.get("user");
-			const relatedUsers = this.store.getRelatedUsers(thread.to);
-
 			const data = [];
 
-			for (let i = 0, l = relatedUsers.length; i < l; i++) {
-				const relation = relatedUsers[i];
-				const user = relation.id;
+			for (let i = 0, l = thread.concerns.length; i < l; i++) {
+				const user = thread.concerns[i];
+				const relation = this.store.get("entities", thread.to + "_" + user);
 
-				if (thread.concerns.indexOf(user) > -1 || user === currentUser) {
-					data.push(relation);
+				if (relation) {
+					data.push({
+						id: user,
+						status: relation.status
+					});
+				} else {
+					data.push({
+						id: user
+					});
 				}
 			}
 
