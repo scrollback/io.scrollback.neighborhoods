@@ -9,6 +9,7 @@ import debounce from "../../lib/debounce";
 
 const {
 	StyleSheet,
+	ScrollView,
 	View,
 	Text,
 	SwitchAndroid,
@@ -166,7 +167,7 @@ export default class Account extends React.Component {
 					}
 
 					return (
-						<View style={styles.settings}>
+						<ScrollView style={styles.settings}>
 							<View style={styles.item}>
 								<View style={styles.avatar}>
 									<Avatar
@@ -229,7 +230,7 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
-						</View>
+						</ScrollView>
 					);
 				})()}
 			</View>
