@@ -4,6 +4,7 @@ import Avatar from "./avatar";
 import Embed from "./embed";
 import Modal from "./modal";
 import Clipboard from "../../modules/clipboard";
+import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
@@ -85,14 +86,23 @@ export default class ChatItem extends React.Component {
 	}
 
 	_showMenu() {
-		const options = [ "Copy text", "Reply", "Quote" ];
+		const { text, textMetadata } = this.props;
+
+		const options = [
+			textMetadata && textMetadata.type === "image" ? "Open image in browser" : "Copy text",
+			"Reply to @" + text.from,
+			"Quote message"
+		];
 
 		Modal.showActionSheetWithOptions({ options }, index => {
-			const { text } = this.props;
-
 			switch (index) {
 			case 0:
-				Clipboard.setText(text.text);
+				if (textMetadata && textMetadata.type === "image") {
+					Linking.openURL(textMetadata.originalUrl);
+				} else {
+					Clipboard.setText(text.text);
+				}
+
 				break;
 			case 1:
 				this.props.replyToMessage(text);
@@ -105,23 +115,22 @@ export default class ChatItem extends React.Component {
 	}
 
 	render() {
-		const { text, previousText, currentUser } = this.props;
+		const { text, textMetadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
 
 		const links = textUtils.getLinks(text.text);
-		const metaData = textUtils.getMetadata(text.text);
 
 		let cover;
 
-		if (metaData && metaData.type === "image") {
+		if (textMetadata && textMetadata.type === "image") {
 			cover = (
 				<Image
 					style={[ styles.thumbnail, {
-						height: parseInt(metaData.height, 10) || 160,
-						width: parseInt(metaData.width, 10) || 160
+						height: parseInt(textMetadata.height, 10) || 160,
+						width: parseInt(textMetadata.width, 10) || 160
 					} ]}
-					source={{ uri: metaData.thumbnailUrl }}
+					source={{ uri: textMetadata.thumbnailUrl }}
 				/>
 			);
 		} else if (links.length) {
@@ -166,7 +175,7 @@ export default class ChatItem extends React.Component {
 
 					<TouchableOpacity onPress={this._showMenu.bind(this)}>
 						<ChatBubble
-							text={metaData && metaData.type === "image" ? { from: text.from } : text}
+							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
 							showAuthor={showAuthor}
 							showArrow={received ? showAuthor : true}
@@ -192,6 +201,7 @@ ChatItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
 	}).isRequired,
+	textMetadata: React.PropTypes.string,
 	previousText: React.PropTypes.shape({
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
