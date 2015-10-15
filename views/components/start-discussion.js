@@ -56,12 +56,14 @@ export default class StartDiscussionButton extends React.Component {
 					autoFocus
 					onChange={this._onTitleChange.bind(this)}
 					placeholder="Enter discussion title"
+					autoCapitalize="sentences"
 				/>
 
 				<GrowingTextInput
 					numberOfLines={5}
 					onChange={this._onTextChange.bind(this)}
 					placeholder="Enter discussion summary"
+					autoCapitalize="sentences"
 				/>
 
 				<LargeButton

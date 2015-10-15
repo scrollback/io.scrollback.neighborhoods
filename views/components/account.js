@@ -147,6 +147,10 @@ export default class Account extends React.Component {
 		);
 	}
 
+	_signOut() {
+		this.props.signOut();
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -218,6 +222,13 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
+							<TouchFeedback onPress={this._signOut.bind(this)}>
+								<View style={styles.item}>
+									<View style={styles.itemLabel}>
+										<Text style={styles.itemText}>Sign out</Text>
+									</View>
+								</View>
+							</TouchFeedback>
 						</View>
 					);
 				})()}
@@ -233,5 +244,6 @@ Account.propTypes = {
 			id: React.PropTypes.string
 		})
 	]).isRequired,
-	saveUser: React.PropTypes.func.isRequired
+	saveUser: React.PropTypes.func.isRequired,
+	signOut: React.PropTypes.func.isRequired
 };

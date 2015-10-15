@@ -26,5 +26,12 @@ module.exports = function(core) {
 
 	core.on("init-dn", initDn => AsyncStorage.setItem(key, initDn.session), 999);
 
-	core.on("logout", () => AsyncStorage.removeItem(key), 1000);
+	core.on("logout", () => {
+		AsyncStorage.removeItem(key)
+			.then(() => {
+				core.emit("setstate", {
+					user: "missing"
+				});
+			});
+	}, 1000);
 };

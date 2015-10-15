@@ -12,33 +12,15 @@ export default class ChatController extends React.Component {
 		super(props);
 
 		this.state = {
-			user: "loading",
-			quotedText: "",
-			replyTo: ""
+			user: "loading"
 		};
 	}
 
 	componentWillMount() {
 		InteractionManager.runAfterInteractions(() => {
 			this.setState({
-				user: this.store.get("user"),
-				quotedText: "",
-				replyTo: ""
+				user: this.store.get("user")
 			});
-		});
-	}
-
-	_quoteMessage(text) {
-		this.setState({
-			quotedText: text.text,
-			replyTo: text.from
-		});
-	}
-
-	_replyToMessage(text) {
-		this.setState({
-			replyTo: text.from,
-			quotedText: ""
 		});
 	}
 
@@ -49,19 +31,11 @@ export default class ChatController extends React.Component {
 			to: this.props.room,
 			from: this.state.user
 		});
-
-
-		this.setState({
-			replyTo: "",
-			quotedText: ""
-		});
 	}
 
 	render() {
 		return (
 			<Chat
-				quoteMessage={this._quoteMessage.bind(this)}
-				replyToMessage={this._replyToMessage.bind(this)}
 				sendMessage={this._sendMessage.bind(this)}
 				{...this.props}
 				{...this.state}

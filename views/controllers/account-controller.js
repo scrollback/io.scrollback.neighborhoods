@@ -47,12 +47,17 @@ export default class AccountController extends React.Component {
 		this.setState({ user });
 	}
 
+	_signOut() {
+		this.emit("logout");
+	}
+
 	render() {
 		return (
 			<Account
 				{...this.props}
 				{...this.state}
 				saveUser={this._saveUser.bind(this)}
+				signOut={this._signOut.bind(this)}
 			/>
 		);
 	}
