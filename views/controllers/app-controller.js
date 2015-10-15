@@ -25,7 +25,7 @@ export default class AppController extends React.Component {
 		});
 
 		this.handle("statechange", changes => {
-			if (changes && changes.user) {
+			if (changes && "user" in changes) {
 				const user = this.store.get("user");
 
 				if (user !== this.state.user && this._mounted) {
