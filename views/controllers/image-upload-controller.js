@@ -21,7 +21,7 @@ export default class ImageUploadController extends React.Component {
 		};
 	}
 
-	componentWillMount() {
+	componentWillUnmount() {
 		this._closeUpload();
 	}
 

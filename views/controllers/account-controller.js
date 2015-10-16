@@ -12,7 +12,7 @@ export default class AccountController extends React.Component {
 		super(props);
 
 		this.state = {
-			user: "loading"
+			user: "missing"
 		};
 	}
 

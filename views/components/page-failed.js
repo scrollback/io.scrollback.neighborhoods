@@ -35,12 +35,12 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class PageRetry extends React.Component {
+export default class PageFailed extends React.Component {
 	render() {
 		return (
 			<Page {...this.props}>
 				<TouchableOpacity onPress={this.props.onRetry} style={styles.container}>
-					<Text style={styles.missing}>Failed to load data</Text>
+					<Text style={styles.missing}>{this.props.pageLabel}</Text>
 
 					{this.props.onRetry ?
 					<View style={styles.button}>
@@ -55,6 +55,12 @@ export default class PageRetry extends React.Component {
 	}
 }
 
-PageRetry.propTypes = {
+PageFailed.propTypes = {
+	pageLabel: React.PropTypes.string,
 	onRetry: React.PropTypes.func
 };
+
+PageFailed.defaultProps = {
+	pageLabel: "Failed to load data"
+};
+

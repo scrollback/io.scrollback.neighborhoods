@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class PageLoading extends React.Component {
+export default class PageFailed extends React.Component {
 	render() {
 		return (
 			<Page {...this.props}>

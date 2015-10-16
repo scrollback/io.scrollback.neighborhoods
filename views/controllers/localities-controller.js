@@ -12,7 +12,7 @@ export default class LocalitiesController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 

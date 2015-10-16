@@ -30,7 +30,7 @@ module.exports = function(core) {
 		AsyncStorage.removeItem(key)
 			.then(() => {
 				core.emit("setstate", {
-					user: "missing"
+					user: "guest"
 				});
 			});
 	}, 1000);

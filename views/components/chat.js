@@ -24,7 +24,7 @@ export default class Chat extends React.Component {
 	}
 
 	render() {
-		if (this.props.user === "loading") {
+		if (this.props.user === "missing") {
 			return <PageLoading />;
 		}
 

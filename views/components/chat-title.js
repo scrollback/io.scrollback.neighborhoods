@@ -45,7 +45,7 @@ export default class ChatTitle extends React.Component {
 		if (thread && thread.title) {
 			title = thread.title;
 			concerns = thread.concerns && thread.concerns.length ? thread.concerns.length : 1;
-		} else if (thread === "loading") {
+		} else if (thread === "missing") {
 			title = "Loading…";
 		}
 

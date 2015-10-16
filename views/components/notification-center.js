@@ -1,8 +1,7 @@
 import React from "react-native";
 import NotificationCenterItem from "./notification-center-item";
-import PageEmpty from "./page-empty";
+import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
 
 const {
 	ListView,
@@ -25,16 +24,16 @@ export default class NotificationCenter extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty />;
+						return <PageFailed pageLabel="All clear 😎" />;
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "loading") {
+						if (this.props.data[0] === "missing") {
 							return <PageLoading />;
 						}
 
-						if (this.props.data[0] === "missing") {
-							return <PageRetry onRetry={this.props.refreshData} />;
+						if (this.props.data[0] === "failed") {
+							return <PageFailed pageLabel="Failed to load notifications" onRetry={this.props.refreshData} />;
 						}
 					}
 
@@ -64,7 +63,7 @@ export default class NotificationCenter extends React.Component {
 
 NotificationCenter.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

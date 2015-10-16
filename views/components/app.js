@@ -8,11 +8,11 @@ export default class App extends React.Component {
 	render() {
 		const { user, initialRoute } = this.props;
 
-		if (user === "loading") {
+		if (user === "missing") {
 			return <Splash />;
 		}
 
-		if (user === "missing" || userUtils.isGuest(user)) {
+		if (user === "guest" || userUtils.isGuest(user)) {
 			return <Onboard initialRoute={initialRoute} />;
 		}
 

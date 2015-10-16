@@ -12,7 +12,7 @@ export default class ChatController extends React.Component {
 		super(props);
 
 		this.state = {
-			user: "loading"
+			user: "missing"
 		};
 	}
 

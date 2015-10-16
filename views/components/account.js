@@ -1,6 +1,6 @@
 import React from "react-native";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
+import PageFailed from "./page-failed";
 import AvatarController from "../controllers/avatar-controller";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
@@ -156,12 +156,12 @@ export default class Account extends React.Component {
 		return (
 			<View {...this.props}>
 				{(() => {
-					if (this.props.user === "loading") {
+					if (this.props.user === "missing") {
 						return <PageLoading />;
 					}
 
-					if (this.props.user === "missing") {
-						return <PageRetry />;
+					if (this.props.user === "failed") {
+						return <PageFailed pageLabel="Failed to load account" />;
 					}
 
 					return (
@@ -238,7 +238,7 @@ export default class Account extends React.Component {
 
 Account.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

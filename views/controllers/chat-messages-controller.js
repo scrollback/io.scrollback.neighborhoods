@@ -13,7 +13,7 @@ export default class ChatMessagesController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 

@@ -51,7 +51,7 @@ export default class LocalitiesFilterController extends React.Component {
 					} else {
 						this.setState({
 							filter,
-							data: [ "loading" ]
+							data: [ "missing" ]
 						});
 					}
 				}
