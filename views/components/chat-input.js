@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "stretch",
 		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
+		borderColor: "rgba(0, 0, 0, .12)",
 		borderTopWidth: 1 / PixelRatio.get()
 	},
 	inputContainer: {
@@ -142,7 +142,7 @@ export default class ChatInput extends React.Component {
 						style={styles.inputContainer}
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
-						placeholder="Type a message"
+						placeholder="Write a message…"
 						autoCapitalize="sentences"
 						numberOfLines={7}
 					/>

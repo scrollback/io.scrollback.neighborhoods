@@ -201,7 +201,7 @@ ChatItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
 	}).isRequired,
-	textMetadata: React.PropTypes.string,
+	textMetadata: React.PropTypes.object,
 	previousText: React.PropTypes.shape({
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired

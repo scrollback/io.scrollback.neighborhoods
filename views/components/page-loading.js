@@ -3,13 +3,25 @@ import Loading from "./loading";
 import Page from "./page";
 
 const {
-	StyleSheet
+	StyleSheet,
+	PixelRatio,
+	View
 } = React;
 
 const styles = StyleSheet.create({
-	loading: {
+	loadingContainer: {
+		backgroundColor: "#fff",
+		borderColor: "rgba(0, 0, 0, .08)",
+		borderWidth: 1 / PixelRatio.get(),
 		height: 36,
-		width: 36
+		width: 36,
+		borderRadius: 18,
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	loading: {
+		height: 24,
+		width: 24
 	}
 });
 
@@ -17,7 +29,9 @@ export default class PageLoading extends React.Component {
 	render() {
 		return (
 			<Page {...this.props}>
-				<Loading style={styles.loading} />
+				<View style={styles.loadingContainer}>
+					<Loading style={styles.loading} />
+				</View>
 			</Page>
 		);
 	}
