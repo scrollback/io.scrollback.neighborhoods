@@ -53,7 +53,3 @@ export default class LocalitiesController extends React.Component {
 		);
 	}
 }
-
-LocalitiesController.propTypes = {
-	filter: React.PropTypes.string
-};

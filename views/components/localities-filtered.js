@@ -27,7 +27,11 @@ export default class LocalitiesFiltered extends React.Component {
 					onSearchChange={this.props.onSearchChange}
 					autoFocus
 				/>
-				<LocalitiesBase {...this.props} style={[ styles.inner, this.props.style ]} />
+				<LocalitiesBase
+					{...this.props}
+					pageEmptyLabel={this.props.filter ? "" : "Type a place to search"}
+					style={[ styles.inner, this.props.style ]}
+				/>
 			</View>
 		);
 	}
@@ -35,5 +39,6 @@ export default class LocalitiesFiltered extends React.Component {
 
 LocalitiesFiltered.propTypes = {
 	dismiss: React.PropTypes.func.isRequired,
-	onSearchChange: React.PropTypes.func.isRequired
+	onSearchChange: React.PropTypes.func.isRequired,
+	filter: React.PropTypes.string
 };

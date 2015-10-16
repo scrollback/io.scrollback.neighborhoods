@@ -51,7 +51,7 @@ export default class LocalitiesBase extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageFailed pageLabel="No places found" />;
+						return <PageFailed pageLabel={this.props.pageEmptyLabel || "No places found"} />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -94,5 +94,6 @@ LocalitiesBase.propTypes = {
 	])).isRequired,
 	refreshData: React.PropTypes.func,
 	showRoomMenu: React.PropTypes.bool,
+	pageEmptyLabel: React.PropTypes.string,
 	navigator: React.PropTypes.object.isRequired
 };
