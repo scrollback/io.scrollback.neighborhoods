@@ -38,7 +38,7 @@ export default class LocalitiesController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: this.store.getRelatedRooms()
+					data: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none")
 				});
 			}
 		});
