@@ -57,7 +57,7 @@ export default class DiscussionFooter extends React.Component {
 			<View {...this.props} style={[ styles.footer, this.props.style ]}>
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
-						<Icon name="history" style={styles.icon} />
+						<Icon name="access-time" style={styles.icon} />
 						<Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
