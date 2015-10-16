@@ -85,33 +85,34 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
-	_showMenu() {
+	_showMenu(menu) {
+		const options = [];
+		const actions = [];
+
+		for (const k in menu) {
+			options.push(k);
+			actions.push(menu[k]);
+		}
+
+		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
+	}
+
+	_buildMenu() {
 		const { text, textMetadata } = this.props;
 
-		const options = [
-			textMetadata && textMetadata.type === "image" ? "Open image in browser" : "Copy text",
-			"Reply to @" + text.from,
-			"Quote message"
-		];
+		const menu = {};
 
-		Modal.showActionSheetWithOptions({ options }, index => {
-			switch (index) {
-			case 0:
-				if (textMetadata && textMetadata.type === "image") {
-					Linking.openURL(textMetadata.originalUrl);
-				} else {
-					Clipboard.setText(text.text);
-				}
+		if (textMetadata && textMetadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+		} else {
+			menu["Copy text"] = () => Clipboard.setText(text.text);
+			menu["Quote message"] = () => this.props.quoteMessage(text);
+		}
 
-				break;
-			case 1:
-				this.props.replyToMessage(text);
-				break;
-			case 2:
-				this.props.quoteMessage(text);
-				break;
-			}
-		});
+		menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
+
+		this._showMenu(menu);
 	}
 
 	render() {
@@ -173,7 +174,7 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity onPress={this._showMenu.bind(this)}>
+					<TouchableOpacity onPress={this._buildMenu.bind(this)}>
 						<ChatBubble
 							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
