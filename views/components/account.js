@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
 	itemText: {
 		color: "#333",
 		fontSize: 14,
-		lineHeight: 24
+		lineHeight: 21
 	},
 	itemValueText: {
 		fontSize: 12,
-		lineHeight: 21
+		lineHeight: 18
 	},
 	dropdown: {
 		height: 24,
