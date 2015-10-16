@@ -13,14 +13,13 @@ const styles = StyleSheet.create({
 		height: 24,
 		width: 24,
 		borderRadius: 12,
-		backgroundColor: "#999",
+		backgroundColor: "rgba(255, 255, 255, .16)",
 		borderColor: "#fff",
 		borderWidth: 2,
 		margin: 16
 	},
 	image: {
 		flex: 1,
-		resizeMode: "cover",
 		borderRadius: 12
 	}
 });
@@ -35,7 +34,7 @@ export default class UserIcon extends React.Component {
 			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
 				<View style={styles.avatar}>
 					<AvatarController
-						size={24}
+						size={20}
 						nick={this.props.nick}
 						style={styles.image}
 					/>

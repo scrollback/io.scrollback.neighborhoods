@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "#999",
+		backgroundColor: "rgba(0, 0, 0, .16)",
 		alignSelf: "flex-end"
 	},
 	embed: {

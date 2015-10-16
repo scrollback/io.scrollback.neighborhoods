@@ -28,6 +28,7 @@ public class HeyNeighborPackage implements ReactPackage {
                 new ClipboardModule(reactContext),
                 new DeviceVersionModule(reactContext),
                 new FileUploadModule(reactContext),
+                new URLResolverModule(reactContext),
                 new ShareModule(reactContext, mContext),
                 new IntentModule(reactContext, mContext),
                 new PushNotificationModule(reactContext, mContext)
