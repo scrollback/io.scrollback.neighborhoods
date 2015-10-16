@@ -1,5 +1,5 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 import routes from "../utils/routes";
 
 const {
@@ -34,7 +34,7 @@ export default class UserIcon extends React.Component {
 		return (
 			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
 				<View style={styles.avatar}>
-					<Avatar
+					<AvatarController
 						size={24}
 						nick={this.props.nick}
 						style={styles.image}

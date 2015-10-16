@@ -1,6 +1,6 @@
 import React from "react-native";
 import Icon from "./icon";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
 import timeUtils from "../../lib/time-utils";
@@ -186,7 +186,7 @@ export default class NotificationCenterItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
 						<View style={styles.avatar}>
-							<Avatar
+							<AvatarController
 								size={36}
 								nick={note.noteData.from}
 								style={styles.image}

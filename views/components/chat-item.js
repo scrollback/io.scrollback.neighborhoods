@@ -1,6 +1,6 @@
 import React from "react-native";
+import AvatarController from "../controllers/avatar-controller";
 import ChatBubble from "./chat-bubble";
-import Avatar from "./avatar";
 import Embed from "./embed";
 import Modal from "./modal";
 import Clipboard from "../../modules/clipboard";
@@ -164,7 +164,7 @@ export default class ChatItem extends React.Component {
 				<View style={[ styles.chat, received ? styles.received : null ]}>
 					{received && showAuthor ?
 						<View style={styles.avatar}>
-							<Avatar
+							<AvatarController
 								size={48}
 								nick={text.from}
 								style={styles.image}

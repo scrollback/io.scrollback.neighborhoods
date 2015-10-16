@@ -1,7 +1,7 @@
 import React from "react-native";
 import PageLoading from "./page-loading";
 import PageRetry from "./page-retry";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
@@ -17,9 +17,6 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "#fff"
-	},
 	avatar: {
 		height: 48,
 		width: 48,
@@ -44,7 +41,8 @@ const styles = StyleSheet.create({
 		lineHeight: 18
 	},
 	settings: {
-		alignItems: "stretch"
+		alignItems: "stretch",
+		backgroundColor: "#fff"
 	},
 	inputContainer: {
 		borderColor: "rgba(0, 0, 0, .08)",
@@ -70,11 +68,11 @@ const styles = StyleSheet.create({
 	},
 	itemText: {
 		color: "#333",
-		fontSize: 16,
+		fontSize: 14,
 		lineHeight: 24
 	},
 	itemValueText: {
-		fontSize: 14,
+		fontSize: 12,
 		lineHeight: 21
 	},
 	dropdown: {
@@ -156,7 +154,7 @@ export default class Account extends React.Component {
 		const { user } = this.props;
 
 		return (
-			<View {...this.props} style={[ styles.container, this.props.style ]}>
+			<View {...this.props}>
 				{(() => {
 					if (this.props.user === "loading") {
 						return <PageLoading />;
@@ -167,10 +165,10 @@ export default class Account extends React.Component {
 					}
 
 					return (
-						<ScrollView style={styles.settings}>
+						<ScrollView contentContainerStyle={styles.settings}>
 							<View style={styles.item}>
 								<View style={styles.avatar}>
-									<Avatar
+									<AvatarController
 										size={48}
 										nick={user.id}
 										style={styles.image}
