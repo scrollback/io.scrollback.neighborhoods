@@ -2,6 +2,7 @@ import React from "react-native";
 import ChatItem from "./chat-item";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
+import LoadingItem from "./loading-item";
 
 const {
 	StyleSheet,
@@ -67,7 +68,7 @@ export default class ChatMessages extends React.Component {
 							dataSource={dataSource}
 							renderRow={item => {
 								if (item === "missing") {
-									return null;
+									return <LoadingItem />;
 								}
 
 								return (

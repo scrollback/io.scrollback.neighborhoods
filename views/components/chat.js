@@ -9,7 +9,7 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	messages: {
+	container: {
 		flex: 1
 	}
 });
@@ -31,7 +31,7 @@ export default class Chat extends React.Component {
 		return (
 			<View {...this.props}>
 				<ChatMessagesController
-					style={styles.messages}
+					style={styles.container}
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}

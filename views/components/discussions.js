@@ -2,6 +2,7 @@ import React from "react-native";
 import DiscussionItem from "./discussion-item";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
+import LoadingItem from "./loading-item";
 import StartDiscussionButton from "./start-discussion-button";
 
 const {
@@ -48,14 +49,13 @@ export default class Discussions extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
-							style={styles.item}
 							initialListSize={3}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
 							dataSource={this._getDataSource()}
 							renderRow={thread => {
 								if (thread === "missing") {
-									return null;
+									return <LoadingItem />;
 								}
 
 								return (
