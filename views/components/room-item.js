@@ -92,9 +92,11 @@ export default class RoomItem extends React.Component {
 								null
 							}
 						</View>
-						<TouchableOpacity onPress={this._showMenu.bind(this)}>
-							<Icon name="expand-more" style={styles.expand} />
-						</TouchableOpacity>
+						{this.props.showRoomMenu ?
+							<TouchableOpacity onPress={this._showMenu.bind(this)}>
+								<Icon name="expand-more" style={styles.expand} />
+							</TouchableOpacity> : null
+						}
 					</View>
 				</TouchFeedback>
 			</View>
@@ -116,7 +118,12 @@ RoomItem.propTypes = {
 		})
 	}),
 	role: React.PropTypes.string.isRequired,
+	showRoomMenu: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
+};
+
+RoomItem.defaultProps = {
+	showRoomMenu: true
 };

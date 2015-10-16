@@ -33,6 +33,11 @@ export default class DiscussionsController extends React.Component {
 					mode: "room"
 				}
 			});
+
+			// Auto join room
+			this.dispatch("join", {
+				to: this.props.room
+			});
 		});
 	}
 
