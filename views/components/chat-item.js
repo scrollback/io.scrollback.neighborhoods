@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 	},
 	embed: {
 		width: 240,
-		height: 160,
+		height: 135,
 		marginVertical: 4
 	},
 	thumbnail: {

@@ -14,7 +14,7 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		height: 240
+		flex: 1
 	},
 	overlay: {
 		flex: 1,
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	progress: {
-		height: 36,
-		width: 36
+		height: 24,
+		width: 24
 	},
 	thumbnailContainer: { flex: 1 },
 	thumbnail: {
@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
 	play: {
 		backgroundColor: "rgba(0, 0, 0, .7)",
 		color: "#fff",
-		fontSize: 64,
-		borderRadius: 32
+		fontSize: 48,
+		borderRadius: 24
 	}
 });
 
@@ -72,7 +72,7 @@ export default class Embed extends React.Component {
 		return (
 			<View {...this.props}>
 				{embed && embed.thumbnail_url ?
-					(<TouchableHighlight onPress={this.onPress.bind(this)}>
+					(<TouchableHighlight onPress={this.onPress.bind(this)} style={styles.container}>
 						<View style={styles.container}>
 							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
 								{embed.type === "video" ?
