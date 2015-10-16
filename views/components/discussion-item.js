@@ -14,6 +14,7 @@ import Share from "../../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 import oembed from "../../lib/oembed";
+import config from "../../store/config";
 
 const {
 	StyleSheet,
@@ -76,9 +77,10 @@ export default class DiscussionItem extends React.Component {
 				Clipboard.setText(this.props.thread.text);
 				break;
 			case 2:
+				const { protocol, host } = config.server;
 				const { id, to } = this.props.thread;
 
-				Share.shareItem("Share discussion", `https://heyneighbor.chat/${to}/${id}`);
+				Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
 			}
 		});
 	}

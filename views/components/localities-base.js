@@ -1,5 +1,5 @@
 import React from "react-native";
-import RoomItem from "./room-item";
+import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import geolocation from "../../modules/geolocation";
@@ -69,7 +69,7 @@ export default class LocalitiesBase extends React.Component {
 							initialListSize={5}
 							dataSource={this._getDataSource()}
 							renderRow={room =>
-								<RoomItem
+								<RoomItemController
 									key={room.id}
 									room={room}
 									position={this.state.position}
