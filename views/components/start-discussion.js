@@ -1,16 +1,38 @@
 import React from "react-native";
+import Loading from "./loading";
 import GrowingTextInput from "./growing-text-input";
-import LargeButton from "./large-button";
+import TouchFeedback from "./touch-feedback";
 
 const {
 	StyleSheet,
 	View,
+	Text,
 	TextInput
 } = React;
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 16
+		padding: 16,
+		backgroundColor: "#fff"
+	},
+	actions: {
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		paddingVertical: 16
+	},
+	button: {
+		alignItems: "center",
+		backgroundColor: "#673AB7",
+		paddingVertical: 12,
+		borderRadius: 3,
+		width: 80
+	},
+	buttonText: {
+		color: "#fff"
+	},
+	loading: {
+		height: 19,
+		width: 19
 	}
 });
 
@@ -26,6 +48,10 @@ export default class StartDiscussionButton extends React.Component {
 	}
 
 	_onPress() {
+		if (this.state.status === "loading") {
+			return;
+		}
+
 		if (this.state.title && this.state.text) {
 			this.props.postDiscussion(this.state.title, this.state.text);
 
@@ -54,6 +80,7 @@ export default class StartDiscussionButton extends React.Component {
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				<TextInput
 					autoFocus
+					value={this.state.title}
 					onChange={this._onTitleChange.bind(this)}
 					placeholder="Enter discussion title"
 					autoCapitalize="sentences"
@@ -61,18 +88,22 @@ export default class StartDiscussionButton extends React.Component {
 
 				<GrowingTextInput
 					numberOfLines={5}
+					value={this.state.text}
 					onChange={this._onTextChange.bind(this)}
 					placeholder="Enter discussion summary"
 					autoCapitalize="sentences"
 				/>
 
-				<LargeButton
-					style={styles.facebook}
-					spinner={isLoading}
-					disabled={isLoading}
-					text={isLoading ? "" : "Start discussion"}
-					onPress={this._onPress.bind(this)}
-				/>
+				<View style={styles.actions}>
+					<TouchFeedback onPress={this._onPress.bind(this)}>
+						<View style={styles.button}>
+							{isLoading ?
+								<Loading style={styles.loading} /> :
+								<Text style={styles.buttonText}>Post</Text>
+							}
+						</View>
+					</TouchFeedback>
+				</View>
 			</View>
 		);
 	}
