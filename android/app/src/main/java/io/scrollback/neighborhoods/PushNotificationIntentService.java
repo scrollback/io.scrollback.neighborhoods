@@ -16,6 +16,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -23,11 +26,14 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PushNotificationIntentService extends IntentService {
 
-    public static final int NOTIFICATION_ID = 1;
+    private ArrayList<Notification> pendingNotifications = new ArrayList<>();
+
     private static final String TAG = "GCM";
+    private static final int NOTIFICATION_ID = 1;
 
     public PushNotificationIntentService() {
         super("PushNotificationIntentService");
@@ -64,16 +70,18 @@ public class PushNotificationIntentService extends IntentService {
                 Log.d(TAG, "title: " + extras.getString("title"));
                 Log.d(TAG, "subtitle: " + extras.getString("text"));
                 Log.d(TAG, "path: " + extras.getString("path"));
+                Log.d(TAG, "group: " + extras.getString("group"));
                 Log.d(TAG, "picture: " + extras.getString("picture"));
 
-                Notification notif = new Notification(getBaseContext());
+                Notification note = new Notification(getBaseContext());
 
-                notif.setTitle(extras.getString("title"));
-                notif.setText(extras.getString("text"));
-                notif.setPath(extras.getString("path"));
-                notif.setPicture(extras.getString("picture"));
+                note.setTitle(extras.getString("title"));
+                note.setText(extras.getString("text"));
+                note.setPath(extras.getString("path"));
+                note.setGroup(extras.getString("group"));
+                note.setPicture(extras.getString("picture"));
 
-                sendNotification(notif);
+                sendNotification(note);
             }
         }
 
@@ -81,7 +89,17 @@ public class PushNotificationIntentService extends IntentService {
         PushNotificationBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    public void sendNotification(Notification n) {
+    private SpannableString buildTicker(Notification note) {
+        String title = note.getTitle();
+
+        SpannableString sb = new SpannableString(title + " " + note.getText());
+
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return sb;
+    }
+
+    public void sendNotification(Notification note) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Log.d(Constants.TAG, "Sending notification");
@@ -90,7 +108,7 @@ public class PushNotificationIntentService extends IntentService {
 
         i.setAction(Intent.ACTION_VIEW);
 
-        String path = n.getPath();
+        String path = note.getPath();
 
         if (path != null) {
             i.setData(Uri.parse(path));
@@ -98,19 +116,53 @@ public class PushNotificationIntentService extends IntentService {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        ArrayList<Notification> currentNotifications = new ArrayList<>();
+
+        // Ignore previous notifications with same group key
+        for (Notification n : pendingNotifications) {
+            if (n.getGroup().equals(note.getGroup())) {
+                continue;
+            }
+
+            currentNotifications.add(0, n);
+        }
+
+        currentNotifications.add(note);
+
+        pendingNotifications = currentNotifications;
+
+        NotificationCompat.Style noteStyle;
+
+        if (pendingNotifications.size() > 1) {
+            NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
+                    .setBigContentTitle(pendingNotifications.size() + " new notifications")
+                    .setSummaryText(getString(R.string.app_name));
+
+            for (Notification n : pendingNotifications) {
+                style.addLine(buildTicker(n));
+            }
+
+            noteStyle = style;
+        } else {
+            noteStyle = new NotificationCompat.BigTextStyle();
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_status)
                         .setColor(ContextCompat.getColor(this, R.color.primary))
-                        .setTicker(n.getTitle())
-                        .setContentTitle(n.getTitle())
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(n.getText()))
-                        .setContentText(n.getText())
+                        .setNumber(pendingNotifications.size())
+                        .setTicker(buildTicker(note))
+                        .setContentTitle(note.getTitle())
+                        .setGroup(note.getGroup())
+                        .setContentText(note.getText())
+                        .setStyle(noteStyle)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setGroupSummary(true)
                         .setAutoCancel(true);
 
-        Bitmap largeIcon = n.getBitmap(getString(R.string.app_protocol), getString(R.string.app_host));
+        Bitmap largeIcon = note.getBitmap(getString(R.string.app_protocol), getString(R.string.app_host));
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -128,6 +180,7 @@ public class PushNotificationIntentService extends IntentService {
         private String title;
         private String text;
         private String path;
+        private String group;
         private String picture;
 
         Notification(Context c) {
@@ -156,6 +209,14 @@ public class PushNotificationIntentService extends IntentService {
 
         public void setPath(String path) {
             this.path = path;
+        }
+
+        public void setGroup(String group) {
+            this.group = group;
+        }
+
+        public String getGroup() {
+            return group;
         }
 
         public String getPicture() {
