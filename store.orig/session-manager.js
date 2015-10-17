@@ -5,8 +5,9 @@ module.exports = function(core) {
 	let key;
 
 	core.on("boot", changes => {
-		var context = changes.context,
-			host = "";
+		const { context } = changes;
+
+		let host = "";
 
 		if (context && context.env === "embed" && context.init && changes.context.init.jws) {
 			host = context.origin && context.origin.host;
@@ -30,7 +31,7 @@ module.exports = function(core) {
 		AsyncStorage.removeItem(key)
 			.then(() => {
 				core.emit("setstate", {
-					user: "guest"
+					user: "guest-someguy" // emit a setstate so that our UI reloads
 				});
 			});
 	}, 1000);
