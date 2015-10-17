@@ -5,7 +5,7 @@ import controller from "./controller";
 @controller
 export default class NotificationClearIconController extends React.Component {
 	_clearAll() {
-		global.requestAnimationFrame(() => this.dispatch("note", { dismissTime: Date.now() }));
+		this.dispatch("note", { dismissTime: Date.now() });
 	}
 
 	render() {

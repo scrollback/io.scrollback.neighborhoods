@@ -37,7 +37,7 @@ export default class LargeButton extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<TouchFeedback underlayColor="rgba(0, 0, 0, .16)" onPress={this.props.disabled ? null : this.props.onPress}>
+				<TouchFeedback onPress={this.props.disabled ? null : this.props.onPress}>
 					<View style={[ styles.button, this.props.style ]}>
 						{this.props.spinner ? <Loading style={styles.loader} /> : null}
 

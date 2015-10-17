@@ -1,10 +1,9 @@
 import React from "react-native";
+import AppbarTouchable from "./appbar-touchable";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	TouchableHighlight,
-	View,
 	Text
 } = React;
 
@@ -27,13 +26,11 @@ const styles = StyleSheet.create({
 
 export default class ChatTitle extends React.Component {
 	_onPress() {
-		global.requestAnimationFrame(() => {
-			const { thread } = this.props;
+		const { thread } = this.props;
 
-			if (thread && thread.id) {
-				this.props.navigator.push(routes.people({ thread: thread.id }));
-			}
-		});
+		if (thread && thread.id) {
+			this.props.navigator.push(routes.people({ thread: thread.id }));
+		}
 	}
 
 	render() {
@@ -50,20 +47,14 @@ export default class ChatTitle extends React.Component {
 		}
 
 		return (
-			<TouchableHighlight
-				onPress={this._onPress.bind(this)}
-				underlayColor="rgba(0, 0, 0, .16)"
-				style={styles.container}
-			>
-				<View>
-					<Text numberOfLines={1} style={styles.title}>
-						{title}
-					</Text>
-					<Text numberOfLines={1} style={styles.subtitle}>
-						{concerns} {concerns > 1 ? " people" : " person"} talking
-					</Text>
-				</View>
-			</TouchableHighlight>
+			<AppbarTouchable onPress={this._onPress.bind(this)} style={styles.container}>
+				<Text numberOfLines={1} style={styles.title}>
+					{title}
+				</Text>
+				<Text numberOfLines={1} style={styles.subtitle}>
+					{concerns} {concerns > 1 ? " people" : " person"} talking
+				</Text>
+			</AppbarTouchable>
 		);
 	}
 }

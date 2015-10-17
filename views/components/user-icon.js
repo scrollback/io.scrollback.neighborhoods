@@ -1,10 +1,10 @@
 import React from "react-native";
+import AppbarTouchable from "./appbar-touchable";
 import AvatarController from "../controllers/avatar-controller";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	TouchableHighlight,
 	View
 } = React;
 
@@ -26,12 +26,12 @@ const styles = StyleSheet.create({
 
 export default class UserIcon extends React.Component {
 	_onPress() {
-		global.requestAnimationFrame(() => this.props.navigator.push(routes.account()));
+		this.props.navigator.push(routes.account());
 	}
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
+			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<View style={styles.avatar}>
 					<AvatarController
 						size={20}
@@ -39,7 +39,7 @@ export default class UserIcon extends React.Component {
 						style={styles.image}
 					/>
 				</View>
-			</TouchableHighlight>
+			</AppbarTouchable>
 		);
 	}
 }
