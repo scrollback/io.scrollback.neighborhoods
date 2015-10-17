@@ -3,7 +3,8 @@ import ChatController from "../controllers/chat-controller";
 import ChatTitleController from "../controllers/chat-title-controller";
 import RoomTitleController from "../controllers/room-title-controller";
 import DiscussionsController from "../controllers/discussions-controller";
-import NotificationCenterController from "../controllers/notification-center-controller.js";
+import NotificationCenterController from "../controllers/notification-center-controller";
+import NotificationClearIconController from "../controllers/notification-clear-icon-controller";
 import PeopleListController from "../controllers/people-list-controller";
 import UserIconController from "../controllers/user-icon-controller";
 import LocalitiesController from "../controllers/localities-controller";
@@ -52,7 +53,8 @@ routes.room = props => {
 routes.notes = () => {
 	return {
 		title: "Notifications",
-		component: NotificationCenterController
+		component: NotificationCenterController,
+		rightComponent: NotificationClearIconController
 	};
 };
 
