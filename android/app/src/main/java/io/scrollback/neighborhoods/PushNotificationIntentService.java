@@ -35,6 +35,10 @@ public class PushNotificationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        // If app is in foreground, do nothing
+        if (AppState.isForeground()) {
+            return;
+        }
 
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
