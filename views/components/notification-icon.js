@@ -43,6 +43,10 @@ export default class NotificationIcon extends React.Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps) {
+		return (this.props.count !== nextProps.count);
+	}
+
 	componentWillUpdate(nextProps) {
 		if (nextProps.count > 0) {
 			if (this.props.count === 0) {
