@@ -5,6 +5,7 @@ import routes from "../utils/routes";
 
 const {
 	StyleSheet,
+	Animated,
 	Text
 } = React;
 
@@ -28,6 +29,58 @@ const styles = StyleSheet.create({
 });
 
 export default class NotificationIcon extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			scaleAnim: new Animated.Value(0)
+		};
+	}
+
+	componentDidMount() {
+		if (this.props.count > 0) {
+			this._scaleIn();
+		}
+	}
+
+	componentWillUpdate(nextProps) {
+		if (nextProps.count > 0) {
+			if (this.props.count === 0) {
+				this._scaleIn();
+			} else {
+				this._bounce();
+			}
+		} else {
+			if (this.props.count > 0) {
+				this._scaleOut();
+			}
+		}
+	}
+
+	_bounce() {
+		Animated.timing(this.state.scaleAnim, {
+			toValue: 0.5,
+			duration: 100
+		}).start(() => {
+			Animated.timing(this.state.scaleAnim, {
+				toValue: 1,
+				duration: 100
+			}).start();
+		});
+	}
+
+	_scaleIn() {
+		Animated.spring(this.state.scaleAnim, {
+			toValue: 1
+		}).start();
+	}
+
+	_scaleOut() {
+		Animated.spring(this.state.scaleAnim, {
+			toValue: 0
+		}).start();
+	}
+
 	_onPress() {
 		this.props.navigator.push(routes.notes());
 	}
@@ -39,9 +92,11 @@ export default class NotificationIcon extends React.Component {
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<AppbarIcon name="notifications" />
 				{count ?
-					<Text style={styles.count}>
-						{count < 100 ? count : "99+"}
-					</Text> :
+					<Animated.View style={[ { transform: [ { scale: this.state.scaleAnim } ] }, styles.badge ]}>
+						<Text style={styles.count}>
+							{count < 100 ? count : "99+"}
+						</Text>
+					</Animated.View> :
 					null
 				}
 			</AppbarTouchable>
