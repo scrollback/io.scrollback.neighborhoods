@@ -1,7 +1,12 @@
-import { AsyncStorage } from "react-native";
+import React from "react-native";
 import PushNotification from "../modules/push-notification";
 import core from "../store/core";
 import userUtils from "../lib/user-utils";
+
+const {
+	AsyncStorage,
+	Platform
+} = React;
 
 const GCM_TIME_VALIDITY = 12 * 60 * 60 * 1000;
 const KEY_REGISTER_TIME = "push_notification_gcm_register_time";
@@ -32,7 +37,7 @@ function initialize() {
 								uuid: result.uuid,
 								packageName: result.packageName,
 								expiryTime: Date.now() + GCM_TIME_VALIDITY,
-								platform: "android",
+								platform: Platform.OS,
 								enabled: true
 							};
 
