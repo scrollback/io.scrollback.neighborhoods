@@ -9,10 +9,10 @@ const {
 const styles = StyleSheet.create({
 	card: {
 		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: "rgba(0, 0, 0, .12)",
 		borderTopWidth: 1 / PixelRatio.get(),
 		borderBottomWidth: 1 / PixelRatio.get(),
-		marginVertical: 2
+		marginVertical: 3
 	}
 });
 

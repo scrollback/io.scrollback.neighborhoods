@@ -62,7 +62,7 @@ export default class DiscussionFooter extends React.Component {
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon name="forum" style={styles.icon} />
-						<Text style={styles.label}>{this.props.thread.length}</Text>
+						<Text style={styles.label}>{this.props.thread.length || 1}</Text>
 					</View>
 				</View>
 			</View>
