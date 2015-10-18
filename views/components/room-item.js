@@ -30,14 +30,15 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	title: {
+		color: "#555",
 		fontSize: 14,
 		lineHeight: 21,
 		fontWeight: "bold"
 	},
 	distance: {
+		color: "#999",
 		fontSize: 12,
-		lineHeight: 18,
-		opacity: 0.7
+		lineHeight: 18
 	},
 	expand: {
 		marginHorizontal: 16,

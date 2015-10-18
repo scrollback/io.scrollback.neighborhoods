@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 		marginRight: 8
 	},
 	text: {
+		color: "#555",
 		paddingHorizontal: 4
 	},
 	triangle: {

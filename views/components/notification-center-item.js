@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		lineHeight: 21,
-		color: "#888"
+		color: "#999"
 	},
 	summary: {
 		lineHeight: 18,
 		fontSize: 12,
-		color: "#888"
+		color: "#999"
 	},
 	strong: {
 		color: "#555"
