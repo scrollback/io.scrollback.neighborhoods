@@ -1,6 +1,7 @@
 import React from "react-native";
 import App from "../components/app";
 import Linking from "../../modules/linking";
+import GCM from "../../push-notification/gcm";
 import routes from "../utils/routes";
 import controller from "./controller";
 
@@ -44,6 +45,8 @@ export default class AppController extends React.Component {
 				}
 			}
 		});
+
+		GCM.initialize();
 	}
 
 	render() {

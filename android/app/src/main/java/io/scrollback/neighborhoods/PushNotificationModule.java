@@ -194,6 +194,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                 map.putString("registrationId", mCurrentRegId);
                 map.putString("uuid", uuid);
                 map.putString("deviceModel", Build.MODEL);
+                map.putString("packageName", mReactContext.getPackageName());
 
                 callback.invoke(map);
             }
@@ -250,12 +251,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                WritableMap map = Arguments.createMap();
-
-                map.putString("type", CALLBACK_TYPE_SUCCESS);
-                map.putString("registrationId", mCurrentRegId);
-
-                callback.invoke(map);
+                callback.invoke();
             }
         }.execute(null, null, null);
     }
