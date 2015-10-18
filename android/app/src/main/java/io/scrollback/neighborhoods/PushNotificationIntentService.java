@@ -41,11 +41,6 @@ public class PushNotificationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // If app is in foreground, do nothing
-        if (AppState.isForeground()) {
-            return;
-        }
-
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
@@ -66,12 +61,21 @@ public class PushNotificationIntentService extends IntentService {
                 Log.e(TAG, "Messages deleted on server: " + extras.toString());
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // If it's a regular GCM message, do some work
-                Log.d(TAG, "payload: " + extras.toString());
-                Log.d(TAG, "title: " + extras.getString("title"));
-                Log.d(TAG, "subtitle: " + extras.getString("text"));
-                Log.d(TAG, "path: " + extras.getString("path"));
-                Log.d(TAG, "group: " + extras.getString("group"));
-                Log.d(TAG, "picture: " + extras.getString("picture"));
+                Log.d(TAG, "Payload received: " + extras.toString());
+
+                // If Push Notifications are disabled, do nothing
+                if (getSharedPreferences(PushNotificationModule.STORAGE_KEY, 0).getString("enabled", "").equals("false")) {
+                    Log.d(TAG, "Push notifications are disabled");
+
+                    return;
+                }
+
+                // If app is in foreground, do nothing
+                if (AppState.isForeground()) {
+                    Log.d(TAG, "Application is in foreground");
+
+                    return;
+                }
 
                 Notification note = new Notification(getBaseContext());
 
@@ -241,14 +245,14 @@ public class PushNotificationIntentService extends IntentService {
             try {
                 url = new URL(protocol + "//" + host + picture);
             } catch (MalformedURLException e) {
-                Log.e(TAG, "Malformed URL " + picture, e);
+                Log.e(TAG, "Malformed URL: " + picture, e);
             }
 
             if (url != null) {
                 try {
                     return BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 } catch (IOException e) {
-                    Log.e(TAG, "Couldn't fetch image from " + picture, e);
+                    Log.e(TAG, "Couldn't fetch image: " + picture, e);
                 }
             }
 

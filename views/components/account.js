@@ -5,6 +5,7 @@ import AvatarController from "../controllers/avatar-controller";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
+import PushNotification from "../../modules/push-notification";
 import debounce from "../../lib/debounce";
 
 const {
@@ -86,6 +87,19 @@ export default class Account extends React.Component {
 		super(props);
 
 		this._saveUserDebounced = debounce(this.props.saveUser, 1000);
+		this._pushNotificationEnabledKey = "enabled";
+
+		this.state = {
+			pushNotificationEnabled: true
+		};
+	}
+
+	componentWillMount() {
+		PushNotification.getPreference(this._pushNotificationEnabledKey, result => {
+			this.setState({
+				pushNotificationEnabled: result !== "false"
+			});
+		});
 	}
 
 	_onStatusChange(e) {
@@ -97,17 +111,11 @@ export default class Account extends React.Component {
 	}
 
 	_onPushNotificationChange(value) {
-		const user = Object.assign({}, this.props.user);
-
-		const params = user.params ? Object.assign({}, user.params) : {};
-		const notifications = params.notifications ? Object.assign({}, params.notifications) : {};
-
-		notifications.push = value;
-
-		params.notifications = notifications;
-		user.params = params;
-
-		this.props.saveUser(user);
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false", () => {
+			this.setState({
+				pushNotificationEnabled: value
+			});
+		});
 	}
 
 	_onEmailNotificationChange(value) {
@@ -195,7 +203,7 @@ export default class Account extends React.Component {
 									<Text style={styles.itemText}>Push notifications</Text>
 								</View>
 								<SwitchAndroid
-									value={user.params && user.params.notifications ? user.params.notifications.push !== false : false}
+									value={this.state.pushNotificationEnabled}
 									onValueChange={this._onPushNotificationChange.bind(this)}
 								/>
 							</View>

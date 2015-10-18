@@ -26,8 +26,10 @@ import java.io.IOException;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
-    public final String PROPERTY_REG_ID = "push_notif_registration_id";
-    public final String PROPERTY_APP_VERSION = "push_notif_app_version";
+    public static final String STORAGE_KEY = "push_notifications_shared_preferences";
+
+    private final String PROPERTY_REG_ID = "private_registration_id";
+    private final String PROPERTY_APP_VERSION = "private_app_version";
 
     private final String CALLBACK_TYPE_SUCCESS = "success";
     private final String CALLBACK_TYPE_ERROR = "error";
@@ -94,7 +96,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     private SharedPreferences getGCMPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(mReactContext);
+        return mReactContext.getSharedPreferences(STORAGE_KEY, 0);
     }
 
     private void setRegistrationId(Context context, String regId) {
@@ -256,5 +258,20 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                 callback.invoke(map);
             }
         }.execute(null, null, null);
+    }
+
+    @ReactMethod
+    public void setPreference(String key, String value, Callback callback) {
+        SharedPreferences.Editor e = getGCMPreferences().edit();
+
+        e.putString(key, value);
+        e.apply();
+
+        callback.invoke();
+    }
+
+    @ReactMethod
+    public void getPreference(String key, Callback callback) {
+        callback.invoke(getGCMPreferences().getString(key, ""));
     }
 }
