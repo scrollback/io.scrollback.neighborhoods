@@ -22,13 +22,15 @@ const styles = StyleSheet.create({
 	note: {
 		flexDirection: "row"
 	},
+	avatarContainer: {
+		marginHorizontal: 16,
+		marginVertical: 12
+	},
 	avatar: {
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "rgba(0, 0, 0, .16)",
-		marginHorizontal: 16,
-		marginVertical: 12
+		backgroundColor: "rgba(0, 0, 0, .16)"
 	},
 	image: {
 		flex: 1,
@@ -70,6 +72,23 @@ const styles = StyleSheet.create({
 	close: {
 		paddingVertical: 12,
 		paddingHorizontal: 16
+	},
+	badge: {
+		position: "absolute",
+		alignItems: "center",
+		bottom: -2,
+		right: -2,
+		height: 17,
+		width: 17,
+		borderRadius: 9,
+		borderColor: "#fff",
+		borderWidth: 2
+	},
+	badgeIcon: {
+		marginVertical: 1,
+		textAlign: "center",
+		fontSize: 10,
+		color: "#fff"
 	}
 });
 
@@ -89,8 +108,6 @@ export default class NotificationCenterItem extends React.Component {
 	}
 
 	_getSummary(note) {
-		const max = 3;
-
 		const { noteData, noteType, count } = note;
 
 		const room = this._getRoom(this.props.note);
@@ -99,7 +116,7 @@ export default class NotificationCenterItem extends React.Component {
 
 		switch (noteType) {
 		case "mention":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new mentions in");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
@@ -113,7 +130,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		case "reply":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new replies");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " replied");
@@ -127,7 +144,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		case "thread":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new discussions");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " started a discussion");
@@ -141,7 +158,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		default:
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new notifications");
 			} else {
 				summary.push("New notification from ", <Text key={1} style={styles.strong}>{noteData.from}</Text>);
@@ -153,6 +170,36 @@ export default class NotificationCenterItem extends React.Component {
 		return summary;
 	}
 
+	_getIconColor() {
+		const { note } = this.props;
+
+		switch (note.noteType) {
+		case "mention":
+			return "#ff5722";
+		case "reply":
+			return "#2196F3";
+		case "thread":
+			return "#009688";
+		default:
+			return "#673ab7";
+		}
+	}
+
+	_getIconName() {
+		const { note } = this.props;
+
+		switch (note.noteType) {
+		case "mention":
+			return "person";
+		case "reply":
+			return "reply";
+		case "thread":
+			return "create";
+		default:
+			return "notifications";
+		}
+	}
+
 	_onPress() {
 		const { note, navigator } = this.props;
 
@@ -162,11 +209,21 @@ export default class NotificationCenterItem extends React.Component {
 		switch (note.noteType) {
 		case "mention":
 		case "reply":
-		case "thread":
 			navigator.push(routes.chat({
 				thread,
 				room
 			}));
+
+			break;
+		case "thread":
+			if (note.count > 1) {
+				navigator.push(routes.room({ room }));
+			} else {
+				navigator.push(routes.chat({
+					thread: note.ref,
+					room
+				}));
+			}
 
 			break;
 		default:
@@ -185,12 +242,17 @@ export default class NotificationCenterItem extends React.Component {
 			<View style={styles.item}>
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
-						<View style={styles.avatar}>
-							<AvatarController
-								size={36}
-								nick={note.noteData.from}
-								style={styles.image}
-							/>
+						<View style={styles.avatarContainer}>
+							<View style={styles.avatar}>
+								<AvatarController
+									size={36}
+									nick={note.noteData.from}
+									style={styles.image}
+								/>
+							</View>
+							<View style={[ styles.badge, { backgroundColor: this._getIconColor() } ]}>
+								<Icon name={this._getIconName()} style={styles.badgeIcon} />
+							</View>
 						</View>
 						<View style={styles.content}>
 							<View>
