@@ -44,6 +44,8 @@ function initialize() {
 							core.emit("user-up", {
 								to: user.id,
 								user
+							}, () => {
+								AsyncStorage.setItem(KEY_REGISTER_TIME, Date.now()).catch(() => {});
 							});
 						});
 					}
@@ -52,7 +54,7 @@ function initialize() {
 	});
 
 	core.on("logout", () => {
-		PushNotification.unRegisterGCM();
+		PushNotification.unRegisterGCM(() => {});
 		AsyncStorage.removeItem(KEY_REGISTER_TIME).catch(() => {});
 	});
 }
