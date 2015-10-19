@@ -58,7 +58,7 @@ export default class RoomItem extends React.Component {
 		actions.push(() => {
 			const { protocol, host } = config.server;
 
-			Share.shareItem("Share community", `${protocol}//${host}/${this.props.room}`);
+			Share.shareItem("Share community", `${protocol}//${host}/${this.props.room.id}`);
 		});
 
 		switch (this.props.role) {
