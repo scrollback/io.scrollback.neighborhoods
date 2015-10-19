@@ -209,11 +209,21 @@ export default class NotificationCenterItem extends React.Component {
 		switch (note.noteType) {
 		case "mention":
 		case "reply":
-		case "thread":
 			navigator.push(routes.chat({
 				thread,
 				room
 			}));
+
+			break;
+		case "thread":
+			if (note.count > 1) {
+				navigator.push(routes.room({ room }));
+			} else {
+				navigator.push(routes.chat({
+					thread: note.ref,
+					room
+				}));
+			}
 
 			break;
 		default:
