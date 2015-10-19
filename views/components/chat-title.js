@@ -4,6 +4,7 @@ import routes from "../utils/routes";
 
 const {
 	StyleSheet,
+	View,
 	Text
 } = React;
 
@@ -48,12 +49,14 @@ export default class ChatTitle extends React.Component {
 
 		return (
 			<AppbarTouchable onPress={this._onPress.bind(this)} style={styles.container}>
-				<Text numberOfLines={1} style={styles.title}>
-					{title}
-				</Text>
-				<Text numberOfLines={1} style={styles.subtitle}>
-					{concerns} {concerns > 1 ? " people" : " person"} talking
-				</Text>
+				<View style={styles.container}>
+					<Text numberOfLines={1} style={styles.title}>
+						{title}
+					</Text>
+					<Text numberOfLines={1} style={styles.subtitle}>
+						{concerns} {concerns > 1 ? " people" : " person"} talking
+					</Text>
+				</View>
 			</AppbarTouchable>
 		);
 	}

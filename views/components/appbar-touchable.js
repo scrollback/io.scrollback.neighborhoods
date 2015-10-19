@@ -1,7 +1,7 @@
 import React from "react-native";
+import TouchFeedback from "./touch-feedback";
 
 const {
-	TouchableHighlight,
 	View
 } = React;
 
@@ -12,15 +12,11 @@ export default class AppbarTouchable extends React.Component {
 
 	render() {
 		return (
-			<TouchableHighlight
-				{...this.props}
-				underlayColor="rgba(0, 0, 0, .16)"
-				onPress={this._onPress.bind(this)}
-			>
+			<TouchFeedback {...this.props} onPress={this._onPress.bind(this)}>
 				<View>
 					{this.props.children}
 				</View>
-			</TouchableHighlight>
+			</TouchFeedback>
 		);
 	}
 }

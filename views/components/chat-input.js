@@ -10,7 +10,6 @@ import textUtils from "../../lib/text-utils";
 const {
 	StyleSheet,
 	View,
-	TouchableHighlight,
 	PixelRatio
 } = React;
 

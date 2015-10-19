@@ -6,6 +6,7 @@ import routes from "../utils/routes";
 const {
 	StyleSheet,
 	Animated,
+	View,
 	Text
 } = React;
 
@@ -94,15 +95,17 @@ export default class NotificationIcon extends React.Component {
 
 		return (
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
-				<AppbarIcon name="notifications" />
-				{count ?
-					<Animated.View style={[ { transform: [ { scale: this.state.scaleAnim } ] }, styles.badge ]}>
-						<Text style={styles.count}>
-							{count < 100 ? count : "99+"}
-						</Text>
-					</Animated.View> :
-					null
-				}
+				<View>
+					<AppbarIcon name="notifications" />
+					{count ?
+						<Animated.View style={[ { transform: [ { scale: this.state.scaleAnim } ] }, styles.badge ]}>
+							<Text style={styles.count}>
+								{count < 100 ? count : "99+"}
+							</Text>
+						</Animated.View> :
+						null
+					}
+				</View>
 			</AppbarTouchable>
 		);
 	}
