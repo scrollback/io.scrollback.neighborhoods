@@ -15,6 +15,4 @@ require("babel/polyfill");
 
 init(core);
 
-console.log(store.get());
-
 export default store;
