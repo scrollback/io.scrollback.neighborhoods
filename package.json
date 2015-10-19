@@ -9,6 +9,7 @@
     "ebus": "^0.12.0",
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
+    "event-target-shim": "^1.0.5",
     "juri": "^1.0.1",
     "react-native": "^0.12.0",
     "react-native-vector-icons": "^0.7.2"
