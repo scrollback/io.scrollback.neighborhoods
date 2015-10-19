@@ -108,8 +108,6 @@ export default class NotificationCenterItem extends React.Component {
 	}
 
 	_getSummary(note) {
-		const max = 3;
-
 		const { noteData, noteType, count } = note;
 
 		const room = this._getRoom(this.props.note);
@@ -118,7 +116,7 @@ export default class NotificationCenterItem extends React.Component {
 
 		switch (noteType) {
 		case "mention":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new mentions in");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
@@ -132,7 +130,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		case "reply":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new replies");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " replied");
@@ -146,7 +144,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		case "thread":
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new discussions");
 			} else {
 				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " started a discussion");
@@ -160,7 +158,7 @@ export default class NotificationCenterItem extends React.Component {
 
 			break;
 		default:
-			if (count > max) {
+			if (count > 1) {
 				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new notifications");
 			} else {
 				summary.push("New notification from ", <Text key={1} style={styles.strong}>{noteData.from}</Text>);
