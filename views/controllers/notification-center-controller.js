@@ -12,7 +12,7 @@ export default class NotificationCenterController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 

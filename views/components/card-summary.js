@@ -6,7 +6,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	summary: { color: "#999" }
+	summary: {
+		color: "#999"
+	}
 });
 
 export default class TextSummary extends React.Component {

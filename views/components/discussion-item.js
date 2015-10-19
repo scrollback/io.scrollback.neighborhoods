@@ -14,10 +14,12 @@ import Share from "../../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 import oembed from "../../lib/oembed";
+import config from "../../store/config";
 
 const {
 	StyleSheet,
 	TouchableOpacity,
+	Image,
 	View
 } = React;
 
@@ -31,7 +33,8 @@ const styles = StyleSheet.create({
 	},
 	cover: {
 		marginTop: 4,
-		marginBottom: 12
+		marginBottom: 8,
+		height: 180
 	},
 	item: {
 		marginHorizontal: 16
@@ -76,9 +79,10 @@ export default class DiscussionItem extends React.Component {
 				Clipboard.setText(this.props.thread.text);
 				break;
 			case 2:
+				const { protocol, host } = config.server;
 				const { id, to } = this.props.thread;
 
-				Share.shareItem("Share discussion", `https://heyneighbor.chat/${to}/${id}`);
+				Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
 			}
 		});
 	}
@@ -93,14 +97,22 @@ export default class DiscussionItem extends React.Component {
 	render() {
 		const { thread } = this.props;
 
-		const trimmedText = (thread.text || "This is a text").trim();
+		const trimmedText = (thread.text || thread.title).trim();
 
 		const hashtags = textUtils.getHashtags(trimmedText);
 		const links = textUtils.getLinks(trimmedText);
+		const textMetadata = textUtils.getMetadata(trimmedText);
 
 		let cover;
 
-		if (links.length) {
+		if (textMetadata && textMetadata.type === "image") {
+			cover = (
+				<Image
+					style={styles.cover}
+					source={{ uri: textMetadata.thumbnailUrl }}
+				/>
+			);
+		} else if (links.length) {
 			const uri = links[0];
 			const endpoint = oembed(uri);
 

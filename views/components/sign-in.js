@@ -3,7 +3,6 @@ import LargeButton from "./large-button";
 import Home from "./home";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
-import PushNotification from "../../modules/push-notification";
 
 const {
 	StyleSheet,
@@ -72,8 +71,6 @@ export default class SignIn extends React.Component {
 		// 	component: Home,
 		// 	passProps: { initialRoute: this.props.initialRoute }
 		// });
-
-		PushNotification.registerGCM(ev => console.log(ev));
 	}
 
 	_onSignUp() {

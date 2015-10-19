@@ -20,7 +20,7 @@ export default class UserIconController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			if (changes.user) {
+			if ("user" in changes) {
 				this._updateData();
 			}
 		});

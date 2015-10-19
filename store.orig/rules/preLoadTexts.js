@@ -25,7 +25,7 @@ module.exports = function() {
 			threadRanges.forEach(function(threadRange) {
 				if(threadRange.items && threadRange.items.length) {
 					threadRange.items.forEach(function(threadObj) {
-						if(store.getTexts(room, threadObj.id, null, -3)[0] !== "missing") return;
+						if(store.getTexts(room, threadObj.id, null, -1)[0] !== "missing") return;
 						query(room + '_' + threadObj.id);
 					});
 				}

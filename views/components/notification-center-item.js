@@ -1,6 +1,6 @@
 import React from "react-native";
 import Icon from "./icon";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
 import timeUtils from "../../lib/time-utils";
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "#999",
+		backgroundColor: "rgba(0, 0, 0, .16)",
 		marginHorizontal: 16,
 		marginVertical: 12
 	},
@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		lineHeight: 21,
-		color: "#888"
+		color: "#999"
 	},
 	summary: {
 		lineHeight: 18,
 		fontSize: 12,
-		color: "#888"
+		color: "#999"
 	},
 	strong: {
 		color: "#555"
@@ -186,7 +186,7 @@ export default class NotificationCenterItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
 						<View style={styles.avatar}>
-							<Avatar
+							<AvatarController
 								size={36}
 								nick={note.noteData.from}
 								style={styles.image}

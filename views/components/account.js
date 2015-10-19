@@ -1,14 +1,16 @@
 import React from "react-native";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
-import Avatar from "./avatar";
+import PageFailed from "./page-failed";
+import AvatarController from "../controllers/avatar-controller";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
+import PushNotification from "../../modules/push-notification";
 import debounce from "../../lib/debounce";
 
 const {
 	StyleSheet,
+	ScrollView,
 	View,
 	Text,
 	SwitchAndroid,
@@ -16,14 +18,11 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "#fff"
-	},
 	avatar: {
 		height: 48,
 		width: 48,
 		borderRadius: 24,
-		backgroundColor: "#999"
+		backgroundColor: "rgba(0, 0, 0, .16)"
 	},
 	image: {
 		flex: 1,
@@ -43,7 +42,8 @@ const styles = StyleSheet.create({
 		lineHeight: 18
 	},
 	settings: {
-		alignItems: "stretch"
+		alignItems: "stretch",
+		backgroundColor: "#fff"
 	},
 	inputContainer: {
 		borderColor: "rgba(0, 0, 0, .08)",
@@ -69,12 +69,12 @@ const styles = StyleSheet.create({
 	},
 	itemText: {
 		color: "#333",
-		fontSize: 16,
-		lineHeight: 24
-	},
-	itemValueText: {
 		fontSize: 14,
 		lineHeight: 21
+	},
+	itemValueText: {
+		fontSize: 12,
+		lineHeight: 18
 	},
 	dropdown: {
 		height: 24,
@@ -87,6 +87,19 @@ export default class Account extends React.Component {
 		super(props);
 
 		this._saveUserDebounced = debounce(this.props.saveUser, 1000);
+		this._pushNotificationEnabledKey = "enabled";
+
+		this.state = {
+			pushNotificationEnabled: true
+		};
+	}
+
+	componentWillMount() {
+		PushNotification.getPreference(this._pushNotificationEnabledKey, result => {
+			this.setState({
+				pushNotificationEnabled: result !== "false"
+			});
+		});
 	}
 
 	_onStatusChange(e) {
@@ -98,17 +111,11 @@ export default class Account extends React.Component {
 	}
 
 	_onPushNotificationChange(value) {
-		const user = Object.assign({}, this.props.user);
-
-		const params = user.params ? Object.assign({}, user.params) : {};
-		const notifications = params.notifications ? Object.assign({}, params.notifications) : {};
-
-		notifications.push = value;
-
-		params.notifications = notifications;
-		user.params = params;
-
-		this.props.saveUser(user);
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false", () => {
+			this.setState({
+				pushNotificationEnabled: value
+			});
+		});
 	}
 
 	_onEmailNotificationChange(value) {
@@ -155,21 +162,21 @@ export default class Account extends React.Component {
 		const { user } = this.props;
 
 		return (
-			<View {...this.props} style={[ styles.container, this.props.style ]}>
+			<View {...this.props}>
 				{(() => {
-					if (this.props.user === "loading") {
+					if (this.props.user === "missing") {
 						return <PageLoading />;
 					}
 
-					if (this.props.user === "missing") {
-						return <PageRetry />;
+					if (this.props.user === "failed") {
+						return <PageFailed pageLabel="Failed to load account" />;
 					}
 
 					return (
-						<View style={styles.settings}>
+						<ScrollView contentContainerStyle={styles.settings}>
 							<View style={styles.item}>
 								<View style={styles.avatar}>
-									<Avatar
+									<AvatarController
 										size={48}
 										nick={user.id}
 										style={styles.image}
@@ -196,7 +203,7 @@ export default class Account extends React.Component {
 									<Text style={styles.itemText}>Push notifications</Text>
 								</View>
 								<SwitchAndroid
-									value={user.params && user.params.notifications ? user.params.notifications.push !== false : false}
+									value={this.state.pushNotificationEnabled}
 									onValueChange={this._onPushNotificationChange.bind(this)}
 								/>
 							</View>
@@ -229,7 +236,7 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
-						</View>
+						</ScrollView>
 					);
 				})()}
 			</View>
@@ -239,7 +246,7 @@ export default class Account extends React.Component {
 
 Account.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

@@ -12,7 +12,7 @@ export default class DiscussionsController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ],
+			data: [ "missing" ],
 			user: ""
 		};
 	}
@@ -32,6 +32,13 @@ export default class DiscussionsController extends React.Component {
 					room: this.props.room,
 					mode: "room"
 				}
+			});
+
+			// Auto join room
+			this.dispatch("join", {
+				to: this.props.room
+			}).catch(() => {
+				// ignore
 			});
 		});
 	}

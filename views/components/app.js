@@ -2,17 +2,22 @@ import React from "react-native";
 import Splash from "./splash";
 import Onboard from "./onboard";
 import Home from "./home";
+import PageFailed from "./page-failed";
 import userUtils from "../../lib/user-utils";
 
 export default class App extends React.Component {
 	render() {
-		const { user, initialRoute } = this.props;
+		const { user, connectionStatus, initialRoute } = this.props;
 
-		if (user === "loading") {
-			return <Splash />;
+		if (user === "missing") {
+			if (connectionStatus === "offline") {
+				return <PageFailed pageLabel="Cannot connect to internet" />;
+			} else {
+				return <Splash />;
+			}
 		}
 
-		if (user === "missing" || userUtils.isGuest(user)) {
+		if (userUtils.isGuest(user)) {
 			return <Onboard initialRoute={initialRoute} />;
 		}
 
@@ -22,5 +27,6 @@ export default class App extends React.Component {
 
 App.propTypes = {
 	user: React.PropTypes.string.isRequired,
+	connectionStatus: React.PropTypes.string.isRequired,
 	initialRoute: React.PropTypes.object
 };

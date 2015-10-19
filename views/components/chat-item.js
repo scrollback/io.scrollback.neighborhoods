@@ -1,9 +1,10 @@
 import React from "react-native";
+import AvatarController from "../controllers/avatar-controller";
 import ChatBubble from "./chat-bubble";
-import Avatar from "./avatar";
 import Embed from "./embed";
 import Modal from "./modal";
 import Clipboard from "../../modules/clipboard";
+import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
@@ -45,12 +46,12 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "#999",
+		backgroundColor: "rgba(0, 0, 0, .16)",
 		alignSelf: "flex-end"
 	},
 	embed: {
 		width: 240,
-		height: 160,
+		height: 135,
 		marginVertical: 4
 	},
 	thumbnail: {
@@ -84,44 +85,53 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
-	_showMenu() {
-		const options = [ "Copy text", "Reply", "Quote" ];
+	_showMenu(menu) {
+		const options = [];
+		const actions = [];
 
-		Modal.showActionSheetWithOptions({ options }, index => {
-			const { text } = this.props;
+		for (const k in menu) {
+			options.push(k);
+			actions.push(menu[k]);
+		}
 
-			switch (index) {
-			case 0:
-				Clipboard.setText(text.text);
-				break;
-			case 1:
-				this.props.replyToMessage(text);
-				break;
-			case 2:
-				this.props.quoteMessage(text);
-				break;
-			}
-		});
+		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
+	}
+
+	_buildMenu() {
+		const { text, textMetadata } = this.props;
+
+		const menu = {};
+
+		if (textMetadata && textMetadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+		} else {
+			menu["Copy text"] = () => Clipboard.setText(text.text);
+			menu["Quote message"] = () => this.props.quoteMessage(text);
+		}
+
+		menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
+
+		this._showMenu(menu);
 	}
 
 	render() {
-		const { text, previousText, currentUser } = this.props;
+		const { text, textMetadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
 
 		const links = textUtils.getLinks(text.text);
-		const metaData = textUtils.getMetadata(text.text);
 
 		let cover;
 
-		if (metaData && metaData.type === "image") {
+		if (textMetadata && textMetadata.type === "image") {
 			cover = (
 				<Image
 					style={[ styles.thumbnail, {
-						height: parseInt(metaData.height, 10) || 160,
-						width: parseInt(metaData.width, 10) || 160
+						height: parseInt(textMetadata.height, 10) || 160,
+						width: parseInt(textMetadata.width, 10) || 160
 					} ]}
-					source={{ uri: encodeURI(metaData.thumbnailUrl) }}
+					source={{ uri: textMetadata.thumbnailUrl }}
 				/>
 			);
 		} else if (links.length) {
@@ -155,7 +165,7 @@ export default class ChatItem extends React.Component {
 				<View style={[ styles.chat, received ? styles.received : null ]}>
 					{received && showAuthor ?
 						<View style={styles.avatar}>
-							<Avatar
+							<AvatarController
 								size={48}
 								nick={text.from}
 								style={styles.image}
@@ -164,9 +174,9 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity onPress={this._showMenu.bind(this)}>
+					<TouchableOpacity onPress={this._buildMenu.bind(this)}>
 						<ChatBubble
-							text={metaData && metaData.type === "image" ? { from: text.from } : text}
+							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
 							showAuthor={showAuthor}
 							showArrow={received ? showAuthor : true}
@@ -192,6 +202,7 @@ ChatItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
 	}).isRequired,
+	textMetadata: React.PropTypes.object,
 	previousText: React.PropTypes.shape({
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired

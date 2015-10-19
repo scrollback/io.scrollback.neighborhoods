@@ -1,8 +1,7 @@
 import React from "react-native";
-import RoomItem from "./room-item";
-import PageEmpty from "./page-empty";
+import RoomItemController from "../controllers/room-item-controller";
+import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
 import geolocation from "../../modules/geolocation";
 
 const {
@@ -52,16 +51,16 @@ export default class LocalitiesBase extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty />;
+						return <PageFailed pageLabel={this.props.pageEmptyLabel || "No places found"} />;
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "loading") {
+						if (this.props.data[0] === "missing") {
 							return <PageLoading />;
 						}
 
-						if (this.props.data[0] === "missing") {
-							return <PageRetry onRetry={this.props.refreshData} />;
+						if (this.props.data[0] === "failed") {
+							return <PageFailed pageLabel="Failed to load places" onRetry={this.props.refreshData} />;
 						}
 					}
 
@@ -70,9 +69,10 @@ export default class LocalitiesBase extends React.Component {
 							initialListSize={5}
 							dataSource={this._getDataSource()}
 							renderRow={room =>
-								<RoomItem
+								<RoomItemController
 									key={room.id}
 									room={room}
+									showRoomMenu={this.props.showRoomMenu}
 									position={this.state.position}
 									navigator={this.props.navigator}
 								/>
@@ -87,11 +87,13 @@ export default class LocalitiesBase extends React.Component {
 
 LocalitiesBase.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
 	])).isRequired,
 	refreshData: React.PropTypes.func,
+	showRoomMenu: React.PropTypes.bool,
+	pageEmptyLabel: React.PropTypes.string,
 	navigator: React.PropTypes.object.isRequired
 };

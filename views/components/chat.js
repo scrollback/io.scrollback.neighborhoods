@@ -9,7 +9,7 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	messages: {
+	container: {
 		flex: 1
 	}
 });
@@ -24,14 +24,14 @@ export default class Chat extends React.Component {
 	}
 
 	render() {
-		if (this.props.user === "loading") {
+		if (this.props.user === "missing") {
 			return <PageLoading />;
 		}
 
 		return (
 			<View {...this.props}>
 				<ChatMessagesController
-					style={styles.messages}
+					style={styles.container}
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}

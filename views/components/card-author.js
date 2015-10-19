@@ -1,5 +1,5 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 
 const {
 	StyleSheet,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 		height: 16,
 		width: 16,
 		borderRadius: 8,
-		backgroundColor: "#999"
+		backgroundColor: "rgba(0, 0, 0, .16)"
 	},
 	image: {
 		flex: 1,
@@ -42,7 +42,7 @@ export default class CardAuthor extends React.Component {
 		return (
 			<View {...this.props} style={[ styles.author, this.props.style ]}>
 				<View style={styles.avatar}>
-					<Avatar
+					<AvatarController
 						size={16}
 						nick={nick}
 						style={styles.image}

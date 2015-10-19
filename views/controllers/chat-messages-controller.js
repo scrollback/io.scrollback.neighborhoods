@@ -1,6 +1,7 @@
 import React from "react-native";
 import ChatMessages from "../components/chat-messages";
 import controller from "./controller";
+import textUtils from "../../lib/text-utils";
 
 const {
 	InteractionManager
@@ -12,7 +13,7 @@ export default class ChatMessagesController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 
@@ -61,6 +62,7 @@ export default class ChatMessagesController extends React.Component {
 
 						data.push({
 							text,
+							textMetadata: textUtils.getMetadata(text.text),
 							previousText: typeof previousText === "object" ? previousText : null
 						});
 					}

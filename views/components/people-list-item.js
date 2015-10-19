@@ -1,5 +1,5 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import AvatarController from "../controllers/avatar-controller";
 import TouchFeedback from "./touch-feedback";
 
 const {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "#999",
+		backgroundColor: "rgba(0, 0, 0, .16)",
 		marginHorizontal: 16,
 		marginVertical: 12
 	},
@@ -56,7 +56,7 @@ export default class PeopleListItem extends React.Component {
 				<TouchFeedback>
 					<View style={styles.person}>
 						<View style={styles.avatar}>
-							<Avatar
+							<AvatarController
 								size={36}
 								nick={user.id}
 								style={styles.image}

@@ -16,6 +16,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -23,11 +26,14 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PushNotificationIntentService extends IntentService {
 
-    public static final int NOTIFICATION_ID = 1;
+    private ArrayList<Notification> pendingNotifications = new ArrayList<>();
+
     private static final String TAG = "GCM";
+    private static final int NOTIFICATION_ID = 1;
 
     public PushNotificationIntentService() {
         super("PushNotificationIntentService");
@@ -35,7 +41,6 @@ public class PushNotificationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
         Bundle extras = intent.getExtras();
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
 
@@ -56,20 +61,31 @@ public class PushNotificationIntentService extends IntentService {
                 Log.e(TAG, "Messages deleted on server: " + extras.toString());
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // If it's a regular GCM message, do some work
-                Log.d(TAG, "payload: " + extras.toString());
-                Log.d(TAG, "title: " + extras.getString("title"));
-                Log.d(TAG, "subtitle: " + extras.getString("text"));
-                Log.d(TAG, "path: " + extras.getString("path"));
-                Log.d(TAG, "picture: " + extras.getString("picture"));
+                Log.d(TAG, "Payload received: " + extras.toString());
 
-                Notification notif = new Notification(getBaseContext());
+                // If Push Notifications are disabled, do nothing
+                if (getSharedPreferences(PushNotificationModule.STORAGE_KEY, 0).getString("enabled", "").equals("false")) {
+                    Log.d(TAG, "Push notifications are disabled");
 
-                notif.setTitle(extras.getString("title"));
-                notif.setText(extras.getString("text"));
-                notif.setPath(extras.getString("path"));
-                notif.setPicture(extras.getString("picture"));
+                    return;
+                }
 
-                sendNotification(notif);
+                // If app is in foreground, do nothing
+                if (AppState.isForeground()) {
+                    Log.d(TAG, "Application is in foreground");
+
+                    return;
+                }
+
+                Notification note = new Notification(getBaseContext());
+
+                note.setTitle(extras.getString("title"));
+                note.setText(extras.getString("text"));
+                note.setPath(extras.getString("path"));
+                note.setGroup(extras.getString("group"));
+                note.setPicture(extras.getString("picture"));
+
+                sendNotification(note);
             }
         }
 
@@ -77,7 +93,17 @@ public class PushNotificationIntentService extends IntentService {
         PushNotificationBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    public void sendNotification(Notification n) {
+    private SpannableString buildTicker(Notification note) {
+        String title = note.getTitle();
+
+        SpannableString sb = new SpannableString(title + " " + note.getText());
+
+        sb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 0, title.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return sb;
+    }
+
+    public void sendNotification(Notification note) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Log.d(Constants.TAG, "Sending notification");
@@ -86,7 +112,7 @@ public class PushNotificationIntentService extends IntentService {
 
         i.setAction(Intent.ACTION_VIEW);
 
-        String path = n.getPath();
+        String path = note.getPath();
 
         if (path != null) {
             i.setData(Uri.parse(path));
@@ -94,19 +120,53 @@ public class PushNotificationIntentService extends IntentService {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
+        ArrayList<Notification> currentNotifications = new ArrayList<>();
+
+        // Ignore previous notifications with same group key
+        for (Notification n : pendingNotifications) {
+            if (n.getGroup().equals(note.getGroup())) {
+                continue;
+            }
+
+            currentNotifications.add(0, n);
+        }
+
+        currentNotifications.add(note);
+
+        pendingNotifications = currentNotifications;
+
+        NotificationCompat.Style noteStyle;
+
+        if (pendingNotifications.size() > 1) {
+            NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
+                    .setBigContentTitle(pendingNotifications.size() + " new notifications")
+                    .setSummaryText(getString(R.string.app_name));
+
+            for (Notification n : pendingNotifications) {
+                style.addLine(buildTicker(n));
+            }
+
+            noteStyle = style;
+        } else {
+            noteStyle = new NotificationCompat.BigTextStyle();
+        }
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_status)
                         .setColor(ContextCompat.getColor(this, R.color.primary))
-                        .setTicker(n.getTitle())
-                        .setContentTitle(n.getTitle())
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText(n.getText()))
-                        .setContentText(n.getText())
+                        .setNumber(pendingNotifications.size())
+                        .setTicker(buildTicker(note))
+                        .setContentTitle(note.getTitle())
+                        .setGroup(note.getGroup())
+                        .setContentText(note.getText())
+                        .setStyle(noteStyle)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                        .setGroupSummary(true)
                         .setAutoCancel(true);
 
-        Bitmap largeIcon = n.getBitmap(getString(R.string.app_protocol), getString(R.string.app_host));
+        Bitmap largeIcon = note.getBitmap(getString(R.string.app_protocol), getString(R.string.app_host));
 
         if (largeIcon != null) {
             mBuilder.setLargeIcon(largeIcon);
@@ -124,6 +184,7 @@ public class PushNotificationIntentService extends IntentService {
         private String title;
         private String text;
         private String path;
+        private String group;
         private String picture;
 
         Notification(Context c) {
@@ -154,6 +215,14 @@ public class PushNotificationIntentService extends IntentService {
             this.path = path;
         }
 
+        public void setGroup(String group) {
+            this.group = group;
+        }
+
+        public String getGroup() {
+            return group;
+        }
+
         public String getPicture() {
             return picture;
         }
@@ -176,14 +245,14 @@ public class PushNotificationIntentService extends IntentService {
             try {
                 url = new URL(protocol + "//" + host + picture);
             } catch (MalformedURLException e) {
-                Log.e(TAG, "Malformed URL " + picture, e);
+                Log.e(TAG, "Malformed URL: " + picture, e);
             }
 
             if (url != null) {
                 try {
                     return BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 } catch (IOException e) {
-                    Log.e(TAG, "Couldn't fetch image from " + picture, e);
+                    Log.e(TAG, "Couldn't fetch image: " + picture, e);
                 }
             }
 

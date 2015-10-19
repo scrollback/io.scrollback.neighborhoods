@@ -1,12 +1,11 @@
 import React from "react-native";
-import Icon from "../components/icon";
+import AppbarTouchable from "../components/appbar-touchable";
+import AppbarIcon from "../components/appbar-icon";
 import routes from "./routes";
 
 const {
 	StyleSheet,
-	View,
-	Text,
-	TouchableHighlight
+	Text
 } = React;
 
 const styles = StyleSheet.create({
@@ -17,24 +16,17 @@ const styles = StyleSheet.create({
 		marginVertical: 14,
 		marginRight: 64,
 		paddingHorizontal: 4
-	},
-	icon: {
-		margin: 16,
-		fontSize: 24,
-		color: "#fff"
 	}
 });
 
 const NavigationBarRouteMapper = {
 	LeftButton(route, navigator) {
 		const goBack = () => {
-			global.requestAnimationFrame(() => {
-				if (navigator.getCurrentRoutes().length > 1) {
-					navigator.pop();
-				} else {
-					navigator.replace(routes.home());
-				}
-			});
+			if (navigator.getCurrentRoutes().length > 1) {
+				navigator.pop();
+			} else {
+				navigator.replace(routes.home());
+			}
 		};
 
 		if (route.leftComponent) {
@@ -43,11 +35,9 @@ const NavigationBarRouteMapper = {
 
 		if (route.index !== 0) {
 			return (
-				<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={goBack}>
-					<View>
-						<Icon name="arrow-back" style={styles.icon} />
-					</View>
-				</TouchableHighlight>
+				<AppbarTouchable onPress={goBack}>
+					<AppbarIcon name="arrow-back" />
+				</AppbarTouchable>
 			);
 		}
 	},

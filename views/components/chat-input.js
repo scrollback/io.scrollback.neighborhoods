@@ -1,6 +1,7 @@
 import React from "react-native";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
+import TouchFeedback from "./touch-feedback";
 import ImageUploadController from "../controllers/image-upload-controller";
 import ImageUploadChat from "./image-upload-chat";
 import ImageChooser from "../../modules/image-chooser";
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "stretch",
 		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
+		borderColor: "rgba(0, 0, 0, .12)",
 		borderTopWidth: 1 / PixelRatio.get()
 	},
 	inputContainer: {
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
 		color: "#000",
 		fontSize: 24,
 		opacity: 0.5,
-		margin: 16
+		margin: 17
 	}
 });
 
@@ -142,19 +143,16 @@ export default class ChatInput extends React.Component {
 						style={styles.inputContainer}
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
-						placeholder="Type a message"
+						placeholder="Write a message…"
 						autoCapitalize="sentences"
 						numberOfLines={7}
 					/>
 
-					<TouchableHighlight
-						onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}
-						underlayColor="rgba(0, 0, 0, .16)"
-					>
+					<TouchFeedback onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}>
 						<View style={styles.iconContainer}>
 							<Icon name={this.state.text ? "send" : "image"} style={styles.icon} />
 						</View>
-					</TouchableHighlight>
+					</TouchFeedback>
 				</View>
 
 				{this.state.imageData ?

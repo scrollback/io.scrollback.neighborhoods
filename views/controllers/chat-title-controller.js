@@ -12,7 +12,7 @@ export default class ChatTitleController extends React.Component {
 		super(props);
 
 		this.state = {
-			thread: "loading"
+			thread: "missing"
 		};
 	}
 

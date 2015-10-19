@@ -21,6 +21,10 @@ export default class ImageUploadController extends React.Component {
 		};
 	}
 
+	componentWillUnmount() {
+		this._closeUpload();
+	}
+
 	_pollThumbnail(opts) {
 		return new Promise((resolve, reject) => {
 			const startTime = Date.now();
