@@ -163,7 +163,7 @@ export default class SignUp extends React.Component {
 
 						<Image
 							style={styles.avatar}
-							source={{ uri: user.params.pictures.find(p => p.indexOf("graph.facebook") > -1 || p.indexOf("lh4.googleusercontent") > -1) }}
+							source={{ uri: user.params.pictures[0] }}
 						/>
 
 						<Text style={styles.paragraph}>New here? Tell us what to call you.</Text>
