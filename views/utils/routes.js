@@ -82,14 +82,15 @@ routes.startthread = props => {
 };
 
 routes.fromURL = url => {
-	const parts = url.replace(/^\/|\/$/g, "").split("/");
+	// Strip query params for now, as we don't use it right now
+	const parts = url.replace(/\?[^\?]+/, "").replace(/^\/|\/$/g, "").split("/");
 
 	switch (parts.length) {
 	case 1:
 		return routes.room({ room: parts[0] });
 	case 2:
 		return routes.chat({
-			room: parts[1],
+			room: parts[0],
 			thread: parts[1]
 		});
 	default:
