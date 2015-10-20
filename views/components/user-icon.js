@@ -10,17 +10,17 @@ const {
 
 const styles = StyleSheet.create({
 	avatar: {
-		height: 24,
-		width: 24,
-		borderRadius: 12,
+		height: 26,
+		width: 26,
+		borderRadius: 13,
 		backgroundColor: "rgba(255, 255, 255, .16)",
 		borderColor: "#fff",
-		borderWidth: 2,
-		margin: 16
+		borderWidth: 1,
+		margin: 15
 	},
 	image: {
 		flex: 1,
-		borderRadius: 12
+		borderRadius: 13
 	}
 });
 

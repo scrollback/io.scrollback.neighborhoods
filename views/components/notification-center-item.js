@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
 	badge: {
 		position: "absolute",
 		alignItems: "center",
-		bottom: -2,
-		right: -2,
-		height: 17,
-		width: 17,
-		borderRadius: 9,
+		bottom: -1,
+		right: -1,
+		height: 15,
+		width: 15,
+		borderRadius: 8,
 		borderColor: "#fff",
-		borderWidth: 2
+		borderWidth: 1
 	},
 	badgeIcon: {
 		marginVertical: 1,
