@@ -19,7 +19,7 @@ function initialize() {
 			AsyncStorage.getItem(KEY_REGISTER_TIME)
 				.catch(() => 0)
 				.then(registerTime => {
-					if (Date.now() - parseInt(registerTime, 10) > GCM_TIME_VALIDITY) {
+					if (Date.now() - (parseInt(registerTime, 10) || 0) > GCM_TIME_VALIDITY) {
 						PushNotification.registerGCM(result => {
 							if (result.type !== "success") {
 								return;
