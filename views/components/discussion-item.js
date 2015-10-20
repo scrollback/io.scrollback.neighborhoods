@@ -2,7 +2,6 @@ import React from "react-native";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
-import CardHashtags from "./card-hashtags";
 import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
@@ -99,7 +98,6 @@ export default class DiscussionItem extends React.Component {
 
 		const trimmedText = (thread.text || thread.title).trim();
 
-		const hashtags = textUtils.getHashtags(trimmedText);
 		const links = textUtils.getLinks(trimmedText);
 		const textMetadata = textUtils.getMetadata(trimmedText);
 
@@ -143,11 +141,6 @@ export default class DiscussionItem extends React.Component {
 						</View>
 
 						{cover || <CardSummary style={styles.item} text={trimmedText} />}
-
-						{hashtags.length ?
-							<CardHashtags style={styles.item} hashtags={hashtags} /> :
-							null
-						}
 
 						<CardAuthor style={[ styles.item, styles.author ]} nick={thread.from} />
 
