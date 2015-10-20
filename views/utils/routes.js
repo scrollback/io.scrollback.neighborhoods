@@ -82,8 +82,11 @@ routes.startthread = props => {
 };
 
 routes.fromURL = url => {
-	// Strip query params for now, as we don't use it right now
-	const parts = url.replace(/\?[^\?]+/, "").replace(/^\/|\/$/g, "").split("/");
+	const parts = url
+					.replace(/^([a-z]+\:)?\/\/[^\/]+/, "") // strip host and protocol
+					.replace(/\?[^\?]+/, "") // strip query params for now, as we don't use it right now
+					.replace(/^\/|\/$/g, "") // strip leading and trailing slash
+					.split("/");
 
 	switch (parts.length) {
 	case 1:
