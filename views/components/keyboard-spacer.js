@@ -1,6 +1,8 @@
 import React from "react-native";
+import DeviceVersion from "../../modules/device-version";
 
 const {
+	Platform,
 	Animated,
 	View,
 	DeviceEventEmitter
@@ -11,16 +13,25 @@ export default class KeyboardSpacer extends React.Component {
 		super(props);
 
 		this.state = {
+			ignoreKeboard: Platform.OS === "android" && DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT,
 			keyboardHeightAnim: new Animated.Value(0)
 		};
 	}
 
 	componentWillMount() {
+		if (this.state.ignoreKeboard) {
+			return;
+		}
+
 		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
 		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
 	}
 
 	componentWillUnmount() {
+		if (this.state.ignoreKeboard) {
+			return;
+		}
+
 		this._keyboardDidShowSubscription.remove();
 		this._keyboardDidHideSubscription.remove();
 	}
@@ -38,6 +49,10 @@ export default class KeyboardSpacer extends React.Component {
 	}
 
 	render() {
+		if (this.state.ignoreKeboard) {
+			return null;
+		}
+
 		return <Animated.View style={{ height: this.state.keyboardHeightAnim }} />;
 	}
 }
