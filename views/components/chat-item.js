@@ -3,6 +3,7 @@ import AvatarController from "../controllers/avatar-controller";
 import ChatBubble from "./chat-bubble";
 import Embed from "./embed";
 import Modal from "./modal";
+import Icon from "./icon";
 import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
@@ -32,13 +33,24 @@ const styles = StyleSheet.create({
 		marginLeft: 44
 	},
 	timestamp: {
-		fontSize: 12,
-		marginTop: 4,
-		paddingHorizontal: 8,
-		opacity: 0.5
+		flexDirection: "row",
+		marginTop: 4
 	},
 	timestampLeft: { marginLeft: 52 },
 	timestampRight: { alignSelf: "flex-end" },
+	timestampIcon: {
+		color: "#000",
+		fontSize: 12,
+		opacity: 0.3,
+		marginVertical: 2
+	},
+	timestampText: {
+		color: "#000",
+		fontSize: 12,
+		marginHorizontal: 6,
+		paddingHorizontal: 8,
+		opacity: 0.3
+	},
 	avatar: {
 		position: "absolute",
 		top: 0,
@@ -188,7 +200,10 @@ export default class ChatItem extends React.Component {
 				</View>
 
 				{showTime ?
-					<Text style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>{timeUtils.long(text.time)}</Text> :
+					(<View style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>
+					 <Icon name="access-time" style={styles.timestampIcon} />
+					 <Text style={styles.timestampText}>{timeUtils.long(text.time)}</Text>
+					</View>) :
 					null
 				}
 			</View>
