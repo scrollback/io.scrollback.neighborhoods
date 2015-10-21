@@ -135,6 +135,10 @@ export default class ChatInput extends React.Component {
 
 			newValue += "> " + (opts.replyTo ? "@" + opts.replyTo + " - " : "") + opts.quotedText + "\n\n";
 		} else if (opts.replyTo) {
+			if (newValue) {
+				newValue += " ";
+			}
+
 			newValue += `@${opts.replyTo} `;
 		}
 
