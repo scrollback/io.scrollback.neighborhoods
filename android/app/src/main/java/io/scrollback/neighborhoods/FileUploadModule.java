@@ -124,7 +124,6 @@ public class FileUploadModule extends ReactContextBaseJavaModule {
 
                     if (response.isSuccessful()) {
                         map.putString("type", CALLBACK_TYPE_SUCCESS);
-                        map.putString("responseBody", response.body().string());
 
                         callback.invoke(map);
                     } else {

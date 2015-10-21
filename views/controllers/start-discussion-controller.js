@@ -6,8 +6,8 @@ import generate from "../../lib/generate.browser";
 
 @controller
 export default class StartDiscussionController extends React.Component {
-	_postDiscussion(title, text) {
-		const id = generate.uid();
+	_postDiscussion(title, text, threadId) {
+		const id = threadId || generate.uid();
 
 		this.dispatch("text", {
 			id,
@@ -17,7 +17,7 @@ export default class StartDiscussionController extends React.Component {
 			to: this.props.room,
 			from: this.props.user
 		}).then(() => {
-			this.props.navigator.replace(routes.chat({
+			this.props.navigator.push(routes.chat({
 				thread: id,
 				room: this.props.room
 			}));

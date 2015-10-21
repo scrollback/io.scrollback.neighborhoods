@@ -178,7 +178,7 @@ export default class ChatItem extends React.Component {
 					{received && showAuthor ?
 						<View style={styles.avatar}>
 							<AvatarController
-								size={48}
+								size={36}
 								nick={text.from}
 								style={styles.image}
 							/>
