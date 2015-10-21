@@ -57,7 +57,11 @@ export default class ChatSuggestions extends React.Component {
 			<ScrollView {...this.props} style={[ data.length > 4 ? { height: 160 } : null, styles.inverted, this.props.style ]}>
 				{data.map(nick => {
 					return (
-					    <TouchableHighlight underlayColor="rgba(0, 0, 0, .12)" onPress={() => this.props.onSelect(nick)}>
+						<TouchableHighlight
+							key={nick}
+							underlayColor="rgba(0, 0, 0, .12)"
+							onPress={() => this.props.onSelect(nick)}
+						>
 							<View style={[ styles.item, styles.inverted ]}>
 								<View style={styles.avatar}>
 									<AvatarController
