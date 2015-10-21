@@ -2,6 +2,7 @@ import React from "react-native";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
+import ChatSuggestionsController from "../controllers/chat-suggestions-controller";
 import ImageUploadController from "../controllers/image-upload-controller";
 import ImageUploadChat from "./image-upload-chat";
 import ImageChooser from "../../modules/image-chooser";
@@ -49,6 +50,7 @@ export default class ChatInput extends React.Component {
 
 		this.state = {
 			text: "",
+			query: "",
 			imageData: null
 		};
 	}
@@ -107,9 +109,19 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
-	_onChangeText(text) {
+	_onSuggestionSelect(nick) {
 		this.setState({
-			text
+			text: "@" + nick + " ",
+			query: ""
+		});
+	}
+
+	_onChangeText(text) {
+		const query = /^@[a-z0-9]*$/.test(text) ? text : "";
+
+		this.setState({
+			text,
+			query
 		});
 	}
 
@@ -134,6 +146,15 @@ export default class ChatInput extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
+				<ChatSuggestionsController
+					room={this.props.room}
+					thread={this.props.thread}
+					user={this.props.user}
+					text={this.state.query}
+					style={styles.suggestions}
+					onSelect={this._onSuggestionSelect.bind(this)}
+				/>
+
 				<View style={styles.container}>
 					<GrowingTextInput
 						ref={c => this._input = c}
@@ -168,5 +189,8 @@ export default class ChatInput extends React.Component {
 }
 
 ChatInput.propTypes = {
+	room: React.PropTypes.string.isRequired,
+	thread: React.PropTypes.string.isRequired,
+	user: React.PropTypes.string.isRequired,
 	sendMessage: React.PropTypes.func.isRequired
 };

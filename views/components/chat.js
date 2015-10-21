@@ -41,6 +41,9 @@ export default class Chat extends React.Component {
 
 				<ChatInput
 					ref={c => this._input = c}
+					room={this.props.room}
+					thread={this.props.thread}
+					user={this.props.user}
 					sendMessage={this.props.sendMessage}
 				/>
 			</View>

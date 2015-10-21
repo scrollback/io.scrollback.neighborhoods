@@ -34,7 +34,7 @@ export default class UserIcon extends React.Component {
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<View style={styles.avatar}>
 					<AvatarController
-						size={20}
+						size={24}
 						nick={this.props.nick}
 						style={styles.image}
 					/>
