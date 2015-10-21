@@ -6,8 +6,8 @@ import generate from "../../lib/generate.browser";
 
 @controller
 export default class StartDiscussionController extends React.Component {
-	_postDiscussion(title, text) {
-		const id = generate.uid();
+	_postDiscussion(title, text, threadId) {
+		const id = threadId || generate.uid();
 
 		this.dispatch("text", {
 			id,

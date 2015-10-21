@@ -3,7 +3,13 @@ import Loading from "./loading";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
+import TouchFeedback from "./touch-feedback";
+import Icon from "./icon";
+import ImageUploadController from "../controllers/image-upload-controller";
+import ImageUploadDiscussion from "./image-upload-discussion";
+import ImageChooser from "../../modules/image-chooser";
 import DeviceVersion from "../../modules/device-version";
+import textUtils from "../../lib/text-utils";
 
 const {
 	PixelRatio,
@@ -68,6 +74,24 @@ const styles = StyleSheet.create({
 		height: 19,
 		width: 19,
 		margin: 18
+	},
+	uploadButton: {
+		flexDirection: "row",
+		alignSelf: "flex-start",
+		alignItems: "center",
+		marginVertical: 12
+	},
+	uploadButtonText: {
+		fontWeight: "bold",
+		fontSize: 12,
+		paddingHorizontal: 4,
+		marginRight: 8
+	},
+	uploadButtonIcon: {
+		color: "#000",
+		fontSize: 24,
+		opacity: 0.5,
+		margin: 8
 	}
 });
 
@@ -78,6 +102,8 @@ export default class StartDiscussionButton extends React.Component {
 		this.state = {
 			title: "",
 			text: "",
+			imageData: null,
+			uploadResult: null,
 			status: null
 		};
 	}
@@ -87,8 +113,25 @@ export default class StartDiscussionButton extends React.Component {
 			return;
 		}
 
-		if (this.state.title && this.state.text) {
-			this.props.postDiscussion(this.state.title, this.state.text);
+		if (this.state.title) {
+			if (this.state.text) {
+				this.props.postDiscussion(this.state.title, this.state.text);
+			} else if (this.state.uploadResult) {
+				const result = this.state.uploadResult;
+				const { height, width, name } = this.state.imageData;
+				const aspectRatio = height / width;
+
+				this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
+					type: "image",
+					caption: name,
+					height: 160 * aspectRatio,
+					width: 160,
+					thumbnailUrl: result.thumbnailUrl,
+					originalUrl: result.originalUrl
+				}), result.textId);
+			} else {
+				return;
+			}
 
 			this.setState({
 				status: "loading"
@@ -105,6 +148,29 @@ export default class StartDiscussionButton extends React.Component {
 	_onTextChange(e) {
 		this.setState({
 			text: e.nativeEvent.text
+		});
+	}
+
+	_uploadImage() {
+		ImageChooser.pickImage(result => {
+			if (result.type === "success") {
+				this.setState({
+					imageData: result
+				});
+			}
+		});
+	}
+
+	_onUploadFinish(result) {
+		this.setState({
+			uploadResult: result
+		});
+	}
+
+	_onUploadClose() {
+		this.setState({
+			imageData: null,
+			uploadResult: null
 		});
 	}
 
@@ -140,13 +206,31 @@ export default class StartDiscussionButton extends React.Component {
 						autoCapitalize="sentences"
 					/>
 
-					<GrowingTextInput
-						numberOfLines={5}
-						value={this.state.text}
-						onChange={this._onTextChange.bind(this)}
-						placeholder="Enter discussion summary"
-						autoCapitalize="sentences"
-					/>
+					{this.state.imageData ?
+						<ImageUploadController
+							component={ImageUploadDiscussion}
+							imageData={this.state.imageData}
+							onUploadClose={this._onUploadClose.bind(this)}
+							onUploadFinish={this._onUploadFinish.bind(this)}
+							autoStart
+						/> :
+						<GrowingTextInput
+							numberOfLines={5}
+							value={this.state.text}
+							onChange={this._onTextChange.bind(this)}
+							placeholder="Enter discussion summary"
+							autoCapitalize="sentences"
+						/>
+					}
+
+					{this.state.imageData ? null :
+						<TouchFeedback onPress={this._uploadImage.bind(this)}>
+							<View style={styles.uploadButton}>
+								<Icon name="image" style={styles.uploadButtonIcon} />
+								<Text style={styles.uploadButtonText}>UPLOAD AN IMAGE</Text>
+							</View>
+						</TouchFeedback>
+					}
 				</ScrollView>
 			</View>
 		);

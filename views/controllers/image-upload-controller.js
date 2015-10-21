@@ -21,6 +21,12 @@ export default class ImageUploadController extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+		if (this.props.autoStart) {
+			this._startUpload();
+		}
+	}
+
 	componentWillUnmount() {
 		this._closeUpload();
 	}
@@ -204,7 +210,8 @@ ImageUploadController.propTypes = {
 	onUploadCancel: React.PropTypes.func,
 	onUploadClose: React.PropTypes.func,
 	onUploadError: React.PropTypes.func,
-	onUploadFinish: React.PropTypes.func
+	onUploadFinish: React.PropTypes.func,
+	autoStart: React.PropTypes.bool
 };
 
 ImageUploadController.defaultProps = {
