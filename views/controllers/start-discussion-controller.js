@@ -17,7 +17,7 @@ export default class StartDiscussionController extends React.Component {
 			to: this.props.room,
 			from: this.props.user
 		}).then(() => {
-			this.props.navigator.replace(routes.chat({
+			this.props.navigator.push(routes.chat({
 				thread: id,
 				room: this.props.room
 			}));

@@ -1,6 +1,7 @@
 import React from "react-native";
 import Icon from "./icon";
-import routes from "../utils/routes";
+import Modal from "./modal";
+import StartDiscussionController from "../controllers/start-discussion-controller";
 
 const {
 	StyleSheet,
@@ -33,10 +34,7 @@ const styles = StyleSheet.create({
 
 export default class StartDiscussionButton extends React.Component {
 	_onPress() {
-		this.props.navigator.push(routes.startthread({
-			room: this.props.room,
-			user: this.props.user
-		}));
+		Modal.renderComponent(<StartDiscussionController {...this.props} dismiss={() => Modal.renderComponent(null)} />);
 	}
 
 	render() {
