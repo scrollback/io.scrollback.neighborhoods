@@ -20,7 +20,7 @@ export default class RoomTitle extends React.Component {
 	render() {
 		return (
 			<Text numberOfLines={1} style={styles.title}>
-				{this.props.room.displayName}
+				{this.props.room.guides.displayName}
 			</Text>
 		);
 	}
@@ -28,6 +28,8 @@ export default class RoomTitle extends React.Component {
 
 RoomTitle.propTypes = {
 	room: React.PropTypes.shape({
-		displayName: React.PropTypes.string.isRequired
+		guides: React.PropTypes.shape({
+			displayName: React.PropTypes.string.isRequired
+		})
 	}).isRequired
 };
