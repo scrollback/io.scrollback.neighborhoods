@@ -13,7 +13,9 @@ export default class LocalitiesFilterController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: []
+			data: {
+				results: []
+			}
 		};
 
 		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
@@ -35,8 +37,10 @@ export default class LocalitiesFilterController extends React.Component {
 		});
 	}
 
-	_onDataArrived(data) {
-		this.setState({ data });
+	_onDataArrived(results) {
+		this.setState({
+			data: { results }
+		});
 	}
 
 	_onSearchChange(text) {
@@ -48,12 +52,16 @@ export default class LocalitiesFilterController extends React.Component {
 					if (this._cachedResults[filter]) {
 						this.setState({
 							filter,
-							data: this._cachedResults[filter]
+							data: {
+								results: this._cachedResults[filter]
+							}
 						});
 					} else {
 						this.setState({
 							filter,
-							data: [ "missing" ]
+							data: {
+								results: [ "missing" ]
+							}
 						});
 					}
 				}
@@ -63,7 +71,9 @@ export default class LocalitiesFilterController extends React.Component {
 		} else {
 			this.setState({
 				filter,
-				data: []
+				data: {
+					results: []
+				}
 			});
 		}
 	}

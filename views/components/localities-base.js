@@ -2,18 +2,38 @@ import React from "react-native";
 import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
+import LoadingItem from "./loading-item";
 import geolocation from "../../modules/geolocation";
 
 const {
+	StyleSheet,
+	PixelRatio,
 	ListView,
-	View
+	View,
+	Text
 } = React;
+
+const styles = StyleSheet.create({
+	header: {
+		paddingHorizontal: 16,
+		paddingVertical: 12,
+		borderColor: "rgba(0, 0, 0, .08)",
+		borderBottomWidth: 1 / PixelRatio.get(),
+	},
+	headerText: {
+		fontSize: 12,
+		fontWeight: "bold"
+	}
+});
 
 export default class LocalitiesBase extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+		this.dataSource = new ListView.DataSource({
+			rowHasChanged: (r1, r2) => r1 !== r2,
+			sectionHeaderHasChanged: (h1, h2) => h1 !== h2
+		});
 
 		this.state = {
 			position: null
@@ -43,23 +63,26 @@ export default class LocalitiesBase extends React.Component {
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRows(this.props.data);
+		return this.dataSource.cloneWithRowsAndSections(this.props.data);
 	}
 
 	render() {
 		return (
 			<View {...this.props}>
 				{(() => {
-					if (this.props.data.length === 0) {
+					const { data } = this.props;
+					const keys = Object.keys(data);
+
+					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
 						return <PageFailed pageLabel={this.props.pageEmptyLabel || "No places found"} />;
 					}
 
-					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "missing") {
+					if (keys.every(item => data[item].length === 1)) {
+						if (keys.every(item => data[item][0] === "missing")) {
 							return <PageLoading />;
 						}
 
-						if (this.props.data[0] === "failed") {
+						if (keys.every(item => data[item][0] === "failed")) {
 							return <PageFailed pageLabel="Failed to load places" onRetry={this.props.refreshData} />;
 						}
 					}
@@ -68,15 +91,42 @@ export default class LocalitiesBase extends React.Component {
 						<ListView
 							initialListSize={5}
 							dataSource={this._getDataSource()}
-							renderRow={room =>
-								<RoomItemController
-									key={room.id}
-									room={room}
-									showRoomMenu={this.props.showRoomMenu}
-									position={this.state.position}
-									navigator={this.props.navigator}
-								/>
-							}
+							renderRow={room => {
+								if (room === "missing") {
+									return <LoadingItem />;
+								}
+
+								return (
+									<RoomItemController
+										key={room.id}
+										room={room}
+										showRoomMenu={this.props.showRoomMenu}
+										position={this.state.position}
+										navigator={this.props.navigator}
+									/>
+								);
+							}}
+							renderSectionHeader={(sectionData, sectionID) => {
+								let header;
+
+								switch (sectionID) {
+								case "following":
+									header = "My communities"
+									break;
+								case "nearby":
+									header = "Communities nearby"
+									break;
+								case "results":
+									header = sectionData.length + " results found";
+									break;
+								}
+
+								return (
+									<View style={styles.header}>
+										<Text style={styles.headerText}>{header.toUpperCase()}</Text>
+									</View>
+								);
+							}}
 						/>
 					);
 				})()}

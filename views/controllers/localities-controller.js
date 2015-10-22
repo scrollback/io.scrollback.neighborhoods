@@ -12,7 +12,9 @@ export default class LocalitiesController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: [ "missing" ]
+			data: {
+				following: [ "missing" ]
+			}
 		};
 	}
 
@@ -38,7 +40,9 @@ export default class LocalitiesController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none")
+					data: {
+						following: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none")
+					}
 				});
 			}
 		});
