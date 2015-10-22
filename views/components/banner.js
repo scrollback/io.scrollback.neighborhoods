@@ -125,7 +125,7 @@ export default class Banner extends React.Component {
 }
 
 Banner.propTypes = {
-	text: React.PropTypes.string.isRequired,
+	text: React.PropTypes.string,
 	type: React.PropTypes.oneOf([ "info", "success", "error" ]),
 	showClose: React.PropTypes.bool
 };
