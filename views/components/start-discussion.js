@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4,
 		marginHorizontal: 4
 	},
+	threadTitle: {
+		fontWeight: "bold",
+		fontSize: 18,
+		lineHeight: 27
+	},
+	threadSummary: {
+		fontSize: 14,
+		lineHeight: 21
+	},
 	icon: {
 		color: "#555"
 	},
@@ -204,6 +213,7 @@ export default class StartDiscussionButton extends React.Component {
 						onChange={this._onTitleChange.bind(this)}
 						placeholder="Enter discussion title"
 						autoCapitalize="sentences"
+						style={styles.threadTitle}
 					/>
 
 					{this.state.imageData ?
@@ -220,6 +230,7 @@ export default class StartDiscussionButton extends React.Component {
 							onChange={this._onTextChange.bind(this)}
 							placeholder="Enter discussion summary"
 							autoCapitalize="sentences"
+							inputStyle={styles.threadSummary}
 						/>
 					}
 
