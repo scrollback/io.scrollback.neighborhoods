@@ -18,11 +18,13 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 12,
 		borderColor: "rgba(0, 0, 0, .08)",
-		borderBottomWidth: 1 / PixelRatio.get(),
+		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	headerText: {
+		color: "#000",
 		fontSize: 12,
-		fontWeight: "bold"
+		fontWeight: "bold",
+		opacity: 0.5
 	}
 });
 
@@ -111,10 +113,10 @@ export default class LocalitiesBase extends React.Component {
 
 								switch (sectionID) {
 								case "following":
-									header = "My communities"
+									header = "My communities";
 									break;
 								case "nearby":
-									header = "Communities nearby"
+									header = "Communities nearby";
 									break;
 								case "results":
 									header = sectionData.length + " results found";
