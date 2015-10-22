@@ -8,13 +8,11 @@ global.navigator.userAgent = "react-native";
 
 const store = require("../store.orig/store")(core, config);
 
-global.core = core;
+global.sb = core;
 global.store = store;
 
 require("babel/polyfill");
 
 init(core);
-
-console.log(store.get());
 
 export default store;
