@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
 	},
 	loader: {
 		height: 21,
-		width: 21
+		width: 21,
+		marginHorizontal: 16
 	},
 	button: {
 		backgroundColor: "#673AB7",
