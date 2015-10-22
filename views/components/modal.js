@@ -67,6 +67,10 @@ export default class Modal extends React.Component {
 	}
 
 	_renderComponent(component) {
+		if (component === this.state.component) {
+			return;
+		}
+
 		if (component) {
 			this.setState({
 				component,
