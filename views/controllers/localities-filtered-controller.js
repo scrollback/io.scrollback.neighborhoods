@@ -39,7 +39,9 @@ export default class LocalitiesFilterController extends React.Component {
 		this.setState({ data });
 	}
 
-	_onSearchChange(filter) {
+	_onSearchChange(text) {
+		const filter = text.toLowerCase();
+
 		if (filter) {
 			InteractionManager.runAfterInteractions(() => {
 				if (this._mounted) {
