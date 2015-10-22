@@ -52,8 +52,6 @@ export default class Banner extends React.Component {
 	}
 
 	componentDidMount() {
-		this.state.heightAnim.setValue(0);
-
 		if (this.state.text) {
 			this._animateIn();
 		}
@@ -82,8 +80,6 @@ export default class Banner extends React.Component {
 	}
 
 	_animateIn(cb) {
-		this.state.heightAnim.setValue(0);
-
 		Animated.timing(this.state.heightAnim, {
 			toValue: 45,
 			duration: 200
@@ -91,8 +87,6 @@ export default class Banner extends React.Component {
 	}
 
 	_animateOut(cb) {
-		this.state.heightAnim.setValue(45);
-
 		Animated.timing(this.state.heightAnim, {
 			toValue: 0,
 			duration: 200

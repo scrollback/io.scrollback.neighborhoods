@@ -6,6 +6,7 @@ import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import ImageUploadController from "../controllers/image-upload-controller";
+import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
 import DeviceVersion from "../../modules/device-version";
@@ -113,7 +114,8 @@ export default class StartDiscussionButton extends React.Component {
 			text: "",
 			imageData: null,
 			uploadResult: null,
-			status: null
+			status: null,
+			error: null
 		};
 	}
 
@@ -139,24 +141,34 @@ export default class StartDiscussionButton extends React.Component {
 					originalUrl: result.originalUrl
 				}), result.textId);
 			} else {
+				this.setState({
+					error: "No summary given"
+				});
+
 				return;
 			}
 
 			this.setState({
 				status: "loading"
 			});
+		} else {
+			this.setState({
+				error: "No title given"
+			});
 		}
 	}
 
 	_onTitleChange(e) {
 		this.setState({
-			title: e.nativeEvent.text
+			title: e.nativeEvent.text,
+			error: null
 		});
 	}
 
 	_onTextChange(e) {
 		this.setState({
-			text: e.nativeEvent.text
+			text: e.nativeEvent.text,
+			error: null
 		});
 	}
 
@@ -164,7 +176,8 @@ export default class StartDiscussionButton extends React.Component {
 		ImageChooser.pickImage(result => {
 			if (result.type === "success") {
 				this.setState({
-					imageData: result
+					imageData: result,
+					error: null
 				});
 			}
 		});
@@ -172,14 +185,16 @@ export default class StartDiscussionButton extends React.Component {
 
 	_onUploadFinish(result) {
 		this.setState({
-			uploadResult: result
+			uploadResult: result,
+			error: null
 		});
 	}
 
 	_onUploadClose() {
 		this.setState({
 			imageData: null,
-			uploadResult: null
+			uploadResult: null,
+			error: null
 		});
 	}
 
@@ -205,6 +220,8 @@ export default class StartDiscussionButton extends React.Component {
 						}
 					</AppbarTouchable>
 				</View>
+
+				<Banner text={this.state.error} type="error" />
 
 				<ScrollView style={styles.scene}>
 					<TextInput
