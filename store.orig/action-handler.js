@@ -69,31 +69,6 @@ function addConcerns(text) {
 	return text;
 }
 
-function onBoot() {
-	core.emit("getRooms", { featured: true }, (err, rooms) => {
-		if (err) {
-			return;
-		}
-
-		let featuredRooms = [],
-			roomObjs = {};
-
-		if (rooms && rooms.results) {
-			rooms.results.forEach(function(e) {
-				if (e) {
-					featuredRooms.push(e.id);
-					roomObjs[e.id] = e;
-				}
-			});
-		}
-
-		core.emit("setstate", {
-			app: { featuredRooms },
-			entities: roomObjs
-		});
-	});
-}
-
 function onInit(init, next) {
 	var entities = {},
 		newstate = {};
@@ -102,10 +77,6 @@ function onInit(init, next) {
 		init.user.identities.filter(ident => ident.split(":")[0] === "mailto").length > 0 &&
 		userUtils.isGuest(init.user.id)
 	) {
-		newstate.nav = newstate.nav || {};
-		newstate.nav.dialogState = newstate.nav.dialogState || {};
-		newstate.nav.dialogState.signingup = true;
-
 		init.user = init.user || {};
 		init.user.type = "user";
 
@@ -441,8 +412,6 @@ function onAdmitDn(action) {
 module.exports = function(c, conf, s) {
 	store = s;
 	core = c;
-
-	core.on("boot", onBoot, 1);
 
 	core.on("admit-dn", onAdmitDn, 950);
 	core.on("expel-dn", onAdmitDn, 950);
