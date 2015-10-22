@@ -47,8 +47,15 @@ export default class RoomItemController extends React.Component {
 	}
 
 	_leaveCommunity() {
+		const room = this.props.room.id;
+
 		this.dispatch("part", {
-			to: this.props.room.id
+			to: room
+		})
+		.then(() => {
+			return this.dispatch("away", {
+				to: room
+			});
 		});
 	}
 
