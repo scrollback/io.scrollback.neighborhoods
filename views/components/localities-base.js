@@ -138,12 +138,12 @@ export default class LocalitiesBase extends React.Component {
 }
 
 LocalitiesBase.propTypes = {
-	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+	data: React.PropTypes.objectOf(React.PropTypes.arrayOf(React.PropTypes.oneOfType([
 		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
-	])).isRequired,
+	]))).isRequired,
 	refreshData: React.PropTypes.func,
 	showRoomMenu: React.PropTypes.bool,
 	pageEmptyLabel: React.PropTypes.string,
