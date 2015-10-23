@@ -1,7 +1,6 @@
-/* global fetch */
+/* eslint-env browser */
 
 import React from "react-native";
-import FileUpload from "../../modules/file-upload";
 import controller from "./controller";
 import generate from "../../lib/generate.browser";
 
@@ -17,7 +16,7 @@ export default class ImageUploadController extends React.Component {
 
 		this.state = {
 			status: IDLE,
-			uploadId: null
+			request: null
 		};
 	}
 
@@ -80,16 +79,6 @@ export default class ImageUploadController extends React.Component {
 		.then(res => {
 			const policy = res.response;
 
-			const formData = {};
-			const fields = [
-				"acl", "policy", "x-amz-algorithm", "x-amz-credential",
-				"x-amz-date", "x-amz-signature"
-			];
-
-			for (let i = 0, l = fields.length; i < l; i++) {
-				formData[fields[i]] = policy[fields[i]];
-			}
-
 			const baseurl = "https://" + policy.bucket + ".s3.amazonaws.com/";
 			const filename = this.props.imageData.name.replace(/\s+/g, " ");
 
@@ -110,27 +99,33 @@ export default class ImageUploadController extends React.Component {
 				break;
 			}
 
-			formData.key = key;
-			formData.success_action_status = "201";
+			const formData = new FormData();
 
-			return new Promise((resolve, reject) => {
-				const uploadId = FileUpload.uploadFile(baseurl, this.props.imageData.uri, filename, formData, result => {
-					if (result.type === "success") {
-						resolve({
-							textId,
-							responseBody: result.responseBody,
-							thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
-							originalUrl: url
-						});
-					} else {
-						reject(new Error(result.message));
-					}
-				});
+			const fields = [
+				"acl", "policy", "x-amz-algorithm", "x-amz-credential",
+				"x-amz-date", "x-amz-signature"
+			];
 
-				this.setState({
-					uploadId
-				});
-			});
+			for (let i = 0, l = fields.length; i < l; i++) {
+				formData.append(fields[i], policy[fields[i]]);
+			}
+
+			formData.append("key", key);
+			formData.append("success_action_status", "201");
+
+			const { uri, name } = this.props.imageData;
+			const type = "image/" + (name.split(".").pop() || "jpg");
+
+			formData.append("file", { uri, type });
+
+			return fetch(baseurl, {
+				method: "POST",
+				body: formData
+			}).then(() => ({
+				textId,
+				thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
+				originalUrl: url
+			}));
 		})
 		.then(opts => {
 			if (this.props.generateThumb) {
@@ -146,13 +141,13 @@ export default class ImageUploadController extends React.Component {
 
 			this.setState({
 				status: FINISHED,
-				uploadId: null
+				request: null
 			});
 		})
 		.catch(err => {
 			this.setState({
 				status: ERROR,
-				uploadId: null
+				request: null
 			});
 
 			if (this.props.onUploadError) {
@@ -163,13 +158,13 @@ export default class ImageUploadController extends React.Component {
 
 	_cancelUpload() {
 		if (this.state.status === LOADING) {
-			if (typeof this.state.uploadId === "number") {
-				FileUpload.cancelUpload(this.state.uploadId);
+			if (this.state.request) {
+				this.state.request.abort();
 			}
 
 			this.setState({
 				status: IDLE,
-				uploadId: null
+				request: null
 			});
 		}
 	}
