@@ -119,7 +119,9 @@ export default class LocalitiesBase extends React.Component {
 									header = "Communities nearby";
 									break;
 								case "results":
-									header = sectionData.length + " results found";
+									const count = sectionData.length;
+
+									header = count + " result" + (count > 1 ? "s" : "") + " found";
 									break;
 								}
 
