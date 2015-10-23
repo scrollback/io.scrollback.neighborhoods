@@ -21,17 +21,33 @@ const styles = StyleSheet.create({
 
 export default class RichText extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.text !== nextProps.text);
+		return this.props.text !== nextProps.text;
+	}
+
+	setNativeProps(nativeProps) {
+		this._root.setNativeProps(nativeProps);
 	}
 
 	render() {
 		const textWithEmoji = smiley.format(this.props.text.trim());
 
 		if (/^([\uD800-\uDBFF][\uDC00-\uDFFF])$/gi.test(textWithEmoji)) {
-			return <Text {...this.props} style={[ styles.emojiOnly, this.props.style ]}>{textWithEmoji}</Text>;
+			return (
+				<Text
+					{...this.props}
+					style={[ styles.emojiOnly, this.props.style ]}
+					ref={c => this._root = c}
+				>
+					{textWithEmoji}
+				</Text>
+			);
 		} else {
 			return (
-				<Text {...this.props} style={[ styles.text, this.props.style ]}>
+				<Text
+					{...this.props}
+					style={[ styles.text, this.props.style ]}
+					ref={c => this._root = c}
+				>
 					{textWithEmoji.split("\n").map((text, index, arr) => {
 						return ([
 							text.split(" ").map((inner, i) => {

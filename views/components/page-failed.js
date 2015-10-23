@@ -36,6 +36,13 @@ const styles = StyleSheet.create({
 });
 
 export default class PageFailed extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.pageLabel !== nextProps.pageLabel ||
+			this.props.onRetry !== nextProps.onRetry
+		);
+	}
+
 	render() {
 		return (
 			<Page {...this.props}>

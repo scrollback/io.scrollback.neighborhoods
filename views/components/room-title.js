@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
 });
 
 export default class RoomTitle extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return this.props.room.guides.displayName !== nextProps.room.guides.displayName;
+	}
+
 	render() {
 		return (
 			<Text numberOfLines={1} style={styles.title}>

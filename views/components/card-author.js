@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
 export default class CardAuthor extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.nick !== nextProps.nick);
+		return this.props.nick !== nextProps.nick;
 	}
 
 	render() {

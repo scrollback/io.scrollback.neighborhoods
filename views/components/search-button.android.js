@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchBar extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	_onPress() {
 		Modal.renderComponent(<LocalitiesFilterController dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
 	}

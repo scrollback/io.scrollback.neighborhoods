@@ -41,6 +41,10 @@ const styles = StyleSheet.create({
 });
 
 export default class Splash extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>

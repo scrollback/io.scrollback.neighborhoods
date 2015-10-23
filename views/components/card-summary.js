@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 
 export default class TextSummary extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.text !== nextProps.text);
+		return this.props.text !== nextProps.text;
 	}
 
 	render() {

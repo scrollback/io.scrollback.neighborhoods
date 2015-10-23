@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 export default class CardTitle extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.text !== nextProps.text);
+		return this.props.text !== nextProps.text;
 	}
 
 	render() {

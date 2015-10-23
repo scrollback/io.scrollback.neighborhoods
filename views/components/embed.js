@@ -45,7 +45,9 @@ export default class Embed extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {};
+		this.state = {
+			embed: null
+		};
 	}
 
 	componentDidMount() {
@@ -58,6 +60,14 @@ export default class Embed extends React.Component {
 					this.setState({ embed }); // eslint-disable-line react/no-did-mount-set-state
 				}
 			});
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			this.props.uri !== nextProps.uri ||
+			this.props.endpoint !== nextProps.endpoint ||
+			this.state.embed !== nextState.embed
+		);
 	}
 
 	componentWillUnmount() {

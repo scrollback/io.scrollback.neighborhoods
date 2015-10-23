@@ -2,6 +2,10 @@ import React from "react-native";
 import Banner from "./banner";
 
 export default class BannerOffline extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return this.props.connectionStatus !== nextProps.connectionStatus;
+	}
+
 	render() {
 		const { connectionStatus } = this.props;
 

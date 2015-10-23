@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
 });
 
 export default class StartDiscussionButton extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.room !== nextProps.room ||
+			this.props.user !== nextProps.user
+		);
+	}
+
 	_onPress() {
 		Modal.renderComponent(<StartDiscussionController {...this.props} dismiss={() => Modal.renderComponent(null)} />);
 	}
