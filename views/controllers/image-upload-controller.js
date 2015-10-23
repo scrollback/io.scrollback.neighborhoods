@@ -118,14 +118,29 @@ export default class ImageUploadController extends React.Component {
 
 			formData.append("file", { uri, type });
 
-			return fetch(baseurl, {
-				method: "POST",
-				body: formData
-			}).then(() => ({
-				textId,
-				thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
-				originalUrl: url
-			}));
+			return new Promise((resolve, reject) => {
+				const request = new XMLHttpRequest();
+
+				request.open("POST", baseurl, true);
+
+				request.onload = () => {
+					if (request.status === 201) {
+						resolve({
+							textId,
+							thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
+							originalUrl: url
+						});
+					} else {
+						reject(new Error(`${request.responseText} : ${request.status}`));
+					}
+				};
+
+				request.onerror = err => reject(err);
+
+				this.setState({
+					request
+				});
+			});
 		})
 		.then(opts => {
 			if (this.props.generateThumb) {
