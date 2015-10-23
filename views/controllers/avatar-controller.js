@@ -2,17 +2,29 @@ import React from "react-native";
 import Avatar from "../components/avatar.js";
 import controller from "./controller";
 import config from "../../store/config";
+import getAvatar from "../../lib/get-avatar";
 
 @controller
 export default class AvatarController extends React.Component {
-	render() {
+	_getAvatarUri() {
 		const { protocol, host } = config.server;
 		const { nick, size } = this.props;
+
+		const user = this.store.getUser(nick);
+
+		if (user && user.picture) {
+			return getAvatar(user.picture, size);
+		} else {
+			return protocol + "//" + host + "/i/" + nick + "/picture?size=" + size;
+		}
+	}
+
+	render() {
 
 		return (
 			<Avatar
 				{...this.props}
-				uri={nick ? protocol + "//" + host + "/i/" + nick + "/picture?size=" + size : ""}
+				uri={this._getAvatarUri()}
 			/>
 		);
 	}
