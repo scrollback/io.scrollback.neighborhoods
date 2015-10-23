@@ -76,7 +76,7 @@ export default class LocalitiesBase extends React.Component {
 					const keys = Object.keys(data);
 
 					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
-						return <PageFailed pageLabel={this.props.pageEmptyLabel || "You're not following any communities"} />;
+						return <PageFailed pageLabel={this.props.pageEmptyLabel} />;
 					}
 
 					if (keys.every(item => data[item].length === 1)) {
@@ -148,6 +148,6 @@ LocalitiesBase.propTypes = {
 	]))).isRequired,
 	refreshData: React.PropTypes.func,
 	showRoomMenu: React.PropTypes.bool,
-	pageEmptyLabel: React.PropTypes.string,
+	pageEmptyLabel: React.PropTypes.string.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

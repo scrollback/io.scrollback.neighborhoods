@@ -29,7 +29,7 @@ export default class LocalitiesFiltered extends React.Component {
 				/>
 				<LocalitiesBase
 					{...this.props}
-					pageEmptyLabel={this.props.filter ? "" : "Type a place to search"}
+					pageEmptyLabel={this.props.filter ? "No communities found" : "Type a place to search"}
 					style={[ styles.inner, this.props.style ]}
 				/>
 			</View>
