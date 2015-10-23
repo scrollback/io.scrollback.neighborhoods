@@ -88,16 +88,31 @@ routes.fromURL = url => {
 					.replace(/^\/|\/$/g, "") // strip leading and trailing slash
 					.split("/");
 
+	const room = parts[0];
+	const thread = parts[1];
+
 	switch (parts.length) {
+	case 0:
+		return routes.home();
 	case 1:
-		return routes.room({ room: parts[0] });
-	case 2:
-		return routes.chat({
-			room: parts[0],
-			thread: parts[1]
+		if (room === "me") {
+			return routes.home();
+		}
+
+		return routes.room({
+			room
 		});
 	default:
-		return routes.home();
+		if (thread === "all") {
+			return routes.room({
+				room
+			});
+		}
+
+		return routes.chat({
+			room,
+			thread
+		});
 	}
 };
 
