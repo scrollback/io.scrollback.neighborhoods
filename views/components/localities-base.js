@@ -76,7 +76,7 @@ export default class LocalitiesBase extends React.Component {
 					const keys = Object.keys(data);
 
 					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
-						return <PageFailed pageLabel={this.props.pageEmptyLabel || "No places found"} />;
+						return <PageFailed pageLabel={this.props.pageEmptyLabel || "You're not following any communities"} />;
 					}
 
 					if (keys.every(item => data[item].length === 1)) {
@@ -85,7 +85,7 @@ export default class LocalitiesBase extends React.Component {
 						}
 
 						if (keys.every(item => data[item][0] === "failed")) {
-							return <PageFailed pageLabel="Failed to load places" onRetry={this.props.refreshData} />;
+							return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 						}
 					}
 

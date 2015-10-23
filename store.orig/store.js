@@ -27,6 +27,7 @@ var userUtils = require("../lib/user-utils.js"),
 		context: {},
 		app: {
 			listeningRooms: [],
+			nearByRooms: [],
 			connectionStatus: "connecting"
 		},
 		indexes: {
@@ -232,6 +233,10 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 	}
 
 	return users;
+};
+
+Store.prototype.getNearByRooms = function() {
+	return this.get("app", "nearByRooms");
 };
 
 Store.prototype.getUserRole = function(userId, roomId) {

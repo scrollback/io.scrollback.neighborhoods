@@ -1,6 +1,6 @@
 import core from "./core";
 import config from "./config";
-import init from "../init/init";
+import init from "./init";
 import WebSocket from "../modules/websocket";
 
 global.WebSocket = WebSocket;
@@ -13,6 +13,6 @@ global.store = store;
 
 require("babel/polyfill");
 
-init(core);
+init();
 
 export default store;

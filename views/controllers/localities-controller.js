@@ -24,7 +24,7 @@ export default class LocalitiesController extends React.Component {
 		this.handle("statechange", changes => {
 			const user = this.store.get("user");
 
-			if (changes.indexes && changes.indexes.userRooms && changes.indexes.userRooms[user]) {
+			if ((changes.indexes && changes.indexes.userRooms && changes.indexes.userRooms[user]) || (changes.app && changes.app.nearByRooms)) {
 				this._updateData();
 			}
 		});
@@ -41,7 +41,8 @@ export default class LocalitiesController extends React.Component {
 			if (this._mounted) {
 				this.setState({
 					data: {
-						following: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none")
+						following: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none"),
+						nearby: this.store.getNearByRooms()
 					}
 				});
 			}

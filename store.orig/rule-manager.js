@@ -12,4 +12,5 @@ module.exports = (...args) => {
 	require("./rules/removeRelations.js")(...args);
 	require("./rules/dissmissNoteOnNav.js")(...args);
 	require("./rules/clearQueuedActions.js")(...args);
+	require("./rules/loadNearByRooms.js")(...args);
 };
