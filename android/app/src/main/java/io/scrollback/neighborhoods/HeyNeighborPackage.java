@@ -27,7 +27,6 @@ public class HeyNeighborPackage implements ReactPackage {
                 new GeolocationModule(reactContext),
                 new ClipboardModule(reactContext),
                 new DeviceVersionModule(reactContext),
-                new FileUploadModule(reactContext),
                 new URLResolverModule(reactContext),
                 new ShareModule(reactContext, mContext),
                 new IntentModule(reactContext, mContext),
