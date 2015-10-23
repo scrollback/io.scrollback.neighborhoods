@@ -8,6 +8,7 @@ import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
+import Linking from "../../modules/linking";
 import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
 import routes from "../utils/routes";
@@ -67,23 +68,27 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	_showMenu() {
-		const options = [ "Copy title", "Copy summary", "Share discussion" ];
+		const menu = {};
 
-		Modal.showActionSheetWithOptions({ options }, index => {
-			switch (index) {
-			case 0:
-				Clipboard.setText(this.props.thread.title);
-				break;
-			case 1:
-				Clipboard.setText(this.props.thread.text);
-				break;
-			case 2:
-				const { protocol, host } = config.server;
-				const { id, to } = this.props.thread;
+		menu["Copy title"] = () => Clipboard.setText(this.props.thread.title);
 
-				Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
-			}
-		});
+		const textMetadata = textUtils.getMetadata(this.props.thread.text);
+
+		if (textMetadata && textMetadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+		} else {
+			menu["Copy summary"] = () => Clipboard.setText(this.props.thread.text);
+		}
+
+		menu["Share discussion"] = () => {
+			const { protocol, host } = config.server;
+			const { id, to } = this.props.thread;
+
+			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
+		};
+
+		Modal.showActionSheetWithItems(menu);
 	}
 
 	_onPress() {
@@ -96,7 +101,7 @@ export default class DiscussionItem extends React.Component {
 	render() {
 		const { thread } = this.props;
 
-		const trimmedText = (thread.text || thread.title).trim();
+		const trimmedText = thread.text.trim();
 
 		const links = textUtils.getLinks(trimmedText);
 		const textMetadata = textUtils.getMetadata(trimmedText);

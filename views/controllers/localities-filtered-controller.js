@@ -89,7 +89,3 @@ export default class LocalitiesFilterController extends React.Component {
 		);
 	}
 }
-
-LocalitiesFilterController.propTypes = {
-	filter: React.PropTypes.string
-};

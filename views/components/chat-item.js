@@ -97,19 +97,7 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
-	_showMenu(menu) {
-		const options = [];
-		const actions = [];
-
-		for (const k in menu) {
-			options.push(k);
-			actions.push(menu[k]);
-		}
-
-		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
-	}
-
-	_buildMenu() {
+	_showMenu() {
 		const { text, textMetadata } = this.props;
 
 		const menu = {};
@@ -124,7 +112,7 @@ export default class ChatItem extends React.Component {
 
 		menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
 
-		this._showMenu(menu);
+		Modal.showActionSheetWithItems(menu);
 	}
 
 	render() {
@@ -186,7 +174,7 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity onPress={this._buildMenu.bind(this)}>
+					<TouchableOpacity onPress={this._showMenu.bind(this)}>
 						<ChatBubble
 							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}

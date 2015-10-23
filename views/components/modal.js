@@ -159,3 +159,15 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 		)
 	));
 };
+
+Modal.showActionSheetWithItems = (items, callback) => {
+	const options = [];
+	const actions = [];
+
+	for (const k in items) {
+		options.push(k);
+		actions.push(items[k]);
+	}
+
+	Modal.showActionSheetWithOptions({ options }, index => actions[index](), callback);
+};
