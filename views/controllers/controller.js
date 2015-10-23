@@ -3,7 +3,7 @@ import store from "../../store/store";
 
 // Decorator for controllers
 export default function(Target) {
-	return class extends Target {
+	class Controller extends Target {
 		get store() {
 			return store;
 		}
@@ -113,5 +113,9 @@ export default function(Target) {
 				});
 			});
 		}
-	};
+	}
+
+	Controller.displayName = Target.name;
+
+	return Controller;
 }
