@@ -24,7 +24,7 @@ function registerGCM(userObj, registerTime) {
 			const pushNotifications = params.pushNotifications ? Object.assign({}, params.pushNotifications) : {};
 			const devices = pushNotifications.devices ? Object.assign({}, pushNotifications.devices) : {};
 
-			devices[result.uuid + "_" + result.pa] = {
+			devices[result.uuid + "_" + result.packageName] = {
 				model: result.deviceModel,
 				regId: result.registrationId,
 				uuid: result.uuid,
@@ -33,6 +33,10 @@ function registerGCM(userObj, registerTime) {
 				platform: Platform.OS,
 				enabled: true
 			};
+
+			pushNotifications.devices = devices;
+			params.pushNotifications = pushNotifications;
+			user.params = params;
 
 			core.emit("user-up", {
 				to: user.id,
