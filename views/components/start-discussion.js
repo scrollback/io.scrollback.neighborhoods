@@ -10,6 +10,7 @@ import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
 import DeviceVersion from "../../modules/device-version";
+import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 
 const {
@@ -119,6 +120,19 @@ export default class StartDiscussionButton extends React.Component {
 		};
 	}
 
+	_onPosted(thread) {
+		this.props.navigator.push(routes.chat({
+			thread: thread.id,
+			room: this.props.room
+		}));
+	}
+
+	_onError() {
+		this.setState({
+			error: "Failed to start discussion"
+		});
+	}
+
 	_onPress() {
 		if (this.state.status === "loading") {
 			return;
@@ -126,7 +140,9 @@ export default class StartDiscussionButton extends React.Component {
 
 		if (this.state.title) {
 			if (this.state.text) {
-				this.props.postDiscussion(this.state.title, this.state.text);
+				this.props.postDiscussion(this.state.title, this.state.text)
+					.then(this._onPosted.bind(this))
+					.catch(this._onError.bind(this));
 			} else if (this.state.uploadResult) {
 				const result = this.state.uploadResult;
 				const { height, width, name } = this.state.imageData;
@@ -139,7 +155,9 @@ export default class StartDiscussionButton extends React.Component {
 					width: 160,
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
-				}), result.textId);
+				}), result.textId)
+					.then(this._onPosted.bind(this))
+					.catch(this._onError.bind(this));
 			} else {
 				this.setState({
 					error: "No summary given"
@@ -268,5 +286,6 @@ export default class StartDiscussionButton extends React.Component {
 StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	dismiss: React.PropTypes.func.isRequired,
-	postDiscussion: React.PropTypes.func.isRequired
+	postDiscussion: React.PropTypes.func.isRequired,
+	navigator: React.PropTypes.object.isRequired
 };
