@@ -36,22 +36,35 @@ export default class ImageUploadController extends React.Component {
 
 			let thumbTimer;
 
-			const checkThumb = async () => {
-				if (thumbTimer) {
-					clearTimeout(thumbTimer);
-				}
-
-				try {
-					await fetch(opts.thumbnailUrl);
-
-					resolve(opts);
-				} catch (e) {
-					if (Date.now() - startTime > 30000) {
+			const checkThumb = () => {
+				const onError = () => {
+					if (Date.now() - startTime > 15000) {
 						reject(new Error("Thumbnail generation timed out!"));
 					} else {
 						thumbTimer = setTimeout(checkThumb, 1500);
 					}
-				}
+				};
+
+				const req = new XMLHttpRequest();
+
+				// Avoid doing a GET request, otherwise the app will crash due to memory limitations
+				req.open("HEAD", opts.thumbnailUrl, true);
+
+				req.onload = () => {
+					if (thumbTimer) {
+						clearTimeout(thumbTimer);
+					}
+
+					if (req.status !== 404) {
+						resolve(opts);
+					} else {
+						onError();
+					}
+				};
+
+				req.onerror = () => onError();
+
+				req.send();
 			};
 
 			setTimeout(checkThumb, 3000);
