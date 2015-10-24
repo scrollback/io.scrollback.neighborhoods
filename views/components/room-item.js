@@ -1,4 +1,5 @@
 import React from "react-native";
+import NotificationBadgeController from "../controllers/notification-badge-controller";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import Modal from "./modal";
@@ -18,7 +19,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "stretch",
+		alignItems: "center",
 		backgroundColor: "#fff",
 		borderColor: "rgba(0, 0, 0, .08)",
 		borderBottomWidth: 1 / PixelRatio.get(),
@@ -41,8 +42,7 @@ const styles = StyleSheet.create({
 		lineHeight: 18
 	},
 	expand: {
-		marginHorizontal: 16,
-		marginVertical: 18,
+		margin: 18,
 		color: "#000",
 		fontSize: 24,
 		opacity: 0.5
@@ -98,10 +98,17 @@ export default class RoomItem extends React.Component {
 								null
 							}
 						</View>
-						{this.props.showRoomMenu ?
+
+						{this.props.showBadge ?
+							<NotificationBadgeController room={this.props.room.id} /> :
+							null
+						}
+
+						{this.props.showMenuButton ?
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
 								<Icon name="expand-more" style={styles.expand} />
-							</TouchableOpacity> : null
+							</TouchableOpacity> :
+							null
 						}
 					</View>
 				</TouchFeedback>
@@ -128,12 +135,14 @@ RoomItem.propTypes = {
 		}).isRequired
 	}),
 	role: React.PropTypes.string.isRequired,
-	showRoomMenu: React.PropTypes.bool,
+	showMenuButton: React.PropTypes.bool,
+	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
 
 RoomItem.defaultProps = {
-	showRoomMenu: true
+	showMenuButton: true,
+	showBadge: true
 };

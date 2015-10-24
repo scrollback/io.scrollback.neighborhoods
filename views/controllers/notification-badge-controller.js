@@ -27,8 +27,20 @@ export default class NotificationBadgeController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
+				const notes = this.store.getNotes();
+
+				let count;
+
+				if (this.props.room) {
+					count = notes.filter(note => note.group.split("/")[0] === this.props.room).length;
+				} else if (this.props.thread) {
+					count = notes.filter(note => note.group.split("/")[1] === this.props.thread).length;
+				} else {
+					count = notes.length;
+				}
+
 				this.setState({
-					count: this.store.getNotes().length
+					count
 				});
 			}
 		});
@@ -38,3 +50,8 @@ export default class NotificationBadgeController extends React.Component {
 		return <NotificationBadge {...this.props} {...this.state} />;
 	}
 }
+
+NotificationBadgeController.propTypes = {
+	room: React.PropTypes.string,
+	thread: React.PropTypes.string
+};

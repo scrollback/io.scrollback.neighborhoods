@@ -84,7 +84,6 @@ export default class LocalitiesFilterController extends React.Component {
 				{...this.props}
 				{...this.state}
 				onSearchChange={this._onSearchChange.bind(this)}
-				showRoomMenu={false}
 			/>
 		);
 	}

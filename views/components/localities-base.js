@@ -102,7 +102,8 @@ export default class LocalitiesBase extends React.Component {
 									<RoomItemController
 										key={room.id}
 										room={room}
-										showRoomMenu={this.props.showRoomMenu}
+										showMenuButton={this.props.showMenuButton}
+										showBadge={this.props.showBadge}
 										position={this.state.position}
 										navigator={this.props.navigator}
 									/>
@@ -147,7 +148,8 @@ LocalitiesBase.propTypes = {
 		})
 	]))).isRequired,
 	refreshData: React.PropTypes.func,
-	showRoomMenu: React.PropTypes.bool,
+	showMenuButton: React.PropTypes.bool,
+	showBadge: React.PropTypes.bool,
 	pageEmptyLabel: React.PropTypes.string.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

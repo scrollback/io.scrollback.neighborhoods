@@ -31,6 +31,8 @@ export default class LocalitiesFiltered extends React.Component {
 					{...this.props}
 					pageEmptyLabel={this.props.filter ? "No communities found" : "Type a place to search"}
 					style={[ styles.inner, this.props.style ]}
+					showMenuButton={false}
+					showBadge={false}
 				/>
 			</View>
 		);
