@@ -460,21 +460,34 @@ module.exports = function(c, conf, s) {
 		"text-up", "edit-up", "back-up", "away-up", "init-up",
 		"join-up", "part-up", "admit-up", "expel-up", "room-up"
 	].forEach(function(event) {
-		core.on(event, function(action) {
+		core.on(event, function(action, next) {
 			if (!action.id) {
 				action.id = generate.uid();
 			}
+
 			if (!action.time) {
 				action.time = Date.now() + timeAdjustment;
 			}
+
+			if (store.get("app", "connectionStatus") === "offline") {
+				return next(new Error("NOT_CONNECTED"));
+			}
+
+			next();
 		}, 1000);
 	});
 
 	["getTexts", "getUsers", "getRooms", "getThreads", "getEntities", "upload/getPolicy"].forEach(function(event) {
-		core.on(event, function(query) {
+		core.on(event, function(query, next) {
 			if (!query.id) {
 				query.id = generate.uid();
 			}
+
+			if (store.get("app", "connectionStatus") === "offline") {
+				return next(new Error("NOT_CONNECTED"));
+			}
+
+			next();
 		}, 1000);
 	});
 
