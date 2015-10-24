@@ -1,5 +1,6 @@
 import Alert from "../../modules/alert";
 import Geolocation from "../../modules/geolocation";
+import userUtils from "../../lib/user-utils";
 
 const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
 const GPS_ENABLE_OK = "Go to settings";
@@ -37,6 +38,10 @@ export default function(core) {
 	}
 
 	core.on("init-dn", init => {
+		if (userUtils.isGuest(init.user.id)) {
+			return;
+		}
+
 		const memberOf = init.memberOf.map(room => room.id);
 
 		if (memberOf.length < 4) {
