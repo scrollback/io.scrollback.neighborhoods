@@ -73,11 +73,24 @@ export default class SignIn extends React.Component {
 	}
 
 	_onSignIn(e) {
+		if (e.type !== "success") {
+			switch (e.provider) {
+			case "google":
+				this.setState({
+					googleLoading: false
+				});
+				break;
+			case "facebook":
+				this.setState({
+					facebookLoading: false
+				});
+				break;
+			}
+
+			return;
+		}
+
 		this.props.signIn(e.provider, e.token);
-	}
-
-	_onSignUp() {
-
 	}
 
 	_onFacebookPress() {
