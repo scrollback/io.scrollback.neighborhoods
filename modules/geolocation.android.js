@@ -34,5 +34,13 @@ export default {
 		if (Object.keys(watchCallbacks).length === 0) {
 			GeolocationModule.stopWatching();
 		}
+	},
+
+	requestEnableGPS(message) {
+		if (typeof message !== "string") {
+			throw new TypeError("No valid message specified");
+		}
+
+		GeolocationModule.requestEnableGPS(message);
 	}
 };

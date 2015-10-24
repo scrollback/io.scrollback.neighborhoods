@@ -56,6 +56,9 @@ export default function(core) {
 							geolocation.clearWatch(watchID);
 						}
 					});
+
+					// Request to enable GPS
+					geolocation.requestEnableGPS("Help us find the best communities for you by enabling your GPS.");
 				}
 			});
 		}
