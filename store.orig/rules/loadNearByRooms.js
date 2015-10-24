@@ -1,4 +1,9 @@
-import geolocation from "../../modules/geolocation";
+import Alert from "../../modules/alert";
+import Geolocation from "../../modules/geolocation";
+
+const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
+const GPS_ENABLE_OK = "Go to settings";
+const GPS_ENABLE_CANCEL = "Not now";
 
 export default function(core) {
 	function loadNearByRooms(position, memberOf) {
@@ -44,21 +49,40 @@ export default function(core) {
 			let watchID;
 
 			// Get current position
-			geolocation.getCurrentPosition(position => {
+			Geolocation.getCurrentPosition(position => {
 				if (position && position.coords) {
 					loadNearByRooms(position, memberOf);
 				} else {
 					// Watch for position change
-					watchID = geolocation.watchPosition(p => {
+					watchID = Geolocation.watchPosition(p => {
 						if (p) {
 							loadNearByRooms(p, memberOf);
 
-							geolocation.clearWatch(watchID);
+							Geolocation.clearWatch(watchID);
 						}
 					});
 
 					// Request to enable GPS
-					geolocation.requestEnableGPS("Help us find the best communities for you by enabling your GPS.");
+					Geolocation.isGPSEnabled(value => {
+						if (!value) {
+							Alert.prompt(GPS_ENABLE_MESSAGE, [
+								{
+									text: GPS_ENABLE_OK,
+									onPress: () => Geolocation.showGPSSettings()
+								},
+								{
+									text: GPS_ENABLE_CANCEL,
+									onPress: () => {
+										core.emit("setstate", {
+											app: {
+												nearByRooms: []
+											}
+										});
+									}
+								}
+							]);
+						}
+					});
 				}
 			});
 		}

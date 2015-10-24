@@ -3,7 +3,7 @@ import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
-import geolocation from "../../modules/geolocation";
+import Geolocation from "../../modules/geolocation";
 
 const {
 	StyleSheet,
@@ -43,9 +43,9 @@ export default class LocalitiesBase extends React.Component {
 	}
 
 	componentWillMount() {
-		geolocation.getCurrentPosition(position => this.setState({ position }));
+		Geolocation.getCurrentPosition(position => this.setState({ position }));
 
-		this._watchID = geolocation.watchPosition(position => {
+		this._watchID = Geolocation.watchPosition(position => {
 			if (this._mounted) {
 				this.setState({ position });
 			}
@@ -60,7 +60,7 @@ export default class LocalitiesBase extends React.Component {
 		this._mounted = false;
 
 		if (this._watchID) {
-			geolocation.clearWatch(this._watchID);
+			Geolocation.clearWatch(this._watchID);
 		}
 	}
 

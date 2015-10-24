@@ -36,11 +36,11 @@ export default {
 		}
 	},
 
-	requestEnableGPS(message) {
-		if (typeof message !== "string") {
-			throw new TypeError("No valid message specified");
-		}
+	isGPSEnabled(callback) {
+		GeolocationModule.isGPSEnabled(callback);
+	},
 
-		GeolocationModule.requestEnableGPS(message);
+	showGPSSettings() {
+		GeolocationModule.showGPSSettings();
 	}
 };

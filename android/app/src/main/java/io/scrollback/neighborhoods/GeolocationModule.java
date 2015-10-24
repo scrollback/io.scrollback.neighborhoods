@@ -1,14 +1,12 @@
 package io.scrollback.neighborhoods;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -92,32 +90,8 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void requestEnableGPS(final String message) {
-        if (mLocationManager.isProviderEnabled(LOCATION_PROVIDER)) {
-            return;
-        }
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(mActiviyContext);
-
-        final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-
-        builder.setMessage(message)
-                .setPositiveButton("Enable in Settings",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                mActiviyContext.startActivity(new Intent(action));
-
-                                d.dismiss();
-                            }
-                        })
-                .setNegativeButton("Not now",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                d.cancel();
-                            }
-                        });
-
-        builder.create().show();
+    public void showGPSSettings() {
+        mActiviyContext.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
     }
 
     @ReactMethod
