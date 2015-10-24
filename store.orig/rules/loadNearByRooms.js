@@ -5,10 +5,11 @@ import userUtils from "../../lib/user-utils";
 const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
 const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
+const NUM_ROOMS_TO_LOAD = 7;
 
 export default function(core) {
 	function loadNearByRooms(position, memberOf) {
-		const limit = memberOf.length ? 10 : null;
+		const limit = memberOf.length ? NUM_ROOMS_TO_LOAD : null;
 
 		core.emit("getRooms", {
 			location: {
