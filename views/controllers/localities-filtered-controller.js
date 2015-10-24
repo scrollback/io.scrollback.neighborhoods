@@ -1,5 +1,6 @@
 import React from "react-native";
 import LocalitiesFiltered from "../components/localities-filtered";
+import Geolocation from "../../modules/geolocation";
 import debounce from "../../lib/debounce";
 import controller from "./controller";
 
@@ -24,16 +25,29 @@ export default class LocalitiesFilterController extends React.Component {
 	}
 
 	_fetchMatchingRoomsImmediate(filter) {
-		this.query("getRooms", { ref: filter + "*" }).then(res => {
-			const data = res.results || [];
+		Geolocation.getCurrentPosition(position => {
+			const opts = { ref: filter + "*" };
 
-			this._cachedResults[filter] = data;
+			if (position && position.coords) {
+				const { latitude: lat, longitude: lon } = position.coords;
 
-			if (filter !== this.state.filter) {
-				return;
+				opts.location = {
+					lat,
+					lon
+				};
 			}
 
-			this._onDataArrived(data);
+			this.query("getRooms", opts).then(res => {
+				const data = res.results || [];
+
+				this._cachedResults[filter] = data;
+
+				if (filter !== this.state.filter) {
+					return;
+				}
+
+				this._onDataArrived(data);
+			});
 		});
 	}
 
