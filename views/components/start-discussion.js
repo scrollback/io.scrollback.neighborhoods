@@ -120,6 +120,12 @@ export default class StartDiscussionButton extends React.Component {
 		};
 	}
 
+	_onLoading() {
+		this.setState({
+			status: "loading"
+		});
+	}
+
 	_onPosted(thread) {
 		this.props.navigator.push(routes.chat({
 			thread: thread.id,
@@ -129,7 +135,8 @@ export default class StartDiscussionButton extends React.Component {
 
 	_onError(message) {
 		this.setState({
-			error: message
+			error: message,
+			status: null
 		});
 	}
 
@@ -144,6 +151,8 @@ export default class StartDiscussionButton extends React.Component {
 
 		if (this.state.text) {
 			try {
+				this._onLoading();
+
 				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
 
 				this._onPosted(thread);
@@ -156,6 +165,8 @@ export default class StartDiscussionButton extends React.Component {
 			const aspectRatio = height / width;
 
 			try {
+				this._onLoading();
+
 				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
 					type: "image",
 					caption: name,
@@ -171,13 +182,7 @@ export default class StartDiscussionButton extends React.Component {
 			}
 		} else {
 			this._onError(NO_SUMMARY_MESSAGE);
-
-			return;
 		}
-
-		this.setState({
-			status: "loading"
-		});
 	}
 
 	_onPress() {
