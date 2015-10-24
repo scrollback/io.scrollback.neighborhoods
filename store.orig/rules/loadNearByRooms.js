@@ -7,7 +7,7 @@ const GPS_ENABLE_CANCEL = "Not now";
 
 export default function(core) {
 	function loadNearByRooms(position, memberOf) {
-		const limit = memberOf.length ? null : 10;
+		const limit = memberOf.length ? 10 : null;
 
 		core.emit("getRooms", {
 			location: {
