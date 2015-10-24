@@ -35,19 +35,29 @@ export default class SignInController extends React.Component {
 	_signUp(nick) {
 		const { user } = this.state;
 
-		this.dispatch("user", {
-			from: nick,
-			to: nick,
-			user: {
-				id: nick,
-				identities: user.identities,
-				picture: user.params.pictures && user.params.pictures[0] || "",
-				params: {
-					pictures: user.params.pictures
-				},
-				guides: {}
-			}
-		});
+		return this.query("getEntities", { ref: nick })
+			.catch(() => {
+				throw new Error("An error occured!");
+			})
+			.then(res => {
+				if (res && res.results && res.results.length) {
+					throw new Error(nick + " is already taken.");
+				} else {
+					return this.dispatch("user", {
+						from: nick,
+						to: nick,
+						user: {
+							id: nick,
+							identities: user.identities,
+							picture: user.params.pictures && user.params.pictures[0] || "",
+							params: {
+								pictures: user.params.pictures
+							},
+							guides: {}
+						}
+					});
+				}
+			});
 	}
 
 	_cancelSignUp() {
