@@ -21,7 +21,7 @@ export default class ChatSuggestionsController extends React.Component {
 	}
 
 	async _fetchUsers(query) {
-		const res = await this.query("getUsers", {
+		const results = await this.query("getUsers", {
 			ref: query + "*",
 			limit: 5
 		});
@@ -31,7 +31,6 @@ export default class ChatSuggestionsController extends React.Component {
 			return;
 		}
 
-		const results = res.results;
 		const data = this.state.data.slice(0);
 
 		for (let i = 0, l = results.length; i < l; i++) {

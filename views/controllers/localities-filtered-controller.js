@@ -37,8 +37,7 @@ export default class LocalitiesFilterController extends React.Component {
 				};
 			}
 
-			const res = await this.query("getRooms", opts);
-			const data = res.results || [];
+			const data = await this.query("getRooms", opts) || [];
 
 			this._cachedResults[filter] = data;
 

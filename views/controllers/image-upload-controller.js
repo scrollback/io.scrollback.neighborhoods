@@ -123,7 +123,7 @@ export default class ImageUploadController extends React.Component {
 		const textId = generate.uid();
 
 		try {
-			const res = await this.query("upload/getPolicy", {
+			const res = await this.emit("upload/getPolicy", {
 				uploadType: this.props.uploadType,
 				userId: this.store.get("user"),
 				textId

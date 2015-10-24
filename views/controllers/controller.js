@@ -49,13 +49,9 @@ export default function(Target) {
 			return this._handlers.length - 1;
 		}
 
-		emit(...args) {
-			core.emit(...args);
-		}
-
-		query(type, params = {}, ...rest) {
-			if (typeof super.query === "function") {
-				return super.query(type, params, ...rest);
+		emit(type, params = {}, ...rest) {
+			if (typeof super.emit === "function") {
+				return super.emit(type, params, ...rest);
 			}
 
 			return new Promise((resolve, reject) => {
@@ -69,12 +65,22 @@ export default function(Target) {
 			});
 		}
 
-		dispatch(name, params = {}, prio = 1, ...rest) {
+		async query(...args) {
+			if (typeof super.query === "function") {
+				return super.query(...args);
+			}
+
+			const res = await this.emit(...args);
+
+			return res.results;
+		}
+
+		async dispatch(name, params = {}, prio = 1, ...rest) {
 			if (typeof super.dispatch === "function") {
 				return super.dispatch(name, params, prio, ...rest);
 			}
 
-			return new Promise((resolve, reject) => {
+			return await new Promise(async (resolve, reject) => {
 				const down = name + "-dn";
 
 				let id;
@@ -88,29 +94,30 @@ export default function(Target) {
 
 				function onSuccess(action) {
 					if (id === action.id) {
-						resolve(action);
 						cleanUp();
+						resolve(action);
 					}
 				}
 
 				function onError(error) {
 					if (id === error.id) {
-						reject(error);
 						cleanUp();
+						reject(error);
 					}
 				}
 
 				core.on(down, onSuccess, prio);
 				core.on("error-dn", onError, prio);
 
-				core.emit(name + "-up", params, (err, action) => {
-					id = action.id;
+				try {
+					const action = await this.emit(name + "-up", params);
 
-					if (err) {
-						reject(err);
-						cleanUp();
-					}
-				});
+					id = action.id;
+				} catch (err) {
+					cleanUp();
+
+					throw err;
+				}
 			});
 		}
 	}

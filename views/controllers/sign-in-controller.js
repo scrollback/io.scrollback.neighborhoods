@@ -35,15 +35,15 @@ export default class SignInController extends React.Component {
 	async _signUp(nick) {
 		const { user } = this.state;
 
-		let res;
+		let results;
 
 		try {
-			res = await this.query("getEntities", { ref: nick });
+			results = await this.query("getEntities", { ref: nick });
 		} catch (e) {
 			throw new Error("An error occured!");
 		}
 
-		if (res && res.results && res.results.length) {
+		if (results && results.length) {
 			throw new Error(nick + " is already taken.");
 		} else {
 			return await this.dispatch("user", {
