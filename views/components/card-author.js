@@ -19,15 +19,14 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8
 	},
 	avatar: {
-		height: 16,
-		width: 16,
-		borderRadius: 8,
+		height: 24,
+		width: 24,
+		borderRadius: 12,
 		backgroundColor: "rgba(0, 0, 0, .16)"
 	},
 	image: {
 		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 8
+		borderRadius: 12
 	}
 });
 

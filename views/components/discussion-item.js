@@ -2,7 +2,6 @@ import React from "react-native";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
-import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
@@ -28,19 +27,15 @@ const styles = StyleSheet.create({
 		resizeMode: "cover",
 		height: 160
 	},
-	author: {
-		marginVertical: 8
-	},
 	cover: {
-		marginTop: 4,
-		marginBottom: 8,
+		marginVertical: 4,
 		height: 180
 	},
 	item: {
 		marginHorizontal: 16
 	},
 	footer: {
-		marginBottom: 8
+		marginVertical: 12
 	},
 	topArea: {
 		flexDirection: "row"
@@ -146,8 +141,6 @@ export default class DiscussionItem extends React.Component {
 						</View>
 
 						{cover || <CardSummary style={styles.item} text={trimmedText} />}
-
-						<CardAuthor style={[ styles.item, styles.author ]} nick={thread.from} />
 
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>
