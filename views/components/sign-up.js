@@ -116,7 +116,7 @@ export default class SignUp extends React.Component {
 		};
 	}
 
-	_signUp() {
+	async _signUp() {
 		if (this.state.error) {
 			return;
 		}
@@ -129,12 +129,13 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
-		this.props.signUp(this.state.value)
-			.catch(err => {
-				this.setState({
-					errorMessage: err.message
-				});
+		try {
+			await this.props.signUp(this.state.value);
+		} catch (err) {
+			this.setState({
+				errorMessage: err.message
 			});
+		}
 	}
 
 	_onChange(e) {
