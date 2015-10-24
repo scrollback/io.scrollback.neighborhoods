@@ -1,4 +1,4 @@
-import NotificationIconController from "../controllers/notification-icon-controller";
+import NotificationIcon from "../components/notification-icon";
 import ChatController from "../controllers/chat-controller";
 import ChatTitleController from "../controllers/chat-title-controller";
 import RoomTitleController from "../controllers/room-title-controller";
@@ -18,7 +18,7 @@ routes.home = () => {
 	return {
 		title: "Hey, Neighbor!",
 		leftComponent: UserIconController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: LocalitiesController,
 		index: 0
 	};
@@ -27,7 +27,7 @@ routes.home = () => {
 routes.chat = props => {
 	return {
 		titleComponent: ChatTitleController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: ChatController,
 		passProps: props
 	};
@@ -44,7 +44,7 @@ routes.people = props => {
 routes.room = props => {
 	return {
 		titleComponent: RoomTitleController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: DiscussionsController,
 		passProps: props
 	};

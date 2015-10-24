@@ -1,5 +1,5 @@
 import React from "react-native";
-import NotificationIcon from "../components/notification-icon";
+import NotificationBadge from "../components/notification-badge";
 import controller from "./controller";
 
 const {
@@ -7,7 +7,7 @@ const {
 } = React;
 
 @controller
-export default class NotificationIconController extends React.Component {
+export default class NotificationBadgeController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -35,6 +35,6 @@ export default class NotificationIconController extends React.Component {
 	}
 
 	render() {
-		return <NotificationIcon {...this.props} {...this.state} />;
+		return <NotificationBadge {...this.props} {...this.state} />;
 	}
 }
