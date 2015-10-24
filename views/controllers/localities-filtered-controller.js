@@ -81,7 +81,9 @@ export default class LocalitiesFilterController extends React.Component {
 				}
 			});
 
-			this._fetchMatchingRooms(filter);
+			if (!this._cachedResults[filter]) {
+				this._fetchMatchingRooms(filter);
+			}
 		} else {
 			this.setState({
 				filter,
