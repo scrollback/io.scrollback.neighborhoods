@@ -14,50 +14,52 @@ export default class SignInController extends React.Component {
 		};
 	}
 
-	_signIn(provider, token) {
-		this.dispatch("init", {
+	async _signIn(provider, token) {
+		const init = await this.dispatch("init", {
 			auth: {
 				[provider]: { token }
 			}
-		}).then(init => {
-			const user = init.user;
-
-			if (userUtils.isGuest(user.id) && user.identities.some(ident => ident.indexOf("mailto:") === 0)) {
-				if (this._mounted) {
-					this.setState({
-						user
-					});
-				}
-			}
 		});
+
+		const user = init.user;
+
+		if (userUtils.isGuest(user.id) && user.identities.some(ident => ident.indexOf("mailto:") === 0)) {
+			if (this._mounted) {
+				this.setState({
+					user
+				});
+			}
+		}
 	}
 
-	_signUp(nick) {
+	async _signUp(nick) {
 		const { user } = this.state;
 
-		return this.query("getEntities", { ref: nick })
-			.catch(() => {
-				throw new Error("An error occured!");
-			})
-			.then(res => {
-				if (res && res.results && res.results.length) {
-					throw new Error(nick + " is already taken.");
-				} else {
-					return this.dispatch("user", {
-						from: nick,
-						to: nick,
-						user: {
-							id: nick,
-							identities: user.identities,
-							picture: user.params.pictures && user.params.pictures[0] || "",
-							params: {
-								pictures: user.params.pictures
-							},
-							guides: {}
-						}
-					});
+		let res;
+
+		try {
+			res = await this.query("getEntities", { ref: nick });
+		} catch (e) {
+			throw new Error("An error occured!");
+		}
+
+		if (res && res.results && res.results.length) {
+			throw new Error(nick + " is already taken.");
+		} else {
+			return await this.dispatch("user", {
+				from: nick,
+				to: nick,
+				user: {
+					id: nick,
+					identities: user.identities,
+					picture: user.params.pictures && user.params.pictures[0] || "",
+					params: {
+						pictures: user.params.pictures
+					},
+					guides: {}
 				}
 			});
+		}
 	}
 
 	_cancelSignUp() {

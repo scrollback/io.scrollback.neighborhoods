@@ -40,22 +40,21 @@ export default class RoomItemController extends React.Component {
 		});
 	}
 
-	_joinCommunity() {
-		this.dispatch("join", {
+	async _joinCommunity() {
+		return await this.dispatch("join", {
 			to: this.props.room.id
 		});
 	}
 
-	_leaveCommunity() {
+	async _leaveCommunity() {
 		const room = this.props.room.id;
 
-		this.dispatch("part", {
+		await this.dispatch("part", {
 			to: room
-		})
-		.then(() => {
-			return this.dispatch("away", {
-				to: room
-			});
+		});
+
+		return await this.dispatch("away", {
+			to: room
 		});
 	}
 

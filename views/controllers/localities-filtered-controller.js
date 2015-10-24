@@ -25,7 +25,7 @@ export default class LocalitiesFilterController extends React.Component {
 	}
 
 	_fetchMatchingRoomsImmediate(filter) {
-		Geolocation.getCurrentPosition(position => {
+		Geolocation.getCurrentPosition(async position => {
 			const opts = { ref: filter + "*" };
 
 			if (position && position.coords) {
@@ -37,17 +37,16 @@ export default class LocalitiesFilterController extends React.Component {
 				};
 			}
 
-			this.query("getRooms", opts).then(res => {
-				const data = res.results || [];
+			const res = await this.query("getRooms", opts);
+			const data = res.results || [];
 
-				this._cachedResults[filter] = data;
+			this._cachedResults[filter] = data;
 
-				if (filter !== this.state.filter) {
-					return;
-				}
+			if (filter !== this.state.filter) {
+				return;
+			}
 
-				this._onDataArrived(data);
-			});
+			this._onDataArrived(data);
 		});
 	}
 

@@ -56,9 +56,60 @@ export default class ImageUploadController extends React.Component {
 		});
 	}
 
-	_startUpload() {
+	_createFormData(policy, key) {
+		const formData = new FormData();
+
+		const fields = [
+			"acl", "policy", "x-amz-algorithm", "x-amz-credential",
+			"x-amz-date", "x-amz-signature"
+		];
+
+		for (let i = 0, l = fields.length; i < l; i++) {
+			formData.append(fields[i], policy[fields[i]]);
+		}
+
+		formData.append("key", key);
+		formData.append("success_action_status", "201");
+
+		const { uri, name } = this.props.imageData;
+		const type = "image/" + (name.split(".").pop() || "jpg");
+
+		formData.append("file", { uri, type });
+
+		return formData;
+	}
+
+	_uploadImage(textId, policy, baseurl, url, thumbpath, formData) {
+		return new Promise((resolve, reject) => {
+			const request = new XMLHttpRequest();
+
+			request.open("POST", baseurl, true);
+
+			request.onload = () => {
+				if (request.status === 201) {
+					resolve({
+						textId,
+						thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
+						originalUrl: url
+					});
+				} else {
+					reject(new Error(`${request.responseText} : ${request.status}`));
+				}
+			};
+
+			request.onerror = err => reject(err);
+
+			request.send(formData);
+
+			this.setState({
+				request
+			});
+		});
+	}
+
+	async _startUpload() {
 		if (this.state.status !== IDLE && this.state.status !== ERROR) {
-			return;
+			return null;
 		}
 
 		this.setState({
@@ -71,12 +122,13 @@ export default class ImageUploadController extends React.Component {
 
 		const textId = generate.uid();
 
-		this.query("upload/getPolicy", {
-			uploadType: this.props.uploadType,
-			userId: this.store.get("user"),
-			textId
-		})
-		.then(res => {
+		try {
+			const res = await this.query("upload/getPolicy", {
+				uploadType: this.props.uploadType,
+				userId: this.store.get("user"),
+				textId
+			});
+
 			const policy = res.response;
 
 			const baseurl = "https://" + policy.bucket + ".s3.amazonaws.com/";
@@ -99,67 +151,22 @@ export default class ImageUploadController extends React.Component {
 				break;
 			}
 
-			const formData = new FormData();
+			const formData = this._createFormData(policy, key);
+			const opts = await this._uploadImage(textId, policy, baseurl, url, thumbpath, formData);
 
-			const fields = [
-				"acl", "policy", "x-amz-algorithm", "x-amz-credential",
-				"x-amz-date", "x-amz-signature"
-			];
-
-			for (let i = 0, l = fields.length; i < l; i++) {
-				formData.append(fields[i], policy[fields[i]]);
-			}
-
-			formData.append("key", key);
-			formData.append("success_action_status", "201");
-
-			const { uri, name } = this.props.imageData;
-			const type = "image/" + (name.split(".").pop() || "jpg");
-
-			formData.append("file", { uri, type });
-
-			return new Promise((resolve, reject) => {
-				const request = new XMLHttpRequest();
-
-				request.open("POST", baseurl, true);
-
-				request.onload = () => {
-					if (request.status === 201) {
-						resolve({
-							textId,
-							thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
-							originalUrl: url
-						});
-					} else {
-						reject(new Error(`${request.responseText} : ${request.status}`));
-					}
-				};
-
-				request.onerror = err => reject(err);
-
-				this.setState({
-					request
-				});
-			});
-		})
-		.then(opts => {
 			if (this.props.generateThumb) {
-				return this._pollThumbnail(opts);
-			} else {
-				return opts;
+				await this._pollThumbnail(opts);
 			}
-		})
-		.then(result => {
+
 			if (this.props.onUploadFinish) {
-				this.props.onUploadFinish(result);
+				this.props.onUploadFinish(opts);
 			}
 
 			this.setState({
 				status: FINISHED,
 				request: null
 			});
-		})
-		.catch(err => {
+		} catch (err) {
 			this.setState({
 				status: ERROR,
 				request: null
@@ -168,7 +175,7 @@ export default class ImageUploadController extends React.Component {
 			if (this.props.onUploadError) {
 				this.props.onUploadError(err);
 			}
-		});
+		}
 	}
 
 	_cancelUpload() {

@@ -127,9 +127,56 @@ export default class StartDiscussionButton extends React.Component {
 		}));
 	}
 
-	_onError() {
+	_onError(message) {
 		this.setState({
-			error: "Failed to start discussion"
+			error: message
+		});
+	}
+
+	async _postDiscussion() {
+		const FAIL_MESSAGE = "Failed to start discussion";
+		const NO_TITLE_MESSAGE = "No title given";
+		const NO_SUMMARY_MESSAGE = "No summary given";
+
+		if (!this.state.title) {
+			this._onError(NO_TITLE_MESSAGE);
+		}
+
+		if (this.state.text) {
+			try {
+				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
+
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else if (this.state.uploadResult) {
+			const result = this.state.uploadResult;
+			const { height, width, name } = this.state.imageData;
+			const aspectRatio = height / width;
+
+			try {
+				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
+					type: "image",
+					caption: name,
+					height: 160 * aspectRatio,
+					width: 160,
+					thumbnailUrl: result.thumbnailUrl,
+					originalUrl: result.originalUrl
+				}), result.textId);
+
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else {
+			this._onError(NO_SUMMARY_MESSAGE);
+
+			return;
+		}
+
+		this.setState({
+			status: "loading"
 		});
 	}
 
@@ -138,42 +185,7 @@ export default class StartDiscussionButton extends React.Component {
 			return;
 		}
 
-		if (this.state.title) {
-			if (this.state.text) {
-				this.props.postDiscussion(this.state.title, this.state.text)
-					.then(this._onPosted.bind(this))
-					.catch(this._onError.bind(this));
-			} else if (this.state.uploadResult) {
-				const result = this.state.uploadResult;
-				const { height, width, name } = this.state.imageData;
-				const aspectRatio = height / width;
-
-				this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
-					type: "image",
-					caption: name,
-					height: 160 * aspectRatio,
-					width: 160,
-					thumbnailUrl: result.thumbnailUrl,
-					originalUrl: result.originalUrl
-				}), result.textId)
-					.then(this._onPosted.bind(this))
-					.catch(this._onError.bind(this));
-			} else {
-				this.setState({
-					error: "No summary given"
-				});
-
-				return;
-			}
-
-			this.setState({
-				status: "loading"
-			});
-		} else {
-			this.setState({
-				error: "No title given"
-			});
-		}
+		this._postDiscussion();
 	}
 
 	_onTitleChange(e) {
