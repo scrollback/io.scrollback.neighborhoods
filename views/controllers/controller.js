@@ -80,7 +80,7 @@ export default function(Target) {
 				return super.dispatch(name, params, prio, ...rest);
 			}
 
-			return await new Promise(async (resolve, reject) => {
+			return new Promise(async (resolve, reject) => {
 				const down = name + "-dn";
 
 				let id;
@@ -115,8 +115,7 @@ export default function(Target) {
 					id = action.id;
 				} catch (err) {
 					cleanUp();
-
-					throw err;
+					reject(err);
 				}
 			});
 		}
