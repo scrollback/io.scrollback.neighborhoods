@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		color: "#fff",
-		fontSize: 24,
 		textAlign: "center"
 	}
 });
@@ -208,7 +207,11 @@ export default class SignUp extends React.Component {
 
 						<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
 							<View style={styles.button}>
-								<Icon name="arrow-forward" style={styles.buttonText} />
+								<Icon
+									name="arrow-forward"
+									style={styles.buttonText}
+									size={24}
+								/>
 							</View>
 						</TouchableHighlight>
 					</View>

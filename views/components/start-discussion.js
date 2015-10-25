@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
 	},
 	buttonIcon: {
 		color: "#673AB7",
-		fontSize: 24,
 		marginHorizontal: 12
 	},
 	loading: {
@@ -100,7 +99,6 @@ const styles = StyleSheet.create({
 	},
 	uploadButtonIcon: {
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5,
 		margin: 8
 	}
@@ -289,7 +287,11 @@ export default class StartDiscussionButton extends React.Component {
 					{this.state.imageData ? null :
 						<TouchFeedback onPress={this._uploadImage.bind(this)}>
 							<View style={styles.uploadButton}>
-								<Icon name="image" style={styles.uploadButtonIcon} />
+								<Icon
+									name="image"
+									style={styles.uploadButtonIcon}
+									size={24}
+								/>
 								<Text style={styles.uploadButtonText}>UPLOAD AN IMAGE</Text>
 							</View>
 						</TouchFeedback>

@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
 	timestampRight: { alignSelf: "flex-end" },
 	timestampIcon: {
 		color: "#000",
-		fontSize: 12,
 		opacity: 0.3,
 		marginVertical: 2
 	},
@@ -189,7 +188,11 @@ export default class ChatItem extends React.Component {
 
 				{showTime ?
 					(<View style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>
-					 <Icon name="access-time" style={styles.timestampIcon} />
+					 <Icon
+						name="access-time"
+						style={styles.timestampIcon}
+						size={12}
+					 />
 					 <Text style={styles.timestampText}>{timeUtils.long(text.time)}</Text>
 					</View>) :
 					null

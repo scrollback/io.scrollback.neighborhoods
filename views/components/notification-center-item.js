@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	icon: {
-		fontSize: 12,
 		color: "#000",
 		marginVertical: 4,
 		opacity: 0.3
@@ -87,7 +86,6 @@ const styles = StyleSheet.create({
 	badgeIcon: {
 		marginVertical: 1,
 		textAlign: "center",
-		fontSize: 10,
 		color: "#fff"
 	}
 });
@@ -245,13 +243,17 @@ export default class NotificationCenterItem extends React.Component {
 						<View style={styles.avatarContainer}>
 							<View style={styles.avatar}>
 								<AvatarController
-									size={36}
 									nick={note.noteData.from}
 									style={styles.image}
+									size={36}
 								/>
 							</View>
 							<View style={[ styles.badge, { backgroundColor: this._getIconColor() } ]}>
-								<Icon name={this._getIconName()} style={styles.badgeIcon} />
+								<Icon
+									name={this._getIconName()}
+									style={styles.badgeIcon}
+									size={10}
+								/>
 							</View>
 						</View>
 						<View style={styles.content}>
@@ -262,13 +264,21 @@ export default class NotificationCenterItem extends React.Component {
 								<Text numberOfLines={1} style={styles.summary} >{note.noteData.text}</Text>
 							</View>
 							<View style={styles.timestampContainer}>
-								<Icon name="access-time" style={styles.icon} />
+								<Icon
+									name="access-time"
+									style={styles.icon}
+									size={12}
+								/>
 								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
 							</View>
 						</View>
 						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)" onPress={this._onDismiss.bind(this)}>
 							<View style={styles.close}>
-								<Icon name="close" style={styles.icon} />
+								<Icon
+									name="close"
+									style={styles.icon}
+									size={12}
+								/>
 							</View>
 						</TouchableHighlight>
 					</View>

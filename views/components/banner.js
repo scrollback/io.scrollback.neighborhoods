@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		margin: 16,
-		fontSize: 16,
 		color: "#fff"
 	}
 });
@@ -114,7 +113,11 @@ export default class Banner extends React.Component {
 				{this.props.showClose ?
 					<TouchFeedback onPress={this._closeBanner.bind(this)}>
 						<View>
-							<Icon name="close" style={styles.icon} />
+							<Icon
+								name="close"
+								style={styles.icon}
+								size={16}
+							/>
 						</View>
 					</TouchFeedback> :
 					null

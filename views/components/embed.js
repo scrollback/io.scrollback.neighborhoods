@@ -31,13 +31,15 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center"
 	},
-	play: {
+	playContainer: {
 		backgroundColor: "rgba(0, 0, 0, .7)",
 		borderColor: "#fff",
 		borderWidth: 2,
 		color: "#fff",
-		fontSize: 48,
 		borderRadius: 24
+	},
+	play: {
+		color: "#fff"
 	}
 });
 
@@ -91,7 +93,13 @@ export default class Embed extends React.Component {
 						<View style={styles.container}>
 							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
 								{embed.type === "video" ?
-									<Icon name="play-arrow" style={styles.play} /> :
+									<View style={styles.playContainer}>
+										<Icon
+											name="play-arrow"
+											style={styles.play}
+											size={48}
+										/>
+									</View> :
 									null
 								}
 							</Image>

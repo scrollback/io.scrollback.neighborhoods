@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
 	expand: {
 		margin: 18,
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -109,7 +108,11 @@ export default class RoomItem extends React.Component {
 
 						{this.props.showMenuButton ?
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
-								<Icon name="expand-more" style={styles.expand} />
+								<Icon
+									name="expand-more"
+									style={styles.expand}
+									size={24}
+								/>
 							</TouchableOpacity> :
 							null
 						}

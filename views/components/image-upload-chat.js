@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		color: "#fff",
-		fontSize: 24,
 		margin: 16
 	},
 	iconSend: {
@@ -84,8 +83,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	closeIcon: {
-		color: "#fff",
-		fontSize: 16
+		color: "#fff"
 	}
 });
 
@@ -119,26 +117,42 @@ export default class ChatInput extends React.Component {
 						case "idle":
 							return (
 								<View style={[ styles.iconContainer, styles.iconSendContainer ]}>
-									<Icon name="send" style={[ styles.icon, styles.iconSend ]} />
+									<Icon
+										name="send"
+										style={[ styles.icon, styles.iconSend ]}
+										size={24}
+									/>
 								</View>
 							);
 						case "loading":
 							return (
 								<View style={[ styles.iconContainer, styles.iconCancelContainer ]}>
-									<Icon name="close" style={styles.icon} />
+									<Icon
+										name="close"
+										style={styles.icon}
+										size={24}
+									/>
 									<Loading style={styles.loading} />
 								</View>
 							);
 						case "finished":
 							return (
 								<View style={[ styles.iconContainer, styles.iconSuccessContainer ]}>
-									<Icon name="done" style={styles.icon} />
+									<Icon
+										name="done"
+										style={styles.icon}
+										size={24}
+									/>
 								</View>
 							);
 						case "error":
 							return (
 								<View style={[ styles.iconContainer, styles.iconErrorContainer ]}>
-									<Icon name="warning" style={[ styles.icon, styles.iconWarning ]} />
+									<Icon
+										name="warning"
+										style={[ styles.icon, styles.iconWarning ]}
+										size={24}
+									/>
 								</View>
 							);
 						}
@@ -152,7 +166,11 @@ export default class ChatInput extends React.Component {
 					style={styles.closeButtonContainer}
 				>
 					<View style={styles.closeButton}>
-						<Icon name="close" style={styles.closeIcon} />
+						<Icon
+							name="close"
+							style={styles.closeIcon}
+							size={16}
+						/>
 					</View>
 				</TouchableHighlight>
 			</View>
