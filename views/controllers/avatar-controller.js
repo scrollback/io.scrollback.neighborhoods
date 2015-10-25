@@ -4,6 +4,10 @@ import controller from "./controller";
 import config from "../../store/config";
 import getAvatar from "../../lib/get-avatar";
 
+const {
+	PixelRatio
+} = React;
+
 @controller
 export default class AvatarController extends React.Component {
 	_getAvatarUri() {
@@ -13,9 +17,9 @@ export default class AvatarController extends React.Component {
 		const user = this.store.getUser(nick);
 
 		if (user && user.picture) {
-			return getAvatar(user.picture, size);
+			return getAvatar(user.picture, (size * PixelRatio.get()));
 		} else {
-			return protocol + "//" + host + "/i/" + nick + "/picture?size=" + size;
+			return protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
 		}
 	}
 
