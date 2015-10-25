@@ -80,6 +80,9 @@
 
         <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8dc06f7822a3f1a064649ce8131351faef752b39" />
     </application>
 
 </manifest>
