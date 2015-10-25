@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "rgba(0, 0, 0, .7)",
 		borderColor: "#fff",
 		borderWidth: 2,
-		color: "#fff",
 		borderRadius: 24
 	},
 	play: {
