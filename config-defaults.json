@@ -1,0 +1,14 @@
+{
+	"server": {
+		"protocol": "https:",
+		"host": "heyneighbor.chat"
+	},
+
+	"gcm": {
+		"sender_id": "949615022713"
+	},
+
+	"facebook": {
+		"app_id": "1389363534614084"
+	}
+}

@@ -1,3 +1,4 @@
-import config from "../client-config-defaults";
+import defaults from "../config-defaults.json";
+import config from "../config.json";
 
-export default config;
+export default Object.assign({}, defaults, config);
