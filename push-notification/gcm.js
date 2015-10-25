@@ -1,6 +1,7 @@
 import React from "react-native";
 import PushNotification from "../modules/push-notification";
 import core from "../store/core";
+import config from "../store/config";
 import userUtils from "../lib/user-utils";
 
 const {
@@ -49,6 +50,8 @@ function registerGCM(userObj, registerTime) {
 }
 
 function initialize() {
+	PushNotification.setGCMSenderID(config.gcm.sender_id);
+
 	core.on("init-dn", init => {
 		const userObj = init.user;
 
