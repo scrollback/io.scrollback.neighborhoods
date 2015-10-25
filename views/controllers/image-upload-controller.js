@@ -45,29 +45,36 @@ export default class ImageUploadController extends React.Component {
 					}
 				};
 
+				const clearTimer = () => {
+					if (thumbTimer) {
+						clearTimeout(thumbTimer);
+					}
+				};
+
 				const req = new XMLHttpRequest();
 
 				// Avoid doing a GET request, otherwise the app will crash due to memory limitations
 				req.open("HEAD", opts.thumbnailUrl, true);
 
 				req.onload = () => {
-					if (thumbTimer) {
-						clearTimeout(thumbTimer);
-					}
+					clearTimer();
 
-					if (req.status !== 404) {
+					if (req.status < 300) {
 						resolve(opts);
 					} else {
 						onError();
 					}
 				};
 
-				req.onerror = () => onError();
+				req.onerror = () => {
+					clearTimer();
+					onError();
+				};
 
 				req.send();
 			};
 
-			setTimeout(checkThumb, 3000);
+			setTimeout(checkThumb, 1500);
 		});
 	}
 
