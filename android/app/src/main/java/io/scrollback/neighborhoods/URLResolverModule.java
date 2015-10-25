@@ -1,7 +1,6 @@
 package io.scrollback.neighborhoods;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -11,12 +10,15 @@ import com.facebook.react.bridge.ReactMethod;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class URLResolverModule extends ReactContextBaseJavaModule {
 
     private Map<String, String> resolverCache = new HashMap<>();
+    private Map<String, ArrayList<Callback>> resolveCallbacks = new HashMap<>();
+    private ArrayList<String> currentlyResolving = new ArrayList<>();
 
     public URLResolverModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -53,11 +55,29 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
             return;
         }
 
+        if (currentlyResolving.contains(url)) {
+            if (resolveCallbacks.containsKey(url)) {
+                resolveCallbacks.get(url).add(callback);
+            } else {
+                ArrayList<Callback> list = new ArrayList<>();
+
+                list.add(callback);
+
+                resolveCallbacks.put(url, list);
+            }
+
+            return;
+        }
+
+        currentlyResolving.add(url);
+
         final int maxRedirects = 5;
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
+                String finalUrl;
+
                 try {
                     int redirects = 0;
 
@@ -81,12 +101,23 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
                         }
                     }
 
-                    String finalUrl = newURL != null ? newURL : url;
+                    finalUrl = newURL != null ? newURL : url;
 
                     resolverCache.put(url, finalUrl);
-                    callback.invoke(finalUrl);
                 } catch (IOException e) {
-                    callback.invoke(url);
+                    finalUrl = url;
+                }
+
+                currentlyResolving.remove(url);
+
+                callback.invoke(finalUrl);
+
+                if (resolveCallbacks.containsKey(url)) {
+                    ArrayList<Callback> list = resolveCallbacks.get(url);
+
+                    for (Callback cb : list) {
+                        cb.invoke(finalUrl);
+                    }
                 }
 
                 return null;
