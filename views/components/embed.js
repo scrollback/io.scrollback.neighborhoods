@@ -74,7 +74,9 @@ export default class Embed extends React.Component {
 		const embed = await response.json();
 
 		if (this._mounted) {
-			this.setState({ embed }); // eslint-disable-line react/no-did-mount-set-state
+			this.setState({
+				embed
+			});
 		}
 	}
 
