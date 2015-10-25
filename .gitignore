@@ -65,6 +65,9 @@ proguard/
 # IDE
 .idea
 
+# Fabric
+fabric.properties
+
 # Built files
 index.android.bundle
 index.ios.bundle
