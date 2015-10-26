@@ -147,17 +147,7 @@ export default class StartDiscussionButton extends React.Component {
 			this._onError(NO_TITLE_MESSAGE);
 		}
 
-		if (this.state.text) {
-			try {
-				this._onLoading();
-
-				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
-
-				this._onPosted(thread);
-			} catch (e) {
-				this._onError(FAIL_MESSAGE);
-			}
-		} else if (this.state.uploadResult) {
+		if (this.state.uploadResult) {
 			const result = this.state.uploadResult;
 			const { height, width, name } = this.state.imageData;
 			const aspectRatio = height / width;
@@ -173,6 +163,16 @@ export default class StartDiscussionButton extends React.Component {
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
 				}), result.textId);
+
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else if (this.state.text) {
+			try {
+				this._onLoading();
+
+				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
 
 				this._onPosted(thread);
 			} catch (e) {
