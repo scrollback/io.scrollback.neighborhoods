@@ -120,6 +120,8 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
                     }
                 }
 
+                resolveCallbacks.remove(url);
+
                 return null;
             }
         }.execute();
