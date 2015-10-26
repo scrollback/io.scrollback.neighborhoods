@@ -122,7 +122,23 @@ Store.prototype.getTexts = function(roomId, threadId, time, range) {
 		}
 	}
 
-	return rangeOps.getItems(texts[key], req, "time");
+	let data = rangeOps.getItems(texts[key], req, "time");
+
+	if (!this.isUserAdmin()) {
+		data = data.filter(text => {
+			const { tags } = text;
+
+			if (Array.isArray(tags)) {
+				if (tags.includes("hidden") || tags.includes("abusive")) {
+					return false;
+				}
+			}
+
+			return true;
+		});
+	}
+
+	return data;
 };
 
 Store.prototype.getThreads = function(roomId, time, range) {
@@ -143,7 +159,23 @@ Store.prototype.getThreads = function(roomId, time, range) {
 		}
 	}
 
-	return rangeOps.getItems(threads[roomId], req, "startTime");
+	let data = rangeOps.getItems(threads[roomId], req, "startTime");
+
+	if (!this.isUserAdmin()) {
+		data = data.filter(thread => {
+			const { tags } = thread;
+
+			if (Array.isArray(tags)) {
+				if (tags.includes("thread-hidden") || tags.includes("hidden") || tags.includes("abusive")) {
+					return false;
+				}
+			}
+
+			return true;
+		});
+	}
+
+	return data;
 };
 
 Store.prototype.getThreadById = function(threadId) {
