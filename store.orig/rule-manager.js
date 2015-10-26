@@ -9,8 +9,8 @@ module.exports = (...args) => {
 	require("./rules/loadTextsOnNav.js")(...args);
 	require("./rules/loadThreadsOnNav.js")(...args);
 	require("./rules/loadThread.js")(...args);
-	require("./rules/dialogSignup.js")(...args);
 	require("./rules/removeRelations.js")(...args);
 	require("./rules/dissmissNoteOnNav.js")(...args);
 	require("./rules/clearQueuedActions.js")(...args);
+	require("./rules/loadNearByRooms.js")(...args);
 };

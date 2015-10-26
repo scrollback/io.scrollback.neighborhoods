@@ -48,6 +48,13 @@ const styles = StyleSheet.create({
 });
 
 export default class PeopleListItem extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.user.id !== nextProps.user.id ||
+			this.props.user.status !== nextProps.user.status
+		);
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -79,6 +86,7 @@ export default class PeopleListItem extends React.Component {
 
 PeopleListItem.propTypes = {
 	user: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired
+		id: React.PropTypes.string.isRequired,
+		status: React.PropTypes.string.isRequired
 	}).isRequired
 };

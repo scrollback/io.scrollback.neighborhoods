@@ -1,10 +1,10 @@
 import React from "react-native";
-import Icon from "./icon";
+import AppbarTouchable from "./appbar-touchable";
+import AppbarIcon from "./appbar-icon";
 import DeviceVersion from "../../modules/device-version";
 
 const {
 	StyleSheet,
-	TouchableHighlight,
 	PixelRatio,
 	TextInput,
 	View
@@ -27,17 +27,9 @@ const styles = StyleSheet.create({
 		color: "#000",
 		backgroundColor: "transparent"
 	},
-	iconContainer: {
-		marginHorizontal: 4,
-		alignSelf: "stretch",
-		alignItems: "center",
-		justifyContent: "center"
-	},
 	icon: {
 		color: "#000",
-		fontSize: 24,
-		opacity: 0.5,
-		margin: 16
+		opacity: 0.5
 	}
 });
 
@@ -86,11 +78,9 @@ export default class SearchBar extends React.Component {
 	render() {
 		return (
 			<View {...this.props} style={[ styles.searchbar, this.props.style ]}>
-				<TouchableHighlight onPress={() => global.requestAnimationFrame(this.props.onBack)} underlayColor="rgba(0, 0, 0, .16)">
-					<View style={styles.iconContainer}>
-						<Icon name="arrow-back" style={styles.icon} />
-					</View>
-				</TouchableHighlight>
+				<AppbarTouchable onPress={this.props.onBack}>
+					<AppbarIcon name="arrow-back" style={styles.icon} />
+				</AppbarTouchable>
 
 				<TextInput
 					ref={c => this._input = c}
@@ -104,11 +94,9 @@ export default class SearchBar extends React.Component {
 				/>
 
 				{this.state.showClear ?
-					<TouchableHighlight onPress={this._clearInput.bind(this)} underlayColor="rgba(0, 0, 0, .16)">
-						<View style={styles.iconContainer}>
-							<Icon name="close" style={styles.icon} />
-						</View>
-					</TouchableHighlight> :
+					<AppbarTouchable onPress={this._clearInput.bind(this)}>
+						<AppbarIcon name="close" style={styles.icon} />
+					</AppbarTouchable> :
 					null
 				}
 			</View>

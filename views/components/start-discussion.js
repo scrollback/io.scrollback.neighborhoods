@@ -6,9 +6,11 @@ import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import ImageUploadController from "../controllers/image-upload-controller";
+import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
 import DeviceVersion from "../../modules/device-version";
+import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 
 const {
@@ -76,7 +78,6 @@ const styles = StyleSheet.create({
 	},
 	buttonIcon: {
 		color: "#673AB7",
-		fontSize: 24,
 		marginHorizontal: 12
 	},
 	loading: {
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
 	},
 	uploadButtonIcon: {
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5,
 		margin: 8
 	}
@@ -113,24 +113,59 @@ export default class StartDiscussionButton extends React.Component {
 			text: "",
 			imageData: null,
 			uploadResult: null,
-			status: null
+			status: null,
+			error: null
 		};
 	}
 
-	_onPress() {
-		if (this.state.status === "loading") {
-			return;
+	_onLoading() {
+		this.setState({
+			status: "loading"
+		});
+	}
+
+	_onPosted(thread) {
+		this.props.navigator.push(routes.chat({
+			thread: thread.id,
+			room: this.props.room
+		}));
+	}
+
+	_onError(message) {
+		this.setState({
+			error: message,
+			status: null
+		});
+	}
+
+	async _postDiscussion() {
+		const FAIL_MESSAGE = "Failed to start discussion";
+		const NO_TITLE_MESSAGE = "No title given";
+		const NO_SUMMARY_MESSAGE = "No summary given";
+
+		if (!this.state.title) {
+			this._onError(NO_TITLE_MESSAGE);
 		}
 
-		if (this.state.title) {
-			if (this.state.text) {
-				this.props.postDiscussion(this.state.title, this.state.text);
-			} else if (this.state.uploadResult) {
-				const result = this.state.uploadResult;
-				const { height, width, name } = this.state.imageData;
-				const aspectRatio = height / width;
+		if (this.state.text) {
+			try {
+				this._onLoading();
 
-				this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
+				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
+
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else if (this.state.uploadResult) {
+			const result = this.state.uploadResult;
+			const { height, width, name } = this.state.imageData;
+			const aspectRatio = height / width;
+
+			try {
+				this._onLoading();
+
+				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
 					type: "image",
 					caption: name,
 					height: 160 * aspectRatio,
@@ -138,25 +173,35 @@ export default class StartDiscussionButton extends React.Component {
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
 				}), result.textId);
-			} else {
-				return;
-			}
 
-			this.setState({
-				status: "loading"
-			});
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else {
+			this._onError(NO_SUMMARY_MESSAGE);
 		}
+	}
+
+	_onPress() {
+		if (this.state.status === "loading") {
+			return;
+		}
+
+		this._postDiscussion();
 	}
 
 	_onTitleChange(e) {
 		this.setState({
-			title: e.nativeEvent.text
+			title: e.nativeEvent.text,
+			error: null
 		});
 	}
 
 	_onTextChange(e) {
 		this.setState({
-			text: e.nativeEvent.text
+			text: e.nativeEvent.text,
+			error: null
 		});
 	}
 
@@ -164,7 +209,8 @@ export default class StartDiscussionButton extends React.Component {
 		ImageChooser.pickImage(result => {
 			if (result.type === "success") {
 				this.setState({
-					imageData: result
+					imageData: result,
+					error: null
 				});
 			}
 		});
@@ -172,14 +218,16 @@ export default class StartDiscussionButton extends React.Component {
 
 	_onUploadFinish(result) {
 		this.setState({
-			uploadResult: result
+			uploadResult: result,
+			error: null
 		});
 	}
 
 	_onUploadClose() {
 		this.setState({
 			imageData: null,
-			uploadResult: null
+			uploadResult: null,
+			error: null
 		});
 	}
 
@@ -205,6 +253,8 @@ export default class StartDiscussionButton extends React.Component {
 						}
 					</AppbarTouchable>
 				</View>
+
+				<Banner text={this.state.error} type="error" />
 
 				<ScrollView style={styles.scene}>
 					<TextInput
@@ -237,7 +287,11 @@ export default class StartDiscussionButton extends React.Component {
 					{this.state.imageData ? null :
 						<TouchFeedback onPress={this._uploadImage.bind(this)}>
 							<View style={styles.uploadButton}>
-								<Icon name="image" style={styles.uploadButtonIcon} />
+								<Icon
+									name="image"
+									style={styles.uploadButtonIcon}
+									size={24}
+								/>
 								<Text style={styles.uploadButtonText}>UPLOAD AN IMAGE</Text>
 							</View>
 						</TouchFeedback>
@@ -251,5 +305,6 @@ export default class StartDiscussionButton extends React.Component {
 StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	dismiss: React.PropTypes.func.isRequired,
-	postDiscussion: React.PropTypes.func.isRequired
+	postDiscussion: React.PropTypes.func.isRequired,
+	navigator: React.PropTypes.object.isRequired
 };

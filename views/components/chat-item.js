@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
 	timestampRight: { alignSelf: "flex-end" },
 	timestampIcon: {
 		color: "#000",
-		fontSize: 12,
 		opacity: 0.3,
 		marginVertical: 2
 	},
@@ -97,19 +96,7 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
-	_showMenu(menu) {
-		const options = [];
-		const actions = [];
-
-		for (const k in menu) {
-			options.push(k);
-			actions.push(menu[k]);
-		}
-
-		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
-	}
-
-	_buildMenu() {
+	_showMenu() {
 		const { text, textMetadata } = this.props;
 
 		const menu = {};
@@ -124,7 +111,7 @@ export default class ChatItem extends React.Component {
 
 		menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
 
-		this._showMenu(menu);
+		Modal.showActionSheetWithItems(menu);
 	}
 
 	render() {
@@ -186,7 +173,7 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity onPress={this._buildMenu.bind(this)}>
+					<TouchableOpacity onPress={this._showMenu.bind(this)}>
 						<ChatBubble
 							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
@@ -201,7 +188,11 @@ export default class ChatItem extends React.Component {
 
 				{showTime ?
 					(<View style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>
-					 <Icon name="access-time" style={styles.timestampIcon} />
+					 <Icon
+						name="access-time"
+						style={styles.timestampIcon}
+						size={12}
+					 />
 					 <Text style={styles.timestampText}>{timeUtils.long(text.time)}</Text>
 					</View>) :
 					null

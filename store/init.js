@@ -1,9 +1,11 @@
-"use strict";
+import core from "../store/core";
 
-var bootComplete = false;
+let bootComplete = false;
 
-function init(core) {
-	var newState = {}, initNext;
+export default function() {
+	const newState = {};
+
+	let initNext;
 
 	if (!newState.app) {
 		newState.app = {};
@@ -11,7 +13,7 @@ function init(core) {
 
 	newState.app.connectionStatus = "connecting";
 
-	core.emit("boot", newState, function() {
+	core.emit("boot", newState, () => {
 		newState.app.bootComplete = true;
 		bootComplete = true;
 
@@ -22,7 +24,7 @@ function init(core) {
 		}
 	});
 
-	core.on("init-up", function(action, next) {
+	core.on("init-up", (action, next) => {
 		if (!bootComplete) {
 			initNext = next;
 		} else {
@@ -30,5 +32,3 @@ function init(core) {
 		}
 	}, 1000);
 }
-
-module.exports = init;

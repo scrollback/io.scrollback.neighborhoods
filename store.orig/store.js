@@ -1,21 +1,18 @@
 "use strict";
 
-var permissionWeights = require("../authorizer/permissionWeights.js"),
-	userUtils = require("../lib/user-utils.js"),
+var userUtils = require("../lib/user-utils.js"),
 	objUtils = require("../lib/obj-utils.js"),
 	rangeOps = require("../lib/range-ops.js"),
 	state = {
-		"nav": {
-			"mode": "loading",
-			"view": null,
-			"room": null,
-			"dialog": null,
-			"textRange": {
+		nav: {
+			mode: "loading",
+			room: null,
+			textRange: {
 				time: null,
 				after: 0,
 				before: 20
 			},
-			"threadRange": {
+			threadRange: {
 				time: null,
 				after: 0,
 				before: 20
@@ -30,6 +27,7 @@ var permissionWeights = require("../authorizer/permissionWeights.js"),
 		context: {},
 		app: {
 			listeningRooms: [],
+			nearByRooms: [],
 			connectionStatus: "connecting"
 		},
 		indexes: {
@@ -237,22 +235,8 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 	return users;
 };
 
-Store.prototype.getRecommendedRooms = function getRecommendedRooms() {
-	// TODO: right now no recommended rooms
-	return [];
-};
-
-Store.prototype.getFeaturedRooms = function() {
-	var rooms = this.get("app", "featuredRooms"),
-		self = this;
-
-	if (!rooms) {
-		return [];
-	}
-
-	return rooms.map(function(room) {
-		return self.getRoom(room);
-	});
+Store.prototype.getNearByRooms = function() {
+	return this.get("app", "nearByRooms");
 };
 
 Store.prototype.getUserRole = function(userId, roomId) {
@@ -290,22 +274,6 @@ Store.prototype.isUserAdmin = function(userId, roomId) {
 	}
 
 	return role;
-};
-
-Store.prototype.isRoomReadable = function(roomId, userId) {
-	var roomObj = this.getRoom(roomId),
-		readLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
-					 roomObj.guides.authorizer.readLevel) ? roomObj.guides.authorizer.readLevel : "guest";
-
-	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[readLevel]);
-};
-
-Store.prototype.isRoomWritable = function(roomId, userId) {
-	var roomObj = this.getRoom(roomId),
-		writeLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
-					  roomObj.guides.authorizer.writeLevel) ? roomObj.guides.authorizer.writeLevel : "guest";
-
-	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[writeLevel]);
 };
 
 module.exports = function(core, config) {

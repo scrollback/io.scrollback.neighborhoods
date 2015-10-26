@@ -1,7 +1,6 @@
 import React from "react-native";
 import StartDiscussion from "../components/start-discussion";
 import controller from "./controller";
-import routes from "../utils/routes";
 import generate from "../../lib/generate.browser";
 
 @controller
@@ -9,18 +8,13 @@ export default class StartDiscussionController extends React.Component {
 	_postDiscussion(title, text, threadId) {
 		const id = threadId || generate.uid();
 
-		this.dispatch("text", {
+		return this.dispatch("text", {
 			id,
 			text,
 			title,
 			thread: id,
 			to: this.props.room,
 			from: this.props.user
-		}).then(() => {
-			this.props.navigator.push(routes.chat({
-				thread: id,
-				room: this.props.room
-			}));
 		});
 	}
 
@@ -31,6 +25,5 @@ export default class StartDiscussionController extends React.Component {
 
 StartDiscussionController.propTypes = {
 	room: React.PropTypes.string.isRequired,
-	user: React.PropTypes.string.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	user: React.PropTypes.string.isRequired
 };

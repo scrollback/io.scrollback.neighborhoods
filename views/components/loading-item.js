@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
 });
 
 export default class LoadingItem extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>

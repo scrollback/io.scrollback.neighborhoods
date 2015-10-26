@@ -1,5 +1,6 @@
 import React from "react-native";
 import Icon from "./icon";
+import CardAuthor from "./card-author";
 import timeUtils from "../../lib/time-utils";
 
 const {
@@ -13,8 +14,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		marginTop: 6
 	},
+	left: {
+		flex: 1
+	},
 	right: {
-		flex: 1,
 		flexDirection: "row",
 		justifyContent: "flex-end"
 	},
@@ -36,8 +39,7 @@ const styles = StyleSheet.create({
 		color: "#E91E63"
 	},
 	icon: {
-		color: "#000",
-		fontSize: 24
+		color: "#000"
 	},
 	faded: {
 		opacity: 0.3
@@ -55,13 +57,23 @@ export default class DiscussionFooter extends React.Component {
 	render() {
 		return (
 			<View {...this.props} style={[ styles.footer, this.props.style ]}>
+				<CardAuthor nick={this.props.thread.from} style={styles.left} />
+
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
-						<Icon name="access-time" style={styles.icon} />
+						<Icon
+							name="access-time"
+							style={styles.icon}
+							size={24}
+						/>
 						<Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
-						<Icon name="forum" style={styles.icon} />
+						<Icon
+							name="forum"
+							style={styles.icon}
+							size={24}
+						/>
 						<Text style={styles.label}>{this.props.thread.length || 1}</Text>
 					</View>
 				</View>
@@ -73,6 +85,7 @@ export default class DiscussionFooter extends React.Component {
 DiscussionFooter.propTypes = {
 	thread: React.PropTypes.shape({
 		updateTime: React.PropTypes.number.isRequired,
-		length: React.PropTypes.number.isRequired
+		length: React.PropTypes.number.isRequired,
+		from: React.PropTypes.string.isRequired
 	}).isRequired
 };

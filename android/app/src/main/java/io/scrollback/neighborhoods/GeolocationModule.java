@@ -1,9 +1,12 @@
 package io.scrollback.neighborhoods;
 
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
@@ -18,7 +21,10 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     final int LOCATION_REFRESH_TIME = 0;
     final int LOCATION_REFRESH_DISTANCE = 0;
 
+    final String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
+
     private final ReactApplicationContext mReactContext;
+    private final Context mActiviyContext;
 
     private final LocationManager mLocationManager;
     private Location mCurrentlocation;
@@ -46,13 +52,14 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     };
     private boolean isWatching = false;
 
-    public GeolocationModule(ReactApplicationContext ctx) {
-        super(ctx);
+    public GeolocationModule(ReactApplicationContext reactContext, Context activityContext) {
+        super(reactContext);
 
-        mReactContext = ctx;
+        mReactContext = reactContext;
+        mActiviyContext = activityContext;
 
         mLocationManager = (LocationManager) mReactContext.getSystemService(mReactContext.LOCATION_SERVICE);
-        mCurrentlocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        mCurrentlocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
     }
 
     private WritableMap getMapFromLocation(Location loc) {
@@ -78,6 +85,16 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void isGPSEnabled(final Callback callback) {
+        callback.invoke(mLocationManager.isProviderEnabled(LOCATION_PROVIDER));
+    }
+
+    @ReactMethod
+    public void showGPSSettings() {
+        mActiviyContext.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+    }
+
+    @ReactMethod
     public void getCurrentPosition(final Callback callback) {
         if (mCurrentlocation != null) {
             callback.invoke(getMapFromLocation(mCurrentlocation));
@@ -92,7 +109,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
             isWatching = true;
 
             mLocationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
+                    LOCATION_PROVIDER,
                     LOCATION_REFRESH_TIME,
                     LOCATION_REFRESH_DISTANCE,
                     mLocationListener

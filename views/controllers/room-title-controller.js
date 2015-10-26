@@ -14,7 +14,9 @@ export default class RoomTitleController extends React.Component {
 		const displayName = this.props.room.replace(/-+/g, " ").replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim();
 
 		this.state = {
-			room: { displayName }
+			room: {
+				guides: { displayName }
+			}
 		};
 	}
 
@@ -33,7 +35,7 @@ export default class RoomTitleController extends React.Component {
 			if (this._mounted) {
 				const room = this.store.getRoom(this.props.room);
 
-				if (room.displayName) {
+				if (room.guides && room.guides.displayName) {
 					this.setState({ room });
 				}
 			}

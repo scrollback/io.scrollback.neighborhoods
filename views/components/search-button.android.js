@@ -33,12 +33,15 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
 
 export default class SearchBar extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	_onPress() {
 		Modal.renderComponent(<LocalitiesFilterController dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
 	}
@@ -50,7 +53,11 @@ export default class SearchBar extends React.Component {
 					<Text style={styles.searchbarText}>Search for places...</Text>
 
 					<View style={styles.iconContainer}>
-						<Icon name="search" style={styles.icon} />
+						<Icon
+							name="search"
+							style={styles.icon}
+							size={24}
+						/>
 					</View>
 				</View>
 			</TouchableHighlight>

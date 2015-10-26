@@ -1,6 +1,5 @@
 import React from "react-native";
 import LargeButton from "./large-button";
-import Home from "./home";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
 
@@ -64,24 +63,49 @@ const styles = StyleSheet.create({
 });
 
 export default class SignIn extends React.Component {
-	_onSignIn(e) {
-		this.props.signIn(e.provider, e.token);
+	constructor(props) {
+		super(props);
 
-		// this.props.navigator.replace({
-		// 	component: Home,
-		// 	passProps: { initialRoute: this.props.initialRoute }
-		// });
+		this.state = {
+			googleLoading: false,
+			facebookLoading: false
+		};
 	}
 
-	_onSignUp() {
+	_onSignIn(e) {
+		if (e.type !== "success") {
+			switch (e.provider) {
+			case "google":
+				this.setState({
+					googleLoading: false
+				});
+				break;
+			case "facebook":
+				this.setState({
+					facebookLoading: false
+				});
+				break;
+			}
 
+			return;
+		}
+
+		this.props.signIn(e.provider, e.token);
 	}
 
 	_onFacebookPress() {
+		this.setState({
+			facebookLoading: true
+		});
+
 		FacebookLogin.pickAccount(e => this._onSignIn(e));
 	}
 
 	_onGooglePress() {
+		this.setState({
+			googleLoading: true
+		});
+
 		GoogleLogin.pickAccount(e => this._onSignIn(e));
 	}
 
@@ -98,12 +122,16 @@ export default class SignIn extends React.Component {
 							<Text style={styles.tip}>SIGN IN OR SIGN UP WITH</Text>
 							<LargeButton
 								style={styles.facebook}
-								text="Facebook"
+								spinner={this.state.facebookLoading}
+								disabled={this.state.facebookLoading}
+								text={this.state.facebookLoading ? "" : "Facebook"}
 								onPress={this._onFacebookPress.bind(this)}
 							/>
 							<LargeButton
 								style={styles.google}
-								text="Google"
+								spinner={this.state.googleLoading}
+								disabled={this.state.googleLoading}
+								text={this.state.googleLoading ? "" : "Google"}
 								onPress={this._onGooglePress.bind(this)}
 							/>
 						</View>

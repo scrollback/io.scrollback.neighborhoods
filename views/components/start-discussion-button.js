@@ -27,12 +27,18 @@ const styles = StyleSheet.create({
 	icon: {
 		margin: 16,
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
 
 export default class StartDiscussionButton extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.room !== nextProps.room ||
+			this.props.user !== nextProps.user
+		);
+	}
+
 	_onPress() {
 		Modal.renderComponent(<StartDiscussionController {...this.props} dismiss={() => Modal.renderComponent(null)} />);
 	}
@@ -45,7 +51,11 @@ export default class StartDiscussionButton extends React.Component {
 				onPress={this._onPress.bind(this)}
 			>
 				<View style={styles.fab}>
-					<Icon name="create" style={styles.icon} />
+					<Icon
+						name="create"
+						style={styles.icon}
+						size={24}
+					/>
 				</View>
 			</TouchableHighlight>
 		);

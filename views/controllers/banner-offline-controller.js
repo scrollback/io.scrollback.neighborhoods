@@ -1,5 +1,5 @@
 import React from "react-native";
-import NotificationIcon from "../components/notification-icon";
+import BannerOffline from "../components/banner-offline";
 import controller from "./controller";
 
 const {
@@ -7,18 +7,20 @@ const {
 } = React;
 
 @controller
-export default class NotificationIconController extends React.Component {
+export default class BannerOfflineController extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { count: 0 };
+		this.state = {
+			connectionStatus: null
+		};
 	}
 
 	componentWillMount() {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			if (changes && changes.notes) {
+			if (changes.app && changes.app.connectionStatus) {
 				this._updateData();
 			}
 		});
@@ -26,15 +28,15 @@ export default class NotificationIconController extends React.Component {
 
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					count: this.store.getNotes().length
-				});
-			}
+			this.setState({
+				connectionStatus: this.store.get("app", "connectionStatus")
+			});
 		});
 	}
 
 	render() {
-		return <NotificationIcon {...this.props} {...this.state} />;
+		return (
+			<BannerOffline {...this.props} {...this.state} />
+		);
 	}
 }

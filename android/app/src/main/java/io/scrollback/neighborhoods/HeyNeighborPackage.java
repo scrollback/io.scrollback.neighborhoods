@@ -24,11 +24,11 @@ public class HeyNeighborPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
                 new WebSocketModule(reactContext),
-                new GeolocationModule(reactContext),
                 new ClipboardModule(reactContext),
                 new DeviceVersionModule(reactContext),
-                new FileUploadModule(reactContext),
                 new URLResolverModule(reactContext),
+                new GeolocationModule(reactContext, mContext),
+                new AlertDialogModule(reactContext, mContext),
                 new ShareModule(reactContext, mContext),
                 new IntentModule(reactContext, mContext),
                 new PushNotificationModule(reactContext, mContext)

@@ -3,6 +3,7 @@ import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
 import Icon from "./icon";
+import Banner from "./banner";
 import DeviceVersion from "../../modules/device-version";
 import Validator from "../../lib/validator";
 
@@ -99,7 +100,6 @@ const styles = StyleSheet.create({
 	},
 	buttonText: {
 		color: "#fff",
-		fontSize: 24,
 		textAlign: "center"
 	}
 });
@@ -110,16 +110,31 @@ export default class SignUp extends React.Component {
 
 		this.state = {
 			value: "",
-			error: null
+			error: null,
+			errorMessage: null
 		};
 	}
 
-	_signUp() {
+	async _signUp() {
 		if (this.state.error) {
 			return;
 		}
 
-		this.props.signUp(this.state.value);
+		if (!this.state.value) {
+			this.setState({
+				errorMessage: "Enter a name first"
+			});
+
+			return;
+		}
+
+		try {
+			await this.props.signUp(this.state.value);
+		} catch (err) {
+			this.setState({
+				errorMessage: err.message
+			});
+		}
 	}
 
 	_onChange(e) {
@@ -135,7 +150,8 @@ export default class SignUp extends React.Component {
 
 		this.setState({
 			value,
-			error
+			error,
+			errorMessage: null
 		});
 	}
 
@@ -156,6 +172,8 @@ export default class SignUp extends React.Component {
 						<Text style={styles.titleText}>Let's create an account</Text>
 					</View>
 				</View>
+
+				<Banner text={this.state.errorMessage} type="error" />
 
 				<ScrollView style={styles.scene}>
 					<View style={styles.sceneContainer}>
@@ -189,7 +207,11 @@ export default class SignUp extends React.Component {
 
 						<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
 							<View style={styles.button}>
-								<Icon name="arrow-forward" style={styles.buttonText} />
+								<Icon
+									name="arrow-forward"
+									style={styles.buttonText}
+									size={24}
+								/>
 							</View>
 						</TouchableHighlight>
 					</View>

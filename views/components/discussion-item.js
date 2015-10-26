@@ -2,12 +2,12 @@ import React from "react-native";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
-import CardAuthor from "./card-author";
 import DiscussionFooter from "./discussion-footer";
 import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
+import Linking from "../../modules/linking";
 import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
 import routes from "../utils/routes";
@@ -27,19 +27,15 @@ const styles = StyleSheet.create({
 		resizeMode: "cover",
 		height: 160
 	},
-	author: {
-		marginVertical: 8
-	},
 	cover: {
-		marginTop: 4,
-		marginBottom: 8,
+		marginVertical: 4,
 		height: 180
 	},
 	item: {
 		marginHorizontal: 16
 	},
 	footer: {
-		marginBottom: 8
+		marginVertical: 12
 	},
 	topArea: {
 		flexDirection: "row"
@@ -52,7 +48,6 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 		marginVertical: 12,
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -67,23 +62,27 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	_showMenu() {
-		const options = [ "Copy title", "Copy summary", "Share discussion" ];
+		const menu = {};
 
-		Modal.showActionSheetWithOptions({ options }, index => {
-			switch (index) {
-			case 0:
-				Clipboard.setText(this.props.thread.title);
-				break;
-			case 1:
-				Clipboard.setText(this.props.thread.text);
-				break;
-			case 2:
-				const { protocol, host } = config.server;
-				const { id, to } = this.props.thread;
+		menu["Copy title"] = () => Clipboard.setText(this.props.thread.title);
 
-				Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
-			}
-		});
+		const textMetadata = textUtils.getMetadata(this.props.thread.text);
+
+		if (textMetadata && textMetadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+		} else {
+			menu["Copy summary"] = () => Clipboard.setText(this.props.thread.text);
+		}
+
+		menu["Share discussion"] = () => {
+			const { protocol, host } = config.server;
+			const { id, to } = this.props.thread;
+
+			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
+		};
+
+		Modal.showActionSheetWithItems(menu);
 	}
 
 	_onPress() {
@@ -96,7 +95,7 @@ export default class DiscussionItem extends React.Component {
 	render() {
 		const { thread } = this.props;
 
-		const trimmedText = (thread.text || thread.title).trim();
+		const trimmedText = thread.text.trim();
 
 		const links = textUtils.getLinks(trimmedText);
 		const textMetadata = textUtils.getMetadata(trimmedText);
@@ -136,13 +135,15 @@ export default class DiscussionItem extends React.Component {
 							/>
 
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
-								<Icon name="expand-more" style={styles.expand} />
+								<Icon
+									name="expand-more"
+									style={styles.expand}
+									size={24}
+								/>
 							</TouchableOpacity>
 						</View>
 
 						{cover || <CardSummary style={styles.item} text={trimmedText} />}
-
-						<CardAuthor style={[ styles.item, styles.author ]} nick={thread.from} />
 
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>

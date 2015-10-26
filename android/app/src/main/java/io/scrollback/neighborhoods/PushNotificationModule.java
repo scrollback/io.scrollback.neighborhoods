@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -34,7 +33,8 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     private final String CALLBACK_TYPE_SUCCESS = "success";
     private final String CALLBACK_TYPE_ERROR = "error";
 
-    private final String senderId;
+    private String senderId;
+
     private String mCurrentRegId;
     private ReactContext mReactContext;
     private Context mActivityContext;
@@ -46,8 +46,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
         mReactContext = reactContext;
         mActivityContext = activityContext;
-
-        senderId = activityContext.getString(R.string.gcm_sender_id);
 
         // Showing status
         if (checkPlayServices()) {
@@ -137,12 +135,28 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void setGCMSenderID(final String id) {
+        senderId = id;
+    }
+
+    @ReactMethod
     public void registerGCM(final Callback callback) {
         if (!isPlayServicesAvailable) {
             WritableMap map = Arguments.createMap();
 
             map.putString("type", CALLBACK_TYPE_ERROR);
             map.putString("message", "Google Play services not found on device");
+
+            callback.invoke(map);
+
+            return;
+        }
+
+        if (senderId == null) {
+            WritableMap map = Arguments.createMap();
+
+            map.putString("type", CALLBACK_TYPE_ERROR);
+            map.putString("message", "GCM sender ID is not set");
 
             callback.invoke(map);
 

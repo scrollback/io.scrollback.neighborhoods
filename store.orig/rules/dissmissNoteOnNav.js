@@ -2,7 +2,7 @@
 
 module.exports = (core, config, store) => {
 	core.on("setstate", changes => {
-		if (changes.nav.mode || changes.nav.room || "thread" in changes.nav) {
+		if (changes.nav && (changes.nav.mode || changes.nav.room || "thread" in changes.nav)) {
 			const future = store.with(changes);
 			const roomId = future.get("nav", "room");
 			const mode = future.get("nav", "mode");

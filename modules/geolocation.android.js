@@ -34,5 +34,13 @@ export default {
 		if (Object.keys(watchCallbacks).length === 0) {
 			GeolocationModule.stopWatching();
 		}
+	},
+
+	isGPSEnabled(callback) {
+		GeolocationModule.isGPSEnabled(callback);
+	},
+
+	showGPSSettings() {
+		GeolocationModule.showGPSSettings();
 	}
 };

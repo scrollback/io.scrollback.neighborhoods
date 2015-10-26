@@ -30,12 +30,18 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
 
 export default class PageFailed extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.pageLabel !== nextProps.pageLabel ||
+			this.props.onRetry !== nextProps.onRetry
+		);
+	}
+
 	render() {
 		return (
 			<Page {...this.props}>
@@ -44,7 +50,11 @@ export default class PageFailed extends React.Component {
 
 					{this.props.onRetry ?
 					<View style={styles.button}>
-						<Icon name="refresh" style={styles.icon} />
+						<Icon
+							name="refresh"
+							style={styles.icon}
+							size={24}
+						/>
 						<Text style={styles.label}>Retry</Text>
 					</View> :
 					null

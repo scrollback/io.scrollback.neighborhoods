@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5,
 		margin: 17
 	}
@@ -174,7 +173,11 @@ export default class ChatInput extends React.Component {
 
 					<TouchFeedback onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}>
 						<View style={styles.iconContainer}>
-							<Icon name={this.state.text ? "send" : "image"} style={styles.icon} />
+							<Icon
+								name={this.state.text ? "send" : "image"}
+								style={styles.icon}
+								size={24}
+							/>
 						</View>
 					</TouchFeedback>
 				</View>

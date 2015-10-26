@@ -26,7 +26,7 @@ export default class DiscussionsController extends React.Component {
 			}
 		});
 
-		InteractionManager.runAfterInteractions(() => {
+		InteractionManager.runAfterInteractions(async () => {
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -35,11 +35,13 @@ export default class DiscussionsController extends React.Component {
 			});
 
 			// Auto join room
-			this.dispatch("join", {
-				to: this.props.room
-			}).catch(() => {
-				// ignore
-			});
+			try {
+				await this.dispatch("join", {
+					to: this.props.room
+				});
+			} catch (err) {
+				// Do nothing
+			}
 		});
 	}
 

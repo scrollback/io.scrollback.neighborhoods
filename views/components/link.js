@@ -11,6 +11,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Link extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.children !== nextProps.children ||
+			this.props.href !== nextProps.href
+		);
+	}
+
 	openLink(link) {
 		Linking.openURL(link);
 	}
@@ -28,11 +35,11 @@ export default class Link extends React.Component {
 	}
 }
 
-Link.defaultProps = {
-	href: ""
-};
-
 Link.propTypes = {
 	children: React.PropTypes.string.isRequired,
 	href: React.PropTypes.string
+};
+
+Link.defaultProps = {
+	href: ""
 };

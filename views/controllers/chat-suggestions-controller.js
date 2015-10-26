@@ -20,6 +20,36 @@ export default class ChatSuggestionsController extends React.Component {
 		});
 	}
 
+	async _fetchUsers(query) {
+		const results = await this.query("getUsers", {
+			ref: query + "*",
+			limit: 5
+		});
+
+		// Check if the query is still the same
+		if (query !== this.props.text.slice(1)) {
+			return;
+		}
+
+		const data = this.state.data.slice(0);
+
+		for (let i = 0, l = results.length; i < l; i++) {
+			const user = results[i];
+
+			if (user && user.id) {
+				if (data.indexOf(user.id) === -1) {
+					data.push(user.id);
+				}
+			}
+		}
+
+		this._cachedResults[query] = data;
+
+		this.setState({
+			data
+		});
+	}
+
 	_getMatchingUsers(text) {
 		let query;
 
@@ -35,34 +65,7 @@ export default class ChatSuggestionsController extends React.Component {
 			if (this._cachedResults[query]) {
 				all = this._cachedResults[query];
 			} else {
-				this.query("getUsers", {
-					ref: query + "*",
-					limit: 5
-				}).then(res => {
-					// Check if the query is still the same
-					if (text !== this.props.text) {
-						return;
-					}
-
-					const results = res.results;
-					const data = this.state.data.slice(0);
-
-					for (let i = 0, l = results.length; i < l; i++) {
-						const user = results[i];
-
-						if (user && user.id) {
-							if (data.indexOf(user.id) === -1) {
-								data.push(user.id);
-							}
-						}
-					}
-
-					this._cachedResults[query] = data;
-
-					this.setState({
-						data
-					});
-				});
+				this._fetchUsers(query);
 			}
 		}
 

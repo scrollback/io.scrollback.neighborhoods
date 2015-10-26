@@ -1,5 +1,6 @@
 import React from "react-native";
 import LocalitiesFiltered from "../components/localities-filtered";
+import Geolocation from "../../modules/geolocation";
 import debounce from "../../lib/debounce";
 import controller from "./controller";
 
@@ -13,7 +14,9 @@ export default class LocalitiesFilterController extends React.Component {
 		super(props);
 
 		this.state = {
-			data: []
+			data: {
+				results: []
+			}
 		};
 
 		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
@@ -22,8 +25,19 @@ export default class LocalitiesFilterController extends React.Component {
 	}
 
 	_fetchMatchingRoomsImmediate(filter) {
-		this.query("getRooms", { ref: filter + "*" }).then(res => {
-			const data = res.results || [];
+		Geolocation.getCurrentPosition(async position => {
+			const opts = { ref: filter + "*" };
+
+			if (position && position.coords) {
+				const { latitude: lat, longitude: lon } = position.coords;
+
+				opts.location = {
+					lat,
+					lon
+				};
+			}
+
+			const data = await this.query("getRooms", opts) || [];
 
 			this._cachedResults[filter] = data;
 
@@ -35,33 +49,45 @@ export default class LocalitiesFilterController extends React.Component {
 		});
 	}
 
-	_onDataArrived(data) {
-		this.setState({ data });
+	_onDataArrived(results) {
+		this.setState({
+			data: { results }
+		});
 	}
 
-	_onSearchChange(filter) {
+	_onSearchChange(text) {
+		const filter = text.toLowerCase();
+
 		if (filter) {
 			InteractionManager.runAfterInteractions(() => {
 				if (this._mounted) {
 					if (this._cachedResults[filter]) {
 						this.setState({
 							filter,
-							data: this._cachedResults[filter]
+							data: {
+								results: this._cachedResults[filter]
+							}
 						});
 					} else {
 						this.setState({
 							filter,
-							data: [ "missing" ]
+							data: {
+								results: [ "missing" ]
+							}
 						});
 					}
 				}
 			});
 
-			this._fetchMatchingRooms(filter);
+			if (!this._cachedResults[filter]) {
+				this._fetchMatchingRooms(filter);
+			}
 		} else {
 			this.setState({
 				filter,
-				data: []
+				data: {
+					results: []
+				}
 			});
 		}
 	}
@@ -72,12 +98,7 @@ export default class LocalitiesFilterController extends React.Component {
 				{...this.props}
 				{...this.state}
 				onSearchChange={this._onSearchChange.bind(this)}
-				showRoomMenu={false}
 			/>
 		);
 	}
 }
-
-LocalitiesFilterController.propTypes = {
-	filter: React.PropTypes.string
-};

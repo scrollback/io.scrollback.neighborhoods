@@ -17,10 +17,14 @@ const styles = StyleSheet.create({
 });
 
 export default class RoomTitle extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return this.props.room.guides.displayName !== nextProps.room.guides.displayName;
+	}
+
 	render() {
 		return (
 			<Text numberOfLines={1} style={styles.title}>
-				{this.props.room.displayName}
+				{this.props.room.guides.displayName}
 			</Text>
 		);
 	}
@@ -28,6 +32,8 @@ export default class RoomTitle extends React.Component {
 
 RoomTitle.propTypes = {
 	room: React.PropTypes.shape({
-		displayName: React.PropTypes.string.isRequired
+		guides: React.PropTypes.shape({
+			displayName: React.PropTypes.string.isRequired
+		})
 	}).isRequired
 };

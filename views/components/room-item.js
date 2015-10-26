@@ -1,4 +1,5 @@
 import React from "react-native";
+import NotificationBadgeController from "../controllers/notification-badge-controller";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import Modal from "./modal";
@@ -18,7 +19,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "stretch",
+		alignItems: "center",
 		backgroundColor: "#fff",
 		borderColor: "rgba(0, 0, 0, .08)",
 		borderBottomWidth: 1 / PixelRatio.get(),
@@ -40,11 +41,12 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		lineHeight: 18
 	},
+	badge: {
+		backgroundColor: "rgba(0, 0, 0, .5)"
+	},
 	expand: {
-		marginHorizontal: 16,
-		marginVertical: 18,
+		margin: 18,
 		color: "#000",
-		fontSize: 24,
 		opacity: 0.5
 	}
 });
@@ -87,16 +89,32 @@ export default class RoomItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.container}>
 						<View style={styles.item}>
-							<Text style={styles.title}>{room.displayName || room.id}</Text>
-							{position && position.coords && room.latitude && room.longitude ?
-								<Text style={styles.distance}>{locationUtils.getFormattedDistance(position.coords, room)}</Text> :
+							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>
+							{position && position.coords && room.location && room.location.lat && room.location.lon ?
+								<Text style={styles.distance}>
+									{locationUtils.getFormattedDistance(position.coords, {
+										latitude: room.location.lat,
+										longitude: room.location.lon
+									})}
+								</Text> :
 								null
 							}
 						</View>
-						{this.props.showRoomMenu ?
+
+						{this.props.showBadge ?
+							<NotificationBadgeController room={this.props.room.id} style={styles.badge} /> :
+							null
+						}
+
+						{this.props.showMenuButton ?
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
-								<Icon name="expand-more" style={styles.expand} />
-							</TouchableOpacity> : null
+								<Icon
+									name="expand-more"
+									style={styles.expand}
+									size={24}
+								/>
+							</TouchableOpacity> :
+							null
 						}
 					</View>
 				</TouchFeedback>
@@ -108,23 +126,29 @@ export default class RoomItem extends React.Component {
 RoomItem.propTypes = {
 	room: React.PropTypes.shape({
 		id: React.PropTypes.string.isRequired,
-		displayName: React.PropTypes.string.isRequired,
-		latitude: React.PropTypes.number.isRequired,
-		longitude: React.PropTypes.number.isRequired
+		guides: React.PropTypes.shape({
+			displayName: React.PropTypes.string.isRequired
+		}),
+		location: React.PropTypes.shape({
+			lat: React.PropTypes.number.isRequired,
+			lon: React.PropTypes.number.isRequired
+		})
 	}),
 	position: React.PropTypes.shape({
 		coords: React.PropTypes.shape({
 			latitude: React.PropTypes.number.isRequired,
 			longitude: React.PropTypes.number.isRequired
-		})
+		}).isRequired
 	}),
 	role: React.PropTypes.string.isRequired,
-	showRoomMenu: React.PropTypes.bool,
+	showMenuButton: React.PropTypes.bool,
+	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
 
 RoomItem.defaultProps = {
-	showRoomMenu: true
+	showMenuButton: true,
+	showBadge: true
 };

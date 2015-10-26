@@ -1,6 +1,7 @@
 import React from "react-native";
 import PushNotification from "../modules/push-notification";
 import core from "../store/core";
+import config from "../store/config";
 import userUtils from "../lib/user-utils";
 
 const {
@@ -24,7 +25,7 @@ function registerGCM(userObj, registerTime) {
 			const pushNotifications = params.pushNotifications ? Object.assign({}, params.pushNotifications) : {};
 			const devices = pushNotifications.devices ? Object.assign({}, pushNotifications.devices) : {};
 
-			devices[result.uuid + "_" + result.pa] = {
+			devices[result.uuid + "_" + result.packageName] = {
 				model: result.deviceModel,
 				regId: result.registrationId,
 				uuid: result.uuid,
@@ -33,6 +34,10 @@ function registerGCM(userObj, registerTime) {
 				platform: Platform.OS,
 				enabled: true
 			};
+
+			pushNotifications.devices = devices;
+			params.pushNotifications = pushNotifications;
+			user.params = params;
 
 			core.emit("user-up", {
 				to: user.id,
@@ -45,6 +50,8 @@ function registerGCM(userObj, registerTime) {
 }
 
 function initialize() {
+	PushNotification.setGCMSenderID(config.gcm.sender_id);
+
 	core.on("init-dn", init => {
 		const userObj = init.user;
 

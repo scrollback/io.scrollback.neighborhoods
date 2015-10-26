@@ -1,0 +1,10 @@
+{
+	"server": {
+		"protocol": "https:",
+		"host": "heyneighbor.chat"
+	},
+
+	"gcm": {
+		"sender_id": "949615022713"
+	}
+}

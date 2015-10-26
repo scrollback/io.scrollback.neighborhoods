@@ -138,7 +138,7 @@ function disconnected() {
 function connect() {
 	global.WebSocket = WebSocket;
 
-	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.apiHost, {
+	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.host, {
 		jsonp: "document" in window // Disable JSONP in non-web environments, e.g.- react-native
 	});
 

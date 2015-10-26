@@ -67,6 +67,10 @@ export default class Modal extends React.Component {
 	}
 
 	_renderComponent(component) {
+		if (component === this.state.component) {
+			return;
+		}
+
 		if (component) {
 			this.setState({
 				component,
@@ -154,4 +158,16 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 			</TouchableHighlight>
 		)
 	));
+};
+
+Modal.showActionSheetWithItems = (items, callback) => {
+	const options = [];
+	const actions = [];
+
+	for (const k in items) {
+		options.push(k);
+		actions.push(items[k]);
+	}
+
+	Modal.showActionSheetWithOptions({ options }, index => actions[index](), callback);
 };

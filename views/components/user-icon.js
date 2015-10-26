@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
 });
 
 export default class UserIcon extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return this.props.nick !== nextProps.nick;
+	}
+
 	_onPress() {
 		this.props.navigator.push(routes.account());
 	}

@@ -4,6 +4,7 @@ import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 import StartDiscussionButton from "./start-discussion-button";
+import BannerOfflineController from "../controllers/banner-offline-controller";
 
 const {
 	StyleSheet,
@@ -31,6 +32,8 @@ export default class Discussions extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
+				<BannerOfflineController />
+
 				{(() => {
 					if (this.props.data.length === 0) {
 						return <PageFailed pageLabel="No discussions yet" />;

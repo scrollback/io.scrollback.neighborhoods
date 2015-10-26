@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
 	},
 	loader: {
 		height: 21,
-		width: 21
+		width: 21,
+		marginHorizontal: 16
 	},
 	button: {
 		backgroundColor: "#673AB7",
@@ -34,6 +35,15 @@ const styles = StyleSheet.create({
 });
 
 export default class LargeButton extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.text !== nextProps.text ||
+			this.props.onPress !== nextProps.onPress ||
+			this.props.spinner !== nextProps.spinner ||
+			this.props.disabled !== nextProps.disabled
+		);
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>

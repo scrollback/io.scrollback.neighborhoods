@@ -46,6 +46,7 @@ function threadFromText(text) {
 		color: text.color,
 		tags: null,
 		title: text.title,
+		text: text.text,
 		updateTime: text.time,
 		updater: text.from
 	};
@@ -69,31 +70,6 @@ function addConcerns(text) {
 	return text;
 }
 
-function onBoot() {
-	core.emit("getRooms", { featured: true }, (err, rooms) => {
-		if (err) {
-			return;
-		}
-
-		let featuredRooms = [],
-			roomObjs = {};
-
-		if (rooms && rooms.results) {
-			rooms.results.forEach(function(e) {
-				if (e) {
-					featuredRooms.push(e.id);
-					roomObjs[e.id] = e;
-				}
-			});
-		}
-
-		core.emit("setstate", {
-			app: { featuredRooms },
-			entities: roomObjs
-		});
-	});
-}
-
 function onInit(init, next) {
 	var entities = {},
 		newstate = {};
@@ -102,10 +78,6 @@ function onInit(init, next) {
 		init.user.identities.filter(ident => ident.split(":")[0] === "mailto").length > 0 &&
 		userUtils.isGuest(init.user.id)
 	) {
-		newstate.nav = newstate.nav || {};
-		newstate.nav.dialogState = newstate.nav.dialogState || {};
-		newstate.nav.dialogState.signingup = true;
-
 		init.user = init.user || {};
 		init.user.type = "user";
 
@@ -442,8 +414,6 @@ module.exports = function(c, conf, s) {
 	store = s;
 	core = c;
 
-	core.on("boot", onBoot, 1);
-
 	core.on("admit-dn", onAdmitDn, 950);
 	core.on("expel-dn", onAdmitDn, 950);
 	core.on("init-dn", onInit, 950);
@@ -490,21 +460,34 @@ module.exports = function(c, conf, s) {
 		"text-up", "edit-up", "back-up", "away-up", "init-up",
 		"join-up", "part-up", "admit-up", "expel-up", "room-up"
 	].forEach(function(event) {
-		core.on(event, function(action) {
+		core.on(event, function(action, next) {
 			if (!action.id) {
 				action.id = generate.uid();
 			}
+
 			if (!action.time) {
 				action.time = Date.now() + timeAdjustment;
 			}
+
+			if (store.get("app", "connectionStatus") === "offline") {
+				return next(new Error("NOT_CONNECTED"));
+			}
+
+			next();
 		}, 1000);
 	});
 
 	["getTexts", "getUsers", "getRooms", "getThreads", "getEntities", "upload/getPolicy"].forEach(function(event) {
-		core.on(event, function(query) {
+		core.on(event, function(query, next) {
 			if (!query.id) {
 				query.id = generate.uid();
 			}
+
+			if (store.get("app", "connectionStatus") === "offline") {
+				return next(new Error("NOT_CONNECTED"));
+			}
+
+			next();
 		}, 1000);
 	});
 

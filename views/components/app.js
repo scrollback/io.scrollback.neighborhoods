@@ -6,6 +6,14 @@ import PageFailed from "./page-failed";
 import userUtils from "../../lib/user-utils";
 
 export default class App extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.user !== nextProps.user ||
+			this.props.connectionStatus !== nextProps.connectionStatus ||
+			this.props.initialRoute !== nextProps.initialRoute
+		);
+	}
+
 	render() {
 		const { user, connectionStatus, initialRoute } = this.props;
 
