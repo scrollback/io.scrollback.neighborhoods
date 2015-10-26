@@ -6,6 +6,7 @@ import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
 import PushNotification from "../../modules/push-notification";
+import routes from "../utils/routes";
 import debounce from "../../lib/debounce";
 
 const {
@@ -158,6 +159,10 @@ export default class Account extends React.Component {
 		this.props.signOut();
 	}
 
+	_reportIssue() {
+		this.props.navigator.push(routes.room({ room: "support" }));
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -229,6 +234,13 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
+							<TouchFeedback onPress={this._reportIssue.bind(this)}>
+								<View style={styles.item}>
+									<View style={styles.itemLabel}>
+										<Text style={styles.itemText}>Report an issue</Text>
+									</View>
+								</View>
+							</TouchFeedback>
 							<TouchFeedback onPress={this._signOut.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
@@ -252,5 +264,6 @@ Account.propTypes = {
 		})
 	]).isRequired,
 	saveUser: React.PropTypes.func.isRequired,
-	signOut: React.PropTypes.func.isRequired
+	signOut: React.PropTypes.func.isRequired,
+	navigator: React.PropTypes.object.isRequired
 };
