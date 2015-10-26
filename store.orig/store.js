@@ -117,7 +117,11 @@ Store.prototype.getTexts = function(roomId, threadId, time, range) {
 	}
 
 	if (!(texts && texts[key])) {
-		return ['missing'];
+		if (this.get("app", "connectionStatus") !== "online") {
+			return ["failed"];
+		} else {
+			return ["missing"];
+		}
 	}
 
 	return rangeOps.getItems(texts[key], req, "time");
@@ -134,7 +138,11 @@ Store.prototype.getThreads = function(roomId, time, range) {
 	}
 
 	if (!(threads && threads[roomId])) {
-		return ["missing"];
+		if (this.get("app", "connectionStatus") !== "online") {
+			return ["failed"];
+		} else {
+			return ["missing"];
+		}
 	}
 
 	return rangeOps.getItems(threads[roomId], req, "startTime");
