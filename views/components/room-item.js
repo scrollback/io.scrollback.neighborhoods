@@ -79,6 +79,7 @@ export default class RoomItem extends React.Component {
 
 	_onPress() {
 		this.props.navigator.push(routes.room({ room: this.props.room.id }));
+		this.props.autoJoin();
 	}
 
 	render() {
@@ -145,6 +146,7 @@ RoomItem.propTypes = {
 	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
+	autoJoin: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
 

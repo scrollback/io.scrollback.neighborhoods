@@ -58,6 +58,31 @@ export default class RoomItemController extends React.Component {
 		});
 	}
 
+	async _autoJoin() {
+		const { room } = this.props;
+
+		// Auto join room
+		if (this.state.role === "none") {
+			try {
+				await this.dispatch("join", {
+					to: room.id
+				});
+			} catch (err) {
+				// Do nothing
+			}
+		}
+
+		if (room.guides && room.guides.alsoAutoFollow) {
+			try {
+				await this.dispatch("join", {
+					to: room.guides.alsoAutoFollow
+				});
+			} catch (e) {
+				// Ignore
+			}
+		}
+	}
+
 	render() {
 		return (
 			<RoomItem
@@ -65,6 +90,7 @@ export default class RoomItemController extends React.Component {
 				{...this.state}
 				joinCommunity={this._joinCommunity.bind(this)}
 				leaveCommunity={this._leaveCommunity.bind(this)}
+				autoJoin={this._autoJoin.bind(this)}
 			/>
 		);
 	}
@@ -72,6 +98,9 @@ export default class RoomItemController extends React.Component {
 
 RoomItemController.propTypes = {
 	room: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired
+		id: React.PropTypes.string.isRequired,
+		guides: React.PropTypes.shape({
+			alsoAutoFollow: React.PropTypes.string
+		})
 	})
 };
