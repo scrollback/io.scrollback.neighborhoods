@@ -469,10 +469,6 @@ module.exports = function(c, conf, s) {
 				action.time = Date.now() + timeAdjustment;
 			}
 
-			if (store.get("app", "connectionStatus") === "offline") {
-				return next(new Error("NOT_CONNECTED"));
-			}
-
 			next();
 		}, 1000);
 	});
@@ -481,10 +477,6 @@ module.exports = function(c, conf, s) {
 		core.on(event, function(query, next) {
 			if (!query.id) {
 				query.id = generate.uid();
-			}
-
-			if (store.get("app", "connectionStatus") === "offline") {
-				return next(new Error("NOT_CONNECTED"));
 			}
 
 			next();
