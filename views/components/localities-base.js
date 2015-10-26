@@ -79,14 +79,12 @@ export default class LocalitiesBase extends React.Component {
 						return <PageFailed pageLabel={this.props.pageEmptyLabel} />;
 					}
 
-					if (keys.every(item => data[item].length === 1)) {
-						if (keys.every(item => data[item][0] === "missing")) {
-							return <PageLoading />;
-						}
+					if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
+						return <PageLoading />;
+					}
 
-						if (keys.every(item => data[item][0] === "failed")) {
-							return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
-						}
+					if (keys.every(item => data[item].length === 1 && data[item][0] === "failed")) {
+						return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 					}
 
 					return (
