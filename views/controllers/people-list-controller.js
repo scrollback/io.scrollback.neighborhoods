@@ -56,14 +56,10 @@ export default class PeopleListController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "missing" ]
+					data: [ "failed" ]
 				});
 			}
 		});
-	}
-
-	_refreshData() {
-
 	}
 
 	render() {
@@ -71,7 +67,6 @@ export default class PeopleListController extends React.Component {
 			<PeopleList
 				{...this.props}
 				{...this.state}
-				refreshData={this._refreshData.bind(this)}
 			/>
 		);
 	}
