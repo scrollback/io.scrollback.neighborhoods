@@ -126,13 +126,14 @@ function disconnected() {
 			if (err) console.log(err.message);
 		});
 	}
+
 	if (backOff < 180) {
 		backOff *= 2;
 	} else {
 		backOff = 180;
 	}
 
-	setTimeout(connect, backOff * 1000);
+	setTimeout(connect, 1000);
 }
 
 function connect() {
