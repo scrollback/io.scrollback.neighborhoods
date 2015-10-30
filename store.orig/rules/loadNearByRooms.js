@@ -71,9 +71,13 @@ export default function(core) {
 				const isEnabled = await Geolocation.isGPSEnabled();
 
 				if (!isEnabled) {
-					AlertDialog.Builder()
+					const dialog = AlertDialog.Builder()
 						.setMessage(GPS_ENABLE_MESSAGE)
-						.setPositiveButton(GPS_ENABLE_OK, () => Geolocation.showGPSSettings())
+						.setPositiveButton(GPS_ENABLE_OK, () => {
+							Geolocation.showGPSSettings();
+
+							dialog.dismiss();
+						})
 						.setNegativeButton(GPS_ENABLE_CANCEL, () => {
 							core.emit("setstate", {
 								app: {
@@ -82,6 +86,7 @@ export default function(core) {
 							});
 						})
 						.show();
+
 				}
 			}
 		}

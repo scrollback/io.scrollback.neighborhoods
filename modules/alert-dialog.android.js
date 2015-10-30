@@ -2,7 +2,9 @@ import { NativeModules } from "react-native";
 
 const { AlertDialogModule } = NativeModules;
 
-class AlertDialog {
+let dialogId = 0;
+
+class AlertDialogBuilder {
 	setTitle(title) {
 		this._title = title;
 
@@ -30,7 +32,9 @@ class AlertDialog {
 	}
 
 	show() {
-		AlertDialogModule.showDialog(this._title, this._message, this._positiveLabel, this._negativeLabel, result => {
+		dialogId++;
+
+		AlertDialogModule.build(dialogId, this._title, this._message, this._positiveLabel, this._negativeLabel, result => {
 			switch (result) {
 			case AlertDialogModule.DIALOG_OK:
 				this._positiveAction();
@@ -40,11 +44,19 @@ class AlertDialog {
 				break;
 			}
 		});
+
+		AlertDialogModule.show(dialogId);
+
+		return {
+			dismiss() {
+				AlertDialogModule.dismiss(dialogId);
+			}
+		};
 	}
 }
 
 export default {
 	Builder() {
-		return new AlertDialog();
+		return new AlertDialogBuilder();
 	}
 };
