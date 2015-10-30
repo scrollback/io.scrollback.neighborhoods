@@ -53,13 +53,17 @@ function registerGCM(userObj, registerTime) {
 function initialize() {
 	PushNotification.setGCMSenderID(config.gcm.sender_id);
 
-	core.on("init-dn", init => {
+	core.on("init-dn", async init => {
 		const userObj = init.user;
 
 		if (!userUtils.isGuest(userObj.id)) {
-			AsyncStorage.getItem(KEY_REGISTER_TIME)
-				.then(registerTime => registerGCM(userObj, registerTime))
-				.catch(() => registerGCM(userObj));
+			try {
+				const registerTime = await AsyncStorage.getItem(KEY_REGISTER_TIME);
+
+				registerGCM(userObj, registerTime);
+			} catch (e) {
+				registerGCM(userObj);
+			}
 		}
 	});
 

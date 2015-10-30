@@ -264,7 +264,11 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                callback.invoke();
+                WritableMap map = Arguments.createMap();
+
+                map.putString("type", CALLBACK_TYPE_SUCCESS);
+
+                callback.invoke(map);
             }
         }.execute(null, null, null);
     }
