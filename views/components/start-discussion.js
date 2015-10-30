@@ -9,11 +9,12 @@ import ImageUploadController from "../controllers/image-upload-controller";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
-import DeviceVersion from "../../modules/device-version";
+import VersionCodes from "../../modules/version-codes";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 
 const {
+	Platform,
 	PixelRatio,
 	StyleSheet,
 	ScrollView,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff"
 	},
 	statusbar: {
-		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
+		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
 	appbar: {
 		flexDirection: "row",

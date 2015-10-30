@@ -1,10 +1,11 @@
 import React from "react-native";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
-import DeviceVersion from "../../modules/device-version";
+import VersionCodes from "../../modules/version-codes";
 
 const {
 	StyleSheet,
+	Platform,
 	PixelRatio,
 	TextInput,
 	View
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 		borderColor: "rgba(0, 0, 0, .24)",
 		borderBottomWidth: 1 / PixelRatio.get(),
 		height: 56,
-		marginTop: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
+		marginTop: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
 	input: {
 		flex: 1,

@@ -4,11 +4,12 @@ import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
 import Icon from "./icon";
 import Banner from "./banner";
-import DeviceVersion from "../../modules/device-version";
+import VersionCodes from "../../modules/version-codes";
 import Validator from "../../lib/validator";
 
 const {
 	StyleSheet,
+	Platform,
 	PixelRatio,
 	TouchableHighlight,
 	Image,
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff"
 	},
 	statusbar: {
-		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
+		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
 	appbar: {
 		flexDirection: "row",

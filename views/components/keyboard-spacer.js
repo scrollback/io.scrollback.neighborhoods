@@ -1,5 +1,5 @@
 import React from "react-native";
-import DeviceVersion from "../../modules/device-version";
+import VersionCodes from "../../modules/version-codes";
 
 const {
 	Platform,
@@ -13,7 +13,7 @@ export default class KeyboardSpacer extends React.Component {
 		super(props);
 
 		this.state = {
-			ignoreKeboard: Platform.OS === "android" && DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT,
+			ignoreKeboard: Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT,
 			keyboardHeightAnim: new Animated.Value(0)
 		};
 	}
