@@ -29,6 +29,10 @@ indent_size = 2
 indent_style = space
 indent_size = 4
 
-[{package,bower}.json]
+[{package,bower}.json,.eslintrc,.babelrc]
+indent_style = space
+indent_size = 2
+
+[{.eslintrc,.babelrc}]
 indent_style = space
 indent_size = 2
