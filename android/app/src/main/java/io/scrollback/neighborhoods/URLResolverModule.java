@@ -128,11 +128,9 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void invalidateCache(final String url, final Callback callback) {
+    public void invalidateCache(final String url) {
         if (resolverCache.containsKey(url)) {
             resolverCache.remove(url);
         }
-
-        callback.invoke();
     }
 }
