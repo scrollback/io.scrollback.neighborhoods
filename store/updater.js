@@ -2,7 +2,7 @@ import AlertDialog from "../modules/alert-dialog";
 import BuildConfig from "../modules/build-config";
 import Linking from "../modules/linking";
 
-const CHECK_URL = "https://raw.githubusercontent.com/scrollback/static/gh-pages/assets/app-update";
+const CHECK_URL = "https://raw.githubusercontent.com/scrollback/static/gh-pages/assets/app-update.json";
 
 async function checkUpdate() {
 	try {
