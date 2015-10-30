@@ -96,10 +96,20 @@ export default class Account extends React.Component {
 	}
 
 	componentWillMount() {
-		PushNotification.getPreference(this._pushNotificationEnabledKey, result => {
-			this.setState({
-				pushNotificationEnabled: result !== "false"
-			});
+		this._updatePushNotificationValue();
+	}
+
+	async _updatePushNotificationValue() {
+		let value = true;
+
+		try {
+			value = await PushNotification.getPreference(this._pushNotificationEnabledKey);
+		} catch (e) {
+			// Ignore
+		}
+
+		this.setState({
+			pushNotificationEnabled: value !== "false"
 		});
 	}
 
@@ -112,10 +122,10 @@ export default class Account extends React.Component {
 	}
 
 	_onPushNotificationChange(value) {
-		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false", () => {
-			this.setState({
-				pushNotificationEnabled: value
-			});
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
+
+		this.setState({
+			pushNotificationEnabled: value
 		});
 	}
 

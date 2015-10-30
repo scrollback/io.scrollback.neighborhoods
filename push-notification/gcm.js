@@ -13,12 +13,10 @@ const {
 const GCM_TIME_VALIDITY = 12 * 60 * 60 * 1000;
 const KEY_REGISTER_TIME = "push_notification_gcm_register_time";
 
-function registerGCM(userObj, registerTime) {
+async function registerGCM(userObj, registerTime) {
 	if (Date.now() - (parseInt(registerTime, 10) || 0) > GCM_TIME_VALIDITY) {
-		PushNotification.registerGCM(result => {
-			if (result.type !== "success") {
-				return;
-			}
+		try {
+			const result = await PushNotification.registerGCM();
 
 			const user = Object.assign({}, userObj);
 
@@ -26,7 +24,7 @@ function registerGCM(userObj, registerTime) {
 			const pushNotifications = params.pushNotifications ? Object.assign({}, params.pushNotifications) : {};
 			const devices = pushNotifications.devices ? Object.assign({}, pushNotifications.devices) : {};
 
-			devices[result.uuid + "_" + result.packageName] = {
+			devices[result.uuid + "_" + BuildConfig.APPLICATION_ID] = {
 				model: result.deviceModel,
 				regId: result.registrationId,
 				uuid: result.uuid,
@@ -46,7 +44,9 @@ function registerGCM(userObj, registerTime) {
 			}, () => {
 				AsyncStorage.setItem(KEY_REGISTER_TIME, Date.now().toString());
 			});
-		});
+		} catch (e) {
+			// Ignore
+		}
 	}
 }
 
@@ -68,7 +68,7 @@ function initialize() {
 	});
 
 	core.on("logout", () => {
-		PushNotification.unRegisterGCM(() => {});
+		PushNotification.unRegisterGCM();
 		AsyncStorage.removeItem(KEY_REGISTER_TIME);
 	});
 }

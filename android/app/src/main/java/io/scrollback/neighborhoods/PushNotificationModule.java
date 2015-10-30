@@ -274,13 +274,11 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setPreference(String key, String value, Callback callback) {
+    public void setPreference(String key, String value) {
         SharedPreferences.Editor e = getGCMPreferences().edit();
 
         e.putString(key, value);
         e.apply();
-
-        callback.invoke();
     }
 
     @ReactMethod
