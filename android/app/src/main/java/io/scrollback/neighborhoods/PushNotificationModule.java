@@ -208,7 +208,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                 map.putString("registrationId", mCurrentRegId);
                 map.putString("uuid", uuid);
                 map.putString("deviceModel", Build.MODEL);
-                map.putString("packageName", mReactContext.getPackageName());
 
                 callback.invoke(map);
             }

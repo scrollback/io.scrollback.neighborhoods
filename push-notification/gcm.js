@@ -1,5 +1,6 @@
 import React from "react-native";
 import PushNotification from "../modules/push-notification";
+import BuildConfig from "../modules/build-config";
 import core from "../store/core";
 import config from "../store/config";
 import userUtils from "../lib/user-utils";
@@ -29,7 +30,7 @@ function registerGCM(userObj, registerTime) {
 				model: result.deviceModel,
 				regId: result.registrationId,
 				uuid: result.uuid,
-				packageName: result.packageName,
+				packageName: BuildConfig.APPLICATION_ID,
 				expiryTime: Date.now() + GCM_TIME_VALIDITY,
 				platform: Platform.OS,
 				enabled: true
