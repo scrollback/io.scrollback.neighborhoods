@@ -115,9 +115,9 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void show(final int id) {
-        AlertDialog dialog = mAlertDialogs.get(id);
+        if (mAlertDialogs.containsKey(id)) {
+            AlertDialog dialog = mAlertDialogs.get(id);
 
-        if (dialog != null) {
             dialog.show();
         }
     }
