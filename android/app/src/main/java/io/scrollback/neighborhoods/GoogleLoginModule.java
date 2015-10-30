@@ -60,7 +60,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void pickAccount(final Callback callback) {
+    public void logIn(final Callback callback) {
         Intent intent = AccountPicker.newChooseAccountIntent(
                 null, null, new String[]{"com.google"},
                 false, null, null, null, null);
@@ -87,16 +87,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getAccountName(final Callback callback) {
-        if (mAccountName != null) {
-            callback.invoke(mAccountName);
-        } else {
-            callback.invoke();
-        }
-    }
-
-    @ReactMethod
-    public void deleteAccountToken(final Callback callback) {
+    public void logOut(final Callback callback) {
         deleteToken(mAccountName, callback);
     }
 

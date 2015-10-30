@@ -72,25 +72,43 @@ export default class SignIn extends React.Component {
 		};
 	}
 
-	_onSignIn(e) {
-		if (e.type !== "success") {
-			switch (e.provider) {
-			case "google":
-				this.setState({
-					googleLoading: false
-				});
-				break;
-			case "facebook":
-				this.setState({
-					facebookLoading: false
-				});
-				break;
-			}
-
-			return;
-		}
-
+	_onSignInSuccess(e) {
 		this.props.signIn(e.provider, e.token);
+	}
+
+	_onSignInFailure(e) {
+		switch (e.provider) {
+		case "google":
+			this.setState({
+				googleLoading: false
+			});
+			break;
+		case "facebook":
+			this.setState({
+				facebookLoading: false
+			});
+			break;
+		}
+	}
+
+	async _signInWithFacebook() {
+		try {
+			const result = await FacebookLogin.logIn();
+
+			this._onSignInSuccess(result);
+		} catch (e) {
+			this._onSignInFailure(e);
+		}
+	}
+
+	async _signInWithGoogle() {
+		try {
+			const result = await GoogleLogin.logIn();
+
+			this._onSignInSuccess(result);
+		} catch (e) {
+			this._onSignInFailure(e);
+		}
 	}
 
 	_onFacebookPress() {
@@ -98,7 +116,7 @@ export default class SignIn extends React.Component {
 			facebookLoading: true
 		});
 
-		FacebookLogin.pickAccount(e => this._onSignIn(e));
+		this._signInWithFacebook();
 	}
 
 	_onGooglePress() {
@@ -106,7 +124,7 @@ export default class SignIn extends React.Component {
 			googleLoading: true
 		});
 
-		GoogleLogin.pickAccount(e => this._onSignIn(e));
+		this._signInWithGoogle();
 	}
 
 	render() {
