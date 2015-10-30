@@ -1,4 +1,6 @@
 import core from "../store/core";
+import GCM from "../push-notification/gcm";
+import Updater from "./updater";
 
 let bootComplete = false;
 
@@ -32,3 +34,6 @@ export default function() {
 		}
 	}, 1000);
 }
+
+GCM.initialize();
+Updater.checkUpdate();
