@@ -2,6 +2,7 @@ package io.scrollback.neighborhoods;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
 import com.facebook.react.bridge.Callback;
@@ -43,24 +44,46 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void showPrompt(final String message, final String ok, final String cancel, final Callback callback) {
+    public void showDialog(
+            @Nullable final String title, @Nullable final String message,
+            @Nullable final String ok, @Nullable final String cancel,
+            @Nullable final Callback callback) {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(mActiviyContext);
 
-        builder.setMessage(message)
-                .setPositiveButton(ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                d.dismiss();
+        if (title != null) {
+            builder.setTitle(title);
+        }
+
+        if (message != null) {
+            builder.setMessage(message);
+        }
+
+        if (ok != null) {
+            builder.setPositiveButton(ok,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int id) {
+                            d.dismiss();
+
+                            if (callback != null) {
                                 callback.invoke(DIALOG_OK);
                             }
-                        })
-                .setNegativeButton(cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                d.cancel();
+                        }
+                    });
+        }
+
+        if (cancel != null) {
+            builder.setNegativeButton(cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int id) {
+                            d.cancel();
+
+                            if (callback != null) {
                                 callback.invoke(DIALOG_CANCEL);
                             }
-                        });
+                        }
+                    });
+        }
 
         builder.create().show();
     }

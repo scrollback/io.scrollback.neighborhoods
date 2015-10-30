@@ -42,9 +42,20 @@ export default class LocalitiesBase extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-		Geolocation.getCurrentPosition(position => this.setState({ position }));
+	componentDidMount() {
+		this._mounted = true;
 
+		this._setCurrentPosition();
+		this._watchPosition();
+	}
+
+	componentWillUnmount() {
+		this._mounted = false;
+
+		this._clearWatch();
+	}
+
+	_watchPosition() {
 		this._watchID = Geolocation.watchPosition(position => {
 			if (this._mounted) {
 				this.setState({ position });
@@ -52,15 +63,23 @@ export default class LocalitiesBase extends React.Component {
 		});
 	}
 
-	componentDidMount() {
-		this._mounted = true;
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
-
+	_clearWatch() {
 		if (this._watchID) {
 			Geolocation.clearWatch(this._watchID);
+		}
+	}
+
+	async _setCurrentPosition() {
+		try {
+			const position = await Geolocation.getCurrentPosition();
+
+			if (this._mounted) {
+				this.setState({
+					position
+				});
+			}
+		} catch (e) {
+			// Ignore
 		}
 	}
 
