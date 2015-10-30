@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +23,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
     final int DIALOG_CANCEL = 1;
 
     private Map<Integer, AlertDialog> mAlertDialogs = new HashMap<>();
+    private Map<Integer, Callback> mAlertCallbacks = new HashMap<>();
 
     ReactApplicationContext mReactContext;
     Context mActiviyContext;
@@ -46,12 +50,22 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
+    private void sendEvent(int id, int value) {
+        WritableMap params = Arguments.createMap();
+
+        params.putInt("id", id);
+        params.putInt("value", value);
+
+        mReactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("alertDialogEvent", params);
+    }
+
     @ReactMethod
     public void build(
             final int id,
             @Nullable final String title, @Nullable final String message,
-            @Nullable final String ok, @Nullable final String cancel,
-            @Nullable final Callback callback) {
+            @Nullable final String ok, @Nullable final String cancel) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mActiviyContext);
 
@@ -73,9 +87,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
             builder.setNegativeButton(cancel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int i) {
-                            if (callback != null) {
-                                callback.invoke(DIALOG_CANCEL);
-                            }
+                            sendEvent(id, DIALOG_CANCEL);
                         }
                     });
         }
@@ -91,9 +103,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    if (callback != null) {
-                                        callback.invoke(DIALOG_OK);
-                                    }
+                                    sendEvent(id, DIALOG_OK);
                                 }
                             });
                 }
@@ -114,9 +124,9 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void dismiss(final int id) {
-        AlertDialog dialog = mAlertDialogs.get(id);
+        if (mAlertDialogs.containsKey(id)) {
+            AlertDialog dialog = mAlertDialogs.get(id);
 
-        if (dialog != null) {
             dialog.dismiss();
             mAlertDialogs.remove(id);
         }

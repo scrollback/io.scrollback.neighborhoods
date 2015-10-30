@@ -1,4 +1,5 @@
 import { NativeModules } from "react-native";
+import RCTDeviceEventEmitter from "RCTDeviceEventEmitter";
 
 const { AlertDialogModule } = NativeModules;
 
@@ -34,8 +35,14 @@ class AlertDialogBuilder {
 	show() {
 		dialogId++;
 
-		AlertDialogModule.build(dialogId, this._title, this._message, this._positiveLabel, this._negativeLabel, result => {
-			switch (result) {
+		AlertDialogModule.build(dialogId, this._title, this._message, this._positiveLabel, this._negativeLabel);
+
+		const listener = RCTDeviceEventEmitter.addListener("alertDialogEvent", event => {
+			if (event.id !== dialogId) {
+				return;
+			}
+
+			switch (event.value) {
 			case AlertDialogModule.DIALOG_OK:
 				this._positiveAction();
 				break;
@@ -50,6 +57,7 @@ class AlertDialogBuilder {
 		return {
 			dismiss() {
 				AlertDialogModule.dismiss(dialogId);
+				listener.remove();
 			}
 		};
 	}
