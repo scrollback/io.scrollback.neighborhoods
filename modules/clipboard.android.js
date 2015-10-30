@@ -9,7 +9,7 @@ export default {
 		});
 	},
 
-	getText(cb) {
-		ClipboardModule.getText(cb);
+	getText() {
+		return new Promise(resolve => ClipboardModule.getText(resolve));
 	}
 };

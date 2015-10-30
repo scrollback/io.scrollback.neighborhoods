@@ -206,15 +206,16 @@ export default class StartDiscussionButton extends React.Component {
 		});
 	}
 
-	_uploadImage() {
-		ImageChooser.pickImage(result => {
-			if (result.type === "success") {
-				this.setState({
-					imageData: result,
-					error: null
-				});
-			}
-		});
+	async _uploadImage() {
+		try {
+			const imageData = await ImageChooser.pickImage();
+
+			this.setState({
+				imageData
+			});
+		} catch (e) {
+			// Do nothing
+		}
 	}
 
 	_onUploadFinish(result) {
