@@ -1,3 +1,4 @@
+import permissionWeights from "../authorizer/permissionWeights";
 import userUtils from "../lib/user-utils";
 import objUtils from "../lib/obj-utils";
 import rangeOps from "../lib/range-ops";
@@ -125,17 +126,7 @@ Store.prototype.getTexts = function(roomId, threadId, time, range) {
 	let data = rangeOps.getItems(texts[key], req, "time");
 
 	if (!this.isUserAdmin()) {
-		data = data.filter(text => {
-			const { tags } = text;
-
-			if (Array.isArray(tags)) {
-				if (tags.includes("hidden") || tags.includes("abusive")) {
-					return false;
-				}
-			}
-
-			return true;
-		});
+		data = data.filter(text => !this.isHidden(text));
 	}
 
 	return data;
@@ -162,17 +153,7 @@ Store.prototype.getThreads = function(roomId, time, range) {
 	let data = rangeOps.getItems(threads[roomId], req, "startTime");
 
 	if (!this.isUserAdmin()) {
-		data = data.filter(thread => {
-			const { tags } = thread;
-
-			if (Array.isArray(tags)) {
-				if (tags.includes("thread-hidden") || tags.includes("hidden") || tags.includes("abusive")) {
-					return false;
-				}
-			}
-
-			return true;
-		});
+		data = data.filter(thread => !this.isHidden(thread));
 	}
 
 	return data;
@@ -296,19 +277,19 @@ Store.prototype.getNotes = function() {
 };
 
 Store.prototype.isUserAdmin = function(userId, roomId) {
-	let rel, role;
+	const role = this.getUserRole(userId, roomId);
 
-	userId = (typeof userId === "string") ? userId : this.get("user");
+	return permissionWeights[role] >= permissionWeights.moderator;
+};
 
-	rel = this.getRelation(roomId, userId);
+Store.prototype.isHidden = function(text) {
+	const { tags } = text;
 
-	if (rel && rel.role && rel.role !== "none") {
-		role = rel.role;
-	} else {
-		role = (!userId || userUtils.isGuest(userId)) ? "guest" : "registered";
+	if (Array.isArray(tags) && (tags.indexOf("thread-hidden") > -1 || tags.indexOf("hidden") > -1 || tags.indexOf("abusive") > -1)) {
+		return true;
 	}
 
-	return role;
+	return false;
 };
 
 module.exports = function(core, config) {
