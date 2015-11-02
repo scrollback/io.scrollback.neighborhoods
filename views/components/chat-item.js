@@ -97,7 +97,7 @@ export default class ChatItem extends React.Component {
 	}
 
 	_showMenu() {
-		const { text, textMetadata } = this.props;
+		const { text, textMetadata, currentUser } = this.props;
 
 		const menu = {};
 
@@ -109,7 +109,9 @@ export default class ChatItem extends React.Component {
 			menu["Quote message"] = () => this.props.quoteMessage(text);
 		}
 
-		menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
+		if (currentUser !== text.from) {
+			menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
+		}
 
 		Modal.showActionSheetWithItems(menu);
 	}
