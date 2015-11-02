@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
 		marginLeft: 16
 	},
 	nick: {
+		color: "#333",
 		fontWeight: "bold",
 		lineHeight: 21
 	},
