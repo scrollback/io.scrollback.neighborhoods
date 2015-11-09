@@ -260,11 +260,14 @@ public class PushNotificationIntentService extends IntentService {
         }
 
         public Bitmap getBitmap(String protocol, String host) {
+            final int ICON_SIZE = (int) (48 * (mContext.getResources().getDisplayMetrics().density));
+
             Bitmap bitmap = getOriginalBitmap(protocol, host);
 
             if (bitmap != null) {
-                Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                        bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                bitmap = Bitmap.createScaledBitmap(bitmap, ICON_SIZE, ICON_SIZE, false);
+
+                Bitmap output = Bitmap.createBitmap(ICON_SIZE, ICON_SIZE, Bitmap.Config.ARGB_8888);
 
                 Canvas canvas = new Canvas(output);
 
