@@ -12,7 +12,11 @@ export default class AppbarTouchable extends React.Component {
 
 	render() {
 		return (
-			<TouchFeedback {...this.props} onPress={this._onPress.bind(this)}>
+			<TouchFeedback
+				{...this.props}
+				onPress={this._onPress.bind(this)}
+				delayPressIn={0}
+			>
 				<View>
 					{this.props.children}
 				</View>
