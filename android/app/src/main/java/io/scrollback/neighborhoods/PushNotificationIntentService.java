@@ -26,11 +26,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class PushNotificationIntentService extends IntentService {
-
-    private ArrayList<Notification> pendingNotifications = new ArrayList<>();
 
     private static final String TAG = "GCM";
     private static final int NOTIFICATION_ID = 1;
@@ -120,47 +117,15 @@ public class PushNotificationIntentService extends IntentService {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        ArrayList<Notification> currentNotifications = new ArrayList<>();
-
-        // Ignore previous notifications with same group key
-        for (Notification n : pendingNotifications) {
-            if (n.getGroup().equals(note.getGroup())) {
-                continue;
-            }
-
-            currentNotifications.add(0, n);
-        }
-
-        currentNotifications.add(note);
-
-        pendingNotifications = currentNotifications;
-
-        NotificationCompat.Style noteStyle;
-
-        if (pendingNotifications.size() > 1) {
-            NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-                    .setBigContentTitle(pendingNotifications.size() + " new notifications")
-                    .setSummaryText(getString(R.string.app_name));
-
-            for (Notification n : pendingNotifications) {
-                style.addLine(buildTicker(n));
-            }
-
-            noteStyle = style;
-        } else {
-            noteStyle = new NotificationCompat.BigTextStyle();
-        }
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_status)
                         .setColor(ContextCompat.getColor(this, R.color.primary))
-                        .setNumber(pendingNotifications.size())
                         .setTicker(buildTicker(note))
                         .setContentTitle(note.getTitle())
                         .setGroup(note.getGroup())
                         .setContentText(note.getText())
-                        .setStyle(noteStyle)
+                        .setStyle(new NotificationCompat.BigTextStyle())
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .setGroupSummary(true)
