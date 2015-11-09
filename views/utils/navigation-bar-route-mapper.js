@@ -5,6 +5,7 @@ import routes from "./routes";
 
 const {
 	StyleSheet,
+	View,
 	Text
 } = React;
 
@@ -16,6 +17,11 @@ const styles = StyleSheet.create({
 		marginVertical: 14,
 		marginRight: 64,
 		paddingHorizontal: 4
+	},
+
+	phantom: {
+		height: 56,
+		width: 56
 	}
 });
 
@@ -47,7 +53,7 @@ const NavigationBarRouteMapper = {
 			return <route.rightComponent {...route.passProps} navigator={navigator} />;
 		}
 
-		return null;
+		return <View style={styles.phantom} />;
 	},
 
 	Title(route, navigator) {
