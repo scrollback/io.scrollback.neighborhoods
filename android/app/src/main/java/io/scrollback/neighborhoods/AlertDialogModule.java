@@ -1,5 +1,6 @@
 package io.scrollback.neighborhoods;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
@@ -118,7 +119,9 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
         if (mAlertDialogs.containsKey(id)) {
             AlertDialog dialog = mAlertDialogs.get(id);
 
-            dialog.show();
+            if (!((Activity) mActiviyContext).isFinishing()) {
+                dialog.show();
+            }
         }
     }
 
