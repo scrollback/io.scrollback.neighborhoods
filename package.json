@@ -10,7 +10,7 @@
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
     "event-target-shim": "^1.0.5",
-    "react-native": "git://github.com/facebook/react-native.git#7af752403eb58a1ca8081040f8010a4d28ee764e",
+    "react-native": "^0.12.0",
     "react-native-vector-icons": "^0.8.3"
   },
   "devDependencies": {
