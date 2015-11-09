@@ -2,7 +2,7 @@ import React from "react-native";
 import Modal from "./modal";
 import KeyboardSpacer from "./keyboard-spacer";
 import VersionCodes from "../../modules/version-codes";
-import navigationBar from "../utils/navigation-bar";
+import renderNavigationBar from "../utils/render-navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
 
@@ -37,7 +37,7 @@ export default class Home extends React.Component {
 				<Navigator
 					initialRoute={this.props.initialRoute || routes.home()}
 					renderScene={renderScene}
-					navigationBar={navigationBar}
+					navigationBar={renderNavigationBar()}
 					sceneStyle={styles.scene}
 				/>
 

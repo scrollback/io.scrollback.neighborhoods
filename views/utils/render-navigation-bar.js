@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default (
+export default () => (
 	<Navigator.NavigationBar
 		routeMapper={NavigationBarRouteMapper}
 		style={styles.navbar}
