@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 		width: 24,
 		borderRadius: 12,
 		paddingVertical: 4,
-		backgroundColor: "#E91E63"
+		backgroundColor: "rgba(0, 0, 0, .5)"
 	},
 	count: {
 		color: "#fff",

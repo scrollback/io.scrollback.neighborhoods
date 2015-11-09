@@ -41,9 +41,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		lineHeight: 18
 	},
-	badge: {
-		backgroundColor: "rgba(0, 0, 0, .5)"
-	},
 	expand: {
 		margin: 18,
 		color: "#000",
@@ -103,7 +100,7 @@ export default class RoomItem extends React.Component {
 						</View>
 
 						{this.props.showBadge ?
-							<NotificationBadgeController room={this.props.room.id} style={styles.badge} /> :
+							<NotificationBadgeController room={this.props.room.id} /> :
 							null
 						}
 

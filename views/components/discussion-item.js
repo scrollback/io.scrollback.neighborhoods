@@ -1,4 +1,5 @@
 import React from "react-native";
+import NotificationBadgeController from "../controllers/notification-badge-controller";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -43,6 +44,9 @@ const styles = StyleSheet.create({
 	title: {
 		flex: 1,
 		marginTop: 16
+	},
+	badge: {
+		margin: 12
 	},
 	expand: {
 		marginHorizontal: 16,
@@ -133,6 +137,8 @@ export default class DiscussionItem extends React.Component {
 								style={[ styles.item, styles.title ]}
 								text={this.props.thread.title}
 							/>
+
+							<NotificationBadgeController thread={this.props.thread.id} style={styles.badge} />
 
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
 								<Icon

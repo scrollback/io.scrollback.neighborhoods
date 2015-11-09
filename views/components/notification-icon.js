@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
 	badge: {
 		position: "absolute",
 		top: 10,
-		right: 10
+		right: 10,
+		backgroundColor: "#E91E63"
 	}
 });
 
