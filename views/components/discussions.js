@@ -43,11 +43,14 @@ export default class Discussions extends React.Component {
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "missing") {
+						switch (this.props.data[0]) {
+						case "missing":
 							return <PageLoading />;
-						}
-
-						if (this.props.data[0] === "failed") {
+						case "banned":
+							return <PageFailed pageLabel="You're banned in this community" />;
+						case "nonexistent":
+							return <PageFailed pageLabel="This community doesn't exist" />;
+						case "failed":
 							return <PageFailed pageLabel="Failed to load discussions" onRetry={this.props.refreshData} />;
 						}
 					}
