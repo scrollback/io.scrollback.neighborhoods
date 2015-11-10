@@ -275,6 +275,10 @@ public class PushNotificationIntentService extends IntentService {
             if (bitmap != null) {
                 Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 
+                if (output == null) {
+                    return null;
+                }
+
                 Canvas canvas = new Canvas(output);
 
                 final Paint paint = new Paint();
