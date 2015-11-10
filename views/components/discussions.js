@@ -13,6 +13,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 4
+	},
 	item: {
 		overflow: "hidden"
 	}
@@ -52,6 +55,7 @@ export default class Discussions extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
+							contentContainerStyle={styles.container}
 							initialListSize={3}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}

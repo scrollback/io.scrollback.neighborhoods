@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 		borderColor: "rgba(0, 0, 0, .12)",
 		borderTopWidth: 1 / PixelRatio.get(),
 		borderBottomWidth: 1 / PixelRatio.get(),
-		marginVertical: 3
+		marginVertical: 4
 	}
 });
 

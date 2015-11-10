@@ -11,6 +11,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 4
+	},
 	inverted: {
 		transform: [
 			{ scaleY: -1 }
@@ -62,6 +65,7 @@ export default class ChatMessages extends React.Component {
 						<ListView
 							removeClippedSubviews
 							style={styles.inverted}
+							contentContainerStyle={styles.container}
 							initialListSize={5}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
