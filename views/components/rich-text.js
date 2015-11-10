@@ -29,6 +29,8 @@ export default class RichText extends React.Component {
 	}
 
 	render() {
+		const { onOpenLink } = this.props;
+
 		const textWithEmoji = smiley.format(this.props.text.trim());
 
 		if (/^([\uD800-\uDBFF][\uDC00-\uDFFF])$/gi.test(textWithEmoji)) {
@@ -68,19 +70,43 @@ export default class RichText extends React.Component {
 
 								if (/^@[a-z0-9\-]+$/.test(t)) {
 									// a mention
-									items.push(<Link key={key}>{t}</Link>);
+									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
 								} else if (/^#\S+$/.test(t)) {
 									// a hashtag
-									items.push(<Link key={key}>{t}</Link>);
+									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
 								} else if (/^(http|https):\/\/(\S+)$/i.test(t)) {
 									// a link
-									items.push(<Link key={key} href={t}>{t}</Link>);
+									items.push(
+										<Link
+											onOpen={onOpenLink}
+											key={key}
+											href={t}
+										>
+											{t}
+										</Link>
+									);
 								} else if (/^[^@]+@[^@]+\.[^@]+$/i.test(t)) {
 									// an email id
-									items.push(<Link key={key} href={"mailto:" + t}>{t}</Link>);
+									items.push(
+										<Link
+											onOpen={onOpenLink}
+											key={key}
+											href={"mailto:" + t}
+										>
+											{t}
+										</Link>
+									);
 								} else if (/^(?:\+?(\d{1,3}))?[-.\s(]*(\d{3})?[-.\s)]*(\d{3})[-.\s]*(\d{4})(?: *x(\d+))?$/.test(t)) {
 									// a phone number
-									items.push(<Link key={key} href={"tel:" + t}>{t}</Link>);
+									items.push(
+										<Link
+											onOpen={onOpenLink}
+											key={key}
+											href={"tel:" + t}
+										>
+											{t}
+										</Link>
+									);
 								} else {
 									return t + punctuation + " ";
 								}
@@ -99,5 +125,6 @@ export default class RichText extends React.Component {
 }
 
 RichText.propTypes = {
-	text: React.PropTypes.string.isRequired
+	text: React.PropTypes.string.isRequired,
+	onOpenLink: React.PropTypes.func
 };
