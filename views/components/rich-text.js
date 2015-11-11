@@ -31,7 +31,7 @@ export default class RichText extends React.Component {
 	render() {
 		const { onOpenLink } = this.props;
 
-		const textWithEmoji = smiley.format(this.props.text.trim());
+		const textWithEmoji = smiley.format(this.props.text);
 
 		if (/^([\uD800-\uDBFF][\uDC00-\uDFFF])$/gi.test(textWithEmoji)) {
 			return (
