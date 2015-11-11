@@ -32,7 +32,7 @@ export default class LocalitiesBase extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({
+		this._dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2,
 			sectionHeaderHasChanged: (h1, h2) => h1 !== h2
 		});
@@ -84,7 +84,7 @@ export default class LocalitiesBase extends React.Component {
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRowsAndSections(this.props.data);
+		return this._dataSource.cloneWithRowsAndSections(this.props.data);
 	}
 
 	render() {
