@@ -84,11 +84,7 @@ export default class RoomItem extends React.Component {
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback
-					onPress={this._onPress.bind(this)}
-					onLongPress={this._showMenu.bind(this)}
-					delayLongPress={500}
-				>
+				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
 					<View style={styles.container}>
 						<View style={styles.item}>
 							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>

@@ -130,11 +130,7 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback
-					onPress={this._onPress.bind(this)}
-					onLongPress={this._showMenu.bind(this)}
-					delayLongPress={500}
-				>
+				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
 					<View>
 						<View style={styles.topArea}>
 							<CardTitle
