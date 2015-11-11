@@ -74,41 +74,22 @@ export default class RichText extends React.Component {
 								} else if (/^#\S+$/.test(t)) {
 									// a hashtag
 									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
-								} else if (/^(http|https):\/\/(\S+)$/i.test(t)) {
-									// a link
-									items.push(
-										<Link
-											onOpen={onOpenLink}
-											key={key}
-											href={t}
-										>
-											{t}
-										</Link>
-									);
-								} else if (/^[^@]+@[^@]+\.[^@]+$/i.test(t)) {
-									// an email id
-									items.push(
-										<Link
-											onOpen={onOpenLink}
-											key={key}
-											href={"mailto:" + t}
-										>
-											{t}
-										</Link>
-									);
-								} else if (/^(?:\+?(\d{1,3}))?[-.\s(]*(\d{3})?[-.\s)]*(\d{3})[-.\s]*(\d{4})(?: *x(\d+))?$/.test(t)) {
-									// a phone number
-									items.push(
-										<Link
-											onOpen={onOpenLink}
-											key={key}
-											href={"tel:" + t}
-										>
-											{t}
-										</Link>
-									);
 								} else {
-									return t + punctuation + " ";
+									const url = Link.buildLink(t);
+
+									if (url !== null) {
+										items.push(
+											<Link
+												onOpen={onOpenLink}
+												key={key}
+												url={url}
+											>
+												{t}
+											</Link>
+										);
+									} else {
+										return t + punctuation + " ";
+									}
 								}
 
 								items.push(punctuation + " ");
