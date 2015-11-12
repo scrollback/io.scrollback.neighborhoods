@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTitle from "./appbar-title";
 import AppbarTouchable from "./appbar-touchable";
@@ -7,12 +8,10 @@ import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
 import Icon from "./icon";
 import Banner from "./banner";
-import VersionCodes from "../../modules/version-codes";
 import Validator from "../../lib/validator";
 
 const {
 	StyleSheet,
-	Platform,
 	TouchableHighlight,
 	Image,
 	ScrollView,
@@ -25,9 +24,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.white
-	},
-	statusbar: {
-		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
 	icon: {
 		color: Colors.fadedBlack
@@ -147,9 +143,7 @@ export default class SignUp extends React.Component {
 		const { error } = this.state;
 
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
-
+			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.cancelSignUp}>
 						<AppbarIcon name="arrow-back" style={styles.icon} />
@@ -205,7 +199,7 @@ export default class SignUp extends React.Component {
 				</ScrollView>
 
 				<KeyboardSpacer />
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }

@@ -39,5 +39,5 @@ export default class AppbarSecondary extends React.Component {
 }
 
 AppbarSecondary.propTypes = {
-	children: React.PropTypes.element
+	children: React.PropTypes.node
 };

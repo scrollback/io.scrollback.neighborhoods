@@ -1,6 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Loading from "./loading";
+import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
@@ -11,12 +12,10 @@ import ImageUploadController from "../controllers/image-upload-controller";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
-import VersionCodes from "../../modules/version-codes";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 
 const {
-	Platform,
 	StyleSheet,
 	ScrollView,
 	View,
@@ -28,9 +27,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.white
-	},
-	statusbar: {
-		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
 	threadTitle: {
 		fontWeight: "bold",
@@ -219,9 +215,7 @@ export default class StartDiscussionButton extends React.Component {
 		const isLoading = this.state.status === "loading";
 
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
-
+			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
@@ -281,7 +275,7 @@ export default class StartDiscussionButton extends React.Component {
 						</TouchFeedback>
 					}
 				</ScrollView>
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }

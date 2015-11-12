@@ -27,5 +27,5 @@ export default class AppbarTouchable extends React.Component {
 
 AppbarTouchable.propTypes = {
 	onPress: React.PropTypes.func.isRequired,
-	children: React.PropTypes.element
+	children: React.PropTypes.node.isRequired
 };

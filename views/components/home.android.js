@@ -1,17 +1,15 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Modal from "./modal";
+import StatusbarContainer from "./statusbar-container";
 import KeyboardSpacer from "./keyboard-spacer";
-import VersionCodes from "../../modules/version-codes";
 import renderNavigationBar from "../utils/render-navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
 
 const {
-	Platform,
 	StyleSheet,
-	Navigator,
-	View
+	Navigator
 } = React;
 
 const styles = StyleSheet.create({
@@ -19,7 +17,6 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	statusbar: {
-		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25, // offset for statusbar height
 		backgroundColor: Colors.primary
 	},
 	scene: {
@@ -31,9 +28,7 @@ const styles = StyleSheet.create({
 export default class Home extends React.Component {
 	render() {
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
-
+			<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
 				<Navigator
 					initialRoute={this.props.initialRoute || routes.home()}
 					renderScene={renderScene}
@@ -43,7 +38,7 @@ export default class Home extends React.Component {
 
 				<KeyboardSpacer />
 				<Modal />
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }

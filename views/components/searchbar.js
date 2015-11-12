@@ -3,18 +3,13 @@ import Colors from "../../colors.json";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
-import VersionCodes from "../../modules/version-codes";
 
 const {
 	StyleSheet,
-	Platform,
 	TextInput
 } = React;
 
 const styles = StyleSheet.create({
-	searchbar: {
-		marginTop: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
-	},
 	input: {
 		flex: 1,
 		fontSize: 16,
@@ -71,7 +66,7 @@ export default class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<AppbarSecondary {...this.props} style={[ styles.searchbar, this.props.style ]}>
+			<AppbarSecondary {...this.props}>
 				<AppbarTouchable onPress={this.props.onBack}>
 					<AppbarIcon name="arrow-back" style={styles.icon} />
 				</AppbarTouchable>

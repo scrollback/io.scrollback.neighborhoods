@@ -1,11 +1,11 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import StatusbarContainer from "./statusbar-container";
 import LocalitiesBase from "./localities-base";
 import SearchBar from "./searchbar";
 
 const {
-	StyleSheet,
-	View
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 export default class LocalitiesFiltered extends React.Component {
 	render() {
 		return (
-			<View style={styles.container}>
+			<StatusbarContainer style={styles.container}>
 				<SearchBar
 					placeholder="Type a name..."
 					onBack={this.props.dismiss}
@@ -35,7 +35,7 @@ export default class LocalitiesFiltered extends React.Component {
 					showMenuButton={false}
 					showBadge={false}
 				/>
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }
