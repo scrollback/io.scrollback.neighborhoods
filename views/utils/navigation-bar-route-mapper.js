@@ -2,22 +2,17 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppbarTouchable from "../components/appbar-touchable";
 import AppbarIcon from "../components/appbar-icon";
+import AppbarTitle from "../components/appbar-title";
 import routes from "./routes";
 
 const {
 	StyleSheet,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
 	title: {
-		color: Colors.white,
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4
+		color: Colors.white
 	},
 
 	phantom: {
@@ -63,9 +58,9 @@ const NavigationBarRouteMapper = {
 		}
 
 		return (
-			<Text style={styles.title} numberOfLines={1}>
+			<AppbarTitle textStyle={styles.title}>
 				{route.title}
-			</Text>
+			</AppbarTitle>
 		);
 	}
 };

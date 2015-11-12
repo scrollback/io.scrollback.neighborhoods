@@ -1,6 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Loading from "./loading";
+import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
@@ -16,7 +17,6 @@ import textUtils from "../../lib/text-utils";
 
 const {
 	Platform,
-	PixelRatio,
 	StyleSheet,
 	ScrollView,
 	View,
@@ -32,24 +32,6 @@ const styles = StyleSheet.create({
 	statusbar: {
 		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
-	appbar: {
-		flexDirection: "row",
-		alignItems: "stretch",
-		justifyContent: "space-between",
-		height: 56,
-		borderColor: Colors.placeholder,
-		borderBottomWidth: 1 / PixelRatio.get(),
-		paddingHorizontal: 4
-	},
-	titleText: {
-		color: Colors.darkGrey,
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4,
-		marginHorizontal: 4
-	},
 	threadTitle: {
 		fontWeight: "bold",
 		fontSize: 18,
@@ -60,7 +42,7 @@ const styles = StyleSheet.create({
 		lineHeight: 21
 	},
 	icon: {
-		color: Colors.darkGrey
+		color: Colors.fadedBlack
 	},
 	scene: {
 		padding: 16,
@@ -240,7 +222,7 @@ export default class StartDiscussionButton extends React.Component {
 			<View style={styles.container}>
 				<View style={styles.statusbar} />
 
-				<View style={styles.appbar}>
+				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
@@ -254,7 +236,7 @@ export default class StartDiscussionButton extends React.Component {
 							</View>)
 						}
 					</AppbarTouchable>
-				</View>
+				</AppbarSecondary>
 
 				<Banner text={this.state.error} type="error" />
 

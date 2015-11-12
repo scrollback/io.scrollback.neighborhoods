@@ -1,5 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppbarSecondary from "./appbar-secondary";
+import AppbarTitle from "./appbar-title";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
@@ -11,7 +13,6 @@ import Validator from "../../lib/validator";
 const {
 	StyleSheet,
 	Platform,
-	PixelRatio,
 	TouchableHighlight,
 	Image,
 	ScrollView,
@@ -28,24 +29,8 @@ const styles = StyleSheet.create({
 	statusbar: {
 		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
 	},
-	appbar: {
-		flexDirection: "row",
-		height: 56,
-		borderColor: Colors.placeholder,
-		borderBottomWidth: 1 / PixelRatio.get(),
-		paddingHorizontal: 4
-	},
-	titleText: {
-		color: Colors.darkGrey,
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4,
-		marginHorizontal: 4
-	},
 	icon: {
-		color: Colors.darkGrey
+		color: Colors.fadedBlack
 	},
 	scene: {
 		padding: 24
@@ -165,15 +150,15 @@ export default class SignUp extends React.Component {
 			<View style={styles.container}>
 				<View style={styles.statusbar} />
 
-				<View style={styles.appbar}>
+				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.cancelSignUp}>
 						<AppbarIcon name="arrow-back" style={styles.icon} />
 					</AppbarTouchable>
 
-					<View>
-						<Text style={styles.titleText}>Let's create an account</Text>
-					</View>
-				</View>
+					<AppbarTitle>
+						Let's create an account
+					</AppbarTitle>
+				</AppbarSecondary>
 
 				<Banner text={this.state.errorMessage} type="error" />
 
