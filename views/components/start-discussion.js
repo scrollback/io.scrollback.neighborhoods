@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Loading from "./loading";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
@@ -26,7 +27,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	statusbar: {
 		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
@@ -36,12 +37,12 @@ const styles = StyleSheet.create({
 		alignItems: "stretch",
 		justifyContent: "space-between",
 		height: 56,
-		borderColor: "rgba(0, 0, 0, .16)",
+		borderColor: Colors.placeholder,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		paddingHorizontal: 4
 	},
 	titleText: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontWeight: "bold",
 		fontSize: 18,
 		marginVertical: 14,
@@ -59,11 +60,11 @@ const styles = StyleSheet.create({
 		lineHeight: 21
 	},
 	icon: {
-		color: "#555"
+		color: Colors.darkGrey
 	},
 	scene: {
 		padding: 16,
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	button: {
 		flexDirection: "row",
@@ -71,14 +72,14 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	buttonText: {
-		color: "#673AB7",
+		color: Colors.primary,
 		fontWeight: "bold",
 		fontSize: 14,
 		lineHeight: 21,
 		marginRight: 16
 	},
 	buttonIcon: {
-		color: "#673AB7",
+		color: Colors.primary,
 		marginHorizontal: 12
 	},
 	loading: {
@@ -99,8 +100,7 @@ const styles = StyleSheet.create({
 		marginRight: 8
 	},
 	uploadButtonIcon: {
-		color: "#000",
-		opacity: 0.5,
+		color: Colors.fadedBlack,
 		margin: 8
 	}
 });

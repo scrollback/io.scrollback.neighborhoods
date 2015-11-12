@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Loading from "./loading";
 
 const {
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#673AB7"
+		backgroundColor: Colors.primary
 	},
 	logo: {
 		flex: 1,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
 		margin: 16
 	},
 	by: {
-		color: "rgba(255, 255, 255, .5)",
+		color: Colors.fadedWhite,
 		paddingHorizontal: 4
 	},
 	scrollback: {

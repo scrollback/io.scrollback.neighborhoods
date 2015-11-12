@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import Modal from "./modal";
 import StartDiscussionController from "../controllers/start-discussion-controller";
@@ -19,15 +20,14 @@ const styles = StyleSheet.create({
 		borderRadius: 28
 	},
 	fab: {
-		backgroundColor: "#ff9800",
+		backgroundColor: Colors.accent,
 		height: 56,
 		width: 56,
 		borderRadius: 28
 	},
 	icon: {
 		margin: 16,
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

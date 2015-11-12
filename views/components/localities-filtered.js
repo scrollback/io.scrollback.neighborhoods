@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import LocalitiesBase from "./localities-base";
 import SearchBar from "./searchbar";
 
@@ -10,7 +11,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#eee"
+		backgroundColor: Colors.lightGrey
 	},
 	inner: {
 		flex: 1

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import Modal from "./modal";
 import LocalitiesFilterController from "../controllers/localities-filtered-controller";
@@ -15,8 +16,8 @@ const styles = StyleSheet.create({
 	searchbar: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.placeholder,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		height: 56
 	},
@@ -32,8 +33,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	icon: {
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

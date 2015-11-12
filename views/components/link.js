@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Linking from "../../modules/linking";
 
 const {
@@ -7,7 +8,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	link: { color: "#2196F3" }
+	link: {
+		color: Colors.info
+	}
 });
 
 export default class Link extends React.Component {

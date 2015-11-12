@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AvatarController from "../controllers/avatar-controller";
 import ChatBubble from "./chat-bubble";
 import Embed from "./embed";
@@ -36,15 +37,19 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		marginTop: 4
 	},
-	timestampLeft: { marginLeft: 52 },
-	timestampRight: { alignSelf: "flex-end" },
+	timestampLeft: {
+		marginLeft: 52
+	},
+	timestampRight: {
+		alignSelf: "flex-end"
+	},
 	timestampIcon: {
-		color: "#000",
-		opacity: 0.3,
-		marginVertical: 2
+		color: Colors.black,
+		marginVertical: 2,
+		opacity: 0.3
 	},
 	timestampText: {
-		color: "#000",
+		color: Colors.black,
 		fontSize: 12,
 		marginHorizontal: 6,
 		paddingHorizontal: 8,
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "rgba(0, 0, 0, .16)",
+		backgroundColor: Colors.placeholder,
 		alignSelf: "flex-end"
 	},
 	embed: {

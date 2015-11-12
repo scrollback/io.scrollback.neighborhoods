@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import TouchFeedback from "./touch-feedback";
 
@@ -13,16 +14,16 @@ const styles = StyleSheet.create({
 	banner: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "rgba(0, 0, 0, .5)"
+		backgroundColor: Colors.fadedBlack
 	},
 	info: {
-		backgroundColor: "#2196F3"
+		backgroundColor: Colors.info
 	},
 	error: {
-		backgroundColor: "#F44336"
+		backgroundColor: Colors.error
 	},
 	success: {
-		backgroundColor: "#4CAF50"
+		backgroundColor: Colors.success
 	},
 	textContainer: {
 		flex: 1,
@@ -32,11 +33,11 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 14,
 		lineHeight: 21,
-		color: "#fff"
+		color: Colors.white
 	},
 	icon: {
 		margin: 16,
-		color: "#fff"
+		color: Colors.white
 	}
 });
 

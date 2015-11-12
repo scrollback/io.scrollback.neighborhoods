@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import LargeButton from "./large-button";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "stretch",
 		padding: 32,
-		backgroundColor: "rgba(0, 0, 0, 0.5)"
+		backgroundColor: Colors.fadedBlack
 	},
 	image: {
 		resizeMode: "contain",
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
 		margin: 16
 	},
 	tip: {
-		color: "#fff",
+		color: Colors.white,
 		textAlign: "center",
 		paddingHorizontal: 4,
 		marginVertical: 8
@@ -55,10 +56,10 @@ const styles = StyleSheet.create({
 		alignItems: "stretch"
 	},
 	facebook: {
-		backgroundColor: "#3B5998"
+		backgroundColor: Colors.facebook
 	},
 	google: {
-		backgroundColor: "#488EF1"
+		backgroundColor: Colors.google
 	}
 });
 

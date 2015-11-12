@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Modal from "./modal";
 import KeyboardSpacer from "./keyboard-spacer";
 import VersionCodes from "../../modules/version-codes";
@@ -15,16 +16,15 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		position: "relative"
+		flex: 1
 	},
 	statusbar: {
 		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25, // offset for statusbar height
-		backgroundColor: "#673ab7"
+		backgroundColor: Colors.primary
 	},
 	scene: {
 		marginTop: 56, // offset for appbar height
-		backgroundColor: "#eee"
+		backgroundColor: Colors.lightGrey
 	}
 });
 

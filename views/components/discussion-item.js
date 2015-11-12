@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import NotificationBadgeController from "../controllers/notification-badge-controller";
 import Card from "./card";
 import CardTitle from "./card-title";
@@ -51,8 +52,7 @@ const styles = StyleSheet.create({
 	expand: {
 		marginHorizontal: 16,
 		marginVertical: 12,
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

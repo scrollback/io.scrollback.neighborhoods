@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import CardAuthor from "./card-author";
 import timeUtils from "../../lib/time-utils";
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	label: {
-		color: "#000",
+		color: Colors.black,
 		fontSize: 12,
 		marginLeft: 8,
 		marginRight: 16,
@@ -35,11 +36,8 @@ const styles = StyleSheet.create({
 	action: {
 		fontWeight: "bold"
 	},
-	loved: {
-		color: "#E91E63"
-	},
 	icon: {
-		color: "#000"
+		color: Colors.black
 	},
 	faded: {
 		opacity: 0.3

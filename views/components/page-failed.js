@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import Page from "./page";
 
@@ -29,8 +30,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8
 	},
 	icon: {
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

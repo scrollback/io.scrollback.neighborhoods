@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import Loading from "./loading";
 
@@ -32,19 +33,19 @@ const styles = StyleSheet.create({
 		borderRadius: 32
 	},
 	iconSendContainer: {
-		backgroundColor: "#ff9800"
+		backgroundColor: Colors.accent
 	},
 	iconCancelContainer: {
-		backgroundColor: "rgba(0, 0, 0, .5)"
+		backgroundColor: Colors.fadedBlack
 	},
 	iconSuccessContainer: {
-		backgroundColor: "#4caf50"
+		backgroundColor: Colors.success
 	},
 	iconErrorContainer: {
-		backgroundColor: "#f44336"
+		backgroundColor: Colors.error
 	},
 	icon: {
-		color: "#fff",
+		color: Colors.white,
 		margin: 16
 	},
 	iconWarning: {
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 		borderRadius: 18
 	},
 	closeButton: {
-		backgroundColor: "#333",
+		backgroundColor: Colors.darkGrey,
 		height: 36,
 		width: 36,
 		borderRadius: 18,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	closeIcon: {
-		color: "#fff"
+		color: Colors.white
 	}
 });
 

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import VersionCodes from "../../modules/version-codes";
@@ -15,8 +16,8 @@ const styles = StyleSheet.create({
 	searchbar: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.placeholder,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		height: 56,
 		marginTop: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
@@ -25,12 +26,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		fontSize: 16,
 		fontWeight: "bold",
-		color: "#000",
+		color: Colors.black,
 		backgroundColor: "transparent"
 	},
 	icon: {
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

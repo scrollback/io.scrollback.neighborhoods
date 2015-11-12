@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AvatarController from "../controllers/avatar-controller";
 import TouchFeedback from "./touch-feedback";
 
@@ -11,8 +12,8 @@ const {
 
 const styles = StyleSheet.create({
 	item: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	person: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "rgba(0, 0, 0, .16)",
+		backgroundColor: Colors.placeholder,
 		marginHorizontal: 16,
 		marginVertical: 12
 	},
@@ -35,14 +36,17 @@ const styles = StyleSheet.create({
 	nick: {
 		flex: 1
 	},
+	nickText: {
+		color: Colors.darkGrey
+	},
 	status: {
 		fontSize: 12,
 		marginHorizontal: 16,
 		paddingHorizontal: 4,
-		color: "#aaa"
+		color: Colors.fadedBlack
 	},
 	online: {
-		color: "#4CAF50",
+		color: Colors.success,
 		fontWeight: "bold"
 	}
 });
@@ -70,7 +74,7 @@ export default class PeopleListItem extends React.Component {
 							/>
 						</View>
 						<View style={styles.nick}>
-							<Text>{user.id}</Text>
+							<Text style={styles.nickText}>{user.id}</Text>
 						</View>
 						<View>
 							<Text style={[ styles.status, user.status === "online" ? styles.online : null ]}>

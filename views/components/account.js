@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import PageLoading from "./page-loading";
 import PageFailed from "./page-failed";
 import AvatarController from "../controllers/avatar-controller";
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
 		height: 48,
 		width: 48,
 		borderRadius: 24,
-		backgroundColor: "rgba(0, 0, 0, .16)"
+		backgroundColor: Colors.placeholder
 	},
 	image: {
 		flex: 1,
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
 		marginLeft: 16
 	},
 	nick: {
-		color: "#333",
+		color: Colors.darkGrey,
 		fontWeight: "bold",
 		lineHeight: 21
 	},
@@ -45,10 +46,10 @@ const styles = StyleSheet.create({
 	},
 	settings: {
 		alignItems: "stretch",
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	inputContainer: {
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		paddingVertical: 8
 	},
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
 	item: {
 		flexDirection: "row",
 		alignItems: "center",
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		padding: 16
 	},
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	itemText: {
-		color: "#333",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 21
 	},

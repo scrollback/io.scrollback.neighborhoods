@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
@@ -17,14 +18,13 @@ const styles = StyleSheet.create({
 	header: {
 		paddingHorizontal: 16,
 		paddingVertical: 12,
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	headerText: {
-		color: "#000",
+		color: Colors.fadedBlack,
 		fontSize: 12,
-		fontWeight: "bold",
-		opacity: 0.5
+		fontWeight: "bold"
 	}
 });
 

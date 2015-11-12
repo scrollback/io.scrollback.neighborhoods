@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import AvatarController from "../controllers/avatar-controller";
 import routes from "../utils/routes";
@@ -13,8 +14,7 @@ const styles = StyleSheet.create({
 		height: 26,
 		width: 26,
 		borderRadius: 13,
-		backgroundColor: "rgba(255, 255, 255, .16)",
-		borderColor: "#fff",
+		borderColor: Colors.white,
 		borderWidth: 1,
 		margin: 15
 	},

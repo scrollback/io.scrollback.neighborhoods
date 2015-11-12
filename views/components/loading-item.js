@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Loading from "./loading";
 
 const {
@@ -13,8 +14,8 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	loadingContainer: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderWidth: 1 / PixelRatio.get(),
 		height: 36,
 		width: 36,

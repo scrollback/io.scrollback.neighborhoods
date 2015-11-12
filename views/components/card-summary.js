@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import RichText from "./rich-text";
 
 const {
@@ -7,7 +8,7 @@ const {
 
 const styles = StyleSheet.create({
 	summary: {
-		color: "#999"
+		color: Colors.grey
 	}
 });
 

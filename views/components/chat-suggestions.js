@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AvatarController from "../controllers/avatar-controller";
 
 const {
@@ -17,8 +18,8 @@ const styles = StyleSheet.create({
 		]
 	},
 	item: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderTopWidth: 1 / PixelRatio.get(),
 		flexDirection: "row",
 		alignItems: "center",
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
 		height: 24,
 		width: 24,
 		borderRadius: 12,
-		backgroundColor: "rgba(0, 0, 0, .16)"
+		backgroundColor: Colors.placeholder
 	},
 	image: {
 		flex: 1,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
 		borderRadius: 24
 	},
 	nick: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 21,
 		marginHorizontal: 12,

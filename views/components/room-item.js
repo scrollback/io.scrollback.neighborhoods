@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import NotificationBadgeController from "../controllers/notification-badge-controller";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
@@ -20,8 +21,8 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		height: 64
 	},
@@ -31,20 +32,19 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	title: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 21,
 		fontWeight: "bold"
 	},
 	distance: {
-		color: "#999",
+		color: Colors.grey,
 		fontSize: 12,
 		lineHeight: 18
 	},
 	expand: {
 		margin: 18,
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 

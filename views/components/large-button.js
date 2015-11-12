@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import TouchFeedback from "./touch-feedback";
 import Loading from "./loading";
 
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16
 	},
 	button: {
-		backgroundColor: "#673AB7",
+		backgroundColor: Colors.primary,
 		padding: 12,
 		borderRadius: 3,
 		flexDirection: "row",
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	buttonText: {
-		color: "#fff",
+		color: Colors.white,
 		textAlign: "center",
 		paddingHorizontal: 4,
 		fontSize: 14,

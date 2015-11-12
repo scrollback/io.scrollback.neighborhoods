@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "stretch",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .12)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.placeholder,
 		borderTopWidth: 1 / PixelRatio.get()
 	},
 	inputContainer: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	input: {
-		color: "#000",
+		color: Colors.black,
 		backgroundColor: "transparent",
 		paddingVertical: 16,
 		margin: 0
@@ -37,8 +38,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	icon: {
-		color: "#000",
-		opacity: 0.5,
+		color: Colors.fadedBlack,
 		margin: 17
 	}
 });

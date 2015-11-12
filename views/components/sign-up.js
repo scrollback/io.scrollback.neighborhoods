@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
@@ -22,7 +23,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	statusbar: {
 		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
@@ -30,12 +31,12 @@ const styles = StyleSheet.create({
 	appbar: {
 		flexDirection: "row",
 		height: 56,
-		borderColor: "rgba(0, 0, 0, .16)",
+		borderColor: Colors.placeholder,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		paddingHorizontal: 4
 	},
 	titleText: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontWeight: "bold",
 		fontSize: 18,
 		marginVertical: 14,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 4
 	},
 	icon: {
-		color: "#555"
+		color: Colors.darkGrey
 	},
 	scene: {
 		padding: 24
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
 		marginVertical: 12
 	},
 	heading: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 24,
 		lineHeight: 36,
 		textAlign: "center",
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	paragraph: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 16,
 		lineHeight: 24,
 		textAlign: "center",
@@ -76,14 +77,14 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	hint: {
-		color: "#999",
+		color: Colors.grey,
 		textAlign: "center",
 		fontSize: 12,
 		lineHeight: 18,
 		marginTop: 8
 	},
 	error: {
-		color: "#f44336"
+		color: Colors.error
 	},
 	buttonContainer: {
 		height: 56,
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
 		marginVertical: 36
 	},
 	button: {
-		backgroundColor: "#4CAF50",
+		backgroundColor: Colors.success,
 		height: 56,
 		width: 56,
 		borderRadius: 28,
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	buttonText: {
-		color: "#fff",
+		color: Colors.white,
 		textAlign: "center"
 	}
 });
