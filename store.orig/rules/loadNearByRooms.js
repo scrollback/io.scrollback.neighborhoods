@@ -31,7 +31,7 @@ export default function(core) {
 			if (res && res.results && res.results.length) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results.filter(room => memberOf.indexOf(room.id) === -1)
+						nearByRooms: res.results
 					}
 				});
 			}

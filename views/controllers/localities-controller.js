@@ -39,10 +39,14 @@ export default class LocalitiesController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
+				const following = this.store.getRelatedRooms().filter(room => room.role && room.role !== "none");
+				const followingRooms = following.map(room => room.id);
+				const nearby = this.store.getNearByRooms().filter(room => followingRooms.indexOf(room.id) === -1);
+
 				this.setState({
 					data: {
-						following: this.store.getRelatedRooms().filter(room => room.role && room.role !== "none"),
-						nearby: this.store.getNearByRooms()
+						following,
+						nearby
 					}
 				});
 			}
