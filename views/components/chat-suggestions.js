@@ -82,5 +82,6 @@ export default class ChatSuggestions extends React.Component {
 }
 
 ChatSuggestions.propTypes = {
-	data: React.PropTypes.arrayOf(React.PropTypes.string)
+	data: React.PropTypes.arrayOf(React.PropTypes.string),
+	onSelect: React.PropTypes.func.isRequired
 };
