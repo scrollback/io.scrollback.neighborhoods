@@ -30,5 +30,5 @@ StatusbarContainer.propTypes = {
 	statusbarStyle: React.PropTypes.any
 };
 
-// The app pans to show the Keyboard below Kitkat (We set it to resize from Kitkat to upwards)
+// Versions below KitKat don't have translucent statusbar
 export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? View : StatusbarContainer;
