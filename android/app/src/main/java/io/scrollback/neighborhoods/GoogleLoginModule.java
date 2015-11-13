@@ -62,8 +62,9 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
     @ReactMethod
     public void logIn(final Promise promise) {
+        String[] accountTypes = new String[]{"com.google"};
         Intent intent = AccountPicker.newChooseAccountIntent(
-                null, null, new String[]{"com.google"},
+                null, null, accountTypes,
                 false, null, null, null, null);
 
         if (mRetrievePromise != null) {
@@ -117,6 +118,8 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     }
                 } catch (UserRecoverableAuthException e) {
                     ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+
+                    return "false";
                 } catch (GoogleAuthException e) {
                     Log.e(Constants.TAG, e.getMessage());
 
@@ -134,6 +137,10 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
+                }
+
+                if (token.equals("false")) {
+                    return;
                 }
 
                 if (mRetrievePromise != null) {
