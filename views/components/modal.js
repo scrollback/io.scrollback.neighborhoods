@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import KeyboardSpacer from "./keyboard-spacer";
 
 const {
@@ -23,14 +24,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
-		backgroundColor: "rgba(0, 0, 0, .6)"
+		backgroundColor: Colors.fadedBlack
 	},
 	dialog: {
-		backgroundColor: "#fff",
+		backgroundColor: Colors.white,
 		borderRadius: 3
 	},
 	menuItem: {
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderTopWidth: 1 / PixelRatio.get(),
 		padding: 16,
 		width: 240
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
 	},
 	menuItemText: {
 		fontSize: 16,
-		color: "#333",
+		color: Colors.darkGrey,
 		paddingHorizontal: 4
 	}
 });

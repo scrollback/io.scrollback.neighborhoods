@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import NotificationBadgeController from "../controllers/notification-badge-controller";
@@ -13,7 +14,8 @@ const styles = StyleSheet.create({
 	badge: {
 		position: "absolute",
 		top: 10,
-		right: 10
+		right: 10,
+		backgroundColor: Colors.badge
 	}
 });
 

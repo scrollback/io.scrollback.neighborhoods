@@ -123,7 +123,7 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void pickAccount(final Callback callback) {
+    public void logIn(final Callback callback) {
         if (mTokenCallback != null) {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
@@ -146,6 +146,17 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
         LoginManager.getInstance().logInWithReadPermissions(
                 (Activity) mActivityContext,
                 Arrays.asList("public_profile", "email"));
+    }
+
+    @ReactMethod
+    public void logOut(final Callback callback) {
+        LoginManager.getInstance().logOut();
+
+        WritableMap map = Arguments.createMap();
+
+        map.putString("type", CALLBACK_TYPE_SUCCESS);
+
+        callback.invoke(map);
     }
 
     @ReactMethod

@@ -1,5 +1,5 @@
 import React from "react-native";
-import DeviceVersion from "../../modules/device-version";
+import VersionCodes from "../../modules/version-codes";
 
 const {
 	Platform,
@@ -8,30 +8,29 @@ const {
 	DeviceEventEmitter
 } = React;
 
-export default class KeyboardSpacer extends React.Component {
+class KeyboardSpacer extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			ignoreKeboard: Platform.OS === "android" && DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT,
 			keyboardHeightAnim: new Animated.Value(0)
 		};
 	}
 
 	componentWillMount() {
-		if (this.state.ignoreKeboard) {
-			return;
-		}
+		this._registerEvents();
+	}
 
+	componentWillUnmount() {
+		this._unRegisterEvents();
+	}
+
+	_registerEvents() {
 		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
 		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
 	}
 
-	componentWillUnmount() {
-		if (this.state.ignoreKeboard) {
-			return;
-		}
-
+	_unRegisterEvents() {
 		this._keyboardDidShowSubscription.remove();
 		this._keyboardDidHideSubscription.remove();
 	}
@@ -49,10 +48,10 @@ export default class KeyboardSpacer extends React.Component {
 	}
 
 	render() {
-		if (this.state.ignoreKeboard) {
-			return null;
-		}
-
 		return <Animated.View style={{ height: this.state.keyboardHeightAnim }} />;
 	}
 }
+
+// The app pans to show the Keyboard below Kitkat (We set it to resize from Kitkat to upwards)
+export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? null : KeyboardSpacer;
+

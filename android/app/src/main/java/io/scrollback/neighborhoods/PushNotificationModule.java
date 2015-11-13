@@ -208,7 +208,6 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                 map.putString("registrationId", mCurrentRegId);
                 map.putString("uuid", uuid);
                 map.putString("deviceModel", Build.MODEL);
-                map.putString("packageName", mReactContext.getPackageName());
 
                 callback.invoke(map);
             }
@@ -265,19 +264,21 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                callback.invoke();
+                WritableMap map = Arguments.createMap();
+
+                map.putString("type", CALLBACK_TYPE_SUCCESS);
+
+                callback.invoke(map);
             }
         }.execute(null, null, null);
     }
 
     @ReactMethod
-    public void setPreference(String key, String value, Callback callback) {
+    public void setPreference(String key, String value) {
         SharedPreferences.Editor e = getGCMPreferences().edit();
 
         e.putString(key, value);
         e.apply();
-
-        callback.invoke();
     }
 
     @ReactMethod

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import RichText from "./rich-text";
 
 const {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 		alignItems: "flex-end"
 	},
 	bubble: {
-		backgroundColor: "#fff",
+		backgroundColor: Colors.white,
 		paddingHorizontal: 12,
 		paddingVertical: 8,
 		borderRadius: 3
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
 		marginRight: 8
 	},
 	text: {
-		color: "#555",
+		color: Colors.darkGrey,
 		paddingHorizontal: 4
 	},
 	triangle: {

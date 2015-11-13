@@ -1,13 +1,19 @@
 package io.scrollback.neighborhoods;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +22,9 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
 
     final int DIALOG_OK = 0;
     final int DIALOG_CANCEL = 1;
+
+    private Map<Integer, AlertDialog> mAlertDialogs = new HashMap<>();
+    private Map<Integer, Callback> mAlertCallbacks = new HashMap<>();
 
     ReactApplicationContext mReactContext;
     Context mActiviyContext;
@@ -42,26 +51,87 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
+    private void sendEvent(int id, int value) {
+        WritableMap params = Arguments.createMap();
+
+        params.putInt("id", id);
+        params.putInt("value", value);
+
+        mReactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("alertDialogEvent", params);
+    }
+
     @ReactMethod
-    public void showPrompt(final String message, final String ok, final String cancel, final Callback callback) {
+    public void build(
+            final int id,
+            @Nullable final String title, @Nullable final String message,
+            @Nullable final String ok, @Nullable final String cancel) {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(mActiviyContext);
 
-        builder.setMessage(message)
-                .setPositiveButton(ok,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                d.dismiss();
-                                callback.invoke(DIALOG_OK);
-                            }
-                        })
-                .setNegativeButton(cancel,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface d, int id) {
-                                d.cancel();
-                                callback.invoke(DIALOG_CANCEL);
-                            }
-                        });
+        if (title != null) {
+            builder.setTitle(title);
+        }
 
-        builder.create().show();
+        if (message != null) {
+            builder.setMessage(message);
+        }
+
+        builder.setCancelable(false);
+
+        if (ok != null) {
+            builder.setPositiveButton(ok, null);
+        }
+
+        if (cancel != null) {
+            builder.setNegativeButton(cancel,
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface d, int i) {
+                            sendEvent(id, DIALOG_CANCEL);
+                        }
+                    });
+        }
+
+        final AlertDialog dialog = builder.create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface d) {
+                if (ok != null) {
+                    dialog
+                            .getButton(AlertDialog.BUTTON_POSITIVE)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    sendEvent(id, DIALOG_OK);
+                                }
+                            });
+                }
+            }
+        });
+
+        mAlertDialogs.put(id, dialog);
+    }
+
+    @ReactMethod
+    public void show(final int id) {
+        if (mAlertDialogs.containsKey(id)) {
+            AlertDialog dialog = mAlertDialogs.get(id);
+
+            if (!((Activity) mActiviyContext).isFinishing()) {
+                dialog.show();
+            }
+        }
+    }
+
+    @ReactMethod
+    public void dismiss(final int id) {
+        if (mAlertDialogs.containsKey(id)) {
+            AlertDialog dialog = mAlertDialogs.get(id);
+
+            dialog.dismiss();
+            mAlertDialogs.remove(id);
+        }
     }
 }

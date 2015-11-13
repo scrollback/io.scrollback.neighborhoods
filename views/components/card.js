@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 
 const {
 	StyleSheet,
@@ -8,11 +9,11 @@ const {
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .12)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderTopWidth: 1 / PixelRatio.get(),
 		borderBottomWidth: 1 / PixelRatio.get(),
-		marginVertical: 3
+		marginVertical: 4
 	}
 });
 

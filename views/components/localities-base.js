@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
@@ -17,14 +18,13 @@ const styles = StyleSheet.create({
 	header: {
 		paddingHorizontal: 16,
 		paddingVertical: 12,
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	headerText: {
-		color: "#000",
+		color: Colors.fadedBlack,
 		fontSize: 12,
-		fontWeight: "bold",
-		opacity: 0.5
+		fontWeight: "bold"
 	}
 });
 
@@ -32,7 +32,7 @@ export default class LocalitiesBase extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({
+		this._dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2,
 			sectionHeaderHasChanged: (h1, h2) => h1 !== h2
 		});
@@ -42,9 +42,20 @@ export default class LocalitiesBase extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-		Geolocation.getCurrentPosition(position => this.setState({ position }));
+	componentDidMount() {
+		this._mounted = true;
 
+		this._setCurrentPosition();
+		this._watchPosition();
+	}
+
+	componentWillUnmount() {
+		this._mounted = false;
+
+		this._clearWatch();
+	}
+
+	_watchPosition() {
 		this._watchID = Geolocation.watchPosition(position => {
 			if (this._mounted) {
 				this.setState({ position });
@@ -52,20 +63,28 @@ export default class LocalitiesBase extends React.Component {
 		});
 	}
 
-	componentDidMount() {
-		this._mounted = true;
-	}
-
-	componentWillUnmount() {
-		this._mounted = false;
-
+	_clearWatch() {
 		if (this._watchID) {
 			Geolocation.clearWatch(this._watchID);
 		}
 	}
 
+	async _setCurrentPosition() {
+		try {
+			const position = await Geolocation.getCurrentPosition();
+
+			if (this._mounted) {
+				this.setState({
+					position
+				});
+			}
+		} catch (e) {
+			// Ignore
+		}
+	}
+
 	_getDataSource() {
-		return this.dataSource.cloneWithRowsAndSections(this.props.data);
+		return this._dataSource.cloneWithRowsAndSections(this.props.data);
 	}
 
 	render() {
@@ -79,14 +98,12 @@ export default class LocalitiesBase extends React.Component {
 						return <PageFailed pageLabel={this.props.pageEmptyLabel} />;
 					}
 
-					if (keys.every(item => data[item].length === 1)) {
-						if (keys.every(item => data[item][0] === "missing")) {
-							return <PageLoading />;
-						}
+					if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
+						return <PageLoading />;
+					}
 
-						if (keys.every(item => data[item][0] === "failed")) {
-							return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
-						}
+					if (keys.every(item => data[item].length === 1 && data[item][0] === "failed")) {
+						return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 					}
 
 					return (

@@ -23,14 +23,13 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class PushNotificationIntentService extends IntentService {
-
-    private ArrayList<Notification> pendingNotifications = new ArrayList<>();
 
     private static final String TAG = "GCM";
     private static final int NOTIFICATION_ID = 1;
@@ -120,47 +119,15 @@ public class PushNotificationIntentService extends IntentService {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        ArrayList<Notification> currentNotifications = new ArrayList<>();
-
-        // Ignore previous notifications with same group key
-        for (Notification n : pendingNotifications) {
-            if (n.getGroup().equals(note.getGroup())) {
-                continue;
-            }
-
-            currentNotifications.add(0, n);
-        }
-
-        currentNotifications.add(note);
-
-        pendingNotifications = currentNotifications;
-
-        NotificationCompat.Style noteStyle;
-
-        if (pendingNotifications.size() > 1) {
-            NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle()
-                    .setBigContentTitle(pendingNotifications.size() + " new notifications")
-                    .setSummaryText(getString(R.string.app_name));
-
-            for (Notification n : pendingNotifications) {
-                style.addLine(buildTicker(n));
-            }
-
-            noteStyle = style;
-        } else {
-            noteStyle = new NotificationCompat.BigTextStyle();
-        }
-
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.mipmap.ic_status)
                         .setColor(ContextCompat.getColor(this, R.color.primary))
-                        .setNumber(pendingNotifications.size())
                         .setTicker(buildTicker(note))
                         .setContentTitle(note.getTitle())
                         .setGroup(note.getGroup())
                         .setContentText(note.getText())
-                        .setStyle(noteStyle)
+                        .setStyle(new NotificationCompat.BigTextStyle())
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                         .setGroupSummary(true)
@@ -231,7 +198,48 @@ public class PushNotificationIntentService extends IntentService {
             this.picture = picture;
         }
 
-        public Bitmap getOriginalBitmap(String protocol, String host) {
+        private Bitmap decodeStreamToBitmap(InputStream stream, int imageSize) {
+            final BufferedInputStream is = new BufferedInputStream(stream, 32 * 1024);
+
+            try {
+                final BitmapFactory.Options decodeBitmapOptions = new BitmapFactory.Options();
+
+                // For further memory savings, you may want to consider using this option
+                // decodeBitmapOptions.inPreferredConfig = Config.RGB_565; // Uses 2-bytes instead of default 4 per pixel
+                if (imageSize > 0) {
+                    final BitmapFactory.Options decodeBoundsOptions = new BitmapFactory.Options();
+
+                    decodeBoundsOptions.inJustDecodeBounds = true;
+
+                    is.mark(32 * 1024);
+
+                    BitmapFactory.decodeStream(is, null, decodeBoundsOptions);
+
+                    is.reset();
+
+                    final int originalWidth = decodeBoundsOptions.outWidth;
+                    final int originalHeight = decodeBoundsOptions.outHeight;
+
+                    // inSampleSize prefers multiples of 2, but we prefer to prioritize memory savings
+                    decodeBitmapOptions.inSampleSize = Math.max(1, Math.min(originalWidth / imageSize, originalHeight / imageSize));
+                }
+
+                return BitmapFactory.decodeStream(is, null, decodeBitmapOptions);
+
+            } catch(IOException e) {
+                Log.e(TAG, "Failed to decode stream to bitmap", e);
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
+
+            return null;
+        }
+
+        private Bitmap getScaledBitmap(String protocol, String host, int imageSize) {
             URL url = null;
 
             if (protocol == null) {
@@ -250,7 +258,7 @@ public class PushNotificationIntentService extends IntentService {
 
             if (url != null) {
                 try {
-                    return BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    return decodeStreamToBitmap(url.openConnection().getInputStream(), imageSize);
                 } catch (IOException e) {
                     Log.e(TAG, "Couldn't fetch image: " + picture, e);
                 }
@@ -260,11 +268,16 @@ public class PushNotificationIntentService extends IntentService {
         }
 
         public Bitmap getBitmap(String protocol, String host) {
-            Bitmap bitmap = getOriginalBitmap(protocol, host);
+            final int IMAGE_SIZE = (int) (48 * (mContext.getResources().getDisplayMetrics().density));
+
+            Bitmap bitmap = getScaledBitmap(protocol, host, IMAGE_SIZE);
 
             if (bitmap != null) {
-                Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                        bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+                Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
+                if (output == null) {
+                    return null;
+                }
 
                 Canvas canvas = new Canvas(output);
 

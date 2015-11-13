@@ -1,4 +1,4 @@
-import Alert from "../../modules/alert";
+import AlertDialog from "../../modules/alert-dialog";
 import Geolocation from "../../modules/geolocation";
 import userUtils from "../../lib/user-utils";
 
@@ -31,14 +31,14 @@ export default function(core) {
 			if (res && res.results && res.results.length) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results.filter(room => !memberOf.includes(room.id))
+						nearByRooms: res.results
 					}
 				});
 			}
 		});
 	}
 
-	core.on("init-dn", init => {
+	core.on("init-dn", async init => {
 		if (userUtils.isGuest(init.user.id)) {
 			return;
 		}
@@ -52,45 +52,43 @@ export default function(core) {
 				}
 			});
 
-			let watchID;
+			try {
+				// Get current position
+				const position = await Geolocation.getCurrentPosition();
 
-			// Get current position
-			Geolocation.getCurrentPosition(position => {
-				if (position && position.coords) {
-					loadNearByRooms(position, memberOf);
-				} else {
-					// Watch for position change
-					watchID = Geolocation.watchPosition(p => {
-						if (p) {
-							loadNearByRooms(p, memberOf);
+				loadNearByRooms(position, memberOf);
+			} catch (e) {
+				// Watch for position change
+				const watchID = Geolocation.watchPosition(p => {
+					if (p) {
+						loadNearByRooms(p, memberOf);
 
-							Geolocation.clearWatch(watchID);
-						}
-					});
+						Geolocation.clearWatch(watchID);
+					}
+				});
 
-					// Request to enable GPS
-					Geolocation.isGPSEnabled(value => {
-						if (!value) {
-							Alert.prompt(GPS_ENABLE_MESSAGE, [
-								{
-									text: GPS_ENABLE_OK,
-									onPress: () => Geolocation.showGPSSettings()
-								},
-								{
-									text: GPS_ENABLE_CANCEL,
-									onPress: () => {
-										core.emit("setstate", {
-											app: {
-												nearByRooms: []
-											}
-										});
-									}
+				// Request to enable GPS
+				const isEnabled = await Geolocation.isGPSEnabled();
+
+				if (!isEnabled) {
+					const dialog = AlertDialog.Builder()
+						.setMessage(GPS_ENABLE_MESSAGE)
+						.setPositiveButton(GPS_ENABLE_OK, () => {
+							Geolocation.showGPSSettings();
+
+							dialog.dismiss();
+						})
+						.setNegativeButton(GPS_ENABLE_CANCEL, () => {
+							core.emit("setstate", {
+								app: {
+									nearByRooms: []
 								}
-							]);
-						}
-					});
+							});
+						})
+						.show();
+
 				}
-			});
+			}
 		}
 	}, 1);
 }

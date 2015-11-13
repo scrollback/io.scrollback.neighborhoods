@@ -8,9 +8,6 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		position: "relative"
-	},
 	phantom: {
 		position: "absolute",
 		top: 0,
@@ -82,7 +79,7 @@ export default class GrowingTextInput extends React.Component {
 
 	render() {
 		return (
-			<View style={[ styles.container, this.props.style ]}>
+			<View style={this.props.style}>
 				<Text
 					numberOfLines={this.props.numberOfLines}
 					style={[ this.props.style, styles.phantom ]}

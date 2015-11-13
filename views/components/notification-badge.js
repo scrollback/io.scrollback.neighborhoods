@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 
 const {
 	StyleSheet,
@@ -13,10 +14,10 @@ const styles = StyleSheet.create({
 		width: 24,
 		borderRadius: 12,
 		paddingVertical: 4,
-		backgroundColor: "#E91E63"
+		backgroundColor: Colors.fadedBlack
 	},
 	count: {
-		color: "#fff",
+		color: Colors.white,
 		fontWeight: "bold",
 		fontSize: 10,
 		textAlign: "center"

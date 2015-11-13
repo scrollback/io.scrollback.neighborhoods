@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import NotificationBadgeController from "../controllers/notification-badge-controller";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
@@ -20,8 +21,8 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		height: 64
 	},
@@ -31,23 +32,19 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	title: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 21,
 		fontWeight: "bold"
 	},
 	distance: {
-		color: "#999",
+		color: Colors.grey,
 		fontSize: 12,
 		lineHeight: 18
 	},
-	badge: {
-		backgroundColor: "rgba(0, 0, 0, .5)"
-	},
 	expand: {
 		margin: 18,
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 
@@ -79,6 +76,7 @@ export default class RoomItem extends React.Component {
 
 	_onPress() {
 		this.props.navigator.push(routes.room({ room: this.props.room.id }));
+		this.props.autoJoin();
 	}
 
 	render() {
@@ -86,7 +84,7 @@ export default class RoomItem extends React.Component {
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
 					<View style={styles.container}>
 						<View style={styles.item}>
 							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>
@@ -102,7 +100,7 @@ export default class RoomItem extends React.Component {
 						</View>
 
 						{this.props.showBadge ?
-							<NotificationBadgeController room={this.props.room.id} style={styles.badge} /> :
+							<NotificationBadgeController room={this.props.room.id} /> :
 							null
 						}
 
@@ -145,6 +143,7 @@ RoomItem.propTypes = {
 	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
+	autoJoin: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
 

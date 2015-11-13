@@ -11,6 +11,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 4
+	},
 	inverted: {
 		transform: [
 			{ scaleY: -1 }
@@ -25,7 +28,7 @@ export default class ChatMessages extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+		this._dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 	}
 
 	componentDidMount() {
@@ -35,7 +38,7 @@ export default class ChatMessages extends React.Component {
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRows(this.props.data);
+		return this._dataSource.cloneWithRows(this.props.data);
 	}
 
 	render() {
@@ -47,11 +50,14 @@ export default class ChatMessages extends React.Component {
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "missing") {
+						switch (this.props.data[0]) {
+						case "missing":
 							return <PageLoading />;
-						}
-
-						if (this.props.data[0] === "failed") {
+						case "banned":
+							return <PageFailed pageLabel="You're banned in this community" />;
+						case "nonexistent":
+							return <PageFailed pageLabel="This discussion doesn't exist" />;
+						case "failed":
 							return <PageFailed pageLabel="Failed to load messages" onRetry={this.props.refreshData} />;
 						}
 					}
@@ -62,6 +68,7 @@ export default class ChatMessages extends React.Component {
 						<ListView
 							removeClippedSubviews
 							style={styles.inverted}
+							contentContainerStyle={styles.container}
 							initialListSize={5}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}

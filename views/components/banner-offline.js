@@ -13,10 +13,10 @@ export default class BannerOffline extends React.Component {
 
 		switch (connectionStatus) {
 		case "offline":
-			label = "You're offline";
+			label = "Network unavailable. Waiting for connection…";
 			break;
 		case "connecting":
-			label = "Connecting...";
+			label = "Connecting to server…";
 			break;
 		default:
 			label = "";

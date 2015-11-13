@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import PageLoading from "./page-loading";
 import PageFailed from "./page-failed";
 import AvatarController from "../controllers/avatar-controller";
@@ -6,6 +7,7 @@ import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
 import PushNotification from "../../modules/push-notification";
+import routes from "../utils/routes";
 import debounce from "../../lib/debounce";
 
 const {
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
 		height: 48,
 		width: 48,
 		borderRadius: 24,
-		backgroundColor: "rgba(0, 0, 0, .16)"
+		backgroundColor: Colors.placeholder
 	},
 	image: {
 		flex: 1,
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
 		marginLeft: 16
 	},
 	nick: {
+		color: Colors.darkGrey,
 		fontWeight: "bold",
 		lineHeight: 21
 	},
@@ -43,10 +46,10 @@ const styles = StyleSheet.create({
 	},
 	settings: {
 		alignItems: "stretch",
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	inputContainer: {
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		paddingVertical: 8
 	},
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
 	item: {
 		flexDirection: "row",
 		alignItems: "center",
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		padding: 16
 	},
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	itemText: {
-		color: "#333",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 21
 	},
@@ -95,10 +98,20 @@ export default class Account extends React.Component {
 	}
 
 	componentWillMount() {
-		PushNotification.getPreference(this._pushNotificationEnabledKey, result => {
-			this.setState({
-				pushNotificationEnabled: result !== "false"
-			});
+		this._updatePushNotificationValue();
+	}
+
+	async _updatePushNotificationValue() {
+		let value = true;
+
+		try {
+			value = await PushNotification.getPreference(this._pushNotificationEnabledKey);
+		} catch (e) {
+			// Ignore
+		}
+
+		this.setState({
+			pushNotificationEnabled: value !== "false"
 		});
 	}
 
@@ -111,10 +124,10 @@ export default class Account extends React.Component {
 	}
 
 	_onPushNotificationChange(value) {
-		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false", () => {
-			this.setState({
-				pushNotificationEnabled: value
-			});
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
+
+		this.setState({
+			pushNotificationEnabled: value
 		});
 	}
 
@@ -156,6 +169,10 @@ export default class Account extends React.Component {
 
 	_signOut() {
 		this.props.signOut();
+	}
+
+	_reportIssue() {
+		this.props.navigator.push(routes.room({ room: "support" }));
 	}
 
 	render() {
@@ -229,6 +246,13 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
+							<TouchFeedback onPress={this._reportIssue.bind(this)}>
+								<View style={styles.item}>
+									<View style={styles.itemLabel}>
+										<Text style={styles.itemText}>Report an issue</Text>
+									</View>
+								</View>
+							</TouchFeedback>
 							<TouchFeedback onPress={this._signOut.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
@@ -252,5 +276,6 @@ Account.propTypes = {
 		})
 	]).isRequired,
 	saveUser: React.PropTypes.func.isRequired,
-	signOut: React.PropTypes.func.isRequired
+	signOut: React.PropTypes.func.isRequired,
+	navigator: React.PropTypes.object.isRequired
 };

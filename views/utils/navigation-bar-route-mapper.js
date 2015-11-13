@@ -1,21 +1,23 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "../components/appbar-touchable";
 import AppbarIcon from "../components/appbar-icon";
+import AppbarTitle from "../components/appbar-title";
 import routes from "./routes";
 
 const {
 	StyleSheet,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
 	title: {
-		color: "#fff",
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4
+		color: Colors.white
+	},
+
+	phantom: {
+		height: 56,
+		width: 56
 	}
 });
 
@@ -47,7 +49,7 @@ const NavigationBarRouteMapper = {
 			return <route.rightComponent {...route.passProps} navigator={navigator} />;
 		}
 
-		return null;
+		return <View style={styles.phantom} />;
 	},
 
 	Title(route, navigator) {
@@ -56,9 +58,9 @@ const NavigationBarRouteMapper = {
 		}
 
 		return (
-			<Text style={styles.title} numberOfLines={1}>
+			<AppbarTitle textStyle={styles.title}>
 				{route.title}
-			</Text>
+			</AppbarTitle>
 		);
 	}
 };

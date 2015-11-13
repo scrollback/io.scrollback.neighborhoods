@@ -1,5 +1,8 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Loading from "./loading";
+import StatusbarContainer from "./statusbar-container";
+import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
@@ -9,12 +12,10 @@ import ImageUploadController from "../controllers/image-upload-controller";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../../modules/image-chooser";
-import DeviceVersion from "../../modules/device-version";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
 
 const {
-	PixelRatio,
 	StyleSheet,
 	ScrollView,
 	View,
@@ -25,28 +26,7 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff"
-	},
-	statusbar: {
-		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
-	},
-	appbar: {
-		flexDirection: "row",
-		alignItems: "stretch",
-		justifyContent: "space-between",
-		height: 56,
-		borderColor: "rgba(0, 0, 0, .16)",
-		borderBottomWidth: 1 / PixelRatio.get(),
-		paddingHorizontal: 4
-	},
-	titleText: {
-		color: "#555",
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4,
-		marginHorizontal: 4
+		backgroundColor: Colors.white
 	},
 	threadTitle: {
 		fontWeight: "bold",
@@ -58,11 +38,11 @@ const styles = StyleSheet.create({
 		lineHeight: 21
 	},
 	icon: {
-		color: "#555"
+		color: Colors.fadedBlack
 	},
 	scene: {
 		padding: 16,
-		backgroundColor: "#fff"
+		backgroundColor: Colors.white
 	},
 	button: {
 		flexDirection: "row",
@@ -70,14 +50,14 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	buttonText: {
-		color: "#673AB7",
+		color: Colors.primary,
 		fontWeight: "bold",
 		fontSize: 14,
 		lineHeight: 21,
 		marginRight: 16
 	},
 	buttonIcon: {
-		color: "#673AB7",
+		color: Colors.primary,
 		marginHorizontal: 12
 	},
 	loading: {
@@ -98,8 +78,7 @@ const styles = StyleSheet.create({
 		marginRight: 8
 	},
 	uploadButtonIcon: {
-		color: "#000",
-		opacity: 0.5,
+		color: Colors.fadedBlack,
 		margin: 8
 	}
 });
@@ -147,17 +126,7 @@ export default class StartDiscussionButton extends React.Component {
 			this._onError(NO_TITLE_MESSAGE);
 		}
 
-		if (this.state.text) {
-			try {
-				this._onLoading();
-
-				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
-
-				this._onPosted(thread);
-			} catch (e) {
-				this._onError(FAIL_MESSAGE);
-			}
-		} else if (this.state.uploadResult) {
+		if (this.state.uploadResult) {
 			const result = this.state.uploadResult;
 			const { height, width, name } = this.state.imageData;
 			const aspectRatio = height / width;
@@ -173,6 +142,16 @@ export default class StartDiscussionButton extends React.Component {
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
 				}), result.textId);
+
+				this._onPosted(thread);
+			} catch (e) {
+				this._onError(FAIL_MESSAGE);
+			}
+		} else if (this.state.text) {
+			try {
+				this._onLoading();
+
+				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
 
 				this._onPosted(thread);
 			} catch (e) {
@@ -205,15 +184,16 @@ export default class StartDiscussionButton extends React.Component {
 		});
 	}
 
-	_uploadImage() {
-		ImageChooser.pickImage(result => {
-			if (result.type === "success") {
-				this.setState({
-					imageData: result,
-					error: null
-				});
-			}
-		});
+	async _uploadImage() {
+		try {
+			const imageData = await ImageChooser.pickImage();
+
+			this.setState({
+				imageData
+			});
+		} catch (e) {
+			// Do nothing
+		}
 	}
 
 	_onUploadFinish(result) {
@@ -235,10 +215,8 @@ export default class StartDiscussionButton extends React.Component {
 		const isLoading = this.state.status === "loading";
 
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
-
-				<View style={styles.appbar}>
+			<StatusbarContainer style={styles.container}>
+				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
@@ -252,7 +230,7 @@ export default class StartDiscussionButton extends React.Component {
 							</View>)
 						}
 					</AppbarTouchable>
-				</View>
+				</AppbarSecondary>
 
 				<Banner text={this.state.error} type="error" />
 
@@ -297,7 +275,7 @@ export default class StartDiscussionButton extends React.Component {
 						</TouchFeedback>
 					}
 				</ScrollView>
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }

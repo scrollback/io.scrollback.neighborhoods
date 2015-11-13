@@ -1,4 +1,6 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import NotificationBadgeController from "../controllers/notification-badge-controller";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -44,11 +46,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		marginTop: 16
 	},
+	badge: {
+		margin: 12
+	},
 	expand: {
 		marginHorizontal: 16,
 		marginVertical: 12,
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 
@@ -126,13 +130,15 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
 					<View>
 						<View style={styles.topArea}>
 							<CardTitle
 								style={[ styles.item, styles.title ]}
 								text={this.props.thread.title}
 							/>
+
+							<NotificationBadgeController thread={this.props.thread.id} style={styles.badge} />
 
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
 								<Icon

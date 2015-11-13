@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import routes from "../utils/routes";
 
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
 		paddingVertical: 10
 	},
 	title: {
-		color: "#fff",
+		color: Colors.white,
 		fontWeight: "bold",
 		fontSize: 14
 	},
 	subtitle: {
-		color: "rgba(255, 255, 255, .5)",
+		color: Colors.fadedWhite,
 		fontSize: 12,
 		width: 160
 	}

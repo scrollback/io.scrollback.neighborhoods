@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 
 const {
@@ -8,7 +9,7 @@ const {
 const styles = StyleSheet.create({
 	icon: {
 		margin: 16,
-		color: "#fff"
+		color: Colors.white
 	}
 });
 

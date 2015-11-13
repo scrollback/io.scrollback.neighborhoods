@@ -1,35 +1,24 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
-import DeviceVersion from "../../modules/device-version";
 
 const {
 	StyleSheet,
-	PixelRatio,
-	TextInput,
-	View
+	TextInput
 } = React;
 
 const styles = StyleSheet.create({
-	searchbar: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .24)",
-		borderBottomWidth: 1 / PixelRatio.get(),
-		height: 56,
-		marginTop: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
-	},
 	input: {
 		flex: 1,
 		fontSize: 16,
 		fontWeight: "bold",
-		color: "#000",
+		color: Colors.black,
 		backgroundColor: "transparent"
 	},
 	icon: {
-		color: "#000",
-		opacity: 0.5
+		color: Colors.fadedBlack
 	}
 });
 
@@ -77,7 +66,7 @@ export default class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<View {...this.props} style={[ styles.searchbar, this.props.style ]}>
+			<AppbarSecondary {...this.props}>
 				<AppbarTouchable onPress={this.props.onBack}>
 					<AppbarIcon name="arrow-back" style={styles.icon} />
 				</AppbarTouchable>
@@ -99,7 +88,7 @@ export default class SearchBar extends React.Component {
 					</AppbarTouchable> :
 					null
 				}
-			</View>
+			</AppbarSecondary>
 		);
 	}
 }

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 
 const {
 	StyleSheet,
@@ -8,7 +9,7 @@ const {
 const styles = StyleSheet.create({
 	title: {
 		fontWeight: "bold",
-		color: "#333",
+		color: Colors.darkGrey,
 		fontSize: 14,
 		lineHeight: 24
 	}

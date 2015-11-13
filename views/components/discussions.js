@@ -13,6 +13,9 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 4
+	},
 	item: {
 		overflow: "hidden"
 	}
@@ -22,11 +25,11 @@ export default class Discussions extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+		this._dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRows(this.props.data);
+		return this._dataSource.cloneWithRows(this.props.data);
 	}
 
 	render() {
@@ -40,11 +43,14 @@ export default class Discussions extends React.Component {
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "missing") {
+						switch (this.props.data[0]) {
+						case "missing":
 							return <PageLoading />;
-						}
-
-						if (this.props.data[0] === "failed") {
+						case "banned":
+							return <PageFailed pageLabel="You're banned in this community" />;
+						case "nonexistent":
+							return <PageFailed pageLabel="This community doesn't exist" />;
+						case "failed":
 							return <PageFailed pageLabel="Failed to load discussions" onRetry={this.props.refreshData} />;
 						}
 					}
@@ -52,6 +58,7 @@ export default class Discussions extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
+							contentContainerStyle={styles.container}
 							initialListSize={3}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}

@@ -14,8 +14,16 @@ RCTDeviceEventEmitter.addListener("geolocationChange", ev => {
 });
 
 export default {
-	getCurrentPosition(success) {
-		GeolocationModule.getCurrentPosition(success);
+	getCurrentPosition() {
+		return new Promise((resolve, reject) => {
+			GeolocationModule.getCurrentPosition(position => {
+				if (position && position.coords) {
+					resolve(position);
+				} else {
+					reject(new Error("Failed to get current position"));
+				}
+			});
+		});
 	},
 
 	watchPosition(success) {
@@ -36,8 +44,8 @@ export default {
 		}
 	},
 
-	isGPSEnabled(callback) {
-		GeolocationModule.isGPSEnabled(callback);
+	isGPSEnabled() {
+		return new Promise(resolve => GeolocationModule.isGPSEnabled(resolve));
 	},
 
 	showGPSSettings() {

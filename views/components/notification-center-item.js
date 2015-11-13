@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import AvatarController from "../controllers/avatar-controller";
 import TouchFeedback from "./touch-feedback";
@@ -15,8 +16,8 @@ const {
 
 const styles = StyleSheet.create({
 	item: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	note: {
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		backgroundColor: "rgba(0, 0, 0, .16)"
+		backgroundColor: Colors.placeholder
 	},
 	image: {
 		flex: 1,
@@ -43,15 +44,15 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		lineHeight: 21,
-		color: "#999"
+		color: Colors.grey
 	},
 	summary: {
 		lineHeight: 18,
 		fontSize: 12,
-		color: "#999"
+		color: Colors.grey
 	},
 	strong: {
-		color: "#555"
+		color: Colors.darkGrey
 	},
 	timestampContainer: {
 		flexDirection: "row"
@@ -59,12 +60,13 @@ const styles = StyleSheet.create({
 	timestamp: {
 		fontSize: 11,
 		marginVertical: 2,
-		color: "#aaa",
+		color: Colors.black,
 		marginLeft: 4,
-		paddingHorizontal: 4
+		paddingHorizontal: 4,
+		opacity: 0.3
 	},
 	icon: {
-		color: "#000",
+		color: Colors.black,
 		marginVertical: 4,
 		opacity: 0.3
 	},
@@ -80,13 +82,13 @@ const styles = StyleSheet.create({
 		height: 15,
 		width: 15,
 		borderRadius: 8,
-		borderColor: "#fff",
+		borderColor: Colors.white,
 		borderWidth: 1
 	},
 	badgeIcon: {
 		marginVertical: 1,
 		textAlign: "center",
-		color: "#fff"
+		color: Colors.white
 	}
 });
 

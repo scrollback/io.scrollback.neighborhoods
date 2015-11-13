@@ -1,6 +1,5 @@
-/* global fetch */
-
 import React from "react-native";
+import Colors from "../../colors.json";
 import Icon from "./icon";
 import Loading from "./loading";
 import Linking from "../../modules/linking";
@@ -25,20 +24,22 @@ const styles = StyleSheet.create({
 		height: 24,
 		width: 24
 	},
-	thumbnailContainer: { flex: 1 },
+	thumbnailContainer: {
+		flex: 1
+	},
 	thumbnail: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center"
 	},
 	playContainer: {
-		backgroundColor: "rgba(0, 0, 0, .7)",
-		borderColor: "#fff",
+		backgroundColor: Colors.fadedBlack,
+		borderColor: Colors.white,
 		borderWidth: 2,
 		borderRadius: 24
 	},
 	play: {
-		color: "#fff"
+		color: Colors.white
 	}
 });
 

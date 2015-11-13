@@ -12,11 +12,11 @@ export default class NotificationCenter extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+		this._dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRows(this.props.data);
+		return this._dataSource.cloneWithRows(this.props.data);
 	}
 
 	render() {

@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 
 const {
 	StyleSheet,
@@ -7,7 +8,7 @@ const {
 
 const styles = StyleSheet.create({
 	title: {
-		color: "#fff",
+		color: Colors.white,
 		fontWeight: "bold",
 		fontSize: 18,
 		marginVertical: 14,

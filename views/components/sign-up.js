@@ -1,15 +1,17 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import StatusbarContainer from "./statusbar-container";
+import AppbarSecondary from "./appbar-secondary";
+import AppbarTitle from "./appbar-title";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
 import Icon from "./icon";
 import Banner from "./banner";
-import DeviceVersion from "../../modules/device-version";
 import Validator from "../../lib/validator";
 
 const {
 	StyleSheet,
-	PixelRatio,
 	TouchableHighlight,
 	Image,
 	ScrollView,
@@ -21,29 +23,10 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff"
-	},
-	statusbar: {
-		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25 // offset for statusbar height
-	},
-	appbar: {
-		flexDirection: "row",
-		height: 56,
-		borderColor: "rgba(0, 0, 0, .16)",
-		borderBottomWidth: 1 / PixelRatio.get(),
-		paddingHorizontal: 4
-	},
-	titleText: {
-		color: "#555",
-		fontWeight: "bold",
-		fontSize: 18,
-		marginVertical: 14,
-		marginRight: 64,
-		paddingHorizontal: 4,
-		marginHorizontal: 4
+		backgroundColor: Colors.white
 	},
 	icon: {
-		color: "#555"
+		color: Colors.fadedBlack
 	},
 	scene: {
 		padding: 24
@@ -59,7 +42,7 @@ const styles = StyleSheet.create({
 		marginVertical: 12
 	},
 	heading: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 24,
 		lineHeight: 36,
 		textAlign: "center",
@@ -67,7 +50,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	paragraph: {
-		color: "#555",
+		color: Colors.darkGrey,
 		fontSize: 16,
 		lineHeight: 24,
 		textAlign: "center",
@@ -75,14 +58,14 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	hint: {
-		color: "#999",
+		color: Colors.grey,
 		textAlign: "center",
 		fontSize: 12,
 		lineHeight: 18,
 		marginTop: 8
 	},
 	error: {
-		color: "#f44336"
+		color: Colors.error
 	},
 	buttonContainer: {
 		height: 56,
@@ -91,7 +74,7 @@ const styles = StyleSheet.create({
 		marginVertical: 36
 	},
 	button: {
-		backgroundColor: "#4CAF50",
+		backgroundColor: Colors.success,
 		height: 56,
 		width: 56,
 		borderRadius: 28,
@@ -99,7 +82,7 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	buttonText: {
-		color: "#fff",
+		color: Colors.white,
 		textAlign: "center"
 	}
 });
@@ -160,18 +143,16 @@ export default class SignUp extends React.Component {
 		const { error } = this.state;
 
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
-
-				<View style={styles.appbar}>
+			<StatusbarContainer style={styles.container}>
+				<AppbarSecondary>
 					<AppbarTouchable onPress={this.props.cancelSignUp}>
 						<AppbarIcon name="arrow-back" style={styles.icon} />
 					</AppbarTouchable>
 
-					<View>
-						<Text style={styles.titleText}>Let's create an account</Text>
-					</View>
-				</View>
+					<AppbarTitle>
+						Let's create an account
+					</AppbarTitle>
+				</AppbarSecondary>
 
 				<Banner text={this.state.errorMessage} type="error" />
 
@@ -218,7 +199,7 @@ export default class SignUp extends React.Component {
 				</ScrollView>
 
 				<KeyboardSpacer />
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }
