@@ -1,5 +1,6 @@
 package io.scrollback.neighborhoods;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -9,7 +10,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -26,8 +27,8 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     private final ReactApplicationContext mReactContext;
     private final Context mActiviyContext;
 
-    private final LocationManager mLocationManager;
     private Location mCurrentlocation;
+    private LocationManager mLocationManager = null;
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -58,8 +59,12 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         mReactContext = reactContext;
         mActiviyContext = activityContext;
 
-        mLocationManager = (LocationManager) mReactContext.getSystemService(mReactContext.LOCATION_SERVICE);
-        mCurrentlocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
+        try {
+            mLocationManager = (LocationManager) mReactContext.getSystemService(Application.LOCATION_SERVICE);
+            mCurrentlocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
+        } catch (SecurityException e) {
+            // Permission may be rejected starting from Marshmallow
+        }
     }
 
     private WritableMap getMapFromLocation(Location loc) {
@@ -85,8 +90,12 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void isGPSEnabled(final Callback callback) {
-        callback.invoke(mLocationManager.isProviderEnabled(LOCATION_PROVIDER));
+    public void isGPSEnabled(final Promise promise) {
+        if (mLocationManager != null) {
+            promise.resolve(mLocationManager.isProviderEnabled(LOCATION_PROVIDER));
+        } else {
+            promise.resolve(false);
+        }
     }
 
     @ReactMethod
@@ -95,39 +104,47 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getCurrentPosition(final Callback callback) {
+    public void getCurrentPosition(final Promise promise) {
         if (mCurrentlocation != null) {
-            callback.invoke(getMapFromLocation(mCurrentlocation));
+            promise.resolve(getMapFromLocation(mCurrentlocation));
         } else {
-            callback.invoke();
+            promise.reject("Failed to get current position");
         }
     }
 
     @ReactMethod
     public void startWatching() {
-        if (!isWatching) {
-            isWatching = true;
+        if (!isWatching && mLocationManager != null) {
+            try {
+                mLocationManager.requestLocationUpdates(
+                        LOCATION_PROVIDER,
+                        LOCATION_REFRESH_TIME,
+                        LOCATION_REFRESH_DISTANCE,
+                        mLocationListener
+                );
 
-            mLocationManager.requestLocationUpdates(
-                    LOCATION_PROVIDER,
-                    LOCATION_REFRESH_TIME,
-                    LOCATION_REFRESH_DISTANCE,
-                    mLocationListener
-            );
+                isWatching = true;
+            } catch (SecurityException e) {
+                // Permission may be rejected starting from Marshmallow
+            }
         }
     }
 
     @ReactMethod
     public void stopWatching() {
-        if (isWatching) {
-            isWatching = false;
+        if (isWatching && mLocationManager != null) {
+            try {
+                mLocationManager.removeUpdates(mLocationListener);
 
-            mLocationManager.removeUpdates(mLocationListener);
+                isWatching = false;
+            } catch (SecurityException e) {
+                // Permission may be rejected starting from Marshmallow
+            }
         }
     }
 
     @ReactMethod
-    public void isWatching(final Callback callback) {
-        callback.invoke(isWatching);
+    public void isWatching(final Promise promise) {
+        promise.resolve(isWatching);
     }
 }

@@ -15,7 +15,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -27,13 +27,9 @@ import java.util.Arrays;
 
 public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
-    private final String CALLBACK_TYPE_SUCCESS = "success";
-    private final String CALLBACK_TYPE_ERROR = "error";
-    private final String CALLBACK_TYPE_CANCEL = "cancel";
-
     private Context mActivityContext;
     private CallbackManager mCallbackManager;
-    private Callback mTokenCallback;
+    private Promise mTokenPromise;
 
     public FacebookLoginModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);
@@ -54,66 +50,53 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                                     new GraphRequest.GraphJSONObjectCallback() {
                                         @Override
                                         public void onCompleted(JSONObject me, GraphResponse response) {
-                                            if (mTokenCallback != null) {
+                                            if (mTokenPromise != null) {
                                                 FacebookRequestError error = response.getError();
 
                                                 if (error != null) {
-                                                    WritableMap map = Arguments.createMap();
-
-                                                    map.putString("errorType", error.getErrorType());
-                                                    map.putString("message", error.getErrorMessage());
-                                                    map.putString("recoveryMessage", error.getErrorRecoveryMessage());
-                                                    map.putString("userMessage", error.getErrorUserMessage());
-                                                    map.putString("userTitle", error.getErrorUserTitle());
-                                                    map.putInt("code", error.getErrorCode());
-
-                                                    consumeCallback(CALLBACK_TYPE_ERROR, map);
+                                                    rejectPromise(error.getErrorMessage());
                                                 } else {
                                                     WritableMap map = Arguments.createMap();
 
                                                     map.putString("token", loginResult.getAccessToken().getToken());
 
-                                                    consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+                                                    resolvePromise(map);
                                                 }
                                             }
                                         }
                                     }).executeAsync();
                         } else {
-                            WritableMap map = Arguments.createMap();
-
-                            map.putString("message", "Insufficient permissions");
-
-                            consumeCallback(CALLBACK_TYPE_ERROR, map);
+                            rejectPromise("Insufficient permissions");
                         }
                     }
 
                     @Override
                     public void onCancel() {
-                        if (mTokenCallback != null) {
-                            consumeCallback(CALLBACK_TYPE_CANCEL, Arguments.createMap());
+                        if (mTokenPromise != null) {
+                            rejectPromise("Login was cancelled");
                         }
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        if (mTokenCallback != null) {
-                            WritableMap map = Arguments.createMap();
-
-                            map.putString("message", exception.getMessage());
-
-                            consumeCallback(CALLBACK_TYPE_ERROR, map);
+                        if (mTokenPromise != null) {
+                            rejectPromise(exception.getMessage());
                         }
                     }
                 });
     }
 
-    private void consumeCallback(String type, WritableMap map) {
-        if (mTokenCallback != null) {
-            map.putString("type", type);
-            map.putString("provider", "facebook");
+    private void resolvePromise(WritableMap map) {
+        if (mTokenPromise != null) {
+            mTokenPromise.resolve(map);
+            mTokenPromise = null;
+        }
+    }
 
-            mTokenCallback.invoke(map);
-            mTokenCallback = null;
+    private void rejectPromise(String reason) {
+        if (mTokenPromise != null) {
+            mTokenPromise.reject(reason);
+            mTokenPromise = null;
         }
     }
 
@@ -123,25 +106,23 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logIn(final Callback callback) {
-        if (mTokenCallback != null) {
+    public void logIn(final Promise promise) {
+        if (mTokenPromise != null) {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-            WritableMap map = Arguments.createMap();
-
             if (accessToken != null) {
+                WritableMap map = Arguments.createMap();
+
                 map.putString("token", AccessToken.getCurrentAccessToken().getToken());
                 map.putBoolean("cache", true);
 
-                consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+                resolvePromise(map);
             } else {
-                map.putString("message", "Cannot register multiple callbacks");
-
-                consumeCallback(CALLBACK_TYPE_CANCEL, map);
+                rejectPromise("Cannot register multiple callbacks");
             }
         }
 
-        mTokenCallback = callback;
+        mTokenPromise = promise;
 
         LoginManager.getInstance().logInWithReadPermissions(
                 (Activity) mActivityContext,
@@ -149,19 +130,21 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logOut(final Callback callback) {
+    public void logOut(final Promise promise) {
         LoginManager.getInstance().logOut();
 
-        WritableMap map = Arguments.createMap();
-
-        map.putString("type", CALLBACK_TYPE_SUCCESS);
-
-        callback.invoke(map);
+        promise.resolve(true);
     }
 
     @ReactMethod
-    public void getCurrentToken(final Callback callback) {
-        callback.invoke(AccessToken.getCurrentAccessToken().getToken());
+    public void getCurrentToken(final Promise promise) {
+        String token = AccessToken.getCurrentAccessToken().getToken();
+
+        if (token != null) {
+            promise.resolve(token);
+        } else {
+            promise.reject("Failed to get current token");
+        }
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {

@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
 	}
 });
 
+const PROVIDER_GOOGLE = "google";
+const PROVIDER_FACEBOOK = "facebook";
+
 export default class SignIn extends React.Component {
 	constructor(props) {
 		super(props);
@@ -73,18 +76,18 @@ export default class SignIn extends React.Component {
 		};
 	}
 
-	_onSignInSuccess(e) {
-		this.props.signIn(e.provider, e.token);
+	_onSignInSuccess(provider, e) {
+		this.props.signIn(provider, e.token);
 	}
 
 	_onSignInFailure(e) {
 		switch (e.provider) {
-		case "google":
+		case PROVIDER_GOOGLE:
 			this.setState({
 				googleLoading: false
 			});
 			break;
-		case "facebook":
+		case PROVIDER_FACEBOOK:
 			this.setState({
 				facebookLoading: false
 			});
@@ -96,7 +99,7 @@ export default class SignIn extends React.Component {
 		try {
 			const result = await FacebookLogin.logIn();
 
-			this._onSignInSuccess(result);
+			this._onSignInSuccess(PROVIDER_FACEBOOK, result);
 		} catch (e) {
 			this._onSignInFailure(e);
 		}
@@ -106,7 +109,7 @@ export default class SignIn extends React.Component {
 		try {
 			const result = await GoogleLogin.logIn();
 
-			this._onSignInSuccess(result);
+			this._onSignInSuccess(PROVIDER_GOOGLE, result);
 		} catch (e) {
 			this._onSignInFailure(e);
 		}

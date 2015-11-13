@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -24,7 +23,6 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
     final int DIALOG_CANCEL = 1;
 
     private Map<Integer, AlertDialog> mAlertDialogs = new HashMap<>();
-    private Map<Integer, Callback> mAlertCallbacks = new HashMap<>();
 
     ReactApplicationContext mReactContext;
     Context mActiviyContext;
