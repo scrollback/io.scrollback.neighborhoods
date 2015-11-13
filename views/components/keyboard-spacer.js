@@ -53,5 +53,5 @@ class KeyboardSpacer extends React.Component {
 }
 
 // The app pans to show the Keyboard below Kitkat (We set it to resize from Kitkat to upwards)
-export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? null : KeyboardSpacer;
+export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? View : KeyboardSpacer;
 
