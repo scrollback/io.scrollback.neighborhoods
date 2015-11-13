@@ -36,7 +36,7 @@ task bundleDebugJsAndAssets(type: Exec) {
 
     // set up the call to the react-native cli
     workingDir reactRoot
-    commandLine "react-native", "bundle", "--platform", "android", "--dev", "true", "--entry-file",
+    commandLine "/usr/local/bin/react-native", "bundle", "--platform", "android", "--dev", "true", "--entry-file",
             entryFile, "--bundle-output", jsBundleFileDebug, "--assets-dest", resourcesDirDebug
 
     enabled config.bundleInDebug ?: false
@@ -56,7 +56,7 @@ task bundleReleaseJsAndAssets(type: Exec) {
 
     // set up the call to the react-native cli
     workingDir reactRoot
-    commandLine "react-native", "bundle", "--platform", "android", "--dev", "false", "--entry-file",
+    commandLine "/usr/local/bin/react-native", "bundle", "--platform", "android", "--dev", "false", "--entry-file",
             entryFile, "--bundle-output", jsBundleFileRelease, "--assets-dest", resourcesDirRelease
 
     enabled config.bundleInRelease ?: true

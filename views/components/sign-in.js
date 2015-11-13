@@ -131,11 +131,11 @@ export default class SignIn extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image source={require("image!signin_bg")} style={styles.cover}>
+				<Image source={require("../../assets/signin_bg.jpg")} style={styles.cover}>
 					<View style={styles.overlay}>
 						<View style={styles.logoContainer}>
-							<Image source={require("image!logo")} style={[ styles.image, styles.imageLogo ]} />
-							<Image source={require("image!logotype")} style={[ styles.image, styles.imageLogoType ]} />
+							<Image source={require("../../assets/logo.png")} style={[ styles.image, styles.imageLogo ]} />
+							<Image source={require("../../assets/logotype.png")} style={[ styles.image, styles.imageLogoType ]} />
 						</View>
 						<View style={styles.buttonContainer}>
 							<Text style={styles.tip}>SIGN IN OR SIGN UP WITH</Text>

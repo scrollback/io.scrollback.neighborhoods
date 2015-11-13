@@ -88,7 +88,7 @@ android {
             keyPassword SB_RELEASE_KEY_PASSWORD
         }
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false  // Set this to true to enable Proguard

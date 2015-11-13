@@ -6,6 +6,7 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
+    "decompress": "^3.0.0",
     "ebus": "^0.12.0",
     "engine.io": "^1.5.4",
     "engine.io-client": "^1.5.4",
