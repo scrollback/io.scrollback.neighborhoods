@@ -165,8 +165,6 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
             protected Boolean doInBackground(String... params) {
                 mAccessToken = params[0];
 
-                String result = null;
-
                 try {
                     GoogleAuthUtil.clearToken(mActivityContext, mAccessToken);
 
