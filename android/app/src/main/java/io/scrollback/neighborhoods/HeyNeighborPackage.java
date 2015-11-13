@@ -23,7 +23,6 @@ public class HeyNeighborPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new WebSocketModule(reactContext),
                 new ClipboardModule(reactContext),
                 new BuildConfigModule(reactContext),
                 new VersionCodesModule(reactContext),
