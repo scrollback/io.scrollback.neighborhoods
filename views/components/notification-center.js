@@ -41,7 +41,7 @@ export default class NotificationCenter extends React.Component {
 
 					return (
 						<ListView
-							initialListSize={5}
+							initialListSize={1}
 							dataSource={dataSource}
 							renderRow={note => {
 								return (

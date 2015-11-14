@@ -69,7 +69,7 @@ export default class ChatMessages extends React.Component {
 							removeClippedSubviews
 							style={styles.inverted}
 							contentContainerStyle={styles.container}
-							initialListSize={5}
+							initialListSize={1}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
 							dataSource={dataSource}
