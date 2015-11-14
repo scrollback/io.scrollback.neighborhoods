@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,11 +21,9 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
 
     final int DIALOG_OK = 0;
     final int DIALOG_CANCEL = 1;
-
-    private Map<Integer, AlertDialog> mAlertDialogs = new HashMap<>();
-
     ReactApplicationContext mReactContext;
     Context mActiviyContext;
+    private Map<Integer, AlertDialog> mAlertDialogs = new HashMap<>();
 
     public AlertDialogModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);

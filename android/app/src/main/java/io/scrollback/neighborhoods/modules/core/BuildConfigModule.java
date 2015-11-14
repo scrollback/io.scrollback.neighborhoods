@@ -1,10 +1,12 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import io.scrollback.neighborhoods.BuildConfig;
 
 public class BuildConfigModule extends ReactContextBaseJavaModule {
 

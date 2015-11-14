@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.content.Context;
 import android.content.Intent;

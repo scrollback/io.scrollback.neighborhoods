@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.choosers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ImageChooserPackage implements ReactPackage {
+public class ChoosersPackage implements ReactPackage {
 
     private Context mContext;
     private ImageChooserModule mModuleInstance;
 
-    ImageChooserPackage(Context activityContext) {
+    public ChoosersPackage(Context activityContext) {
         mContext = activityContext;
     }
 

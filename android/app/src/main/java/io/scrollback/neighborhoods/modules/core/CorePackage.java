@@ -1,7 +1,6 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -13,20 +12,27 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class FacebookLoginPackage implements ReactPackage {
+public class CorePackage implements ReactPackage {
 
     private Context mContext;
-    private FacebookLoginModule mModuleInstance;
 
-    FacebookLoginPackage(Context activityContext) {
+    public CorePackage(Context activityContext) {
         mContext = activityContext;
     }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        mModuleInstance = new FacebookLoginModule(reactContext, mContext);
-
-        return Arrays.<NativeModule>asList(mModuleInstance);
+        return Arrays.<NativeModule>asList(
+                new ClipboardModule(reactContext),
+                new BuildConfigModule(reactContext),
+                new VersionCodesModule(reactContext),
+                new URLResolverModule(reactContext),
+                new GeolocationModule(reactContext, mContext),
+                new AlertDialogModule(reactContext, mContext),
+                new ShareModule(reactContext, mContext),
+                new IntentModule(reactContext, mContext),
+                new PushNotificationModule(reactContext, mContext)
+        );
     }
 
     @Override
@@ -37,13 +43,5 @@ public class FacebookLoginPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.asList();
-    }
-
-    public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (mModuleInstance == null) {
-            return false;
-        }
-
-        return mModuleInstance.handleActivityResult(requestCode, resultCode, data);
     }
 }

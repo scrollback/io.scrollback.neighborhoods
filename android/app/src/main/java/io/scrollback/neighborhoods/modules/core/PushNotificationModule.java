@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +22,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
+
+import io.scrollback.neighborhoods.Constants;
 
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 

@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.google;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,7 @@ public class GoogleLoginPackage implements ReactPackage {
     private Context mContext;
     private GoogleLoginModule mModuleInstance;
 
-    GoogleLoginPackage(Context ctx) {
+    public GoogleLoginPackage(Context ctx) {
         super();
 
         mContext = ctx;

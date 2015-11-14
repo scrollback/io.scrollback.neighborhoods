@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -16,6 +17,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import io.scrollback.neighborhoods.Constants;
 
 public class GeolocationModule extends ReactContextBaseJavaModule {
 
@@ -28,7 +31,6 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     private final Context mActiviyContext;
 
     private Location mCurrentlocation;
-    private LocationManager mLocationManager = null;
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -51,6 +53,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         public void onProviderDisabled(String provider) {
         }
     };
+    private LocationManager mLocationManager = null;
     private boolean isWatching = false;
 
     public GeolocationModule(ReactApplicationContext reactContext, Context activityContext) {
@@ -64,6 +67,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
             mCurrentlocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
         } catch (SecurityException e) {
             // Permission may be rejected starting from Marshmallow
+            Log.e(Constants.TAG, "Failed to create location manager", e);
         }
     }
 
@@ -126,6 +130,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
                 isWatching = true;
             } catch (SecurityException e) {
                 // Permission may be rejected starting from Marshmallow
+                Log.e(Constants.TAG, "Failed to watch for location updates", e);
             }
         }
     }
@@ -139,6 +144,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
                 isWatching = false;
             } catch (SecurityException e) {
                 // Permission may be rejected starting from Marshmallow
+                Log.e(Constants.TAG, "Failed to stop watching for location updates", e);
             }
         }
     }

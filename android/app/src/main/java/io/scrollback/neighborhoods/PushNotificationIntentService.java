@@ -29,6 +29,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import io.scrollback.neighborhoods.modules.core.PushNotificationModule;
+
 public class PushNotificationIntentService extends IntentService {
 
     private static final String TAG = "GCM";
@@ -182,12 +184,12 @@ public class PushNotificationIntentService extends IntentService {
             this.path = path;
         }
 
-        public void setGroup(String group) {
-            this.group = group;
-        }
-
         public String getGroup() {
             return group;
+        }
+
+        public void setGroup(String group) {
+            this.group = group;
         }
 
         public String getPicture() {
@@ -226,7 +228,7 @@ public class PushNotificationIntentService extends IntentService {
 
                 return BitmapFactory.decodeStream(is, null, decodeBitmapOptions);
 
-            } catch(IOException e) {
+            } catch (IOException e) {
                 Log.e(TAG, "Failed to decode stream to bitmap", e);
             } finally {
                 try {

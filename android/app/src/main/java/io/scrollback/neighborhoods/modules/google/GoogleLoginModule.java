@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.google;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -22,6 +22,8 @@ import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.AccountPicker;
 
 import java.io.IOException;
+
+import io.scrollback.neighborhoods.Constants;
 
 public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
@@ -60,6 +62,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
             mRetrievePromise = null;
         }
     }
+
     @ReactMethod
     public void logIn(final Promise promise) {
         String[] accountTypes = new String[]{"com.google"};
