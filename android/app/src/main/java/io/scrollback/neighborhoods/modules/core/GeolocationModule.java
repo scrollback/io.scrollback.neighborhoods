@@ -71,7 +71,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         }
     }
 
-    private WritableMap getMapFromLocation(Location loc) {
+    private WritableMap getMapFromLocation(final Location loc) {
         WritableMap coords = Arguments.createMap();
 
         coords.putDouble("latitude", loc.getLatitude());

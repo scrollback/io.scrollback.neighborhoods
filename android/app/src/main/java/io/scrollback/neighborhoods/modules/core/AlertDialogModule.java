@@ -47,7 +47,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
-    private void sendEvent(int id, int value) {
+    private void sendEvent(final int id, final int value) {
         WritableMap params = Arguments.createMap();
 
         params.putInt("id", id);

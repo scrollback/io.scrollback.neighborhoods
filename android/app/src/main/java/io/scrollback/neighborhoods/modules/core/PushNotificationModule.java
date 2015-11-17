@@ -243,7 +243,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setPreference(String key, String value) {
+    public void setPreference(final String key, final String value) {
         SharedPreferences.Editor e = getGCMPreferences().edit();
 
         e.putString(key, value);
@@ -251,7 +251,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getPreference(String key, Promise promise) {
+    public void getPreference(final String key, final Promise promise) {
         promise.resolve(getGCMPreferences().getString(key, ""));
     }
 }
