@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,32 +60,6 @@ public class JSBundleManager {
         });
     }
 
-    public static String generateMD5(File path) {
-        String checksum = null;
-
-        try {
-            FileInputStream fis = new FileInputStream(path);
-            MessageDigest md = MessageDigest.getInstance("MD5");
-
-            byte[] buffer = new byte[8192];
-            int numOfBytesRead;
-
-            while ((numOfBytesRead = fis.read(buffer)) > 0) {
-                md.update(buffer, 0, numOfBytesRead);
-            }
-
-            byte[] hash = md.digest();
-
-            checksum = String.format("%032x", new BigInteger(1, hash));
-        } catch (IOException e) {
-            Log.e(TAG, "Failed to calculate MD5", e);
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "Unable to find algorithm MD5", e);
-        }
-
-        return checksum;
-    }
-
     public String getBundlePath() {
         File assetFile = new File(assetDir, BUNDLE_NAME);
 
@@ -123,11 +95,11 @@ public class JSBundleManager {
         return ret;
     }
 
-    private boolean shouldDownloadBundle(JSONObject metadata) throws IOException {
+    private boolean shouldDownloadBundle(JSONObject metadata) throws IOException, NoSuchAlgorithmException {
         try {
             // Check if MD5 has changed
             String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
-            String currentChecksum = generateMD5(new File(assetDir, BUNDLE_NAME));
+            String currentChecksum = Checksum.MD5(new File(assetDir, BUNDLE_NAME));
 
             if (updateChecksum.equals(currentChecksum)) {
                 Log.d(TAG, "Bundle is already up-to-date");
@@ -202,11 +174,11 @@ public class JSBundleManager {
         return new JSONObject(getStringFromFile(downloadFile(METADATA_NAME, null)));
     }
 
-    private File downloadBundle(JSONObject metadata) throws IOException, JSONException {
+    private File downloadBundle(JSONObject metadata) throws IOException, JSONException, NoSuchAlgorithmException {
         File bundle = downloadFile(metadata.getString(PROP_FILENAME), BUNDLE_NAME);
 
         String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
-        String currentChecksum = generateMD5(bundle);
+        String currentChecksum = Checksum.MD5(bundle);
 
         if (!updateChecksum.equals(currentChecksum)) {
             throw new IOException("MD5 checksums don't match: " + updateChecksum + " != " + currentChecksum);
@@ -271,6 +243,8 @@ public class JSBundleManager {
             Log.e(TAG, "Failed to parse metadata", e);
         } catch (IOException e) {
             Log.e(TAG, "Failed to check update", e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "Unable to find algorithm MD5", e);
         }
 
         cleanUp();
