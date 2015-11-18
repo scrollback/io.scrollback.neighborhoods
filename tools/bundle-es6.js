@@ -136,7 +136,7 @@ bundle.on("exit", code => {
 
 	log.i("Writing metadata", metadataFile);
 
-	fs.writeFileSync(metadataFile, JSON.stringify(metadata) + "\n", "utf-8");
+	fs.writeFileSync(metadataFile, JSON.stringify(metadata, null, 2) + "\n", "utf-8");
 
 	log.i("Uploading files to server", SSH_HOST);
 
