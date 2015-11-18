@@ -164,7 +164,7 @@ public class JSBundleManager {
 
             return true;
         } catch (JSONException e) {
-            Log.e(TAG, "Failed to get MD5 from metadata");
+            Log.e(TAG, "Failed to get MD5 from metadata", e);
         }
 
         return false;
@@ -185,9 +185,7 @@ public class JSBundleManager {
         File file = new File(tmpDir, fileName);
 
         if (!file.exists() && !file.getParentFile().mkdirs() && !file.createNewFile()) {
-            Log.e(TAG, "Failed to create file " + file.getAbsolutePath());
-
-            throw new IOException();
+            throw new IOException("Failed to create file " + file.getAbsolutePath());
         }
 
         BufferedSink sink = Okio.buffer(Okio.sink(file));
