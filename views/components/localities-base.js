@@ -5,6 +5,7 @@ import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 import Geolocation from "../../modules/geolocation";
+import config from "../../store/config";
 
 const {
 	StyleSheet,
@@ -106,9 +107,13 @@ export default class LocalitiesBase extends React.Component {
 						return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 					}
 
+					if (keys.every(item => data[item].length === 2 && (data[item][0] === "unavailable" || data[item][0] === "unavailable"))) {
+						return <PageFailed pageLabel={config.app_name + " is not available in your city yet."} />;
+					}
+
 					return (
 						<ListView
-							initialListSize={5}
+							initialListSize={1}
 							dataSource={this._getDataSource()}
 							renderRow={room => {
 								if (room === "missing") {

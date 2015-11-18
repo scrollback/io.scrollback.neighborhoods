@@ -49,11 +49,11 @@ export default class Splash extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image style={styles.logo} source={require("image!logo")} />
+				<Image style={styles.logo} source={require("../../assets/logo.png")} />
 				<Loading style={styles.loading} />
 				<View style={styles.attribution}>
 					<Text style={styles.by}>by</Text>
-					<Image style={styles.scrollback} source={require("image!scrollback_logo")} />
+					<Image style={styles.scrollback} source={require("../../assets/scrollback_logo.png")} />
 				</View>
 			</View>
 		);

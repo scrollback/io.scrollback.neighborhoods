@@ -55,7 +55,11 @@ export default class ChatSuggestions extends React.Component {
 		}
 
 		return (
-			<ScrollView {...this.props} style={[ data.length > 4 ? { height: 160 } : null, styles.inverted, this.props.style ]}>
+			<ScrollView
+				{...this.props}
+				style={[ data.length > 4 ? { height: 160 } : null, styles.inverted, this.props.style ]}
+				keyboardShouldPersistTaps
+			>
 				{data.map(nick => {
 					return (
 						<TouchableHighlight
@@ -82,5 +86,6 @@ export default class ChatSuggestions extends React.Component {
 }
 
 ChatSuggestions.propTypes = {
-	data: React.PropTypes.arrayOf(React.PropTypes.string)
+	data: React.PropTypes.arrayOf(React.PropTypes.string),
+	onSelect: React.PropTypes.func.isRequired
 };

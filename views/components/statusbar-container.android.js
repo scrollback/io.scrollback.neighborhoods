@@ -9,11 +9,11 @@ const {
 
 const styles = StyleSheet.create({
 	statusbar: {
-		height: Platform.Version < VersionCodes.KITKAT ? 0 : 25 // offset for statusbar height
+		height: 25 // offset for statusbar height
 	}
 });
 
-export default class StatusbarContainer extends React.Component {
+class StatusbarContainer extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
@@ -29,3 +29,6 @@ StatusbarContainer.propTypes = {
 	children: React.PropTypes.node,
 	statusbarStyle: React.PropTypes.any
 };
+
+// Versions below KitKat don't have translucent statusbar
+export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? View : StatusbarContainer;

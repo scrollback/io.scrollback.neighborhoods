@@ -1,8 +1,8 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.os.AsyncTask;
 
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class URLResolverModule extends ReactContextBaseJavaModule {
 
     private Map<String, String> resolverCache = new HashMap<>();
-    private Map<String, ArrayList<Callback>> resolveCallbacks = new HashMap<>();
+    private Map<String, ArrayList<Promise>> resolvePromises = new HashMap<>();
     private ArrayList<String> currentlyResolving = new ArrayList<>();
 
     public URLResolverModule(ReactApplicationContext reactContext) {
@@ -48,22 +48,22 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void resolveURL(final String url, final Callback callback) {
+    public void resolveURL(final String url, final Promise promise) {
         if (resolverCache.containsKey(url)) {
-            callback.invoke(resolverCache.get(url));
+            promise.resolve(resolverCache.get(url));
 
             return;
         }
 
         if (currentlyResolving.contains(url)) {
-            if (resolveCallbacks.containsKey(url)) {
-                resolveCallbacks.get(url).add(callback);
+            if (resolvePromises.containsKey(url)) {
+                resolvePromises.get(url).add(promise);
             } else {
-                ArrayList<Callback> list = new ArrayList<>();
+                ArrayList<Promise> list = new ArrayList<>();
 
-                list.add(callback);
+                list.add(promise);
 
-                resolveCallbacks.put(url, list);
+                resolvePromises.put(url, list);
             }
 
             return;
@@ -110,17 +110,17 @@ public class URLResolverModule extends ReactContextBaseJavaModule {
 
                 currentlyResolving.remove(url);
 
-                callback.invoke(finalUrl);
+                promise.resolve(finalUrl);
 
-                if (resolveCallbacks.containsKey(url)) {
-                    ArrayList<Callback> list = resolveCallbacks.get(url);
+                if (resolvePromises.containsKey(url)) {
+                    ArrayList<Promise> list = resolvePromises.get(url);
 
-                    for (Callback cb : list) {
-                        cb.invoke(finalUrl);
+                    for (Promise p : list) {
+                        p.resolve(finalUrl);
                     }
                 }
 
-                resolveCallbacks.remove(url);
+                resolvePromises.remove(url);
 
                 return null;
             }

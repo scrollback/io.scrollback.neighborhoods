@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -23,15 +23,14 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
+import io.scrollback.neighborhoods.Constants;
+
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     public static final String STORAGE_KEY = "push_notifications_shared_preferences";
 
     private final String PROPERTY_REG_ID = "private_registration_id";
     private final String PROPERTY_APP_VERSION = "private_app_version";
-
-    private final String CALLBACK_TYPE_SUCCESS = "success";
-    private final String CALLBACK_TYPE_ERROR = "error";
 
     private String senderId;
 
@@ -140,37 +139,27 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void registerGCM(final Callback callback) {
+    public void registerGCM(final Promise promise) {
         if (!isPlayServicesAvailable) {
-            WritableMap map = Arguments.createMap();
-
-            map.putString("type", CALLBACK_TYPE_ERROR);
-            map.putString("message", "Google Play services not found on device");
-
-            callback.invoke(map);
+            promise.reject("Google Play services not found on device");
 
             return;
         }
 
         if (senderId == null) {
-            WritableMap map = Arguments.createMap();
-
-            map.putString("type", CALLBACK_TYPE_ERROR);
-            map.putString("message", "GCM sender ID is not set");
-
-            callback.invoke(map);
+            promise.reject("GCM sender ID is not set");
 
             return;
         }
 
-        new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
             }
 
             @Override
-            protected String doInBackground(Void... params) {
+            protected Boolean doInBackground(Void... params) {
                 try {
                     if (mGcmInstance == null) {
                         mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
@@ -180,22 +169,17 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
                     setRegistrationId(mReactContext, mCurrentRegId);
 
-                    return CALLBACK_TYPE_SUCCESS;
+                    return true;
                 } catch (IOException e) {
-                    WritableMap map = Arguments.createMap();
+                    promise.reject(e.getMessage());
 
-                    map.putString("type", CALLBACK_TYPE_ERROR);
-                    map.putString("message", e.getMessage());
-
-                    callback.invoke(map);
-
-                    return CALLBACK_TYPE_ERROR;
+                    return false;
                 }
             }
 
             @Override
-            protected void onPostExecute(String msg) {
-                if (msg.equals(CALLBACK_TYPE_ERROR)) {
+            protected void onPostExecute(Boolean result) {
+                if (!result) {
                     return;
                 }
 
@@ -204,30 +188,24 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
                 WritableMap map = Arguments.createMap();
 
-                map.putString("type", CALLBACK_TYPE_SUCCESS);
                 map.putString("registrationId", mCurrentRegId);
                 map.putString("uuid", uuid);
                 map.putString("deviceModel", Build.MODEL);
 
-                callback.invoke(map);
+                promise.resolve(map);
             }
         }.execute(null, null, null);
     }
 
     @ReactMethod
-    public void unRegisterGCM(final Callback callback) {
+    public void unRegisterGCM(final Promise promise) {
         if (!isPlayServicesAvailable) {
-            WritableMap map = Arguments.createMap();
-
-            map.putString("type", CALLBACK_TYPE_ERROR);
-            map.putString("message", "Google Play services not found on device");
-
-            callback.invoke(map);
+            promise.reject("Google Play services not found on device");
 
             return;
         }
 
-        new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected void onPreExecute() {
@@ -235,7 +213,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
             }
 
             @Override
-            protected String doInBackground(Void... params) {
+            protected Boolean doInBackground(Void... params) {
                 try {
                     if (mGcmInstance == null) {
                         mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
@@ -245,30 +223,21 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
                     setRegistrationId(mReactContext, mCurrentRegId);
 
-                    return CALLBACK_TYPE_SUCCESS;
+                    return true;
                 } catch (IOException e) {
-                    WritableMap map = Arguments.createMap();
+                    promise.reject(e.getMessage());
 
-                    map.putString("type", CALLBACK_TYPE_ERROR);
-                    map.putString("message", e.getMessage());
-
-                    callback.invoke(map);
-
-                    return CALLBACK_TYPE_ERROR;
+                    return false;
                 }
             }
 
             @Override
-            protected void onPostExecute(String msg) {
-                if (msg.equals(CALLBACK_TYPE_ERROR)) {
+            protected void onPostExecute(Boolean result) {
+                if (!result) {
                     return;
                 }
 
-                WritableMap map = Arguments.createMap();
-
-                map.putString("type", CALLBACK_TYPE_SUCCESS);
-
-                callback.invoke(map);
+                promise.resolve(mCurrentRegId);
             }
         }.execute(null, null, null);
     }
@@ -282,7 +251,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getPreference(String key, Callback callback) {
-        callback.invoke(getGCMPreferences().getString(key, ""));
+    public void getPreference(String key, Promise promise) {
+        promise.resolve(getGCMPreferences().getString(key, ""));
     }
 }

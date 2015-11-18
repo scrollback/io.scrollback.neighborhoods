@@ -33,6 +33,7 @@ export default class Home extends React.Component {
 					initialRoute={this.props.initialRoute || routes.home()}
 					renderScene={renderScene}
 					navigationBar={renderNavigationBar()}
+					configureScene={() => Navigator.SceneConfigs.FloatFromBottomAndroid}
 					sceneStyle={styles.scene}
 				/>
 

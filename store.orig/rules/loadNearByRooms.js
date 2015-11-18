@@ -28,10 +28,10 @@ export default function(core) {
 				return;
 			}
 
-			if (res && res.results && res.results.length) {
+			if (res && res.results) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results.filter(room => memberOf.indexOf(room.id) === -1)
+						nearByRooms: res.results.length ? res.results : [ "unavailable" ]
 					}
 				});
 			}

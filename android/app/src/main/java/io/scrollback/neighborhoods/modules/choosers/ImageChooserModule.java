@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.choosers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.provider.OpenableColumns;
 import android.support.v4.content.CursorLoader;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -24,12 +24,8 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
     public final int PICK_IMAGE = 3500;
 
-    private final String CALLBACK_TYPE_SUCCESS = "success";
-    private final String CALLBACK_TYPE_ERROR = "error";
-    private final String CALLBACK_TYPE_CANCEL = "cancel";
-
     private Context mActivityContext;
-    private Callback mPickerCallback;
+    private Promise mPickerPromise;
 
     public ImageChooserModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);
@@ -42,12 +38,17 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
         return "ImageChooserModule";
     }
 
-    private void consumeCallback(String type, WritableMap map) {
-        if (mPickerCallback != null) {
-            map.putString("type", type);
+    private void resolvePromise(WritableMap map) {
+        if (mPickerPromise != null) {
+            mPickerPromise.resolve(map);
+            mPickerPromise = null;
+        }
+    }
 
-            mPickerCallback.invoke(map);
-            mPickerCallback = null;
+    private void rejectPromise(String reason) {
+        if (mPickerPromise != null) {
+            mPickerPromise.reject(reason);
+            mPickerPromise = null;
         }
     }
 
@@ -111,7 +112,7 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void pickImage(final Callback callback) {
+    public void pickImage(final Promise promise) {
         final Intent galleryIntent = new Intent(Intent.ACTION_PICK);
 
         galleryIntent.setType("image/*");
@@ -120,16 +121,14 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
         ((Activity) mActivityContext).startActivityForResult(chooserIntent, PICK_IMAGE);
 
-        mPickerCallback = callback;
+        mPickerPromise = promise;
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent intent) {
         if (requestCode == PICK_IMAGE) {
-            if (mPickerCallback != null) {
-                WritableMap map = Arguments.createMap();
-
+            if (mPickerPromise != null) {
                 if (resultCode == Activity.RESULT_CANCELED) {
-                    consumeCallback(CALLBACK_TYPE_CANCEL, map);
+                    rejectPromise("Image picker was cancelled");
                 } else if (resultCode == Activity.RESULT_OK) {
                     Uri uri = intent.getData();
 
@@ -140,15 +139,17 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
                         BitmapFactory.decodeFile(getPathFromUri(uri), options);
 
+                        WritableMap map = Arguments.createMap();
+
                         map.putInt("height", options.outHeight);
                         map.putInt("width", options.outWidth);
                         map.putDouble("size", getSizeFromUri(uri));
                         map.putString("name", getNameFromUri(uri));
                         map.putString("uri", uri.toString());
 
-                        consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+                        resolvePromise(map);
                     } else {
-                        consumeCallback(CALLBACK_TYPE_ERROR, map);
+                        rejectPromise("Failed to pick image");
                     }
                 }
             }

@@ -1,4 +1,6 @@
 {
+	"app_name": "Hey, Neighbor!",
+
 	"server": {
 		"protocol": "https:",
 		"host": "heyneighbor.chat"
