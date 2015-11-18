@@ -73,26 +73,28 @@ public class JSBundleManager {
     private String convertStreamToString(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-        StringBuilder sb = new StringBuilder();
-        String line;
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line;
 
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+
+            return sb.toString();
+        } finally {
+            reader.close();
         }
-
-        reader.close();
-
-        return sb.toString();
     }
 
     private String getStringFromFile(File file) throws IOException {
         FileInputStream fis = new FileInputStream(file);
 
-        String ret = convertStreamToString(fis);
-
-        fis.close();
-
-        return ret;
+        try {
+            return convertStreamToString(fis);
+        } finally {
+            fis.close();
+        }
     }
 
     private boolean shouldDownloadBundle(JSONObject metadata) throws IOException, NoSuchAlgorithmException {
@@ -164,8 +166,11 @@ public class JSBundleManager {
 
         BufferedSink sink = Okio.buffer(Okio.sink(file));
 
-        sink.writeAll(response.body().source());
-        sink.close();
+        try {
+            sink.writeAll(response.body().source());
+        } finally {
+            sink.close();
+        }
 
         return file;
     }
@@ -211,17 +216,23 @@ public class JSBundleManager {
             }
 
             InputStream in = new FileInputStream(source);
-            OutputStream out = new FileOutputStream(target);
 
-            byte[] buffer = new byte[1024];
-            int read;
+            try {
+                OutputStream out = new FileOutputStream(target);
 
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
+                try {
+                    byte[] buffer = new byte[1024];
+                    int read;
+
+                    while ((read = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, read);
+                    }
+                } finally {
+                    out.close();
+                }
+            } finally {
+                in.close();
             }
-
-            in.close();
-            out.close();
         }
     }
 
