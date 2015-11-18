@@ -225,18 +225,17 @@ public class JSBundleManager {
         }
     }
 
-    private boolean cleanUp() {
-        return !tmpDir.exists() || tmpDir.delete();
-    }
-
     private void checkUpdate() {
-        cleanUp();
-
         try {
             JSONObject metadata = fetchMetadata();
 
             if (shouldDownloadBundle(metadata)) {
                 downloadBundle(metadata);
+
+                if (assetDir.exists()) {
+                    assetDir.delete();
+                }
+
                 copyFiles(tmpDir, assetDir);
             }
         } catch (JSONException e) {
@@ -245,9 +244,11 @@ public class JSBundleManager {
             Log.e(TAG, "Failed to check update", e);
         } catch (NoSuchAlgorithmException e) {
             Log.e(TAG, "Unable to find algorithm MD5", e);
+        } finally {
+            if (tmpDir.exists()) {
+                tmpDir.delete();
+            }
         }
-
-        cleanUp();
     }
 }
 
