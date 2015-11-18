@@ -2,6 +2,7 @@ package io.scrollback.neighborhoods;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -38,6 +39,7 @@ public class JSBundleManager {
     private final static String BUNDLE_ASSET_PATH = "assets://" + BUNDLE_NAME;
     private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_CODE + "/";
 
+    private final static String PROP_FILENAME = "filename";
     private final static String PROP_CHECKSUM_MD5 = "checksum_md5";
     private final static String PROP_ASSETS_LIST = "assets";
 
@@ -170,8 +172,8 @@ public class JSBundleManager {
         return false;
     }
 
-    private File downloadFile(String fileName) throws IOException {
-        String downloadUrl = REQUEST_BASE_PATH + fileName;
+    private File downloadFile(String sourceFileName, @Nullable String downloadFileName) throws IOException {
+        String downloadUrl = REQUEST_BASE_PATH + sourceFileName;
         OkHttpClient client = new OkHttpClient();
 
         Log.d(TAG, "Downloading file " + downloadUrl + " to " + tmpDir.getAbsolutePath());
@@ -182,7 +184,7 @@ public class JSBundleManager {
 
         Response response = client.newCall(request).execute();
 
-        File file = new File(tmpDir, fileName);
+        File file = new File(tmpDir, downloadFileName == null ? sourceFileName : downloadFileName);
 
         if (!file.exists() && !file.getParentFile().mkdirs() && !file.createNewFile()) {
             throw new IOException("Failed to create file " + file.getAbsolutePath());
@@ -197,11 +199,11 @@ public class JSBundleManager {
     }
 
     private JSONObject fetchMetadata() throws IOException, JSONException {
-        return new JSONObject(getStringFromFile(downloadFile(METADATA_NAME)));
+        return new JSONObject(getStringFromFile(downloadFile(METADATA_NAME, null)));
     }
 
     private File downloadBundle(JSONObject metadata) throws IOException, JSONException {
-        File bundle = downloadFile(BUNDLE_NAME);
+        File bundle = downloadFile(metadata.getString(PROP_FILENAME), BUNDLE_NAME);
 
         String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
         String currentChecksum = generateMD5(bundle);
