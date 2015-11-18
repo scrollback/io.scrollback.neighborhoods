@@ -8,6 +8,7 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +23,9 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import okio.BufferedSink;
 import okio.Okio;
@@ -35,13 +39,16 @@ public class JSBundleManager {
     private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_CODE + "/";
 
     private final static String PROP_CHECKSUM_MD5 = "checksum_md5";
+    private final static String PROP_ASSETS_LIST = "assets";
 
+    private Context mActivityContext;
     private File assetDir;
     private File tmpDir;
 
     JSBundleManager(Context activityContext) {
         File cacheDir = activityContext.getCacheDir();
 
+        mActivityContext = activityContext;
         assetDir = new File(cacheDir, "assets");
         tmpDir = new File(cacheDir, "tmp");
 
@@ -116,10 +123,46 @@ public class JSBundleManager {
 
     private boolean shouldDownloadBundle(JSONObject metadata) throws IOException {
         try {
+            // Check if MD5 has changed
             String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
             String currentChecksum = generateMD5(new File(assetDir, BUNDLE_NAME));
 
-            return !updateChecksum.equals(currentChecksum);
+            if (updateChecksum.equals(currentChecksum)) {
+                Log.d(TAG, "Bundle is already up-to-date");
+
+                return false;
+            }
+
+            // List unique assets
+            List<String> updateAssetsList = new ArrayList<>();
+
+            // Build unique assets list
+            JSONArray assets = metadata.getJSONArray(PROP_ASSETS_LIST);
+
+            if (assets != null) {
+                for (int i = 0, l = assets.length(); i < l; i++) {
+                    // Discard directory implying dpi
+                    String assetName = assets.getString(i).replace("/^drawable-([a-z]+)\\//", "");
+
+                    if (updateAssetsList.contains(assetName)) {
+                        continue;
+                    }
+
+                    updateAssetsList.add(assetName);
+                }
+            }
+
+            List<String> currentAssetList = Arrays.asList(mActivityContext.getResources().getAssets().list(""));
+
+            for (int i = 0, l = updateAssetsList.size(); i < l; i++) {
+                if (!currentAssetList.contains(updateAssetsList.get(i))) {
+                    Log.d(TAG, "Asset not found in package: " + updateAssetsList.get(i));
+
+                    return false;
+                }
+            }
+
+            return true;
         } catch (JSONException e) {
             Log.e(TAG, "Failed to get MD5 from metadata");
         }
@@ -225,8 +268,6 @@ public class JSBundleManager {
 
                 copyFiles(tmpDir, assetDir);
                 cleanUp();
-            } else {
-                Log.d(TAG, "Bundle is already up-to-date");
             }
         } catch (JSONException e) {
             Log.e(TAG, "Failed to parse metadata", e);
