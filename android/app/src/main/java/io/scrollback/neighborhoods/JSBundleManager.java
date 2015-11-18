@@ -263,15 +263,15 @@ public class JSBundleManager {
 
             if (shouldDownloadBundle(metadata)) {
                 downloadBundle(metadata);
-
                 copyFiles(tmpDir, assetDir);
-                cleanUp();
             }
         } catch (JSONException e) {
             Log.e(TAG, "Failed to parse metadata", e);
         } catch (IOException e) {
             Log.e(TAG, "Failed to check update", e);
         }
+
+        cleanUp();
     }
 }
 
