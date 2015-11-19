@@ -13,6 +13,7 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
+import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
 import io.scrollback.neighborhoods.modules.choosers.ChoosersPackage;
 import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new MainReactPackage())
                 .addPackage(new VectorIconsPackage())
                 .addPackage(new CorePackage(this))
+                .addPackage(new AnalyticsPackage())
                 .addPackage(mGoogleLoginPackage)
                 .addPackage(mFacebookLoginPackage)
                 .addPackage(mChoosersPackage)

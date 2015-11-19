@@ -57,6 +57,15 @@
         </activity>
 
         <receiver
+            android:name=".modules.analytics.InstallReferrerReceiver"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".PushNotificationBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
 

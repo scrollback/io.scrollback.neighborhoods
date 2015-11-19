@@ -93,7 +93,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     private SharedPreferences getGCMPreferences() {
-        return mReactContext.getSharedPreferences(STORAGE_KEY, 0);
+        return mReactContext.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE);
     }
 
     private void setRegistrationId(Context context, String regId) {

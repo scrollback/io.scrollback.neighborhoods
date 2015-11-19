@@ -36,7 +36,7 @@ public class FacebookLoginPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Arrays.asList();
+        return Collections.emptyList();
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
