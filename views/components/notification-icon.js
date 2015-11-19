@@ -29,7 +29,7 @@ export default class NotificationIcon extends React.Component {
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<View>
 					<AppbarIcon name="notifications" />
-					<NotificationBadgeController style={styles.badge} />
+					<NotificationBadgeController style={styles.badge} grouped />
 				</View>
 			</AppbarTouchable>
 		);
