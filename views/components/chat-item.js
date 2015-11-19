@@ -180,7 +180,7 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity onPress={this._showMenu.bind(this)}>
+					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu.bind(this)}>
 						<ChatBubble
 							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
