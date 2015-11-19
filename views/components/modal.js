@@ -1,12 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
 
 const {
 	StyleSheet,
 	Dimensions,
 	TouchableWithoutFeedback,
-	TouchableHighlight,
 	Animated,
 	PixelRatio,
 	View,
@@ -22,19 +22,17 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: "stretch",
+		justifyContent: "flex-end",
 		backgroundColor: Colors.fadedBlack
 	},
 	dialog: {
-		backgroundColor: Colors.white,
-		borderRadius: 3
+		backgroundColor: Colors.white
 	},
 	menuItem: {
 		borderColor: Colors.separator,
 		borderTopWidth: 1 / PixelRatio.get(),
-		padding: 16,
-		width: 240
+		padding: 20
 	},
 	menuItemFirst: {
 		borderTopWidth: 0
@@ -142,9 +140,8 @@ Modal.renderModal = component => {
 Modal.showActionSheetWithOptions = (options, callback) => {
 	return Modal.renderModal(options.options.map((item, index) =>
 		(
-			<TouchableHighlight
+			<TouchFeedback
 				key={index}
-				underlayColor={Colors.underlay}
 				onPress={() =>
 					global.requestAnimationFrame(() => {
 						callback(index);
@@ -156,7 +153,7 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 				<View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
 					<Text style={styles.menuItemText}>{item}</Text>
 				</View>
-			</TouchableHighlight>
+			</TouchFeedback>
 		)
 	));
 };
