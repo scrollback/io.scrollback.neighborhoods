@@ -64,7 +64,7 @@ export default class ChatSuggestions extends React.Component {
 					return (
 						<TouchableHighlight
 							key={nick}
-							underlayColor="rgba(0, 0, 0, .12)"
+							underlayColor={Colors.underlay}
 							onPress={() => this.props.onSelect(nick)}
 						>
 							<View style={[ styles.item, styles.inverted ]}>

@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 		lineHeight: 18
 	},
 	expand: {
-		margin: 18,
+		margin: 20,
 		color: Colors.fadedBlack
 	}
 });
@@ -109,7 +109,7 @@ export default class RoomItem extends React.Component {
 								<Icon
 									name="expand-more"
 									style={styles.expand}
-									size={24}
+									size={20}
 								/>
 							</TouchableOpacity> :
 							null

@@ -144,7 +144,7 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 		(
 			<TouchableHighlight
 				key={index}
-				underlayColor="rgba(0, 0, 0, .16)"
+				underlayColor={Colors.underlay}
 				onPress={() =>
 					global.requestAnimationFrame(() => {
 						callback(index);

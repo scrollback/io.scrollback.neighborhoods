@@ -101,7 +101,7 @@ export default class ChatInput extends React.Component {
 				<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
 					<TouchableHighlight
 						onPress={this._onPress.bind(this)}
-						underlayColor="rgba(0, 0, 0, .16)"
+						underlayColor={Colors.underlay}
 						style={styles.iconContainerOuter}
 					>
 
@@ -155,7 +155,7 @@ export default class ChatInput extends React.Component {
 
 				<TouchableHighlight
 					onPress={this._onClose.bind(this)}
-					underlayColor="rgba(0, 0, 0, .16)"
+					underlayColor={Colors.underlay}
 					style={styles.closeButtonContainer}
 				>
 					<View style={styles.closeButton}>

@@ -144,7 +144,7 @@ export default class DiscussionItem extends React.Component {
 								<Icon
 									name="expand-more"
 									style={styles.expand}
-									size={24}
+									size={20}
 								/>
 							</TouchableOpacity>
 						</View>
