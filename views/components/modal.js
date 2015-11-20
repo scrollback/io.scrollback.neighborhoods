@@ -2,9 +2,12 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
+import VersionCodes from "../../modules/version-codes";
+
 
 const {
 	StyleSheet,
+	Platform,
 	Dimensions,
 	TouchableWithoutFeedback,
 	Animated,
@@ -31,8 +34,7 @@ const styles = StyleSheet.create({
 	},
 	menuItem: {
 		borderColor: Colors.separator,
-		borderTopWidth: 1 / PixelRatio.get(),
-		padding: 20
+		borderTopWidth: 1 / PixelRatio.get()
 	},
 	menuItemFirst: {
 		borderTopWidth: 0
@@ -40,6 +42,7 @@ const styles = StyleSheet.create({
 	menuItemText: {
 		fontSize: 16,
 		color: Colors.darkGrey,
+		margin: 20,
 		paddingHorizontal: 4
 	}
 });
@@ -129,7 +132,7 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<View style={styles.dialog}>
+				<View style={[ styles.dialog, Platform.OS === "android" && Platform.Version <= VersionCodes.KITKAT ? { marginBottom: 25 } : null ]}>
 					{component}
 				</View>
 			</View>
