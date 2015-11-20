@@ -5,15 +5,12 @@ import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,13 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import okio.BufferedSink;
-import okio.Okio;
 
 public class JSBundleManager {
 
@@ -35,11 +27,10 @@ public class JSBundleManager {
     private final static String METADATA_NAME = "metadata.json";
     private final static String BUNDLE_NAME = "index.android.bundle";
     private final static String BUNDLE_ASSET_PATH = "assets://" + BUNDLE_NAME;
-    private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_CODE + "/";
+    private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_NAME + "/";
 
     private final static String PROP_FILENAME = "filename";
     private final static String PROP_CHECKSUM_MD5 = "checksum_md5";
-    private final static String PROP_ASSETS_LIST = "assets";
 
     private Context mActivityContext;
     private File assetDir;
@@ -52,12 +43,12 @@ public class JSBundleManager {
         assetDir = new File(cacheDir, "assets");
         tmpDir = new File(cacheDir, "tmp");
 
-        AsyncTask.execute(new Runnable() {
+        (new Thread() {
             @Override
             public void run() {
                 checkUpdate();
             }
-        });
+        }).start();
     }
 
     public String getBundlePath() {
@@ -99,43 +90,27 @@ public class JSBundleManager {
 
     private boolean shouldDownloadBundle(JSONObject metadata) throws IOException, NoSuchAlgorithmException {
         try {
-            // Check if MD5 has changed
-            String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
-            String currentChecksum = Checksum.MD5(new File(assetDir, BUNDLE_NAME));
+            InputStream in;
+            File assetFile = new File(assetDir, BUNDLE_NAME);
 
-            if (updateChecksum.equals(currentChecksum)) {
-                Log.d(TAG, "Bundle is already up-to-date");
-
-                return false;
+            if (assetFile.exists()) {
+                in = new FileInputStream(assetFile);
+            } else {
+                in = mActivityContext.getAssets().open(BUNDLE_NAME);
             }
 
-            // List unique assets
-            List<String> updateAssetsList = new ArrayList<>();
+            try {
+                // Check if MD5 has changed
+                String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
+                String currentChecksum = Checksum.MD5(in);
 
-            // Build unique assets list
-            JSONArray assets = metadata.getJSONArray(PROP_ASSETS_LIST);
-
-            if (assets != null) {
-                for (int i = 0, l = assets.length(); i < l; i++) {
-                    // Discard directory implying dpi
-                    String assetName = assets.getString(i).replace("/^drawable-([a-z]+)\\//", "");
-
-                    if (updateAssetsList.contains(assetName)) {
-                        continue;
-                    }
-
-                    updateAssetsList.add(assetName);
-                }
-            }
-
-            List<String> currentAssetList = Arrays.asList(mActivityContext.getResources().getAssets().list(""));
-
-            for (int i = 0, l = updateAssetsList.size(); i < l; i++) {
-                if (!currentAssetList.contains(updateAssetsList.get(i))) {
-                    Log.d(TAG, "Asset not found in package: " + updateAssetsList.get(i));
+                if (updateChecksum.equals(currentChecksum)) {
+                    Log.d(TAG, "Bundle is already up-to-date");
 
                     return false;
                 }
+            } finally {
+                in.close();
             }
 
             return true;
@@ -147,30 +122,38 @@ public class JSBundleManager {
     }
 
     private File downloadFile(String sourceFileName, @Nullable String downloadFileName) throws IOException {
-        String downloadUrl = REQUEST_BASE_PATH + sourceFileName;
-        OkHttpClient client = new OkHttpClient();
+        URL downloadUrl = new URL(REQUEST_BASE_PATH + sourceFileName);
 
         Log.d(TAG, "Downloading file " + downloadUrl + " to " + tmpDir.getAbsolutePath());
 
-        Request request = new Request.Builder()
-                .url(downloadUrl)
-                .build();
+        String fileName = downloadFileName == null ? sourceFileName : downloadFileName;
+        URL link = new URL(REQUEST_BASE_PATH + sourceFileName);
 
-        Response response = client.newCall(request).execute();
-
-        File file = new File(tmpDir, downloadFileName == null ? sourceFileName : downloadFileName);
+        File file = new File(tmpDir, fileName);
 
         if (!file.exists() && !file.getParentFile().mkdirs() && !file.createNewFile()) {
             throw new IOException("Failed to create file " + file.getAbsolutePath());
         }
 
-        BufferedSink sink = Okio.buffer(Okio.sink(file));
+        InputStream in = new BufferedInputStream(link.openStream());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-        try {
-            sink.writeAll(response.body().source());
-        } finally {
-            sink.close();
+        byte[] buf = new byte[1024];
+        int n;
+
+        while (-1 != (n = in.read(buf))) {
+            out.write(buf, 0, n);
         }
+
+        out.close();
+        in.close();
+
+        byte[] response = out.toByteArray();
+
+        FileOutputStream fos = new FileOutputStream(file);
+
+        fos.write(response);
+        fos.close();
 
         return file;
     }
@@ -190,6 +173,15 @@ public class JSBundleManager {
         }
 
         return bundle;
+    }
+
+    private void copyStream(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+
+        while ((read = in.read(buffer)) != -1) {
+            out.write(buffer, 0, read);
+        }
     }
 
     private void copyFiles(File source, File target) throws IOException {
@@ -221,12 +213,7 @@ public class JSBundleManager {
                 OutputStream out = new FileOutputStream(target);
 
                 try {
-                    byte[] buffer = new byte[1024];
-                    int read;
-
-                    while ((read = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, read);
-                    }
+                    copyStream(in, out);
                 } finally {
                     out.close();
                 }
