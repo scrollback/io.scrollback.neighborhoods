@@ -2,7 +2,6 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import crypto from "crypto";
-import rimraf from "rimraf";
 import child_process from "child_process";
 import pack from "../node_modules/react-native/package.json";
 
@@ -76,39 +75,13 @@ try {
 log.i("Generating JavaScript bundle", BUNDLE_NAME);
 
 const bundlePath = bundlesDir + "/" + BUNDLE_NAME;
-const assetsPath = bundlesDir + "/assets";
 const metadataFile = bundlesDir + "/metadata.json";
 
 const bundle = child_process.spawn("react-native", [
 	"bundle", "--platform", "android", "--dev", "false",
 	"--entry-file", __dirname + "/../index.android.js",
-	"--assets-dest", assetsPath,
 	"--bundle-output", bundlePath
 ]);
-
-function listFiles(parent, _dir, _files) {
-	_files = _files || [];
-	_dir = _dir || parent;
-
-	const files = fs.readdirSync(_dir);
-
-	for (const f in files) {
-		if (/^\./.test(files[f])) {
-			continue;
-		}
-
-		const name = _dir + "/" + files[f];
-
-		if (fs.statSync(name).isDirectory()) {
-			listFiles(parent, name, _files);
-		} else {
-			_files.push(path.relative(parent, name));
-		}
-	}
-
-	return _files;
-
-}
 
 bundle.stdout.on("data", d => log.i(d));
 bundle.stderr.on("data", d => log.e(d));
@@ -127,12 +100,6 @@ bundle.on("exit", code => {
 	// Checksums can be used to verify bundle integrity
 	metadata.checksum_md5 = crypto.createHash("md5").update(data, "utf8").digest("hex");
 	metadata.checksum_sha256 = crypto.createHash("sha256").update(data, "utf8").digest("hex");
-
-	// List all images
-	metadata.images = listFiles(assetsPath);
-
-	// Cleanup assets directory
-	rimraf.sync(assetsPath);
 
 	log.i("Writing metadata", metadataFile);
 
