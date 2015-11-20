@@ -3,6 +3,7 @@ import Colors from "../../colors.json";
 import Icon from "./icon";
 import Loading from "./loading";
 import Linking from "../../modules/linking";
+import preview from "../../lib/preview";
 
 const {
 	StyleSheet,
@@ -61,7 +62,6 @@ export default class Embed extends React.Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
 			this.props.uri !== nextProps.uri ||
-			this.props.endpoint !== nextProps.endpoint ||
 			this.state.embed !== nextState.embed
 		);
 	}
@@ -71,8 +71,8 @@ export default class Embed extends React.Component {
 	}
 
 	async _fetchEmbedData() {
-		const response = await fetch(this.props.endpoint);
-		const embed = await response.json();
+		const embed = await preview(this.props.uri);
+		
 
 		if (this._mounted) {
 			this.setState({
@@ -117,6 +117,5 @@ export default class Embed extends React.Component {
 }
 
 Embed.propTypes = {
-	uri: React.PropTypes.string.isRequired,
-	endpoint: React.PropTypes.string.isRequired
+	uri: React.PropTypes.string.isRequired
 };

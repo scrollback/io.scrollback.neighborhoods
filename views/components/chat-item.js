@@ -9,7 +9,7 @@ import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
-import oembed from "../../lib/oembed";
+import preview from "../../lib/preview";
 
 const {
 	StyleSheet,
@@ -142,7 +142,7 @@ export default class ChatItem extends React.Component {
 			);
 		} else if (links.length) {
 			const uri = links[0];
-			const endpoint = oembed(uri);
+			const endpoint = preview(uri);
 
 			if (endpoint) {
 				cover = (
