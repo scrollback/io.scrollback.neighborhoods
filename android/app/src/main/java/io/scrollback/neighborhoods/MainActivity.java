@@ -13,6 +13,11 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
+import io.scrollback.neighborhoods.modules.choosers.ChoosersPackage;
+import io.scrollback.neighborhoods.modules.core.CorePackage;
+import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
+import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
+
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
@@ -20,7 +25,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     private GoogleLoginPackage mGoogleLoginPackage;
     private FacebookLoginPackage mFacebookLoginPackage;
-    private ImageChooserPackage mImageChooserPackage;
+    private ChoosersPackage mChoosersPackage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +33,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         mGoogleLoginPackage = new GoogleLoginPackage(this);
         mFacebookLoginPackage = new FacebookLoginPackage(this);
-        mImageChooserPackage = new ImageChooserPackage(this);
+        mChoosersPackage = new ChoosersPackage(this);
 
         mReactRootView = new ReactRootView(this);
 
@@ -38,10 +43,10 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
                 .addPackage(new VectorIconsPackage())
-                .addPackage(new HeyNeighborPackage(this))
+                .addPackage(new CorePackage(this))
                 .addPackage(mGoogleLoginPackage)
                 .addPackage(mFacebookLoginPackage)
-                .addPackage(mImageChooserPackage)
+                .addPackage(mChoosersPackage)
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
@@ -92,7 +97,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         super.onResume();
 
         if (mReactInstanceManager != null) {
-            mReactInstanceManager.onResume(this);
+            mReactInstanceManager.onResume(this, this);
         }
 
         AppEventsLogger.activateApp(this);
@@ -104,6 +109,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         mGoogleLoginPackage.handleActivityResult(requestCode, resultCode, data);
         mFacebookLoginPackage.handleActivityResult(requestCode, resultCode, data);
-        mImageChooserPackage.handleActivityResult(requestCode, resultCode, data);
+        mChoosersPackage.handleActivityResult(requestCode, resultCode, data);
     }
 }

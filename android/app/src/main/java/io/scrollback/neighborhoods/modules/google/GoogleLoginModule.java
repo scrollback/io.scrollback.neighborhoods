@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.google;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -11,7 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -23,18 +23,18 @@ import com.google.android.gms.common.AccountPicker;
 
 import java.io.IOException;
 
+import io.scrollback.neighborhoods.Constants;
+
 public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
     public final int REQ_SIGN_IN_REQUIRED = 1000;
     public final int CHOOSE_ACCOUNT_REQUIRED = 1500;
-    private final String CALLBACK_TYPE_SUCCESS = "success";
-    private final String CALLBACK_TYPE_ERROR = "error";
-    private final String CALLBACK_TYPE_CANCEL = "cancel";
+
     private String mAccountName;
     private String mAccessToken;
     private Context mActivityContext;
 
-    private Callback mRetrieveCallback;
+    private Promise mRetrievePromise;
 
     private Dialog dialog;
 
@@ -49,46 +49,49 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         return "GoogleLoginModule";
     }
 
-    private void consumeCallback(String type, WritableMap map) {
-        if (mRetrieveCallback != null) {
-            map.putString("type", type);
-            map.putString("provider", "google");
+    private void resolvePromise(WritableMap map) {
+        if (mRetrievePromise != null) {
+            mRetrievePromise.resolve(map);
+            mRetrievePromise = null;
+        }
+    }
 
-            mRetrieveCallback.invoke(map);
-            mRetrieveCallback = null;
+    private void rejectPromise(String reason) {
+        if (mRetrievePromise != null) {
+            mRetrievePromise.reject(reason);
+            mRetrievePromise = null;
         }
     }
 
     @ReactMethod
-    public void logIn(final Callback callback) {
+    public void logIn(final Promise promise) {
+        String[] accountTypes = new String[]{"com.google"};
         Intent intent = AccountPicker.newChooseAccountIntent(
-                null, null, new String[]{"com.google"},
+                null, null, accountTypes,
                 false, null, null, null, null);
 
-        if (mRetrieveCallback != null) {
-            WritableMap map = Arguments.createMap();
-
+        if (mRetrievePromise != null) {
             if (mAccessToken != null) {
+                WritableMap map = Arguments.createMap();
+
                 map.putString("accountName", mAccountName);
                 map.putString("token", mAccessToken);
                 map.putBoolean("cache", true);
 
-                consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+                resolvePromise(map);
             } else {
-                map.putString("message", "Cannot register multiple callbacks");
-
-                consumeCallback(CALLBACK_TYPE_CANCEL, map);
+                rejectPromise("Cannot register multiple callbacks");
             }
         }
 
-        mRetrieveCallback = callback;
+        mRetrievePromise = promise;
 
         ((Activity) mActivityContext).startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
     }
 
     @ReactMethod
-    public void logOut(final Callback callback) {
-        deleteToken(mAccountName, callback);
+    public void logOut(final Promise promise) {
+        deleteToken(mAccountName, promise);
     }
 
     protected void retrieveToken(final String accountName) {
@@ -113,24 +116,18 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 } catch (IOException e) {
                     Log.e(Constants.TAG, e.getMessage());
 
-                    if (mRetrieveCallback != null) {
-                        WritableMap map = Arguments.createMap();
-
-                        map.putString("message", e.getMessage());
-
-                        consumeCallback(CALLBACK_TYPE_ERROR, map);
+                    if (mRetrievePromise != null) {
+                        rejectPromise(e.getMessage());
                     }
                 } catch (UserRecoverableAuthException e) {
                     ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+
+                    return "false";
                 } catch (GoogleAuthException e) {
                     Log.e(Constants.TAG, e.getMessage());
 
-                    if (mRetrieveCallback != null) {
-                        WritableMap map = Arguments.createMap();
-
-                        map.putString("message", e.getMessage());
-
-                        consumeCallback(CALLBACK_TYPE_ERROR, map);
+                    if (mRetrievePromise != null) {
+                        rejectPromise(e.getMessage());
                     }
                 }
 
@@ -145,7 +142,11 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     dialog.dismiss();
                 }
 
-                if (mRetrieveCallback != null) {
+                if (token.equals("false")) {
+                    return;
+                }
+
+                if (mRetrievePromise != null) {
                     if (token != null) {
                         mAccessToken = token;
 
@@ -154,60 +155,62 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                         map.putString("accountName", accountName);
                         map.putString("token", mAccessToken);
 
-                        consumeCallback(CALLBACK_TYPE_SUCCESS, map);
+                        resolvePromise(map);
                     } else {
-                        WritableMap map = Arguments.createMap();
-
-                        map.putString("message", "No access token found");
-
-                        consumeCallback(CALLBACK_TYPE_ERROR, map);
+                        rejectPromise("No access token found");
                     }
                 }
             }
         }.execute(accountName);
     }
 
-    protected void deleteToken(final String accountName, final Callback callback) {
-        new AsyncTask<String, Void, String>() {
+    protected void deleteToken(final String accountName, final Promise promise) {
+        new AsyncTask<String, Void, Boolean>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
             }
 
             @Override
-            protected String doInBackground(String... params) {
+            protected Boolean doInBackground(String... params) {
                 mAccessToken = params[0];
-
-                String result = null;
 
                 try {
                     GoogleAuthUtil.clearToken(mActivityContext, mAccessToken);
 
-                    result = "true";
+                    return true;
                 } catch (GoogleAuthException e) {
                     Log.e(Constants.TAG, e.getMessage());
+
+                    promise.reject(e.getMessage());
+
+                    return false;
                 } catch (IOException e) {
                     Log.e(Constants.TAG, e.getMessage());
-                }
 
-                return result;
+                    promise.reject(e.getMessage());
+
+                    return false;
+                }
             }
 
             @Override
-            protected void onPostExecute(String token) {
-                super.onPostExecute(token);
+            protected void onPostExecute(Boolean result) {
+                super.onPostExecute(result);
 
                 mAccessToken = null;
 
-                callback.invoke();
+                if (result) {
+                    promise.resolve(true);
+                }
             }
         }.execute(accountName);
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if ((requestCode == CHOOSE_ACCOUNT_REQUIRED || requestCode == REQ_SIGN_IN_REQUIRED) && resultCode == Activity.RESULT_CANCELED) {
-            if (mRetrieveCallback != null) {
-                consumeCallback(CALLBACK_TYPE_CANCEL, Arguments.createMap());
+            if (mRetrievePromise != null) {
+                rejectPromise("Login was cancelled");
             }
 
             return true;

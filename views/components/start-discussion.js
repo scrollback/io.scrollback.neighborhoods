@@ -234,7 +234,7 @@ export default class StartDiscussionButton extends React.Component {
 
 				<Banner text={this.state.error} type="error" />
 
-				<ScrollView style={styles.scene}>
+				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
 					<TextInput
 						autoFocus
 						value={this.state.title}

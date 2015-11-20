@@ -7,43 +7,47 @@ import android.os.Bundle;
 class AppState implements Application.ActivityLifecycleCallbacks {
 
     private static AppState instance;
+    private static boolean foreground;
 
-    public static void init(Application app){
-        if (instance == null){
+    public static void init(Application app) {
+        if (instance == null) {
             instance = new AppState();
 
             app.registerActivityLifecycleCallbacks(instance);
         }
     }
 
-    private static boolean foreground;
-
-    public static boolean isForeground(){
+    public static boolean isForeground() {
         return foreground;
     }
 
     @Override
-    public void onActivityPaused(Activity activity){
+    public void onActivityPaused(Activity activity) {
         foreground = false;
     }
 
     @Override
-    public void onActivityResumed(Activity activity){
+    public void onActivityResumed(Activity activity) {
         foreground = true;
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    }
 
     @Override
-    public void onActivityStarted(Activity activity) {}
+    public void onActivityStarted(Activity activity) {
+    }
 
     @Override
-    public void onActivityStopped(Activity activity) {}
+    public void onActivityStopped(Activity activity) {
+    }
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    }
 
     @Override
-    public void onActivityDestroyed(Activity activity) {}
+    public void onActivityDestroyed(Activity activity) {
+    }
 }

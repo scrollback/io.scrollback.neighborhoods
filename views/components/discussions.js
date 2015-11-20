@@ -59,7 +59,7 @@ export default class Discussions extends React.Component {
 						<ListView
 							removeClippedSubviews
 							contentContainerStyle={styles.container}
-							initialListSize={3}
+							initialListSize={1}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
 							dataSource={this._getDataSource()}

@@ -17,13 +17,7 @@ export default class AppController extends React.Component {
 	}
 
 	componentWillMount() {
-		Linking.getInitialURL(url => {
-			if (url) {
-				this.setState({
-					initialRoute: routes.fromURL(url)
-				});
-			}
-		});
+		this._setInitialRoute();
 
 		this.handle("statechange", changes => {
 			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
@@ -44,6 +38,16 @@ export default class AppController extends React.Component {
 				}
 			}
 		});
+	}
+
+	async _setInitialRoute() {
+		const url = await Linking.getInitialURL();
+
+		if (url) {
+			this.setState({
+				initialRoute: routes.fromURL(url)
+			});
+		}
 	}
 
 	render() {

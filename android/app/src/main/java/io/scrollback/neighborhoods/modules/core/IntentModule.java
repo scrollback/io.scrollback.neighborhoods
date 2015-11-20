@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -29,16 +29,16 @@ public class IntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getInitialURL(final Callback callback) {
+    public void getInitialURL(final Promise promise) {
         Intent intent = ((Activity) mActivityContext).getIntent();
 
         String action = intent.getAction();
         Uri uri = intent.getData();
 
         if (Intent.ACTION_VIEW.equals(action) && uri != null) {
-            callback.invoke(uri.toString());
+            promise.resolve(uri.toString());
         } else {
-            callback.invoke();
+            promise.resolve("");
         }
     }
 
@@ -50,11 +50,11 @@ public class IntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void canOpenURL(final String url, final Callback callback) {
+    public void canOpenURL(final String url, final Promise promise) {
         PackageManager packageManager = mReactContext.getPackageManager();
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-        callback.invoke(intent.resolveActivity(packageManager) != null);
+        promise.resolve(intent.resolveActivity(packageManager) != null);
     }
 }

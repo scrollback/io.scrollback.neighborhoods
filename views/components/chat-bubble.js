@@ -67,7 +67,7 @@ export default class ChatBubble extends React.Component {
 		return (
 			<View style={[ right ? styles.containerRight : styles.containerLeft, this.props.style ]} ref={c => this._root = c}>
 				{right || !showArrow ? null :
-					<Image style={[ styles.triangle, styles.triangleLeft ]} source={require("image!triangle_left")} />
+					<Image style={[ styles.triangle, styles.triangleLeft ]} source={require("../../assets/triangle_left.png")} />
 				}
 
 				<View style={[ styles.bubble, right ? styles.bubbleRight : styles.bubbleLeft ]}>
@@ -85,7 +85,7 @@ export default class ChatBubble extends React.Component {
 				</View>
 
 				{right && showArrow ?
-					<Image style={[ styles.triangle, styles.triangleRight ]} source={require("image!triangle_right")} /> :
+					<Image style={[ styles.triangle, styles.triangleRight ]} source={require("../../assets/triangle_right.png")} /> :
 					null
 				}
 			</View>
