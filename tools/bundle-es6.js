@@ -6,7 +6,7 @@ import rimraf from "rimraf";
 import child_process from "child_process";
 import pack from "../node_modules/react-native/package.json";
 
-const SSH_HOST = "ubuntu@52.76.29.201"; // The server user and host
+const SSH_HOST = "ubuntu@52.76.69.167"; // The server user and host
 const BUNDLE_NAME = "index.android.bundle"; // Name of the bundle
 const GRADLE_PATH = __dirname + "/../android/app/build.gradle"; // Path to the gradle configuration
 
@@ -128,8 +128,8 @@ bundle.on("exit", code => {
 	metadata.checksum_md5 = crypto.createHash("md5").update(data, "utf8").digest("hex");
 	metadata.checksum_sha256 = crypto.createHash("sha256").update(data, "utf8").digest("hex");
 
-	// List all assets
-	metadata.assets = listFiles(assetsPath);
+	// List all images
+	metadata.images = listFiles(assetsPath);
 
 	// Cleanup assets directory
 	rimraf.sync(assetsPath);
@@ -140,7 +140,7 @@ bundle.on("exit", code => {
 
 	log.i("Uploading files to server", SSH_HOST);
 
-	const upload = child_process.spawn("scp", [ "-r", bundlesDir, `${SSH_HOST}:/home/ubuntu/scrollback/public/s/bundles/android/` ]);
+	const upload = child_process.spawn("scp", [ "-r", bundlesDir, `${SSH_HOST}:/home/ubuntu/heyneighbor/public/s/bundles/android/` ]);
 
 	upload.stdout.on("data", d => log.i(d));
 	upload.stderr.on("data", d => log.e(d));
