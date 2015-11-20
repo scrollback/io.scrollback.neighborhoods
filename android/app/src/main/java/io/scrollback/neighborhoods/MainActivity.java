@@ -22,7 +22,6 @@ import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private ReactInstanceManager mReactInstanceManager;
-    private ReactRootView mReactRootView;
 
     private GoogleLoginPackage mGoogleLoginPackage;
     private FacebookLoginPackage mFacebookLoginPackage;
@@ -36,7 +35,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         mFacebookLoginPackage = new FacebookLoginPackage(this);
         mChoosersPackage = new ChoosersPackage(this);
 
-        mReactRootView = new ReactRootView(this);
+        ReactRootView mReactRootView = new ReactRootView(this);
 
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())

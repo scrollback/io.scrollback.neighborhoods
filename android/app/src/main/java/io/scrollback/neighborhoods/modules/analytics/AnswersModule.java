@@ -34,7 +34,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logCustom(final String eventName, final ReadableMap attributes) {
+    public static void logCustom(final String eventName, final ReadableMap attributes) {
         CustomEvent event = new CustomEvent(eventName);
 
         ReadableMapKeySetIterator keyIterator = attributes.keySetIterator();
@@ -50,7 +50,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
 
     // E-Commerce
     @ReactMethod
-    public void logPurchase(
+    public static void logPurchase(
             final double itemPrice, final String currency,
             final String itemName, final String itemType, final String itemId,
             final Boolean purchaseSucceeded) {
@@ -64,7 +64,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logAddToCart(
+    public static void logAddToCart(
             final double itemPrice, final String currency,
             final String itemName, final String itemType, final String itemId) {
         Answers.getInstance().logAddToCart(new AddToCartEvent()
@@ -76,7 +76,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logStartCheckout(final double totalPrice, final String currency, final int itemCount) {
+    public static void logStartCheckout(final double totalPrice, final String currency, final int itemCount) {
         Answers.getInstance().logStartCheckout(new StartCheckoutEvent()
                 .putTotalPrice(BigDecimal.valueOf(totalPrice))
                 .putCurrency(Currency.getInstance(currency))
@@ -85,7 +85,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
 
     // Content
     @ReactMethod
-    public void logContentView(final String contentName, final String contentType, final String contentId) {
+    public static void logContentView(final String contentName, final String contentType, final String contentId) {
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putContentName(contentName)
                 .putContentType(contentType)
@@ -93,13 +93,13 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logSearch(final String query) {
+    public static void logSearch(final String query) {
         Answers.getInstance().logSearch(new SearchEvent()
                 .putQuery(query));
     }
 
     @ReactMethod
-    public void logShare(final String contentName, final String contentType, final String contentId) {
+    public static void logShare(final String contentName, final String contentType, final String contentId) {
         Answers.getInstance().logShare(new ShareEvent()
                 .putContentName(contentName)
                 .putContentType(contentType)
@@ -107,7 +107,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logRating(final int rating, final String contentName, final String contentType, final String contentId) {
+    public static void logRating(final int rating, final String contentName, final String contentType, final String contentId) {
         Answers.getInstance().logRating(new RatingEvent()
                 .putRating(rating)
                 .putContentName(contentName)
@@ -117,7 +117,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
 
     // Users
     @ReactMethod
-    public void logSignup(final String signupMethod, final Boolean signupSucceeded) {
+    public static void logSignup(final String signupMethod, final Boolean signupSucceeded) {
         Answers.getInstance().logSignUp(new SignUpEvent()
                         .putMethod(signupMethod)
                         .putSuccess(signupSucceeded)
@@ -125,27 +125,27 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logLogin(final String loginMethod, final Boolean loginSucceeded) {
+    public static void logLogin(final String loginMethod, final Boolean loginSucceeded) {
         Answers.getInstance().logLogin(new LoginEvent()
                 .putMethod(loginMethod)
                 .putSuccess(loginSucceeded));
     }
 
     @ReactMethod
-    public void logInvite(final String inviteMethod) {
+    public static void logInvite(final String inviteMethod) {
         Answers.getInstance().logInvite(new InviteEvent()
                 .putMethod(inviteMethod));
     }
 
     // Gaming
     @ReactMethod
-    public void logLevelStart(final String levelName) {
+    public static void logLevelStart(final String levelName) {
         Answers.getInstance().logLevelStart(new LevelStartEvent()
                 .putLevelName(levelName));
     }
 
     @ReactMethod
-    public void logLevelEnd(final String levelName, int score, boolean success) {
+    public static void logLevelEnd(final String levelName, int score, boolean success) {
         Answers.getInstance().logLevelEnd(new LevelEndEvent()
                 .putLevelName(levelName)
                 .putScore(score)

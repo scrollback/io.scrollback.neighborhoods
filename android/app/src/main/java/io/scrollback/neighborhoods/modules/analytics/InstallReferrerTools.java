@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.NoSuchPropertyException;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -14,23 +11,16 @@ import java.util.Map;
 
 public class InstallReferrerTools {
 
-    public final static String UTM_CAMPAIGN = "utm_campaign";
-    public final static String UTM_SOURCE = "utm_source";
-    public final static String UTM_MEDIUM = "utm_medium";
-    public final static String UTM_TERM = "utm_term";
-    public final static String UTM_CONTENT = "utm_content";
-
     private final static String PREFERENCES_FILE = "google_play_install_receiver";
     private final static String PROPERTY_INSTALL_REFERRER = "install_referrer";
 
     private final static String ERROR_NO_REFERRER = "No install referrer found";
     private final static String ERROR_NO_SUCH_PARAM = "No such parameter found";
 
+    private static InstallReferrerTools mInstance;
     private Map<String, String> referralParams;
     private String referrer;
     private Context mContext;
-
-    private static InstallReferrerTools mInstance;
 
     InstallReferrerTools(Context context) {
         mContext = context;
@@ -44,6 +34,14 @@ public class InstallReferrerTools {
         }
 
         return mInstance;
+    }
+
+    public String getReferrer() throws NoSuchPropertyException {
+        if (referrer == null) {
+            throw new NoSuchPropertyException(ERROR_NO_REFERRER);
+        } else {
+            return referrer;
+        }
     }
 
     public void setReferrer(final String ref) {
@@ -72,15 +70,7 @@ public class InstallReferrerTools {
         e.apply();
 
         // Log installation
-        logInstall();
-    }
-
-    public String getReferrer() throws NoSuchPropertyException {
-        if (referrer == null) {
-            throw new NoSuchPropertyException(ERROR_NO_REFERRER);
-        } else {
-            return referrer;
-        }
+        Trackers.logInstall(referrer, referralParams);
     }
 
     public String getRefferalParameter(final String param) throws NoSuchPropertyException {
@@ -93,46 +83,5 @@ public class InstallReferrerTools {
         } else {
             throw new NoSuchPropertyException(ERROR_NO_SUCH_PARAM + ": " + param);
         }
-    }
-
-    private void logInstall() {
-        if (referralParams == null || referralParams.isEmpty()) {
-            if (referrer != null) {
-                Answers.getInstance().logCustom(new CustomEvent("Install")
-                    .putCustomAttribute("Referrer", referrer));
-            }
-
-            return;
-        }
-
-        CustomEvent event = new CustomEvent("Install");
-
-        for (Map.Entry<String, String> entry : referralParams.entrySet()) {
-            String name;
-
-            switch (entry.getKey()) {
-                case UTM_CAMPAIGN:
-                    name = "Campaign Name";
-                    break;
-                case UTM_SOURCE:
-                    name = "Campaign Source";
-                    break;
-                case UTM_MEDIUM:
-                    name = "Campaign Medium";
-                    break;
-                case UTM_TERM:
-                    name = "Campaign Term";
-                    break;
-                case UTM_CONTENT:
-                    name = "Campaign Content";
-                    break;
-                default:
-                    name = entry.getKey();
-            }
-
-            event.putCustomAttribute(name, entry.getValue());
-        }
-
-        Answers.getInstance().logCustom(event);
     }
 }

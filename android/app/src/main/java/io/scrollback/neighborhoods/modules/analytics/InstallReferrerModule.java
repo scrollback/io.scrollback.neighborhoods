@@ -35,7 +35,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignName(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(InstallReferrerTools.UTM_CAMPAIGN));
+            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_CAMPAIGN));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -44,7 +44,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignSource(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(InstallReferrerTools.UTM_SOURCE));
+            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_SOURCE));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -53,7 +53,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignMedium(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(InstallReferrerTools.UTM_MEDIUM));
+            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_MEDIUM));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -62,7 +62,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignTerm(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(InstallReferrerTools.UTM_TERM));
+            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_TERM));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -71,7 +71,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignContent(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(InstallReferrerTools.UTM_CONTENT));
+            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_CONTENT));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
