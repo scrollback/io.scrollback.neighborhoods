@@ -19,6 +19,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.UnexpectedNativeTypeException;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -42,7 +43,15 @@ public class AnswersModule extends ReactContextBaseJavaModule {
         while (keyIterator.hasNextKey()) {
             String key = keyIterator.nextKey();
 
-            event.putCustomAttribute(key, attributes.getString(key));
+            try {
+                int value = attributes.getInt(key);
+
+                event.putCustomAttribute(key, value);
+            } catch (UnexpectedNativeTypeException e) {
+                String value = attributes.getString(key);
+
+                event.putCustomAttribute(key, value);
+            }
         }
 
         Answers.getInstance().logCustom(event);
