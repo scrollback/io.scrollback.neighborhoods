@@ -1,7 +1,6 @@
 package io.scrollback.neighborhoods;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -43,18 +42,23 @@ public class JSBundleManager {
         assetDir = new File(cacheDir, "assets");
         tmpDir = new File(cacheDir, "tmp");
 
-        (new Thread() {
-            @Override
-            public void run() {
-                checkUpdate();
-            }
-        }).start();
+        if (!BuildConfig.DEBUG) {
+            // Don't check update in development mode
+            (new Thread() {
+                @Override
+                public void run() {
+                    checkUpdate();
+                }
+            }).start();
+        }
     }
 
     public String getBundlePath() {
         File assetFile = new File(assetDir, BUNDLE_NAME);
 
         if (assetFile.exists()) {
+            Log.d(TAG, "Loading bundle from cache");
+
             return assetFile.getAbsolutePath();
         }
 
@@ -164,6 +168,8 @@ public class JSBundleManager {
 
     private File downloadBundle(JSONObject metadata) throws IOException, JSONException, NoSuchAlgorithmException {
         File bundle = downloadFile(metadata.getString(PROP_FILENAME), BUNDLE_NAME);
+
+        Log.d(TAG, "Verifying downloaded bundle");
 
         String updateChecksum = metadata.getString(PROP_CHECKSUM_MD5);
         String currentChecksum = Checksum.MD5(bundle);
