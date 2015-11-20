@@ -29,6 +29,7 @@ public class JSBundleManager {
     private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_NAME + "/";
 
     private final static String PROP_FILENAME = "filename";
+    private final static String PROP_VERSION_NAME = "version_name";
     private final static String PROP_CHECKSUM_MD5 = "checksum_md5";
 
     private Context mActivityContext;
@@ -57,9 +58,26 @@ public class JSBundleManager {
         File assetFile = new File(assetDir, BUNDLE_NAME);
 
         if (assetFile.exists()) {
-            Log.d(TAG, "Loading bundle from cache");
+            File metadataFile = new File(assetDir, METADATA_NAME);
 
-            return assetFile.getAbsolutePath();
+            if (metadataFile.exists()) {
+                try {
+                    JSONObject metadata = new JSONObject(getStringFromFile(metadataFile));
+
+                    if (BuildConfig.VERSION_NAME.equals(metadata.getString(PROP_VERSION_NAME))) {
+                        Log.d(TAG, "Loading bundle from cache");
+
+                        return assetFile.getAbsolutePath();
+                    }
+
+                    assetDir.delete();
+                } catch (IOException e) {
+                    Log.e(TAG, "Error reading metadata", e);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error parsing metadata", e);
+                }
+
+            }
         }
 
         return BUNDLE_ASSET_PATH;
