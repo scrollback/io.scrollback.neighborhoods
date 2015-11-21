@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class Trackers {
 
-    public final static String UTM_CAMPAIGN = "utm_campaign";
-    public final static String UTM_SOURCE = "utm_source";
-    public final static String UTM_MEDIUM = "utm_medium";
-    public final static String UTM_TERM = "utm_term";
-    public final static String UTM_CONTENT = "utm_content";
+    public static final String UTM_CAMPAIGN = "utm_campaign";
+    public static final String UTM_SOURCE = "utm_source";
+    public static final String UTM_MEDIUM = "utm_medium";
+    public static final String UTM_TERM = "utm_term";
+    public static final String UTM_CONTENT = "utm_content";
 
     public static void logTiming(String actionName, Date startTime, Date endTime) {
         Answers.getInstance().logCustom(new CustomEvent("Timing")

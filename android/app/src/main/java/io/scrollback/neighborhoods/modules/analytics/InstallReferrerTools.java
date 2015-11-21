@@ -11,11 +11,11 @@ import java.util.Map;
 
 public class InstallReferrerTools {
 
-    private final static String PREFERENCES_FILE = "google_play_install_receiver";
-    private final static String PROPERTY_INSTALL_REFERRER = "install_referrer";
+    private static final String PREFERENCES_FILE = "google_play_install_receiver";
+    private static final String PROPERTY_INSTALL_REFERRER = "install_referrer";
 
-    private final static String ERROR_NO_REFERRER = "No install referrer found";
-    private final static String ERROR_NO_SUCH_PARAM = "No such parameter found";
+    private static final String ERROR_NO_REFERRER = "No install referrer found";
+    private static final String ERROR_NO_SUCH_PARAM = "No such parameter found";
 
     private static InstallReferrerTools mInstance;
     private Map<String, String> referralParams;

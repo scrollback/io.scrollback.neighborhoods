@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.modules.gcm;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -29,7 +29,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import io.scrollback.neighborhoods.modules.core.PushNotificationModule;
+import io.scrollback.neighborhoods.AppState;
+import io.scrollback.neighborhoods.MainActivity;
+import io.scrollback.neighborhoods.R;
 
 public class PushNotificationIntentService extends IntentService {
 
@@ -107,7 +109,7 @@ public class PushNotificationIntentService extends IntentService {
     public void sendNotification(Notification note) {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Log.d(Constants.TAG, "Sending notification");
+        Log.d(TAG, "Sending notification");
 
         Intent i = new Intent(this, MainActivity.class);
 

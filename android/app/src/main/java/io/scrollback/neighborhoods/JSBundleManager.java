@@ -22,15 +22,17 @@ import java.security.NoSuchAlgorithmException;
 
 public class JSBundleManager {
 
-    private final static String TAG = "JSBundleManager";
-    private final static String METADATA_NAME = "metadata.json";
-    private final static String BUNDLE_NAME = "index.android.bundle";
-    private final static String BUNDLE_ASSET_PATH = "assets://" + BUNDLE_NAME;
-    private final static String REQUEST_BASE_PATH = "https://heyneighbor.chat/s/bundles/android/" + BuildConfig.VERSION_NAME + "/";
+    private static final String TAG = "JSBundleManager";
+    private static final String METADATA_NAME = "metadata.json";
+    private static final String BUNDLE_NAME = "index.android.bundle";
+    private static final String BUNDLE_ASSET_PATH = "assets://" + BUNDLE_NAME;
+    private static final String REQUEST_PATH = "/s/bundles/android/" + BuildConfig.VERSION_NAME + "/";
 
-    private final static String PROP_FILENAME = "filename";
-    private final static String PROP_VERSION_NAME = "version_name";
-    private final static String PROP_CHECKSUM_MD5 = "checksum_md5";
+    private static final String PROP_FILENAME = "filename";
+    private static final String PROP_VERSION_NAME = "version_name";
+    private static final String PROP_CHECKSUM_MD5 = "checksum_md5";
+
+    private final String REQUEST_URL;
 
     private Context mActivityContext;
     private File assetDir;
@@ -42,6 +44,8 @@ public class JSBundleManager {
         mActivityContext = activityContext;
         assetDir = new File(cacheDir, "assets");
         tmpDir = new File(cacheDir, "tmp");
+
+        REQUEST_URL = activityContext.getString(R.string.app_protocol) + "//" + activityContext.getString(R.string.app_host) + REQUEST_PATH;
 
         if (!BuildConfig.DEBUG) {
             // Don't check update in development mode
@@ -144,12 +148,12 @@ public class JSBundleManager {
     }
 
     private File downloadFile(String sourceFileName, @Nullable String downloadFileName) throws IOException {
-        URL downloadUrl = new URL(REQUEST_BASE_PATH + sourceFileName);
+        URL downloadUrl = new URL(REQUEST_URL + sourceFileName);
 
         Log.d(TAG, "Downloading file " + downloadUrl + " to " + tmpDir.getAbsolutePath());
 
         String fileName = downloadFileName == null ? sourceFileName : downloadFileName;
-        URL link = new URL(REQUEST_BASE_PATH + sourceFileName);
+        URL link = new URL(REQUEST_URL + sourceFileName);
 
         File file = new File(tmpDir, fileName);
 

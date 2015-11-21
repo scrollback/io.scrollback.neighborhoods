@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class LifeCycleTracker implements Application.ActivityLifecycleCallbacks {
 
-    private final static String EVENT_NAME = "App Usage";
+    private static final String EVENT_NAME = "App Usage";
 
     private static LifeCycleTracker instance;
     private Date startTime;

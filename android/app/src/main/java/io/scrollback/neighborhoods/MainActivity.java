@@ -23,17 +23,13 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     private ReactInstanceManager mReactInstanceManager;
 
-    private GoogleLoginPackage mGoogleLoginPackage;
-    private FacebookLoginPackage mFacebookLoginPackage;
-    private ChoosersPackage mChoosersPackage;
+    private GoogleLoginPackage mGoogleLoginPackage = new GoogleLoginPackage(this);
+    private FacebookLoginPackage mFacebookLoginPackage = new FacebookLoginPackage(this);
+    private ChoosersPackage mChoosersPackage = new ChoosersPackage(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mGoogleLoginPackage = new GoogleLoginPackage(this);
-        mFacebookLoginPackage = new FacebookLoginPackage(this);
-        mChoosersPackage = new ChoosersPackage(this);
 
         ReactRootView mReactRootView = new ReactRootView(this);
 

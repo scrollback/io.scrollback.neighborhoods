@@ -15,8 +15,8 @@ import java.util.Map;
 
 public class AlertDialogModule extends ReactContextBaseJavaModule {
 
-    private final static int POSITIVE_BUTTON = 0;
-    private final static int NEGATIVE_BUTTON = 1;
+    private static final int POSITIVE_BUTTON = 0;
+    private static final int NEGATIVE_BUTTON = 1;
 
     Context mActiviyContext;
 
