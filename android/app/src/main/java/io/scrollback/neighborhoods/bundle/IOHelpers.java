@@ -111,15 +111,13 @@ public class IOHelpers {
         if (path.exists()) {
             File[] files = path.listFiles();
 
-            if (files == null) {
-                return true;
-            }
-
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    deleteDirectory(file);
-                } else {
-                    file.delete();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        deleteDirectory(file);
+                    } else {
+                        file.delete();
+                    }
                 }
             }
         }
