@@ -3,6 +3,7 @@ package io.scrollback.neighborhoods;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 
 import com.facebook.appevents.AppEventsLogger;
@@ -14,6 +15,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 
 import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
+import io.scrollback.neighborhoods.bundle.JSBundleManager;
 import io.scrollback.neighborhoods.modules.choosers.ChoosersPackage;
 import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
@@ -33,9 +35,21 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
         ReactRootView mReactRootView = new ReactRootView(this);
 
+        String requestPath = getString(R.string.app_protocol) + "//" + getString(R.string.app_host) +
+                "/s/bundles/android/" + BuildConfig.VERSION_NAME;
+
         mReactInstanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
-                .setJSBundleFile((new JSBundleManager(this)).getBundlePath())
+                .setJSBundleFile(new JSBundleManager.Builder()
+                                .setBundleAssetName("index.android.bundle")
+                                .setMetadataName("metadata.json")
+                                .setRequestPath(requestPath)
+                                .setCacheDir(getCacheDir())
+                                .setAssetManager(getAssets())
+                                .setEnabled(!BuildConfig.DEBUG)
+                                .build()
+                                .checkUpdate()
+                                .getJSBundleFile())
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
                 .addPackage(new VectorIconsPackage())
@@ -54,7 +68,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
     }
 
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    public boolean onKeyUp(int keyCode, @NonNull KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU && mReactInstanceManager != null) {
             mReactInstanceManager.showDevOptionsDialog();
 

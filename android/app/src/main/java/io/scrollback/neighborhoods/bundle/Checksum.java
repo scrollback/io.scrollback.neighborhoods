@@ -1,4 +1,6 @@
-package io.scrollback.neighborhoods;
+package io.scrollback.neighborhoods.bundle;
+
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Checksum {
-    public static String MD5(InputStream stream) throws IOException, NoSuchAlgorithmException {
+    public static String MD5(@NonNull InputStream stream) throws IOException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
 
         byte[] buffer = new byte[8192];
@@ -24,7 +26,7 @@ public class Checksum {
         return String.format("%032x", new BigInteger(1, hash));
     }
 
-    public static String MD5(File file) throws IOException, NoSuchAlgorithmException {
+    public static String MD5(@NonNull File file) throws IOException, NoSuchAlgorithmException {
         InputStream stream = new FileInputStream(file);
 
         try {
