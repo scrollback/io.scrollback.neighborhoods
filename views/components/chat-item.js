@@ -17,8 +17,7 @@ const {
 	StyleSheet,
 	TouchableOpacity,
 	View,
-	Text,
-	Image
+	Text
 } = React;
 
 const styles = StyleSheet.create({
