@@ -2,7 +2,6 @@ import React from "react-native";
 
 const {
 	Dimensions,
-	PixelRatio,
 	Image
 } = React;
 
@@ -26,7 +25,7 @@ export default class EmbedImage extends React.Component {
 		const ratio = (height && width) ? (height / width) : 1;
 
 		// Determine the optimal height and width
-		const displayWidth = (height ? Math.min(width, win.width) : 160) / PixelRatio.get();
+		const displayWidth = (height ? Math.min(width, win.width - 56) : 160);
 		const displayHeight = displayWidth * ratio;
 
 		return (
