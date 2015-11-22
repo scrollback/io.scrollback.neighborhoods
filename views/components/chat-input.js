@@ -96,8 +96,8 @@ export default class ChatInput extends React.Component {
 		this.props.sendMessage(textUtils.getTextFromMetadata({
 			type: "image",
 			caption: name,
-			height: 160 * aspectRatio,
-			width: 160,
+			height: Math.min(480, width) * aspectRatio,
+			width: Math.min(480, width),
 			thumbnailUrl: result.thumbnailUrl,
 			originalUrl: result.originalUrl
 		}), result.textId);

@@ -137,8 +137,8 @@ export default class StartDiscussionButton extends React.Component {
 				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
 					type: "image",
 					caption: name,
-					height: 160 * aspectRatio,
-					width: 160,
+					height: Math.min(480, width) * aspectRatio,
+					width: Math.min(480, width),
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
 				}), result.textId);

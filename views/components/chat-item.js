@@ -2,6 +2,7 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AvatarController from "../controllers/avatar-controller";
 import ChatBubble from "./chat-bubble";
+import EmbedImage from "./embed-image";
 import Embed from "./embed";
 import Modal from "./modal";
 import Icon from "./icon";
@@ -132,12 +133,11 @@ export default class ChatItem extends React.Component {
 
 		if (textMetadata && textMetadata.type === "image") {
 			cover = (
-				<Image
-					style={[ styles.thumbnail, {
-						height: parseInt(textMetadata.height, 10) || 160,
-						width: parseInt(textMetadata.width, 10) || 160
-					} ]}
-					source={{ uri: textMetadata.thumbnailUrl }}
+				<EmbedImage
+					style={styles.thumbnail}
+					height={parseInt(textMetadata.height, 10)}
+					width={parseInt(textMetadata.width, 10)}
+					uri={textMetadata.thumbnailUrl}
 				/>
 			);
 		} else if (links.length) {
