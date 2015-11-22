@@ -88,9 +88,9 @@ export default class DiscussionItem extends React.Component {
 
 		menu["Share discussion"] = () => {
 			const { protocol, host } = config.server;
-			const { id, to } = thread;
+			const { id, to, title } = thread;
 
-			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
+			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}/${title.toLowerCase().trim().replace(/['"]/g, "").replace(/\W+/g, "-")}`);
 		};
 
 		Modal.showActionSheetWithItems(menu);
