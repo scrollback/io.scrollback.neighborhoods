@@ -1,7 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Icon from "./icon";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
 import timeUtils from "../../lib/time-utils";
@@ -25,17 +25,6 @@ const styles = StyleSheet.create({
 	},
 	avatarContainer: {
 		margin: 16
-	},
-	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: Colors.placeholder
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 18
 	},
 	content: {
 		flex: 1,
@@ -247,13 +236,10 @@ export default class NotificationCenterItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
 						<View style={styles.avatarContainer}>
-							<View style={styles.avatar}>
-								<AvatarController
-									nick={note.noteData.from}
-									style={styles.image}
-									size={36}
-								/>
-							</View>
+							<AvatarRound
+								nick={note.noteData.from}
+								size={36}
+							/>
 							<View style={[ styles.badge, { backgroundColor: this._getIconColor() } ]}>
 								<Icon
 									name={this._getIconName()}

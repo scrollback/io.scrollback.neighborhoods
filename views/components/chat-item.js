@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import ChatBubble from "./chat-bubble";
 import EmbedImage from "./embed-image";
 import Embed from "./embed";
@@ -60,10 +60,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 0,
 		left: -36,
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: Colors.placeholder,
 		alignSelf: "flex-end"
 	},
 	embed: {
@@ -73,11 +69,6 @@ const styles = StyleSheet.create({
 	},
 	thumbnail: {
 		marginVertical: 4
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 36
 	},
 	bubbleReceived: {
 		marginRight: 8
@@ -175,13 +166,11 @@ export default class ChatItem extends React.Component {
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				<View style={[ styles.chat, received ? styles.received : null ]}>
 					{received && showAuthor ?
-						<View style={styles.avatar}>
-							<AvatarController
-								size={36}
-								nick={text.from}
-								style={styles.image}
-							/>
-						</View> :
+						<AvatarRound
+							style={styles.avatar}
+							size={36}
+							nick={text.from}
+						/> :
 						null
 					}
 
