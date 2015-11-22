@@ -10,8 +10,8 @@ export default class StartDiscussionController extends React.Component {
 
 		return this.dispatch("text", {
 			id,
-			text,
-			title,
+			text: text.trim(),
+			title: title.trim(),
 			thread: id,
 			to: this.props.room,
 			from: this.props.user
