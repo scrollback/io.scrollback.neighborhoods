@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import ModalSheet from "./modal-sheet";
 import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
 import VersionCodes from "../../modules/version-codes";
@@ -28,9 +29,6 @@ const styles = StyleSheet.create({
 		alignItems: "stretch",
 		justifyContent: "flex-end",
 		backgroundColor: Colors.fadedBlack
-	},
-	dialog: {
-		backgroundColor: Colors.white
 	},
 	menuItem: {
 		borderColor: Colors.separator,
@@ -132,9 +130,9 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<View style={[ styles.dialog, Platform.OS === "android" && Platform.Version <= VersionCodes.KITKAT ? { marginBottom: 25 } : null ]}>
+				<ModalSheet style={Platform.OS === "android" && Platform.Version <= VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
 					{component}
-				</View>
+				</ModalSheet>
 			</View>
 		</TouchableWithoutFeedback>
 	));

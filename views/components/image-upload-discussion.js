@@ -65,7 +65,8 @@ const styles = StyleSheet.create({
 		left: 0,
 		height: 36,
 		width: 36,
-		borderRadius: 18
+		borderRadius: 18,
+		elevation: 4
 	},
 	closeButton: {
 		backgroundColor: Colors.darkGrey,

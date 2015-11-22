@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "stretch",
 		backgroundColor: Colors.white,
-		borderColor: Colors.placeholder,
-		borderTopWidth: 1 / PixelRatio.get()
+		borderColor: Colors.underlay,
+		borderTopWidth: 1 / PixelRatio.get(),
+		elevation: 4
 	},
 	inputContainer: {
 		flex: 1,
