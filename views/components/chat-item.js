@@ -13,6 +13,7 @@ import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
 
 const {
+	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
 	View,
@@ -102,6 +103,11 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
+	_copyToClipboard(text) {
+		Clipboard.setText(text);
+		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+	}
+
 	_showMenu() {
 		const { text, textMetadata, currentUser } = this.props;
 
@@ -109,9 +115,9 @@ export default class ChatItem extends React.Component {
 
 		if (textMetadata && textMetadata.type === "image") {
 			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
-			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
-			menu["Copy text"] = () => Clipboard.setText(text.text);
+			menu["Copy text"] = () => this._copyToClipboard(text.text);
 			menu["Quote message"] = () => this.props.quoteMessage(text);
 		}
 

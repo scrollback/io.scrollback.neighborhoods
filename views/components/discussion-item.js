@@ -18,6 +18,7 @@ import oembed from "../../lib/oembed";
 import config from "../../store/config";
 
 const {
+	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
 	Image,
@@ -65,23 +66,29 @@ export default class DiscussionItem extends React.Component {
 			);
 	}
 
+	_copyToClipboard(text) {
+		Clipboard.setText(text);
+		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+	}
+
 	_showMenu() {
+		const { thread } = this.props;
 		const menu = {};
 
-		menu["Copy title"] = () => Clipboard.setText(this.props.thread.title);
+		menu["Copy title"] = () => this._copyToClipboard(thread.title);
 
-		const textMetadata = textUtils.getMetadata(this.props.thread.text);
+		const textMetadata = textUtils.getMetadata(thread.text);
 
 		if (textMetadata && textMetadata.type === "image") {
 			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
-			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
-			menu["Copy summary"] = () => Clipboard.setText(this.props.thread.text);
+			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
 		}
 
 		menu["Share discussion"] = () => {
 			const { protocol, host } = config.server;
-			const { id, to } = this.props.thread;
+			const { id, to } = thread;
 
 			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
 		};
