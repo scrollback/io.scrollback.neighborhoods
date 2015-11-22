@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class ModalSheet {
+export default class ModalSheet extends React.Component {
 	render() {
 		return (
 			<View {...this.props} style={[ styles.sheet, this.props.style ]}>
@@ -22,3 +22,7 @@ export default class ModalSheet {
 		);
 	}
 }
+
+ModalSheet.propTypes = {
+	children: React.PropTypes.node.isRequired
+};

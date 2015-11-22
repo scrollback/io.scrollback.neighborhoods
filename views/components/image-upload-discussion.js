@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import CloseButton from "./close-button";
 import Icon from "./icon";
 import Loading from "./loading";
 
@@ -14,6 +15,9 @@ const styles = StyleSheet.create({
 	container: {
 		paddingHorizontal: 16,
 		paddingVertical: 32
+	},
+	thumbnailContainer: {
+		elevation: 4
 	},
 	thumbnailStyle: {
 		alignItems: "center",
@@ -59,25 +63,10 @@ const styles = StyleSheet.create({
 		height: 52,
 		width: 52
 	},
-	closeButtonContainer: {
+	closeButton: {
 		position: "absolute",
 		top: 16,
-		left: 0,
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		elevation: 4
-	},
-	closeButton: {
-		backgroundColor: Colors.darkGrey,
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		alignItems: "center",
-		justifyContent: "center"
-	},
-	closeIcon: {
-		color: Colors.white
+		left: 0
 	}
 });
 
@@ -99,74 +88,64 @@ export default class ChatInput extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
-				<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
-					<TouchableHighlight
-						onPress={this._onPress.bind(this)}
-						underlayColor={Colors.underlay}
-						style={styles.iconContainerOuter}
-					>
+				<View style={styles.thumbnailContainer}>
+					<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
+						<TouchableHighlight
+							onPress={this._onPress.bind(this)}
+							underlayColor={Colors.underlay}
+							style={styles.iconContainerOuter}
+						>
 
-					{(() => {
-						switch (this.props.status) {
-						case "idle":
-							return (
-								<View style={[ styles.iconContainer, styles.iconSendContainer ]}>
-									<Icon
-										name="file-upload"
-										style={styles.icon}
-										size={24}
-									/>
-								</View>
-							);
-						case "loading":
-							return (
-								<View style={[ styles.iconContainer, styles.iconCancelContainer ]}>
-									<Icon
-										name="close"
-										style={styles.icon}
-										size={24}
-									/>
-									<Loading style={styles.loading} />
-								</View>
-							);
-						case "finished":
-							return (
-								<View style={[ styles.iconContainer, styles.iconSuccessContainer ]}>
-									<Icon
-										name="done"
-										style={styles.icon}
-										size={24}
-									/>
-								</View>
-							);
-						case "error":
-							return (
-								<View style={[ styles.iconContainer, styles.iconErrorContainer ]}>
-									<Icon
-										name="warning"
-										style={[ styles.icon, styles.iconWarning ]}
-										size={24}
-									/>
-								</View>
-							);
-						}
-					}())}
-					</TouchableHighlight>
-				</Image>
+						{(() => {
+							switch (this.props.status) {
+							case "idle":
+								return (
+									<View style={[ styles.iconContainer, styles.iconSendContainer ]}>
+										<Icon
+											name="file-upload"
+											style={styles.icon}
+											size={24}
+										/>
+									</View>
+								);
+							case "loading":
+								return (
+									<View style={[ styles.iconContainer, styles.iconCancelContainer ]}>
+										<Icon
+											name="close"
+											style={styles.icon}
+											size={24}
+										/>
+										<Loading style={styles.loading} />
+									</View>
+								);
+							case "finished":
+								return (
+									<View style={[ styles.iconContainer, styles.iconSuccessContainer ]}>
+										<Icon
+											name="done"
+											style={styles.icon}
+											size={24}
+										/>
+									</View>
+								);
+							case "error":
+								return (
+									<View style={[ styles.iconContainer, styles.iconErrorContainer ]}>
+										<Icon
+											name="warning"
+											style={[ styles.icon, styles.iconWarning ]}
+											size={24}
+										/>
+									</View>
+								);
+							}
+						}())}
+						</TouchableHighlight>
+					</Image>
+				</View>
 
-				<TouchableHighlight
-					onPress={this._onClose.bind(this)}
-					underlayColor={Colors.underlay}
-					style={styles.closeButtonContainer}
-				>
-					<View style={styles.closeButton}>
-						<Icon
-							name="close"
-							style={styles.closeIcon}
-							size={16}
-						/>
-					</View>
-				</TouchableHighlight>
+				<CloseButton onPress={this._onClose.bind(this)} style={styles.closeButton} />
 			</View>
 		);
 	}
