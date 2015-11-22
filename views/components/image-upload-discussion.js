@@ -1,14 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import CloseButton from "./close-button";
-import Icon from "./icon";
-import Loading from "./loading";
+import ImageUploadButton from "./image-upload-button";
 
 const {
 	StyleSheet,
 	View,
-	Image,
-	TouchableHighlight
+	Image
 } = React;
 
 const styles = StyleSheet.create({
@@ -23,45 +21,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center"
 	},
-	iconContainerOuter: {
-		height: 56,
-		width: 56,
-		borderRadius: 32,
-		margin: 8
+	iconIdle: {
+		color: Colors.fadedBlack
 	},
-	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
-		height: 56,
-		width: 56,
-		borderRadius: 32
-	},
-	iconSendContainer: {
-		backgroundColor: Colors.accent
-	},
-	iconCancelContainer: {
-		backgroundColor: Colors.fadedBlack
-	},
-	iconSuccessContainer: {
-		backgroundColor: Colors.success
-	},
-	iconErrorContainer: {
-		backgroundColor: Colors.error
-	},
-	icon: {
-		color: Colors.white,
-		margin: 16
-	},
-	iconWarning: {
+	iconError: {
 		marginTop: 14,
 		marginBottom: 18
-	},
-	loading: {
-		position: "absolute",
-		left: 2,
-		top: 2,
-		height: 52,
-		width: 52
 	},
 	closeButton: {
 		position: "absolute",
@@ -90,58 +55,16 @@ export default class ChatInput extends React.Component {
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				<View style={styles.thumbnailContainer}>
 					<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
-						<TouchableHighlight
+						<ImageUploadButton
 							onPress={this._onPress.bind(this)}
-							underlayColor={Colors.underlay}
-							style={styles.iconContainerOuter}
-						>
-
-						{(() => {
-							switch (this.props.status) {
-							case "idle":
-								return (
-									<View style={[ styles.iconContainer, styles.iconSendContainer ]}>
-										<Icon
-											name="file-upload"
-											style={styles.icon}
-											size={24}
-										/>
-									</View>
-								);
-							case "loading":
-								return (
-									<View style={[ styles.iconContainer, styles.iconCancelContainer ]}>
-										<Icon
-											name="close"
-											style={styles.icon}
-											size={24}
-										/>
-										<Loading style={styles.loading} />
-									</View>
-								);
-							case "finished":
-								return (
-									<View style={[ styles.iconContainer, styles.iconSuccessContainer ]}>
-										<Icon
-											name="done"
-											style={styles.icon}
-											size={24}
-										/>
-									</View>
-								);
-							case "error":
-								return (
-									<View style={[ styles.iconContainer, styles.iconErrorContainer ]}>
-										<Icon
-											name="warning"
-											style={[ styles.icon, styles.iconWarning ]}
-											size={24}
-										/>
-									</View>
-								);
-							}
-						}())}
-						</TouchableHighlight>
+							status={this.props.status}
+							idleIcon="file-upload"
+							closeIcon="close"
+							doneIcon="done"
+							errorIcon="warning"
+							idleIconStyle={styles.iconIdle}
+							errorIconStyle={styles.iconError}
+						/>
 					</Image>
 				</View>
 
