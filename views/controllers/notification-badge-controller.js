@@ -1,13 +1,12 @@
 import React from "react-native";
 import NotificationBadge from "../components/notification-badge";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class NotificationBadgeController extends React.Component {
+class NotificationBadgeController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -75,3 +74,5 @@ NotificationBadgeController.propTypes = {
 	thread: React.PropTypes.string,
 	grouped: React.PropTypes.bool
 };
+
+export default Controller(NotificationBadgeController);

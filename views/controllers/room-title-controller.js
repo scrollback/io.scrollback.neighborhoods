@@ -1,13 +1,12 @@
 import React from "react-native";
 import RoomTitle from "../components/room-title";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class RoomTitleController extends React.Component {
+class RoomTitleController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -50,3 +49,5 @@ export default class RoomTitleController extends React.Component {
 RoomTitleController.propTypes = {
 	room: React.PropTypes.string.isRequired
 };
+
+export default Controller(RoomTitleController);

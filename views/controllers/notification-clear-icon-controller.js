@@ -1,9 +1,8 @@
 import React from "react-native";
 import NotificationClearIcon from "../components/notification-clear-icon";
-import controller from "./controller";
+import Controller from "./controller";
 
-@controller
-export default class NotificationClearIconController extends React.Component {
+class NotificationClearIconController extends React.Component {
 	_clearAll() {
 		this.dispatch("note", { dismissTime: Date.now() });
 	}
@@ -12,3 +11,5 @@ export default class NotificationClearIconController extends React.Component {
 		return <NotificationClearIcon {...this.props} clearAll={this._clearAll.bind(this)} />;
 	}
 }
+
+export default Controller(NotificationClearIconController);

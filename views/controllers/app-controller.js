@@ -2,10 +2,9 @@ import React from "react-native";
 import App from "../components/app";
 import Linking from "../../modules/linking";
 import routes from "../utils/routes";
-import controller from "./controller";
+import Controller from "./controller";
 
-@controller
-export default class AppController extends React.Component {
+class AppController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -54,3 +53,5 @@ export default class AppController extends React.Component {
 		return <App {...this.props} {...this.state} />;
 	}
 }
+
+export default Controller(AppController);

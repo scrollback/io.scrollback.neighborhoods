@@ -1,7 +1,6 @@
 import core from "../../store/core";
 import store from "../../store/store";
 
-// Decorator for controllers
 export default function(Target) {
 	class Controller extends Target {
 		get store() {

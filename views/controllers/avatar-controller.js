@@ -1,15 +1,14 @@
 import React from "react-native";
 import Avatar from "../components/avatar.js";
-import controller from "./controller";
 import config from "../../store/config";
 import getAvatar from "../../lib/get-avatar";
+import Controller from "./controller";
 
 const {
 	PixelRatio
 } = React;
 
-@controller
-export default class AvatarController extends React.Component {
+class AvatarController extends React.Component {
 	_getAvatarUri() {
 		const { protocol, host } = config.server;
 		const { nick, size } = this.props;
@@ -42,3 +41,5 @@ AvatarController.propTypes = {
 AvatarController.defaultProps = {
 	size: 48
 };
+
+export default Controller(AvatarController);
