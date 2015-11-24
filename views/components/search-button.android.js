@@ -33,7 +33,7 @@ export default class SearchBar extends React.Component {
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
+			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress.bind(this)}>
 				<AppbarSecondary {...this.props}>
 					<Text style={styles.searchbarText}>Search for communties...</Text>
 					<AppbarIcon name="search" style={styles.icon} />

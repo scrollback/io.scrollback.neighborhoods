@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 10,
 		right: 10,
-		backgroundColor: Colors.badge
+		backgroundColor: Colors.badge,
+		elevation: 2
 	}
 });
 
@@ -29,7 +30,7 @@ export default class NotificationIcon extends React.Component {
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<View>
 					<AppbarIcon name="notifications" />
-					<NotificationBadgeController style={styles.badge} />
+					<NotificationBadgeController style={styles.badge} grouped />
 				</View>
 			</AppbarTouchable>
 		);

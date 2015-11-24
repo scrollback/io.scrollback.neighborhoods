@@ -113,6 +113,7 @@ export default class LocalitiesBase extends React.Component {
 
 					return (
 						<ListView
+							keyboardShouldPersistTaps
 							initialListSize={1}
 							dataSource={this._getDataSource()}
 							renderRow={room => {

@@ -1,12 +1,16 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import ModalSheet from "./modal-sheet";
+import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
+import VersionCodes from "../../modules/version-codes";
+
 
 const {
 	StyleSheet,
+	Platform,
 	Dimensions,
 	TouchableWithoutFeedback,
-	TouchableHighlight,
 	Animated,
 	PixelRatio,
 	View,
@@ -22,19 +26,13 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: "stretch",
+		justifyContent: "flex-end",
 		backgroundColor: Colors.fadedBlack
-	},
-	dialog: {
-		backgroundColor: Colors.white,
-		borderRadius: 3
 	},
 	menuItem: {
 		borderColor: Colors.separator,
-		borderTopWidth: 1 / PixelRatio.get(),
-		padding: 16,
-		width: 240
+		borderTopWidth: 1 / PixelRatio.get()
 	},
 	menuItemFirst: {
 		borderTopWidth: 0
@@ -42,6 +40,7 @@ const styles = StyleSheet.create({
 	menuItemText: {
 		fontSize: 16,
 		color: Colors.darkGrey,
+		margin: 20,
 		paddingHorizontal: 4
 	}
 });
@@ -131,9 +130,9 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<View style={styles.dialog}>
+				<ModalSheet style={Platform.OS === "android" && Platform.Version <= VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
 					{component}
-				</View>
+				</ModalSheet>
 			</View>
 		</TouchableWithoutFeedback>
 	));
@@ -142,9 +141,8 @@ Modal.renderModal = component => {
 Modal.showActionSheetWithOptions = (options, callback) => {
 	return Modal.renderModal(options.options.map((item, index) =>
 		(
-			<TouchableHighlight
+			<TouchFeedback
 				key={index}
-				underlayColor="rgba(0, 0, 0, .16)"
 				onPress={() =>
 					global.requestAnimationFrame(() => {
 						callback(index);
@@ -156,7 +154,7 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 				<View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
 					<Text style={styles.menuItemText}>{item}</Text>
 				</View>
-			</TouchableHighlight>
+			</TouchFeedback>
 		)
 	));
 };

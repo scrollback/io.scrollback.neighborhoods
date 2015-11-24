@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
 		borderRadius: 18,
 		alignItems: "center",
 		justifyContent: "center",
-		margin: 24
+		margin: 24,
+		elevation: 1
 	},
 	loading: {
 		height: 24,

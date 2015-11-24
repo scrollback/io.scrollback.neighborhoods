@@ -25,13 +25,11 @@ public class ClipboardModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setText(final String label, final String text, final Promise promise) {
+    public void setText(final String text) {
         ClipboardManager clipboard = (ClipboardManager) mReactContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText(label, text);
+        ClipData clip = ClipData.newPlainText(null, text);
 
         clipboard.setPrimaryClip(clip);
-
-        promise.resolve(true);
     }
 
     @ReactMethod

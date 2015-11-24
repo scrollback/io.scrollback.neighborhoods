@@ -17,6 +17,7 @@ import textUtils from "../../lib/text-utils";
 import config from "../../store/config";
 
 const {
+	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
 	Image,
@@ -64,25 +65,31 @@ export default class DiscussionItem extends React.Component {
 			);
 	}
 
+	_copyToClipboard(text) {
+		Clipboard.setText(text);
+		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+	}
+
 	_showMenu() {
+		const { thread } = this.props;
 		const menu = {};
 
-		menu["Copy title"] = () => Clipboard.setText(this.props.thread.title);
+		menu["Copy title"] = () => this._copyToClipboard(thread.title);
 
-		const textMetadata = textUtils.getMetadata(this.props.thread.text);
+		const textMetadata = textUtils.getMetadata(thread.text);
 
 		if (textMetadata && textMetadata.type === "image") {
 			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
-			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
-			menu["Copy summary"] = () => Clipboard.setText(this.props.thread.text);
+			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
 		}
 
 		menu["Share discussion"] = () => {
 			const { protocol, host } = config.server;
-			const { id, to } = this.props.thread;
+			const { id, to, title } = thread;
 
-			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}`);
+			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}/${title.toLowerCase().trim().replace(/['"]/g, "").replace(/\W+/g, "-")}`);
 		};
 
 		Modal.showActionSheetWithItems(menu);
@@ -127,7 +134,7 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
+				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View>
 						<View style={styles.topArea}>
 							<CardTitle
@@ -141,7 +148,7 @@ export default class DiscussionItem extends React.Component {
 								<Icon
 									name="expand-more"
 									style={styles.expand}
-									size={24}
+									size={20}
 								/>
 							</TouchableOpacity>
 						</View>

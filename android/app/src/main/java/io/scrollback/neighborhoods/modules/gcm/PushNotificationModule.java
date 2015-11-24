@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods.modules.core;
+package io.scrollback.neighborhoods.modules.gcm;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,10 +23,9 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
-import io.scrollback.neighborhoods.Constants;
-
 public class PushNotificationModule extends ReactContextBaseJavaModule {
 
+    public static final String TAG = "PushNotification";
     public static final String STORAGE_KEY = "push_notifications_shared_preferences";
 
     private final String PROPERTY_REG_ID = "private_registration_id";
@@ -53,7 +52,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
             isPlayServicesAvailable = true;
         } else {
-            Log.e(Constants.TAG, "No valid Google Play Services APK found");
+            Log.e(TAG, "No valid Google Play Services APK found");
         }
     }
 
@@ -83,7 +82,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mActivityContext,
                         PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Log.e(Constants.TAG, "This device is not supported");
+                Log.e(TAG, "This device is not supported");
             }
 
             return false;
@@ -93,14 +92,14 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     private SharedPreferences getGCMPreferences() {
-        return mReactContext.getSharedPreferences(STORAGE_KEY, 0);
+        return mReactContext.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE);
     }
 
     private void setRegistrationId(Context context, String regId) {
         final SharedPreferences prefs = getGCMPreferences();
         int appVersion = getAppVersion(context);
 
-        Log.d(Constants.TAG, "Saving registration ID for app version: " + appVersion);
+        Log.d(TAG, "Saving registration ID for app version: " + appVersion);
 
         SharedPreferences.Editor editor = prefs.edit();
 
@@ -114,7 +113,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
         final String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 
         if (registrationId.length() == 0) {
-            Log.d(Constants.TAG, "No registration ID found");
+            Log.d(TAG, "No registration ID found");
 
             return "";
         }
@@ -125,7 +124,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
         int currentVersion = getAppVersion(context);
 
         if (registeredVersion != currentVersion) {
-            Log.d(Constants.TAG, "App version changed or registration expired");
+            Log.d(TAG, "App version changed or registration expired");
 
             return "";
         }
@@ -243,7 +242,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setPreference(String key, String value) {
+    public void setPreference(final String key, final String value) {
         SharedPreferences.Editor e = getGCMPreferences().edit();
 
         e.putString(key, value);
@@ -251,7 +250,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getPreference(String key, Promise promise) {
+    public void getPreference(final String key, final Promise promise) {
         promise.resolve(getGCMPreferences().getString(key, ""));
     }
 }

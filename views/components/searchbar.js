@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		fontSize: 16,
-		fontWeight: "bold",
 		color: Colors.black,
 		backgroundColor: "transparent"
 	},

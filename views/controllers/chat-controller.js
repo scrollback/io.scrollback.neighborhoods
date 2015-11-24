@@ -26,7 +26,7 @@ export default class ChatController extends React.Component {
 
 	_sendMessage(text, textId) {
 		const textObj = {
-			text,
+			text: text.trim(),
 			thread: this.props.thread,
 			to: this.props.room,
 			from: this.state.user

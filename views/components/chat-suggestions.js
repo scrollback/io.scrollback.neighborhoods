@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 
 const {
 	StyleSheet,
@@ -25,17 +25,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		paddingHorizontal: 16,
 		height: 40
-	},
-	avatar: {
-		height: 24,
-		width: 24,
-		borderRadius: 12,
-		backgroundColor: Colors.placeholder
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 24
 	},
 	nick: {
 		color: Colors.darkGrey,
@@ -64,17 +53,14 @@ export default class ChatSuggestions extends React.Component {
 					return (
 						<TouchableHighlight
 							key={nick}
-							underlayColor="rgba(0, 0, 0, .12)"
+							underlayColor={Colors.underlay}
 							onPress={() => this.props.onSelect(nick)}
 						>
 							<View style={[ styles.item, styles.inverted ]}>
-								<View style={styles.avatar}>
-									<AvatarController
-										nick={nick}
-										size={24}
-										style={styles.image}
-									/>
-								</View>
+								<AvatarRound
+									nick={nick}
+									size={24}
+								/>
 								<Text style={styles.nick}>{nick}</Text>
 							</View>
 						</TouchableHighlight>

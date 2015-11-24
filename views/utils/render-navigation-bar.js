@@ -9,7 +9,8 @@ const {
 
 const styles = StyleSheet.create({
 	navbar: {
-		backgroundColor: Colors.primary
+		backgroundColor: Colors.primary,
+		elevation: 4
 	}
 });
 

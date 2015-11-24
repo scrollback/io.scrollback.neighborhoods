@@ -1,7 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Icon from "./icon";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
 import timeUtils from "../../lib/time-utils";
@@ -24,23 +24,11 @@ const styles = StyleSheet.create({
 		flexDirection: "row"
 	},
 	avatarContainer: {
-		marginHorizontal: 16,
-		marginVertical: 12
-	},
-	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: Colors.placeholder
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 18
+		margin: 16
 	},
 	content: {
 		flex: 1,
-		marginVertical: 8
+		marginVertical: 12
 	},
 	title: {
 		lineHeight: 21,
@@ -55,11 +43,11 @@ const styles = StyleSheet.create({
 		color: Colors.darkGrey
 	},
 	timestampContainer: {
-		flexDirection: "row"
+		flexDirection: "row",
+		marginTop: 4
 	},
 	timestamp: {
 		fontSize: 11,
-		marginVertical: 2,
 		color: Colors.black,
 		marginLeft: 4,
 		paddingHorizontal: 4,
@@ -67,12 +55,17 @@ const styles = StyleSheet.create({
 	},
 	icon: {
 		color: Colors.black,
-		marginVertical: 4,
 		opacity: 0.3
 	},
+	metaIcon: {
+		marginVertical: 2
+	},
 	close: {
-		paddingVertical: 12,
-		paddingHorizontal: 16
+		margin: 14
+	},
+	closeButton: {
+		borderRadius: 22,
+		margin: 2
 	},
 	badge: {
 		position: "absolute",
@@ -243,13 +236,10 @@ export default class NotificationCenterItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
 						<View style={styles.avatarContainer}>
-							<View style={styles.avatar}>
-								<AvatarController
-									nick={note.noteData.from}
-									style={styles.image}
-									size={36}
-								/>
-							</View>
+							<AvatarRound
+								nick={note.noteData.from}
+								size={36}
+							/>
 							<View style={[ styles.badge, { backgroundColor: this._getIconColor() } ]}>
 								<Icon
 									name={this._getIconName()}
@@ -268,22 +258,26 @@ export default class NotificationCenterItem extends React.Component {
 							<View style={styles.timestampContainer}>
 								<Icon
 									name="access-time"
-									style={styles.icon}
+									style={[ styles.icon, styles.metaIcon ]}
 									size={12}
 								/>
 								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
 							</View>
 						</View>
-						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)" onPress={this._onDismiss.bind(this)}>
-							<View style={styles.close}>
-								<Icon
-									name="close"
-									style={styles.icon}
-									size={12}
-								/>
-							</View>
-						</TouchableHighlight>
-					</View>
+							<TouchableHighlight
+								style={styles.closeButton}
+								underlayColor={Colors.underlay}
+								onPress={this._onDismiss.bind(this)}
+							>
+								<View style={styles.close}>
+									<Icon
+										name="close"
+										style={styles.icon}
+										size={16}
+									/>
+								</View>
+							</TouchableHighlight>
+						</View>
 				</TouchFeedback>
 			</View>
 		);

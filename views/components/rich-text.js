@@ -68,10 +68,10 @@ export default class RichText extends React.Component {
 									t = t.replace(/.$/, "");
 								}
 
-								if (/^@[a-z0-9\-]+$/.test(t)) {
+								if (/^@[a-z0-9\-]{3,}$/.test(t)) {
 									// a mention
 									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
-								} else if (/^#\S+$/.test(t)) {
+								} else if (/^#\S{2,}$/.test(t)) {
 									// a hashtag
 									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
 								} else {
