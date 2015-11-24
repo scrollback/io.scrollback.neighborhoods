@@ -43,7 +43,9 @@ export default function(core) {
 			return;
 		}
 
-		const memberOf = init.memberOf.map(room => room.id);
+		let memberOf;
+
+		memberOf = init.memberOf.map(room => room.id);
 
 		if (memberOf.length < 4) {
 			core.emit("setstate", {
