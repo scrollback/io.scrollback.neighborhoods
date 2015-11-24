@@ -2,14 +2,13 @@ import React from "react-native";
 import LocalitiesFiltered from "../components/localities-filtered";
 import Geolocation from "../../modules/geolocation";
 import debounce from "../../lib/debounce";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class LocalitiesFilterController extends React.Component {
+class LocalitiesFilteredController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -103,3 +102,5 @@ export default class LocalitiesFilterController extends React.Component {
 		);
 	}
 }
+
+export default Controller(LocalitiesFilteredController);

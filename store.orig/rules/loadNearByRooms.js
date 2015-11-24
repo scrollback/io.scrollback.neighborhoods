@@ -43,7 +43,9 @@ export default function(core) {
 			return;
 		}
 
-		const memberOf = init.memberOf.map(room => room.id);
+		let memberOf;
+
+		memberOf = init.memberOf.map(room => room.id);
 
 		if (memberOf.length < 4) {
 			core.emit("setstate", {
@@ -71,22 +73,26 @@ export default function(core) {
 				const isEnabled = await Geolocation.isGPSEnabled();
 
 				if (!isEnabled) {
-					const dialog = AlertDialog.Builder()
-						.setMessage(GPS_ENABLE_MESSAGE)
-						.setPositiveButton(GPS_ENABLE_OK, () => {
-							Geolocation.showGPSSettings();
-
-							dialog.dismiss();
-						})
-						.setNegativeButton(GPS_ENABLE_CANCEL, () => {
-							core.emit("setstate", {
-								app: {
-									nearByRooms: []
+					AlertDialog.show(null, GPS_ENABLE_MESSAGE,
+						[
+							{
+								type: AlertDialog.POSITIVE_BUTTON,
+								label: GPS_ENABLE_OK,
+								onPress: () => Geolocation.showGPSSettings()
+							},
+							{
+								type: AlertDialog.NEGATIVE_BUTTON,
+								label: GPS_ENABLE_CANCEL,
+								onPress: () => {
+									core.emit("setstate", {
+										app: {
+											nearByRooms: []
+										}
+									});
 								}
-							});
-						})
-						.show();
-
+							}
+						]
+					);
 				}
 			}
 		}

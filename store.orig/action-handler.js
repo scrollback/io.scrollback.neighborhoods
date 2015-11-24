@@ -60,7 +60,9 @@ function addConcerns(text) {
 		}
 
 		if (Array.isArray(text.mentions)) {
-			for (let user of text.mentions) {
+			for (let i = 0, l = text.metions.length; i < l; i++) {
+				const user = text.mentions[i];
+
 				if (text.concerns.indexOf(user) === -1 && !userUtils.isGuest(text.from)) {
 					text.concerns.push(user);
 				}
@@ -281,7 +283,9 @@ function onTextDn(text) {
 				threadObj = changed ? threadObj : objUtils.clone(threadObj);
 
 				if (Array.isArray(threadObj.concerns)) {
-					for (const user of text.mentions) {
+					for (let i = 0, l = text.mentions.length; i < l; i++) {
+						const user = text.mentions[i];
+
 						if (threadObj.concerns.indexOf(user) === -1) {
 							threadObj.concerns.push(user);
 

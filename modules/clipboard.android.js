@@ -1,16 +1,5 @@
-import { NativeModules, ToastAndroid } from "react-native";
-import config from "../store/config";
+import { NativeModules } from "react-native";
 
 const { ClipboardModule } = NativeModules;
 
-export default {
-	async setText(text) {
-		await ClipboardModule.setText("Copied text from " + config.app_name, text);
-
-		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
-	},
-
-	getText() {
-		return ClipboardModule.getText();
-	}
-};
+export default ClipboardModule;

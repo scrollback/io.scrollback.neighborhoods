@@ -1,9 +1,8 @@
 import React from "react-native";
 import ChatSuggestions from "../components/chat-suggestions";
-import controller from "./controller";
+import Controller from "./controller";
 
-@controller
-export default class ChatSuggestionsController extends React.Component {
+class ChatSuggestionsController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -91,3 +90,5 @@ ChatSuggestionsController.propTypes = {
 	user: React.PropTypes.string.isRequired,
 	text: React.PropTypes.string.isRequired
 };
+
+export default Controller(ChatSuggestionsController);

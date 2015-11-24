@@ -20,8 +20,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "stretch",
 		backgroundColor: Colors.white,
-		borderColor: Colors.placeholder,
-		borderTopWidth: 1 / PixelRatio.get()
+		borderColor: Colors.underlay,
+		borderTopWidth: 1 / PixelRatio.get(),
+		elevation: 4
 	},
 	inputContainer: {
 		flex: 1,
@@ -95,8 +96,8 @@ export default class ChatInput extends React.Component {
 		this.props.sendMessage(textUtils.getTextFromMetadata({
 			type: "image",
 			caption: name,
-			height: 160 * aspectRatio,
-			width: 160,
+			height: Math.min(480, width) * aspectRatio,
+			width: Math.min(480, width),
 			thumbnailUrl: result.thumbnailUrl,
 			originalUrl: result.originalUrl
 		}), result.textId);

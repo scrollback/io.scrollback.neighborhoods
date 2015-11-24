@@ -5,11 +5,9 @@ import crypto from "crypto";
 import child_process from "child_process";
 import pack from "../node_modules/react-native/package.json";
 
-const SSH_HOST = "ubuntu@52.76.29.201"; // The server user and host
+const SSH_HOST = "ubuntu@52.76.69.167"; // The server user and host
 const BUNDLE_NAME = "index.android.bundle"; // Name of the bundle
-const BASE_PATH = path.normalize(__dirname + "/../android/app"); // Base path of the Android app
-const GRADLE_PATH = BASE_PATH + "/build.gradle"; // Path to the gradle configuration
-const BUNDLE_PATH = BASE_PATH + "/src/main/assets/" + BUNDLE_NAME; // Path to the bundle assets directory
+const GRADLE_PATH = __dirname + "/../android/app/build.gradle"; // Path to the gradle configuration
 
 const log = {
 	i(description, details) {
@@ -48,15 +46,6 @@ for (const line of lines) {
 	}
 }
 
-// Read the bundle so that we can generate checksum
-log.i(chalk.gray("Generating checksums for bundle"), chalk.bold(BUNDLE_PATH));
-
-const data = fs.readFileSync(BUNDLE_PATH).toString();
-
-// Checksums can be used to verify bundle integrity
-metadata.checksum_md5 = crypto.createHash("md5").update(data, "utf8").digest("hex");
-metadata.checksum_sha256 = crypto.createHash("sha256").update(data, "utf8").digest("hex");
-
 metadata.react_native_version = pack.version; // React native version may be useful in determining compatibility
 
 log.i("Found React Native version", metadata.react_native_version);
@@ -83,27 +72,52 @@ try {
 	}
 }
 
+log.i("Generating JavaScript bundle", BUNDLE_NAME);
+
+const bundlePath = bundlesDir + "/" + BUNDLE_NAME;
 const metadataFile = bundlesDir + "/metadata.json";
 
-log.i("Writing metadata", metadataFile);
+const bundle = child_process.spawn("react-native", [
+	"bundle", "--platform", "android", "--dev", "false",
+	"--entry-file", __dirname + "/../index.android.js",
+	"--bundle-output", bundlePath
+]);
 
-fs.writeFileSync(metadataFile, JSON.stringify(metadata) + "\n", "utf-8");
-
-log.i("Copying bundle asset", BUNDLE_NAME);
-
-fs.createReadStream(BUNDLE_PATH).pipe(fs.createWriteStream(bundlesDir + "/" + BUNDLE_NAME));
-
-log.i("Uploading file to server", SSH_HOST);
-
-const upload = child_process.spawn("scp", [ "-r", bundlesDir, `${SSH_HOST}:/home/ubuntu/scrollback/public/s/bundles/android/` ]);
-
-upload.stdout.on("data", d => log.i(d));
-upload.stderr.on("data", d => log.e(d));
-upload.stdout.on("end", () => log.i("Upload complete!"));
-upload.on("exit", code => {
+bundle.stdout.on("data", d => log.i(d));
+bundle.stderr.on("data", d => log.e(d));
+bundle.on("exit", code => {
 	if (code !== 0) {
-		log.e("Failed to upload files", code);
+		log.e("Failed to generate bundle", code);
 
 		process.exit(code);
 	}
+
+	// Read the bundle so that we can generate checksum
+	log.i(chalk.gray("Generating checksums for bundle"), chalk.bold(bundlePath));
+
+	const data = fs.readFileSync(bundlePath).toString();
+
+	// Checksums can be used to verify bundle integrity
+	metadata.checksum_md5 = crypto.createHash("md5").update(data, "utf8").digest("hex");
+	metadata.checksum_sha256 = crypto.createHash("sha256").update(data, "utf8").digest("hex");
+
+	log.i("Writing metadata", metadataFile);
+
+	fs.writeFileSync(metadataFile, JSON.stringify(metadata, null, 2) + "\n", "utf-8");
+
+	log.i("Uploading files to server", SSH_HOST);
+
+	const upload = child_process.spawn("scp", [ "-r", bundlesDir, `${SSH_HOST}:/home/ubuntu/heyneighbor/public/s/bundles/android/` ]);
+
+	upload.stdout.on("data", d => log.i(d));
+	upload.stderr.on("data", d => log.e(d));
+	upload.on("exit", c => {
+		if (c !== 0) {
+			log.e("Failed to upload files", c);
+
+			process.exit(c);
+		}
+
+		log.i("Upload complete!");
+	});
 });

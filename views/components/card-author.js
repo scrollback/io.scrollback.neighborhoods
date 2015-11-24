@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 
 const {
 	StyleSheet,
@@ -18,16 +18,6 @@ const styles = StyleSheet.create({
 		color: Colors.grey,
 		fontSize: 12,
 		marginHorizontal: 8
-	},
-	avatar: {
-		height: 24,
-		width: 24,
-		borderRadius: 12,
-		backgroundColor: Colors.placeholder
-	},
-	image: {
-		flex: 1,
-		borderRadius: 12
 	}
 });
 
@@ -41,13 +31,10 @@ export default class CardAuthor extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.author, this.props.style ]}>
-				<View style={styles.avatar}>
-					<AvatarController
-						size={16}
-						nick={nick}
-						style={styles.image}
-					/>
-				</View>
+				<AvatarRound
+					size={24}
+					nick={nick}
+				/>
 				<Text style={styles.name}>{nick}</Text>
 			</View>
 		);

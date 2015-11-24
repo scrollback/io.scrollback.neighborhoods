@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 
 const {
@@ -21,17 +21,8 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: Colors.placeholder,
 		marginHorizontal: 16,
 		marginVertical: 12
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 18
 	},
 	nick: {
 		flex: 1
@@ -66,13 +57,11 @@ export default class PeopleListItem extends React.Component {
 			<View style={styles.item}>
 				<TouchFeedback>
 					<View style={styles.person}>
-						<View style={styles.avatar}>
-							<AvatarController
-								size={36}
-								nick={user.id}
-								style={styles.image}
-							/>
-						</View>
+						<AvatarRound
+							style={styles.avatar}
+							size={36}
+							nick={user.id}
+						/>
 						<View style={styles.nick}>
 							<Text style={styles.nickText}>{user.id}</Text>
 						</View>

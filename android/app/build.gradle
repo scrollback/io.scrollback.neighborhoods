@@ -73,8 +73,8 @@ android {
         applicationId "io.scrollback.neighborhoods"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 24
-        versionName "1.0"
+        versionCode 29
+        versionName "1.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -103,13 +103,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.facebook.react:react-native:0.15.+'
-    compile 'com.squareup.okhttp:okhttp:2.5.0'
-    compile 'com.squareup.okhttp:okhttp-ws:2.4.0'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
 
     compile project(':react-native-vector-icons')
+
+    compile project(':ReactAndroid')
 }

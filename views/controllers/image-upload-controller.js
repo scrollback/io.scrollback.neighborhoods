@@ -1,7 +1,5 @@
-/* eslint-env browser */
-
 import React from "react-native";
-import controller from "./controller";
+import Controller from "./controller";
 import generate from "../../lib/generate.browser";
 
 const IDLE = "idle";
@@ -9,8 +7,7 @@ const LOADING = "loading";
 const FINISHED = "finished";
 const ERROR = "error";
 
-@controller
-export default class ImageUploadController extends React.Component {
+class ImageUploadController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -257,3 +254,5 @@ ImageUploadController.defaultProps = {
 	generateThumb: true,
 	uploadType: "content"
 };
+
+export default Controller(ImageUploadController);
