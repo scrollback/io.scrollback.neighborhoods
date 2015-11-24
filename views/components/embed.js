@@ -8,13 +8,15 @@ import preview from "../../lib/preview";
 const {
 	StyleSheet,
 	View,
+	Text,
 	Image,
 	TouchableHighlight
 } = React;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		flexDirection: 'row'
 	},
 	overlay: {
 		flex: 1,
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	thumbnail: {
-		flex: 1,
+		flex: 0.75,
 		justifyContent: "center",
 		alignItems: "center"
 	},
@@ -87,6 +89,7 @@ export default class Embed extends React.Component {
 
 	render() {
 		const { embed } = this.state;
+		console.log(embed);
 
 		return (
 			<View {...this.props}>
@@ -105,11 +108,16 @@ export default class Embed extends React.Component {
 									null
 								}
 							</Image>
+							<Text style={{flex:0.25}}>{embed.title}</Text>
 						</View>
 					</TouchableHighlight>) :
-					(<View style={styles.overlay}>
-						<Loading style={styles.progress} />
-					</View>)
+					<View>
+					{ embed && embed.title ? (<View><Text>{embed.title}</Text><Text>{embed.description}</Text></View>):
+						(<View style={styles.overlay}>
+							<Loading style={styles.progress} />
+						</View>)
+					}
+					</View>
 				}
 			</View>
 		);

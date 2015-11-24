@@ -14,7 +14,6 @@ import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
-import preview from "../../lib/preview";
 import config from "../../store/config";
 
 const {
@@ -115,14 +114,12 @@ export default class DiscussionItem extends React.Component {
 			);
 		} else if (links.length) {
 			const uri = links[0];
-			const endpoint = preview(uri);
 
-			if (endpoint) {
+			if (uri) {
 				cover = (
 					<Embed
 						style={styles.cover}
 						uri={uri}
-						endpoint={endpoint}
 					/>
 				);
 			}
