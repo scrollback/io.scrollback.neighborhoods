@@ -1,13 +1,12 @@
 import React from "react-native";
 import RoomItem from "../components/room-item";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class RoomItemController extends React.Component {
+class RoomItemController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -104,3 +103,5 @@ RoomItemController.propTypes = {
 		})
 	})
 };
+
+export default Controller(RoomItemController);

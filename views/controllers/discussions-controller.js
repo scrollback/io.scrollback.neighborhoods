@@ -1,13 +1,12 @@
 import React from "react-native";
 import Discussions from "../components/discussions";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class DiscussionsController extends React.Component {
+class DiscussionsController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -80,3 +79,5 @@ export default class DiscussionsController extends React.Component {
 DiscussionsController.propTypes = {
 	room: React.PropTypes.string.isRequired
 };
+
+export default Controller(DiscussionsController);
