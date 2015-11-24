@@ -120,13 +120,13 @@ export default class DiscussionItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			const uri = links[0];
+			const uri = trimmedText;
 
 			if (uri) {
 				cover = (
 					<Embed
+						text={uri}
 						style={styles.cover}
-						uri={uri}
 					/>
 				);
 			}

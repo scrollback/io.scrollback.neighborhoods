@@ -1,9 +1,14 @@
 import React from "react-native";
+import link from "./link";
+import Linking from "../../modules/linking";
 import Colors from "../../colors.json";
 import Icon from "./icon";
 import Loading from "./loading";
-import Linking from "../../modules/linking";
 import preview from "../../lib/preview";
+import EmbedImage from "./embedimage";
+import EmbedVideo from "./embedvideo";
+import EmbedTitle from "./embedtitle";
+import EmbedSummary from "./embedsummary"
 
 const {
 	StyleSheet,
@@ -15,8 +20,7 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		flexDirection: 'row'
+		flex: 1
 	},
 	overlay: {
 		flex: 1,
@@ -26,104 +30,85 @@ const styles = StyleSheet.create({
 	progress: {
 		height: 24,
 		width: 24
-	},
-	thumbnailContainer: {
-		flex: 1
-	},
-	thumbnail: {
-		flex: 0.75,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	playContainer: {
-		backgroundColor: Colors.fadedBlack,
-		borderColor: Colors.white,
-		borderWidth: 2,
-		borderRadius: 24
-	},
-	play: {
-		color: Colors.white
 	}
 });
 
+
 export default class Embed extends React.Component {
+
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			embed: null
+			url:"",
+			embed:null
 		};
 	}
 
-	componentDidMount() {
-		this._mounted = true;
 
-		this._fetchEmbedData();
+	_parseUrl(){
+		const text = this.props.text;
+		const word = text.split(" ");
+		var uri;
+		for(var index in word){
+			uri = link.buildLink(word[index]);
+			if(uri){
+				if(/^https?:\/\//i.test(uri)){
+					return uri;
+				}
+			}
+		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	_onPress(){
+		console.log(this.state.url);
+		Linking.openURL(this.state.url);
+	}
+
+	shouldComponentUpdate(nextProps, nextState){
 		return (
-			this.props.uri !== nextProps.uri ||
-			this.state.embed !== nextState.embed
+			this.state.embed !== nextState.embed ||
+			this.state.url !== nextState.url
 		);
+	}
+
+	componentDidMount(){
+		this._mounted = true;
+		this._fetchEmbedData();
 	}
 
 	componentWillUnmount() {
 		this._mounted = false;
 	}
 
-	async _fetchEmbedData() {
-		const embed = await preview(this.props.uri);
-		
-
-		if (this._mounted) {
+	async _fetchEmbedData(){
+		const url = await this._parseUrl();
+		const embed = await preview(url);
+		if(this._mounted){
 			this.setState({
+				url,
 				embed
 			});
 		}
 	}
 
-	_onPress() {
-		Linking.openURL(this.props.uri);
-	}
-
-	render() {
-		const { embed } = this.state;
-		console.log(embed);
-
+	render(){
+		const {url, embed} = this.state;
 		return (
-			<View {...this.props}>
-				{embed && embed.thumbnail_url ?
-					(<TouchableHighlight onPress={this._onPress.bind(this)} style={styles.container}>
-						<View style={styles.container}>
-							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
-								{embed.type === "video" ?
-									<View style={styles.playContainer}>
-										<Icon
-											name="play-arrow"
-											style={styles.play}
-											size={48}
-										/>
-									</View> :
-									null
-								}
-							</Image>
-							<Text style={{flex:0.25}}>{embed.title}</Text>
-						</View>
-					</TouchableHighlight>) :
-					<View>
-					{ embed && embed.title ? (<View><Text>{embed.title}</Text><Text>{embed.description}</Text></View>):
-						(<View style={styles.overlay}>
-							<Loading style={styles.progress} />
-						</View>)
-					}
-					</View>
-				}
+			<View>
+				{embed ?
+					(<View>
+						<EmbedVideo embed={embed} />
+						<EmbedImage embed={embed} />
+						<EmbedTitle embed={embed} />
+						<EmbedSummary embed={embed} />
+					</View>)
+
+					:(<View style={styles.overlay}>
+						<Loading style={styles.progress} />
+					</View>)
+			 	}
 			</View>
 		);
 	}
 }
 
-Embed.propTypes = {
-	uri: React.PropTypes.string.isRequired
-};

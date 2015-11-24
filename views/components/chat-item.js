@@ -136,12 +136,12 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			const uri = links[0];
+			const uri = text.text;
 
 			if (uri) {
 				cover = (
 					<Embed
-						uri={uri}
+						text={uri}
 						style={styles.embed}
 					/>
 				);
