@@ -4,8 +4,7 @@ import Linking from "../../modules/linking";
 import Colors from "../../colors.json";
 import Icon from "./icon";
 import Loading from "./loading";
-import preview from "../../lib/preview";
-import EmbedImage from "./embedimage";
+import { fetchData } from "../../oembed/oembed";
 import EmbedVideo from "./embedvideo";
 import EmbedTitle from "./embedtitle";
 import EmbedSummary from "./embedsummary"
@@ -20,7 +19,7 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		backgroundColor: Colors.white
 	},
 	overlay: {
 		flex: 1,
@@ -59,11 +58,6 @@ export default class Embed extends React.Component {
 		}
 	}
 
-	_onPress(){
-		console.log(this.state.url);
-		Linking.openURL(this.state.url);
-	}
-
 	shouldComponentUpdate(nextProps, nextState){
 		return (
 			this.state.embed !== nextState.embed ||
@@ -82,7 +76,7 @@ export default class Embed extends React.Component {
 
 	async _fetchEmbedData(){
 		const url = await this._parseUrl();
-		const embed = await preview(url);
+		const embed = await fetchData(url);
 		if(this._mounted){
 			this.setState({
 				url,
@@ -91,14 +85,14 @@ export default class Embed extends React.Component {
 		}
 	}
 
+
 	render(){
 		const {url, embed} = this.state;
 		return (
-			<View>
+			<View style={styles.container}>
 				{embed ?
-					(<View>
-						<EmbedVideo embed={embed} />
-						<EmbedImage embed={embed} />
+					(<View style={styles.container}>
+						<EmbedVideo embed={embed}/>
 						<EmbedTitle embed={embed} />
 						<EmbedSummary embed={embed} />
 					</View>)

@@ -5,6 +5,7 @@ import Colors from "../../colors.json";
 const {
 	StyleSheet,
 	View,
+	TouchableHighlight,
 	Text,
 	Image
 } = React;
@@ -28,6 +29,7 @@ const styles = StyleSheet.create({
 	thumbnail: {
 		flex: 1,
 		height: 180,
+		width:75,
 		justifyContent: "center",
 		alignItems: "center"
 	},
@@ -43,19 +45,29 @@ const styles = StyleSheet.create({
 });
 
 export default class EmbedVideo extends React.Component {
+
+	_onPress(){
+		Linking.openURL(this.state.url);
+	}
+
 	render(){
 		return (
-			<View>
-			{this.props.embed.thumbnail_url && this.props.embed.type && (this.props.embed.type.indexOf("video") !== -1) ?	
-			(<Image source={{uri : this.props.embed.thumbnail_url }} style = {styles.thumbnail}>
+			<View style={styles.container}>
+			{this.props.embed.thumbnail_url ?	
+				(<TouchableHighlight onPress={this._onPress.bind(this)} style={styles.container}>
+				<View style={styles.container}>
+				<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
+					{embed.type === "video" ?
 					<View style={styles.playContainer}>
 						<Icon
 							name="play-arrow"
 							style={styles.play}
 							size={48}
 						/>
-					</View>
-				</Image>): null}
+					</View>:null}
+				</Image>
+				</View>
+				</TouchableHighlight>): null}
 			</View>
 		);
 	}

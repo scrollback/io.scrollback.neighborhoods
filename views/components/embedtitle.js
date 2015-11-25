@@ -9,9 +9,9 @@ const {
 export default class EmbedTitle extends React.Component {
 	render(){
 		return (
-			<View>
+			<View style={{paddingLeft:10, paddingRight:10}}>
 				{this.props.embed.title?
-				(<Text numberOfLines ={1}>{this.props.embed.title}</Text>):null
+				(<Text numberOfLines ={1} style={{fontWeight:'bold'}}>Title : {this.props.embed.title}</Text>):null
 				}
 			</View>
 		);
