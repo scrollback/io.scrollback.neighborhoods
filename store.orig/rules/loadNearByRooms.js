@@ -7,7 +7,7 @@ const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
 const NUM_ROOMS_TO_LOAD = 7;
 
-export default function(core) {
+module.exports = function(core) {
 	function loadNearByRooms(position, memberOf) {
 		const limit = memberOf.length ? NUM_ROOMS_TO_LOAD : null;
 

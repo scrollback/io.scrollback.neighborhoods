@@ -92,7 +92,7 @@ export default class RoomItem extends React.Component {
 	}
 
 	render() {
-		const { room, position } = this.props;
+		const { room, location } = this.props;
 
 		return (
 			<View {...this.props}>
@@ -100,9 +100,9 @@ export default class RoomItem extends React.Component {
 					<View style={styles.container}>
 						<View style={styles.item}>
 							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>
-							{position && position.coords && room.location && room.location.lat && room.location.lon ?
+							{location && location.coords && room.location && room.location.lat && room.location.lon ?
 								<Text style={styles.distance}>
-									{locationUtils.getFormattedDistance(position.coords, {
+									{locationUtils.getFormattedDistance(location.coords, {
 										latitude: room.location.lat,
 										longitude: room.location.lon
 									})}
@@ -144,7 +144,7 @@ RoomItem.propTypes = {
 			lon: React.PropTypes.number.isRequired
 		})
 	}),
-	position: React.PropTypes.shape({
+	location: React.PropTypes.shape({
 		coords: React.PropTypes.shape({
 			latitude: React.PropTypes.number.isRequired,
 			longitude: React.PropTypes.number.isRequired
