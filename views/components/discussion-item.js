@@ -93,6 +93,20 @@ export default class DiscussionItem extends React.Component {
 			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}/${title.toLowerCase().trim().replace(/['"]/g, "").replace(/\W+/g, "-")}`);
 		};
 
+		if (this.props.isCurrentUserAdmin()) {
+			if (this.props.isThreadHidden()) {
+				menu["Unhide discussion"] = () => this.props.unhideThread();
+			} else {
+				menu["Hide discussion"] = () => this.props.hideThread();
+			}
+
+			if (this.props.isUserBanned()) {
+				menu["Unban " + thread.from] = () => this.props.unbanUser();
+			} else {
+				menu["Ban " + thread.from] = () => this.props.banUser();
+			}
+		}
+
 		Modal.showActionSheetWithItems(menu);
 	}
 
@@ -174,5 +188,12 @@ DiscussionItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		to: React.PropTypes.string.isRequired
 	}).isRequired,
-	navigator: React.PropTypes.object.isRequired
+	navigator: React.PropTypes.object.isRequired,
+	isCurrentUserAdmin: React.PropTypes.func.isRequired,
+	isThreadHidden: React.PropTypes.func.isRequired,
+	isUserBanned: React.PropTypes.func.isRequired,
+	hideThread: React.PropTypes.func.isRequired,
+	unhideThread: React.PropTypes.func.isRequired,
+	banUser: React.PropTypes.func.isRequired,
+	unbanUser: React.PropTypes.func.isRequired
 };
