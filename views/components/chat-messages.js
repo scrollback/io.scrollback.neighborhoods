@@ -67,6 +67,7 @@ export default class ChatMessages extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
+							keyboardShouldPersistTaps={false}
 							style={styles.inverted}
 							contentContainerStyle={styles.container}
 							initialListSize={1}
