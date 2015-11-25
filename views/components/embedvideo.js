@@ -1,18 +1,20 @@
 import React from "react-native";
 import Icon from "./icon";
 import Colors from "../../colors.json";
+import Linking from "../../modules/linking";
 
 const {
 	StyleSheet,
 	View,
 	TouchableHighlight,
-	Text,
 	Image
 } = React;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		width:180,
+		height:135
 	},
 	overlay: {
 		flex: 1,
@@ -28,8 +30,7 @@ const styles = StyleSheet.create({
 	},
 	thumbnail: {
 		flex: 1,
-		height: 180,
-		width:75,
+		height: 135,
 		justifyContent: "center",
 		alignItems: "center"
 	},
@@ -46,18 +47,17 @@ const styles = StyleSheet.create({
 
 export default class EmbedVideo extends React.Component {
 
-	_onPress(){
+	_onPress() {
 		Linking.openURL(this.state.url);
 	}
 
-	render(){
+	render() {
 		return (
-			<View style={styles.container}>
-			{this.props.embed.thumbnail_url ?	
-				(<TouchableHighlight onPress={this._onPress.bind(this)} style={styles.container}>
-				<View style={styles.container}>
+			<View>
+			{this.props.embed.thumbnail_url ?
+				(<TouchableHighlight onPress={this._onPress.bind(this)} style={this.props.style}>
 				<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
-					{embed.type === "video" ?
+					{this.props.embed.type === "video" ?
 					<View style={styles.playContainer}>
 						<Icon
 							name="play-arrow"
@@ -66,7 +66,6 @@ export default class EmbedVideo extends React.Component {
 						/>
 					</View>:null}
 				</Image>
-				</View>
 				</TouchableHighlight>): null}
 			</View>
 		);

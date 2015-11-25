@@ -1,7 +1,6 @@
 import React from "react-native";
 
 const {
-	StyleSheet,
 	View,
 	Text
 } = React;
@@ -9,9 +8,9 @@ const {
 export default class EmbedSummary extends React.Component {
 	render(){
 		return(
-			<View style={{paddingLeft:10, paddingRight:10}}>
+			<View>
 				{this.props.embed.description ?
-				(<Text numberOfLines = {2}>Description : {this.props.embed.description}</Text>):null
+				(<Text numberOfLines = {2}><Text style={{fontWeight:"bold"}}>Description : </Text>{this.props.embed.description}</Text>):null
 				}
 			</View>
 		);

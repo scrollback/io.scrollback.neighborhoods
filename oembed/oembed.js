@@ -50,7 +50,7 @@ function parseHTML(body) {
 	}
 
 	if (!oembed.title) {
-		const title = bodyString.match(/<title>[^>]*/);
+		const title = bodyString.match(/<title.*>[^>]*/);
 
 		if (title) {
 			oembed.title = title[0].match(/[>][^<]*/)[0].slice(1);
@@ -103,7 +103,7 @@ async function fetchData(url) {
 		}
 	} catch (e) {
 		// Ignore
-		return null;
+		return url;
 	}
 }
 

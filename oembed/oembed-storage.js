@@ -17,7 +17,7 @@ export default {
 	_findItem(key) {
 		for (let i = 0, l = data.length; i < l; i++) {
 			if (data[i] && data[i].url === key) {
-				return data[i];
+				return data[i].json;
 			}
 		}
 	},
