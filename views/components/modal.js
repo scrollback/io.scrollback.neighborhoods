@@ -130,7 +130,7 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<ModalSheet style={Platform.OS === "android" && Platform.Version <= VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
+				<ModalSheet style={Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
 					{component}
 				</ModalSheet>
 			</View>
