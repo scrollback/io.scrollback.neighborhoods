@@ -5,6 +5,7 @@ import PageFailed from "./page-failed";
 import AvatarRound from "./avatar-round";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
+import AccountPhotoChooser from "./account-photo-chooser";
 import TouchFeedback from "./touch-feedback";
 import PushNotification from "../../modules/push-notification";
 import routes from "../utils/routes";
@@ -16,7 +17,8 @@ const {
 	View,
 	Text,
 	Switch,
-	PixelRatio
+	PixelRatio,
+	TouchableOpacity
 } = React;
 
 const styles = StyleSheet.create({
@@ -164,6 +166,27 @@ export default class Account extends React.Component {
 		this.props.navigator.push(routes.room({ room: "support" }));
 	}
 
+	_choosePhoto() {
+		const photos = this.props.user.params.pictures;
+
+		if (photos && photos.length > 2) {
+			Modal.renderModal(
+				<AccountPhotoChooser
+					photos={photos}
+					onSelect={uri => {
+						const user = Object.assign({}, this.props.user);
+
+						user.picture = uri;
+
+						this.props.saveUser(user);
+
+						Modal.renderComponent(null);
+					}}
+				/>
+			);
+		}
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -180,16 +203,18 @@ export default class Account extends React.Component {
 
 					return (
 						<ScrollView contentContainerStyle={styles.settings}>
-							<View style={styles.item}>
-								<AvatarRound
-									size={48}
-									nick={user.id}
-								/>
-								<View style={styles.info}>
-									<Text style={styles.nick}>{user.id}</Text>
-									<Text style={styles.email}>{user.identities[0].slice(7)}</Text>
+							<TouchableOpacity onPress={this._choosePhoto.bind(this)}>
+								<View style={styles.item}>
+									<AvatarRound
+										size={48}
+										nick={user.id}
+									/>
+									<View style={styles.info}>
+										<Text style={styles.nick}>{user.id}</Text>
+										<Text style={styles.email}>{user.identities[0].slice(7)}</Text>
+									</View>
 								</View>
-							</View>
+							</TouchableOpacity>
 							<View style={styles.inputContainer}>
 								<Text style={styles.inputLabelText}>Status message</Text>
 								<GrowingTextInput

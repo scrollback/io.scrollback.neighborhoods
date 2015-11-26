@@ -5,30 +5,58 @@ import getAvatar from "../../lib/get-avatar";
 import Controller from "./controller";
 
 const {
-	PixelRatio
+	PixelRatio,
+	InteractionManager
 } = React;
 
 class AvatarController extends React.Component {
-	_getAvatarUri() {
-		const { protocol, host } = config.server;
-		const { nick, size } = this.props;
+	constructor(props) {
+		super(props);
 
-		const user = this.store.getUser(nick);
+		this.state = {
+			uri: ""
+		};
+	}
 
-		if (user && user.picture) {
-			return getAvatar(user.picture, (size * PixelRatio.get()));
-		} else {
-			return protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
-		}
+	componentDidMount() {
+		this._updateData();
+
+		this.handle("statechange", changes => {
+			const user = this.store.get("user");
+
+			if (changes.entities && changes.entities[user]) {
+				this._updateData();
+			}
+		});
+	}
+
+	_updateData() {
+		InteractionManager.runAfterInteractions(() => {
+			if (this._mounted) {
+				const { protocol, host } = config.server;
+				const { nick, size } = this.props;
+
+				const user = this.store.getUser(nick);
+
+				let uri;
+
+				if (user && user.picture) {
+					uri = getAvatar(user.picture, (size * PixelRatio.get()));
+				} else {
+					uri = protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
+				}
+
+				this.setState({
+					uri
+				});
+			}
+		});
 	}
 
 	render() {
 
 		return (
-			<Avatar
-				{...this.props}
-				uri={this._getAvatarUri()}
-			/>
+			<Avatar {...this.props} {...this.state} />
 		);
 	}
 }
