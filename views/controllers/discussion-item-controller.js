@@ -65,8 +65,8 @@ class DiscussionItemController extends React.Component {
 		return (
 			<DiscussionItem
 				{...this.props}
+				hidden={this._isThreadHidden()}
 				isCurrentUserAdmin={this._isCurrentUserAdmin.bind(this)}
-				isThreadHidden={this._isThreadHidden.bind(this)}
 				isUserBanned={this._isUserBanned.bind(this)}
 				hideThread={this._hideThread.bind(this)}
 				unhideThread={this._unhideThread.bind(this)}

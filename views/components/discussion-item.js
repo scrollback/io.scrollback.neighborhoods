@@ -54,6 +54,9 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 		marginVertical: 12,
 		color: Colors.fadedBlack
+	},
+	hidden: {
+		opacity: 0.3
 	}
 });
 
@@ -62,7 +65,8 @@ export default class DiscussionItem extends React.Component {
 		return (
 				this.props.thread.title !== nextProps.thread.title ||
 				this.props.thread.text !== nextProps.thread.text ||
-				this.props.thread.from !== nextProps.thread.from
+				this.props.thread.from !== nextProps.thread.from ||
+				this.props.hidden !== nextProps.hidden
 			);
 	}
 
@@ -94,7 +98,7 @@ export default class DiscussionItem extends React.Component {
 		};
 
 		if (this.props.isCurrentUserAdmin()) {
-			if (this.props.isThreadHidden()) {
+			if (this.props.hidden) {
 				menu["Unhide discussion"] = () => this.props.unhideThread();
 			} else {
 				menu["Hide discussion"] = () => this.props.hideThread();
@@ -118,7 +122,7 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	render() {
-		const { thread } = this.props;
+		const { thread, hidden } = this.props;
 
 		const trimmedText = thread.text.trim();
 
@@ -152,7 +156,7 @@ export default class DiscussionItem extends React.Component {
 		return (
 			<Card {...this.props}>
 				<TouchFeedback onPress={this._onPress.bind(this)}>
-					<View>
+					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
 							<CardTitle
 								style={[ styles.item, styles.title ]}
@@ -189,8 +193,8 @@ DiscussionItem.propTypes = {
 		to: React.PropTypes.string.isRequired
 	}).isRequired,
 	navigator: React.PropTypes.object.isRequired,
+	hidden: React.PropTypes.bool.isRequired,
 	isCurrentUserAdmin: React.PropTypes.func.isRequired,
-	isThreadHidden: React.PropTypes.func.isRequired,
 	isUserBanned: React.PropTypes.func.isRequired,
 	hideThread: React.PropTypes.func.isRequired,
 	unhideThread: React.PropTypes.func.isRequired,
