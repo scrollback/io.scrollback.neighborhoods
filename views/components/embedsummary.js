@@ -10,7 +10,7 @@ export default class EmbedSummary extends React.Component {
 		return(
 			<View>
 				{this.props.embed.description ?
-				(<Text numberOfLines = {2}><Text style={{fontWeight:"bold"}}>Description : </Text>{this.props.embed.description}</Text>):null
+				(<Text numberOfLines = {2}><Text style={{fontWeight:'bold'}}>Description : </Text>{this.props.embed.description}</Text>):null
 				}
 			</View>
 		);

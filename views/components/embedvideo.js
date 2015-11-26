@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
 export default class EmbedVideo extends React.Component {
 
 	_onPress() {
-		Linking.openURL(this.state.url);
+		Linking.openURL(this.props.url);
 	}
 
 	render() {
 		return (
-			<View>
+			<View {...this.props}>
 			{this.props.embed.thumbnail_url ?
-				(<TouchableHighlight onPress={this._onPress.bind(this)} style={this.props.style}>
+				(<TouchableHighlight onPress={this._onPress.bind(this)}>
 				<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
 					{this.props.embed.type === "video" ?
 					<View style={styles.playContainer}>

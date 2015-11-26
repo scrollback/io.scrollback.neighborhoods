@@ -45,7 +45,6 @@ export default class Embed extends React.Component {
 			uri = link.buildLink(word[index]);
 			if(uri){
 				if(/^https?:\/\//i.test(uri)){
-					console.log("parseurl is : ", uri);
 					return uri;
 				}
 			}
@@ -71,7 +70,7 @@ export default class Embed extends React.Component {
 	async _fetchEmbedData(){
 		const url = await this._parseUrl();
 		const embed = await fetchData(url);
-		console.log("manoj test", embed, url);
+		console.log(this.props.style);
 		if(this._mounted){
 			this.setState({
 				url,
@@ -82,12 +81,12 @@ export default class Embed extends React.Component {
 
 
 	render(){
-		const { embed } = this.state;
+		const { url, embed } = this.state;
 		return (
 			<View>
 				{embed ? (<View>{typeof embed !== "string" ?
 					(<View>
-						<EmbedVideo embed={embed} style={this.props.style}/>
+						<EmbedVideo embed={embed} style={this.props.style} url={url}/>
 						<EmbedTitle embed={embed} />
 						<EmbedSummary embed={embed} />
 					</View>):(<Text>{embed}</Text>)}</View>)

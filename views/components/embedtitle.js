@@ -1,9 +1,8 @@
 import React from "react-native";
 
 const {
-	StyleSheet,
 	View,
-	Text,
+	Text
 } = React;
 
 export default class EmbedTitle extends React.Component {
@@ -11,7 +10,7 @@ export default class EmbedTitle extends React.Component {
 		return (
 			<View>
 				{this.props.embed.title?
-				(<Text numberOfLines ={1} style={{fontWeight:'bold'}}>Title : {this.props.embed.title}</Text>):null
+				(<Text numberOfLines ={1} style={{fontWeight:'bold', fontSize:15}}>Title : {this.props.embed.title}</Text>):null
 				}
 			</View>
 		);
