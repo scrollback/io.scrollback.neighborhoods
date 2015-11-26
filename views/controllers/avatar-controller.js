@@ -1,8 +1,9 @@
 import React from "react-native";
 import Avatar from "../components/avatar.js";
+import Controller from "./controller";
+import store from "../../store/store";
 import config from "../../store/config";
 import getAvatar from "../../lib/get-avatar";
-import Controller from "./controller";
 
 const {
 	PixelRatio,
@@ -22,9 +23,7 @@ class AvatarController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			const user = this.store.get("user");
-
-			if (changes.entities && changes.entities[user]) {
+			if (changes.entities && changes.entities[this.props.nick]) {
 				this._updateData();
 			}
 		});
@@ -36,7 +35,7 @@ class AvatarController extends React.Component {
 				const { protocol, host } = config.server;
 				const { nick, size } = this.props;
 
-				const user = this.store.getUser(nick);
+				const user = store.getUser(nick);
 
 				let uri;
 

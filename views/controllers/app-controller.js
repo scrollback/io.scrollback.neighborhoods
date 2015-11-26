@@ -3,6 +3,7 @@ import App from "../components/app";
 import Linking from "../../modules/linking";
 import routes from "../utils/routes";
 import Controller from "./controller";
+import store from "../../store/store";
 
 class AppController extends React.Component {
 	constructor(props) {
@@ -20,8 +21,8 @@ class AppController extends React.Component {
 
 		this.handle("statechange", changes => {
 			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
-				const user = this.store.get("user");
-				const connectionStatus = this.store.get("app", "connectionStatus") || "conn";
+				const user = store.get("user");
+				const connectionStatus = store.get("app", "connectionStatus") || "conn";
 
 				if (this._mounted) {
 					if (user && user !== this.state.user) {

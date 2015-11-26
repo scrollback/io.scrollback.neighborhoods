@@ -1,12 +1,7 @@
 import core from "../../store/core";
-import store from "../../store/store";
 
 export default function(Target) {
 	class Controller extends Target {
-		get store() {
-			return store;
-		}
-
 		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {
 				super.componentDidMount();

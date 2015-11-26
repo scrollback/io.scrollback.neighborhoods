@@ -1,6 +1,7 @@
 import React from "react-native";
 import NotificationCenter from "../components/notification-center";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -37,7 +38,7 @@ class NotificationCenterController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: this.store.getNotes()
+					data: store.getNotes()
 				});
 			}
 		});

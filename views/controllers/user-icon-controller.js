@@ -1,6 +1,7 @@
 import React from "react-native";
 import UserIcon from "../components/user-icon";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -29,7 +30,7 @@ class UserIconController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					nick: this.store.get("user")
+					nick: store.get("user")
 				});
 			}
 		});
