@@ -230,11 +230,11 @@ export default class StartDiscussionButton extends React.Component {
 		return (
 			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
-					<AppbarTouchable onPress={this.props.dismiss}>
+					<AppbarTouchable type="secondary" onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
 
-					<AppbarTouchable onPress={this._onPress.bind(this)}>
+					<AppbarTouchable type="secondary" onPress={this._onPress.bind(this)}>
 						{isLoading ?
 							<Loading style={styles.loading} /> :
 							(<View style={styles.button}>
