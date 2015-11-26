@@ -1,6 +1,7 @@
 import React from "react-native";
 import ChatSuggestions from "../components/chat-suggestions";
 import Controller from "./controller";
+import store from "../../store/store";
 
 class ChatSuggestionsController extends React.Component {
 	constructor(props) {
@@ -68,7 +69,7 @@ class ChatSuggestionsController extends React.Component {
 			}
 		}
 
-		const related = this.store.getTexts(this.props.room, this.props.thread, null, -30).map(t => t.from);
+		const related = store.getTexts(this.props.room, this.props.thread, null, -30).map(t => t.from);
 
 		for (let i = 0, l = related.length; i < l; i++) {
 			if (all.indexOf(related[i]) === -1) {

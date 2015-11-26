@@ -1,6 +1,7 @@
 import React from "react-native";
 import PeopleList from "../components/people-list";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -16,14 +17,14 @@ class PeopleListController extends React.Component {
 	}
 
 	componentDidMount() {
-		const thread = this.store.getThreadById(this.props.thread);
+		const thread = store.getThreadById(this.props.thread);
 
 		if (thread && thread.concerns) {
 			const data = [];
 
 			for (let i = 0, l = thread.concerns.length; i < l; i++) {
 				const user = thread.concerns[i];
-				const relation = this.store.get("entities", thread.to + "_" + user);
+				const relation = store.get("entities", thread.to + "_" + user);
 
 				if (relation) {
 					data.push({

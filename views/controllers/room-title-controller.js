@@ -1,6 +1,7 @@
 import React from "react-native";
 import RoomTitle from "../components/room-title";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -32,7 +33,7 @@ class RoomTitleController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const room = this.store.getRoom(this.props.room);
+				const room = store.getRoom(this.props.room);
 
 				if (room.guides && room.guides.displayName) {
 					this.setState({ room });

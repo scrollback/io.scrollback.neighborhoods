@@ -1,6 +1,7 @@
 import React from "react-native";
 import RoomItem from "../components/room-item";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -19,7 +20,7 @@ class RoomItemController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			const user = this.store.get("user");
+			const user = store.get("user");
 
 			if (changes.entities && changes.entities[this.props.room.id + "_" + user]) {
 				this._updateData();
@@ -30,7 +31,7 @@ class RoomItemController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const role = this.store.getUserRole(this.store.get("user"), this.props.room.id);
+				const role = store.getUserRole(store.get("user"), this.props.room.id);
 
 				this.setState({
 					role: role === "registered" || !role ? "none" : role

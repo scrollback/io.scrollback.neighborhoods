@@ -1,6 +1,7 @@
 import React from "react-native";
 import ChatTitle from "../components/chat-title";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -29,7 +30,7 @@ class ChatTitleController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					thread: this.store.getThreadById(this.props.thread) || "missing"
+					thread: store.getThreadById(this.props.thread) || "missing"
 				});
 			}
 		});
