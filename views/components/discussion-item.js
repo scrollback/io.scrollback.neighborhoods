@@ -104,10 +104,12 @@ export default class DiscussionItem extends React.Component {
 				menu["Hide discussion"] = () => this.props.hideText();
 			}
 
-			if (this.props.isUserBanned()) {
-				menu["Unban " + thread.from] = () => this.props.unbanUser();
-			} else {
-				menu["Ban " + thread.from] = () => this.props.banUser();
+			if (thread.from !== this.props.currentUser) {
+				if (this.props.isUserBanned()) {
+					menu["Unban " + thread.from] = () => this.props.unbanUser();
+				} else {
+					menu["Ban " + thread.from] = () => this.props.banUser();
+				}
 			}
 		}
 
@@ -193,6 +195,7 @@ DiscussionItem.propTypes = {
 		to: React.PropTypes.string.isRequired
 	}).isRequired,
 	navigator: React.PropTypes.object.isRequired,
+	currentUser: React.PropTypes.string.isRequired,
 	hidden: React.PropTypes.bool.isRequired,
 	isCurrentUserAdmin: React.PropTypes.func.isRequired,
 	isUserBanned: React.PropTypes.func.isRequired,

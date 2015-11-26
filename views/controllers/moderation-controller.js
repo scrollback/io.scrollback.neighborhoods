@@ -66,6 +66,7 @@ class ModerationController extends React.Component {
 
 	render() {
 		return React.cloneElement(this.props.children, {
+			currentUser: store.get("user"),
 			hidden: this._isTextHidden(),
 			isCurrentUserAdmin: () => this._isCurrentUserAdmin(),
 			isUserBanned: () => this._isUserBanned(),

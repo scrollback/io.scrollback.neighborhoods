@@ -126,10 +126,12 @@ export default class ChatItem extends React.Component {
 				menu["Hide message"] = () => this.props.hideText();
 			}
 
-			if (this.props.isUserBanned()) {
-				menu["Unban " + text.from] = () => this.props.unbanUser();
-			} else {
-				menu["Ban " + text.from] = () => this.props.banUser();
+			if (text.from !== this.props.currentUser) {
+				if (this.props.isUserBanned()) {
+					menu["Unban " + text.from] = () => this.props.unbanUser();
+				} else {
+					menu["Ban " + text.from] = () => this.props.banUser();
+				}
 			}
 		}
 
