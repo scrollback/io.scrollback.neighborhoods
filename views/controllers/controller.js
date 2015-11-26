@@ -1,4 +1,5 @@
 import core from "../../store/core";
+import actions from "../../store/actions";
 
 export default function(Target) {
 	class Controller extends Target {
@@ -43,73 +44,28 @@ export default function(Target) {
 			return this._handlers.length - 1;
 		}
 
-		emit(type, params = {}, ...rest) {
+		emit(...args) {
 			if (typeof super.emit === "function") {
-				return super.emit(type, params, ...rest);
+				return super.emit(...args);
 			}
 
-			return new Promise((resolve, reject) => {
-				core.emit(type, params, (err, res) => {
-					if (err) {
-						reject(err);
-					} else {
-						resolve(res);
-					}
-				});
-			});
+			return actions.emit(...args);
 		}
 
-		async query(...args) {
+		query(...args) {
 			if (typeof super.query === "function") {
 				return super.query(...args);
 			}
 
-			return (await this.emit(...args)).results;
+			return actions.query(...args);
 		}
 
-		async dispatch(name, params = {}, prio = 1, ...rest) {
+		dispatch(...args) {
 			if (typeof super.dispatch === "function") {
-				return super.dispatch(name, params, prio, ...rest);
+				return super.dispatch(...args);
 			}
 
-			return new Promise(async (resolve, reject) => {
-				const down = name + "-dn";
-
-				let id;
-
-				function cleanUp() {
-
-					/* eslint-disable no-use-before-define */
-					core.off(down, onSuccess);
-					core.off("error-dn", onError);
-				}
-
-				function onSuccess(action) {
-					if (id === action.id) {
-						cleanUp();
-						resolve(action);
-					}
-				}
-
-				function onError(error) {
-					if (id === error.id) {
-						cleanUp();
-						reject(error);
-					}
-				}
-
-				core.on(down, onSuccess, prio);
-				core.on("error-dn", onError, prio);
-
-				try {
-					const action = await this.emit(name + "-up", params);
-
-					id = action.id;
-				} catch (err) {
-					cleanUp();
-					reject(err);
-				}
-			});
+			return actions.dispatch(...args);
 		}
 	}
 

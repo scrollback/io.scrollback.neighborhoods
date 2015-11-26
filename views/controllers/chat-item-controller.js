@@ -1,20 +1,32 @@
 import React from "react-native";
-import ModerationController from "./moderation-controller";
 import ChatItem from "../components/chat-item";
 import Controller from "./controller";
+import store from "../../store/store";
+import actions from "../../store/actions";
 
 class ChatItemController extends React.Component {
 	render() {
 		return (
-			<ModerationController text={this.props.text}>
-				<ChatItem {...this.props} />
-			</ModerationController>
+			<ChatItem
+				{...this.props}
+				hidden={store.isHidden(this.props.text)}
+				isCurrentUserAdmin={() => store.isUserAdmin(store.get("user"), this.props.text.to)}
+				isUserBanned={() => store.isUserBanned(this.props.text.from, this.props.text.to)}
+				hideText={() => actions.hideText(this.props.text)}
+				unhideText={() => actions.unhideText(this.props.text)}
+				banUser={() => actions.banUser(this.props.text)}
+				unbanUser={() => actions.unbanUser(this.props.text)}
+			/>
 		);
 	}
 }
 
 ChatItemController.propTypes = {
-	text: React.PropTypes.object.isRequired
+	text: React.PropTypes.shape({
+		id: React.PropTypes.string.isRequired,
+		from: React.PropTypes.string.isRequired,
+		to: React.PropTypes.string.isRequired
+	}).isRequired
 };
 
 export default Controller(ChatItemController);
