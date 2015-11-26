@@ -15,7 +15,7 @@ const {
 	ScrollView,
 	View,
 	Text,
-	SwitchAndroid,
+	Switch,
 	PixelRatio
 } = React;
 
@@ -205,7 +205,7 @@ export default class Account extends React.Component {
 								<View style={styles.itemLabel}>
 									<Text style={styles.itemText}>Push notifications</Text>
 								</View>
-								<SwitchAndroid
+								<Switch
 									value={this.state.pushNotificationEnabled}
 									onValueChange={this._onPushNotificationChange.bind(this)}
 								/>
@@ -214,7 +214,7 @@ export default class Account extends React.Component {
 								<View style={styles.itemLabel}>
 									<Text style={styles.itemText}>Mention notifications via email</Text>
 								</View>
-								<SwitchAndroid
+								<Switch
 									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
 									onValueChange={this._onEmailNotificationChange.bind(this)}
 								/>

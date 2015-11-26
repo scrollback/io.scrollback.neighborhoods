@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	avatar: {
 		borderColor: Colors.white,
 		borderWidth: 1,
-		margin: 15
+		margin: 16
 	}
 });
 

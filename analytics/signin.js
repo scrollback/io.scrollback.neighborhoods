@@ -8,7 +8,7 @@ function start() {
 	function log(success) {
 		if (pending.provider) {
 			if (pending.signup) {
-				Answers.logSignuo(pending.provider, success);
+				Answers.logSignup(pending.provider, success);
 			} else {
 				Answers.logLogin(pending.provider, success);
 			}
