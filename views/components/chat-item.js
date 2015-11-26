@@ -75,6 +75,9 @@ const styles = StyleSheet.create({
 	},
 	bubbleSent: {
 		marginLeft: 8
+	},
+	hidden: {
+		opacity: 0.3
 	}
 });
 
@@ -82,6 +85,7 @@ export default class ChatItem extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		if (this.props.text && nextProps.text && this.props.previousText && nextProps.previousText) {
 			return (
+					this.props.hidden !== nextProps.hidden ||
 					this.props.text.text !== nextProps.text.text ||
 					this.props.text.from !== nextProps.text.from ||
 					this.props.text.time !== nextProps.text.time ||
@@ -115,11 +119,25 @@ export default class ChatItem extends React.Component {
 			menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
 		}
 
+		if (this.props.isCurrentUserAdmin()) {
+			if (this.props.hidden) {
+				menu["Unhide message"] = () => this.props.unhideText();
+			} else {
+				menu["Hide message"] = () => this.props.hideText();
+			}
+
+			if (this.props.isUserBanned()) {
+				menu["Unban " + text.from] = () => this.props.unbanUser();
+			} else {
+				menu["Ban " + text.from] = () => this.props.banUser();
+			}
+		}
+
 		Modal.showActionSheetWithItems(menu);
 	}
 
 	render() {
-		const { text, textMetadata, previousText, currentUser } = this.props;
+		const { text, hidden, textMetadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
 
@@ -164,7 +182,7 @@ export default class ChatItem extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
-				<View style={[ styles.chat, received ? styles.received : null ]}>
+				<View style={[ styles.chat, received ? styles.received : null, hidden ? styles.hidden : null ]}>
 					{received && showAuthor ?
 						<AvatarRound
 							style={styles.avatar}
@@ -216,5 +234,12 @@ ChatItem.propTypes = {
 	}),
 	currentUser: React.PropTypes.string.isRequired,
 	quoteMessage: React.PropTypes.func.isRequired,
-	replyToMessage: React.PropTypes.func.isRequired
+	replyToMessage: React.PropTypes.func.isRequired,
+	hidden: React.PropTypes.bool.isRequired,
+	isCurrentUserAdmin: React.PropTypes.func.isRequired,
+	isUserBanned: React.PropTypes.func.isRequired,
+	hideText: React.PropTypes.func.isRequired,
+	unhideText: React.PropTypes.func.isRequired,
+	banUser: React.PropTypes.func.isRequired,
+	unbanUser: React.PropTypes.func.isRequired
 };

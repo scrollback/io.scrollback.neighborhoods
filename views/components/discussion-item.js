@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
 export default class DiscussionItem extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
+				this.props.hidden !== nextProps.hidden ||
 				this.props.thread.title !== nextProps.thread.title ||
 				this.props.thread.text !== nextProps.thread.text ||
-				this.props.thread.from !== nextProps.thread.from ||
-				this.props.hidden !== nextProps.hidden
+				this.props.thread.from !== nextProps.thread.from
 			);
 	}
 
@@ -99,9 +99,9 @@ export default class DiscussionItem extends React.Component {
 
 		if (this.props.isCurrentUserAdmin()) {
 			if (this.props.hidden) {
-				menu["Unhide discussion"] = () => this.props.unhideThread();
+				menu["Unhide discussion"] = () => this.props.unhideText();
 			} else {
-				menu["Hide discussion"] = () => this.props.hideThread();
+				menu["Hide discussion"] = () => this.props.hideText();
 			}
 
 			if (this.props.isUserBanned()) {
@@ -196,8 +196,8 @@ DiscussionItem.propTypes = {
 	hidden: React.PropTypes.bool.isRequired,
 	isCurrentUserAdmin: React.PropTypes.func.isRequired,
 	isUserBanned: React.PropTypes.func.isRequired,
-	hideThread: React.PropTypes.func.isRequired,
-	unhideThread: React.PropTypes.func.isRequired,
+	hideText: React.PropTypes.func.isRequired,
+	unhideText: React.PropTypes.func.isRequired,
 	banUser: React.PropTypes.func.isRequired,
 	unbanUser: React.PropTypes.func.isRequired
 };
