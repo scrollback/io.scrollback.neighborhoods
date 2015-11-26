@@ -66,7 +66,7 @@ export default class SearchBar extends React.Component {
 	render() {
 		return (
 			<AppbarSecondary {...this.props}>
-				<AppbarTouchable onPress={this.props.onBack}>
+				<AppbarTouchable type="secondary" onPress={this.props.onBack}>
 					<AppbarIcon name="arrow-back" style={styles.icon} />
 				</AppbarTouchable>
 
@@ -82,7 +82,7 @@ export default class SearchBar extends React.Component {
 				/>
 
 				{this.state.showClear ?
-					<AppbarTouchable onPress={this._clearInput.bind(this)}>
+					<AppbarTouchable type="secondary" onPress={this._clearInput.bind(this)}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable> :
 					null

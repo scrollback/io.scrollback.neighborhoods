@@ -1,15 +1,15 @@
 import React from "react-native";
 
 const {
-	TouchableNativeFeedback
+	TouchableHighlight
 } = React;
 
 export default class TouchFeedback extends React.Component {
 	render() {
 		return (
-			<TouchableNativeFeedback {...this.props} background={TouchableNativeFeedback.Ripple(this.props.pressColor)}>
+			<TouchableHighlight {...this.props} underlayColor={this.props.pressColor}>
 				{this.props.children}
-			</TouchableNativeFeedback>
+			</TouchableHighlight>
 		);
 	}
 }

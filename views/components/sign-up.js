@@ -145,7 +145,7 @@ export default class SignUp extends React.Component {
 		return (
 			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
-					<AppbarTouchable onPress={this.props.cancelSignUp}>
+					<AppbarTouchable type="secondary" onPress={this.props.cancelSignUp}>
 						<AppbarIcon name="arrow-back" style={styles.icon} />
 					</AppbarTouchable>
 
