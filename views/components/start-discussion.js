@@ -118,12 +118,25 @@ export default class StartDiscussionButton extends React.Component {
 	}
 
 	async _postDiscussion() {
-		const FAIL_MESSAGE = "Failed to start discussion";
-		const NO_TITLE_MESSAGE = "No title given";
-		const NO_SUMMARY_MESSAGE = "No summary given";
+		const FAIL_MESSAGE = "An error occurred while posting";
+		const SHORT_TITLE_MESSAGE = "Title needs be at least 2 words";
+		const LONG_TITLE_MESSAGE = "Title needs be less than 10 words";
+		const NO_TITLE_MESSAGE = "Enter a title in 2 to 10 words";
+		const NO_SUMMARY_MESSAGE = "Enter a short summary";
 
 		if (!this.state.title) {
 			this._onError(NO_TITLE_MESSAGE);
+			return;
+		}
+
+		const words = this.state.title.trim().split(/\s+/);
+
+		if (words.length < 2) {
+			this._onError(SHORT_TITLE_MESSAGE);
+			return;
+		} else if (words.length > 10) {
+			this._onError(LONG_TITLE_MESSAGE);
+			return;
 		}
 
 		if (this.state.uploadResult) {
@@ -137,8 +150,8 @@ export default class StartDiscussionButton extends React.Component {
 				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
 					type: "image",
 					caption: name,
-					height: 160 * aspectRatio,
-					width: 160,
+					height: Math.min(480, width) * aspectRatio,
+					width: Math.min(480, width),
 					thumbnailUrl: result.thumbnailUrl,
 					originalUrl: result.originalUrl
 				}), result.textId);
@@ -217,11 +230,11 @@ export default class StartDiscussionButton extends React.Component {
 		return (
 			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
-					<AppbarTouchable onPress={this.props.dismiss}>
+					<AppbarTouchable type="secondary" onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
 
-					<AppbarTouchable onPress={this._onPress.bind(this)}>
+					<AppbarTouchable type="secondary" onPress={this._onPress.bind(this)}>
 						{isLoading ?
 							<Loading style={styles.loading} /> :
 							(<View style={styles.button}>

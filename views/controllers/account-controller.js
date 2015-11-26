@@ -1,13 +1,12 @@
 import React from "react-native";
 import Account from "../components/account";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class AccountController extends React.Component {
+class AccountController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -62,3 +61,5 @@ export default class AccountController extends React.Component {
 		);
 	}
 }
+
+export default Controller(AccountController);

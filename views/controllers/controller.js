@@ -1,7 +1,6 @@
 import core from "../../store/core";
 import store from "../../store/store";
 
-// Decorator for controllers
 export default function(Target) {
 	class Controller extends Target {
 		get store() {
@@ -70,9 +69,7 @@ export default function(Target) {
 				return super.query(...args);
 			}
 
-			const res = await this.emit(...args);
-
-			return res.results;
+			return (await this.emit(...args)).results;
 		}
 
 		async dispatch(name, params = {}, prio = 1, ...rest) {

@@ -22,7 +22,7 @@ import java.io.File;
 
 public class ImageChooserModule extends ReactContextBaseJavaModule {
 
-    public final int PICK_IMAGE = 3500;
+    private static final int PICK_IMAGE = 3500;
 
     private Context mActivityContext;
     private Promise mPickerPromise;

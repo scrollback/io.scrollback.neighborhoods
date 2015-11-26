@@ -1,13 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import Icon from "./icon";
-import Loading from "./loading";
+import CloseButton from "./close-button";
+import ImageUploadButton from "./image-upload-button";
 
 const {
 	StyleSheet,
 	View,
-	Image,
-	TouchableHighlight
+	Image
 } = React;
 
 const styles = StyleSheet.create({
@@ -15,68 +14,24 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		paddingVertical: 32
 	},
+	thumbnailContainer: {
+		elevation: 4
+	},
 	thumbnailStyle: {
 		alignItems: "center",
 		justifyContent: "center"
 	},
-	iconContainerOuter: {
-		height: 56,
-		width: 56,
-		borderRadius: 32,
-		margin: 8
+	iconIdle: {
+		color: Colors.fadedBlack
 	},
-	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
-		height: 56,
-		width: 56,
-		borderRadius: 32
-	},
-	iconSendContainer: {
-		backgroundColor: Colors.accent
-	},
-	iconCancelContainer: {
-		backgroundColor: Colors.fadedBlack
-	},
-	iconSuccessContainer: {
-		backgroundColor: Colors.success
-	},
-	iconErrorContainer: {
-		backgroundColor: Colors.error
-	},
-	icon: {
-		color: Colors.white,
-		margin: 16
-	},
-	iconWarning: {
+	iconError: {
 		marginTop: 14,
 		marginBottom: 18
 	},
-	loading: {
-		position: "absolute",
-		left: 2,
-		top: 2,
-		height: 52,
-		width: 52
-	},
-	closeButtonContainer: {
+	closeButton: {
 		position: "absolute",
 		top: 16,
-		left: 0,
-		height: 36,
-		width: 36,
-		borderRadius: 18
-	},
-	closeButton: {
-		backgroundColor: Colors.darkGrey,
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		alignItems: "center",
-		justifyContent: "center"
-	},
-	closeIcon: {
-		color: Colors.white
+		left: 0
 	}
 });
 
@@ -98,74 +53,22 @@ export default class ChatInput extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
-				<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
-					<TouchableHighlight
-						onPress={this._onPress.bind(this)}
-						underlayColor="rgba(0, 0, 0, .16)"
-						style={styles.iconContainerOuter}
-					>
-
-					{(() => {
-						switch (this.props.status) {
-						case "idle":
-							return (
-								<View style={[ styles.iconContainer, styles.iconSendContainer ]}>
-									<Icon
-										name="file-upload"
-										style={styles.icon}
-										size={24}
-									/>
-								</View>
-							);
-						case "loading":
-							return (
-								<View style={[ styles.iconContainer, styles.iconCancelContainer ]}>
-									<Icon
-										name="close"
-										style={styles.icon}
-										size={24}
-									/>
-									<Loading style={styles.loading} />
-								</View>
-							);
-						case "finished":
-							return (
-								<View style={[ styles.iconContainer, styles.iconSuccessContainer ]}>
-									<Icon
-										name="done"
-										style={styles.icon}
-										size={24}
-									/>
-								</View>
-							);
-						case "error":
-							return (
-								<View style={[ styles.iconContainer, styles.iconErrorContainer ]}>
-									<Icon
-										name="warning"
-										style={[ styles.icon, styles.iconWarning ]}
-										size={24}
-									/>
-								</View>
-							);
-						}
-					}())}
-					</TouchableHighlight>
-				</Image>
-
-				<TouchableHighlight
-					onPress={this._onClose.bind(this)}
-					underlayColor="rgba(0, 0, 0, .16)"
-					style={styles.closeButtonContainer}
-				>
-					<View style={styles.closeButton}>
-						<Icon
-							name="close"
-							style={styles.closeIcon}
-							size={16}
+				<View style={styles.thumbnailContainer}>
+					<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
+						<ImageUploadButton
+							onPress={this._onPress.bind(this)}
+							status={this.props.status}
+							idleIcon="file-upload"
+							closeIcon="close"
+							doneIcon="done"
+							errorIcon="warning"
+							idleIconStyle={styles.iconIdle}
+							errorIconStyle={styles.iconError}
 						/>
-					</View>
-				</TouchableHighlight>
+					</Image>
+				</View>
+
+				<CloseButton onPress={this._onClose.bind(this)} style={styles.closeButton} />
 			</View>
 		);
 	}

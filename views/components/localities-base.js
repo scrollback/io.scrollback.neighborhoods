@@ -39,7 +39,7 @@ export default class LocalitiesBase extends React.Component {
 		});
 
 		this.state = {
-			position: null
+			location: null
 		};
 	}
 
@@ -57,9 +57,9 @@ export default class LocalitiesBase extends React.Component {
 	}
 
 	_watchPosition() {
-		this._watchID = Geolocation.watchPosition(position => {
+		this._watchID = Geolocation.watchPosition(location => {
 			if (this._mounted) {
-				this.setState({ position });
+				this.setState({ location });
 			}
 		});
 	}
@@ -72,11 +72,11 @@ export default class LocalitiesBase extends React.Component {
 
 	async _setCurrentPosition() {
 		try {
-			const position = await Geolocation.getCurrentPosition();
+			const location = await Geolocation.getCurrentPosition();
 
 			if (this._mounted) {
 				this.setState({
-					position
+					location
 				});
 			}
 		} catch (e) {
@@ -113,6 +113,7 @@ export default class LocalitiesBase extends React.Component {
 
 					return (
 						<ListView
+							keyboardShouldPersistTaps
 							initialListSize={1}
 							dataSource={this._getDataSource()}
 							renderRow={room => {
@@ -126,7 +127,7 @@ export default class LocalitiesBase extends React.Component {
 										room={room}
 										showMenuButton={this.props.showMenuButton}
 										showBadge={this.props.showBadge}
-										position={this.state.position}
+										location={this.state.location}
 										navigator={this.props.navigator}
 									/>
 								);

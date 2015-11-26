@@ -2,7 +2,7 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import PageLoading from "./page-loading";
 import PageFailed from "./page-failed";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import TouchFeedback from "./touch-feedback";
@@ -15,22 +15,11 @@ const {
 	ScrollView,
 	View,
 	Text,
-	SwitchAndroid,
+	Switch,
 	PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
-	avatar: {
-		height: 48,
-		width: 48,
-		borderRadius: 24,
-		backgroundColor: Colors.placeholder
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 24
-	},
 	info: {
 		flex: 1,
 		marginLeft: 16
@@ -192,13 +181,10 @@ export default class Account extends React.Component {
 					return (
 						<ScrollView contentContainerStyle={styles.settings}>
 							<View style={styles.item}>
-								<View style={styles.avatar}>
-									<AvatarController
-										size={48}
-										nick={user.id}
-										style={styles.image}
-									/>
-								</View>
+								<AvatarRound
+									size={48}
+									nick={user.id}
+								/>
 								<View style={styles.info}>
 									<Text style={styles.nick}>{user.id}</Text>
 									<Text style={styles.email}>{user.identities[0].slice(7)}</Text>
@@ -219,7 +205,7 @@ export default class Account extends React.Component {
 								<View style={styles.itemLabel}>
 									<Text style={styles.itemText}>Push notifications</Text>
 								</View>
-								<SwitchAndroid
+								<Switch
 									value={this.state.pushNotificationEnabled}
 									onValueChange={this._onPushNotificationChange.bind(this)}
 								/>
@@ -228,7 +214,7 @@ export default class Account extends React.Component {
 								<View style={styles.itemLabel}>
 									<Text style={styles.itemText}>Mention notifications via email</Text>
 								</View>
-								<SwitchAndroid
+								<Switch
 									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
 									onValueChange={this._onEmailNotificationChange.bind(this)}
 								/>

@@ -1,13 +1,12 @@
 import React from "react-native";
 import NotificationBadge from "../components/notification-badge";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class NotificationBadgeController extends React.Component {
+class NotificationBadgeController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -28,15 +27,34 @@ export default class NotificationBadgeController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const notes = this.store.getNotes();
+				const { room, thread, grouped } = this.props;
+
+				let items;
+
+				if (room) {
+					items = notes.filter(note => note.group.split("/")[0] === room);
+				} else if (thread) {
+					items = notes.filter(note => note.group.split("/")[1] === thread);
+				} else {
+					items = notes;
+				}
 
 				let count;
 
-				if (this.props.room) {
-					count = notes.filter(note => note.group.split("/")[0] === this.props.room).length;
-				} else if (this.props.thread) {
-					count = notes.filter(note => note.group.split("/")[1] === this.props.thread).length;
+				if (grouped) {
+					count = items.length;
 				} else {
-					count = notes.length;
+					count = 0;
+
+					for (let i = 0, l = items.length; i < l; i++) {
+						const n = items[i];
+
+						if (n.count) {
+							count += n.count;
+						} else {
+							count++;
+						}
+					}
 				}
 
 				this.setState({
@@ -53,5 +71,8 @@ export default class NotificationBadgeController extends React.Component {
 
 NotificationBadgeController.propTypes = {
 	room: React.PropTypes.string,
-	thread: React.PropTypes.string
+	thread: React.PropTypes.string,
+	grouped: React.PropTypes.bool
 };
+
+export default Controller(NotificationBadgeController);

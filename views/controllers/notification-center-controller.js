@@ -1,13 +1,12 @@
 import React from "react-native";
 import NotificationCenter from "../components/notification-center";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class NotificationCenterController extends React.Component {
+class NotificationCenterController extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -54,3 +53,5 @@ export default class NotificationCenterController extends React.Component {
 		);
 	}
 }
+
+export default Controller(NotificationCenterController);

@@ -50,9 +50,11 @@ export default class Avatar extends React.Component {
 	}
 
 	render() {
-		return (
-			<Image {...this.props} source={{ uri: this.state.uri }} />
-		);
+		if (this.state.uri) {
+			return <Image {...this.props} source={{ uri: this.state.uri }} />;
+		} else {
+			return null;
+		}
 	}
 }
 

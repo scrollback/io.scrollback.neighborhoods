@@ -1,7 +1,8 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarRound from "./avatar-round";
 import ChatBubble from "./chat-bubble";
+import EmbedImage from "./embed-image";
 import Embed from "./embed";
 import Modal from "./modal";
 import Icon from "./icon";
@@ -12,11 +13,11 @@ import timeUtils from "../../lib/time-utils";
 import preview from "../../lib/preview";
 
 const {
+	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
 	View,
-	Text,
-	Image
+	Text
 } = React;
 
 const styles = StyleSheet.create({
@@ -59,10 +60,6 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 0,
 		left: -36,
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: Colors.placeholder,
 		alignSelf: "flex-end"
 	},
 	embed: {
@@ -72,11 +69,6 @@ const styles = StyleSheet.create({
 	},
 	thumbnail: {
 		marginVertical: 4
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 36
 	},
 	bubbleReceived: {
 		marginRight: 8
@@ -101,6 +93,11 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
+	_copyToClipboard(text) {
+		Clipboard.setText(text);
+		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+	}
+
 	_showMenu() {
 		const { text, textMetadata, currentUser } = this.props;
 
@@ -108,9 +105,9 @@ export default class ChatItem extends React.Component {
 
 		if (textMetadata && textMetadata.type === "image") {
 			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
-			menu["Copy image link"] = () => Clipboard.setText(textMetadata.originalUrl);
+			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
-			menu["Copy text"] = () => Clipboard.setText(text.text);
+			menu["Copy text"] = () => this._copyToClipboard(text.text);
 			menu["Quote message"] = () => this.props.quoteMessage(text);
 		}
 
@@ -132,12 +129,11 @@ export default class ChatItem extends React.Component {
 
 		if (textMetadata && textMetadata.type === "image") {
 			cover = (
-				<Image
-					style={[ styles.thumbnail, {
-						height: parseInt(textMetadata.height, 10) || 160,
-						width: parseInt(textMetadata.width, 10) || 160
-					} ]}
-					source={{ uri: textMetadata.thumbnailUrl }}
+				<EmbedImage
+					style={styles.thumbnail}
+					height={parseInt(textMetadata.height, 10)}
+					width={parseInt(textMetadata.width, 10)}
+					uri={textMetadata.thumbnailUrl}
 				/>
 			);
 		} else if (links.length) {
@@ -170,17 +166,15 @@ export default class ChatItem extends React.Component {
 			<View {...this.props} style={[ styles.container, this.props.style ]}>
 				<View style={[ styles.chat, received ? styles.received : null ]}>
 					{received && showAuthor ?
-						<View style={styles.avatar}>
-							<AvatarController
-								size={36}
-								nick={text.from}
-								style={styles.image}
-							/>
-						</View> :
+						<AvatarRound
+							style={styles.avatar}
+							size={36}
+							nick={text.from}
+						/> :
 						null
 					}
 
-					<TouchableOpacity onPress={this._showMenu.bind(this)}>
+					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu.bind(this)}>
 						<ChatBubble
 							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
 							type={received ? "left" : "right"}

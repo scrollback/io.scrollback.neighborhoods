@@ -5,6 +5,7 @@ import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import Modal from "./modal";
 import Share from "../../modules/share";
+import Linking from "../../modules/linking";
 import routes from "../utils/routes";
 import locationUtils from "../../lib/location-utils";
 import config from "../../store/config";
@@ -43,13 +44,15 @@ const styles = StyleSheet.create({
 		lineHeight: 18
 	},
 	expand: {
-		margin: 18,
+		margin: 20,
 		color: Colors.fadedBlack
 	}
 });
 
 export default class RoomItem extends React.Component {
 	_showMenu() {
+		const { room, role } = this.props;
+
 		const options = [];
 		const actions = [];
 
@@ -57,10 +60,19 @@ export default class RoomItem extends React.Component {
 		actions.push(() => {
 			const { protocol, host } = config.server;
 
-			Share.shareItem("Share community", `${protocol}//${host}/${this.props.room.id}`);
+			Share.shareItem("Share community", `${protocol}//${host}/${room.id}`);
 		});
 
-		switch (this.props.role) {
+		if (room.location && room.location.lat && room.location.lon) {
+			options.push("View in Google Maps");
+			actions.push(() => {
+				const { lat, lon } = room.location;
+
+				Linking.openURL("http://maps.google.com/maps?q=loc:" + lat + "," + lon);
+			});
+		}
+
+		switch (role) {
 		case "none":
 			options.push("Join community");
 			actions.push(this.props.joinCommunity);
@@ -80,17 +92,17 @@ export default class RoomItem extends React.Component {
 	}
 
 	render() {
-		const { room, position } = this.props;
+		const { room, location } = this.props;
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)} onLongPress={this._showMenu.bind(this)}>
+				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.container}>
 						<View style={styles.item}>
 							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>
-							{position && position.coords && room.location && room.location.lat && room.location.lon ?
+							{location && location.coords && room.location && room.location.lat && room.location.lon ?
 								<Text style={styles.distance}>
-									{locationUtils.getFormattedDistance(position.coords, {
+									{locationUtils.getFormattedDistance(location.coords, {
 										latitude: room.location.lat,
 										longitude: room.location.lon
 									})}
@@ -109,7 +121,7 @@ export default class RoomItem extends React.Component {
 								<Icon
 									name="expand-more"
 									style={styles.expand}
-									size={24}
+									size={20}
 								/>
 							</TouchableOpacity> :
 							null
@@ -132,7 +144,7 @@ RoomItem.propTypes = {
 			lon: React.PropTypes.number.isRequired
 		})
 	}),
-	position: React.PropTypes.shape({
+	location: React.PropTypes.shape({
 		coords: React.PropTypes.shape({
 			latitude: React.PropTypes.number.isRequired,
 			longitude: React.PropTypes.number.isRequired

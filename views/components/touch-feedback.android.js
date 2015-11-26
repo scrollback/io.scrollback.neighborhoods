@@ -1,11 +1,13 @@
 import React from "react-native";
 
-const { TouchableNativeFeedback } = React;
+const {
+	TouchableNativeFeedback
+} = React;
 
 export default class TouchFeedback extends React.Component {
 	render() {
 		return (
-			<TouchableNativeFeedback {...this.props}>
+			<TouchableNativeFeedback {...this.props} background={TouchableNativeFeedback.Ripple(this.props.pressColor)}>
 				{this.props.children}
 			</TouchableNativeFeedback>
 		);
@@ -13,5 +15,6 @@ export default class TouchFeedback extends React.Component {
 }
 
 TouchFeedback.propTypes = {
+	pressColor: React.PropTypes.string,
 	children: React.PropTypes.node
 };

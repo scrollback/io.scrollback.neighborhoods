@@ -23,12 +23,12 @@ import com.google.android.gms.common.AccountPicker;
 
 import java.io.IOException;
 
-import io.scrollback.neighborhoods.Constants;
-
 public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
-    public final int REQ_SIGN_IN_REQUIRED = 1000;
-    public final int CHOOSE_ACCOUNT_REQUIRED = 1500;
+    private static final String TAG = "GoogleLogin";
+
+    private static final int REQ_SIGN_IN_REQUIRED = 1000;
+    private static final int CHOOSE_ACCOUNT_REQUIRED = 1500;
 
     private String mAccountName;
     private String mAccessToken;
@@ -114,7 +114,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 try {
                     token = GoogleAuthUtil.getToken(mActivityContext, accountName, scopes);
                 } catch (IOException e) {
-                    Log.e(Constants.TAG, e.getMessage());
+                    Log.e(TAG, e.getMessage());
 
                     if (mRetrievePromise != null) {
                         rejectPromise(e.getMessage());
@@ -124,7 +124,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
                     return "false";
                 } catch (GoogleAuthException e) {
-                    Log.e(Constants.TAG, e.getMessage());
+                    Log.e(TAG, e.getMessage());
 
                     if (mRetrievePromise != null) {
                         rejectPromise(e.getMessage());
@@ -180,13 +180,13 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
                     return true;
                 } catch (GoogleAuthException e) {
-                    Log.e(Constants.TAG, e.getMessage());
+                    Log.e(TAG, e.getMessage());
 
                     promise.reject(e.getMessage());
 
                     return false;
                 } catch (IOException e) {
-                    Log.e(Constants.TAG, e.getMessage());
+                    Log.e(TAG, e.getMessage());
 
                     promise.reject(e.getMessage());
 

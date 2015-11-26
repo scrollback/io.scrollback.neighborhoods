@@ -1,10 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.scrollback.neighborhoods">
 
-    <meta-data
-        android:name="com.google.android.gms.version"
-        android:value="@integer/google_play_services_version" />
-
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -44,8 +40,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/app_host" />
-
                 <data
                     android:host="@string/app_host"
                     android:scheme="http" />
@@ -57,7 +51,16 @@
         </activity>
 
         <receiver
-            android:name=".PushNotificationBroadcastReceiver"
+            android:name=".modules.analytics.InstallReferrerReceiver"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".modules.gcm.PushNotificationBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
 
             <intent-filter>
@@ -66,7 +69,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".PushNotificationIntentService"></service>
+        <service android:name=".modules.gcm.PushNotificationIntentService" />
 
         <activity
             android:name="com.facebook.FacebookActivity"

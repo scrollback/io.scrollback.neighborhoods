@@ -67,6 +67,7 @@ proguard/
 
 # Fabric
 fabric.properties
+com_crashlytics_export_strings.xml
 
 # Built files
 index.android.bundle
