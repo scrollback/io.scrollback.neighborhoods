@@ -43,13 +43,14 @@ function threadFromText(text) {
 		from: text.from,
 		to: text.to,
 		startTime: text.time,
-		concerns: [ text.from ],
+		concerns: text.concerns || [ text.from ],
 		color: text.color,
 		tags: null,
 		title: text.title,
 		text: text.text,
 		updateTime: text.time,
-		updater: text.from
+		updater: text.from,
+		length: text.length || 1
 	};
 }
 
@@ -327,6 +328,7 @@ function onEdit(edit) {
 			currentThread = store.get("indexes", "threadsById", text.id);
 
 			text.title = currentThread ? currentThread.title : text.title;
+			text.length = currentThread ? currentThread.length : text.length;
 			text.color = currentThread ? currentThread.color : text.color;
 			text.concerns = currentThread ? objUtils.clone(currentThread.concerns) : text.concerns;
 
