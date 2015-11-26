@@ -326,6 +326,7 @@ function onEdit(edit) {
 		if (text.id === text.thread) {
 			currentThread = store.get("indexes", "threadsById", text.id);
 
+			text.title = currentThread ? currentThread.title : text.title;
 			text.color = currentThread ? currentThread.color : text.color;
 			text.concerns = currentThread ? objUtils.clone(currentThread.concerns) : text.concerns;
 
@@ -354,6 +355,7 @@ function onEdit(edit) {
 			items: pleb && thread.tags.indexOf("thread-hidden") >= 0 ? [] : [thread]
 		}];
 	}
+
 	core.emit("setstate", changes);
 }
 
