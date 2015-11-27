@@ -11,7 +11,6 @@ import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
 import timeUtils from "../../lib/time-utils";
-import oembed from "../../lib/oembed";
 
 const {
 	ToastAndroid,
@@ -158,15 +157,14 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			const uri = links[0];
-			const endpoint = oembed(uri);
+			const uri = text.text;
 
-			if (endpoint) {
+			if (uri) {
 				cover = (
 					<Embed
-						uri={uri}
-						endpoint={endpoint}
+						text={uri}
 						style={styles.embed}
+						chatItem="true"
 					/>
 				);
 			}
