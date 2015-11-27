@@ -1,5 +1,3 @@
-"use strict";
-
 var merge = require("./merge-config.js");
 
 var defaults = {

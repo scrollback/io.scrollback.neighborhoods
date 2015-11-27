@@ -5,10 +5,10 @@ import { fetchData } from "../../oembed/oembed";
 import EmbedVideo from "./embedvideo";
 import EmbedTitle from "./embedtitle";
 import EmbedSummary from "./embedsummary";
+import AppText from "./app-text";
 
 const {
 	StyleSheet,
-	Text,
 	View
 } = React;
 
@@ -109,7 +109,7 @@ export default class Embed extends React.Component {
 								</View>
 							):
 							(
-								<Text>{embed}</Text>
+								<AppText>{embed}</AppText>
 							)}
 						</View>
 					):
