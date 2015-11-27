@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 
 const {
 	StyleSheet,
@@ -14,11 +15,18 @@ const styles = StyleSheet.create({
 		padding: 8
 	},
 
-	photo: {
+	photoContainer: {
+		backgroundColor: Colors.placeholder,
 		height: 96,
 		width: 96,
 		borderRadius: 48,
 		margin: 8
+	},
+
+	photo: {
+		height: 96,
+		width: 96,
+		borderRadius: 48
 	}
 });
 
@@ -31,7 +39,9 @@ export default class AccountPhotoChooser extends React.Component {
 				{photos.filter((uri, i) => photos.indexOf(uri) === i).slice(0, 9).map(uri => {
 					return (
 						<TouchableOpacity onPress={() => this.props.onSelect(uri)}>
-							<Image style={styles.photo} source={{ uri }} />
+							<View style={styles.photoContainer}>
+								<Image style={styles.photo} source={{ uri }} />
+							</View>
 						</TouchableOpacity>
 					);
 				})}
