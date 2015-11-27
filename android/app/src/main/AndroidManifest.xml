@@ -1,8 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.scrollback.neighborhoods">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
@@ -11,9 +17,6 @@
         android:protectionLevel="signature" />
 
     <uses-permission android:name=".permission.C2D_MESSAGE" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".HeyNeighbor"
@@ -52,6 +55,15 @@
 
         <receiver
             android:name=".modules.analytics.InstallReferrerReceiver"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.appvirality.android.AppviralityInstallReferrerReceiver"
             android:exported="true">
 
             <intent-filter>
