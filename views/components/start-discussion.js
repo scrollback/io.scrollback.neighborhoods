@@ -1,6 +1,7 @@
 import React from "react-native";
-import AppText from "./app-text";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AppTextInput from "./app-text-input";
 import Loading from "./loading";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
@@ -19,8 +20,7 @@ import textUtils from "../../lib/text-utils";
 const {
 	StyleSheet,
 	ScrollView,
-	View,
-	TextInput
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -246,7 +246,7 @@ export default class StartDiscussionButton extends React.Component {
 				<Banner text={this.state.error} type="error" />
 
 				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
-					<TextInput
+					<AppTextInput
 						autoFocus
 						value={this.state.title}
 						onChange={this._onTitleChange.bind(this)}

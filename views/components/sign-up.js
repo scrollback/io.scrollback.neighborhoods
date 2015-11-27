@@ -1,6 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
+import AppTextInput from "./app-text-input";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTitle from "./appbar-title";
@@ -16,8 +17,7 @@ const {
 	TouchableHighlight,
 	Image,
 	ScrollView,
-	View,
-	TextInput
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -174,7 +174,7 @@ export default class SignUp extends React.Component {
 							<AppText style={error && (error.ERR_VALIDATE_LENGTH_SHORT || error.ERR_VALIDATE_LENGTH_LONG) ? styles.error : null}>(3-32 characters)</AppText>
 						</AppText>
 
-						<TextInput
+						<AppTextInput
 							value={this.state.value}
 							onChange={this._onChange.bind(this)}
 							style={styles.input}
