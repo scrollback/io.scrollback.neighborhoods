@@ -10,5 +10,4 @@ global.sb = core;
 global.store = store;
 
 init();
-
 export default store;
