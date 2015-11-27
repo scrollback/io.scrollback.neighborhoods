@@ -1,4 +1,5 @@
 import React from "react-native";
+import AppText from "./app-text";
 import Colors from "../../colors.json";
 import Loading from "./loading";
 import StatusbarContainer from "./statusbar-container";
@@ -19,7 +20,6 @@ const {
 	StyleSheet,
 	ScrollView,
 	View,
-	Text,
 	TextInput
 } = React;
 
@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: Colors.primary,
 		fontWeight: "bold",
-		fontSize: 14,
-		lineHeight: 21,
 		marginRight: 16
 	},
 	buttonIcon: {
@@ -239,7 +237,7 @@ export default class StartDiscussionButton extends React.Component {
 							<Loading style={styles.loading} /> :
 							(<View style={styles.button}>
 								<AppbarIcon name="done" style={styles.buttonIcon} />
-								<Text style={styles.buttonText}>POST</Text>
+								<AppText style={styles.buttonText}>POST</AppText>
 							</View>)
 						}
 					</AppbarTouchable>
@@ -283,7 +281,7 @@ export default class StartDiscussionButton extends React.Component {
 									style={styles.uploadButtonIcon}
 									size={24}
 								/>
-								<Text style={styles.uploadButtonText}>UPLOAD AN IMAGE</Text>
+								<AppText style={styles.uploadButtonText}>UPLOAD AN IMAGE</AppText>
 							</View>
 						</TouchFeedback>
 					}

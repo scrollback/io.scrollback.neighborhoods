@@ -1,10 +1,10 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 
 const {
 	StyleSheet,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 		color: Colors.darkGrey,
 		fontWeight: "bold",
 		fontSize: 18,
+		lineHeight: 27,
 		paddingHorizontal: 4
 	}
 });
@@ -26,9 +27,9 @@ export default class AppbarTitle extends React.Component {
 	render() {
 		return (
 			<View {...this.props} style={[ styles.titleContainer, this.props.style ]}>
-				<Text style={[ styles.titleText, this.props.textStyle ]} numberOfLines={1}>
+				<AppText style={[ styles.titleText, this.props.textStyle ]} numberOfLines={1}>
 					{this.props.children}
-				</Text>
+				</AppText>
 			</View>
 		);
 	}

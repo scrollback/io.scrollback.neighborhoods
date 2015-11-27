@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarIcon from "./appbar-icon";
 import Modal from "./modal";
@@ -7,14 +8,14 @@ import LocalitiesFilterController from "../controllers/localities-filtered-contr
 
 const {
 	StyleSheet,
-	TouchableHighlight,
-	Text
+	TouchableHighlight
 } = React;
 
 const styles = StyleSheet.create({
 	searchbarText: {
 		flex: 1,
 		fontSize: 16,
+		lineHeight: 24,
 		marginHorizontal: 16
 	},
 	icon: {
@@ -35,7 +36,7 @@ export default class SearchBar extends React.Component {
 		return (
 			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress.bind(this)}>
 				<AppbarSecondary {...this.props}>
-					<Text style={styles.searchbarText}>Search for communties...</Text>
+					<AppText style={styles.searchbarText}>Search for communties...</AppText>
 					<AppbarIcon name="search" style={styles.icon} />
 				</AppbarSecondary>
 			</TouchableHighlight>

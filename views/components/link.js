@@ -1,10 +1,10 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import Linking from "../../modules/linking";
+import AppText from "./app-text";
 
 const {
-	StyleSheet,
-	Text
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
@@ -55,13 +55,13 @@ export default class Link extends React.Component {
 
 	render() {
 		return (
-			<Text
+			<AppText
 				{...this.props}
 				onPress={this._onPress.bind(this)}
 				style={[ styles.link, this.props.style ]}
 			>
 				{this.props.children}
-			</Text>
+			</AppText>
 		);
 	}
 }

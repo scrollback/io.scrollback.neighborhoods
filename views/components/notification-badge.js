@@ -1,11 +1,11 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 
 const {
 	StyleSheet,
 	Animated,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 		color: Colors.white,
 		fontWeight: "bold",
 		fontSize: 10,
+		lineHeight: 15,
 		textAlign: "center"
 	}
 });
@@ -90,9 +91,9 @@ export default class NotificationBadge extends React.Component {
 
 		return (
 			<Animated.View {...this.props} style={[ { transform: [ { scale: this.state.scaleAnim } ] }, styles.badge, this.props.style ]}>
-				<Text style={styles.count}>
+				<AppText style={styles.count}>
 					{count < 100 ? count : "99+"}
-				</Text>
+				</AppText>
 			</Animated.View>
 		);
 	}

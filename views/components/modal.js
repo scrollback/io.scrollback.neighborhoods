@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import ModalSheet from "./modal-sheet";
 import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
@@ -13,8 +14,7 @@ const {
 	TouchableWithoutFeedback,
 	Animated,
 	PixelRatio,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 	},
 	menuItemText: {
 		fontSize: 16,
+		lineHeight: 24,
 		color: Colors.darkGrey,
 		margin: 20,
 		paddingHorizontal: 4
@@ -152,7 +153,7 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 				)}
 			>
 				<View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
-					<Text style={styles.menuItemText}>{item}</Text>
+					<AppText style={styles.menuItemText}>{item}</AppText>
 				</View>
 			</TouchFeedback>
 		)

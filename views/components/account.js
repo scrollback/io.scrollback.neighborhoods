@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import PageLoading from "./page-loading";
 import PageFailed from "./page-failed";
 import AvatarRound from "./avatar-round";
@@ -15,7 +16,6 @@ const {
 	StyleSheet,
 	ScrollView,
 	View,
-	Text,
 	Switch,
 	PixelRatio,
 	TouchableOpacity
@@ -28,8 +28,7 @@ const styles = StyleSheet.create({
 	},
 	nick: {
 		color: Colors.darkGrey,
-		fontWeight: "bold",
-		lineHeight: 21
+		fontWeight: "bold"
 	},
 	email: {
 		fontSize: 12,
@@ -46,6 +45,7 @@ const styles = StyleSheet.create({
 	},
 	inputLabelText: {
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 16
 	},
 	input: {
@@ -62,9 +62,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	itemText: {
-		color: Colors.darkGrey,
-		fontSize: 14,
-		lineHeight: 21
+		color: Colors.darkGrey
 	},
 	itemValueText: {
 		fontSize: 12,
@@ -210,13 +208,13 @@ export default class Account extends React.Component {
 										nick={user.id}
 									/>
 									<View style={styles.info}>
-										<Text style={styles.nick}>{user.id}</Text>
-										<Text style={styles.email}>{user.identities[0].slice(7)}</Text>
+										<AppText style={styles.nick}>{user.id}</AppText>
+										<AppText style={styles.email}>{user.identities[0].slice(7)}</AppText>
 									</View>
 								</View>
 							</TouchableOpacity>
 							<View style={styles.inputContainer}>
-								<Text style={styles.inputLabelText}>Status message</Text>
+								<AppText style={styles.inputLabelText}>Status message</AppText>
 								<GrowingTextInput
 									style={styles.input}
 									defaultValue={user.description}
@@ -228,7 +226,7 @@ export default class Account extends React.Component {
 							</View>
 							<View style={styles.item}>
 								<View style={styles.itemLabel}>
-									<Text style={styles.itemText}>Push notifications</Text>
+									<AppText style={styles.itemText}>Push notifications</AppText>
 								</View>
 								<Switch
 									value={this.state.pushNotificationEnabled}
@@ -237,7 +235,7 @@ export default class Account extends React.Component {
 							</View>
 							<View style={styles.item}>
 								<View style={styles.itemLabel}>
-									<Text style={styles.itemText}>Mention notifications via email</Text>
+									<AppText style={styles.itemText}>Mention notifications via email</AppText>
 								</View>
 								<Switch
 									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
@@ -247,27 +245,27 @@ export default class Account extends React.Component {
 							<TouchFeedback onPress={this._selectFrequency.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
-										<Text style={styles.itemText}>Email digest frequency</Text>
-										<Text style={styles.itemValueText}>
+										<AppText style={styles.itemText}>Email digest frequency</AppText>
+										<AppText style={styles.itemValueText}>
 											{user.params && user.params.email && user.params.email.frequency ?
 												user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
 												"Daily"
 											}
-										</Text>
+										</AppText>
 									</View>
 								</View>
 							</TouchFeedback>
 							<TouchFeedback onPress={this._reportIssue.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
-										<Text style={styles.itemText}>Report an issue</Text>
+										<AppText style={styles.itemText}>Report an issue</AppText>
 									</View>
 								</View>
 							</TouchFeedback>
 							<TouchFeedback onPress={this._signOut.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
-										<Text style={styles.itemText}>Sign out</Text>
+										<AppText style={styles.itemText}>Sign out</AppText>
 									</View>
 								</View>
 							</TouchFeedback>

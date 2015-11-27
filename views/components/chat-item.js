@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AvatarRound from "./avatar-round";
 import ChatBubble from "./chat-bubble";
 import EmbedImage from "./embed-image";
@@ -16,8 +17,7 @@ const {
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
 	timestampText: {
 		color: Colors.black,
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 6,
 		paddingHorizontal: 8,
 		opacity: 0.3
@@ -214,7 +215,7 @@ export default class ChatItem extends React.Component {
 						style={styles.timestampIcon}
 						size={12}
 					 />
-					 <Text style={styles.timestampText}>{timeUtils.long(text.time)}</Text>
+					 <AppText style={styles.timestampText}>{timeUtils.long(text.time)}</AppText>
 					</View>) :
 					null
 				}

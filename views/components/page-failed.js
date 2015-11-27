@@ -1,12 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
 import Page from "./page";
 
 const {
 	StyleSheet,
 	View,
-	Text,
 	TouchableOpacity
 } = React;
 
@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	missing: {
-		fontSize: 18
+		fontSize: 18,
+		lineHeight: 27
 	},
 	button: {
 		flexDirection: "row",
@@ -46,7 +47,7 @@ export default class PageFailed extends React.Component {
 		return (
 			<Page {...this.props}>
 				<TouchableOpacity onPress={this.props.onRetry} style={styles.container}>
-					<Text style={styles.missing}>{this.props.pageLabel}</Text>
+					<AppText style={styles.missing}>{this.props.pageLabel}</AppText>
 
 					{this.props.onRetry ?
 					<View style={styles.button}>
@@ -55,7 +56,7 @@ export default class PageFailed extends React.Component {
 							style={styles.icon}
 							size={24}
 						/>
-						<Text style={styles.label}>Retry</Text>
+						<AppText style={styles.label}>Retry</AppText>
 					</View> :
 					null
 				}

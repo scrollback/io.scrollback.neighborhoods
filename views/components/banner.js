@@ -1,13 +1,13 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
 import TouchFeedback from "./touch-feedback";
 
 const {
 	StyleSheet,
 	Animated,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
 		paddingVertical: 12
 	},
 	text: {
-		fontSize: 14,
-		lineHeight: 21,
 		color: Colors.white
 	},
 	icon: {
@@ -109,7 +107,7 @@ export default class Banner extends React.Component {
 		return (
 			<Animated.View {...this.props} style={[ styles.banner, styles[this.props.type], { height: this.state.heightAnim }, this.props.style ]}>
 				<View style={styles.textContainer}>
-					<Text style={styles.text} numberOfLines={1}>{this.state.text}</Text>
+					<AppText style={styles.text} numberOfLines={1}>{this.state.text}</AppText>
 				</View>
 				{this.props.showClose ?
 					<TouchFeedback onPress={this._closeBanner.bind(this)}>
