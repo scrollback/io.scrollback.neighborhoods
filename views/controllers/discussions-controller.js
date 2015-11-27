@@ -1,18 +1,19 @@
 import React from "react-native";
 import Discussions from "../components/discussions";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class DiscussionsController extends React.Component {
+class DiscussionsController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ],
+			user: ""
 		};
 	}
 
@@ -25,7 +26,7 @@ export default class DiscussionsController extends React.Component {
 			}
 		});
 
-		InteractionManager.runAfterInteractions(() => {
+		InteractionManager.runAfterInteractions(async () => {
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -38,17 +39,18 @@ export default class DiscussionsController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const time = this.store.get("nav", "threadRange", "time");
-				const before = this.store.get("nav", "threadRange", "before");
-				const after = this.store.get("nav", "threadRange", "after");
+				const time = store.get("nav", "threadRange", "time");
+				const before = store.get("nav", "threadRange", "before");
+				const after = store.get("nav", "threadRange", "after");
 
-				const beforeData = this.store.getThreads(this.props.room, time, -before);
-				const afterData = this.store.getThreads(this.props.room, time, after);
+				const beforeData = store.getThreads(this.props.room, time, -before);
+				const afterData = store.getThreads(this.props.room, time, after);
 
 				afterData.splice(-1, 1);
 
 				this.setState({
-					data: beforeData.concat(afterData).reverse()
+					data: beforeData.concat(afterData).reverse(),
+					user: store.get("user")
 				});
 			}
 		});
@@ -58,7 +60,7 @@ export default class DiscussionsController extends React.Component {
 		this.emit("setstate", {
 			nav: {
 				threadRange: {
-					before: this.store.get("nav", "threadRange", "before") + 20
+					before: store.get("nav", "threadRange", "before") + 20
 				}
 			}
 		});
@@ -78,3 +80,5 @@ export default class DiscussionsController extends React.Component {
 DiscussionsController.propTypes = {
 	room: React.PropTypes.string.isRequired
 };
+
+export default Controller(DiscussionsController);

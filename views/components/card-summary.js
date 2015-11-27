@@ -1,4 +1,5 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import RichText from "./rich-text";
 
 const {
@@ -6,12 +7,14 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	summary: { color: "#999" }
+	summary: {
+		color: Colors.grey
+	}
 });
 
 export default class TextSummary extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.text !== nextProps.text);
+		return this.props.text !== nextProps.text;
 	}
 
 	render() {

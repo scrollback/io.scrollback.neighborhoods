@@ -1,35 +1,35 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
+import CardAuthor from "./card-author";
 import timeUtils from "../../lib/time-utils";
 
 const {
 	StyleSheet,
-	Text,
-	View,
-	TouchableHighlight
+	View
 } = React;
 
 const styles = StyleSheet.create({
 	footer: {
 		flexDirection: "row",
-		marginTop: 4
+		marginTop: 6
 	},
 	left: {
-		flex: 1,
-		flexDirection: "row",
-		alignSelf: "flex-start"
+		flex: 1
 	},
 	right: {
 		flexDirection: "row",
-		alignSelf: "flex-end"
+		justifyContent: "flex-end"
 	},
 	info: {
 		flexDirection: "row",
 		alignItems: "center"
 	},
 	label: {
-		color: "#000",
+		color: Colors.black,
 		fontSize: 12,
+		lineHeight: 18,
 		marginLeft: 8,
 		marginRight: 16,
 		paddingHorizontal: 4
@@ -37,12 +37,8 @@ const styles = StyleSheet.create({
 	action: {
 		fontWeight: "bold"
 	},
-	loved: {
-		color: "#E91E63"
-	},
 	icon: {
-		color: "#000",
-		fontSize: 24
+		color: Colors.black
 	},
 	faded: {
 		opacity: 0.3
@@ -50,54 +46,34 @@ const styles = StyleSheet.create({
 });
 
 export default class DiscussionFooter extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			loved: Math.random() > 0.5,
-			num: Math.round(Math.random() * 10) + 1
-		};
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		return (
-				this.props.thread.updateTime !== nextProps.thread.updateTime ||
-				this.props.thread.length !== nextProps.thread.length ||
-				this.state.loved !== nextState.loved ||
-				this.state.num !== nextState.num
-			);
-	}
-
-	onHeart() {
-		this.setState({
-			loved: !this.state.loved,
-			num: this.state.loved ? (this.state.num - 1) : (this.state.num + 1)
-		});
+			this.props.thread.updateTime !== nextProps.thread.updateTime ||
+			this.props.thread.length !== nextProps.thread.length
+		);
 	}
 
 	render() {
 		return (
 			<View {...this.props} style={[ styles.footer, this.props.style ]}>
-				<View style={styles.left}>
-					<TouchableHighlight
-						underlayColor="#fff"
-						onPress={this.onHeart.bind(this)}
-						style={this.state.loved ? null : styles.faded}
-					>
-						<View style={styles.info}>
-							<Icon name="favorite" style={[ styles.icon, this.state.loved ? styles.loved : null ]} />
-							<Text style={[ styles.label, styles.action, this.state.loved ? styles.loved : null ]}>{this.state.num}</Text>
-						</View>
-					</TouchableHighlight>
-				</View>
+				<CardAuthor nick={this.props.thread.from} style={styles.left} />
+
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
-						<Icon name="history" style={styles.icon} />
-						<Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
+						<Icon
+							name="access-time"
+							style={styles.icon}
+							size={24}
+						/>
+						<AppText style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</AppText>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
-						<Icon name="forum" style={styles.icon} />
-						<Text style={styles.label}>{this.props.thread.length}</Text>
+						<Icon
+							name="forum"
+							style={styles.icon}
+							size={24}
+						/>
+						<AppText style={styles.label}>{this.props.thread.length || 1}</AppText>
 					</View>
 				</View>
 			</View>
@@ -108,6 +84,7 @@ export default class DiscussionFooter extends React.Component {
 DiscussionFooter.propTypes = {
 	thread: React.PropTypes.shape({
 		updateTime: React.PropTypes.number.isRequired,
-		length: React.PropTypes.number.isRequired
+		length: React.PropTypes.number.isRequired,
+		from: React.PropTypes.string.isRequired
 	}).isRequired
 };

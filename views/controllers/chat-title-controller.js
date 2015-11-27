@@ -1,38 +1,36 @@
 import React from "react-native";
 import ChatTitle from "../components/chat-title";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class ChatTitleController extends React.Component {
+class ChatTitleController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			thread: "loading"
+			thread: "missing"
 		};
 	}
 
 	componentDidMount() {
-		setTimeout(() => this._onDataArrived(this.store.getThreadById(this.props.thread)), 0);
-	}
+		this._updateData();
 
-	_onDataArrived(thread) {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({ thread });
+		this.handle("statechange", changes => {
+			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
+				this._updateData();
 			}
 		});
 	}
 
-	_onError() {
+	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					thread: "missing"
+					thread: store.getThreadById(this.props.thread) || "missing"
 				});
 			}
 		});
@@ -46,3 +44,5 @@ export default class ChatTitleController extends React.Component {
 ChatTitleController.propTypes = {
 	thread: React.PropTypes.string.isRequired
 };
+
+export default Controller(ChatTitleController);

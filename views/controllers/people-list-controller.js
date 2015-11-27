@@ -1,32 +1,40 @@
 import React from "react-native";
 import PeopleList from "../components/people-list";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class PeopleListController extends React.Component {
+class PeopleListController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 
 	componentDidMount() {
-		const thread = this.store.getThreadById(this.props.thread);
+		const thread = store.getThreadById(this.props.thread);
 
 		if (thread && thread.concerns) {
-			const users = this.store.getRelatedUsers(thread.to);
-
 			const data = [];
 
-			for (let i = 0, l = users.length; i < l; i++) {
-				if (thread.concerns.indexOf(users[i].id) > -1) {
-					data.push(users[i]);
+			for (let i = 0, l = thread.concerns.length; i < l; i++) {
+				const user = thread.concerns[i];
+				const relation = store.get("entities", thread.to + "_" + user);
+
+				if (relation) {
+					data.push({
+						id: user,
+						status: relation.status
+					});
+				} else {
+					data.push({
+						id: user
+					});
 				}
 			}
 
@@ -48,14 +56,10 @@ export default class PeopleListController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: [ "missing" ]
+					data: [ "failed" ]
 				});
 			}
 		});
-	}
-
-	_refreshData() {
-
 	}
 
 	render() {
@@ -63,7 +67,6 @@ export default class PeopleListController extends React.Component {
 			<PeopleList
 				{...this.props}
 				{...this.state}
-				refreshData={this._refreshData.bind(this)}
 			/>
 		);
 	}
@@ -72,3 +75,5 @@ export default class PeopleListController extends React.Component {
 PeopleListController.propTypes = {
 	thread: React.PropTypes.string.isRequired
 };
+
+export default Controller(PeopleListController);

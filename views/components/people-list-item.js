@@ -1,18 +1,19 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 
 const {
 	StyleSheet,
 	PixelRatio,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
 	item: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	person: {
@@ -20,34 +21,36 @@ const styles = StyleSheet.create({
 		alignItems: "center"
 	},
 	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: "#999",
 		marginHorizontal: 16,
 		marginVertical: 12
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 18
 	},
 	nick: {
 		flex: 1
 	},
+	nickText: {
+		color: Colors.darkGrey
+	},
 	status: {
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 16,
 		paddingHorizontal: 4,
-		color: "#aaa"
+		color: Colors.fadedBlack
 	},
 	online: {
-		color: "#4CAF50",
+		color: Colors.success,
 		fontWeight: "bold"
 	}
 });
 
 export default class PeopleListItem extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.user.id !== nextProps.user.id ||
+			this.props.user.status !== nextProps.user.status
+		);
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -55,20 +58,18 @@ export default class PeopleListItem extends React.Component {
 			<View style={styles.item}>
 				<TouchFeedback>
 					<View style={styles.person}>
-						<View style={styles.avatar}>
-							<Avatar
-								size={36}
-								nick={user.id}
-								style={styles.image}
-							/>
-						</View>
+						<AvatarRound
+							style={styles.avatar}
+							size={36}
+							nick={user.id}
+						/>
 						<View style={styles.nick}>
-							<Text>{user.id}</Text>
+							<AppText style={styles.nickText}>{user.id}</AppText>
 						</View>
 						<View>
-							<Text style={[ styles.status, user.status === "online" ? styles.online : null ]}>
-								{user.status.toUpperCase()}
-							</Text>
+							<AppText style={[ styles.status, user.status === "online" ? styles.online : null ]}>
+								{user.status ? user.status.toUpperCase() : "OFFLINE"}
+							</AppText>
 						</View>
 					</View>
 				</TouchFeedback>
@@ -79,6 +80,7 @@ export default class PeopleListItem extends React.Component {
 
 PeopleListItem.propTypes = {
 	user: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired
+		id: React.PropTypes.string.isRequired,
+		status: React.PropTypes.string.isRequired
 	}).isRequired
 };

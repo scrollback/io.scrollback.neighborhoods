@@ -64,3 +64,15 @@ proguard/
 
 # IDE
 .idea
+
+# Fabric
+fabric.properties
+com_crashlytics_export_strings.xml
+
+# Built files
+index.android.bundle
+index.ios.bundle
+
+# Hey Neighbor
+server-config.js
+client-config.js

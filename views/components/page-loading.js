@@ -1,23 +1,16 @@
 import React from "react-native";
-import Loading from "./loading";
+import LoadingItem from "./loading-item";
 import Page from "./page";
 
-const {
-	StyleSheet
-} = React;
-
-const styles = StyleSheet.create({
-	loading: {
-		height: 36,
-		width: 36
-	}
-});
-
 export default class PageLoading extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<Page {...this.props}>
-				<Loading style={styles.loading} />
+				<LoadingItem />
 			</Page>
 		);
 	}

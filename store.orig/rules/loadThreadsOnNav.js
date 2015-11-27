@@ -6,7 +6,9 @@
 
 /*eslint no-use-before-define:0 */
 "use strict";
+
 var permissionLevels = require("./../../authorizer/permissionWeights.js");
+
 module.exports = function(core, config, store) {
 	core.on('setstate', function(changes) {
 		var future = store.with(changes),
@@ -19,7 +21,9 @@ module.exports = function(core, config, store) {
 			guides = roomObj ? roomObj.guides : {};
 
 
-		if (
+		if (changes.app && changes.app.connectionStatus && store.get("app", "connectionStatus") === "offline" && future.get("app", "connectionStatus") === "online") {
+			updateThreads(future);
+		} else if (
 			(changes.nav && (
 				"room" in changes.nav ||
 				"threadRange" in changes.nav
@@ -61,6 +65,20 @@ module.exports = function(core, config, store) {
 			updatingState.threads[threads.to].push(range);
 
 			core.emit("setstate", updatingState);
+		}
+	}
+
+	function updateThreads(future) {
+		var roomId = future.get("nav", "room");
+
+		const lastThread = store.getThreads(roomId, null, -1)[0];
+
+		if (lastThread && lastThread.startTime) {
+			core.emit("getThreads", {
+				to: roomId,
+				time: lastThread.startTime,
+				after: 100
+			}, threadResponse);
 		}
 	}
 

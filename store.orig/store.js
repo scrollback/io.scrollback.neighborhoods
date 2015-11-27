@@ -1,48 +1,46 @@
-"use strict";
+import permissionWeights from "../authorizer/permissionWeights";
+import userUtils from "../lib/user-utils";
+import objUtils from "../lib/obj-utils";
+import rangeOps from "../lib/range-ops";
 
-var permissionWeights = require("../authorizer/permissionWeights.js"),
-	userUtils = require("../lib/user-utils.js"),
-	objUtils = require("../lib/obj-utils.js"),
-	rangeOps = require("../lib/range-ops.js"),
-	state = {
-		"nav": {
-			"mode": "loading",
-			"view": null,
-			"room": null,
-			"dialog": null,
-			"textRange": {
-				time: null,
-				after: 0,
-				before: 20
-			},
-			"threadRange": {
-				time: null,
-				after: 0,
-				before: 20
-			}
+const state = {
+	nav: {
+		mode: "loading",
+		room: null,
+		textRange: {
+			time: null,
+			after: 0,
+			before: 20
 		},
-		session: "",
-		user: "",
-		notes: [],
-		texts: {},
-		threads: {},
-		entities: {},
-		context: {},
-		app: {
-			listeningRooms: [],
-			connectionStatus: "connecting"
-		},
-		indexes: {
-			threadsById: {},
-			textsById: {},
-			roomUsers: {},
-			userRooms: {}
+		threadRange: {
+			time: null,
+			after: 0,
+			before: 20
 		}
-	};
+	},
+	session: "",
+	user: "",
+	notes: [],
+	texts: {},
+	threads: {},
+	entities: {},
+	context: {},
+	app: {
+		listeningRooms: [],
+		nearByRooms: [],
+		connectionStatus: "connecting"
+	},
+	indexes: {
+		threadsById: {},
+		textsById: {},
+		roomUsers: {},
+		userRooms: {}
+	}
+};
 
 function Store(objs) {
 	// Handle situation where called without "new" keyword
-	if (false === (this instanceof Store)) {
+	if ((this instanceof Store) === false) {
 		throw new Error("Must be initialized before use");
 	}
 
@@ -54,11 +52,10 @@ function Store(objs) {
 	this._objs = objs;
 }
 
-Store.prototype.get = function() {
-	var args = Array.prototype.slice.call(arguments),
-		value, arr;
+Store.prototype.get = function(...args) {
+	let value, arr;
 
-	for (var i = this._objs.length, l = 0; i > l; i--) {
+	for (let i = this._objs.length, l = 0; i > l; i--) {
 		arr = args.slice(0);
 
 		arr.unshift(this._objs[i - 1]);
@@ -72,7 +69,7 @@ Store.prototype.get = function() {
 };
 
 Store.prototype.with = function(obj) {
-	var objs = this._objs.slice(0);
+	const objs = this._objs.slice(0);
 
 	objs.push(obj);
 
@@ -84,7 +81,7 @@ Store.prototype.getEntity = function(id) {
 };
 
 Store.prototype.getUser = function(id) {
-	var userObj = this.getEntity(id || this.get("user"));
+	const userObj = this.getEntity(id || this.get("user"));
 
 	if (typeof userObj === "object") {
 		if (userObj.type === "user") {
@@ -96,7 +93,7 @@ Store.prototype.getUser = function(id) {
 };
 
 Store.prototype.getRoom = function(id) {
-	var roomObj = this.getEntity(id || this.get("nav", "room"));
+	const roomObj = this.getEntity(id || this.get("nav", "room"));
 
 	if (typeof roomObj === "object") {
 		if (roomObj.type === "room") {
@@ -108,9 +105,9 @@ Store.prototype.getRoom = function(id) {
 };
 
 Store.prototype.getTexts = function(roomId, threadId, time, range) {
-	var req = { time: time || null },
-		key = roomId + (threadId ? "_" + threadId : ""),
-		texts = this.get("texts");
+	const req = { time: time || null };
+	const key = roomId + (threadId ? "_" + threadId : "");
+	const texts = this.get("texts");
 
 	if (range < 0) {
 		req.before = range * -1;
@@ -119,15 +116,29 @@ Store.prototype.getTexts = function(roomId, threadId, time, range) {
 	}
 
 	if (!(texts && texts[key])) {
-		return ['missing'];
+		if (this.get("app", "connectionStatus") !== "online") {
+			return [ "failed" ];
+		} else if (!this.isRoomReadable(roomId)) {
+			return [ "banned" ];
+		} else if (this.getRoom(roomId) === "missing") {
+			return [ "nonexistent" ];
+		} else {
+			return [ "missing" ];
+		}
 	}
 
-	return rangeOps.getItems(texts[key], req, "time");
+	let data = rangeOps.getItems(texts[key], req, "time");
+
+	if (!this.isUserAdmin()) {
+		data = data.filter(text => !this.isHidden(text));
+	}
+
+	return data;
 };
 
 Store.prototype.getThreads = function(roomId, time, range) {
-	var req = { startTime: time || null },
-		threads = this.get("threads");
+	const req = { startTime: time || null };
+	const threads = this.get("threads");
 
 	if (range < 0) {
 		req.before = range * -1;
@@ -136,10 +147,24 @@ Store.prototype.getThreads = function(roomId, time, range) {
 	}
 
 	if (!(threads && threads[roomId])) {
-		return ["missing"];
+		if (this.get("app", "connectionStatus") !== "online") {
+			return [ "failed" ];
+		} else if (!this.isRoomReadable(roomId)) {
+			return [ "banned" ];
+		} else if (this.getRoom(roomId) === "missing") {
+			return [ "nonexistent" ];
+		} else {
+			return [ "missing" ];
+		}
 	}
 
-	return rangeOps.getItems(threads[roomId], req, "startTime");
+	let data = rangeOps.getItems(threads[roomId], req, "startTime");
+
+	if (!this.isUserAdmin()) {
+		data = data.filter(thread => !this.isHidden(thread));
+	}
+
+	return data;
 };
 
 Store.prototype.getThreadById = function(threadId) {
@@ -151,16 +176,13 @@ Store.prototype.getTextById = function(threadId) {
 };
 
 Store.prototype.getRelation = function(roomId, userId) {
-	roomId = roomId || this.get("nav", "room");
-	userId = userId || this.get("user");
-
-	return this.get("entities", roomId + "_" + userId);
+	return this.get("entities", (roomId || this.get("nav", "room")) + "_" + (userId || this.get("user")));
 };
 
 Store.prototype.getRelatedRooms = function(id, filter) {
-	var user, relations,
-		rooms = [],
-		self = this;
+	let user, relations;
+
+	const rooms = [];
 
 	if (typeof id === "string") {
 		user = id;
@@ -175,8 +197,8 @@ Store.prototype.getRelatedRooms = function(id, filter) {
 	relations = this.get("indexes", "userRooms", user);
 
 	if (Array.isArray(relations)) {
-		relations.forEach(function(roomRelation) {
-			var roomObj, filterKeys, i;
+		relations.forEach(roomRelation => {
+			let roomObj, filterKeys, i;
 
 			if (filter) {
 				filterKeys = Object.keys(filter);
@@ -187,7 +209,7 @@ Store.prototype.getRelatedRooms = function(id, filter) {
 				}
 			}
 
-			roomObj = self.getRoom(roomRelation.room);
+			roomObj = this.getRoom(roomRelation.room);
 
 			rooms.push(objUtils.merge(objUtils.clone(roomRelation), roomObj));
 		});
@@ -198,9 +220,9 @@ Store.prototype.getRelatedRooms = function(id, filter) {
 };
 
 Store.prototype.getRelatedUsers = function(id, filter) {
-	var roomId, relations,
-		users = [],
-		self = this;
+	let roomId, relations;
+
+	const users = [];
 
 	if (typeof id === "string") {
 		roomId = id;
@@ -215,8 +237,8 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 	relations = this.get("indexes", "roomUsers", roomId);
 
 	if (Array.isArray(relations)) {
-		relations.forEach(function(relation) {
-			var userObj, filterKeys, i;
+		relations.forEach(relation => {
+			let userObj, filterKeys, i;
 
 			if (filter) {
 				filterKeys = Object.keys(filter);
@@ -228,7 +250,7 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 				}
 			}
 
-			userObj = self.getUser(relation.user);
+			userObj = this.getUser(relation.user);
 
 			users.push(objUtils.merge(objUtils.clone(relation), userObj));
 		});
@@ -237,26 +259,12 @@ Store.prototype.getRelatedUsers = function(id, filter) {
 	return users;
 };
 
-Store.prototype.getRecommendedRooms = function getRecommendedRooms() {
-	// TODO: right now no recommended rooms
-	return [];
-};
-
-Store.prototype.getFeaturedRooms = function() {
-	var rooms = this.get("app", "featuredRooms"),
-		self = this;
-
-	if (!rooms) {
-		return [];
-	}
-
-	return rooms.map(function(room) {
-		return self.getRoom(room);
-	});
+Store.prototype.getNearByRooms = function() {
+	return this.get("app", "nearByRooms");
 };
 
 Store.prototype.getUserRole = function(userId, roomId) {
-	var rel, role;
+	let rel, role;
 
 	userId = (typeof userId === "string") ? userId : this.get("user");
 
@@ -277,45 +285,43 @@ Store.prototype.getNotes = function() {
 };
 
 Store.prototype.isUserAdmin = function(userId, roomId) {
-	var rel, role;
+	const role = this.getUserRole(userId, roomId);
 
-	userId = (typeof userId === "string") ? userId : this.get("user");
+	return permissionWeights[role] >= permissionWeights.moderator;
+};
 
-	rel = this.getRelation(roomId, userId);
+Store.prototype.isUserBanned = function(userId, roomId) {
+	const role = this.getUserRole(userId, roomId);
 
-	if (rel && rel.role && rel.role !== "none") {
-		role = rel.role;
-	} else {
-		role = (!userId || userUtils.isGuest(userId)) ? "guest" : "registered";
-	}
-
-	return role;
+	return permissionWeights[role] <= permissionWeights.banned;
 };
 
 Store.prototype.isRoomReadable = function(roomId, userId) {
-	var roomObj = this.getRoom(roomId),
-		readLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
-					 roomObj.guides.authorizer.readLevel) ? roomObj.guides.authorizer.readLevel : "guest";
+	const roomObj = this.getRoom(roomId);
+	const readLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
+						roomObj.guides.authorizer.readLevel) ? roomObj.guides.authorizer.readLevel : "guest";
 
 	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[readLevel]);
 };
 
-Store.prototype.isRoomWritable = function(roomId, userId) {
-	var roomObj = this.getRoom(roomId),
-		writeLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
-					  roomObj.guides.authorizer.writeLevel) ? roomObj.guides.authorizer.writeLevel : "guest";
+Store.prototype.isHidden = function(text) {
+	const { tags } = text;
 
-	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[writeLevel]);
+	if (Array.isArray(tags) && (tags.indexOf("thread-hidden") > -1 || tags.indexOf("hidden") > -1 || tags.indexOf("abusive") > -1)) {
+		return true;
+	}
+
+	return false;
 };
 
 module.exports = function(core, config) {
-	var store = new Store([ state ]);
+	const store = new Store([ state ]);
 
-	require("./state-manager.js")(core, config, store, state);
-	require("./action-handler.js")(core, config, store, state);
-	require("./rule-manager.js")(core, config, store, state);
-	require("./socket.js")(core, config, store, state);
-	require("./session-manager.js")(core, config, store, state);
+	require("./state-manager")(core, config, store, state);
+	require("./action-handler")(core, config, store, state);
+	require("./rule-manager")(core, config, store, state);
+	require("./socket")(core, config, store, state);
+	require("./session-manager")(core, config, store, state);
 
 	return store;
 };

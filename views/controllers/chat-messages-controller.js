@@ -1,18 +1,19 @@
 import React from "react-native";
 import ChatMessages from "../components/chat-messages";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
+import textUtils from "../../lib/text-utils";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class ChatMessagesController extends React.Component {
+class ChatMessagesController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 
@@ -39,12 +40,12 @@ export default class ChatMessagesController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const time = this.store.get("nav", "textRange", "time");
-				const before = this.store.get("nav", "textRange", "before");
-				const after = this.store.get("nav", "textRange", "after");
+				const time = store.get("nav", "textRange", "time");
+				const before = store.get("nav", "textRange", "before");
+				const after = store.get("nav", "textRange", "after");
 
-				const beforeData = this.store.getTexts(this.props.room, this.props.thread, time, -before);
-				const afterData = this.store.getTexts(this.props.room, this.props.thread, time, after);
+				const beforeData = store.getTexts(this.props.room, this.props.thread, time, -before);
+				const afterData = store.getTexts(this.props.room, this.props.thread, time, after);
 
 				afterData.splice(-1, 1);
 
@@ -57,16 +58,18 @@ export default class ChatMessagesController extends React.Component {
 					if (typeof text === "string") {
 						data.push(text);
 					} else {
+						const previousText = mergedData[i - 1];
+
 						data.push({
 							text,
-							previousText: mergedData[i + 1]
+							textMetadata: textUtils.getMetadata(text.text),
+							previousText: typeof previousText === "object" ? previousText : null
 						});
 					}
 				}
 
 				this.setState({
-					data,
-					user: this.store.get("user")
+					data
 				});
 			}
 		});
@@ -76,7 +79,7 @@ export default class ChatMessagesController extends React.Component {
 		this.emit("setstate", {
 			nav: {
 				textRange: {
-					before: this.store.get("nav", "textRange", "before") + 20
+					before: store.get("nav", "textRange", "before") + 20
 				}
 			}
 		});
@@ -97,3 +100,5 @@ ChatMessagesController.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired
 };
+
+export default Controller(ChatMessagesController);

@@ -1,23 +1,25 @@
-import NotificationIconController from "../controllers/notification-icon-controller";
+import NotificationIcon from "../components/notification-icon";
 import ChatController from "../controllers/chat-controller";
 import ChatTitleController from "../controllers/chat-title-controller";
 import RoomTitleController from "../controllers/room-title-controller";
 import DiscussionsController from "../controllers/discussions-controller";
-import NotificationCenterController from "../controllers/notification-center-controller.js";
+import NotificationCenterController from "../controllers/notification-center-controller";
+import NotificationClearIconController from "../controllers/notification-clear-icon-controller";
 import PeopleListController from "../controllers/people-list-controller";
 import UserIconController from "../controllers/user-icon-controller";
 import LocalitiesController from "../controllers/localities-controller";
 import AccountController from "../controllers/account-controller";
 import SignInController from "../controllers/sign-in-controller";
 import StartDiscussionController from "../controllers/start-discussion-controller";
+import config from "../../store/config";
 
 const routes = {};
 
 routes.home = () => {
 	return {
-		title: "Hey, Neighbor!",
+		title: config.app_name,
 		leftComponent: UserIconController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: LocalitiesController,
 		index: 0
 	};
@@ -26,7 +28,7 @@ routes.home = () => {
 routes.chat = props => {
 	return {
 		titleComponent: ChatTitleController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: ChatController,
 		passProps: props
 	};
@@ -43,7 +45,7 @@ routes.people = props => {
 routes.room = props => {
 	return {
 		titleComponent: RoomTitleController,
-		rightComponent: NotificationIconController,
+		rightComponent: NotificationIcon,
 		component: DiscussionsController,
 		passProps: props
 	};
@@ -52,7 +54,8 @@ routes.room = props => {
 routes.notes = () => {
 	return {
 		title: "Notifications",
-		component: NotificationCenterController
+		component: NotificationCenterController,
+		rightComponent: NotificationClearIconController
 	};
 };
 
@@ -80,18 +83,37 @@ routes.startthread = props => {
 };
 
 routes.fromURL = url => {
-	const parts = url.replace(/^\/|\/$/g, "").split("/");
+	const parts = url
+					.replace(/^([a-z]+\:)?\/\/[^\/]+/, "") // strip host and protocol
+					.replace(/\?[^\?]+/, "") // strip query params for now, as we don't use it right now
+					.replace(/^\/|\/$/g, "") // strip leading and trailing slash
+					.split("/");
+
+	const room = parts[0];
+	const thread = parts[1];
 
 	switch (parts.length) {
+	case 0:
+		return routes.home();
 	case 1:
-		return routes.room({ room: parts[0] });
-	case 2:
-		return routes.chat({
-			room: parts[1],
-			thread: parts[1]
+		if (room === "me") {
+			return routes.home();
+		}
+
+		return routes.room({
+			room
 		});
 	default:
-		return routes.home();
+		if (thread === "all") {
+			return routes.room({
+				room
+			});
+		}
+
+		return routes.chat({
+			room,
+			thread
+		});
 	}
 };
 

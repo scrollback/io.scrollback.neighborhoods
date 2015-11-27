@@ -2,40 +2,57 @@ import React from "react-native";
 import App from "../components/app";
 import Linking from "../../modules/linking";
 import routes from "../utils/routes";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
-@controller
-export default class AppController extends React.Component {
+class AppController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			user: "loading",
+			user: "missing",
+			connectionStatus: "connecting",
 			initialRoute: null
 		};
 	}
 
 	componentWillMount() {
-		Linking.getInitialURL(url => {
-			if (url) {
-				this.setState({
-					initialRoute: routes.fromURL(url)
-				});
-			}
-		});
+		this._setInitialRoute();
 
 		this.handle("statechange", changes => {
-			if (changes && changes.user) {
-				const user = this.store.get("user");
+			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
+				const user = store.get("user");
+				const connectionStatus = store.get("app", "connectionStatus") || "conn";
 
-				if (user !== this.state.user && this._mounted) {
-					this.setState({ user });
+				if (this._mounted) {
+					if (user && user !== this.state.user) {
+						this.setState({
+							user,
+							connectionStatus
+						});
+					} else if (connectionStatus !== this.state.connectionStatus) {
+						this.setState({
+							connectionStatus
+						});
+					}
 				}
 			}
 		});
+	}
+
+	async _setInitialRoute() {
+		const url = await Linking.getInitialURL();
+
+		if (url) {
+			this.setState({
+				initialRoute: routes.fromURL(url)
+			});
+		}
 	}
 
 	render() {
 		return <App {...this.props} {...this.state} />;
 	}
 }
+
+export default Controller(AppController);

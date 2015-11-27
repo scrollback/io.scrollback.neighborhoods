@@ -1,57 +1,51 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
-import Avatar from "./avatar";
+import PageFailed from "./page-failed";
+import AvatarRound from "./avatar-round";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
+import AccountPhotoChooser from "./account-photo-chooser";
 import TouchFeedback from "./touch-feedback";
+import PushNotification from "../../modules/push-notification";
+import routes from "../utils/routes";
 import debounce from "../../lib/debounce";
 
 const {
 	StyleSheet,
+	ScrollView,
 	View,
-	Text,
-	SwitchAndroid,
-	PixelRatio
+	Switch,
+	PixelRatio,
+	TouchableOpacity
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		backgroundColor: "#fff"
-	},
-	avatar: {
-		height: 48,
-		width: 48,
-		borderRadius: 24,
-		backgroundColor: "#999"
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 24
-	},
 	info: {
 		flex: 1,
 		marginLeft: 16
 	},
 	nick: {
-		fontWeight: "bold",
-		lineHeight: 21
+		color: Colors.darkGrey,
+		fontWeight: "bold"
 	},
 	email: {
 		fontSize: 12,
 		lineHeight: 18
 	},
 	settings: {
-		alignItems: "stretch"
+		alignItems: "stretch",
+		backgroundColor: Colors.white
 	},
 	inputContainer: {
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		paddingVertical: 8
 	},
 	inputLabelText: {
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 16
 	},
 	input: {
@@ -60,7 +54,7 @@ const styles = StyleSheet.create({
 	item: {
 		flexDirection: "row",
 		alignItems: "center",
-		borderColor: "rgba(0, 0, 0, .08)",
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		padding: 16
 	},
@@ -68,13 +62,11 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	itemText: {
-		color: "#333",
-		fontSize: 16,
-		lineHeight: 24
+		color: Colors.darkGrey
 	},
 	itemValueText: {
-		fontSize: 14,
-		lineHeight: 21
+		fontSize: 12,
+		lineHeight: 18
 	},
 	dropdown: {
 		height: 24,
@@ -87,6 +79,29 @@ export default class Account extends React.Component {
 		super(props);
 
 		this._saveUserDebounced = debounce(this.props.saveUser, 1000);
+		this._pushNotificationEnabledKey = "enabled";
+
+		this.state = {
+			pushNotificationEnabled: true
+		};
+	}
+
+	componentWillMount() {
+		this._updatePushNotificationValue();
+	}
+
+	async _updatePushNotificationValue() {
+		let value = true;
+
+		try {
+			value = await PushNotification.getPreference(this._pushNotificationEnabledKey);
+		} catch (e) {
+			// Ignore
+		}
+
+		this.setState({
+			pushNotificationEnabled: value !== "false"
+		});
 	}
 
 	_onStatusChange(e) {
@@ -98,17 +113,11 @@ export default class Account extends React.Component {
 	}
 
 	_onPushNotificationChange(value) {
-		const user = Object.assign({}, this.props.user);
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
 
-		const params = user.params ? Object.assign({}, user.params) : {};
-		const notifications = params.notifications ? Object.assign({}, params.notifications) : {};
-
-		notifications.push = value;
-
-		params.notifications = notifications;
-		user.params = params;
-
-		this.props.saveUser(user);
+		this.setState({
+			pushNotificationEnabled: value
+		});
 	}
 
 	_onEmailNotificationChange(value) {
@@ -147,37 +156,65 @@ export default class Account extends React.Component {
 		);
 	}
 
+	_signOut() {
+		this.props.signOut();
+	}
+
+	_reportIssue() {
+		this.props.navigator.push(routes.room({ room: "support" }));
+	}
+
+	_choosePhoto() {
+		const photos = this.props.user.params.pictures;
+
+		if (photos && photos.length > 2) {
+			Modal.renderModal(
+				<AccountPhotoChooser
+					photos={photos}
+					onSelect={uri => {
+						const user = Object.assign({}, this.props.user);
+
+						user.picture = uri;
+
+						this.props.saveUser(user);
+
+						Modal.renderComponent(null);
+					}}
+				/>
+			);
+		}
+	}
+
 	render() {
 		const { user } = this.props;
 
 		return (
-			<View {...this.props} style={[ styles.container, this.props.style ]}>
+			<View {...this.props}>
 				{(() => {
-					if (this.props.user === "loading") {
+					if (this.props.user === "missing") {
 						return <PageLoading />;
 					}
 
-					if (this.props.user === "missing") {
-						return <PageRetry />;
+					if (this.props.user === "failed") {
+						return <PageFailed pageLabel="Failed to load account" />;
 					}
 
 					return (
-						<View style={styles.settings}>
-							<View style={styles.item}>
-								<View style={styles.avatar}>
-									<Avatar
+						<ScrollView contentContainerStyle={styles.settings}>
+							<TouchableOpacity onPress={this._choosePhoto.bind(this)}>
+								<View style={styles.item}>
+									<AvatarRound
 										size={48}
 										nick={user.id}
-										style={styles.image}
 									/>
+									<View style={styles.info}>
+										<AppText style={styles.nick}>{user.id}</AppText>
+										<AppText style={styles.email}>{user.identities[0].slice(7)}</AppText>
+									</View>
 								</View>
-								<View style={styles.info}>
-									<Text style={styles.nick}>{user.id}</Text>
-									<Text style={styles.email}>{user.identities[0].slice(7)}</Text>
-								</View>
-							</View>
+							</TouchableOpacity>
 							<View style={styles.inputContainer}>
-								<Text style={styles.inputLabelText}>Status message</Text>
+								<AppText style={styles.inputLabelText}>Status message</AppText>
 								<GrowingTextInput
 									style={styles.input}
 									defaultValue={user.description}
@@ -189,18 +226,18 @@ export default class Account extends React.Component {
 							</View>
 							<View style={styles.item}>
 								<View style={styles.itemLabel}>
-									<Text style={styles.itemText}>Push notifications</Text>
+									<AppText style={styles.itemText}>Push notifications</AppText>
 								</View>
-								<SwitchAndroid
-									value={user.params && user.params.notifications ? user.params.notifications.push !== false : false}
+								<Switch
+									value={this.state.pushNotificationEnabled}
 									onValueChange={this._onPushNotificationChange.bind(this)}
 								/>
 							</View>
 							<View style={styles.item}>
 								<View style={styles.itemLabel}>
-									<Text style={styles.itemText}>Mention notifications via email</Text>
+									<AppText style={styles.itemText}>Mention notifications via email</AppText>
 								</View>
-								<SwitchAndroid
+								<Switch
 									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
 									onValueChange={this._onEmailNotificationChange.bind(this)}
 								/>
@@ -208,17 +245,31 @@ export default class Account extends React.Component {
 							<TouchFeedback onPress={this._selectFrequency.bind(this)}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
-										<Text style={styles.itemText}>Email digest frequency</Text>
-										<Text style={styles.itemValueText}>
+										<AppText style={styles.itemText}>Email digest frequency</AppText>
+										<AppText style={styles.itemValueText}>
 											{user.params && user.params.email && user.params.email.frequency ?
 												user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
 												"Daily"
 											}
-										</Text>
+										</AppText>
 									</View>
 								</View>
 							</TouchFeedback>
-						</View>
+							<TouchFeedback onPress={this._reportIssue.bind(this)}>
+								<View style={styles.item}>
+									<View style={styles.itemLabel}>
+										<AppText style={styles.itemText}>Report an issue</AppText>
+									</View>
+								</View>
+							</TouchFeedback>
+							<TouchFeedback onPress={this._signOut.bind(this)}>
+								<View style={styles.item}>
+									<View style={styles.itemLabel}>
+										<AppText style={styles.itemText}>Sign out</AppText>
+									</View>
+								</View>
+							</TouchFeedback>
+						</ScrollView>
 					);
 				})()}
 			</View>
@@ -228,10 +279,12 @@ export default class Account extends React.Component {
 
 Account.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
 	]).isRequired,
-	saveUser: React.PropTypes.func.isRequired
+	saveUser: React.PropTypes.func.isRequired,
+	signOut: React.PropTypes.func.isRequired,
+	navigator: React.PropTypes.object.isRequired
 };

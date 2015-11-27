@@ -1,97 +1,126 @@
-/* global fetch */
-
 import React from "react-native";
-import Icon from "./icon";
+import link from "./link";
 import Loading from "./loading";
-import Linking from "../../modules/linking";
+import { fetchData } from "../../oembed/oembed";
+import EmbedVideo from "./embedvideo";
+import EmbedTitle from "./embedtitle";
+import EmbedSummary from "./embedsummary";
 
 const {
 	StyleSheet,
-	View,
-	Image,
-	TouchableHighlight
+	Text,
+	View
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		height: 240
-	},
 	overlay: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center"
 	},
 	progress: {
-		height: 36,
-		width: 36
-	},
-	thumbnailContainer: { flex: 1 },
-	thumbnail: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	play: {
-		backgroundColor: "rgba(0, 0, 0, .7)",
-		color: "#fff",
-		fontSize: 64,
-		borderRadius: 32
+		height: 24,
+		width: 24
 	}
 });
 
+
 export default class Embed extends React.Component {
+
 	constructor(props) {
 		super(props);
-
-		this.state = {};
+		this.state = {
+			url:"",
+			embed:null
+		};
 	}
 
-	componentDidMount() {
-		this._mounted = true;
 
-		fetch(this.props.endpoint)
-			.then(response => response.json())
-			.then(embed => {
-				if (this._mounted) {
-					this.setState({ embed }); // eslint-disable-line react/no-did-mount-set-state
+	_parseUrl(){
+		const text = this.props.text.replace(/(\r\n|\n|\r)/g, " ");
+
+		const word = text.split(" ");
+		var uri;
+		for(var index in word){
+			uri = link.buildLink(word[index]);
+			if(uri){
+				if(/^https?:\/\//i.test(uri)){
+					return uri;
 				}
-			});
+			}
+		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			this.state.embed !== nextState.embed ||
+			this.state.url !== nextState.url
+		);
+	}
+
+	componentDidMount(){
+		this._mounted = true;
+		this._fetchEmbedData();
 	}
 
 	componentWillUnmount() {
 		this._mounted = false;
 	}
 
-	onPress() {
-		Linking.openURL(this.props.uri);
+	async _fetchEmbedData(){
+		const url = await this._parseUrl();
+		const embed = await fetchData(url);
+		if(this._mounted){
+			this.setState({
+				url,
+				embed
+			});
+		}
 	}
 
-	render() {
-		const { embed } = this.state;
 
+	render(){
+		const { url, embed } = this.state;
 		return (
-			<View {...this.props}>
-				{embed && embed.thumbnail_url ?
-					(<TouchableHighlight onPress={this.onPress.bind(this)}>
-						<View style={styles.container}>
-							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
-								{embed.type === "video" ?
-									<Icon name="play-arrow" style={styles.play} /> :
-									null
-								}
-							</Image>
+			<View>
+				{embed ? 
+					(
+						<View>{typeof embed !== "string" ?
+							(
+								<View>
+									{this.props.chatItem === "true"?
+										(
+											<View>
+												<EmbedVideo embed={embed} style={this.props.style} url={url}/>
+												<EmbedTitle embed={embed} />
+												<EmbedSummary embed={embed} />
+											</View>
+										):
+										(
+											<View>
+												{embed.thumbnail_url?
+													<EmbedVideo embed={embed} style={this.props.style} url={url}/>:
+													(<View><EmbedTitle embed={embed} />
+													<EmbedSummary embed={embed} /></View>)
+												}
+											</View>
+										)
+									}
+								</View>
+							):
+							(
+								<Text>{embed}</Text>
+							)}
 						</View>
-					</TouchableHighlight>) :
-					(<View style={styles.overlay}>
-						<Loading style={styles.progress} />
-					</View>)
-				}
+					):
+					(
+						<View style={styles.overlay}>
+							<Loading style={styles.progress} />
+						</View>
+					)
+			 	}
 			</View>
 		);
 	}
 }
 
-Embed.propTypes = {
-	uri: React.PropTypes.string.isRequired,
-	endpoint: React.PropTypes.string.isRequired
-};

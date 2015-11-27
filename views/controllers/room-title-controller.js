@@ -1,20 +1,22 @@
 import React from "react-native";
 import RoomTitle from "../components/room-title";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class RoomTitleController extends React.Component {
+class RoomTitleController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		const displayName = this.props.room.replace(/-+/g, " ").replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim();
 
 		this.state = {
-			room: { displayName }
+			room: {
+				guides: { displayName }
+			}
 		};
 	}
 
@@ -31,9 +33,9 @@ export default class RoomTitleController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const room = this.store.getRoom(this.props.room);
+				const room = store.getRoom(this.props.room);
 
-				if (room.displayName) {
+				if (room.guides && room.guides.displayName) {
 					this.setState({ room });
 				}
 			}
@@ -48,3 +50,5 @@ export default class RoomTitleController extends React.Component {
 RoomTitleController.propTypes = {
 	room: React.PropTypes.string.isRequired
 };
+
+export default Controller(RoomTitleController);

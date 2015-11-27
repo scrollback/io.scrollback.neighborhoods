@@ -1,6 +1,8 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
-import Avatar from "./avatar";
+import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
 import timeUtils from "../../lib/time-utils";
@@ -8,68 +10,77 @@ import timeUtils from "../../lib/time-utils";
 const {
 	StyleSheet,
 	View,
-	Text,
 	TouchableHighlight,
 	PixelRatio
 } = React;
 
 const styles = StyleSheet.create({
 	item: {
-		backgroundColor: "#fff",
-		borderColor: "rgba(0, 0, 0, .08)",
+		backgroundColor: Colors.white,
+		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	note: {
 		flexDirection: "row"
 	},
-	avatar: {
-		height: 36,
-		width: 36,
-		borderRadius: 18,
-		backgroundColor: "#999",
-		marginHorizontal: 16,
-		marginVertical: 12
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 18
+	avatarContainer: {
+		margin: 16
 	},
 	content: {
 		flex: 1,
-		marginVertical: 8
+		marginVertical: 12
 	},
 	title: {
-		lineHeight: 21,
-		color: "#888"
+		color: Colors.grey
 	},
 	summary: {
-		lineHeight: 18,
 		fontSize: 12,
-		color: "#888"
+		lineHeight: 18,
+		color: Colors.grey
 	},
 	strong: {
-		color: "#555"
+		color: Colors.darkGrey
 	},
 	timestampContainer: {
-		flexDirection: "row"
+		flexDirection: "row",
+		marginTop: 4
 	},
 	timestamp: {
 		fontSize: 11,
-		marginVertical: 2,
-		color: "#aaa",
+		color: Colors.black,
 		marginLeft: 4,
-		paddingHorizontal: 4
-	},
-	icon: {
-		fontSize: 12,
-		color: "#000",
-		marginVertical: 4,
+		paddingHorizontal: 4,
 		opacity: 0.3
 	},
+	icon: {
+		color: Colors.black,
+		opacity: 0.3
+	},
+	metaIcon: {
+		marginVertical: 2
+	},
 	close: {
-		paddingVertical: 12,
-		paddingHorizontal: 16
+		margin: 14
+	},
+	closeButton: {
+		borderRadius: 22,
+		margin: 2
+	},
+	badge: {
+		position: "absolute",
+		alignItems: "center",
+		bottom: -1,
+		right: -1,
+		height: 15,
+		width: 15,
+		borderRadius: 8,
+		borderColor: Colors.white,
+		borderWidth: 1
+	},
+	badgeIcon: {
+		marginVertical: 1,
+		textAlign: "center",
+		color: Colors.white
 	}
 });
 
@@ -89,8 +100,6 @@ export default class NotificationCenterItem extends React.Component {
 	}
 
 	_getSummary(note) {
-		const max = 3;
-
 		const { noteData, noteType, count } = note;
 
 		const room = this._getRoom(this.props.note);
@@ -99,58 +108,88 @@ export default class NotificationCenterItem extends React.Component {
 
 		switch (noteType) {
 		case "mention":
-			if (count > max) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new mentions in");
+			if (count > 1) {
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new mentions in");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " mentioned you in");
 			}
 
 			if (noteData.title) {
-				summary.push(" ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+				summary.push(" ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" - ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" - ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		case "reply":
-			if (count > max) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new replies");
+			if (count > 1) {
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new replies");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " replied");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " replied");
 			}
 
 			if (noteData.title) {
-				summary.push(" to ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+				summary.push(" to ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		case "thread":
-			if (count > max) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new discussions");
+			if (count > 1) {
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new discussions");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " started a discussion");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " started a discussion");
 
 				if (noteData.title) {
-					summary.push(" on ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+					summary.push(" on ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 				}
 			}
 
-			summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		default:
-			if (count > max) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new notifications");
+			if (count > 1) {
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new notifications");
 			} else {
-				summary.push("New notification from ", <Text key={1} style={styles.strong}>{noteData.from}</Text>);
+				summary.push("New notification from ", <AppText key={1} style={styles.strong}>{noteData.from}</AppText>);
 			}
 
-			summary.push(" in ", <Text key={2} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={2} style={styles.strong}>{room}</AppText>);
 		}
 
 		return summary;
+	}
+
+	_getIconColor() {
+		const { note } = this.props;
+
+		switch (note.noteType) {
+		case "mention":
+			return "#ff5722";
+		case "reply":
+			return "#2196F3";
+		case "thread":
+			return "#009688";
+		default:
+			return "#673ab7";
+		}
+	}
+
+	_getIconName() {
+		const { note } = this.props;
+
+		switch (note.noteType) {
+		case "mention":
+			return "person";
+		case "reply":
+			return "reply";
+		case "thread":
+			return "create";
+		default:
+			return "notifications";
+		}
 	}
 
 	_onPress() {
@@ -162,11 +201,21 @@ export default class NotificationCenterItem extends React.Component {
 		switch (note.noteType) {
 		case "mention":
 		case "reply":
-		case "thread":
 			navigator.push(routes.chat({
 				thread,
 				room
 			}));
+
+			break;
+		case "thread":
+			if (note.count > 1) {
+				navigator.push(routes.room({ room }));
+			} else {
+				navigator.push(routes.chat({
+					thread: note.ref,
+					room
+				}));
+			}
 
 			break;
 		default:
@@ -185,31 +234,49 @@ export default class NotificationCenterItem extends React.Component {
 			<View style={styles.item}>
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.note}>
-						<View style={styles.avatar}>
-							<Avatar
-								size={36}
+						<View style={styles.avatarContainer}>
+							<AvatarRound
 								nick={note.noteData.from}
-								style={styles.image}
+								size={36}
 							/>
+							<View style={[ styles.badge, { backgroundColor: this._getIconColor() } ]}>
+								<Icon
+									name={this._getIconName()}
+									style={styles.badgeIcon}
+									size={10}
+								/>
+							</View>
 						</View>
 						<View style={styles.content}>
 							<View>
-								<Text numberOfLines={5} style={styles.title} >{this._getSummary(note)}</Text>
+								<AppText numberOfLines={5} style={styles.title} >{this._getSummary(note)}</AppText>
 							</View>
 							<View>
-								<Text numberOfLines={1} style={styles.summary} >{note.noteData.text}</Text>
+								<AppText numberOfLines={1} style={styles.summary} >{note.noteData.text}</AppText>
 							</View>
 							<View style={styles.timestampContainer}>
-								<Icon name="access-time" style={styles.icon} />
-								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
+								<Icon
+									name="access-time"
+									style={[ styles.icon, styles.metaIcon ]}
+									size={12}
+								/>
+								<AppText style={styles.timestamp}>{timeUtils.long(note.time)}</AppText>
 							</View>
 						</View>
-						<TouchableHighlight underlayColor="rgba(0, 0, 0, .08)" onPress={this._onDismiss.bind(this)}>
-							<View style={styles.close}>
-								<Icon name="close" style={styles.icon} />
-							</View>
-						</TouchableHighlight>
-					</View>
+							<TouchableHighlight
+								style={styles.closeButton}
+								underlayColor={Colors.underlay}
+								onPress={this._onDismiss.bind(this)}
+							>
+								<View style={styles.close}>
+									<Icon
+										name="close"
+										style={styles.icon}
+										size={16}
+									/>
+								</View>
+							</TouchableHighlight>
+						</View>
 				</TouchFeedback>
 			</View>
 		);

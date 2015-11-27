@@ -1,6 +1,7 @@
 import React from "react-native";
 import LocalitiesBase from "./localities-base";
 import SearchButton from "./search-button";
+import BannerOfflineController from "../controllers/banner-offline-controller";
 
 const {
 	StyleSheet,
@@ -17,8 +18,9 @@ export default class Localities extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
+				<BannerOfflineController />
 				<SearchButton navigator={this.props.navigator} />
-				<LocalitiesBase {...this.props} />
+				<LocalitiesBase {...this.props} pageEmptyLabel="You've not joined any communities" />
 			</View>
 		);
 	}

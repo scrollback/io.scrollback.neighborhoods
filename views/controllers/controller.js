@@ -1,13 +1,8 @@
 import core from "../../store/core";
-import store from "../../store/store";
+import actions from "../../store/actions";
 
-// Decorator for controllers
 export default function(Target) {
-	return class extends Target {
-		get store() {
-			return store;
-		}
-
+	class Controller extends Target {
 		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {
 				super.componentDidMount();
@@ -50,68 +45,31 @@ export default function(Target) {
 		}
 
 		emit(...args) {
-			core.emit(...args);
+			if (typeof super.emit === "function") {
+				return super.emit(...args);
+			}
+
+			return actions.emit(...args);
 		}
 
-		query(type, params = {}, ...rest) {
+		query(...args) {
 			if (typeof super.query === "function") {
-				return super.query(type, params, ...rest);
+				return super.query(...args);
 			}
 
-			return new Promise((resolve, reject) => {
-				core.emit(type, params, (err, res) => {
-					if (err) {
-						reject(err);
-					} else {
-						resolve(res);
-					}
-				});
-			});
+			return actions.query(...args);
 		}
 
-		dispatch(name, params = {}, prio = 1, ...rest) {
+		dispatch(...args) {
 			if (typeof super.dispatch === "function") {
-				return super.dispatch(name, params, prio, ...rest);
+				return super.dispatch(...args);
 			}
 
-			return new Promise((resolve, reject) => {
-				const down = name + "-dn";
-
-				let id;
-
-				function cleanUp() {
-
-					/* eslint-disable no-use-before-define */
-					core.off(down, onSuccess);
-					core.off("error-dn", onError);
-				}
-
-				function onSuccess(action) {
-					if (id === action.id) {
-						resolve(action);
-						cleanUp();
-					}
-				}
-
-				function onError(error) {
-					if (id === error.id) {
-						reject(error);
-						cleanUp();
-					}
-				}
-
-				core.on(down, onSuccess, prio);
-				core.on("error-dn", onError, prio);
-
-				core.emit(name + "-up", params, (err, action) => {
-					id = action.id;
-
-					if (err) {
-						reject(err);
-						cleanUp();
-					}
-				});
-			});
+			return actions.dispatch(...args);
 		}
-	};
+	}
+
+	Controller.displayName = Target.name;
+
+	return Controller;
 }

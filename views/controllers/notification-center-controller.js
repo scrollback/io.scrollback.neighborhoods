@@ -1,18 +1,18 @@
 import React from "react-native";
 import NotificationCenter from "../components/notification-center";
-import controller from "./controller";
+import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class NotificationCenterController extends React.Component {
+class NotificationCenterController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			data: [ "loading" ]
+			data: [ "missing" ]
 		};
 	}
 
@@ -38,7 +38,7 @@ export default class NotificationCenterController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					data: this.store.getNotes()
+					data: store.getNotes()
 				});
 			}
 		});
@@ -54,3 +54,5 @@ export default class NotificationCenterController extends React.Component {
 		);
 	}
 }
+
+export default Controller(NotificationCenterController);

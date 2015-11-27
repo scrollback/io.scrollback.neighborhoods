@@ -1,19 +1,21 @@
 import React from "react-native";
 import LocalitiesFiltered from "../components/localities-filtered";
+import Geolocation from "../../modules/geolocation";
 import debounce from "../../lib/debounce";
-import controller from "./controller";
+import Controller from "./controller";
 
 const {
 	InteractionManager
 } = React;
 
-@controller
-export default class LocalitiesFilterController extends React.Component {
+class LocalitiesFilteredController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			data: []
+			data: {
+				results: []
+			}
 		};
 
 		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
@@ -21,47 +23,71 @@ export default class LocalitiesFilterController extends React.Component {
 		this._cachedResults = {};
 	}
 
-	_fetchMatchingRoomsImmediate(filter) {
-		this.query("getRooms", { ref: filter + "*" }).then(res => {
-			const data = res.results || [];
+	async _fetchMatchingRoomsImmediate(filter) {
+		const opts = { ref: filter + "*" };
 
-			this._cachedResults[filter] = data;
+		try {
+			const position = await Geolocation.getCurrentPosition();
+			const { latitude: lat, longitude: lon } = position.coords;
 
-			if (filter !== this.state.filter) {
-				return;
-			}
+			opts.location = {
+				lat,
+				lon
+			};
+		} catch (e) {
+			// Ignore
+		}
 
-			this._onDataArrived(data);
+		const data = await this.query("getRooms", opts) || [];
+
+		this._cachedResults[filter] = data;
+
+		if (filter !== this.state.filter) {
+			return;
+		}
+
+		this._onDataArrived(data);
+	}
+
+	_onDataArrived(results) {
+		this.setState({
+			data: { results }
 		});
 	}
 
-	_onDataArrived(data) {
-		this.setState({ data });
-	}
+	_onSearchChange(text) {
+		const filter = text.toLowerCase();
 
-	_onSearchChange(filter) {
 		if (filter) {
 			InteractionManager.runAfterInteractions(() => {
 				if (this._mounted) {
 					if (this._cachedResults[filter]) {
 						this.setState({
 							filter,
-							data: this._cachedResults[filter]
+							data: {
+								results: this._cachedResults[filter]
+							}
 						});
 					} else {
 						this.setState({
 							filter,
-							data: [ "loading" ]
+							data: {
+								results: [ "missing" ]
+							}
 						});
 					}
 				}
 			});
 
-			this._fetchMatchingRooms(filter);
+			if (!this._cachedResults[filter]) {
+				this._fetchMatchingRooms(filter);
+			}
 		} else {
 			this.setState({
 				filter,
-				data: []
+				data: {
+					results: []
+				}
 			});
 		}
 	}
@@ -77,6 +103,4 @@ export default class LocalitiesFilterController extends React.Component {
 	}
 }
 
-LocalitiesFilterController.propTypes = {
-	filter: React.PropTypes.string
-};
+export default Controller(LocalitiesFilteredController);

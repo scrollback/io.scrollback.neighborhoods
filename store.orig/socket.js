@@ -1,5 +1,4 @@
 /* eslint-env browser */
-
 "use strict";
 
 var eio = require("engine.io-client/engine.io"),
@@ -125,17 +124,18 @@ function disconnected() {
 			if (err) console.log(err.message);
 		});
 	}
+
 	if (backOff < 180) {
 		backOff *= 2;
 	} else {
 		backOff = 180;
 	}
 
-	setTimeout(connect, backOff * 1000);
+	setTimeout(connect, 1000);
 }
 
 function connect() {
-	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.apiHost, {
+	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.host, {
 		jsonp: "document" in window // Disable JSONP in non-web environments, e.g.- react-native
 	});
 

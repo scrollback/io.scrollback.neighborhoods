@@ -1,46 +1,39 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import Colors from "../../colors.json";
+import AppbarTouchable from "./appbar-touchable";
+import AvatarRound from "./avatar-round";
 import routes from "../utils/routes";
 
 const {
-	StyleSheet,
-	TouchableHighlight,
-	View
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
 	avatar: {
-		height: 24,
-		width: 24,
-		borderRadius: 12,
-		backgroundColor: "#999",
-		borderColor: "#fff",
-		borderWidth: 2,
+		borderColor: Colors.white,
+		borderWidth: 1,
 		margin: 16
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 12
 	}
 });
 
 export default class UserIcon extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return this.props.nick !== nextProps.nick;
+	}
+
 	_onPress() {
-		global.requestAnimationFrame(() => this.props.navigator.push(routes.account()));
+		this.props.navigator.push(routes.account());
 	}
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor="rgba(0, 0, 0, .16)" onPress={this._onPress.bind(this)}>
-				<View style={styles.avatar}>
-					<Avatar
-						size={24}
-						nick={this.props.nick}
-						style={styles.image}
-					/>
-				</View>
-			</TouchableHighlight>
+			<AppbarTouchable onPress={this._onPress.bind(this)}>
+				<AvatarRound
+					style={styles.avatar}
+					size={24}
+					nick={this.props.nick}
+				/>
+			</AppbarTouchable>
 		);
 	}
 }

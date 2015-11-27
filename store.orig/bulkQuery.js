@@ -38,7 +38,7 @@ module.exports = function createBulkQuery(core, store, type) {
 
 		if(type === "texts") {
 			roomId = roomId.split("_");
-			if(store.getTexts(roomId[0], roomId[1], null, -4)[0] !== "missing") return;
+			if(store.getTexts(roomId[0], roomId[1], null, -1)[0] !== "missing") return;
 //			console.log('getting more texts', queryCount);
 //			process.nextTick(function () {
 				queryCount++;
@@ -48,7 +48,7 @@ module.exports = function createBulkQuery(core, store, type) {
 			if(store.getThreads(roomId, null, -2)[0] !== "missing") return;
 //			process.nextTick(function () {
 				queryCount++;
-				core.emit("getThreads", {to:roomId, time: null, before: 2}, done);
+				core.emit("getThreads", {to:roomId, time: null, before: 1}, done);
 //			});
 		}
 	}

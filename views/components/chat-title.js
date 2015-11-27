@@ -1,11 +1,12 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AppbarTouchable from "./appbar-touchable";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	TouchableHighlight,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -14,26 +15,24 @@ const styles = StyleSheet.create({
 		paddingVertical: 10
 	},
 	title: {
-		color: "#fff",
-		fontWeight: "bold",
-		fontSize: 14
+		color: Colors.white,
+		fontWeight: "bold"
 	},
 	subtitle: {
-		color: "rgba(255, 255, 255, .5)",
+		color: Colors.fadedWhite,
 		fontSize: 12,
+		lineHeight: 18,
 		width: 160
 	}
 });
 
 export default class ChatTitle extends React.Component {
 	_onPress() {
-		global.requestAnimationFrame(() => {
-			const { thread } = this.props;
+		const { thread } = this.props;
 
-			if (thread && thread.id) {
-				this.props.navigator.push(routes.people({ thread: thread.id }));
-			}
-		});
+		if (thread && thread.id) {
+			this.props.navigator.push(routes.people({ thread: thread.id }));
+		}
 	}
 
 	render() {
@@ -44,26 +43,22 @@ export default class ChatTitle extends React.Component {
 
 		if (thread && thread.title) {
 			title = thread.title;
-			concerns = thread.concerns.length || 1;
-		} else if (thread === "loading") {
+			concerns = thread.concerns && thread.concerns.length ? thread.concerns.length : 1;
+		} else if (thread === "missing") {
 			title = "Loading…";
 		}
 
 		return (
-			<TouchableHighlight
-				onPress={this._onPress.bind(this)}
-				underlayColor="rgba(0, 0, 0, .16)"
-				style={styles.container}
-			>
-				<View>
-					<Text numberOfLines={1} style={styles.title}>
+			<AppbarTouchable onPress={this._onPress.bind(this)} style={styles.container}>
+				<View style={styles.container}>
+					<AppText numberOfLines={1} style={styles.title}>
 						{title}
-					</Text>
-					<Text numberOfLines={1} style={styles.subtitle}>
+					</AppText>
+					<AppText numberOfLines={1} style={styles.subtitle}>
 						{concerns} {concerns > 1 ? " people" : " person"} talking
-					</Text>
+					</AppText>
 				</View>
-			</TouchableHighlight>
+			</AppbarTouchable>
 		);
 	}
 }

@@ -1,14 +1,20 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
+import ModalSheet from "./modal-sheet";
+import TouchFeedback from "./touch-feedback";
+import KeyboardSpacer from "./keyboard-spacer";
+import VersionCodes from "../../modules/version-codes";
+
 
 const {
 	StyleSheet,
+	Platform,
 	Dimensions,
 	TouchableWithoutFeedback,
-	TouchableHighlight,
 	Animated,
 	PixelRatio,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -20,26 +26,22 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "rgba(0, 0, 0, .6)"
-	},
-	dialog: {
-		backgroundColor: "#fff",
-		borderRadius: 3
+		alignItems: "stretch",
+		justifyContent: "flex-end",
+		backgroundColor: Colors.fadedBlack
 	},
 	menuItem: {
-		borderColor: "rgba(0, 0, 0, .08)",
-		borderTopWidth: 1 / PixelRatio.get(),
-		padding: 16,
-		width: 240
+		borderColor: Colors.separator,
+		borderTopWidth: 1 / PixelRatio.get()
 	},
 	menuItemFirst: {
 		borderTopWidth: 0
 	},
 	menuItemText: {
 		fontSize: 16,
-		color: "#333",
+		lineHeight: 24,
+		color: Colors.darkGrey,
+		margin: 20,
 		paddingHorizontal: 4
 	}
 });
@@ -66,6 +68,10 @@ export default class Modal extends React.Component {
 	}
 
 	_renderComponent(component) {
+		if (component === this.state.component) {
+			return;
+		}
+
 		if (component) {
 			this.setState({
 				component,
@@ -96,6 +102,8 @@ export default class Modal extends React.Component {
 		return (
 			<Animated.View style={[ styles.container, { height: win.height, width: win.width, opacity: this.state.fadeAnim } ]}>
 				{this.state.component}
+
+				<KeyboardSpacer />
 			</Animated.View>
 		);
 	}
@@ -123,9 +131,9 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<View style={styles.dialog}>
+				<ModalSheet style={Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
 					{component}
-				</View>
+				</ModalSheet>
 			</View>
 		</TouchableWithoutFeedback>
 	));
@@ -134,9 +142,8 @@ Modal.renderModal = component => {
 Modal.showActionSheetWithOptions = (options, callback) => {
 	return Modal.renderModal(options.options.map((item, index) =>
 		(
-			<TouchableHighlight
+			<TouchFeedback
 				key={index}
-				underlayColor="rgba(0, 0, 0, .16)"
 				onPress={() =>
 					global.requestAnimationFrame(() => {
 						callback(index);
@@ -146,9 +153,21 @@ Modal.showActionSheetWithOptions = (options, callback) => {
 				)}
 			>
 				<View style={[ styles.menuItem, index === 0 ? styles.menuItemFirst : null ]}>
-					<Text style={styles.menuItemText}>{item}</Text>
+					<AppText style={styles.menuItemText}>{item}</AppText>
 				</View>
-			</TouchableHighlight>
+			</TouchFeedback>
 		)
 	));
+};
+
+Modal.showActionSheetWithItems = (items, callback) => {
+	const options = [];
+	const actions = [];
+
+	for (const k in items) {
+		options.push(k);
+		actions.push(items[k]);
+	}
+
+	Modal.showActionSheetWithOptions({ options }, index => actions[index](), callback);
 };

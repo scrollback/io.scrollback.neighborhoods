@@ -1,44 +1,45 @@
 import React from "react-native";
+import Colors from "../../colors.json";
 import Modal from "./modal";
-import DeviceVersion from "../../modules/device-version";
-import navigationBar from "../utils/navigation-bar";
+import StatusbarContainer from "./statusbar-container";
+import KeyboardSpacer from "./keyboard-spacer";
+import renderNavigationBar from "../utils/render-navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	Navigator,
-	View
+	Navigator
 } = React;
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
-		position: "relative"
+		flex: 1
 	},
 	statusbar: {
-		height: DeviceVersion.VERSION_SDK_INT < DeviceVersion.VERSION_CODES_KITKAT ? 0 : 25, // offset for statusbar height
-		backgroundColor: "#673ab7"
+		backgroundColor: Colors.primary
 	},
 	scene: {
 		marginTop: 56, // offset for appbar height
-		backgroundColor: "#eee"
+		backgroundColor: Colors.lightGrey
 	}
 });
 
 export default class Home extends React.Component {
 	render() {
 		return (
-			<View style={styles.container}>
-				<View style={styles.statusbar} />
+			<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
 				<Navigator
 					initialRoute={this.props.initialRoute || routes.home()}
 					renderScene={renderScene}
-					navigationBar={navigationBar}
+					navigationBar={renderNavigationBar()}
+					configureScene={() => Navigator.SceneConfigs.FloatFromBottomAndroid}
 					sceneStyle={styles.scene}
 				/>
+
+				<KeyboardSpacer />
 				<Modal />
-			</View>
+			</StatusbarContainer>
 		);
 	}
 }

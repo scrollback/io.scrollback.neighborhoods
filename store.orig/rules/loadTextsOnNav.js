@@ -5,7 +5,9 @@
 */
 /*eslint no-use-before-define:0 */
 "use strict";
+
 var permissionLevels = require("./../../authorizer/permissionWeights.js");
+
 module.exports = function(core, config, store) {
 
 	core.on('setstate', function(changes) {
@@ -18,7 +20,9 @@ module.exports = function(core, config, store) {
 			userRelation = getRelation ? getRelation.role : "none",
 			guides = roomObj ? roomObj.guides : {};
 
-		if (
+		if (changes.app && changes.app.connectionStatus && store.get("app", "connectionStatus") === "offline" && future.get("app", "connectionStatus") === "online") {
+			updateTexts(future);
+		} else if (
 			(changes.nav && (
 				"room" in changes.nav ||
 				"thread" in changes.nav ||
@@ -26,6 +30,10 @@ module.exports = function(core, config, store) {
 			)) || (
 				changes.entities &&
 				changes.entities[rel]
+			) || (
+				changes.app &&
+				changes.app.connectionStatus &&
+				future.get("app", "connectionStatus") === "online"
 			)) {
 			if (
 				(guides && guides.authorizer && (
@@ -60,6 +68,22 @@ module.exports = function(core, config, store) {
 
 			updatingState.texts[key] = [range];
 			core.emit("setstate", updatingState);
+		}
+	}
+
+	function updateTexts(future) {
+		var roomId = future.get("nav", "room"),
+			threadId = future.get("nav", "thread");
+
+		const lastText = store.getTexts(roomId, threadId, null, -1)[0];
+
+		if (lastText && lastText.time) {
+			core.emit("getTexts", {
+				to: roomId,
+				thread: threadId,
+				time: lastText.time,
+				after: 100
+			}, textResponse);
 		}
 	}
 

@@ -1,9 +1,10 @@
 import React from "react-native";
-import Avatar from "./avatar";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AvatarRound from "./avatar-round";
 
 const {
 	StyleSheet,
-	Text,
 	View
 } = React;
 
@@ -14,26 +15,16 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		flex: 1,
-		color: "#999",
+		color: Colors.grey,
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 8
-	},
-	avatar: {
-		height: 16,
-		width: 16,
-		borderRadius: 8,
-		backgroundColor: "#999"
-	},
-	image: {
-		flex: 1,
-		resizeMode: "cover",
-		borderRadius: 8
 	}
 });
 
 export default class CardAuthor extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.nick !== nextProps.nick);
+		return this.props.nick !== nextProps.nick;
 	}
 
 	render() {
@@ -41,14 +32,11 @@ export default class CardAuthor extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.author, this.props.style ]}>
-				<View style={styles.avatar}>
-					<Avatar
-						size={16}
-						nick={nick}
-						style={styles.image}
-					/>
-				</View>
-				<Text style={styles.name}>{nick}</Text>
+				<AvatarRound
+					size={24}
+					nick={nick}
+				/>
+				<AppText style={styles.name}>{nick}</AppText>
 			</View>
 		);
 	}

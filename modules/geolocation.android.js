@@ -14,8 +14,8 @@ RCTDeviceEventEmitter.addListener("geolocationChange", ev => {
 });
 
 export default {
-	getCurrentPosition(success) {
-		GeolocationModule.getCurrentPosition(success);
+	getCurrentPosition() {
+		return GeolocationModule.getCurrentPosition();
 	},
 
 	watchPosition(success) {
@@ -34,5 +34,13 @@ export default {
 		if (Object.keys(watchCallbacks).length === 0) {
 			GeolocationModule.stopWatching();
 		}
+	},
+
+	isGPSEnabled() {
+		return GeolocationModule.isGPSEnabled();
+	},
+
+	showGPSSettings() {
+		GeolocationModule.showGPSSettings();
 	}
 };

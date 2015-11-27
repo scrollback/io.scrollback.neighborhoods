@@ -1,9 +1,8 @@
 import React from "react-native";
-import InvertibleScrollView from "react-native-invertible-scroll-view";
-import ChatItem from "./chat-item";
-import PageEmpty from "./page-empty";
+import ChatItemController from "../controllers/chat-item-controller";
+import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
-import PageRetry from "./page-retry";
+import LoadingItem from "./loading-item";
 
 const {
 	StyleSheet,
@@ -12,6 +11,14 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	container: {
+		paddingVertical: 4
+	},
+	inverted: {
+		transform: [
+			{ scaleY: -1 }
+		]
+	},
 	item: {
 		overflow: "hidden"
 	}
@@ -21,7 +28,7 @@ export default class ChatMessages extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+		this._dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 	}
 
 	componentDidMount() {
@@ -31,7 +38,7 @@ export default class ChatMessages extends React.Component {
 	}
 
 	_getDataSource() {
-		return this.dataSource.cloneWithRows(this.props.data);
+		return this._dataSource.cloneWithRows(this.props.data);
 	}
 
 	render() {
@@ -39,16 +46,19 @@ export default class ChatMessages extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty />;
+						return <PageFailed pageLabel="No messages yet" />;
 					}
 
 					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "loading") {
+						switch (this.props.data[0]) {
+						case "missing":
 							return <PageLoading />;
-						}
-
-						if (this.props.data[0] === "missing") {
-							return <PageRetry onRetry={this.props.refreshData} />;
+						case "banned":
+							return <PageFailed pageLabel="You're banned in this community" />;
+						case "nonexistent":
+							return <PageFailed pageLabel="This discussion doesn't exist" />;
+						case "failed":
+							return <PageFailed pageLabel="Failed to load messages" onRetry={this.props.refreshData} />;
 						}
 					}
 
@@ -57,29 +67,28 @@ export default class ChatMessages extends React.Component {
 					return (
 						<ListView
 							removeClippedSubviews
-							style={styles.item}
-							initialListSize={5}
+							keyboardShouldPersistTaps={false}
+							style={styles.inverted}
+							contentContainerStyle={styles.container}
+							initialListSize={1}
 							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
-							renderScrollComponent={props =>
-								<InvertibleScrollView
-									{...props}
-									inverted
-									ref={c => this._scroll = c}
-								/>
-							}
 							dataSource={dataSource}
 							renderRow={item => {
 								if (item === "missing") {
-									return null;
+									return <LoadingItem />;
 								}
 
 								return (
-									<ChatItem
+									<ChatItemController
 										key={item.text.id}
 										text={item.text}
+										textMetadata={item.textMetadata}
 										previousText={item.previousText}
 										currentUser={this.props.user}
+										replyToMessage={this.props.replyToMessage}
+										quoteMessage={this.props.quoteMessage}
+										style={[ styles.item, styles.inverted ]}
 									/>
 								);
 							}}
@@ -93,12 +102,14 @@ export default class ChatMessages extends React.Component {
 
 ChatMessages.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "loading", "missing" ]),
+		React.PropTypes.oneOf([ "missing", "failed" ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
 	])).isRequired,
 	user: React.PropTypes.string.isRequired,
 	onEndReached: React.PropTypes.func.isRequired,
+	quoteMessage: React.PropTypes.func.isRequired,
+	replyToMessage: React.PropTypes.func.isRequired,
 	refreshData: React.PropTypes.func
 };

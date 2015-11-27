@@ -1,8 +1,10 @@
 import React from "react-native";
+import Colors from "../../colors.json";
+import AppText from "./app-text";
+import Loading from "./loading";
 
 const {
 	StyleSheet,
-	Text,
 	View,
 	Image
 } = React;
@@ -12,12 +14,18 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#673AB7"
+		backgroundColor: Colors.primary
 	},
 	logo: {
 		flex: 1,
 		resizeMode: "contain",
-		marginTop: 96
+		marginTop: 180
+	},
+	loading: {
+		height: 24,
+		width: 24,
+		marginHorizontal: 16,
+		marginVertical: 32
 	},
 	attribution: {
 		alignItems: "center",
@@ -25,7 +33,7 @@ const styles = StyleSheet.create({
 		margin: 16
 	},
 	by: {
-		color: "rgba(255, 255, 255, .5)",
+		color: Colors.fadedWhite,
 		paddingHorizontal: 4
 	},
 	scrollback: {
@@ -34,13 +42,18 @@ const styles = StyleSheet.create({
 });
 
 export default class Splash extends React.Component {
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image style={styles.logo} source={require("image!logo")} />
+				<Image style={styles.logo} source={require("../../assets/logo.png")} />
+				<Loading style={styles.loading} />
 				<View style={styles.attribution}>
-					<Text style={styles.by}>by</Text>
-					<Image style={styles.scrollback} source={require("image!scrollback_logo")} />
+					<AppText style={styles.by}>by</AppText>
+					<Image style={styles.scrollback} source={require("../../assets/scrollback_logo.png")} />
 				</View>
 			</View>
 		);

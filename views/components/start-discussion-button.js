@@ -1,57 +1,33 @@
 import React from "react-native";
-import Icon from "./icon";
-import routes from "../utils/routes";
-
-const {
-	StyleSheet,
-	TouchableHighlight,
-	View
-} = React;
-
-const styles = StyleSheet.create({
-	container: {
-		position: "absolute",
-		right: 16,
-		bottom: 16,
-		height: 56,
-		width: 56,
-		borderRadius: 28
-	},
-	fab: {
-		backgroundColor: "#ff9800",
-		height: 56,
-		width: 56,
-		borderRadius: 28
-	},
-	icon: {
-		margin: 16,
-		color: "#000",
-		fontSize: 24,
-		opacity: 0.5
-	}
-});
+import FloatingActionButton from "./floating-action-button";
+import Modal from "./modal";
+import StartDiscussionController from "../controllers/start-discussion-controller";
 
 export default class StartDiscussionButton extends React.Component {
+	shouldComponentUpdate(nextProps) {
+		return (
+			this.props.room !== nextProps.room ||
+			this.props.user !== nextProps.user
+		);
+	}
+
 	_onPress() {
-		this.props.navigator.push(routes.startthread({ room: this.props.room }));
+		Modal.renderComponent(<StartDiscussionController {...this.props} dismiss={() => Modal.renderComponent(null)} />);
 	}
 
 	render() {
 		return (
-			<TouchableHighlight
+			<FloatingActionButton
 				{...this.props}
-				style={styles.container}
+				icon="create"
 				onPress={this._onPress.bind(this)}
-			>
-				<View style={styles.fab}>
-					<Icon name="create" style={styles.icon} />
-				</View>
-			</TouchableHighlight>
+			/>
 		);
 	}
 }
 
 StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
+	user: React.PropTypes.string.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

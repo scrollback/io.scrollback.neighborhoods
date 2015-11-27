@@ -4,12 +4,12 @@ var merge = require("./merge-config.js");
 
 var defaults = {
 	server: {
-		protocol: "http:",
-		host: "localhost:7528",
-		apiHost: "localhost:7528"
+		protocol: "https:",
+		host: "heyneighbor.chat",
+		apiHost: "heyneighbor.chat"
 	},
 	pushNotification: {
-		defaultPackageName: "io.scrollback.app"
+		defaultPackageName: "io.scrollback.neighborhoods"
 	}
 };
 

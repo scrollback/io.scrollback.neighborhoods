@@ -1,36 +1,51 @@
 import React from "react-native";
+import AppText from "./app-text";
 import Link from "./link";
 import smiley from "../../lib/smiley";
 
 const {
-	StyleSheet,
-	Text
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
-	text: {
-		fontSize: 14,
-		lineHeight: 21
-	},
 	emojiOnly: {
-		fontSize: 28,
-		lineHeight: 42
+		textAlign: "center",
+		fontSize: 32,
+		lineHeight: 48
 	}
 });
 
 export default class RichText extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return (this.props.text !== nextProps.text);
+		return this.props.text !== nextProps.text;
+	}
+
+	setNativeProps(nativeProps) {
+		this._root.setNativeProps(nativeProps);
 	}
 
 	render() {
-		const textWithEmoji = smiley.format(this.props.text.trim());
+		const { onOpenLink } = this.props;
 
-		if (/^([\uD800-\uDBFF][\uDC00-\uDFFF])$/gi.test(textWithEmoji)) {
-			return <Text {...this.props} style={[ styles.emojiOnly, this.props.style ]}>{textWithEmoji}</Text>;
+		const textWithEmoji = smiley.format(this.props.text);
+
+		if (smiley.isEmoji(textWithEmoji)) {
+			return (
+				<AppText
+					{...this.props}
+					style={[ styles.emojiOnly, this.props.style ]}
+					ref={c => this._root = c}
+				>
+					{textWithEmoji}
+				</AppText>
+			);
 		} else {
 			return (
-				<Text {...this.props} style={[ styles.text, this.props.style ]}>
+				<AppText
+					{...this.props}
+					style={[ styles.text, this.props.style ]}
+					ref={c => this._root = c}
+				>
 					{textWithEmoji.split("\n").map((text, index, arr) => {
 						return ([
 							text.split(" ").map((inner, i) => {
@@ -49,23 +64,28 @@ export default class RichText extends React.Component {
 									t = t.replace(/.$/, "");
 								}
 
-								if (/^@[a-z0-9\-]+$/.test(t)) {
+								if (/^@[a-z0-9\-]{3,}$/.test(t)) {
 									// a mention
-									items.push(<Link key={key}>{t}</Link>);
-								} else if (/^#\S+$/.test(t)) {
+									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
+								} else if (/^#\S{2,}$/.test(t)) {
 									// a hashtag
-									items.push(<Link key={key}>{t}</Link>);
-								} else if (/^(http|https):\/\/(\S+)$/i.test(t)) {
-									// a link
-									items.push(<Link key={key} href={t}>{t}</Link>);
-								} else if (/^[^@]+@[^@]+\.[^@]+$/i.test(t)) {
-									// an email id
-									items.push(<Link key={key} href={"mailto:" + t}>{t}</Link>);
-								} else if (/^(?:\+?(\d{1,3}))?[-.\s(]*(\d{3})?[-.\s)]*(\d{3})[-.\s]*(\d{4})(?: *x(\d+))?$/.test(t)) {
-									// a phone number
-									items.push(<Link key={key} href={"tel:" + t}>{t}</Link>);
+									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
 								} else {
-									return t + punctuation + " ";
+									const url = Link.buildLink(t);
+
+									if (url !== null) {
+										items.push(
+											<Link
+												onOpen={onOpenLink}
+												key={key}
+												url={url}
+											>
+												{t}
+											</Link>
+										);
+									} else {
+										return t + punctuation + " ";
+									}
 								}
 
 								items.push(punctuation + " ");
@@ -75,12 +95,13 @@ export default class RichText extends React.Component {
 							index !== (arr.length - 1) ? "\n" : ""
 						]);
 					})}
-				</Text>
+				</AppText>
 			);
 		}
 	}
 }
 
 RichText.propTypes = {
-	text: React.PropTypes.string.isRequired
+	text: React.PropTypes.string.isRequired,
+	onOpenLink: React.PropTypes.func
 };
