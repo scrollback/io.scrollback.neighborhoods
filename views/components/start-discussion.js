@@ -1,5 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AppTextInput from "./app-text-input";
 import Loading from "./loading";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
@@ -18,9 +20,7 @@ import textUtils from "../../lib/text-utils";
 const {
 	StyleSheet,
 	ScrollView,
-	View,
-	Text,
-	TextInput
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: Colors.primary,
 		fontWeight: "bold",
-		fontSize: 14,
-		lineHeight: 21,
 		marginRight: 16
 	},
 	buttonIcon: {
@@ -239,7 +237,7 @@ export default class StartDiscussionButton extends React.Component {
 							<Loading style={styles.loading} /> :
 							(<View style={styles.button}>
 								<AppbarIcon name="done" style={styles.buttonIcon} />
-								<Text style={styles.buttonText}>POST</Text>
+								<AppText style={styles.buttonText}>POST</AppText>
 							</View>)
 						}
 					</AppbarTouchable>
@@ -248,7 +246,7 @@ export default class StartDiscussionButton extends React.Component {
 				<Banner text={this.state.error} type="error" />
 
 				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
-					<TextInput
+					<AppTextInput
 						autoFocus
 						value={this.state.title}
 						onChange={this._onTitleChange.bind(this)}
@@ -283,7 +281,7 @@ export default class StartDiscussionButton extends React.Component {
 									style={styles.uploadButtonIcon}
 									size={24}
 								/>
-								<Text style={styles.uploadButtonText}>UPLOAD AN IMAGE</Text>
+								<AppText style={styles.uploadButtonText}>UPLOAD AN IMAGE</AppText>
 							</View>
 						</TouchFeedback>
 					}

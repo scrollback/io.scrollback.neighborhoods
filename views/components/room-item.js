@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import NotificationBadgeController from "../controllers/notification-badge-controller";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
@@ -14,8 +15,7 @@ const {
 	StyleSheet,
 	PixelRatio,
 	TouchableOpacity,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -34,8 +34,6 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: Colors.darkGrey,
-		fontSize: 14,
-		lineHeight: 21,
 		fontWeight: "bold"
 	},
 	distance: {
@@ -99,14 +97,14 @@ export default class RoomItem extends React.Component {
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={styles.container}>
 						<View style={styles.item}>
-							<Text style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</Text>
+							<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
 							{location && location.coords && room.location && room.location.lat && room.location.lon ?
-								<Text style={styles.distance}>
+								<AppText style={styles.distance}>
 									{locationUtils.getFormattedDistance(location.coords, {
 										latitude: room.location.lat,
 										longitude: room.location.lon
 									})}
-								</Text> :
+								</AppText> :
 								null
 							}
 						</View>

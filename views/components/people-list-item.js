@@ -1,13 +1,13 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
 
 const {
 	StyleSheet,
 	PixelRatio,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
 	},
 	status: {
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 16,
 		paddingHorizontal: 4,
 		color: Colors.fadedBlack
@@ -63,12 +64,12 @@ export default class PeopleListItem extends React.Component {
 							nick={user.id}
 						/>
 						<View style={styles.nick}>
-							<Text style={styles.nickText}>{user.id}</Text>
+							<AppText style={styles.nickText}>{user.id}</AppText>
 						</View>
 						<View>
-							<Text style={[ styles.status, user.status === "online" ? styles.online : null ]}>
+							<AppText style={[ styles.status, user.status === "online" ? styles.online : null ]}>
 								{user.status ? user.status.toUpperCase() : "OFFLINE"}
-							</Text>
+							</AppText>
 						</View>
 					</View>
 				</TouchFeedback>

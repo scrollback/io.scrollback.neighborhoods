@@ -1,5 +1,5 @@
 import React from "react-native";
-import DiscussionItem from "./discussion-item";
+import DiscussionItemController from "../controllers/discussion-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
@@ -69,7 +69,7 @@ export default class Discussions extends React.Component {
 								}
 
 								return (
-									<DiscussionItem
+									<DiscussionItemController
 										key={thread.id}
 										thread={thread}
 										navigator={this.props.navigator}

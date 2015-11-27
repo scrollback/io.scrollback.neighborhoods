@@ -1,5 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
+import AppTextInput from "./app-text-input";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTitle from "./appbar-title";
@@ -15,9 +17,7 @@ const {
 	TouchableHighlight,
 	Image,
 	ScrollView,
-	View,
-	Text,
-	TextInput
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -158,23 +158,23 @@ export default class SignUp extends React.Component {
 
 				<ScrollView style={styles.scene}>
 					<View style={styles.sceneContainer}>
-						<Text style={styles.heading}>Hey there!</Text>
+						<AppText style={styles.heading}>Hey there!</AppText>
 
 						<Image
 							style={styles.avatar}
 							source={{ uri: user.params.pictures[0] }}
 						/>
 
-						<Text style={styles.paragraph}>New here? Tell us what to call you.</Text>
+						<AppText style={styles.paragraph}>New here? Tell us what to call you.</AppText>
 
-						<Text style={styles.hint}>
-							<Text style={error && error.ERR_VALIDATE_CHARS ? styles.error : null}>Letters, numbers and hyphens, no spaces. </Text>
-							<Text style={error && error.ERR_VALIDATE_START ? styles.error : null}>Cannot start with a hyphen. </Text>
-							<Text style={error && error.ERR_VALIDATE_NO_ONLY_NUMS ? styles.error : null}>Should have at least 1 letter. </Text>
-							<Text style={error && (error.ERR_VALIDATE_LENGTH_SHORT || error.ERR_VALIDATE_LENGTH_LONG) ? styles.error : null}>(3-32 characters)</Text>
-						</Text>
+						<AppText style={styles.hint}>
+							<AppText style={error && error.ERR_VALIDATE_CHARS ? styles.error : null}>Letters, numbers and hyphens, no spaces. </AppText>
+							<AppText style={error && error.ERR_VALIDATE_START ? styles.error : null}>Cannot start with a hyphen. </AppText>
+							<AppText style={error && error.ERR_VALIDATE_NO_ONLY_NUMS ? styles.error : null}>Should have at least 1 letter. </AppText>
+							<AppText style={error && (error.ERR_VALIDATE_LENGTH_SHORT || error.ERR_VALIDATE_LENGTH_LONG) ? styles.error : null}>(3-32 characters)</AppText>
+						</AppText>
 
-						<TextInput
+						<AppTextInput
 							value={this.state.value}
 							onChange={this._onChange.bind(this)}
 							style={styles.input}

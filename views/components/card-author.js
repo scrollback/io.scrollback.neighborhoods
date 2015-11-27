@@ -1,10 +1,10 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AvatarRound from "./avatar-round";
 
 const {
 	StyleSheet,
-	Text,
 	View
 } = React;
 
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		color: Colors.grey,
 		fontSize: 12,
+		lineHeight: 18,
 		marginHorizontal: 8
 	}
 });
@@ -35,7 +36,7 @@ export default class CardAuthor extends React.Component {
 					size={24}
 					nick={nick}
 				/>
-				<Text style={styles.name}>{nick}</Text>
+				<AppText style={styles.name}>{nick}</AppText>
 			</View>
 		);
 	}

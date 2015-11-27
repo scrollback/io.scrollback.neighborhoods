@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import LargeButton from "./large-button";
 import GoogleLogin from "../../modules/google-login";
 import FacebookLogin from "../../modules/facebook-login";
@@ -7,7 +8,6 @@ import FacebookLogin from "../../modules/facebook-login";
 const {
 	StyleSheet,
 	View,
-	Text,
 	Image
 } = React;
 
@@ -141,7 +141,7 @@ export default class SignIn extends React.Component {
 							<Image source={require("../../assets/logotype.png")} style={[ styles.image, styles.imageLogoType ]} />
 						</View>
 						<View style={styles.buttonContainer}>
-							<Text style={styles.tip}>SIGN IN OR SIGN UP WITH</Text>
+							<AppText style={styles.tip}>SIGN IN OR SIGN UP WITH</AppText>
 							<LargeButton
 								style={styles.facebook}
 								spinner={this.state.facebookLoading}

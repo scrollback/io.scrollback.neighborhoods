@@ -1,17 +1,13 @@
 import React from "react-native";
+import AppText from "./app-text";
 import Link from "./link";
 import smiley from "../../lib/smiley";
 
 const {
-	StyleSheet,
-	Text
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
-	text: {
-		fontSize: 14,
-		lineHeight: 21
-	},
 	emojiOnly: {
 		textAlign: "center",
 		fontSize: 32,
@@ -35,17 +31,17 @@ export default class RichText extends React.Component {
 
 		if (smiley.isEmoji(textWithEmoji)) {
 			return (
-				<Text
+				<AppText
 					{...this.props}
 					style={[ styles.emojiOnly, this.props.style ]}
 					ref={c => this._root = c}
 				>
 					{textWithEmoji}
-				</Text>
+				</AppText>
 			);
 		} else {
 			return (
-				<Text
+				<AppText
 					{...this.props}
 					style={[ styles.text, this.props.style ]}
 					ref={c => this._root = c}
@@ -99,7 +95,7 @@ export default class RichText extends React.Component {
 							index !== (arr.length - 1) ? "\n" : ""
 						]);
 					})}
-				</Text>
+				</AppText>
 			);
 		}
 	}

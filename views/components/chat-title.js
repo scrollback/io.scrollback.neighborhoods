@@ -1,12 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AppbarTouchable from "./appbar-touchable";
 import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: Colors.white,
-		fontWeight: "bold",
-		fontSize: 14
+		fontWeight: "bold"
 	},
 	subtitle: {
 		color: Colors.fadedWhite,
 		fontSize: 12,
+		lineHeight: 18,
 		width: 160
 	}
 });
@@ -51,12 +51,12 @@ export default class ChatTitle extends React.Component {
 		return (
 			<AppbarTouchable onPress={this._onPress.bind(this)} style={styles.container}>
 				<View style={styles.container}>
-					<Text numberOfLines={1} style={styles.title}>
+					<AppText numberOfLines={1} style={styles.title}>
 						{title}
-					</Text>
-					<Text numberOfLines={1} style={styles.subtitle}>
+					</AppText>
+					<AppText numberOfLines={1} style={styles.subtitle}>
 						{concerns} {concerns > 1 ? " people" : " person"} talking
-					</Text>
+					</AppText>
 				</View>
 			</AppbarTouchable>
 		);

@@ -1,6 +1,7 @@
 import React from "react-native";
 import NotificationBadge from "../components/notification-badge";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -26,7 +27,7 @@ class NotificationBadgeController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const notes = this.store.getNotes();
+				const notes = store.getNotes();
 				const { room, thread, grouped } = this.props;
 
 				let items;

@@ -1,10 +1,10 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Loading from "./loading";
 
 const {
 	StyleSheet,
-	Text,
 	View,
 	Image
 } = React;
@@ -52,7 +52,7 @@ export default class Splash extends React.Component {
 				<Image style={styles.logo} source={require("../../assets/logo.png")} />
 				<Loading style={styles.loading} />
 				<View style={styles.attribution}>
-					<Text style={styles.by}>by</Text>
+					<AppText style={styles.by}>by</AppText>
 					<Image style={styles.scrollback} source={require("../../assets/scrollback_logo.png")} />
 				</View>
 			</View>

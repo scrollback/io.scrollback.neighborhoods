@@ -1,6 +1,7 @@
 import React from "react-native";
 import ChatMessages from "../components/chat-messages";
 import Controller from "./controller";
+import store from "../../store/store";
 import textUtils from "../../lib/text-utils";
 
 const {
@@ -39,12 +40,12 @@ class ChatMessagesController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const time = this.store.get("nav", "textRange", "time");
-				const before = this.store.get("nav", "textRange", "before");
-				const after = this.store.get("nav", "textRange", "after");
+				const time = store.get("nav", "textRange", "time");
+				const before = store.get("nav", "textRange", "before");
+				const after = store.get("nav", "textRange", "after");
 
-				const beforeData = this.store.getTexts(this.props.room, this.props.thread, time, -before);
-				const afterData = this.store.getTexts(this.props.room, this.props.thread, time, after);
+				const beforeData = store.getTexts(this.props.room, this.props.thread, time, -before);
+				const afterData = store.getTexts(this.props.room, this.props.thread, time, after);
 
 				afterData.splice(-1, 1);
 
@@ -78,7 +79,7 @@ class ChatMessagesController extends React.Component {
 		this.emit("setstate", {
 			nav: {
 				textRange: {
-					before: this.store.get("nav", "textRange", "before") + 20
+					before: store.get("nav", "textRange", "before") + 20
 				}
 			}
 		});

@@ -1,11 +1,11 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import RichText from "./rich-text";
 
 const {
 	StyleSheet,
 	View,
-	Text,
 	Image
 } = React;
 
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
 	},
 	author: {
 		fontSize: 12,
+		lineHeight: 18,
 		paddingBottom: 4,
 		paddingHorizontal: 4,
 		opacity: 0.5
@@ -72,7 +73,7 @@ export default class ChatBubble extends React.Component {
 
 				<View style={[ styles.bubble, right ? styles.bubbleRight : styles.bubbleLeft ]}>
 					{this.props.showAuthor ?
-						<Text style={styles.author}>{text.from}</Text> :
+						<AppText style={styles.author}>{text.from}</AppText> :
 						null
 					}
 

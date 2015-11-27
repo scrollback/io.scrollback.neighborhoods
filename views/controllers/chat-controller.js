@@ -1,6 +1,7 @@
 import React from "react-native";
 import Chat from "../components/chat";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -18,7 +19,7 @@ class ChatController extends React.Component {
 	componentWillMount() {
 		InteractionManager.runAfterInteractions(() => {
 			this.setState({
-				user: this.store.get("user")
+				user: store.get("user")
 			});
 		});
 	}
