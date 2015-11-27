@@ -70,7 +70,6 @@ export default class Embed extends React.Component {
 	async _fetchEmbedData(){
 		const url = await this._parseUrl();
 		const embed = await fetchData(url);
-		console.log(this.props.style);
 		if(this._mounted){
 			this.setState({
 				url,
@@ -84,16 +83,41 @@ export default class Embed extends React.Component {
 		const { url, embed } = this.state;
 		return (
 			<View>
-				{embed ? (<View>{typeof embed !== "string" ?
-					(<View>
-						<EmbedVideo embed={embed} style={this.props.style} url={url}/>
-						<EmbedTitle embed={embed} />
-						<EmbedSummary embed={embed} />
-					</View>):(<Text>{embed}</Text>)}</View>)
-					:
-					(<View style={styles.overlay}>
-						<Loading style={styles.progress} />
-					</View>)
+				{embed ? 
+					(
+						<View>{typeof embed !== "string" ?
+							(
+								<View>
+									{this.props.chatItem === "true"?
+										(
+											<View>
+												<EmbedVideo embed={embed} style={this.props.style} url={url}/>
+												<EmbedTitle embed={embed} />
+												<EmbedSummary embed={embed} />
+											</View>
+										):
+										(
+											<View>
+												{embed.thumbnail_url?
+													<EmbedVideo embed={embed} style={this.props.style} url={url}/>:
+													(<View><EmbedTitle embed={embed} />
+													<EmbedSummary embed={embed} /></View>)
+												}
+											</View>
+										)
+									}
+								</View>
+							):
+							(
+								<Text>{embed}</Text>
+							)}
+						</View>
+					):
+					(
+						<View style={styles.overlay}>
+							<Loading style={styles.progress} />
+						</View>
+					)
 			 	}
 			</View>
 		);

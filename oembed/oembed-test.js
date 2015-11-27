@@ -14,9 +14,9 @@ var embed = require("./oembed.js").fetchData,
 describe("Embed Testing : ", function () {
 	this.timeout(50000);
 	it("link with oembed", function () {
-		return embed("https://www.facebook.com/events/913730275383427/").then(function (text) {
-			/*assert(typeof text === "object", "It is not returning the object");
-			assert(text.type === "video", "It is returning other than video" );*/
+		return embed("https://www.youtube.com/watch?v=uVdV-lxRPFo").then(function (text) {
+			assert(typeof text === "object", "It is not returning the object");
+			assert(text.type === "video", "It is returning other than video" );
 			console.log(text);			
 		});
 	});
@@ -62,7 +62,7 @@ describe("tests for regex : ", function(){
 	});
 	it("testing link and href regex : ", function(){
 		var link = /<link[^>]*type[ ]*=[ ]*['|"]application\/json\+oembed['|"][^>]*[>]/;
-		var href = /http[s]?:\/\/[^"']*/;
+		var href = /http[s]?:\/\/[^"']/;
 		var test1 = "<link href='http://manoj' type='application/json+oembed'>".match(link)[0].match(href);
 		var test2 = "<link type='application/json+oembed' href='https://manoj' >".match(link)[0].match(href);
 		var test3 = "<link something type='application/json+oembed'>".match(link)[0].match(href);

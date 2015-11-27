@@ -2,7 +2,7 @@ import storage from "./oembed-storage";
 
 const linkRegex = /<link[^>]*type[ ]*=[ ]*['|"]application\/json\+oembed['|"][^>]*[>]/i;
 const contRegex = /content[ ]*=[ ]*["|'][^"']*/i;
-const descRegex = /<meta[^>]*name[ ]*=[ ]*['|"]description['|"][^>]*[>]/;
+const descRegex = /<meta[^>]*name[ ]*=[ ]*['|"]description['|"][^>]*[>]/i;
 
 function getContent(regex) {
 	return regex[0].match(contRegex)[0].match(/['|"].*/)[0].slice(1);
@@ -11,11 +11,9 @@ function getContent(regex) {
 function parseHTML(body) {
 
 	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
-
 	const res = bodyString.match(linkRegex);
-
 	if (res !== null) {
-		return res[0].match(/http[s]?:\/\/[^"']*/i)[0];
+		return res[0].match(/http[s]?:\/\/[^"']*/i)[0].replace(/&amp;/g, "&");
 	}
 
 	const oembed = {};
@@ -25,7 +23,6 @@ function parseHTML(body) {
 
 	for (let i = 0; i < props.length; i++) {
 		const match = bodyString.match(new RegExp("<meta[^>]*property[ ]*=[ ]*['|\"]og:" + props[i] + "['|\"][^>]*[>]"));
-
 		if (match) {
 			oembed[props[i]] = getContent(match);
 		}
@@ -73,11 +70,10 @@ async function fetchData(url) {
 		const json = await storage.get(url);
 
 		if (typeof json !== "undefined") {
-			console.log("returning from storage");
 			return json;
 		}
 
-		if ((/(\.jpg|\.png)/).test(url)) {
+		if ((/(\.jpg|\.png|\.jpeg)/).test(url)) {
 			return {
 				type: "image",
 				thumbnail_url: url

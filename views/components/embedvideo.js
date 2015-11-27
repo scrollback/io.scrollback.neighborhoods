@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
 	playContainer: {
 		backgroundColor: Colors.fadedBlack,
 		borderColor: Colors.white,
+		justifyContent: "center",
 		borderWidth: 2,
 		borderRadius: 24
 	},
@@ -53,19 +54,22 @@ export default class EmbedVideo extends React.Component {
 
 	render() {
 		return (
-			<View {...this.props}>
+			<View>
 			{this.props.embed.thumbnail_url ?
-				(<TouchableHighlight onPress={this._onPress.bind(this)}>
-				<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
-					{this.props.embed.type === "video" ?
-					<View style={styles.playContainer}>
-						<Icon
-							name="play-arrow"
-							style={styles.play}
-							size={48}
-						/>
-					</View>:null}
-				</Image>
+				(
+					<TouchableHighlight onPress={this._onPress.bind(this)}>
+						<View style={this.props.style}>
+							<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
+								{this.props.embed.type === "video" ?
+								<View style={styles.playContainer}>
+									<Icon
+										name="play-arrow"
+										style={styles.play}
+										size={48}
+									/>
+								</View>:null}
+							</Image>
+						</View>
 				</TouchableHighlight>): null}
 			</View>
 		);

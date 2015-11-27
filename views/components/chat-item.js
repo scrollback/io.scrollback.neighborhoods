@@ -143,6 +143,7 @@ export default class ChatItem extends React.Component {
 					<Embed
 						text={uri}
 						style={styles.embed}
+						chatItem="true"
 					/>
 				);
 			}

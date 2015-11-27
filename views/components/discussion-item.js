@@ -127,6 +127,7 @@ export default class DiscussionItem extends React.Component {
 					<Embed
 						text={uri}
 						style={styles.cover}
+						chatItem="false"
 					/>
 				);
 			}
