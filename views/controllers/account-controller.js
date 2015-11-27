@@ -1,6 +1,7 @@
 import React from "react-native";
 import Account from "../components/account";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -19,7 +20,7 @@ class AccountController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			const user = this.store.get("user");
+			const user = store.get("user");
 
 			if (changes.entities && changes.entities[user]) {
 				this._updateData();
@@ -31,7 +32,7 @@ class AccountController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					user: this.store.getUser()
+					user: store.getUser()
 				});
 			}
 		});

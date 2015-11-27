@@ -34,7 +34,8 @@
         "setInterval": false,
         "setTimeout": false,
         "window": false,
-        "XMLHttpRequest": false
+        "XMLHttpRequest": false,
+        "FormData": false
     },
 
     "rules": {

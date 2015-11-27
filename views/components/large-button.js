@@ -1,12 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import TouchFeedback from "./touch-feedback";
 import Loading from "./loading";
 
 const {
 	StyleSheet,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -29,9 +29,7 @@ const styles = StyleSheet.create({
 	buttonText: {
 		color: Colors.white,
 		textAlign: "center",
-		paddingHorizontal: 4,
-		fontSize: 14,
-		lineHeight: 21
+		paddingHorizontal: 4
 	}
 });
 
@@ -52,7 +50,7 @@ export default class LargeButton extends React.Component {
 					<View style={[ styles.button, this.props.style ]}>
 						{this.props.spinner ? <Loading style={styles.loader} /> : null}
 
-						<Text style={styles.buttonText}>{this.props.text.toUpperCase()}</Text>
+						<AppText style={styles.buttonText}>{this.props.text.toUpperCase()}</AppText>
 					</View>
 				</TouchFeedback>
 			</View>

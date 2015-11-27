@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
 import AvatarRound from "./avatar-round";
 import TouchFeedback from "./touch-feedback";
@@ -9,7 +10,6 @@ import timeUtils from "../../lib/time-utils";
 const {
 	StyleSheet,
 	View,
-	Text,
 	TouchableHighlight,
 	PixelRatio
 } = React;
@@ -31,12 +31,11 @@ const styles = StyleSheet.create({
 		marginVertical: 12
 	},
 	title: {
-		lineHeight: 21,
 		color: Colors.grey
 	},
 	summary: {
-		lineHeight: 18,
 		fontSize: 12,
+		lineHeight: 18,
 		color: Colors.grey
 	},
 	strong: {
@@ -110,54 +109,54 @@ export default class NotificationCenterItem extends React.Component {
 		switch (noteType) {
 		case "mention":
 			if (count > 1) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new mentions in");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new mentions in");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " mentioned you in");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " mentioned you in");
 			}
 
 			if (noteData.title) {
-				summary.push(" ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+				summary.push(" ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" - ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" - ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		case "reply":
 			if (count > 1) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new replies");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new replies");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " replied");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " replied");
 			}
 
 			if (noteData.title) {
-				summary.push(" to ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+				summary.push(" to ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		case "thread":
 			if (count > 1) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new discussions");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new discussions");
 			} else {
-				summary.push(<Text key={1} style={styles.strong}>{noteData.from}</Text>, " started a discussion");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " started a discussion");
 
 				if (noteData.title) {
-					summary.push(" on ", <Text key={2} style={styles.strong}>{noteData.title}</Text>);
+					summary.push(" on ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 				}
 			}
 
-			summary.push(" in ", <Text key={3} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		default:
 			if (count > 1) {
-				summary.push(<Text key={1} style={styles.strong}>{count}</Text>, " new notifications");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new notifications");
 			} else {
-				summary.push("New notification from ", <Text key={1} style={styles.strong}>{noteData.from}</Text>);
+				summary.push("New notification from ", <AppText key={1} style={styles.strong}>{noteData.from}</AppText>);
 			}
 
-			summary.push(" in ", <Text key={2} style={styles.strong}>{room}</Text>);
+			summary.push(" in ", <AppText key={2} style={styles.strong}>{room}</AppText>);
 		}
 
 		return summary;
@@ -250,10 +249,10 @@ export default class NotificationCenterItem extends React.Component {
 						</View>
 						<View style={styles.content}>
 							<View>
-								<Text numberOfLines={5} style={styles.title} >{this._getSummary(note)}</Text>
+								<AppText numberOfLines={5} style={styles.title} >{this._getSummary(note)}</AppText>
 							</View>
 							<View>
-								<Text numberOfLines={1} style={styles.summary} >{note.noteData.text}</Text>
+								<AppText numberOfLines={1} style={styles.summary} >{note.noteData.text}</AppText>
 							</View>
 							<View style={styles.timestampContainer}>
 								<Icon
@@ -261,7 +260,7 @@ export default class NotificationCenterItem extends React.Component {
 									style={[ styles.icon, styles.metaIcon ]}
 									size={12}
 								/>
-								<Text style={styles.timestamp}>{timeUtils.long(note.time)}</Text>
+								<AppText style={styles.timestamp}>{timeUtils.long(note.time)}</AppText>
 							</View>
 						</View>
 							<TouchableHighlight

@@ -1,12 +1,12 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import Icon from "./icon";
 import CardAuthor from "./card-author";
 import timeUtils from "../../lib/time-utils";
 
 const {
 	StyleSheet,
-	Text,
 	View
 } = React;
 
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
 	label: {
 		color: Colors.black,
 		fontSize: 12,
+		lineHeight: 18,
 		marginLeft: 8,
 		marginRight: 16,
 		paddingHorizontal: 4
@@ -64,7 +65,7 @@ export default class DiscussionFooter extends React.Component {
 							style={styles.icon}
 							size={24}
 						/>
-						<Text style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</Text>
+						<AppText style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</AppText>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon
@@ -72,7 +73,7 @@ export default class DiscussionFooter extends React.Component {
 							style={styles.icon}
 							size={24}
 						/>
-						<Text style={styles.label}>{this.props.thread.length || 1}</Text>
+						<AppText style={styles.label}>{this.props.thread.length || 1}</AppText>
 					</View>
 				</View>
 			</View>

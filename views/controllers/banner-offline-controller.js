@@ -1,6 +1,7 @@
 import React from "react-native";
 import BannerOffline from "../components/banner-offline";
 import Controller from "./controller";
+import store from "../../store/store";
 
 const {
 	InteractionManager
@@ -28,7 +29,7 @@ class BannerOfflineController extends React.Component {
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			this.setState({
-				connectionStatus: this.store.get("app", "connectionStatus")
+				connectionStatus: store.get("app", "connectionStatus")
 			});
 		});
 	}

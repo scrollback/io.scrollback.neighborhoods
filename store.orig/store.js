@@ -290,6 +290,12 @@ Store.prototype.isUserAdmin = function(userId, roomId) {
 	return permissionWeights[role] >= permissionWeights.moderator;
 };
 
+Store.prototype.isUserBanned = function(userId, roomId) {
+	const role = this.getUserRole(userId, roomId);
+
+	return permissionWeights[role] <= permissionWeights.banned;
+};
+
 Store.prototype.isRoomReadable = function(roomId, userId) {
 	const roomObj = this.getRoom(roomId);
 	const readLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&

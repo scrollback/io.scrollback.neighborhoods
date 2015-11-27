@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
@@ -11,8 +12,7 @@ const {
 	StyleSheet,
 	PixelRatio,
 	ListView,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
 	headerText: {
 		color: Colors.fadedBlack,
 		fontSize: 12,
+		lineHeight: 18,
 		fontWeight: "bold"
 	}
 });
@@ -151,7 +152,7 @@ export default class LocalitiesBase extends React.Component {
 
 								return (
 									<View style={styles.header}>
-										<Text style={styles.headerText}>{header.toUpperCase()}</Text>
+										<AppText style={styles.headerText}>{header.toUpperCase()}</AppText>
 									</View>
 								);
 							}}

@@ -5,10 +5,6 @@ const {
 } = React;
 
 export default class Loading extends React.Component {
-	shouldComponentUpdate() {
-		return false;
-	}
-
 	setNativeProps(nativeProps) {
 		this._root.setNativeProps(nativeProps);
 	}

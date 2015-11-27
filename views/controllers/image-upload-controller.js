@@ -1,5 +1,6 @@
 import React from "react-native";
 import Controller from "./controller";
+import store from "../../store/store";
 import generate from "../../lib/generate.browser";
 
 const IDLE = "idle";
@@ -144,7 +145,7 @@ class ImageUploadController extends React.Component {
 		try {
 			const res = await this.emit("upload/getPolicy", {
 				uploadType: this.props.uploadType,
-				userId: this.store.get("user"),
+				userId: store.get("user"),
 				textId
 			});
 

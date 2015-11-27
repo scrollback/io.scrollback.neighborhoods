@@ -53,12 +53,16 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 		marginVertical: 12,
 		color: Colors.fadedBlack
+	},
+	hidden: {
+		opacity: 0.3
 	}
 });
 
 export default class DiscussionItem extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
+				this.props.hidden !== nextProps.hidden ||
 				this.props.thread.title !== nextProps.thread.title ||
 				this.props.thread.text !== nextProps.thread.text ||
 				this.props.thread.from !== nextProps.thread.from
@@ -92,6 +96,22 @@ export default class DiscussionItem extends React.Component {
 			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}/${title.toLowerCase().trim().replace(/['"]/g, "").replace(/\W+/g, "-")}`);
 		};
 
+		if (this.props.isCurrentUserAdmin()) {
+			if (this.props.hidden) {
+				menu["Unhide discussion"] = () => this.props.unhideText();
+			} else {
+				menu["Hide discussion"] = () => this.props.hideText();
+			}
+
+			if (thread.from !== this.props.currentUser) {
+				if (this.props.isUserBanned()) {
+					menu["Unban " + thread.from] = () => this.props.unbanUser();
+				} else {
+					menu["Ban " + thread.from] = () => this.props.banUser();
+				}
+			}
+		}
+
 		Modal.showActionSheetWithItems(menu);
 	}
 
@@ -103,7 +123,7 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	render() {
-		const { thread } = this.props;
+		const { thread, hidden } = this.props;
 
 		const trimmedText = thread.text.trim();
 
@@ -136,7 +156,7 @@ export default class DiscussionItem extends React.Component {
 		return (
 			<Card {...this.props}>
 				<TouchFeedback onPress={this._onPress.bind(this)}>
-					<View>
+					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
 							<CardTitle
 								style={[ styles.item, styles.title ]}
@@ -172,5 +192,13 @@ DiscussionItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		to: React.PropTypes.string.isRequired
 	}).isRequired,
-	navigator: React.PropTypes.object.isRequired
+	navigator: React.PropTypes.object.isRequired,
+	currentUser: React.PropTypes.string.isRequired,
+	hidden: React.PropTypes.bool.isRequired,
+	isCurrentUserAdmin: React.PropTypes.func.isRequired,
+	isUserBanned: React.PropTypes.func.isRequired,
+	hideText: React.PropTypes.func.isRequired,
+	unhideText: React.PropTypes.func.isRequired,
+	banUser: React.PropTypes.func.isRequired,
+	unbanUser: React.PropTypes.func.isRequired
 };

@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppText from "./app-text";
 import AvatarRound from "./avatar-round";
 
 const {
@@ -7,8 +8,7 @@ const {
 	PixelRatio,
 	TouchableHighlight,
 	ScrollView,
-	View,
-	Text
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -28,8 +28,6 @@ const styles = StyleSheet.create({
 	},
 	nick: {
 		color: Colors.darkGrey,
-		fontSize: 14,
-		lineHeight: 21,
 		marginHorizontal: 12,
 		paddingHorizontal: 4
 	}
@@ -61,7 +59,7 @@ export default class ChatSuggestions extends React.Component {
 									nick={nick}
 									size={24}
 								/>
-								<Text style={styles.nick}>{nick}</Text>
+								<AppText style={styles.nick}>{nick}</AppText>
 							</View>
 						</TouchableHighlight>
 					);

@@ -1,5 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
+import AppTextInput from "./app-text-input";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
@@ -13,6 +14,7 @@ const styles = StyleSheet.create({
 	input: {
 		flex: 1,
 		fontSize: 16,
+		lineHeight: 24,
 		color: Colors.black,
 		backgroundColor: "transparent"
 	},
@@ -70,7 +72,7 @@ export default class SearchBar extends React.Component {
 					<AppbarIcon name="arrow-back" style={styles.icon} />
 				</AppbarTouchable>
 
-				<TextInput
+				<AppTextInput
 					ref={c => this._input = c}
 					autoFocus={this.props.autoFocus}
 					onChange={this._onChange.bind(this)}
