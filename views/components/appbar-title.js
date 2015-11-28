@@ -10,7 +10,7 @@ const {
 const styles = StyleSheet.create({
 	titleContainer: {
 		flex: 1,
-		marginVertical: 14,
+		marginVertical: 15,
 		marginHorizontal: 4,
 		marginRight: 64
 	},
