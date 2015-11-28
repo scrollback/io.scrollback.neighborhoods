@@ -58,10 +58,11 @@ export default class RichText extends React.Component {
 								// Strip out ending punctuations
 								let punctuation = "";
 
-								if (/[\.,\?!:;]$/.test(t)) {
-									punctuation = t.substring(t.length - 1);
+								const matches = t.match(/[\.,\?!:;]+$/);
 
-									t = t.replace(/.$/, "");
+								if (matches) {
+									punctuation = matches[0];
+									t = t.substring(0, t.length - punctuation.length);
 								}
 
 								if (/^@[a-z0-9\-]{3,}$/.test(t)) {
