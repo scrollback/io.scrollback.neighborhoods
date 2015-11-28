@@ -14,7 +14,8 @@ export default class AppbarTouchable extends React.Component {
 		return (
 			<TouchFeedback
 				{...this.props}
-				pressColor={this.props.type === "secondary" ? "rgba(0, 0, 0, .1)" : "rgba(255, 255, 255, .1)"}
+				borderless
+				pressColor={this.props.type === "secondary" ? "rgba(0, 0, 0, .15)" : "rgba(255, 255, 255, .15)"}
 				onPress={this._onPress.bind(this)}
 				delayPressIn={0}
 			>

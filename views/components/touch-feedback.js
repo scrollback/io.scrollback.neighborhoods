@@ -11,7 +11,7 @@ export default class TouchFeedback extends React.Component {
 	render() {
 		if (Platform.OS === "android" && Platform.Version >= VersionCodes.LOLLIPOP) {
 			return (
-				<TouchableNativeFeedback {...this.props} background={TouchableNativeFeedback.Ripple(this.props.pressColor)}>
+				<TouchableNativeFeedback {...this.props} background={TouchableNativeFeedback.Ripple(this.props.pressColor, this.props.borderless)}>
 					{this.props.children}
 				</TouchableNativeFeedback>
 			);
@@ -26,6 +26,7 @@ export default class TouchFeedback extends React.Component {
 }
 
 TouchFeedback.propTypes = {
+	borderless: React.PropTypes.bool,
 	pressColor: React.PropTypes.string,
 	children: React.PropTypes.node.isRequired
 };
