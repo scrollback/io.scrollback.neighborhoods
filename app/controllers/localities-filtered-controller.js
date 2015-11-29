@@ -1,5 +1,5 @@
 import React from "react-native";
-import LocalitiesFiltered from "../components/localities-filtered";
+import LocalitiesFiltered from "../views/localities-filtered";
 import Geolocation from "../../modules/geolocation";
 import debounce from "../../lib/debounce";
 import Controller from "./controller";

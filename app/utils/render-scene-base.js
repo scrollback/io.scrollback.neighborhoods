@@ -1,5 +1,5 @@
 import React from "react-native";
-import Modal from "../components/modal";
+import Modal from "../views/modal";
 
 const {
 	StyleSheet

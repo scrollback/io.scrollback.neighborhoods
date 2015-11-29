@@ -1,4 +1,4 @@
-import NotificationIcon from "../components/notification-icon";
+import NotificationIcon from "../views/notification-icon";
 import ChatController from "../controllers/chat-controller";
 import ChatTitleController from "../controllers/chat-title-controller";
 import RoomTitleController from "../controllers/room-title-controller";

@@ -1,5 +1,5 @@
 import React from "react-native";
-import StartDiscussion from "../components/start-discussion";
+import StartDiscussion from "../views/start-discussion";
 import Controller from "./controller";
 import generate from "../../lib/generate.browser";
 

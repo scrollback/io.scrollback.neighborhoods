@@ -1,5 +1,5 @@
 import React from "react-native";
-import ChatSuggestions from "../components/chat-suggestions";
+import ChatSuggestions from "../views/chat-suggestions";
 import Controller from "./controller";
 import store from "../../store/store";
 

@@ -1,5 +1,5 @@
 import React from "react-native";
-import BannerOffline from "../components/banner-offline";
+import BannerOffline from "../views/banner-offline";
 import Controller from "./controller";
 import store from "../../store/store";
 

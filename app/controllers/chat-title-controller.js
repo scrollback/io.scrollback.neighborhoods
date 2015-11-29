@@ -1,5 +1,5 @@
 import React from "react-native";
-import ChatTitle from "../components/chat-title";
+import ChatTitle from "../views/chat-title";
 import Controller from "./controller";
 import store from "../../store/store";
 

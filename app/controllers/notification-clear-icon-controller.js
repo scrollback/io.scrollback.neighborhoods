@@ -1,5 +1,5 @@
 import React from "react-native";
-import NotificationClearIcon from "../components/notification-clear-icon";
+import NotificationClearIcon from "../views/notification-clear-icon";
 import Controller from "./controller";
 
 class NotificationClearIconController extends React.Component {

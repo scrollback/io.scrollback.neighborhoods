@@ -1,5 +1,5 @@
 import React from "react-native";
-import Account from "../components/account";
+import NotificationCenter from "../views/notification-center";
 import Controller from "./controller";
 import store from "../../store/store";
 
@@ -7,12 +7,12 @@ const {
 	InteractionManager
 } = React;
 
-class AccountController extends React.Component {
+class NotificationCenterController extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			user: "missing"
+			data: [ "missing" ]
 		};
 	}
 
@@ -20,11 +20,17 @@ class AccountController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			const user = store.get("user");
-
-			if (changes.entities && changes.entities[user]) {
+			if (changes && changes.notes) {
 				this._updateData();
 			}
+		});
+	}
+
+	_dismissNote(note) {
+		this.dispatch("note", {
+			ref: note.ref,
+			noteType: note.noteType,
+			dismissTime: Date.now()
 		});
 	}
 
@@ -32,35 +38,21 @@ class AccountController extends React.Component {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
-					user: store.getUser()
+					data: store.getNotes()
 				});
 			}
 		});
 	}
 
-	_saveUser(user) {
-		this.dispatch("user", {
-			to: user.id,
-			user
-		});
-
-		this.setState({ user });
-	}
-
-	_signOut() {
-		this.emit("logout");
-	}
-
 	render() {
 		return (
-			<Account
+			<NotificationCenter
 				{...this.props}
 				{...this.state}
-				saveUser={this._saveUser.bind(this)}
-				signOut={this._signOut.bind(this)}
+				dismissNote={this._dismissNote.bind(this)}
 			/>
 		);
 	}
 }
 
-export default Controller(AccountController);
+export default Controller(NotificationCenterController);

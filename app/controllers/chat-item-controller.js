@@ -1,5 +1,5 @@
 import React from "react-native";
-import ChatItem from "../components/chat-item";
+import ChatItem from "../views/chat-item";
 import Controller from "./controller";
 import store from "../../store/store";
 import actions from "../../store/actions";

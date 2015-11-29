@@ -1,5 +1,5 @@
 import React from "react-native";
-import DiscussionItem from "../components/discussion-item";
+import DiscussionItem from "../views/discussion-item";
 import Controller from "./controller";
 import store from "../../store/store";
 import actions from "../../store/actions";

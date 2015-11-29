@@ -1,5 +1,5 @@
 import React from "react-native";
-import RoomTitle from "../components/room-title";
+import RoomTitle from "../views/room-title";
 import Controller from "./controller";
 import store from "../../store/store";
 

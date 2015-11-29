@@ -1,5 +1,5 @@
 import { BackAndroid } from "react-native";
-import Modal from "../components/modal";
+import Modal from "../views/modal";
 import renderSceneBase from "./render-scene-base";
 
 let _navigator;

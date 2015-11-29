@@ -1,5 +1,5 @@
 import React from "react-native";
-import App from "../components/app";
+import App from "../views/app";
 import Linking from "../../modules/linking";
 import routes from "../utils/routes";
 import Controller from "./controller";
@@ -22,7 +22,7 @@ class AppController extends React.Component {
 		this.handle("statechange", changes => {
 			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
 				const user = store.get("user");
-				const connectionStatus = store.get("app", "connectionStatus") || "conn";
+				const connectionStatus = store.get("app", "connectionStatus") || "connecting";
 
 				if (this._mounted) {
 					if (user && user !== this.state.user) {

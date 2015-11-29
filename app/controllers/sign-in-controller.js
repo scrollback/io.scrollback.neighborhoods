@@ -1,6 +1,6 @@
 import React from "react-native";
-import SignIn from "../components/sign-in";
-import SignUp from "../components/sign-up";
+import SignIn from "../views/sign-in";
+import SignUp from "../views/sign-up";
 import Controller from "./controller";
 import userUtils from "../../lib/user-utils";
 

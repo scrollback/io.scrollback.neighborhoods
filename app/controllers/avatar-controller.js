@@ -1,5 +1,5 @@
 import React from "react-native";
-import Avatar from "../components/avatar.js";
+import Avatar from "../views/avatar.js";
 import Controller from "./controller";
 import store from "../../store/store";
 import config from "../../store/config";

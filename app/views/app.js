@@ -35,6 +35,6 @@ export default class App extends React.Component {
 
 App.propTypes = {
 	user: React.PropTypes.string.isRequired,
-	connectionStatus: React.PropTypes.string.isRequired,
+	connectionStatus: React.PropTypes.oneOf([ "connecting", "online", "offline" ]).isRequired,
 	initialRoute: React.PropTypes.object
 };

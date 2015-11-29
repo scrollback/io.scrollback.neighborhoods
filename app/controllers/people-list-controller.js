@@ -1,5 +1,5 @@
 import React from "react-native";
-import PeopleList from "../components/people-list";
+import PeopleList from "../views/people-list";
 import Controller from "./controller";
 import store from "../../store/store";
 

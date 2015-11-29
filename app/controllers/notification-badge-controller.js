@@ -1,5 +1,5 @@
 import React from "react-native";
-import NotificationBadge from "../components/notification-badge";
+import NotificationBadge from "../views/notification-badge";
 import Controller from "./controller";
 import store from "../../store/store";
 

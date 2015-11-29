@@ -1,5 +1,5 @@
 import React from "react-native";
-import Localities from "../components/localities";
+import Localities from "../views/localities";
 import Controller from "./controller";
 import store from "../../store/store";
 

@@ -1,5 +1,5 @@
 import React from "react-native";
-import UserIcon from "../components/user-icon";
+import UserIcon from "../views/user-icon";
 import Controller from "./controller";
 import store from "../../store/store";
 

@@ -1,8 +1,8 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AppbarTouchable from "../components/appbar-touchable";
-import AppbarIcon from "../components/appbar-icon";
-import AppbarTitle from "../components/appbar-title";
+import AppbarTouchable from "../views/appbar-touchable";
+import AppbarIcon from "../views/appbar-icon";
+import AppbarTitle from "../views/appbar-title";
 import routes from "./routes";
 
 const {
