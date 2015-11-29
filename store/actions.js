@@ -16,7 +16,7 @@ async function query(...args) {
 	return (await emit(...args)).results;
 }
 
-async function dispatch(name, params = {}, prio = 1) {
+function dispatch(name, params = {}, prio = 1) {
 	return new Promise(async (resolve, reject) => {
 		const down = name + "-dn";
 
