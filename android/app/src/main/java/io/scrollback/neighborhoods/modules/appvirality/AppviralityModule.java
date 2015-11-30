@@ -11,6 +11,7 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
@@ -50,37 +51,44 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void setUserDetails(
-            String email, String name, String storeId,
-            @Nullable String country, @Nullable String state, @Nullable String city,
-            @Nullable Boolean isExisting, @Nullable String pushRegId,
-            final Promise promise) {
+    public void setUserDetails(final ReadableMap options, final Promise promise) {
 
         AppviralityAPI.UserDetails details = AppviralityAPI.UserDetails.setInstance(mActivityContext.getApplicationContext());
 
-        details
-                .setUserEmail(email)
-                .setUserName(name)
-                .setUseridInStore(storeId);
-
-        if (country != null) {
-            details.setCountry(country);
+        if (options.hasKey("email")) {
+            details.setUserEmail(options.getString("email"));
         }
 
-        if (state != null) {
-            details.setState(state);
+        if (options.hasKey("name")) {
+            details.setCountry(options.getString("name"));
         }
 
-        if (city != null) {
-            details.setCity(city);
+        if (options.hasKey("storeId")) {
+            details.setCountry(options.getString("storeId"));
         }
 
-        if (isExisting != null) {
-            details.isExistingUser(isExisting);
+        if (options.hasKey("profileImage")) {
+            details.setCountry(options.getString("profileImage"));
         }
 
-        if (pushRegId != null) {
-            details.setPushRegID(pushRegId);
+        if (options.hasKey("country")) {
+            details.setCountry(options.getString("country"));
+        }
+
+        if (options.hasKey("state")) {
+            details.setState(options.getString("state"));
+        }
+
+        if (options.hasKey("city")) {
+            details.setCity(options.getString("city"));
+        }
+
+        if (options.hasKey("isExisting")) {
+            details.isExistingUser(options.getBoolean("isExisting"));
+        }
+
+        if (options.hasKey("pushRegId")) {
+            details.setPushRegID(options.getString("pushRegId"));
         }
 
         details.Update(new AppviralityAPI.UpdateUserDetailsListner() {

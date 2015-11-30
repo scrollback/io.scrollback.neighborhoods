@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 
-import com.appvirality.android.AppviralityAPI;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
