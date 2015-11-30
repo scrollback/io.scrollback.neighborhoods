@@ -14,7 +14,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		paddingVertical: 4
+		paddingTop: 4,
+		paddingBottom: 88
 	},
 	item: {
 		overflow: "hidden"
