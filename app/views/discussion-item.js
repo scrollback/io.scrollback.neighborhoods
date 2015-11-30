@@ -14,7 +14,6 @@ import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../../lib/text-utils";
-import oembed from "../../lib/oembed";
 import config from "../../store/config";
 
 const {
@@ -84,7 +83,7 @@ export default class DiscussionItem extends React.Component {
 		const textMetadata = textUtils.getMetadata(thread.text);
 
 		if (textMetadata && textMetadata.type === "image") {
-			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl.toLowerCase());
 			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
 			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
@@ -141,15 +140,13 @@ export default class DiscussionItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			const uri = links[0];
-			const endpoint = oembed(uri);
 
-			if (endpoint) {
+			if (trimmedText) {
 				cover = (
 					<Embed
-						style={styles.cover}
-						uri={uri}
-						endpoint={endpoint}
+						text={trimmedText}
+						thumbnailStyle={styles.cover}
+						showThumb={{ title: false, description: false }}
 					/>
 				);
 			}
@@ -176,7 +173,7 @@ export default class DiscussionItem extends React.Component {
 							</TouchableOpacity>
 						</View>
 
-						{cover || <CardSummary style={styles.item} text={trimmedText} />}
+						{cover}<CardSummary style={styles.item} text={trimmedText} />
 
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>

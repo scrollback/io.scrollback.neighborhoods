@@ -1,20 +1,18 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import Icon from "./icon";
+import link from "./link";
 import Loading from "./loading";
-import Linking from "../../modules/linking";
+import { fetchData } from "../../oembed/oembed";
+import EmbedVideo from "./embed-video";
+import EmbedTitle from "./embed-title";
+import EmbedSummary from "./embed-summary";
 
 const {
 	StyleSheet,
-	View,
-	Image,
-	TouchableHighlight
+	InteractionManager,
+	View
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	},
 	overlay: {
 		flex: 1,
 		justifyContent: "center",
@@ -23,46 +21,28 @@ const styles = StyleSheet.create({
 	progress: {
 		height: 24,
 		width: 24
-	},
-	thumbnailContainer: {
-		flex: 1
-	},
-	thumbnail: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	playContainer: {
-		backgroundColor: Colors.fadedBlack,
-		borderColor: Colors.white,
-		borderWidth: 2,
-		borderRadius: 24
-	},
-	play: {
-		color: Colors.white
 	}
 });
+
 
 export default class Embed extends React.Component {
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			embed: null
+			url: "",
+			embed: "loading"
 		};
 	}
 
 	componentDidMount() {
 		this._mounted = true;
-
 		this._fetchEmbedData();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
-			this.props.uri !== nextProps.uri ||
-			this.props.endpoint !== nextProps.endpoint ||
-			this.state.embed !== nextState.embed
+			this.state.embed !== nextState.embed ||
+			this.state.url !== nextState.url
 		);
 	}
 
@@ -70,53 +50,99 @@ export default class Embed extends React.Component {
 		this._mounted = false;
 	}
 
-	async _fetchEmbedData() {
-		const response = await fetch(this.props.endpoint);
-		const embed = await response.json();
+	_parseUrl() {
+		const text = this.props.text.replace(/(\r\n|\n|\r)/g, " ");
 
-		if (this._mounted) {
-			this.setState({
-				embed
-			});
+		const words = text.split(" ");
+		let uri;
+
+		for (let i = 0, l = words.length; i < l; i++) {
+			uri = link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
+			if (/^https?:\/\//i.test(uri)) {
+				return uri;
+			}
 		}
 	}
 
-	_onPress() {
-		Linking.openURL(this.props.uri);
+	_fetchEmbedData() {
+		InteractionManager.runAfterInteractions(async () => {
+			try {
+				const url = await this._parseUrl();
+				const embed = await fetchData(url);
+
+				if (this._mounted && embed) {
+					this.setState({
+						url,
+						embed
+					});
+				}
+			} catch (e) {
+				this.setState({
+					embed: null
+				});
+			}
+		});
 	}
 
+
 	render() {
-		const { embed } = this.state;
+		const { url, embed } = this.state;
 
 		return (
 			<View {...this.props}>
-				{embed && embed.thumbnail_url ?
-					(<TouchableHighlight onPress={this._onPress.bind(this)} style={styles.container}>
-						<View style={styles.container}>
-							<Image source={{ uri: embed.thumbnail_url }} style={styles.thumbnail}>
-								{embed.type === "video" ?
-									<View style={styles.playContainer}>
-										<Icon
-											name="play-arrow"
-											style={styles.play}
-											size={48}
-										/>
-									</View> :
-									null
-								}
-							</Image>
+				{embed !== "loading" ?
+					(
+						<View>{embed ?
+							(
+								<View>
+									{this.props.showThumb.title ?
+										(
+											<View>
+												<EmbedVideo
+													embed={embed}
+													style={this.props.thumbnailStyle}
+													url={url}
+												/>
+												<EmbedTitle embed={embed} />
+												<EmbedSummary embed={embed} />
+											</View>
+										) :
+										(
+											<View>
+												{embed.thumbnail_url ?
+													<EmbedVideo
+														embed={embed}
+														style={this.props.thumbnailStyle}
+														url={url}
+													/> :
+													(<View><EmbedTitle embed={embed} />
+													<EmbedSummary embed={embed} /></View>)
+												}
+											</View>
+										)
+									}
+								</View>
+							) :
+							null
+							}
 						</View>
-					</TouchableHighlight>) :
-					(<View style={styles.overlay}>
-						<Loading style={styles.progress} />
-					</View>)
+					) :
+					(
+						<View style={styles.overlay}>
+							<Loading style={styles.progress} />
+						</View>
+					)
 				}
 			</View>
 		);
 	}
 }
 
+
 Embed.propTypes = {
-	uri: React.PropTypes.string.isRequired,
-	endpoint: React.PropTypes.string.isRequired
+	text: React.PropTypes.string.isRequired,
+	showThumb: React.PropTypes.shape({
+		title: React.PropTypes.string.isRequired
+	}).isRequired,
+	thumbnailStyle: React.PropTypes.object.isRequired
 };

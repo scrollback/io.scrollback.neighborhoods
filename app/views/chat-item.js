@@ -10,7 +10,7 @@ import Time from "./time";
 import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
-import oembed from "../../lib/oembed";
+
 
 const {
 	ToastAndroid,
@@ -108,7 +108,7 @@ export default class ChatItem extends React.Component {
 		const menu = {};
 
 		if (textMetadata && textMetadata.type === "image") {
-			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl);
+			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl.toLowerCase());
 			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
 		} else {
 			menu["Copy text"] = () => this._copyToClipboard(text.text);
@@ -157,15 +157,13 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			const uri = links[0];
-			const endpoint = oembed(uri);
 
-			if (endpoint) {
+			if (text.text) {
 				cover = (
 					<Embed
-						uri={uri}
-						endpoint={endpoint}
-						style={styles.embed}
+						text={text.text}
+						thumbnailStyle={styles.embed}
+						showThumb={{ title: true, description: true }}
 					/>
 				);
 			}
