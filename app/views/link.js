@@ -74,12 +74,12 @@ Link.buildLink = link => {
 
 	if (/^(mailto:)?[^@]+@[^@]+\.[^@]+$/i.test(link)) {
 		// an email id
-		return (/^mailto:/.test(link) ? link : "mailto:" + link).toLowerCase();
+		return /^mailto:/.test(link) ? link : "mailto:" + link;
 	}
 
 	if (/^(tel:)?(?:\+?(\d{1,3}))?[-.\s(]*(\d{3})?[-.\s)]*(\d{3})[-.\s]*(\d{4})(?: *x(\d+))?$/.test(link)) {
 		// a phone number
-		return (/^tel:/.test(link) ? link : "tel:" + link).toLowerCase();
+		return /^tel:/.test(link) ? link : "tel:" + link;
 	}
 
 	return null;

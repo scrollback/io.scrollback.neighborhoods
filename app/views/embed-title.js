@@ -8,19 +8,25 @@ const {
 
 const styles = StyleSheet.create({
 	text: {
-		fontWeight:'bold', 
-		fontSize:15
+		fontWeight: "bold",
+		fontSize: 15
 	}
 });
 
 export default class EmbedTitle extends React.Component {
-	render(){
+	render() {
 		return (
 			<View>
-				{this.props.embed.title?
-				(<AppText numberOfLines ={1} style= {styles.text} >{this.props.embed.title}</AppText>):null
+				{this.props.embed.title ?
+					(<AppText numberOfLines={1} style= {styles.text} >{this.props.embed.title}</AppText>) : null
 				}
 			</View>
 		);
 	}
 }
+
+EmbedTitle.propTypes = {
+	embed: React.PropTypes.shape({
+		title: React.PropTypes.string.isRequired
+	}).isRequired
+};

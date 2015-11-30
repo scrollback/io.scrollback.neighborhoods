@@ -146,7 +146,7 @@ export default class DiscussionItem extends React.Component {
 					<Embed
 						text={trimmedText}
 						thumbnailStyle={styles.cover}
-						showThumb={{title: false, description: false}}
+						showThumb={{ title: false, description: false }}
 					/>
 				);
 			}

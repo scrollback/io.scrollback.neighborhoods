@@ -26,28 +26,17 @@ const styles = StyleSheet.create({
 
 
 export default class Embed extends React.Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			url:"",
-			embed:"loading"
+			url: "",
+			embed: "loading"
 		};
 	}
 
-
-	_parseUrl(){
-		const text = this.props.text.replace(/(\r\n|\n|\r)/g, " ");
-
-		const words = text.split(" ");
-		let uri;
-
-		for (let i = 0, l = words.length; i<l; i++){
-			uri = link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
-			if(/^https?:\/\//i.test(uri)){
-				return uri;
-			}
-		}
+	componentDidMount() {
+		this._mounted = true;
+		this._fetchEmbedData();
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -57,42 +46,51 @@ export default class Embed extends React.Component {
 		);
 	}
 
-	componentDidMount(){
-		this._mounted = true;
-		this._fetchEmbedData();
-	}
-
 	componentWillUnmount() {
 		this._mounted = false;
 	}
 
-	async _fetchEmbedData() {
-	    InteractionManager.runAfterInteractions(async () => {
-	        try {
-	            const url = await this._parseUrl();
-	            const embed = await fetchData(url);
+	_parseUrl() {
+		const text = this.props.text.replace(/(\r\n|\n|\r)/g, " ");
 
-	            if (this._mounted && embed) {
-	                this.setState({
-	                    url,
-	                    embed
-	                });
-	            }
-	        } catch (e) {
-	            // Ignore
-	            this.setState({
-				    embed: null
+		const words = text.split(" ");
+		let uri;
+
+		for (let i = 0, l = words.length; i < l; i++) {
+			uri = link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
+			if (/^https?:\/\//i.test(uri)) {
+				return uri;
+			}
+		}
+	}
+
+	_fetchEmbedData() {
+		InteractionManager.runAfterInteractions(async () => {
+			try {
+				const url = await this._parseUrl();
+				const embed = await fetchData(url);
+
+				if (this._mounted && embed) {
+					this.setState({
+						url,
+						embed
+					});
+				}
+			} catch (e) {
+				this.setState({
+					embed: null
 				});
-	        }
-	    });
+			}
+		});
 	}
 
 
-	render(){
+	render() {
 		const { url, embed } = this.state;
+
 		return (
 			<View {...this.props}>
-				{embed !== "loading"? 
+				{embed !== "loading" ?
 					(
 						<View>{embed ?
 							(
@@ -100,15 +98,23 @@ export default class Embed extends React.Component {
 									{this.props.showThumb.title ?
 										(
 											<View>
-												<EmbedVideo embed={embed} style={this.props.thumbnailStyle} url={url}/>
+												<EmbedVideo
+													embed={embed}
+													style={this.props.thumbnailStyle}
+													url={url}
+												/>
 												<EmbedTitle embed={embed} />
 												<EmbedSummary embed={embed} />
 											</View>
-										):
+										) :
 										(
 											<View>
-												{embed.thumbnail_url?
-													<EmbedVideo embed={embed} style={this.props.thumbnailStyle} url={url}/>:
+												{embed.thumbnail_url ?
+													<EmbedVideo
+														embed={embed}
+														style={this.props.thumbnailStyle}
+														url={url}
+													/> :
 													(<View><EmbedTitle embed={embed} />
 													<EmbedSummary embed={embed} /></View>)
 												}
@@ -116,17 +122,17 @@ export default class Embed extends React.Component {
 										)
 									}
 								</View>
-							):
+							) :
 							null
 							}
 						</View>
-					):
+					) :
 					(
 						<View style={styles.overlay}>
 							<Loading style={styles.progress} />
 						</View>
 					)
-			 	}
+				}
 			</View>
 		);
 	}
@@ -134,6 +140,9 @@ export default class Embed extends React.Component {
 
 
 Embed.propTypes = {
-	text: React.PropTypes.string.isRequired
+	text: React.PropTypes.string.isRequired,
+	showThumb: React.PropTypes.shape({
+		title: React.PropTypes.string.isRequired
+	}).isRequired,
+	thumbnailStyle: React.PropTypes.object.isRequired
 };
-

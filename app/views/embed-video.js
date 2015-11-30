@@ -56,7 +56,7 @@ export default class EmbedVideo extends React.Component {
 				(
 					<TouchableHighlight onPress={this._onPress.bind(this)}>
 						<View style={this.props.style}>
-							<Image source={{uri : this.props.embed.thumbnail_url }} style={styles.thumbnail}>
+							<Image source={{ uri: this.props.embed.thumbnail_url }} style={styles.thumbnail}>
 								{this.props.embed.type === "video" ?
 									<View style={styles.playContainer}>
 										<Icon
@@ -64,16 +64,24 @@ export default class EmbedVideo extends React.Component {
 											style={styles.play}
 											size={48}
 										/>
-									</View>:
+									</View> :
 									null
 								}
 							</Image>
 						</View>
 					</TouchableHighlight>
-				): 
+				) :
 				null
 			}
 			</View>
 		);
 	}
 }
+
+EmbedVideo.propTypes = {
+	embed: React.PropTypes.shape({
+		thumbnail_url: React.PropTypes.string.isRequired,
+		type: React.PropTypes.string.isRequired
+	}).isRequired,
+	url: React.PropTypes.string.isRequired
+};
