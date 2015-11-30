@@ -3,7 +3,7 @@ import Colors from "../../colors.json";
 import AppText from "./app-text";
 import Icon from "./icon";
 import CardAuthor from "./card-author";
-import timeUtils from "../../lib/time-utils";
+import Time from "./time";
 
 const {
 	StyleSheet,
@@ -65,7 +65,11 @@ export default class DiscussionFooter extends React.Component {
 							style={styles.icon}
 							size={24}
 						/>
-						<AppText style={styles.label}>{timeUtils.short(this.props.thread.updateTime)}</AppText>
+						<Time
+							type="short"
+							time={this.props.thread.updateTime}
+							style={styles.label}
+						/>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon

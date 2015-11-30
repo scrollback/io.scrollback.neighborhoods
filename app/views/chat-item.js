@@ -1,16 +1,15 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AppText from "./app-text";
 import AvatarRound from "./avatar-round";
 import ChatBubble from "./chat-bubble";
 import EmbedImage from "./embed-image";
 import Embed from "./embed";
 import Modal from "./modal";
 import Icon from "./icon";
+import Time from "./time";
 import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
 import textUtils from "../../lib/text-utils";
-import timeUtils from "../../lib/time-utils";
 import oembed from "../../lib/oembed";
 
 const {
@@ -215,7 +214,11 @@ export default class ChatItem extends React.Component {
 						style={styles.timestampIcon}
 						size={12}
 					 />
-					 <AppText style={styles.timestampText}>{timeUtils.long(text.time)}</AppText>
+					 <Time
+						type="long"
+						time={text.time}
+						style={styles.timestampText}
+					 />
 					</View>) :
 					null
 				}

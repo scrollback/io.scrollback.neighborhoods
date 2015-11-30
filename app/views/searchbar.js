@@ -6,8 +6,7 @@ import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 
 const {
-	StyleSheet,
-	TextInput
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({

@@ -3,9 +3,9 @@ import Colors from "../../colors.json";
 import AppText from "./app-text";
 import Icon from "./icon";
 import AvatarRound from "./avatar-round";
+import Time from "./time";
 import TouchFeedback from "./touch-feedback";
 import routes from "../utils/routes";
-import timeUtils from "../../lib/time-utils";
 
 const {
 	StyleSheet,
@@ -260,7 +260,11 @@ export default class NotificationCenterItem extends React.Component {
 									style={[ styles.icon, styles.metaIcon ]}
 									size={12}
 								/>
-								<AppText style={styles.timestamp}>{timeUtils.long(note.time)}</AppText>
+								<Time
+									type="long"
+									time={note.time}
+									style={styles.timestamp}
+								/>
 							</View>
 						</View>
 							<TouchableHighlight
