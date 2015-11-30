@@ -33,12 +33,12 @@ export default {
 		const item = this._findItem(url);
 
 		if (item) {
-		    item.json = json;
+			item.json = json;
 		} else {
-		    data.push({
-		        url,
-		        json
-		    });
+			data.push({
+				url,
+				json
+			});
 		}
 
 		return AsyncStorage.setItem("oembed_storage", JSON.stringify(data));
@@ -47,7 +47,7 @@ export default {
 	async get(url) {
 
 		if (!data) {
-		    await this._readData();
+			await this._readData();
 		}
 
 		return this._findItem(url);

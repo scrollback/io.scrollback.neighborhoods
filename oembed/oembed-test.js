@@ -1,17 +1,20 @@
+/* eslint-env: mocha */
+
 require("babel-core/register");
+
 var regexes = require("./regexes");
 
 global.fetch = require("node-fetch");
 var mockery = require("mockery");
 
 mockery.enable({
-    warnOnReplace: false
+	warnOnReplace: false
 });
 
 mockery.registerMock("react-native", require("../mocks/react-native"));
 
 var embed = require("./oembed.js").fetchData,
-    assert = require("assert");
+	assert = require("assert");
 
 
 describe("oembed : ", function () {
@@ -22,7 +25,7 @@ describe("oembed : ", function () {
 			assert(text.type === "video", "it is not returning type video" );
 			assert(text.width === 480 ,"bad width length");
 			assert(text.height === 270 ,"bad height length");
-			console.log(text);			
+			console.log(text);
 		});
 	});
 

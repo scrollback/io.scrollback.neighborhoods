@@ -10,6 +10,7 @@ function parseHTML(body) {
 
 	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
 	const res = bodyString.match(regexes.link);
+
 	if (res !== null) {
 		return res[0].match(regexes.matchHTTP)[0].replace(/&amp;/g, "&");
 	}
@@ -22,8 +23,8 @@ function parseHTML(body) {
 	for (let i = 0; i < props.length; i++) {
 
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
-		if (match) {
 
+		if (match) {
 			oembed[props[i]] = getContent(match);
 		}
 	}
@@ -35,8 +36,8 @@ function parseHTML(body) {
 		for (let j = 0; j < types.length; j++) {
 
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
-			if (match) {
 
+			if (match) {
 				oembed[propsWithType[i]] = getContent(match);
 			}
 		}
@@ -66,13 +67,13 @@ function parseHTML(body) {
 	}
 
 	if (Object.keys(oembed).length) {
-	    return oembed;
+		return oembed;
 	} else {
-	    throw new Error("No oEmbed data found");
+		throw new Error("No oEmbed data found");
 	}
 }
 
-async function embed(url){
+async function embed(url) {
 	const res = await fetch(url);
 	const body = await res.text();
 	const parsed = parseHTML(body);
@@ -94,11 +95,11 @@ async function embed(url){
 async function fetchData(url) {
 
 	if (typeof url !== "string") {
-	    throw new TypeError("URL must be a string");
+		throw new TypeError("URL must be a string");
 	}
 
 	if (!/^https?:\/\//i.test(url)) {
-	    throw new Error("URL must start with 'http://' or 'https://'");
+		throw new Error("URL must start with 'http://' or 'https://'");
 	}
 	const json = await storage.get(url);
 
@@ -108,24 +109,26 @@ async function fetchData(url) {
 
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest();
-	    request.open("HEAD", url);
-	    request.onreadystatechange = function() {
-	        if (request.status === 200) {
-	        	if(request.getResponseHeader("content-type").indexOf("image") !== -1) {
-	        		resolve({
+
+		request.open("HEAD", url);
+
+		request.onreadystatechange = function() {
+			if (request.status === 200) {
+				if (request.getResponseHeader("content-type").indexOf("image") !== -1) {
+					resolve({
 						type: "image",
-						thumbnail_url: url  
+						thumbnail_url: url
 					});
-				}else{
-					if(request.getResponseHeader("content-length") <= 5000){
+				} else {
+					if (request.getResponseHeader("content-length") <= 5000) {
 						resolve(embed(url));
 					}
 				}
-	        } else {
-	        	reject();
-	        }
-	    };
-	    request.send();
+			} else {
+				reject();
+			}
+		};
+		request.send();
 	});
 }
 
