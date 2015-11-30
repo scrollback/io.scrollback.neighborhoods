@@ -1,0 +1,12 @@
+{
+    "extends": "../.eslintrc",
+
+    "env": {
+        "node": true
+    },
+
+    "rules": {
+        "camelcase": 0,
+        "no-console": 0
+    }
+}

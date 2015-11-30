@@ -118,6 +118,10 @@ Store.prototype.getTexts = function(roomId, threadId, time, range) {
 	if (!(texts && texts[key])) {
 		if (this.get("app", "connectionStatus") !== "online") {
 			return [ "failed" ];
+		} else if (!this.isRoomReadable(roomId)) {
+			return [ "banned" ];
+		} else if (this.getRoom(roomId) === "missing") {
+			return [ "nonexistent" ];
 		} else {
 			return [ "missing" ];
 		}
@@ -145,6 +149,10 @@ Store.prototype.getThreads = function(roomId, time, range) {
 	if (!(threads && threads[roomId])) {
 		if (this.get("app", "connectionStatus") !== "online") {
 			return [ "failed" ];
+		} else if (!this.isRoomReadable(roomId)) {
+			return [ "banned" ];
+		} else if (this.getRoom(roomId) === "missing") {
+			return [ "nonexistent" ];
 		} else {
 			return [ "missing" ];
 		}
@@ -280,6 +288,20 @@ Store.prototype.isUserAdmin = function(userId, roomId) {
 	const role = this.getUserRole(userId, roomId);
 
 	return permissionWeights[role] >= permissionWeights.moderator;
+};
+
+Store.prototype.isUserBanned = function(userId, roomId) {
+	const role = this.getUserRole(userId, roomId);
+
+	return permissionWeights[role] <= permissionWeights.banned;
+};
+
+Store.prototype.isRoomReadable = function(roomId, userId) {
+	const roomObj = this.getRoom(roomId);
+	const readLevel = (roomObj && roomObj.guides && roomObj.guides.authorizer &&
+						roomObj.guides.authorizer.readLevel) ? roomObj.guides.authorizer.readLevel : "guest";
+
+	return (permissionWeights[this.getUserRole(userId, roomId)] >= permissionWeights[readLevel]);
 };
 
 Store.prototype.isHidden = function(text) {

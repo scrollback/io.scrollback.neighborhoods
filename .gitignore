@@ -67,6 +67,10 @@ proguard/
 
 # Fabric
 fabric.properties
+com_crashlytics_export_strings.xml
+
+# Appvirality
+appvirality.properties
 
 # Built files
 index.android.bundle

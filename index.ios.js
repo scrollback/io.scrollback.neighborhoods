@@ -1,5 +1,5 @@
 import React from "react-native";
-import AppController from "./views/controllers/app-controller";
+import AppController from "./app/controllers/app-controller";
 
 const {
 	AppRegistry

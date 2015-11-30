@@ -19,7 +19,6 @@
     "es6.tailCall",
     "es6.templateLiterals",
     "es7.asyncFunctions",
-    "es7.decorators",
     "es7.objectRestSpread",
     "es7.trailingFunctionCommas",
     "flow",
