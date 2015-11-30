@@ -5,7 +5,6 @@ import timeUtils from "../../lib/time-utils";
 const msPerSec = 1000;
 const msPerMin = msPerSec * 60;
 const msPerHour = msPerMin * 60;
-const msPerDay = msPerHour * 24;
 
 export default class Time extends React.Component {
 	componentWillMount() {
@@ -37,8 +36,6 @@ export default class Time extends React.Component {
 			interval = msPerSec * 10;
 		} else if (diff < msPerHour) {
 			interval = msPerMin;
-		} else if (diff < msPerDay) {
-			interval = msPerHour;
 		}
 
 		if (interval) {
