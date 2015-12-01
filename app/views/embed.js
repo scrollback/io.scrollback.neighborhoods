@@ -41,8 +41,7 @@ export default class Embed extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
-			this.state.embed !== nextState.embed ||
-			this.state.url !== nextState.url
+			this.state.embed !== nextState.embed
 		);
 	}
 
@@ -67,6 +66,7 @@ export default class Embed extends React.Component {
 	_fetchEmbedData() {
 		InteractionManager.runAfterInteractions(async () => {
 			try {
+
 				const url = await this._parseUrl();
 				const embed = await fetchData(url);
 
@@ -95,7 +95,7 @@ export default class Embed extends React.Component {
 						<View>{embed ?
 							(
 								<View>
-									{this.props.showThumb.title ?
+									{this.props.showTitle ?
 										(
 											<View>
 												<EmbedVideo
@@ -126,12 +126,7 @@ export default class Embed extends React.Component {
 							null
 							}
 						</View>
-					) :
-					(
-						<View style={styles.overlay}>
-							<Loading style={styles.progress} />
-						</View>
-					)
+					) :null
 				}
 			</View>
 		);
@@ -141,8 +136,5 @@ export default class Embed extends React.Component {
 
 Embed.propTypes = {
 	text: React.PropTypes.string.isRequired,
-	showThumb: React.PropTypes.shape({
-		title: React.PropTypes.string.isRequired
-	}).isRequired,
-	thumbnailStyle: React.PropTypes.object.isRequired
+	showTitle: React.PropTypes.bool.isRequired
 };

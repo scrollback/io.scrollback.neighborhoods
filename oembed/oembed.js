@@ -1,5 +1,6 @@
 import storage from "./oembed-storage";
 import regexes from "./regexes";
+import oembedPri from "./oembedPri"
 
 function getContent(regex) {
 
@@ -17,6 +18,7 @@ function parseHTML(body) {
 
 	const oembed = {};
 
+
 	const props = [ "type", "title", "description" ];
 	const propsWithType = [ "width", "height" ];
 
@@ -28,6 +30,7 @@ function parseHTML(body) {
 			oembed[props[i]] = getContent(match);
 		}
 	}
+
 
 	for (let i = 0; i < propsWithType.length; i++) {
 
@@ -107,12 +110,20 @@ async function fetchData(url) {
 		return json;
 	}
 
+	const endpoint = oembedPri(url);
+
+	if (endpoint) {
+		const jsonp = await (await fetch(endpoint)).json();
+
+		storage.set(url, jsonp);
+		return jsonp;
+	}
+
+
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest();
 
-		request.open("HEAD", url);
-
-		request.onreadystatechange = function() {
+		request.onload = function() {
 			if (request.status === 200) {
 				if (request.getResponseHeader("content-type").indexOf("image") !== -1) {
 					resolve({
@@ -120,14 +131,13 @@ async function fetchData(url) {
 						thumbnail_url: url
 					});
 				} else {
-					if (request.getResponseHeader("content-length") <= 5000) {
-						resolve(embed(url));
-					}
+					resolve(embed(url));
 				}
 			} else {
 				reject();
 			}
 		};
+		request.open("HEAD", url, true);
 		request.send();
 	});
 }

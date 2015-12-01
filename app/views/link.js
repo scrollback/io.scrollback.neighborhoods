@@ -41,7 +41,7 @@ export default class Link extends React.Component {
 		}
 
 		if (!event.defaultPrevented) {
-			Linking.openURL(url.toLowerCase());
+			Linking.openURL(url);
 		}
 	}
 
@@ -69,7 +69,7 @@ export default class Link extends React.Component {
 Link.buildLink = link => {
 	if (/^((https?|ftp):\/\/.)?(www\.)?([-a-zA-Z0-9@:%\._\+~#=]){2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/i.test(link) && !/\.{2,}/.test(link)) {
 		// a normal link
-		return (/^(https?|ftp):\/\//i.test(link) ? link : "http://" + link).toLowerCase();
+		return /^(https?|ftp):\/\//i.test(link) ? link : "http://" + link;
 	}
 
 	if (/^(mailto:)?[^@]+@[^@]+\.[^@]+$/i.test(link)) {
