@@ -1,14 +1,12 @@
 import storage from "./oembed-storage";
 import regexes from "./regexes";
-import oembedPri from "./oembedPri"
+import providers from "./providers";
 
 function getContent(regex) {
-
 	return regex[0].match(regexes.content)[0].match(/['|"].*/)[0].slice(1);
 }
 
 function parseHTML(body) {
-
 	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
 	const res = bodyString.match(regexes.link);
 
@@ -18,12 +16,10 @@ function parseHTML(body) {
 
 	const oembed = {};
 
-
 	const props = [ "type", "title", "description" ];
 	const propsWithType = [ "width", "height" ];
 
 	for (let i = 0; i < props.length; i++) {
-
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
 
 		if (match) {
@@ -31,9 +27,7 @@ function parseHTML(body) {
 		}
 	}
 
-
 	for (let i = 0; i < propsWithType.length; i++) {
-
 		const types = [ "video", "image" ];
 
 		for (let j = 0; j < types.length; j++) {
@@ -41,7 +35,7 @@ function parseHTML(body) {
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
 
 			if (match) {
-				oembed[propsWithType[i]] = getContent(match);
+				oembed["thumbnail_" + propsWithType[i]] = getContent(match);
 			}
 		}
 	}
@@ -53,7 +47,6 @@ function parseHTML(body) {
 	}
 
 	if (!oembed.title) {
-
 		const title = bodyString.match(regexes.title);
 
 		if (title) {
@@ -96,7 +89,6 @@ async function embed(url) {
 }
 
 async function fetchData(url) {
-
 	if (typeof url !== "string") {
 		throw new TypeError("URL must be a string");
 	}
@@ -110,15 +102,18 @@ async function fetchData(url) {
 		return json;
 	}
 
-	const endpoint = oembedPri(url);
+	for (let i = 0, l = providers.length; i < l; i++) {
+		const provider = providers[i];
 
-	if (endpoint) {
-		const jsonp = await (await fetch(endpoint)).json();
+		if (provider[0].test(url)) {
+			const endpoint = provider[1] + "?format=json&maxheight=240&url=" + encodeURIComponent(url);
+			const data = await (await fetch(endpoint)).json();
 
-		storage.set(url, jsonp);
-		return jsonp;
+			storage.set(url, data);
+
+			return data;
+		}
 	}
-
 
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest();
@@ -137,6 +132,7 @@ async function fetchData(url) {
 				reject();
 			}
 		};
+
 		request.open("HEAD", url, true);
 		request.send();
 	});

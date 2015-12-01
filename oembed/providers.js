@@ -1,4 +1,4 @@
-const oEmbedProviders = [
+export default [
 	[ /https?:\/\/(www\.)?(m\.)?youtube\.com\/watch/i, "http://www.youtube.com/oembed" ],
 	[ /https?:\/\/youtu\.be\S+/, "http://www.youtube.com/oembed" ],
 	[ /https?:\/\/(www\.)?vimeo\.com\S+/i, "http://vimeo.com/api/oembed.json" ],
@@ -9,15 +9,3 @@ const oEmbedProviders = [
 	[ /https?:\/\/(www\.)?soundcloud\.com\S+/i, "http://soundcloud.com/oembed" ],
 	[ /https?:\/\/instagr(\.am|am\.com)\/p\S+/i, "http://api.instagram.com/oembed" ]
 ];
-
-export default function(link) {
-	for (let i = 0, l = oEmbedProviders.length; i < l; i++) {
-		const provider = oEmbedProviders[i];
-
-		if (provider[0].test(link)) {
-			return provider[1] + "?format=json&maxheight=240&url=" + encodeURIComponent(link);
-		}
-	}
-
-	return null;
-}
