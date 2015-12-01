@@ -109,9 +109,5 @@ dependencies {
         transitive = true;
     }
 
-    compile(project(':react-native-vector-icons')) {
-        exclude group: 'com.facebook.react', module: 'react-native'
-    }
-
     compile project(':ReactAndroid')
 }

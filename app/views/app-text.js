@@ -7,6 +7,7 @@ const {
 
 const styles = StyleSheet.create({
 	text: {
+		fontFamily: "Lato",
 		fontSize: 14,
 		lineHeight: 21
 	}

@@ -12,7 +12,6 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 
 import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
 import io.scrollback.neighborhoods.bundle.JSBundleManager;
@@ -53,7 +52,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                                 .getJSBundleFile())
                 .setJSMainModuleName("index.android")
                 .addPackage(new MainReactPackage())
-                .addPackage(new VectorIconsPackage())
                 .addPackage(new CorePackage(this))
                 .addPackage(new AppviralityPackage(this))
                 .addPackage(new AnalyticsPackage())
