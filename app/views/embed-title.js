@@ -9,6 +9,7 @@ const {
 const styles = StyleSheet.create({
 	text: {
 		fontWeight: "bold",
+		margin: 2,
 		fontSize: 15
 	}
 });

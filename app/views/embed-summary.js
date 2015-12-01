@@ -2,15 +2,25 @@ import React from "react-native";
 import AppText from "./app-text";
 
 const {
-	View
+	View,
+	StyleSheet
 } = React;
+
+const styles = StyleSheet.create({
+	description: {
+		margin: 2
+	}
+});
 
 export default class EmbedSummary extends React.Component {
 	render() {
 		return (
 			<View>
 				{this.props.embed.description ?
-					(<AppText numberOfLines = {2}>{this.props.embed.description}</AppText>) : null
+					(<AppText
+						style={styles.description}
+						numberOfLines = {2}
+					 >{this.props.embed.description}</AppText>) : null
 				}
 			</View>
 		);
@@ -18,7 +28,5 @@ export default class EmbedSummary extends React.Component {
 }
 
 EmbedSummary.propTypes = {
-	embed: React.PropTypes.shape({
-		description: React.PropTypes.string.isRequired
-	}).isRequired
+	embed: React.PropTypes.object.isRequired
 };

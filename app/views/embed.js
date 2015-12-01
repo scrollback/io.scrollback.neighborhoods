@@ -5,6 +5,7 @@ import { fetchData } from "../../oembed/oembed";
 import EmbedVideo from "./embed-video";
 import EmbedTitle from "./embed-title";
 import EmbedSummary from "./embed-summary";
+import oembedPri from "../../oembed/oembedPri";
 
 const {
 	StyleSheet,
@@ -41,8 +42,7 @@ export default class Embed extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return (
-			this.state.embed !== nextState.embed ||
-			this.state.url !== nextState.url
+			this.state.embed !== nextState.embed
 		);
 	}
 
@@ -67,8 +67,17 @@ export default class Embed extends React.Component {
 	_fetchEmbedData() {
 		InteractionManager.runAfterInteractions(async () => {
 			try {
+				let embed;
+
 				const url = await this._parseUrl();
-				const embed = await fetchData(url);
+
+				const endpoint = oembedPri(url);
+
+				if (endpoint) {
+					embed = await (await fetch(endpoint)).json();
+				} else {
+					embed = await fetchData(url);
+				}
 
 				if (this._mounted && embed) {
 					this.setState({
@@ -95,7 +104,7 @@ export default class Embed extends React.Component {
 						<View>{embed ?
 							(
 								<View>
-									{this.props.showThumb.title ?
+									{this.props.showTitle ?
 										(
 											<View>
 												<EmbedVideo
@@ -141,8 +150,5 @@ export default class Embed extends React.Component {
 
 Embed.propTypes = {
 	text: React.PropTypes.string.isRequired,
-	showThumb: React.PropTypes.shape({
-		title: React.PropTypes.string.isRequired
-	}).isRequired,
-	thumbnailStyle: React.PropTypes.object.isRequired
+	showTitle: React.PropTypes.bool.isRequired
 };

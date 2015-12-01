@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 export default class EmbedVideo extends React.Component {
 
 	_onPress() {
-		Linking.openURL(this.props.url.toLowerCase());
+		Linking.openURL(this.props.url);
 	}
 
 	render() {
@@ -79,9 +79,6 @@ export default class EmbedVideo extends React.Component {
 }
 
 EmbedVideo.propTypes = {
-	embed: React.PropTypes.shape({
-		thumbnail_url: React.PropTypes.string.isRequired,
-		type: React.PropTypes.string.isRequired
-	}).isRequired,
+	embed: React.PropTypes.object.isRequired,
 	url: React.PropTypes.string.isRequired
 };

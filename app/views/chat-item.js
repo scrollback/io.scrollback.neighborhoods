@@ -163,7 +163,9 @@ export default class ChatItem extends React.Component {
 					<Embed
 						text={text.text}
 						thumbnailStyle={styles.embed}
-						showThumb={{ title: true, description: true }}
+						showThumb
+						showTitle
+						showSummary
 					/>
 				);
 			}
