@@ -1,5 +1,6 @@
 import storage from "./oembed-storage";
 import regexes from "./regexes";
+import oembedPri from "./oembedPri"
 
 function getContent(regex) {
 
@@ -108,6 +109,16 @@ async function fetchData(url) {
 	if (typeof json !== "undefined") {
 		return json;
 	}
+
+	const endpoint = oembedPri(url);
+
+	if (endpoint) {
+		const jsonp = await (await fetch(endpoint)).json();
+
+		storage.set(url, jsonp);
+		return jsonp;
+	}
+
 
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest();

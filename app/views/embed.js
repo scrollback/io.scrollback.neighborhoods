@@ -5,7 +5,6 @@ import { fetchData } from "../../oembed/oembed";
 import EmbedVideo from "./embed-video";
 import EmbedTitle from "./embed-title";
 import EmbedSummary from "./embed-summary";
-import oembedPri from "../../oembed/oembedPri";
 
 const {
 	StyleSheet,
@@ -67,17 +66,9 @@ export default class Embed extends React.Component {
 	_fetchEmbedData() {
 		InteractionManager.runAfterInteractions(async () => {
 			try {
-				let embed;
 
 				const url = await this._parseUrl();
-
-				const endpoint = oembedPri(url);
-
-				if (endpoint) {
-					embed = await (await fetch(endpoint)).json();
-				} else {
-					embed = await fetchData(url);
-				}
+				const embed = await fetchData(url);
 
 				if (this._mounted && embed) {
 					this.setState({
@@ -135,12 +126,7 @@ export default class Embed extends React.Component {
 							null
 							}
 						</View>
-					) :
-					(
-						<View style={styles.overlay}>
-							<Loading style={styles.progress} />
-						</View>
-					)
+					) :null
 				}
 			</View>
 		);
