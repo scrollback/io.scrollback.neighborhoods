@@ -73,28 +73,36 @@ module.exports = function(core) {
 				const isEnabled = await Geolocation.isGPSEnabled();
 
 				if (!isEnabled) {
-					AlertDialog.show(null, GPS_ENABLE_MESSAGE,
-						[
-							{
-								type: AlertDialog.POSITIVE_BUTTON,
-								label: GPS_ENABLE_OK,
-								onPress: () => Geolocation.showGPSSettings()
-							},
-							{
-								type: AlertDialog.NEGATIVE_BUTTON,
-								label: GPS_ENABLE_CANCEL,
-								onPress: () => {
-									core.emit("setstate", {
-										app: {
-											nearByRooms: []
-										}
-									});
+					try {
+						await AlertDialog.show(null, GPS_ENABLE_MESSAGE,
+							[
+								{
+									type: AlertDialog.POSITIVE_BUTTON,
+									label: GPS_ENABLE_OK,
+									onPress: () => Geolocation.showGPSSettings()
+								},
+								{
+									type: AlertDialog.NEGATIVE_BUTTON,
+									label: GPS_ENABLE_CANCEL,
+									onPress: () => {
+										core.emit("setstate", {
+											app: {
+												nearByRooms: []
+											}
+										});
+									}
 								}
+							]
+						);
+					} catch (err) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: []
 							}
-						]
-					);
+						});
+					}
 				}
 			}
 		}
 	}, 1);
-}
+};

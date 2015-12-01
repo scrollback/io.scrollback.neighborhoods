@@ -6,7 +6,7 @@ export default {
 	POSITIVE_BUTTON: AlertDialogModule.POSITIVE_BUTTON,
 	NEGATIVE_BUTTON: AlertDialogModule.NEGATIVE_BUTTON,
 
-	show(title, message, buttons) {
+	async show(title, message, buttons) {
 		let positive, negative;
 
 		for (let i = 0, l = buttons.length; i < l; i++) {
@@ -22,24 +22,23 @@ export default {
 			}
 		}
 
-		AlertDialogModule.show(
+		const type = await AlertDialogModule.show(
 			title, message,
 			positive ? positive.label : null,
-			negative ? negative.label : null,
-			type => {
-				switch (type) {
-				case this.POSITIVE_BUTTON:
-					if (positive && typeof positive.onPress === "function") {
-						positive.onPress();
-					}
-					break;
-				case this.NEGATIVE_BUTTON:
-					if (negative && typeof negative.onPress === "function") {
-						negative.onPress();
-					}
-					break;
-				}
-			}
+			negative ? negative.label : null
 		);
+
+		switch (type) {
+		case this.POSITIVE_BUTTON:
+			if (positive && typeof positive.onPress === "function") {
+				positive.onPress();
+			}
+			break;
+		case this.NEGATIVE_BUTTON:
+			if (negative && typeof negative.onPress === "function") {
+				negative.onPress();
+			}
+			break;
+		}
 	}
 };

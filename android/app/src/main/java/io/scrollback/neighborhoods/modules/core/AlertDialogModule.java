@@ -1,11 +1,13 @@
 package io.scrollback.neighborhoods.modules.core;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -45,7 +47,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
     public void show(
             @Nullable final String title, @Nullable final String message,
             @Nullable final String positiveLabel, @Nullable final String negativeLabel,
-            final Callback callback) {
+            final Promise promise) {
 
         final AlertDialog.Builder dialog = new AlertDialog.Builder(mActiviyContext);
 
@@ -63,7 +65,7 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
             dialog.setPositiveButton(positiveLabel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int id) {
-                            callback.invoke(POSITIVE_BUTTON);
+                            promise.resolve(POSITIVE_BUTTON);
                         }
                     });
         }
@@ -72,11 +74,15 @@ public class AlertDialogModule extends ReactContextBaseJavaModule {
             dialog.setNegativeButton(negativeLabel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface d, int id) {
-                            callback.invoke(NEGATIVE_BUTTON);
+                            promise.resolve(NEGATIVE_BUTTON);
                         }
                     });
         }
 
-        dialog.show();
+        if (((Activity) mActiviyContext).isFinishing()) {
+            promise.reject("Activity is finishing");
+        } else {
+            dialog.show();
+        }
     }
 }
