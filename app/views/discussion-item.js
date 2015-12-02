@@ -136,7 +136,7 @@ export default class DiscussionItem extends React.Component {
 		if (textMetadata && textMetadata.type === "image") {
 			cover = (
 				<Image
-					style={styles.image}
+					style={[ styles.cover, styles.image ]}
 					source={{ uri: textMetadata.thumbnailUrl }}
 				/>
 			);
