@@ -14,9 +14,11 @@ function parseHTML(body) {
 		return res[0].match(regexes.matchHTTP)[0].replace(/&amp;/g, "&");
 	}
 
-	const oembed = {};
+	const oembed = {
+		type: "rich"
+	};
 
-	const props = [ "type", "title", "description" ];
+	const props = [ "title", "description" ];
 
 	for (let i = 0; i < props.length; i++) {
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
@@ -35,7 +37,7 @@ function parseHTML(body) {
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
 
 			if (match) {
-				oembed["thumbnail_" + propsWithType[i]] = parseInt(getContent(match), 10);
+				oembed[propsWithType[i]] = parseInt(getContent(match), 10);
 			}
 		}
 	}

@@ -26,7 +26,6 @@ const {
 
 const styles = StyleSheet.create({
 	image: {
-		resizeMode: "cover",
 		marginVertical: 4,
 		height: 180,
 		width: null
