@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 	missing: {
+		margin: 16,
+		textAlign: "center",
 		fontSize: 18
 	},
 	button: {
@@ -73,4 +75,3 @@ PageFailed.propTypes = {
 PageFailed.defaultProps = {
 	pageLabel: "Failed to load data"
 };
-
