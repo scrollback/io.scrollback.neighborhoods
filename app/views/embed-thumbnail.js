@@ -31,7 +31,7 @@ export default class EmbedVideo extends React.Component {
 	render() {
 		if (this.props.embed.thumbnail_url) {
 			return (
-				<Image source={{ uri: this.props.embed.thumbnail_url }} style={[ this.props.style, styles.thumbnail ]}>
+				<Image source={{ uri: this.props.embed.thumbnail_url }} style={[ styles.thumbnail, this.props.style ]}>
 					{this.props.embed.type === "video" ?
 						<View style={styles.playContainer}>
 							<Icon

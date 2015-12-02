@@ -28,11 +28,11 @@ const {
 const styles = StyleSheet.create({
 	image: {
 		resizeMode: "cover",
-		height: 160
+		height: 180,
+		width: null
 	},
 	cover: {
-		marginVertical: 4,
-		height: 180
+		marginVertical: 4
 	},
 	item: {
 		marginHorizontal: 16
@@ -131,20 +131,23 @@ export default class DiscussionItem extends React.Component {
 		const links = Link.parseLinks(trimmedText, 1);
 		const textMetadata = textUtils.getMetadata(trimmedText);
 
-		let cover;
+		let cover, hideSummary;
 
 		if (textMetadata && textMetadata.type === "image") {
 			cover = (
 				<Image
-					style={styles.cover}
+					style={styles.image}
 					source={{ uri: textMetadata.thumbnailUrl }}
 				/>
 			);
+
+			hideSummary = true;
 		} else if (links.length) {
 			cover = (
 				<Embed
 					url={links[0]}
-					thumbnailStyle={styles.cover}
+					style={styles.cover}
+					thumbnailStyle={styles.image}
 					showTitle={false}
 					showSummary={false}
 				/>
@@ -172,7 +175,11 @@ export default class DiscussionItem extends React.Component {
 							</TouchableOpacity>
 						</View>
 
-						{cover}<CardSummary style={styles.item} text={trimmedText} />
+						{cover}
+
+						{hideSummary ? null :
+							<CardSummary style={styles.item} text={trimmedText} />
+						}
 
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>
