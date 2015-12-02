@@ -150,7 +150,7 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			cover = <Embed url={links[0]} />;
+			cover = <Embed url={links[0]} thumbnailStyle={styles.thumbnail} />;
 		}
 
 		let showAuthor = received,

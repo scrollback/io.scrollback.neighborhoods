@@ -28,11 +28,9 @@ const {
 const styles = StyleSheet.create({
 	image: {
 		resizeMode: "cover",
+		marginVertical: 4,
 		height: 180,
 		width: null
-	},
-	cover: {
-		marginVertical: 4
 	},
 	item: {
 		marginHorizontal: 16
@@ -136,7 +134,7 @@ export default class DiscussionItem extends React.Component {
 		if (textMetadata && textMetadata.type === "image") {
 			cover = (
 				<Image
-					style={[ styles.cover, styles.image ]}
+					style={styles.image}
 					source={{ uri: textMetadata.thumbnailUrl }}
 				/>
 			);
@@ -146,7 +144,6 @@ export default class DiscussionItem extends React.Component {
 			cover = (
 				<Embed
 					url={links[0]}
-					style={styles.cover}
 					thumbnailStyle={styles.image}
 					showTitle={false}
 					showSummary={false}
