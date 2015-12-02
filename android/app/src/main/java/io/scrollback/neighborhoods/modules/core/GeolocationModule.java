@@ -18,6 +18,8 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.List;
+
 public class GeolocationModule extends ReactContextBaseJavaModule {
 
     private static final String TAG = "GeoLocation";
@@ -25,7 +27,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     private static final int LOCATION_REFRESH_TIME = 0;
     private static final int LOCATION_REFRESH_DISTANCE = 0;
 
-    private static final String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
+    private final String LOCATION_PROVIDER;
 
     private final ReactApplicationContext mReactContext;
     private final Context mActiviyContext;
@@ -53,6 +55,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         public void onProviderDisabled(String provider) {
         }
     };
+
     private LocationManager mLocationManager = null;
     private boolean isWatching = false;
 
@@ -62,8 +65,15 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         mReactContext = reactContext;
         mActiviyContext = activityContext;
 
+        mLocationManager = (LocationManager) mReactContext.getSystemService(Application.LOCATION_SERVICE);
+
+        if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
+            LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
+        } else {
+            LOCATION_PROVIDER = LocationManager.PASSIVE_PROVIDER;
+        }
+
         try {
-            mLocationManager = (LocationManager) mReactContext.getSystemService(Application.LOCATION_SERVICE);
             mCurrentlocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
         } catch (SecurityException e) {
             // Permission may be rejected starting from Marshmallow
