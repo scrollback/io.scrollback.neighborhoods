@@ -6,6 +6,16 @@ function getContent(regex) {
 	return regex[0].match(regexes.content)[0].match(/['|"].*/)[0].slice(1);
 }
 
+function decodeText(text) {
+	return text
+	.replace(/&lt;/g, "<")
+	.replace(/&gt;/g, ">")
+	.replace(/&amp;/g, "&")
+	.replace(/&quot;/g, '"')
+	.replace(/&nbsp;/g, " ")
+	.replace(/&#(x?)(\d+);/g, (m, p1, p2) => String.fromCharCode(((p1 === "x") ? parseInt(p2, 16) : p2)));
+}
+
 function parseHTML(body) {
 	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
 	const res = bodyString.match(regexes.link);
@@ -23,8 +33,8 @@ function parseHTML(body) {
 	for (let i = 0; i < props.length; i++) {
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
 
-		if (match) {
-			oembed[props[i]] = getContent(match);
+		if (match && match.length) {
+			oembed[props[i]] = decodeText(getContent(match));
 		}
 	}
 
@@ -36,7 +46,7 @@ function parseHTML(body) {
 		for (let j = 0; j < types.length; j++) {
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
 
-			if (match) {
+			if (match && match.length) {
 				oembed[propsWithType[i]] = parseInt(getContent(match), 10);
 			}
 		}
@@ -49,18 +59,26 @@ function parseHTML(body) {
 	}
 
 	if (!oembed.title) {
-		const title = bodyString.match(regexes.title);
+		const match = bodyString.match(regexes.title);
 
-		if (title) {
-			oembed.title = title[0].match(/[>][^<]*/)[0].slice(1);
+		if (match && match.length) {
+			const title = title[0].match(/[>][^<]*/);
+
+			if (title && title.length) {
+				oembed.title = decodeText(title[0].slice(1));
+			}
 		}
 	}
 
 	if (!oembed.description) {
-		const description = bodyString.match(regexes.description);
+		const match = bodyString.match(regexes.description);
 
-		if (description) {
-			oembed.description = description[0].match(regexes.content)[0].match(/['|"][^'|^"]*/)[0].slice(1);
+		if (match && match.length) {
+			const description = description[0].match(regexes.content)[0].match(/['|"][^'|^"]*/);
+
+			if (description && description.length) {
+				oembed.description = decodeText(description[0].slice(1));
+			}
 		}
 	}
 
