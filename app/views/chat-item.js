@@ -7,10 +7,9 @@ import Embed from "./embed";
 import Modal from "./modal";
 import Icon from "./icon";
 import Time from "./time";
+import Link from "./link";
 import Clipboard from "../../modules/clipboard";
 import Linking from "../../modules/linking";
-import textUtils from "../../lib/text-utils";
-
 
 const {
 	ToastAndroid,
@@ -137,8 +136,7 @@ export default class ChatItem extends React.Component {
 		const { text, hidden, textMetadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
-
-		const links = textUtils.getLinks(text.text);
+		const links = Link.parseLinks(text.text, 1);
 
 		let cover;
 
@@ -152,11 +150,7 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-			if (text.text) {
-				cover = (
-					<Embed text={text.text} />
-				);
-			}
+			cover = <Embed url={links[0]} />;
 		}
 
 		let showAuthor = received,

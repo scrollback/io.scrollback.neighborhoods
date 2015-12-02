@@ -9,6 +9,7 @@ import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
+import Link from "./link";
 import Linking from "../../modules/linking";
 import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
@@ -127,7 +128,7 @@ export default class DiscussionItem extends React.Component {
 
 		const trimmedText = thread.text.trim();
 
-		const links = textUtils.getLinks(trimmedText);
+		const links = Link.parseLinks(trimmedText, 1);
 		const textMetadata = textUtils.getMetadata(trimmedText);
 
 		let cover;
@@ -140,17 +141,14 @@ export default class DiscussionItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-
-			if (trimmedText) {
-				cover = (
-					<Embed
-						text={trimmedText}
-						thumbnailStyle={styles.cover}
-						showTitle={false}
-						showSummary={false}
-					/>
-				);
-			}
+			cover = (
+				<Embed
+					url={links[0]}
+					thumbnailStyle={styles.cover}
+					showTitle={false}
+					showSummary={false}
+				/>
+			);
 		}
 
 		return (

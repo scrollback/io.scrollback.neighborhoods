@@ -1,5 +1,4 @@
 import React from "react-native";
-import link from "./link";
 import oembed from "../../oembed/oembed";
 import EmbedThumbnail from "./embed-thumbnail";
 import EmbedTitle from "./embed-title";
@@ -16,16 +15,17 @@ export default class Embed extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this._url = this._parseUrl(this.props.text);
-
 		this.state = {
 			embed: null
 		};
 	}
 
+	componentWillMount() {
+		this._fetchData();
+	}
+
 	componentDidMount() {
 		this._mounted = true;
-		this._fetchEmbedData();
 	}
 
 	componentWillUnmount() {
@@ -33,26 +33,22 @@ export default class Embed extends React.Component {
 	}
 
 	_onPress() {
-		Linking.openURL(this._url);
+		Linking.openURL(this.props.url);
 	}
 
-	_parseUrl(text) {
-		const words = text.replace(/(\r\n|\n|\r)/g, " ").split(" ");
-
-		let url;
-
-		for (let i = 0, l = words.length; i < l; i++) {
-			url = link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
-
-			if (/^https?:\/\//.test(url)) {
-				return url;
-			}
+	_fetchData() {
+		if (this.props.data) {
+			this.setState({
+				embed: this.props.data
+			});
+		} else {
+			this._fetchEmbedData(this.props.url);
 		}
 	}
 
-	async _fetchEmbedData() {
+	async _fetchEmbedData(url) {
 		try {
-			const embed = await oembed.get(this._url);
+			const embed = await oembed.get(url);
 
 			if (this._mounted) {
 				this.setState({
@@ -98,9 +94,9 @@ export default class Embed extends React.Component {
 	}
 }
 
-
 Embed.propTypes = {
-	text: React.PropTypes.string.isRequired,
+	data: React.PropTypes.object,
+	url: React.PropTypes.string.isRequired,
 	showThumbnail: React.PropTypes.bool,
 	showTitle: React.PropTypes.bool,
 	showSummary: React.PropTypes.bool,

@@ -85,6 +85,27 @@ Link.buildLink = link => {
 	return null;
 };
 
+Link.parseLinks = (text, count) => {
+	const links = [];
+	const words = text.replace(/(\r\n|\n|\r)/g, " ").split(" ");
+
+	let url;
+
+	for (let i = 0, l = words.length; i < l; i++) {
+		url = Link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
+
+		if (/^https?:\/\//.test(url)) {
+			links.push(url);
+
+			if (count && links.length >= count) {
+				break;
+			}
+		}
+	}
+
+	return links;
+};
+
 Link.propTypes = {
 	children: React.PropTypes.string.isRequired,
 	url: React.PropTypes.string,
