@@ -9,6 +9,7 @@ import Embed from "./embed";
 import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
+import Link from "./link";
 import Linking from "../../modules/linking";
 import Clipboard from "../../modules/clipboard";
 import Share from "../../modules/share";
@@ -20,18 +21,14 @@ const {
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
-	Image,
 	View
 } = React;
 
 const styles = StyleSheet.create({
 	image: {
-		resizeMode: "cover",
-		height: 160
-	},
-	cover: {
 		marginVertical: 4,
-		height: 180
+		height: 180,
+		width: null
 	},
 	item: {
 		marginHorizontal: 16
@@ -80,11 +77,11 @@ export default class DiscussionItem extends React.Component {
 
 		menu["Copy title"] = () => this._copyToClipboard(thread.title);
 
-		const textMetadata = textUtils.getMetadata(thread.text);
+		const metadata = textUtils.getMetadata(thread.text);
 
-		if (textMetadata && textMetadata.type === "image") {
-			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl.toLowerCase());
-			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
+		if (metadata && metadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(metadata.url);
+			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
 		} else {
 			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
 		}
@@ -127,29 +124,32 @@ export default class DiscussionItem extends React.Component {
 
 		const trimmedText = thread.text.trim();
 
-		const links = textUtils.getLinks(trimmedText);
-		const textMetadata = textUtils.getMetadata(trimmedText);
+		const links = Link.parseLinks(trimmedText, 1);
+		const metadata = textUtils.getMetadata(trimmedText);
 
-		let cover;
+		let cover, hideSummary;
 
-		if (textMetadata && textMetadata.type === "image") {
+		if (metadata && metadata.type === "photo") {
 			cover = (
-				<Image
-					style={styles.cover}
-					source={{ uri: textMetadata.thumbnailUrl }}
+				<Embed
+					url={metadata.url}
+					data={metadata}
+					thumbnailStyle={styles.image}
+					showTitle={false}
+					showSummary={false}
 				/>
 			);
-		} else if (links.length) {
 
-			if (trimmedText) {
-				cover = (
-					<Embed
-						text={trimmedText}
-						thumbnailStyle={styles.cover}
-						showThumb={{ title: false, description: false }}
-					/>
-				);
-			}
+			hideSummary = true;
+		} else if (links.length) {
+			cover = (
+				<Embed
+					url={links[0]}
+					thumbnailStyle={styles.image}
+					showTitle={false}
+					showSummary={false}
+				/>
+			);
 		}
 
 		return (
@@ -173,7 +173,11 @@ export default class DiscussionItem extends React.Component {
 							</TouchableOpacity>
 						</View>
 
-						{cover}<CardSummary style={styles.item} text={trimmedText} />
+						{cover}
+
+						{hideSummary ? null :
+							<CardSummary style={styles.item} text={trimmedText} />
+						}
 
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>

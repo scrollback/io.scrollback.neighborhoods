@@ -1,148 +1,113 @@
 import React from "react-native";
-import link from "./link";
-import Loading from "./loading";
-import { fetchData } from "../../oembed/oembed";
-import EmbedVideo from "./embed-video";
+import oembed from "../../oembed/oembed";
+import EmbedThumbnail from "./embed-thumbnail";
 import EmbedTitle from "./embed-title";
 import EmbedSummary from "./embed-summary";
+import Linking from "../../modules/linking";
 
 const {
-	StyleSheet,
-	InteractionManager,
+	TouchableOpacity,
 	View
 } = React;
-
-const styles = StyleSheet.create({
-	overlay: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center"
-	},
-	progress: {
-		height: 24,
-		width: 24
-	}
-});
-
 
 export default class Embed extends React.Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
-			url: "",
-			embed: "loading"
+			embed: null
 		};
+	}
+
+	componentWillMount() {
+		this._fetchData();
 	}
 
 	componentDidMount() {
 		this._mounted = true;
-		this._fetchEmbedData();
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			this.state.embed !== nextState.embed ||
-			this.state.url !== nextState.url
-		);
 	}
 
 	componentWillUnmount() {
 		this._mounted = false;
 	}
 
-	_parseUrl() {
-		const text = this.props.text.replace(/(\r\n|\n|\r)/g, " ");
+	_onPress() {
+		Linking.openURL(this.props.url);
+	}
 
-		const words = text.split(" ");
-		let uri;
-
-		for (let i = 0, l = words.length; i < l; i++) {
-			uri = link.buildLink(words[i].replace(/[\.,\?!:;]+$/, ""));
-			if (/^https?:\/\//i.test(uri)) {
-				return uri;
-			}
+	_fetchData() {
+		if (this.props.data) {
+			this.setState({
+				embed: this.props.data
+			});
+		} else {
+			this._fetchEmbedData(this.props.url);
 		}
 	}
 
-	_fetchEmbedData() {
-		InteractionManager.runAfterInteractions(async () => {
-			try {
-				const url = await this._parseUrl();
-				const embed = await fetchData(url);
+	async _fetchEmbedData(url) {
+		try {
+			const embed = await oembed.get(url);
 
-				if (this._mounted && embed) {
-					this.setState({
-						url,
-						embed
-					});
-				}
-			} catch (e) {
+			if (this._mounted) {
 				this.setState({
-					embed: null
+					embed
 				});
 			}
-		});
+		} catch (e) {
+			// Ignore
+		}
 	}
 
-
 	render() {
-		const { url, embed } = this.state;
+		const { embed } = this.state;
 
-		return (
-			<View {...this.props}>
-				{embed !== "loading" ?
-					(
-						<View>{embed ?
-							(
-								<View>
-									{this.props.showThumb.title ?
-										(
-											<View>
-												<EmbedVideo
-													embed={embed}
-													style={this.props.thumbnailStyle}
-													url={url}
-												/>
-												<EmbedTitle embed={embed} />
-												<EmbedSummary embed={embed} />
-											</View>
-										) :
-										(
-											<View>
-												{embed.thumbnail_url ?
-													<EmbedVideo
-														embed={embed}
-														style={this.props.thumbnailStyle}
-														url={url}
-													/> :
-													(<View><EmbedTitle embed={embed} />
-													<EmbedSummary embed={embed} /></View>)
-												}
-											</View>
-										)
-									}
-								</View>
-							) :
-							null
+		if (typeof embed === "object" && embed !== null) {
+			return (
+				<View {...this.props}>
+					{(() => {
+						if (this.props.showThumbnail !== false) {
+							if (embed.type === "video") {
+								return (
+									<TouchableOpacity onPress={this._onPress.bind(this)} activeOpacity={0.5}>
+										<View>
+											<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
+										</View>
+									</TouchableOpacity>
+								);
+							} else {
+								return <EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />;
 							}
-						</View>
-					) :
-					(
-						<View style={styles.overlay}>
-							<Loading style={styles.progress} />
-						</View>
-					)
-				}
-			</View>
-		);
+						} else {
+							return null;
+						}
+					})()}
+
+					{this.props.showTitle !== false ?
+						<EmbedTitle embed={embed} style={this.props.titleStyle} /> :
+						null
+					}
+
+					{this.props.showSummary !== false ?
+						<EmbedSummary embed={embed} style={this.props.summaryStyle} /> :
+						null
+					}
+				</View>
+			);
+		} else {
+			return null;
+		}
 	}
 }
 
-
 Embed.propTypes = {
-	text: React.PropTypes.string.isRequired,
-	showThumb: React.PropTypes.shape({
-		title: React.PropTypes.string.isRequired
-	}).isRequired,
-	thumbnailStyle: React.PropTypes.object.isRequired
+	data: React.PropTypes.object,
+	url: React.PropTypes.string.isRequired,
+	showThumbnail: React.PropTypes.bool,
+	showTitle: React.PropTypes.bool,
+	showSummary: React.PropTypes.bool,
+	containerStyle: React.PropTypes.any,
+	thumbnailStyle: React.PropTypes.any,
+	titleStyle: React.PropTypes.any,
+	summaryStyle: React.PropTypes.any
 };

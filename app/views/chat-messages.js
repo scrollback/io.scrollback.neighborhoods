@@ -83,7 +83,7 @@ export default class ChatMessages extends React.Component {
 									<ChatItemController
 										key={item.text.id}
 										text={item.text}
-										textMetadata={item.textMetadata}
+										metadata={item.metadata}
 										previousText={item.previousText}
 										currentUser={this.props.user}
 										replyToMessage={this.props.replyToMessage}

@@ -94,12 +94,14 @@ export default class ChatInput extends React.Component {
 		const aspectRatio = height / width;
 
 		this.props.sendMessage(textUtils.getTextFromMetadata({
-			type: "image",
-			caption: name,
-			height: Math.min(480, width) * aspectRatio,
-			width: Math.min(480, width),
-			thumbnailUrl: result.thumbnailUrl,
-			originalUrl: result.originalUrl
+			type: "photo",
+			title: name,
+			url: result.originalUrl,
+			height,
+			width,
+			thumbnail_height: Math.min(480, width) * aspectRatio,
+			thumbnail_width: Math.min(480, width),
+			thumbnail_url: result.thumbnailUrl
 		}), result.textId);
 
 		setTimeout(() => this._onUploadClose(), 500);

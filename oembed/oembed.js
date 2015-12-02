@@ -1,13 +1,22 @@
 import storage from "./oembed-storage";
 import regexes from "./regexes";
+import providers from "./providers";
 
 function getContent(regex) {
-
 	return regex[0].match(regexes.content)[0].match(/['|"].*/)[0].slice(1);
 }
 
-function parseHTML(body) {
+function decodeText(text) {
+	return text
+	.replace(/&lt;/g, "<")
+	.replace(/&gt;/g, ">")
+	.replace(/&amp;/g, "&")
+	.replace(/&quot;/g, '"')
+	.replace(/&nbsp;/g, " ")
+	.replace(/&#(x?)(\d+);/g, (m, p1, p2) => String.fromCharCode(((p1 === "x") ? parseInt(p2, 16) : p2)));
+}
 
+function parseHTML(body) {
 	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
 	const res = bodyString.match(regexes.link);
 
@@ -15,30 +24,30 @@ function parseHTML(body) {
 		return res[0].match(regexes.matchHTTP)[0].replace(/&amp;/g, "&");
 	}
 
-	const oembed = {};
+	const oembed = {
+		type: "rich"
+	};
 
-	const props = [ "type", "title", "description" ];
-	const propsWithType = [ "width", "height" ];
+	const props = [ "title", "description" ];
 
 	for (let i = 0; i < props.length; i++) {
-
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
 
-		if (match) {
-			oembed[props[i]] = getContent(match);
+		if (match && match.length) {
+			oembed[props[i]] = decodeText(getContent(match));
 		}
 	}
 
-	for (let i = 0; i < propsWithType.length; i++) {
+	const propsWithType = [ "width", "height" ];
 
+	for (let i = 0; i < propsWithType.length; i++) {
 		const types = [ "video", "image" ];
 
 		for (let j = 0; j < types.length; j++) {
-
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
 
-			if (match) {
-				oembed[propsWithType[i]] = getContent(match);
+			if (match && match.length) {
+				oembed[propsWithType[i]] = parseInt(getContent(match), 10);
 			}
 		}
 	}
@@ -50,19 +59,26 @@ function parseHTML(body) {
 	}
 
 	if (!oembed.title) {
+		const match = bodyString.match(regexes.title);
 
-		const title = bodyString.match(regexes.title);
+		if (match && match.length) {
+			const title = title[0].match(/[>][^<]*/);
 
-		if (title) {
-			oembed.title = title[0].match(/[>][^<]*/)[0].slice(1);
+			if (title && title.length) {
+				oembed.title = decodeText(title[0].slice(1));
+			}
 		}
 	}
 
 	if (!oembed.description) {
-		const description = bodyString.match(regexes.description);
+		const match = bodyString.match(regexes.description);
 
-		if (description) {
-			oembed.description = description[0].match(regexes.content)[0].match(/['|"][^'|^"]*/)[0].slice(1);
+		if (match && match.length) {
+			const description = description[0].match(regexes.content)[0].match(/['|"][^'|^"]*/);
+
+			if (description && description.length) {
+				oembed.description = decodeText(description[0].slice(1));
+			}
 		}
 	}
 
@@ -92,8 +108,7 @@ async function embed(url) {
 	}
 }
 
-async function fetchData(url) {
-
+async function get(url) {
 	if (typeof url !== "string") {
 		throw new TypeError("URL must be a string");
 	}
@@ -107,31 +122,46 @@ async function fetchData(url) {
 		return json;
 	}
 
+	for (let i = 0, l = providers.length; i < l; i++) {
+		const provider = providers[i];
+
+		if (provider[0].test(url)) {
+			const endpoint = provider[1] + "?format=json&maxheight=240&url=" + encodeURIComponent(url);
+			const data = await (await fetch(endpoint)).json();
+
+			storage.set(url, data);
+
+			return data;
+		}
+	}
+
 	return new Promise((resolve, reject) => {
 		const request = new XMLHttpRequest();
 
-		request.open("HEAD", url);
-
-		request.onreadystatechange = function() {
+		request.onload = function() {
 			if (request.status === 200) {
-				if (request.getResponseHeader("content-type").indexOf("image") !== -1) {
+				const contentType = request.getResponseHeader("content-type");
+
+				if (contentType && contentType.indexOf("image") > -1) {
 					resolve({
 						type: "image",
 						thumbnail_url: url
 					});
+				} else if (contentType && contentType.indexOf("text/html") > -1) {
+					resolve(embed(url));
 				} else {
-					if (request.getResponseHeader("content-length") <= 5000) {
-						resolve(embed(url));
-					}
+					reject(new Error("Unknown content-type: " + contentType));
 				}
 			} else {
-				reject();
+				reject(new Error(request.responseText + ": " + request.responseCode));
 			}
 		};
+
+		request.open("HEAD", url, true);
 		request.send();
 	});
 }
 
 export default {
-	fetchData
+	get
 };

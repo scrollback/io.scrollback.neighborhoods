@@ -11,13 +11,13 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class URLResolverModule extends ReactContextBaseJavaModule {
 
-    private Map<String, String> resolverCache = new HashMap<>();
-    private Map<String, ArrayList<Promise>> resolvePromises = new HashMap<>();
+    private Map<String, String> resolverCache = new ConcurrentHashMap<>();
+    private Map<String, ArrayList<Promise>> resolvePromises = new ConcurrentHashMap<>();
     private ArrayList<String> currentlyResolving = new ArrayList<>();
 
     public URLResolverModule(ReactApplicationContext reactContext) {
