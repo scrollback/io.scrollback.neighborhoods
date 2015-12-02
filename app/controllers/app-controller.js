@@ -40,8 +40,8 @@ class AppController extends React.Component {
 		});
 	}
 
-	async _setInitialRoute() {
-		const url = await Linking.getInitialURL();
+	_setInitialRoute() {
+		const url = Linking.initialURL;
 
 		if (url) {
 			this.setState({

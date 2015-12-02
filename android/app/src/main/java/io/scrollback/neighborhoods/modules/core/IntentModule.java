@@ -11,6 +11,9 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class IntentModule extends ReactContextBaseJavaModule {
 
     ReactApplicationContext mReactContext;
@@ -28,18 +31,24 @@ public class IntentModule extends ReactContextBaseJavaModule {
         return "IntentModule";
     }
 
-    @ReactMethod
-    public void getInitialURL(final Promise promise) {
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+
         Intent intent = ((Activity) mActivityContext).getIntent();
 
         String action = intent.getAction();
         Uri uri = intent.getData();
 
+        String initialURL = null;
+
         if (Intent.ACTION_VIEW.equals(action) && uri != null) {
-            promise.resolve(uri.toString());
-        } else {
-            promise.resolve("");
+            initialURL = uri.toString();
         }
+
+        constants.put("initialURL", initialURL);
+
+        return constants;
     }
 
     @ReactMethod
