@@ -62,11 +62,6 @@ const styles = StyleSheet.create({
 		left: -36,
 		alignSelf: "flex-end"
 	},
-	embed: {
-		width: 240,
-		height: 135,
-		marginVertical: 4
-	},
 	thumbnail: {
 		marginVertical: 4
 	},
@@ -157,16 +152,9 @@ export default class ChatItem extends React.Component {
 				/>
 			);
 		} else if (links.length) {
-
 			if (text.text) {
 				cover = (
-					<Embed
-						text={text.text}
-						thumbnailStyle={styles.embed}
-						showThumb
-						showTitle
-						showSummary
-					/>
+					<Embed text={text.text} />
 				);
 			}
 		}

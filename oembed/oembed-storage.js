@@ -4,7 +4,7 @@ let data;
 
 export default {
 	async _readData() {
-		const dataString = await AsyncStorage.getItem("embed_json");
+		const dataString = await AsyncStorage.getItem("oembed_storage");
 
 		if (dataString) {
 			data = JSON.parse(dataString);

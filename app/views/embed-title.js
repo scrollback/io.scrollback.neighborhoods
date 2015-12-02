@@ -2,32 +2,35 @@ import React from "react-native";
 import AppText from "./app-text";
 
 const {
-	StyleSheet,
-	View
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
-	text: {
-		fontWeight: "bold",
-		margin: 2,
-		fontSize: 15
+	title: {
+		fontWeight: "bold"
 	}
 });
 
 export default class EmbedTitle extends React.Component {
 	render() {
-		return (
-			<View>
-				{this.props.embed.title ?
-					(<AppText numberOfLines={1} style= {styles.text} >{this.props.embed.title}</AppText>) : null
-				}
-			</View>
-		);
+		if (this.props.embed.title) {
+			return (
+				<AppText
+					numberOfLines={1}
+					{...this.props}
+					style={[ styles.title, this.props.style ]}
+				>
+					{this.props.embed.title}
+				</AppText>
+			);
+		} else {
+			return null;
+		}
 	}
 }
 
 EmbedTitle.propTypes = {
 	embed: React.PropTypes.shape({
-		title: React.PropTypes.string.isRequired
+		title: React.PropTypes.string
 	}).isRequired
 };

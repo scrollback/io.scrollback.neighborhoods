@@ -17,7 +17,6 @@ function parseHTML(body) {
 	const oembed = {};
 
 	const props = [ "type", "title", "description" ];
-	const propsWithType = [ "width", "height" ];
 
 	for (let i = 0; i < props.length; i++) {
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
@@ -27,15 +26,16 @@ function parseHTML(body) {
 		}
 	}
 
+	const propsWithType = [ "width", "height" ];
+
 	for (let i = 0; i < propsWithType.length; i++) {
 		const types = [ "video", "image" ];
 
 		for (let j = 0; j < types.length; j++) {
-
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
 
 			if (match) {
-				oembed["thumbnail_" + propsWithType[i]] = getContent(match);
+				oembed["thumbnail_" + propsWithType[i]] = parseInt(getContent(match), 10);
 			}
 		}
 	}
@@ -88,7 +88,7 @@ async function embed(url) {
 	}
 }
 
-async function fetchData(url) {
+async function get(url) {
 	if (typeof url !== "string") {
 		throw new TypeError("URL must be a string");
 	}
@@ -120,16 +120,20 @@ async function fetchData(url) {
 
 		request.onload = function() {
 			if (request.status === 200) {
-				if (request.getResponseHeader("content-type").indexOf("image") !== -1) {
+				const contentType = request.getResponseHeader("content-type");
+
+				if (contentType && contentType.indexOf("image") > -1) {
 					resolve({
 						type: "image",
 						thumbnail_url: url
 					});
-				} else {
+				} else if (contentType && contentType.indexOf("text/html") > -1) {
 					resolve(embed(url));
+				} else {
+					reject(new Error("Unknown content-type: " + contentType));
 				}
 			} else {
-				reject();
+				reject(new Error(request.responseText + ": " + request.responseCode));
 			}
 		};
 
@@ -139,5 +143,5 @@ async function fetchData(url) {
 }
 
 export default {
-	fetchData
+	get
 };
