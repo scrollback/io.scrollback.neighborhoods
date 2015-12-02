@@ -21,7 +21,6 @@ const {
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
-	Image,
 	View
 } = React;
 
@@ -79,11 +78,11 @@ export default class DiscussionItem extends React.Component {
 
 		menu["Copy title"] = () => this._copyToClipboard(thread.title);
 
-		const textMetadata = textUtils.getMetadata(thread.text);
+		const metadata = textUtils.getMetadata(thread.text);
 
-		if (textMetadata && textMetadata.type === "image") {
-			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl.toLowerCase());
-			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
+		if (metadata && metadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(metadata.url);
+			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
 		} else {
 			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
 		}
@@ -127,15 +126,18 @@ export default class DiscussionItem extends React.Component {
 		const trimmedText = thread.text.trim();
 
 		const links = Link.parseLinks(trimmedText, 1);
-		const textMetadata = textUtils.getMetadata(trimmedText);
+		const metadata = textUtils.getMetadata(trimmedText);
 
 		let cover, hideSummary;
 
-		if (textMetadata && textMetadata.type === "image") {
+		if (metadata && metadata.type === "photo") {
 			cover = (
-				<Image
-					style={styles.image}
-					source={{ uri: textMetadata.thumbnailUrl }}
+				<Embed
+					url={metadata.url}
+					data={metadata}
+					thumbnailStyle={styles.image}
+					showTitle={false}
+					showSummary={false}
 				/>
 			);
 

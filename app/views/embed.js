@@ -4,10 +4,9 @@ import EmbedThumbnail from "./embed-thumbnail";
 import EmbedTitle from "./embed-title";
 import EmbedSummary from "./embed-summary";
 import Linking from "../../modules/linking";
-import Colors from "../../colors.json";
 
 const {
-	TouchableHighlight,
+	TouchableOpacity,
 	View
 } = React;
 
@@ -65,28 +64,35 @@ export default class Embed extends React.Component {
 
 		if (typeof embed === "object" && embed !== null) {
 			return (
-				<TouchableHighlight
-					{...this.props}
-					onPress={this._onPress.bind(this)}
-					underlayColor={Colors.underlay}
-				>
-					<View style={this.props.containerStyle}>
-						{this.props.showThumbnail !== false ?
-							<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} /> :
-							null
+				<View {...this.props}>
+					{(() => {
+						if (this.props.showThumbnail !== false) {
+							if (embed.type === "video") {
+								return (
+									<TouchableOpacity onPress={this._onPress.bind(this)} activeOpacity={0.5}>
+										<View>
+											<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
+										</View>
+									</TouchableOpacity>
+								);
+							} else {
+								return <EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />;
+							}
+						} else {
+							return null;
 						}
+					})()}
 
-						{this.props.showTitle !== false ?
-							<EmbedTitle embed={embed} style={this.props.titleStyle} /> :
-							null
-						}
+					{this.props.showTitle !== false ?
+						<EmbedTitle embed={embed} style={this.props.titleStyle} /> :
+						null
+					}
 
-						{this.props.showSummary !== false ?
-							<EmbedSummary embed={embed} style={this.props.summaryStyle} /> :
-							null
-						}
-					</View>
-				</TouchableHighlight>
+					{this.props.showSummary !== false ?
+						<EmbedSummary embed={embed} style={this.props.summaryStyle} /> :
+						null
+					}
+				</View>
 			);
 		} else {
 			return null;

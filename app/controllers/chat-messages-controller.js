@@ -62,7 +62,7 @@ class ChatMessagesController extends React.Component {
 
 						data.push({
 							text,
-							textMetadata: textUtils.getMetadata(text.text),
+							metadata: textUtils.getMetadata(text.text),
 							previousText: typeof previousText === "object" ? previousText : null
 						});
 					}

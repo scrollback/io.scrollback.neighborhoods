@@ -2,7 +2,6 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AvatarRound from "./avatar-round";
 import ChatBubble from "./chat-bubble";
-import EmbedImage from "./embed-image";
 import Embed from "./embed";
 import Modal from "./modal";
 import Icon from "./icon";
@@ -97,13 +96,13 @@ export default class ChatItem extends React.Component {
 	}
 
 	_showMenu() {
-		const { text, textMetadata, currentUser } = this.props;
+		const { text, metadata, currentUser } = this.props;
 
 		const menu = {};
 
-		if (textMetadata && textMetadata.type === "image") {
-			menu["Open image in browser"] = () => Linking.openURL(textMetadata.originalUrl.toLowerCase());
-			menu["Copy image link"] = () => this._copyToClipboard(textMetadata.originalUrl);
+		if (metadata && metadata.type === "image") {
+			menu["Open image in browser"] = () => Linking.openURL(metadata.url.toLowerCase());
+			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
 		} else {
 			menu["Copy text"] = () => this._copyToClipboard(text.text);
 			menu["Quote message"] = () => this.props.quoteMessage(text);
@@ -133,20 +132,20 @@ export default class ChatItem extends React.Component {
 	}
 
 	render() {
-		const { text, hidden, textMetadata, previousText, currentUser } = this.props;
+		const { text, hidden, metadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
 		const links = Link.parseLinks(text.text, 1);
 
 		let cover;
 
-		if (textMetadata && textMetadata.type === "image") {
+		if (metadata && metadata.type === "photo") {
 			cover = (
-				<EmbedImage
-					style={styles.thumbnail}
-					height={parseInt(textMetadata.height, 10)}
-					width={parseInt(textMetadata.width, 10)}
-					uri={textMetadata.thumbnailUrl}
+				<Embed
+					url={metadata.url}
+					data={metadata}
+					showTitle={false}
+					thumbnailStyle={styles.thumbnail}
 				/>
 			);
 		} else if (links.length) {
@@ -178,7 +177,7 @@ export default class ChatItem extends React.Component {
 
 					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu.bind(this)}>
 						<ChatBubble
-							text={textMetadata && textMetadata.type === "image" ? { from: text.from } : text}
+							text={metadata && metadata.type === "photo" ? { from: text.from } : text}
 							type={received ? "left" : "right"}
 							showAuthor={showAuthor}
 							showArrow={received ? showAuthor : true}
@@ -215,7 +214,7 @@ ChatItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
 	}).isRequired,
-	textMetadata: React.PropTypes.object,
+	metadata: React.PropTypes.object,
 	previousText: React.PropTypes.shape({
 		from: React.PropTypes.string.isRequired,
 		time: React.PropTypes.number.isRequired
