@@ -108,7 +108,7 @@ export default class LocalitiesBase extends React.Component {
 					}
 
 					if (keys.some(item => data[item].length === 1 && data[item][0] === "unavailable")) {
-						return <PageFailed pageLabel={config.app_name + " is not available in your city yet."} />;
+						return <PageFailed pageLabel={config.app_name + " is not available in your neighborhood yet."} />;
 					}
 
 					return (
