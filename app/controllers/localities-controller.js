@@ -42,12 +42,15 @@ class LocalitiesController extends React.Component {
 				const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
 				const followingRooms = following.map(room => room.id);
 				const nearby = store.getNearByRooms().filter(room => followingRooms.indexOf(room.id) === -1);
+				const available = store.get("app", "isAvailable") !== false;
 
 				this.setState({
 					data: {
 						following,
 						nearby
-					}
+					},
+
+					available
 				});
 			}
 		});

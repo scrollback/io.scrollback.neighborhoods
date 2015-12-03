@@ -1,6 +1,7 @@
 import React from "react-native";
 import LocalitiesBase from "./localities-base";
 import SearchButton from "./search-button";
+import BannerUnavailable from "./banner-unavailable";
 import BannerOfflineController from "../controllers/banner-offline-controller";
 
 const {
@@ -19,7 +20,9 @@ export default class Localities extends React.Component {
 		return (
 			<View style={styles.container}>
 				<BannerOfflineController />
-				<SearchButton navigator={this.props.navigator} />
+				{this.props.available === false ?
+					<BannerUnavailable /> :
+					<SearchButton navigator={this.props.navigator} />}
 				<LocalitiesBase {...this.props} pageEmptyLabel="You've not joined any communities" />
 			</View>
 		);
@@ -27,6 +30,6 @@ export default class Localities extends React.Component {
 }
 
 Localities.propTypes = {
+	available: React.PropTypes.bool,
 	navigator: React.PropTypes.object.isRequired
 };
-

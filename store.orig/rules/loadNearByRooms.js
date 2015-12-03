@@ -39,7 +39,8 @@ module.exports = function(core) {
 					if (e) {
 						core.emit("setstate", {
 							app: {
-								nearByRooms: [ "unavailable" ]
+								nearByRooms: [ "unavailable" ],
+								isAvailable: false
 							}
 						});
 
@@ -49,7 +50,8 @@ module.exports = function(core) {
 					if (r.results && r.results.length) {
 						core.emit("setstate", {
 							app: {
-								nearByRooms: r.results
+								nearByRooms: r.results,
+								isAvailable: false
 							}
 						});
 					}
