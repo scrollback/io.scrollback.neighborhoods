@@ -135,7 +135,7 @@ RoomItem.propTypes = {
 	room: React.PropTypes.shape({
 		id: React.PropTypes.string.isRequired,
 		guides: React.PropTypes.shape({
-			displayName: React.PropTypes.string.isRequired
+			displayName: React.PropTypes.string
 		}),
 		location: React.PropTypes.shape({
 			lat: React.PropTypes.number,
