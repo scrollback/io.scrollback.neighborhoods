@@ -104,10 +104,9 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.appvirality:AppviralityUI:1.1.17+'
+    compile 'com.facebook.react:react-native:0.16.1'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
-
-    compile project(':ReactAndroid')
 }
