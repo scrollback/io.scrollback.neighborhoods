@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import io.scrollback.neighborhoods.modules.gcm.PushNotificationModule;
+
 public class CorePackage implements ReactPackage {
 
     private Context mContext;

@@ -43,13 +43,14 @@ function threadFromText(text) {
 		from: text.from,
 		to: text.to,
 		startTime: text.time,
-		concerns: [ text.from ],
+		concerns: text.concerns || [ text.from ],
 		color: text.color,
-		tags: null,
+		tags: text.tags,
 		title: text.title,
 		text: text.text,
 		updateTime: text.time,
-		updater: text.from
+		updater: text.from,
+		length: text.length || 1
 	};
 }
 
@@ -60,7 +61,9 @@ function addConcerns(text) {
 		}
 
 		if (Array.isArray(text.mentions)) {
-			for (let user of text.mentions) {
+			for (let i = 0, l = text.mentions.length; i < l; i++) {
+				const user = text.mentions[i];
+
 				if (text.concerns.indexOf(user) === -1 && !userUtils.isGuest(text.from)) {
 					text.concerns.push(user);
 				}
@@ -281,7 +284,9 @@ function onTextDn(text) {
 				threadObj = changed ? threadObj : objUtils.clone(threadObj);
 
 				if (Array.isArray(threadObj.concerns)) {
-					for (const user of text.mentions) {
+					for (let i = 0, l = text.mentions.length; i < l; i++) {
+						const user = text.mentions[i];
+
 						if (threadObj.concerns.indexOf(user) === -1) {
 							threadObj.concerns.push(user);
 
@@ -322,6 +327,8 @@ function onEdit(edit) {
 		if (text.id === text.thread) {
 			currentThread = store.get("indexes", "threadsById", text.id);
 
+			text.title = currentThread ? currentThread.title : text.title;
+			text.length = currentThread ? currentThread.length : text.length;
 			text.color = currentThread ? currentThread.color : text.color;
 			text.concerns = currentThread ? objUtils.clone(currentThread.concerns) : text.concerns;
 
@@ -350,6 +357,7 @@ function onEdit(edit) {
 			items: pleb && thread.tags.indexOf("thread-hidden") >= 0 ? [] : [thread]
 		}];
 	}
+
 	core.emit("setstate", changes);
 }
 

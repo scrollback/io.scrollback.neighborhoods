@@ -1,6 +1,6 @@
 import core from "../store/core";
 import GCM from "../push-notification/gcm";
-import Updater from "./updater";
+import Analytics from "../analytics/analytics";
 
 let bootComplete = false;
 
@@ -36,4 +36,4 @@ export default function() {
 }
 
 GCM.initialize();
-Updater.checkUpdate();
+Analytics.initialize();

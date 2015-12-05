@@ -22,7 +22,7 @@ import java.io.File;
 
 public class ImageChooserModule extends ReactContextBaseJavaModule {
 
-    public final int PICK_IMAGE = 3500;
+    private static final int PICK_IMAGE = 3500;
 
     private Context mActivityContext;
     private Promise mPickerPromise;
@@ -62,15 +62,17 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
         CursorLoader loader = new CursorLoader(mActivityContext, contentUri, projection, null, null, null);
         Cursor cursor = loader.loadInBackground();
 
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        try {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 
-        cursor.moveToFirst();
+            cursor.moveToFirst();
 
-        String result = cursor.getString(column_index);
-
-        cursor.close();
-
-        return result;
+            return cursor.getString(column_index);
+        } catch (RuntimeException e) {
+            return null;
+        } finally {
+            cursor.close();
+        }
     }
 
     private String getNameFromUri(Uri contentUri) {
@@ -102,13 +104,17 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
         Cursor cursor = mActivityContext.getContentResolver().query(contentUri, null, null, null, null);
 
-        cursor.moveToFirst();
+        if (cursor != null) {
+            cursor.moveToFirst();
 
-        long size = cursor.getLong(cursor.getColumnIndex(OpenableColumns.SIZE));
+            long size = cursor.getLong(cursor.getColumnIndex(OpenableColumns.SIZE));
 
-        cursor.close();
+            cursor.close();
 
-        return size;
+            return size;
+        }
+
+        return 0;
     }
 
     @ReactMethod
@@ -137,17 +143,23 @@ public class ImageChooserModule extends ReactContextBaseJavaModule {
 
                         options.inJustDecodeBounds = true;
 
-                        BitmapFactory.decodeFile(getPathFromUri(uri), options);
+                        String path = getPathFromUri(uri);
 
-                        WritableMap map = Arguments.createMap();
+                        if (path != null) {
+                            BitmapFactory.decodeFile(path, options);
 
-                        map.putInt("height", options.outHeight);
-                        map.putInt("width", options.outWidth);
-                        map.putDouble("size", getSizeFromUri(uri));
-                        map.putString("name", getNameFromUri(uri));
-                        map.putString("uri", uri.toString());
+                            WritableMap map = Arguments.createMap();
 
-                        resolvePromise(map);
+                            map.putInt("height", options.outHeight);
+                            map.putInt("width", options.outWidth);
+                            map.putDouble("size", getSizeFromUri(uri));
+                            map.putString("name", getNameFromUri(uri));
+                            map.putString("uri", uri.toString());
+
+                            resolvePromise(map);
+                        } else {
+                            rejectPromise("Failed resolve image path");
+                        }
                     } else {
                         rejectPromise("Failed to pick image");
                     }

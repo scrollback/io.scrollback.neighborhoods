@@ -2,7 +2,7 @@
 
 module.exports = function(core, config, store) {
 	var userUtils = require("./../../lib/user-utils.js"),
-		promisedAction = require("../../lib/promised-action.js")(core),
+		actions = require("../../store/actions.js"),
 		permissionLevels = require("./../../authorizer/permissionWeights.js"),
 		queueBack = [];
 
@@ -16,7 +16,7 @@ module.exports = function(core, config, store) {
 			return;
 		}
 
-		promisedAction("back", { to: roomId }).then(() => {
+		actions.dispatch("back", { to: roomId }).then(() => {
 			let listeningRooms = store.get("app", "listeningRooms");
 
 			listeningRooms = Array.isArray(listeningRooms) ? listeningRooms.slice(0) : [];

@@ -71,14 +71,18 @@ function updateNotes(baseNotes, notes) {
 	let dismissed = notes.filter(n => typeof n.dismissTime === "number"),
 		map = {};
 
-	for (let n of notes) {
+	for (let i = 0, l = notes.length; i < l; i++) {
+		const n = notes[i];
+
 		let skip = false;
 
 		if (typeof n.dismissTime === "number") {
 			continue;
 		}
 
-		for (let d of dismissed) {
+		for (let j = 0, k = dismissed.length; j < k; j++) {
+			const d = dismissed[j];
+
 			if (d.ref) {
 				if (d.ref === n.ref && d.noteType === n.noteType) {
 					skip = true;

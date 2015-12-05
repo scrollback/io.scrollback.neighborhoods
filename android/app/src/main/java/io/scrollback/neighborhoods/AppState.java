@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-class AppState implements Application.ActivityLifecycleCallbacks {
+public class AppState implements Application.ActivityLifecycleCallbacks {
 
     private static AppState instance;
     private static boolean foreground;

@@ -7,7 +7,7 @@ const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
 const NUM_ROOMS_TO_LOAD = 7;
 
-export default function(core) {
+module.exports = function(core) {
 	function loadNearByRooms(position, memberOf) {
 		const limit = memberOf.length ? NUM_ROOMS_TO_LOAD : null;
 
@@ -28,10 +28,32 @@ export default function(core) {
 				return;
 			}
 
-			if (res && res.results) {
+			if (res.results && res.results.length) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results.length ? res.results : [ "unavailable" ]
+						nearByRooms: res.results
+					}
+				});
+			} else {
+				core.emit("getRooms", { ref: "open-house" }, (e, r) => {
+					if (e) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: [ "unavailable" ],
+								isAvailable: false
+							}
+						});
+
+						return;
+					}
+
+					if (r.results && r.results.length) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: r.results,
+								isAvailable: false
+							}
+						});
 					}
 				});
 			}
@@ -43,7 +65,9 @@ export default function(core) {
 			return;
 		}
 
-		const memberOf = init.memberOf.map(room => room.id);
+		let memberOf;
+
+		memberOf = init.memberOf.map(room => room.id);
 
 		if (memberOf.length < 4) {
 			core.emit("setstate", {
@@ -71,24 +95,36 @@ export default function(core) {
 				const isEnabled = await Geolocation.isGPSEnabled();
 
 				if (!isEnabled) {
-					const dialog = AlertDialog.Builder()
-						.setMessage(GPS_ENABLE_MESSAGE)
-						.setPositiveButton(GPS_ENABLE_OK, () => {
-							Geolocation.showGPSSettings();
-
-							dialog.dismiss();
-						})
-						.setNegativeButton(GPS_ENABLE_CANCEL, () => {
-							core.emit("setstate", {
-								app: {
-									nearByRooms: []
+					try {
+						await AlertDialog.show(null, GPS_ENABLE_MESSAGE,
+							[
+								{
+									type: AlertDialog.POSITIVE_BUTTON,
+									label: GPS_ENABLE_OK,
+									onPress: () => Geolocation.showGPSSettings()
+								},
+								{
+									type: AlertDialog.NEGATIVE_BUTTON,
+									label: GPS_ENABLE_CANCEL,
+									onPress: () => {
+										core.emit("setstate", {
+											app: {
+												nearByRooms: []
+											}
+										});
+									}
 								}
-							});
-						})
-						.show();
-
+							]
+						);
+					} catch (err) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: []
+							}
+						});
+					}
 				}
 			}
 		}
 	}, 1);
-}
+};
