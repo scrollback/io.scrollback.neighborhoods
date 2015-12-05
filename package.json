@@ -34,6 +34,7 @@
     "engine.io-client": "^1.5.4",
     "eslint-plugin-react": "^3.8.0",
     "react-native": "^0.16.0",
+    "react-native-image-chooser": "^0.1.1",
     "react-native-vector-icons": "^1.0.0"
   },
   "devDependencies": {

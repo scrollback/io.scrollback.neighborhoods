@@ -12,11 +12,11 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
+import com.imagechooser.ImageChooserPackage;
 
 import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
 import io.scrollback.neighborhoods.bundle.JSBundleManager;
 import io.scrollback.neighborhoods.modules.appvirality.AppviralityPackage;
-import io.scrollback.neighborhoods.modules.choosers.ChoosersPackage;
 import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
 import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
 
     private GoogleLoginPackage mGoogleLoginPackage = new GoogleLoginPackage(this);
     private FacebookLoginPackage mFacebookLoginPackage = new FacebookLoginPackage(this);
-    private ChoosersPackage mChoosersPackage = new ChoosersPackage(this);
+    private ImageChooserPackage mChoosersPackage = new ImageChooserPackage(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
