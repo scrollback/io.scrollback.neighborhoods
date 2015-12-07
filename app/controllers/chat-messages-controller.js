@@ -1,8 +1,8 @@
 import React from "react-native";
 import ChatMessages from "../views/chat-messages";
 import Controller from "./controller";
-import store from "../../store/store";
-import textUtils from "../../lib/text-utils";
+import store from "../store/store";
+import textUtils from "../lib/text-utils";
 
 const {
 	InteractionManager

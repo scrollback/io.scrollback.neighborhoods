@@ -7,8 +7,8 @@ import Modal from "./modal";
 import Icon from "./icon";
 import Time from "./time";
 import Link from "./link";
-import Clipboard from "../../modules/clipboard";
-import Linking from "../../modules/linking";
+import Clipboard from "../modules/clipboard";
+import Linking from "../modules/linking";
 
 const {
 	ToastAndroid,

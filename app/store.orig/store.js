@@ -1,4 +1,4 @@
-import permissionWeights from "../authorizer/permissionWeights";
+import permissionWeights from "./permissionWeights";
 import userUtils from "../lib/user-utils";
 import objUtils from "../lib/obj-utils";
 import rangeOps from "../lib/range-ops";

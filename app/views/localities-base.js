@@ -5,8 +5,8 @@ import RoomItemController from "../controllers/room-item-controller";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
-import Geolocation from "../../modules/geolocation";
-import config from "../../store/config";
+import Geolocation from "../modules/geolocation";
+import config from "../store/config";
 
 const {
 	StyleSheet,
