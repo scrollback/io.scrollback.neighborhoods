@@ -1,7 +1,6 @@
 package io.scrollback.neighborhoods.modules.appvirality;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.appvirality.AppviralityUI;
@@ -17,14 +16,12 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class AppviralityModule extends ReactContextBaseJavaModule {
 
-    private ReactApplicationContext mReactContext;
-    private Context mActivityContext;
+    private Activity mCurrentACtivity;
 
-    public AppviralityModule(ReactApplicationContext reactContext, Context activityContext) {
+    public AppviralityModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
-        mReactContext = reactContext;
-        mActivityContext = activityContext;
+        mCurrentACtivity = activity;
 
         AppviralityAPI.init(reactContext.getApplicationContext());
 
@@ -45,7 +42,7 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
     }
 
     private void sendEvent(String eventName, @Nullable WritableMap params) {
-        mReactContext
+        getReactApplicationContext()
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);
     }
@@ -53,7 +50,7 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void setUserDetails(final ReadableMap options, final Promise promise) {
 
-        AppviralityAPI.UserDetails details = AppviralityAPI.UserDetails.setInstance(mActivityContext.getApplicationContext());
+        AppviralityAPI.UserDetails details = AppviralityAPI.UserDetails.setInstance(mCurrentACtivity.getApplicationContext());
 
         if (options.hasKey("email")) {
             details.setUserEmail(options.getString("email"));
@@ -101,22 +98,22 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void showWelcomeScreen() {
-        AppviralityUI.showWelcomeScreen((Activity) mActivityContext);
+        AppviralityUI.showWelcomeScreen(mCurrentACtivity);
     }
 
     @ReactMethod
     public void showGrowthHack() {
-        AppviralityUI.showGrowthHack((Activity) mActivityContext, AppviralityUI.GH.Word_of_Mouth);
+        AppviralityUI.showGrowthHack(mCurrentACtivity, AppviralityUI.GH.Word_of_Mouth);
     }
 
     @ReactMethod
     public void showLaunchBar() {
-        AppviralityUI.showLaunchBar((Activity) mActivityContext, AppviralityUI.GH.Word_of_Mouth);
+        AppviralityUI.showLaunchBar(mCurrentACtivity, AppviralityUI.GH.Word_of_Mouth);
     }
 
     @ReactMethod
     public void showLaunchPopup() {
-        AppviralityUI.showLaunchPopup((Activity) mActivityContext, AppviralityUI.GH.Word_of_Mouth);
+        AppviralityUI.showLaunchPopup(mCurrentACtivity, AppviralityUI.GH.Word_of_Mouth);
     }
 
     @ReactMethod

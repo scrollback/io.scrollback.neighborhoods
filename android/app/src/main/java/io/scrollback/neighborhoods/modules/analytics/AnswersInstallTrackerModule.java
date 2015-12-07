@@ -8,25 +8,21 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 
-public class InstallReferrerModule extends ReactContextBaseJavaModule {
+public class AnswersInstallTrackerModule extends ReactContextBaseJavaModule {
 
-    ReactApplicationContext mReactContext;
-
-    public InstallReferrerModule(ReactApplicationContext reactContext) {
+    public AnswersInstallTrackerModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
-        mReactContext = reactContext;
     }
 
     @Override
     public String getName() {
-        return "InstallReferrerModule";
+        return "AnswersInstallTrackerModule";
     }
 
     @ReactMethod
     public void getReferrer(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getReferrer());
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getReferrer());
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -35,7 +31,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignName(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_CAMPAIGN));
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getRefferalParameter(Trackers.UTM_CAMPAIGN));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -44,7 +40,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignSource(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_SOURCE));
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getRefferalParameter(Trackers.UTM_SOURCE));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -53,7 +49,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignMedium(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_MEDIUM));
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getRefferalParameter(Trackers.UTM_MEDIUM));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -62,7 +58,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignTerm(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_TERM));
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getRefferalParameter(Trackers.UTM_TERM));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }
@@ -71,7 +67,7 @@ public class InstallReferrerModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCampaignContent(Promise promise) {
         try {
-            promise.resolve(InstallReferrerTools.getInstance(mReactContext).getRefferalParameter(Trackers.UTM_CONTENT));
+            promise.resolve(AnswersInstallTracker.getInstance(getReactApplicationContext()).getRefferalParameter(Trackers.UTM_CONTENT));
         } catch (NoSuchPropertyException e) {
             promise.reject(e.getMessage());
         }

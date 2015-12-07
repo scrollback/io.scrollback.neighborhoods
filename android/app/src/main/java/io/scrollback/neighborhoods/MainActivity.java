@@ -14,11 +14,12 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.imagechooser.ImageChooserPackage;
 
-import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
 import io.scrollback.neighborhoods.bundle.JSBundleManager;
+import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
 import io.scrollback.neighborhoods.modules.appvirality.AppviralityPackage;
 import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
+import io.scrollback.neighborhoods.modules.gcm.PushNotificationPackage;
 import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
 
 public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
@@ -54,6 +55,7 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new MainReactPackage())
                 .addPackage(new CorePackage(this))
                 .addPackage(new AppviralityPackage(this))
+                .addPackage(new PushNotificationPackage(this))
                 .addPackage(new AnalyticsPackage())
                 .addPackage(mGoogleLoginPackage)
                 .addPackage(mFacebookLoginPackage)

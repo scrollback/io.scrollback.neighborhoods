@@ -54,16 +54,7 @@
         </activity>
 
         <receiver
-            android:name=".modules.analytics.InstallReferrerReceiver"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name="com.appvirality.android.AppviralityInstallReferrerReceiver"
+            android:name=".InstallReferrerReceiver"
             android:exported="true">
 
             <intent-filter>

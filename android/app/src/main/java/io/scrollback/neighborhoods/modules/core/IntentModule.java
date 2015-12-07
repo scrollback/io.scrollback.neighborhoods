@@ -1,12 +1,11 @@
 package io.scrollback.neighborhoods.modules.core;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 
-import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -16,14 +15,12 @@ import java.util.Map;
 
 public class IntentModule extends ReactContextBaseJavaModule {
 
-    ReactApplicationContext mReactContext;
-    Context mActivityContext;
+    private Activity mCurrentActivity;
 
-    public IntentModule(ReactApplicationContext reactContext, Context activityContext) {
+    public IntentModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
-        mReactContext = reactContext;
-        mActivityContext = activityContext;
+        mCurrentActivity = activity;
     }
 
     @Override
@@ -35,7 +32,7 @@ public class IntentModule extends ReactContextBaseJavaModule {
     public Map<String, Object> getConstants() {
         final Map<String, Object> constants = new HashMap<>();
 
-        Intent intent = ((Activity) mActivityContext).getIntent();
+        Intent intent = mCurrentActivity.getIntent();
 
         String action = intent.getAction();
         Uri uri = intent.getData();
@@ -53,17 +50,38 @@ public class IntentModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void openURL(final String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        if (url == null || url.isEmpty()) {
+            throw new JSApplicationIllegalArgumentException("Invalid URL: " + url);
+        }
 
-        mActivityContext.startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+
+            mCurrentActivity.startActivity(intent);
+        } catch (Exception e) {
+            throw new JSApplicationIllegalArgumentException(
+                    "Could not open URL '" + url + "': " + e.getMessage());
+        }
     }
 
     @ReactMethod
-    public void canOpenURL(final String url, final Promise promise) {
-        PackageManager packageManager = mReactContext.getPackageManager();
+    public void canOpenURL(final String url, final Callback callback) {
+        if (url == null || url.isEmpty()) {
+            throw new JSApplicationIllegalArgumentException("Invalid URL: " + url);
+        }
 
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-        promise.resolve(intent.resolveActivity(packageManager) != null);
+            // We need Intent.FLAG_ACTIVITY_NEW_TASK since getReactApplicationContext() returns
+            // the ApplicationContext instead of the Activity context.
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            boolean canOpen =
+                    intent.resolveActivity(getReactApplicationContext().getPackageManager()) != null;
+            callback.invoke(canOpen);
+        } catch (Exception e) {
+            throw new JSApplicationIllegalArgumentException(
+                    "Could not check if URL '" + url + "' can be opened: " + e.getMessage());
+        }
     }
 }

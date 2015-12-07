@@ -9,13 +9,11 @@ import com.facebook.react.bridge.ReactMethod;
 
 public class ShareModule extends ReactContextBaseJavaModule {
 
-    ReactApplicationContext mReactContext;
     Context mActiviyContext;
 
     public ShareModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);
 
-        mReactContext = reactContext;
         mActiviyContext = activityContext;
     }
 

@@ -13,7 +13,6 @@ import android.util.Log;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
@@ -34,21 +33,19 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     private String senderId;
 
     private String mCurrentRegId;
-    private ReactContext mReactContext;
-    private Context mActivityContext;
+    private Activity mCurrentActivity;
     private GoogleCloudMessaging mGcmInstance;
     private boolean isPlayServicesAvailable = false;
 
-    public PushNotificationModule(ReactApplicationContext reactContext, Context activityContext) {
+    public PushNotificationModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
-        mReactContext = reactContext;
-        mActivityContext = activityContext;
+        mCurrentActivity = activity;
 
         // Showing status
         if (checkPlayServices()) {
-            mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
-            mCurrentRegId = getRegistrationId(mReactContext);
+            mGcmInstance = GoogleCloudMessaging.getInstance(reactContext);
+            mCurrentRegId = getRegistrationId(reactContext);
 
             isPlayServicesAvailable = true;
         } else {
@@ -75,12 +72,12 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
 
     private boolean checkPlayServices() {
         final int PLAY_SERVICES_RESOLUTION_REQUEST = 5000;
-        final int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mReactContext);
+        final int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getReactApplicationContext());
 
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 try {
-                    GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mActivityContext,
+                    GooglePlayServicesUtil.getErrorDialog(resultCode, mCurrentActivity,
                             PLAY_SERVICES_RESOLUTION_REQUEST).show();
                 } catch (RuntimeException e) {
                     Log.e(TAG, "Failed to show Google Play Services dialog", e);
@@ -96,7 +93,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     }
 
     private SharedPreferences getGCMPreferences() {
-        return mReactContext.getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE);
+        return getReactApplicationContext().getSharedPreferences(STORAGE_KEY, Context.MODE_PRIVATE);
     }
 
     private void setRegistrationId(Context context, String regId) {
@@ -165,12 +162,12 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
             protected Boolean doInBackground(Void... params) {
                 try {
                     if (mGcmInstance == null) {
-                        mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
+                        mGcmInstance = GoogleCloudMessaging.getInstance(getReactApplicationContext());
                     }
 
                     mCurrentRegId = mGcmInstance.register(senderId);
 
-                    setRegistrationId(mReactContext, mCurrentRegId);
+                    setRegistrationId(getReactApplicationContext(), mCurrentRegId);
 
                     return true;
                 } catch (IOException e) {
@@ -186,7 +183,7 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
                     return;
                 }
 
-                String uuid = Settings.Secure.getString(mReactContext.getContentResolver(),
+                String uuid = Settings.Secure.getString(getReactApplicationContext().getContentResolver(),
                         Settings.Secure.ANDROID_ID);
 
                 WritableMap map = Arguments.createMap();
@@ -219,12 +216,12 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
             protected Boolean doInBackground(Void... params) {
                 try {
                     if (mGcmInstance == null) {
-                        mGcmInstance = GoogleCloudMessaging.getInstance(mReactContext);
+                        mGcmInstance = GoogleCloudMessaging.getInstance(getReactApplicationContext());
                     }
 
                     mGcmInstance.unregister();
 
-                    setRegistrationId(mReactContext, mCurrentRegId);
+                    setRegistrationId(getReactApplicationContext(), mCurrentRegId);
 
                     return true;
                 } catch (IOException e) {
