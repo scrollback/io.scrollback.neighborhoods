@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import Linking from "../../modules/linking";
+import Linking from "../modules/linking";
 import AppText from "./app-text";
 
 const {

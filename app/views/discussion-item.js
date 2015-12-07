@@ -10,12 +10,12 @@ import TouchFeedback from "./touch-feedback";
 import Modal from "./modal";
 import Icon from "./icon";
 import Link from "./link";
-import Linking from "../../modules/linking";
-import Clipboard from "../../modules/clipboard";
-import Share from "../../modules/share";
+import Linking from "../modules/linking";
+import Clipboard from "../modules/clipboard";
+import Share from "../modules/share";
 import routes from "../utils/routes";
-import textUtils from "../../lib/text-utils";
-import config from "../../store/config";
+import textUtils from "../lib/text-utils";
+import config from "../store/config";
 
 const {
 	ToastAndroid,

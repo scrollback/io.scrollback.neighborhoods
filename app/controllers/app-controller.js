@@ -1,9 +1,9 @@
 import React from "react-native";
 import App from "../views/app";
-import Linking from "../../modules/linking";
+import Linking from "../modules/linking";
 import routes from "../utils/routes";
 import Controller from "./controller";
-import store from "../../store/store";
+import store from "../store/store";
 
 class AppController extends React.Component {
 	constructor(props) {

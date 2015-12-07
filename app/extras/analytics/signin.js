@@ -1,8 +1,8 @@
-import Answers from "../modules/answers";
-import userUtils from "../lib/user-utils";
-import core from "../store/core";
+import Answers from "../../modules/answers";
+import userUtils from "../../lib/user-utils";
+import core from "../../store/core";
 
-function start() {
+function track() {
 	let pending;
 
 	function log(success) {
@@ -56,5 +56,5 @@ function start() {
 }
 
 export default {
-	start
+	track
 };

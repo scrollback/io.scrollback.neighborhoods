@@ -1,6 +1,6 @@
 import core from "../store/core";
-import GCM from "../push-notification/gcm";
-import Analytics from "../analytics/analytics";
+import GCM from "../extras/gcm/gcm";
+import Analytics from "../extras/analytics/analytics";
 
 let bootComplete = false;
 

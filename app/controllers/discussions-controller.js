@@ -1,7 +1,7 @@
 import React from "react-native";
 import Discussions from "../views/discussions";
 import Controller from "./controller";
-import store from "../../store/store";
+import store from "../store/store";
 
 const {
 	InteractionManager

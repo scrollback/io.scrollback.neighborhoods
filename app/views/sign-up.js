@@ -10,7 +10,7 @@ import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
 import Icon from "./icon";
 import Banner from "./banner";
-import Validator from "../../lib/validator";
+import Validator from "../lib/validator";
 
 const {
 	StyleSheet,

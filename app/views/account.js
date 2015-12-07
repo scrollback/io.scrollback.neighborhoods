@@ -8,9 +8,9 @@ import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
 import AccountPhotoChooser from "./account-photo-chooser";
 import TouchFeedback from "./touch-feedback";
-import PushNotification from "../../modules/push-notification";
+import PushNotification from "../modules/push-notification";
 import routes from "../utils/routes";
-import debounce from "../../lib/debounce";
+import debounce from "../lib/debounce";
 
 const {
 	StyleSheet,

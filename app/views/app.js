@@ -3,7 +3,7 @@ import Splash from "./splash";
 import Onboard from "./onboard";
 import Home from "./home";
 import PageFailed from "./page-failed";
-import userUtils from "../../lib/user-utils";
+import userUtils from "../lib/user-utils";
 
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {

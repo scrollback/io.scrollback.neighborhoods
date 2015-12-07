@@ -1,5 +1,5 @@
 import React from "react-native";
-import VersionCodes from "../../modules/version-codes";
+import VersionCodes from "../modules/version-codes";
 
 const {
 	Platform,

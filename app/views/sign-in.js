@@ -2,8 +2,8 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
 import LargeButton from "./large-button";
-import GoogleLogin from "../../modules/google-login";
-import FacebookLogin from "../../modules/facebook-login";
+import GoogleLogin from "../modules/google-login";
+import FacebookLogin from "../modules/facebook-login";
 
 const {
 	StyleSheet,

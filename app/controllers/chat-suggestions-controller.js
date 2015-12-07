@@ -1,7 +1,7 @@
 import React from "react-native";
 import ChatSuggestions from "../views/chat-suggestions";
 import Controller from "./controller";
-import store from "../../store/store";
+import store from "../store/store";
 
 class ChatSuggestionsController extends React.Component {
 	constructor(props) {

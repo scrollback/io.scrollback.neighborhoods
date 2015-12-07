@@ -11,7 +11,7 @@ import LocalitiesController from "../controllers/localities-controller";
 import AccountController from "../controllers/account-controller";
 import SignInController from "../controllers/sign-in-controller";
 import StartDiscussionController from "../controllers/start-discussion-controller";
-import config from "../../store/config";
+import config from "../store/config";
 
 const routes = {};
 

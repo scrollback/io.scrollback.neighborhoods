@@ -6,7 +6,7 @@
 /*eslint no-use-before-define:0 */
 "use strict";
 
-var permissionLevels = require("./../../authorizer/permissionWeights.js");
+var permissionLevels = require("../../store.orig/permissionWeights.js");
 
 module.exports = function(core, config, store) {
 

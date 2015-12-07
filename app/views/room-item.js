@@ -5,11 +5,11 @@ import NotificationBadgeController from "../controllers/notification-badge-contr
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import Modal from "./modal";
-import Share from "../../modules/share";
-import Linking from "../../modules/linking";
+import Share from "../modules/share";
+import Linking from "../modules/linking";
 import routes from "../utils/routes";
-import locationUtils from "../../lib/location-utils";
-import config from "../../store/config";
+import locationUtils from "../lib/location-utils";
+import config from "../store/config";
 
 const {
 	StyleSheet,

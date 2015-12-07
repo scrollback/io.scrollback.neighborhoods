@@ -1,5 +1,5 @@
 import React from "react-native";
-import URLResolver from "../../modules/url-resolver";
+import URLResolver from "../modules/url-resolver";
 
 const {
 	Image
