@@ -1,4 +1,4 @@
-package io.scrollback.neighborhoods.modules.appvirality;
+package io.scrollback.neighborhoods.modules.gcm;
 
 import android.app.Activity;
 
@@ -12,18 +12,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class AppviralityPackage implements ReactPackage {
+public class PushNotificationPackage implements ReactPackage {
 
     private Activity mCurrentActivity;
 
-    public AppviralityPackage(Activity activity) {
+    public PushNotificationPackage(Activity activity) {
         mCurrentActivity = activity;
     }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new AppviralityModule(reactContext, mCurrentActivity)
+                new PushNotificationModule(reactContext, mCurrentActivity)
         );
     }
 

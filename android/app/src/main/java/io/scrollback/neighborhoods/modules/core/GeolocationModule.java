@@ -18,8 +18,6 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-import java.util.List;
-
 public class GeolocationModule extends ReactContextBaseJavaModule {
 
     private static final String TAG = "GeoLocation";
@@ -29,7 +27,6 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
 
     private final String LOCATION_PROVIDER;
 
-    private final ReactApplicationContext mReactContext;
     private final Context mActiviyContext;
 
     private Location mCurrentlocation;
@@ -38,7 +35,7 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
         public void onLocationChanged(Location location) {
             mCurrentlocation = location;
 
-            mReactContext
+            getReactApplicationContext()
                     .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("geolocationChange", getMapFromLocation(location));
         }
@@ -62,10 +59,9 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     public GeolocationModule(ReactApplicationContext reactContext, Context activityContext) {
         super(reactContext);
 
-        mReactContext = reactContext;
         mActiviyContext = activityContext;
 
-        mLocationManager = (LocationManager) mReactContext.getSystemService(Application.LOCATION_SERVICE);
+        mLocationManager = (LocationManager) reactContext.getSystemService(Application.LOCATION_SERVICE);
 
         if (mLocationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER)) {
             LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;

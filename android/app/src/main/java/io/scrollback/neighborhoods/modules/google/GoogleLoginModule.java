@@ -4,7 +4,6 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
@@ -32,16 +31,16 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
     private String mAccountName;
     private String mAccessToken;
-    private Context mActivityContext;
+    private Activity mCurrentActivity;
 
     private Promise mRetrievePromise;
 
     private Dialog dialog;
 
-    public GoogleLoginModule(ReactApplicationContext reactContext, Context activityContext) {
+    public GoogleLoginModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
-        mActivityContext = activityContext;
+        mCurrentActivity = activity;
     }
 
     @Override
@@ -86,7 +85,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
         mRetrievePromise = promise;
 
-        ((Activity) mActivityContext).startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
+        mCurrentActivity.startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
     }
 
     @ReactMethod
@@ -101,7 +100,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                dialog = new ProgressDialog(mActivityContext, DialogFragment.STYLE_NO_TITLE);
+                dialog = new ProgressDialog(mCurrentActivity, DialogFragment.STYLE_NO_TITLE);
                 dialog.show();
             }
 
@@ -112,7 +111,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 String token = null;
 
                 try {
-                    token = GoogleAuthUtil.getToken(mActivityContext, accountName, scopes);
+                    token = GoogleAuthUtil.getToken(mCurrentActivity, accountName, scopes);
                 } catch (IOException e) {
                     Log.e(TAG, e.getMessage());
 
@@ -120,7 +119,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                         rejectPromise(e.getMessage());
                     }
                 } catch (UserRecoverableAuthException e) {
-                    ((Activity) mActivityContext).startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+                    mCurrentActivity.startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
 
                     return "false";
                 } catch (GoogleAuthException e) {
@@ -176,7 +175,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                 mAccessToken = params[0];
 
                 try {
-                    GoogleAuthUtil.clearToken(mActivityContext, mAccessToken);
+                    GoogleAuthUtil.clearToken(mCurrentActivity, mAccessToken);
 
                     return true;
                 } catch (GoogleAuthException e) {
