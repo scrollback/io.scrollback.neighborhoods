@@ -1,7 +1,7 @@
 import React from "react-native";
 import RoomItem from "../views/room-item";
 import Controller from "./controller";
-import store from "../../store/store";
+import store from "../store/store";
 
 const {
 	InteractionManager

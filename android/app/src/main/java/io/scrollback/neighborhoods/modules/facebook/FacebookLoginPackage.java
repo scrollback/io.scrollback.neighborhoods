@@ -1,6 +1,6 @@
 package io.scrollback.neighborhoods.modules.facebook;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 
 import com.facebook.react.ReactPackage;
@@ -15,16 +15,16 @@ import java.util.List;
 
 public class FacebookLoginPackage implements ReactPackage {
 
-    private Context mContext;
+    private Activity mCurrentActivity;
     private FacebookLoginModule mModuleInstance;
 
-    public FacebookLoginPackage(Context activityContext) {
-        mContext = activityContext;
+    public FacebookLoginPackage(Activity activity) {
+        mCurrentActivity = activity;
     }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        mModuleInstance = new FacebookLoginModule(reactContext, mContext);
+        mModuleInstance = new FacebookLoginModule(reactContext, mCurrentActivity);
 
         return Arrays.<NativeModule>asList(mModuleInstance);
     }

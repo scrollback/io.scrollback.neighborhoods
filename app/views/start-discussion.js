@@ -13,9 +13,9 @@ import Icon from "./icon";
 import ImageUploadController from "../controllers/image-upload-controller";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
-import ImageChooser from "../../modules/image-chooser";
+import ImageChooser from "../modules/image-chooser";
 import routes from "../utils/routes";
-import textUtils from "../../lib/text-utils";
+import textUtils from "../lib/text-utils";
 
 const {
 	StyleSheet,

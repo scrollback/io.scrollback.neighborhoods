@@ -1,9 +1,9 @@
 import React from "react-native";
 import Avatar from "../views/avatar.js";
 import Controller from "./controller";
-import store from "../../store/store";
-import config from "../../store/config";
-import getAvatar from "../../lib/get-avatar";
+import store from "../store/store";
+import config from "../store/config";
+import getAvatar from "../lib/get-avatar";
 
 const {
 	PixelRatio,

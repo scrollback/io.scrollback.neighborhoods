@@ -9,7 +9,7 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InstallReferrerTools {
+public class AnswersInstallTracker {
 
     private static final String PREFERENCES_FILE = "google_play_install_receiver";
     private static final String PROPERTY_INSTALL_REFERRER = "install_referrer";
@@ -17,20 +17,20 @@ public class InstallReferrerTools {
     private static final String ERROR_NO_REFERRER = "No install referrer found";
     private static final String ERROR_NO_SUCH_PARAM = "No such parameter found";
 
-    private static InstallReferrerTools mInstance;
+    private static AnswersInstallTracker mInstance;
     private Map<String, String> referralParams;
     private String referrer;
     private Context mContext;
 
-    InstallReferrerTools(Context context) {
+    AnswersInstallTracker(Context context) {
         mContext = context;
 
         referrer = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getString(PROPERTY_INSTALL_REFERRER, null);
     }
 
-    public static InstallReferrerTools getInstance(Context context) {
+    public static AnswersInstallTracker getInstance(Context context) {
         if (mInstance == null) {
-            mInstance = new InstallReferrerTools(context);
+            mInstance = new AnswersInstallTracker(context);
         }
 
         return mInstance;

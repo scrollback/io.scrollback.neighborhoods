@@ -16,7 +16,7 @@ public class AnalyticsPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
                 new AnswersModule(reactContext),
-                new InstallReferrerModule(reactContext)
+                new AnswersInstallTrackerModule(reactContext)
         );
     }
 

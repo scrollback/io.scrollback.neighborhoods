@@ -6,8 +6,8 @@ import TouchFeedback from "./touch-feedback";
 import ChatSuggestionsController from "../controllers/chat-suggestions-controller";
 import ImageUploadController from "../controllers/image-upload-controller";
 import ImageUploadChat from "./image-upload-chat";
-import ImageChooser from "../../modules/image-chooser";
-import textUtils from "../../lib/text-utils";
+import ImageChooser from "../modules/image-chooser";
+import textUtils from "../lib/text-utils";
 
 const {
 	StyleSheet,

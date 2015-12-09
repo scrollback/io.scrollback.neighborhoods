@@ -1,6 +1,6 @@
 package io.scrollback.neighborhoods.modules.core;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -12,14 +12,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import io.scrollback.neighborhoods.modules.gcm.PushNotificationModule;
-
 public class CorePackage implements ReactPackage {
 
-    private Context mContext;
+    private Activity mCurrentActivity;
 
-    public CorePackage(Context activityContext) {
-        mContext = activityContext;
+    public CorePackage(Activity activity) {
+        mCurrentActivity = activity;
     }
 
     @Override
@@ -29,11 +27,10 @@ public class CorePackage implements ReactPackage {
                 new BuildConfigModule(reactContext),
                 new VersionCodesModule(reactContext),
                 new URLResolverModule(reactContext),
-                new GeolocationModule(reactContext, mContext),
-                new AlertDialogModule(reactContext, mContext),
-                new ShareModule(reactContext, mContext),
-                new IntentModule(reactContext, mContext),
-                new PushNotificationModule(reactContext, mContext)
+                new GeolocationModule(reactContext, mCurrentActivity),
+                new AlertDialogModule(reactContext, mCurrentActivity),
+                new ShareModule(reactContext, mCurrentActivity),
+                new IntentModule(reactContext, mCurrentActivity)
         );
     }
 

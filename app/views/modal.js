@@ -4,7 +4,7 @@ import AppText from "./app-text";
 import ModalSheet from "./modal-sheet";
 import TouchFeedback from "./touch-feedback";
 import KeyboardSpacer from "./keyboard-spacer";
-import VersionCodes from "../../modules/version-codes";
+import VersionCodes from "../modules/version-codes";
 
 
 const {

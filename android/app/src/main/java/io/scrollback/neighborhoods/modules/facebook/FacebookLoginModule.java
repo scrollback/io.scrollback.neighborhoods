@@ -1,7 +1,6 @@
 package io.scrollback.neighborhoods.modules.facebook;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import com.facebook.AccessToken;
@@ -27,16 +26,16 @@ import java.util.Arrays;
 
 public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
-    private Context mActivityContext;
+    private Activity mCurrentActivity;
     private CallbackManager mCallbackManager;
     private Promise mTokenPromise;
 
-    public FacebookLoginModule(ReactApplicationContext reactContext, Context activityContext) {
+    public FacebookLoginModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
-        mActivityContext = activityContext;
+        mCurrentActivity = activity;
 
-        FacebookSdk.sdkInitialize(activityContext.getApplicationContext());
+        FacebookSdk.sdkInitialize(reactContext.getApplicationContext());
 
         mCallbackManager = CallbackManager.Factory.create();
 
@@ -125,7 +124,7 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
         mTokenPromise = promise;
 
         LoginManager.getInstance().logInWithReadPermissions(
-                (Activity) mActivityContext,
+                mCurrentActivity,
                 Arrays.asList("public_profile", "email"));
     }
 

@@ -1,8 +1,12 @@
-package io.scrollback.neighborhoods.modules.analytics;
+package io.scrollback.neighborhoods;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.appvirality.android.AppviralityAPI;
+
+import io.scrollback.neighborhoods.modules.analytics.AnswersInstallTracker;
 
 public class InstallReferrerReceiver extends BroadcastReceiver {
 
@@ -12,7 +16,8 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
             final String referrer = intent.getStringExtra("referrer");
 
             if (referrer != null && referrer.length() != 0) {
-                InstallReferrerTools.getInstance(context).setReferrer(referrer);
+                AppviralityAPI.setBroadcastReferrerString(context, referrer);
+                AnswersInstallTracker.getInstance(context).setReferrer(referrer);
             }
         }
     }

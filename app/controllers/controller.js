@@ -1,5 +1,5 @@
-import core from "../../store/core";
-import actions from "../../store/actions";
+import core from "../store/core";
+import actions from "../store/actions";
 
 export default function(Target) {
 	class Controller extends Target {

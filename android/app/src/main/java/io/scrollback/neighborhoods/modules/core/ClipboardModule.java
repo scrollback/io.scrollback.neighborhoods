@@ -11,12 +11,8 @@ import com.facebook.react.bridge.ReactMethod;
 
 public class ClipboardModule extends ReactContextBaseJavaModule {
 
-    ReactApplicationContext mReactContext;
-
-    public ClipboardModule(ReactApplicationContext ctx) {
-        super(ctx);
-
-        mReactContext = ctx;
+    public ClipboardModule(ReactApplicationContext reactContext) {
+        super(reactContext);
     }
 
     @Override
@@ -26,7 +22,7 @@ public class ClipboardModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setText(final String text) {
-        ClipboardManager clipboard = (ClipboardManager) mReactContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) getReactApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(null, text);
 
         clipboard.setPrimaryClip(clip);
@@ -34,7 +30,7 @@ public class ClipboardModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getText(final Promise promise) {
-        ClipboardManager clipboard = (ClipboardManager) mReactContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) getReactApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
 
         ClipData data = clipboard.getPrimaryClip();
         ClipData.Item item = data.getItemAt(0);

@@ -1,7 +1,7 @@
 import React from "react-native";
 import Controller from "./controller";
-import store from "../../store/store";
-import generate from "../../lib/generate.browser";
+import store from "../store/store";
+import generate from "../lib/generate.browser";
 
 const IDLE = "idle";
 const LOADING = "loading";

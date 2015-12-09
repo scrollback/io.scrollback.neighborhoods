@@ -1,6 +1,6 @@
 import React from "react-native";
 import AppText from "./app-text";
-import timeUtils from "../../lib/time-utils";
+import timeUtils from "../lib/time-utils";
 
 const msPerSec = 1000;
 const msPerMin = msPerSec * 60;
