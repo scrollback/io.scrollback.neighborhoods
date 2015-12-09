@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 
 import com.appvirality.AppviralityUI;
+import com.appvirality.CampaignHandler;
 import com.appvirality.android.AppviralityAPI;
+import com.appvirality.android.CampaignDetails;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -14,16 +17,32 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.util.ArrayList;
+
 public class AppviralityModule extends ReactContextBaseJavaModule {
 
     private Activity mCurrentACtivity;
+    private ArrayList<Callback> pendingCallbacks = new ArrayList<>();
 
     public AppviralityModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
 
         mCurrentACtivity = activity;
 
-        AppviralityAPI.init(reactContext.getApplicationContext());
+        AppviralityAPI.setCampaignHandler(mCurrentACtivity, AppviralityAPI.GH.Word_of_Mouth, new AppviralityAPI.CampaignReadyListner() {
+            @Override
+            public void onCampaignReady(CampaignDetails campaignDetails) {
+                if (campaignDetails != null) {
+                    CampaignHandler.setCampaignDetails(campaignDetails);
+
+                    for (Callback callback : pendingCallbacks) {
+                        callback.invoke();
+                    }
+
+                    pendingCallbacks.clear();
+                }
+            }
+        });
 
         AppviralityAPI.claimRewardOnSignUp(reactContext.getApplicationContext(), new AppviralityAPI.RewardClaimed() {
             @Override
@@ -35,6 +54,8 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
                 sendEvent("appViralityClaimRewardsOnSignUp", map);
             }
         });
+
+        AppviralityAPI.init(reactContext.getApplicationContext());
     }
 
     public String getName() {
@@ -94,6 +115,17 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
                 promise.resolve(isSuccess);
             }
         });
+    }
+
+    @ReactMethod
+    public void onCampaignReady(final Callback callback) {
+        CampaignDetails campaignDetails = CampaignHandler.getCampiagnDetails();
+
+        if (campaignDetails != null) {
+            callback.invoke();
+        } else {
+            pendingCallbacks.add(callback);
+        }
     }
 
     @ReactMethod
