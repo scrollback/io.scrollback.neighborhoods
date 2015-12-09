@@ -3,7 +3,7 @@
 module.exports = function(core, config, store) {
 	var userUtils = require("./../../lib/user-utils.js"),
 		actions = require("../../store/actions.js"),
-		permissionLevels = require("./../../authorizer/permissionWeights.js"),
+		permissionLevels = require("../permissionWeights.js"),
 		queueBack = [];
 
 	function enter(roomId) {
