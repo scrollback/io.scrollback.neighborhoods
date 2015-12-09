@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class AppviralityModule extends ReactContextBaseJavaModule {
 
     private Activity mCurrentACtivity;
-    private Boolean isRewarded;
     private ArrayList<Callback> pendingRewardClaimedCallbacks = new ArrayList<>();
     private ArrayList<Callback> pendingCamapignReadyCallbacks = new ArrayList<>();
+    private boolean isRewarded;
 
     public AppviralityModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
@@ -30,7 +30,7 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
         AppviralityAPI.setCampaignHandler(mCurrentACtivity, AppviralityAPI.GH.Word_of_Mouth, new AppviralityAPI.CampaignReadyListner() {
             @Override
             public void onCampaignReady(CampaignDetails campaignDetails) {
-                Boolean status = campaignDetails != null;
+                boolean status = campaignDetails != null;
 
                 if (status) {
                     CampaignHandler.setCampaignDetails(campaignDetails);
