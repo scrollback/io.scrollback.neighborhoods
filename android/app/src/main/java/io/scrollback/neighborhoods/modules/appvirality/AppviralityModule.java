@@ -1,28 +1,26 @@
 package io.scrollback.neighborhoods.modules.appvirality;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
 
 import com.appvirality.AppviralityUI;
 import com.appvirality.CampaignHandler;
 import com.appvirality.android.AppviralityAPI;
 import com.appvirality.android.CampaignDetails;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.ArrayList;
 
 public class AppviralityModule extends ReactContextBaseJavaModule {
 
     private Activity mCurrentACtivity;
-    private ArrayList<Callback> pendingCallbacks = new ArrayList<>();
+    private Boolean isRewarded;
+    private ArrayList<Callback> pendingRewardClaimedCallbacks = new ArrayList<>();
+    private ArrayList<Callback> pendingCamapignReadyCallbacks = new ArrayList<>();
 
     public AppviralityModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
@@ -32,26 +30,29 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
         AppviralityAPI.setCampaignHandler(mCurrentACtivity, AppviralityAPI.GH.Word_of_Mouth, new AppviralityAPI.CampaignReadyListner() {
             @Override
             public void onCampaignReady(CampaignDetails campaignDetails) {
-                if (campaignDetails != null) {
+                Boolean status = campaignDetails != null;
+
+                if (status) {
                     CampaignHandler.setCampaignDetails(campaignDetails);
-
-                    for (Callback callback : pendingCallbacks) {
-                        callback.invoke();
-                    }
-
-                    pendingCallbacks.clear();
                 }
+
+                for (Callback callback : pendingCamapignReadyCallbacks) {
+                    callback.invoke(status);
+                }
+
+                pendingCamapignReadyCallbacks = null;
             }
         });
 
         AppviralityAPI.claimRewardOnSignUp(reactContext.getApplicationContext(), new AppviralityAPI.RewardClaimed() {
             @Override
-            public void OnResponse(boolean isRewarded, String message) {
-                WritableMap map = Arguments.createMap();
+            public void OnResponse(boolean status, String message) {
+                for (Callback callback : pendingRewardClaimedCallbacks) {
+                    callback.invoke(status);
+                }
 
-                map.putBoolean("isRewarded", isRewarded);
-
-                sendEvent("appViralityClaimRewardsOnSignUp", map);
+                isRewarded = status;
+                pendingRewardClaimedCallbacks = null;
             }
         });
 
@@ -60,12 +61,6 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
 
     public String getName() {
         return "AppviralityModule";
-    }
-
-    private void sendEvent(String eventName, @Nullable WritableMap params) {
-        getReactApplicationContext()
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
     }
 
     @ReactMethod
@@ -118,13 +113,20 @@ public class AppviralityModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void onCampaignReady(final Callback callback) {
-        CampaignDetails campaignDetails = CampaignHandler.getCampiagnDetails();
-
-        if (campaignDetails != null) {
-            callback.invoke();
+    public void onRewardClaimed(final Callback callback) {
+        if (pendingRewardClaimedCallbacks != null) {
+            pendingRewardClaimedCallbacks.add(callback);
         } else {
-            pendingCallbacks.add(callback);
+            callback.invoke(isRewarded);
+        }
+    }
+
+    @ReactMethod
+    public void onCampaignReady(final Callback callback) {
+        if (pendingCamapignReadyCallbacks != null) {
+            pendingCamapignReadyCallbacks.add(callback);
+        } else {
+            callback.invoke(CampaignHandler.getCampiagnDetails() != null);
         }
     }
 
