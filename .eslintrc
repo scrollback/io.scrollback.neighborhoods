@@ -21,6 +21,7 @@
     "fetch": false,
     "global": false,
     "Map": false,
+    "module": false,
     "navigator": false,
     "Promise": false,
     "require": false,
