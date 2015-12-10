@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 
-import com.appvirality.AppviralityUI;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -17,7 +16,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 
 import io.scrollback.neighborhoods.bundle.JSBundleManager;
 import io.scrollback.neighborhoods.modules.analytics.AnalyticsPackage;
-import io.scrollback.neighborhoods.modules.appvirality.AppviralityPackage;
 import io.scrollback.neighborhoods.modules.choosers.ChoosersPackage;
 import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
@@ -57,7 +55,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new MainReactPackage())
                 .addPackage(new VectorIconsPackage())
                 .addPackage(new CorePackage(this))
-                .addPackage(new AppviralityPackage(this))
                 .addPackage(new PushNotificationPackage(this))
                 .addPackage(new AnalyticsPackage())
                 .addPackage(mGoogleLoginPackage)
@@ -106,7 +103,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
         }
 
         AppEventsLogger.deactivateApp(this);
-        AppviralityUI.onStop();
     }
 
     @Override

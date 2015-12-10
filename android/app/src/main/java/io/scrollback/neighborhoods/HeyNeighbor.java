@@ -2,7 +2,6 @@ package io.scrollback.neighborhoods;
 
 import android.app.Application;
 
-import com.appvirality.android.AppviralityAPI;
 import com.crashlytics.android.Crashlytics;
 
 import io.fabric.sdk.android.Fabric;
