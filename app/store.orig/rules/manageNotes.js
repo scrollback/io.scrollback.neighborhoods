@@ -1,9 +1,9 @@
-// Server goes crazy when we try to dismiss notifications on every navigation
-// As of now, server only supports dismissing all notifications
-// But this is annoying for users as notifications don't really go away
-// So we need to handle this in better way which doesn't put load on server
-// We save the dismissed notifications in `AsyncStorage`, and avoid showing them
-// When there are no notifications left, we dismiss all notifications
+// Server goes crazy when we try to dismiss notifications on every navigation.
+// As of now, server only supports dismissing all notifications.
+// But this is annoying for users as notifications don't really go away.
+// So we need to handle this in better way which doesn't put load on server.
+// We save the dismissed notifications in `AsyncStorage`, and avoid showing them.
+// When there are no notifications left, we dismiss all notifications.
 
 import { AsyncStorage } from "react-native";
 import core from "../../store/core";
@@ -35,10 +35,11 @@ function dismissAllNotes() {
 }
 
 function dismissNote(note) {
-	let notes = store.get("notes").slice(0),
-		dismiss;
+	const notes = store.get("notes");
 
-	if (!notes.length) {
+	let dismiss;
+
+	if (notes.length === 0 || Object.keys(note).length === 1) {
 		return null;
 	}
 
@@ -68,10 +69,6 @@ function dismissNote(note) {
 		}
 	} else if (note.ref) {
 		dismiss = notes.filter(n => n.ref === note.ref);
-	} else {
-		// dismiss all
-		notes = [];
-		dismiss = [];
 	}
 
 	for (let i = 0, l = dismiss.length; i < l; i++) {
@@ -82,18 +79,7 @@ function dismissNote(note) {
 		}
 	}
 
-	if (!note.dismissTime) {
-		note.dismissTime = Date.now();
-	}
-
-	notes.push(note);
-	core.emit("setstate", { notes });
-
-	if (notes.length) {
-		return AsyncStorage.setItem(NOTIFICATION_STORE_KEY, JSON.stringify(dismissed));
-	} else {
-		return dismissAllNotes();
-	}
+	return AsyncStorage.setItem(NOTIFICATION_STORE_KEY, JSON.stringify(dismissed));
 }
 
 function loadNotes() {
@@ -120,16 +106,17 @@ function loadNotes() {
 
 function receiveNote(note) {
 	if (note.dismissTime) {
-		return;
+		dismissNote(note);
 	}
 
 	const notes = store.get("notes").slice(0);
 
 	notes.push(note);
+
 	core.emit("setstate", { notes });
 }
 
-async function processChanges(changes) {
+function processChanges(changes) {
 	if (changes.nav && (changes.nav.mode || changes.nav.room || "thread" in changes.nav)) {
 		const future = store.with(changes);
 		const roomId = future.get("nav", "room");
@@ -139,23 +126,27 @@ async function processChanges(changes) {
 			const threadId = future.get("nav", "thread");
 
 			if (threadId) {
-				await dismissNote({
-					group: roomId + "/" + threadId
+				core.emit("note-up", {
+					group: roomId + "/" + threadId,
+					dismissTime: Date.now()
 				});
 
-				dismissNote({
+				core.emit("note-up", {
 					noteType: "thread",
-					ref: threadId
+					ref: threadId,
+					dismissTime: Date.now()
 				});
 			} else {
-				dismissNote({
-					group: roomId + "/all"
+				core.emit("note-up", {
+					group: roomId + "/all",
+					dismissTime: Date.now()
 				});
 			}
 		} else if (mode === "room") {
-			dismissNote({
+			core.emit("note-up", {
 				noteType: "thread",
-				group: roomId
+				group: roomId,
+				dismissTime: Date.now()
 			});
 		}
 	}
@@ -163,7 +154,8 @@ async function processChanges(changes) {
 
 module.exports = () => {
 	core.on("init-dn", () => loadNotes(), 100);
+	core.on("note-up", note => receiveNote(note), 100);
 	core.on("note-dn", note => receiveNote(note), 100);
-	core.on("note-up", note => note.dismissTime ? dismissNote(note) : null, 100);
 	core.on("setstate", changes => processChanges(changes), 100);
+	core.on("statechange", changes => changes.notes && store.get("notes").length === 0 ? dismissAllNotes() : null, 100);
 };
