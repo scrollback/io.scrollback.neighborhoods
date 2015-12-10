@@ -13,7 +13,6 @@
     "react-native-vector-icons": "^0.8.5"
   },
   "devDependencies": {
-    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.6",
     "chalk": "^1.1.1",
     "crypto": "0.0.3",
