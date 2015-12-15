@@ -28,10 +28,32 @@ module.exports = function(core) {
 				return;
 			}
 
-			if (res && res.results) {
+			if (res.results && res.results.length) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results.length ? res.results : [ "unavailable" ]
+						nearByRooms: res.results
+					}
+				});
+			} else {
+				core.emit("getRooms", { ref: "open-house" }, (e, r) => {
+					if (e) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: [ "unavailable" ],
+								isAvailable: false
+							}
+						});
+
+						return;
+					}
+
+					if (r.results && r.results.length) {
+						core.emit("setstate", {
+							app: {
+								nearByRooms: r.results,
+								isAvailable: false
+							}
+						});
 					}
 				});
 			}

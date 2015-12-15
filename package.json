@@ -31,7 +31,7 @@
     "babel-plugin-transform-regenerator": "^6.3.2",
     "ebus": "^0.12.0",
     "engine.io-client": "^1.5.4",
-    "react-native": "^0.16.0",
+    "react-native": "^0.17.0-rc",
     "react-native-image-chooser": "^0.1.1",
     "react-native-vector-icons": "^1.0.0"
   },

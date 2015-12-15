@@ -88,13 +88,13 @@ gradle.projectsEvaluated {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.2'
 
     defaultConfig {
         applicationId "io.scrollback.neighborhoods"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 29
+        versionCode 30
         versionName "1.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -124,12 +124,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
-    compile 'com.appvirality:AppviralityUI:1.1.17+'
-    compile 'com.facebook.react:react-native:0.16.+'
+    compile 'com.facebook.react:react-native:0.17.+'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
     }
 
-    compile project(':react-native-image-chooser')
+    compile(project(':react-native-image-chooser')) {
+        exclude group: 'com.facebook.react', module: 'react-native'
+    }
 }

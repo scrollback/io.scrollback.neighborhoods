@@ -62,7 +62,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     public static void logPurchase(
             final double itemPrice, final String currency,
             final String itemName, final String itemType, final String itemId,
-            final Boolean purchaseSucceeded) {
+            final boolean purchaseSucceeded) {
         Answers.getInstance().logPurchase(new PurchaseEvent()
                 .putItemPrice(BigDecimal.valueOf(itemPrice))
                 .putCurrency(Currency.getInstance(currency))
@@ -126,7 +126,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
 
     // Users
     @ReactMethod
-    public static void logSignup(final String signupMethod, final Boolean signupSucceeded) {
+    public static void logSignup(final String signupMethod, final boolean signupSucceeded) {
         Answers.getInstance().logSignUp(new SignUpEvent()
                         .putMethod(signupMethod)
                         .putSuccess(signupSucceeded)
@@ -134,7 +134,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public static void logLogin(final String loginMethod, final Boolean loginSucceeded) {
+    public static void logLogin(final String loginMethod, final boolean loginSucceeded) {
         Answers.getInstance().logLogin(new LoginEvent()
                 .putMethod(loginMethod)
                 .putSuccess(loginSucceeded));
@@ -154,7 +154,7 @@ public class AnswersModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public static void logLevelEnd(final String levelName, int score, boolean success) {
+    public static void logLevelEnd(final String levelName, final int score, final boolean success) {
         Answers.getInstance().logLevelEnd(new LevelEndEvent()
                 .putLevelName(levelName)
                 .putScore(score)

@@ -41,13 +41,17 @@ class AppController extends React.Component {
 	}
 
 	_setInitialRoute() {
-		const url = Linking.initialURL;
+		Linking.getInitialURL((err, url) => {
+			if (err) {
+				return;
+			}
 
-		if (url) {
-			this.setState({
-				initialRoute: routes.fromURL(url)
-			});
-		}
+			if (url) {
+				this.setState({
+					initialRoute: routes.fromURL(url)
+				});
+			}
+		});
 	}
 
 	render() {

@@ -108,8 +108,8 @@ export default class LocalitiesBase extends React.Component {
 						return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 					}
 
-					if (keys.every(item => data[item].length === 2 && (data[item][0] === "unavailable" || data[item][0] === "unavailable"))) {
-						return <PageFailed pageLabel={config.app_name + " is not available in your city yet."} />;
+					if (keys.some(item => data[item].length === 1 && data[item][0] === "unavailable")) {
+						return <PageFailed pageLabel={config.app_name + " is not available in your neighborhood yet."} />;
 					}
 
 					return (
