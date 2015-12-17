@@ -1,0 +1,20 @@
+/**
+ * Task to copy icon font files
+ */
+def iconFontsDir = '../../node_modules/react-native-vector-icons/Fonts';
+def iconFontName = 'MaterialIcons.ttf';
+
+task copyDebugIconFonts(type: Copy) {
+    from("$iconFontsDir/$iconFontName")
+    into("$buildDir/intermediates/assets/debug/fonts/")
+}
+
+task copyReleaseIconFonts(type: Copy) {
+    from("$iconFontsDir/$iconFontName")
+    into("$buildDir/intermediates/assets/release/fonts/")
+}
+
+gradle.projectsEvaluated {
+    generateDebugAssets.dependsOn copyDebugIconFonts
+    generateReleaseAssets.dependsOn copyReleaseIconFonts
+}
