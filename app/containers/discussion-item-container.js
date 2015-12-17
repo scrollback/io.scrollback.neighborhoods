@@ -1,10 +1,10 @@
 import React from "react-native";
 import DiscussionItem from "../views/discussion-item";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 import actions from "../store/actions";
 
-class DiscussionItemController extends React.Component {
+class DiscussionItemContainer extends React.Component {
 	render() {
 		return (
 			<DiscussionItem
@@ -22,7 +22,7 @@ class DiscussionItemController extends React.Component {
 	}
 }
 
-DiscussionItemController.propTypes = {
+DiscussionItemContainer.propTypes = {
 	thread: React.PropTypes.shape({
 		id: React.PropTypes.string.isRequired,
 		from: React.PropTypes.string.isRequired,
@@ -30,4 +30,4 @@ DiscussionItemController.propTypes = {
 	}).isRequired
 };
 
-export default Controller(DiscussionItemController);
+export default Container(DiscussionItemContainer);

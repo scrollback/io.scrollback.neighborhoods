@@ -1,7 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
-import NotificationBadgeController from "../controllers/notification-badge-controller";
+import NotificationBadgeContainer from "../containers/notification-badge-container";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
 import Modal from "./modal";
@@ -110,7 +110,7 @@ export default class RoomItem extends React.Component {
 						</View>
 
 						{this.props.showBadge ?
-							<NotificationBadgeController room={this.props.room.id} /> :
+							<NotificationBadgeContainer room={this.props.room.id} /> :
 							null
 						}
 

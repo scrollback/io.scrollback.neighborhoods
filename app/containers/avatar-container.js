@@ -1,6 +1,6 @@
 import React from "react-native";
 import Avatar from "../views/avatar.js";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 import config from "../store/config";
 import getAvatar from "../lib/get-avatar";
@@ -10,7 +10,7 @@ const {
 	InteractionManager
 } = React;
 
-class AvatarController extends React.Component {
+class AvatarContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -60,13 +60,13 @@ class AvatarController extends React.Component {
 	}
 }
 
-AvatarController.propTypes = {
+AvatarContainer.propTypes = {
 	nick: React.PropTypes.string.isRequired,
 	size: React.PropTypes.number
 };
 
-AvatarController.defaultProps = {
+AvatarContainer.defaultProps = {
 	size: 48
 };
 
-export default Controller(AvatarController);
+export default Container(AvatarContainer);

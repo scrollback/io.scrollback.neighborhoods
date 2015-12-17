@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import AvatarController from "../controllers/avatar-controller";
+import AvatarContainer from "../containers/avatar-container";
 
 const {
 	StyleSheet,
@@ -27,7 +27,7 @@ export default class AvatarRound extends React.Component {
 
 		return (
 			<View {...this.props} style={[ styles.avatar, { height: size, width: size, borderRadius: size / 2 }, this.props.style ]}>
-				<AvatarController
+				<AvatarContainer
 					size={this.props.size}
 					nick={this.props.nick}
 					style={[ styles.image, { borderRadius: size / 2 } ]}

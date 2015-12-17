@@ -4,7 +4,7 @@ import AppText from "./app-text";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarIcon from "./appbar-icon";
 import Modal from "./modal";
-import LocalitiesFilterController from "../controllers/localities-filtered-controller";
+import LocalitiesFilterContainer from "../containers/localities-filtered-container";
 
 const {
 	StyleSheet,
@@ -29,7 +29,7 @@ export default class SearchBar extends React.Component {
 	}
 
 	_onPress() {
-		Modal.renderComponent(<LocalitiesFilterController dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
+		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
 	}
 
 	render() {

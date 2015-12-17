@@ -2,10 +2,10 @@ import React from "react-native";
 import App from "../views/app";
 import Linking from "../modules/linking";
 import routes from "../utils/routes";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 
-class AppController extends React.Component {
+class AppContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -59,4 +59,4 @@ class AppController extends React.Component {
 	}
 }
 
-export default Controller(AppController);
+export default Container(AppContainer);

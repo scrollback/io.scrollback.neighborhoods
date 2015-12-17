@@ -1,13 +1,13 @@
 import React from "react-native";
 import RoomItem from "../views/room-item";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class RoomItemController extends React.Component {
+class RoomItemContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -96,7 +96,7 @@ class RoomItemController extends React.Component {
 	}
 }
 
-RoomItemController.propTypes = {
+RoomItemContainer.propTypes = {
 	room: React.PropTypes.shape({
 		id: React.PropTypes.string.isRequired,
 		guides: React.PropTypes.shape({
@@ -105,4 +105,4 @@ RoomItemController.propTypes = {
 	})
 };
 
-export default Controller(RoomItemController);
+export default Container(RoomItemContainer);

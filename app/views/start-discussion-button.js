@@ -1,7 +1,7 @@
 import React from "react-native";
 import FloatingActionButton from "./floating-action-button";
 import Modal from "./modal";
-import StartDiscussionController from "../controllers/start-discussion-controller";
+import StartDiscussionContainer from "../containers/start-discussion-container";
 
 export default class StartDiscussionButton extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -12,7 +12,7 @@ export default class StartDiscussionButton extends React.Component {
 	}
 
 	_onPress() {
-		Modal.renderComponent(<StartDiscussionController {...this.props} dismiss={() => Modal.renderComponent(null)} />);
+		Modal.renderComponent(<StartDiscussionContainer {...this.props} dismiss={() => Modal.renderComponent(null)} />);
 	}
 
 	render() {

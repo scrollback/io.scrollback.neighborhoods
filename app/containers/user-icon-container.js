@@ -1,13 +1,13 @@
 import React from "react-native";
 import UserIcon from "../views/user-icon";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class UserIconController extends React.Component {
+class UserIconContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -41,4 +41,4 @@ class UserIconController extends React.Component {
 	}
 }
 
-export default Controller(UserIconController);
+export default Container(UserIconContainer);

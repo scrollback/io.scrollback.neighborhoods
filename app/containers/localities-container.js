@@ -1,13 +1,13 @@
 import React from "react-native";
 import Localities from "../views/localities";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class LocalitiesController extends React.Component {
+class LocalitiesContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -66,4 +66,4 @@ class LocalitiesController extends React.Component {
 	}
 }
 
-export default Controller(LocalitiesController);
+export default Container(LocalitiesContainer);

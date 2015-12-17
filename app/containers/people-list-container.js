@@ -1,13 +1,13 @@
 import React from "react-native";
 import PeopleList from "../views/people-list";
-import Controller from "./controller";
+import Container from "./controller";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class PeopleListController extends React.Component {
+class PeopleListContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -72,8 +72,8 @@ class PeopleListController extends React.Component {
 	}
 }
 
-PeopleListController.propTypes = {
+PeopleListContainer.propTypes = {
 	thread: React.PropTypes.string.isRequired
 };
 
-export default Controller(PeopleListController);
+export default Container(PeopleListContainer);

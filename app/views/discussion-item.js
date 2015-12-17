@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import NotificationBadgeController from "../controllers/notification-badge-controller";
+import NotificationBadgeContainer from "../containers/notification-badge-container";
 import Card from "./card";
 import CardTitle from "./card-title";
 import CardSummary from "./card-summary";
@@ -162,7 +162,7 @@ export default class DiscussionItem extends React.Component {
 								text={this.props.thread.title}
 							/>
 
-							<NotificationBadgeController thread={this.props.thread.id} style={styles.badge} />
+							<NotificationBadgeContainer thread={this.props.thread.id} style={styles.badge} />
 
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
 								<Icon
