@@ -1,13 +1,13 @@
 import React from "react-native";
 import BannerOffline from "../views/banner-offline";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class BannerOfflineController extends React.Component {
+class BannerOfflineContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -41,4 +41,4 @@ class BannerOfflineController extends React.Component {
 	}
 }
 
-export default Controller(BannerOfflineController);
+export default Container(BannerOfflineContainer);

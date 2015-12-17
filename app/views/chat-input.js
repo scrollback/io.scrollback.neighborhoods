@@ -3,8 +3,8 @@ import Colors from "../../colors.json";
 import Icon from "./icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
-import ChatSuggestionsController from "../controllers/chat-suggestions-controller";
-import ImageUploadController from "../controllers/image-upload-controller";
+import ChatSuggestionsContainer from "../containers/chat-suggestions-container";
+import ImageUploadContainer from "../containers/image-upload-container";
 import ImageUploadChat from "./image-upload-chat";
 import ImageChooser from "../modules/image-chooser";
 import textUtils from "../lib/text-utils";
@@ -154,7 +154,7 @@ export default class ChatInput extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
-				<ChatSuggestionsController
+				<ChatSuggestionsContainer
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}
@@ -188,7 +188,7 @@ export default class ChatInput extends React.Component {
 				</View>
 
 				{this.state.imageData ?
-					<ImageUploadController
+					<ImageUploadContainer
 						component={ImageUploadChat}
 						imageData={this.state.imageData}
 						onUploadClose={this._onUploadClose.bind(this)}

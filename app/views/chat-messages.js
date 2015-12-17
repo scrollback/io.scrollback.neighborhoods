@@ -1,5 +1,5 @@
 import React from "react-native";
-import ChatItemController from "../controllers/chat-item-controller";
+import ChatItemContainer from "../containers/chat-item-container";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
@@ -80,7 +80,7 @@ export default class ChatMessages extends React.Component {
 								}
 
 								return (
-									<ChatItemController
+									<ChatItemContainer
 										key={item.text.id}
 										text={item.text}
 										metadata={item.metadata}

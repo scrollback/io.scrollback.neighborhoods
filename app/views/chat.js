@@ -1,8 +1,8 @@
 import React from "react-native";
 import PageLoading from "./page-loading";
-import ChatMessagesController from "../controllers/chat-messages-controller";
+import ChatMessagesContainer from "../containers/chat-messages-container";
 import ChatInput from "./chat-input";
-import BannerOfflineController from "../controllers/banner-offline-controller";
+import BannerOfflineContainer from "../containers/banner-offline-container";
 
 const {
 	View,
@@ -31,9 +31,9 @@ export default class Chat extends React.Component {
 
 		return (
 			<View {...this.props}>
-				<BannerOfflineController />
+				<BannerOfflineContainer />
 
-				<ChatMessagesController
+				<ChatMessagesContainer
 					style={styles.container}
 					room={this.props.room}
 					thread={this.props.thread}

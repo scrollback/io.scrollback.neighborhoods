@@ -1,13 +1,13 @@
 import React from "react-native";
 import Chat from "../views/chat";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class ChatController extends React.Component {
+class ChatContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -50,9 +50,9 @@ class ChatController extends React.Component {
 	}
 }
 
-ChatController.propTypes = {
+ChatContainer.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired
 };
 
-export default Controller(ChatController);
+export default Container(ChatContainer);

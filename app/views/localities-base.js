@@ -1,7 +1,7 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
-import RoomItemController from "../controllers/room-item-controller";
+import RoomItemContainer from "../containers/room-item-container";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
@@ -123,7 +123,7 @@ export default class LocalitiesBase extends React.Component {
 								}
 
 								return (
-									<RoomItemController
+									<RoomItemContainer
 										key={room.id}
 										room={room}
 										showMenuButton={this.props.showMenuButton}

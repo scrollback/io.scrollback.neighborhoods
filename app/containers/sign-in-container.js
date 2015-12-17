@@ -1,10 +1,10 @@
 import React from "react-native";
 import SignIn from "../views/sign-in";
 import SignUp from "../views/sign-up";
-import Controller from "./controller";
+import Container from "./container";
 import userUtils from "../lib/user-utils";
 
-class SignInController extends React.Component {
+class SignInContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -82,4 +82,4 @@ class SignInController extends React.Component {
 	}
 }
 
-export default Controller(SignInController);
+export default Container(SignInContainer);

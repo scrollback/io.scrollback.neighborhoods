@@ -1,5 +1,5 @@
 import React from "react-native";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 import generate from "../lib/generate.browser";
 
@@ -8,7 +8,7 @@ const LOADING = "loading";
 const FINISHED = "finished";
 const ERROR = "error";
 
-class ImageUploadController extends React.Component {
+class ImageUploadContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -232,7 +232,7 @@ class ImageUploadController extends React.Component {
 	}
 }
 
-ImageUploadController.propTypes = {
+ImageUploadContainer.propTypes = {
 	component: React.PropTypes.any.isRequired,
 	imageData: React.PropTypes.shape({
 		name: React.PropTypes.string.isRequired,
@@ -251,9 +251,9 @@ ImageUploadController.propTypes = {
 	autoStart: React.PropTypes.bool
 };
 
-ImageUploadController.defaultProps = {
+ImageUploadContainer.defaultProps = {
 	generateThumb: true,
 	uploadType: "content"
 };
 
-export default Controller(ImageUploadController);
+export default Container(ImageUploadContainer);

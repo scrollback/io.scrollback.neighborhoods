@@ -1,13 +1,13 @@
 import React from "react-native";
 import ChatTitle from "../views/chat-title";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 
 const {
 	InteractionManager
 } = React;
 
-class ChatTitleController extends React.Component {
+class ChatTitleContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -41,8 +41,8 @@ class ChatTitleController extends React.Component {
 	}
 }
 
-ChatTitleController.propTypes = {
+ChatTitleContainer.propTypes = {
 	thread: React.PropTypes.string.isRequired
 };
 
-export default Controller(ChatTitleController);
+export default Container(ChatTitleContainer);

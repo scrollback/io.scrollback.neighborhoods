@@ -1,6 +1,6 @@
 import React from "react-native";
 import ChatMessages from "../views/chat-messages";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 import textUtils from "../lib/text-utils";
 
@@ -8,7 +8,7 @@ const {
 	InteractionManager
 } = React;
 
-class ChatMessagesController extends React.Component {
+class ChatMessagesContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -96,9 +96,9 @@ class ChatMessagesController extends React.Component {
 	}
 }
 
-ChatMessagesController.propTypes = {
+ChatMessagesContainer.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired
 };
 
-export default Controller(ChatMessagesController);
+export default Container(ChatMessagesContainer);

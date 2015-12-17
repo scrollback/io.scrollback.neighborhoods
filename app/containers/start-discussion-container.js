@@ -1,9 +1,9 @@
 import React from "react-native";
 import StartDiscussion from "../views/start-discussion";
-import Controller from "./controller";
+import Container from "./container";
 import generate from "../lib/generate.browser";
 
-class StartDiscussionController extends React.Component {
+class StartDiscussionContainer extends React.Component {
 	_postDiscussion(title, text, threadId) {
 		const id = threadId || generate.uid();
 
@@ -22,9 +22,9 @@ class StartDiscussionController extends React.Component {
 	}
 }
 
-StartDiscussionController.propTypes = {
+StartDiscussionContainer.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	user: React.PropTypes.string.isRequired
 };
 
-export default Controller(StartDiscussionController);
+export default Container(StartDiscussionContainer);

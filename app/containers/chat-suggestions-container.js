@@ -1,9 +1,9 @@
 import React from "react-native";
 import ChatSuggestions from "../views/chat-suggestions";
-import Controller from "./controller";
+import Container from "./container";
 import store from "../store/store";
 
-class ChatSuggestionsController extends React.Component {
+class ChatSuggestionsContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -85,11 +85,11 @@ class ChatSuggestionsController extends React.Component {
 	}
 }
 
-ChatSuggestionsController.propTypes = {
+ChatSuggestionsContainer.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	thread: React.PropTypes.string.isRequired,
 	user: React.PropTypes.string.isRequired,
 	text: React.PropTypes.string.isRequired
 };
 
-export default Controller(ChatSuggestionsController);
+export default Container(ChatSuggestionsContainer);

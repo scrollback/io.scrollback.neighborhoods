@@ -2,7 +2,7 @@ import core from "../store/core";
 import actions from "../store/actions";
 
 export default function(Target) {
-	class Controller extends Target {
+	class Container extends Target {
 		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {
 				super.componentDidMount();
@@ -69,7 +69,7 @@ export default function(Target) {
 		}
 	}
 
-	Controller.displayName = Target.name;
+	Container.displayName = Target.name;
 
-	return Controller;
+	return Container;
 }

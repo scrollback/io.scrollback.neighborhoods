@@ -10,7 +10,7 @@ import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
-import ImageUploadController from "../controllers/image-upload-controller";
+import ImageUploadContainer from "../containers/image-upload-container";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../modules/image-chooser";
@@ -258,7 +258,7 @@ export default class StartDiscussionButton extends React.Component {
 					/>
 
 					{this.state.imageData ?
-						<ImageUploadController
+						<ImageUploadContainer
 							component={ImageUploadDiscussion}
 							imageData={this.state.imageData}
 							onUploadClose={this._onUploadClose.bind(this)}
