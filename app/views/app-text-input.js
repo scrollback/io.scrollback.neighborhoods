@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class AppText extends React.Component {
+export default class AppTextInput extends React.Component {
 	setNativeProps(nativeProps) {
 		this._root.setNativeProps(nativeProps);
 	}
@@ -23,13 +23,7 @@ export default class AppText extends React.Component {
 				{...this.props}
 				style={[ styles.text, this.props.style ]}
 				ref={c => this._root = c}
-			>
-				{this.props.children}
-			</TextInput>
+			/>
 		);
 	}
 }
-
-AppText.propTypes = {
-	children: React.PropTypes.element.isRequired
-};
