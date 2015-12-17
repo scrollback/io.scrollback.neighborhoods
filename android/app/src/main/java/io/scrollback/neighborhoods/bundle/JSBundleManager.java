@@ -1,6 +1,7 @@
 package io.scrollback.neighborhoods.bundle;
 
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -84,12 +85,14 @@ public class JSBundleManager {
 
     public JSBundleManager checkUpdate() {
         if (mEnabled == null || mEnabled) {
-            (new Thread() {
+            (new AsyncTask<Void, Void, Void>() {
                 @Override
-                public void run() {
+                protected Void doInBackground(Void... voids) {
                     checkAndDownloadUpdate();
+
+                    return null;
                 }
-            }).start();
+            }).execute();
         }
 
         return this;
