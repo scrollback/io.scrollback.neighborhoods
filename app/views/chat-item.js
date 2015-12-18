@@ -191,7 +191,7 @@ export default class ChatItem extends React.Component {
 				{showTime ?
 					(<View style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>
 					 <Icon
-						name="time"
+						name="access-time"
 						style={styles.timestampIcon}
 						size={12}
 					 />

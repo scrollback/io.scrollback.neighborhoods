@@ -71,7 +71,7 @@ export default class ChatMessages extends React.Component {
 							style={styles.inverted}
 							contentContainerStyle={styles.container}
 							initialListSize={1}
-							onEndReachedThreshold={200}
+							onEndReachedThreshold={1000}
 							onEndReached={this.props.onEndReached}
 							dataSource={dataSource}
 							renderRow={item => {

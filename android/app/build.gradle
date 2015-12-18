@@ -116,9 +116,6 @@ dependencies {
         transitive = true;
     }
 
-    compile(project(':react-native-icons')) {
-        exclude group: 'com.facebook.react', module: 'react-native'
-    }
     compile(project(':react-native-image-chooser')) {
         exclude group: 'com.facebook.react', module: 'react-native'
     }

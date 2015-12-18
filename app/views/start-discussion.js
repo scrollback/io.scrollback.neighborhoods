@@ -238,7 +238,7 @@ export default class StartDiscussionButton extends React.Component {
 						{isLoading ?
 							<Loading style={styles.loading} /> :
 							(<View style={styles.button}>
-								<AppbarIcon name="check" style={styles.buttonIcon} />
+								<AppbarIcon name="done" style={styles.buttonIcon} />
 								<AppText style={styles.buttonText}>POST</AppText>
 							</View>)
 						}

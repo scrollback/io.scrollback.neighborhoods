@@ -10,7 +10,7 @@ export default class NotificationClearIcon extends React.Component {
 	render() {
 		return (
 			<AppbarTouchable onPress={this.props.clearAll}>
-				<AppbarIcon name="format-clear-all" />
+				<AppbarIcon name="clear-all" />
 			</AppbarTouchable>
 		);
 	}

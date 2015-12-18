@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactPackage;
 import com.imagechooser.ImageChooserPackage;
-import com.smixx.reactnativeicons.ReactNativeIcons;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +49,6 @@ public class MainActivity extends ReactActivity {
                 new CorePackage(this),
                 new PushNotificationPackage(this),
                 new AnalyticsPackage(),
-                new ReactNativeIcons(),
                 mGoogleLoginPackage,
                 mFacebookLoginPackage,
                 mChoosersPackage

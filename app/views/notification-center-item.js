@@ -182,11 +182,11 @@ export default class NotificationCenterItem extends React.Component {
 
 		switch (note.noteType) {
 		case "mention":
-			return "quote";
+			return "person";
 		case "reply":
-			return "mail-reply";
+			return "reply";
 		case "thread":
-			return "edit";
+			return "create";
 		default:
 			return "notifications";
 		}
@@ -256,7 +256,7 @@ export default class NotificationCenterItem extends React.Component {
 							</View>
 							<View style={styles.timestampContainer}>
 								<Icon
-									name="time"
+									name="access-time"
 									style={[ styles.icon, styles.metaIcon ]}
 									size={12}
 								/>

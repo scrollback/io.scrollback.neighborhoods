@@ -1,5 +1,5 @@
 import React from "react-native";
-import { Icon as FontIcon } from "react-native-icons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export default class Icon extends React.Component {
 	setNativeProps(nativeProps) {
@@ -7,20 +7,6 @@ export default class Icon extends React.Component {
 	}
 
 	render() {
-		const { size } = this.props;
-
-		return (
-			<FontIcon
-				{...this.props}
-				style={[ { height: size, width: size }, this.props.style ]}
-				name={"material|" + this.props.name}
-				ref={c => this._root = c}
-			/>
-		);
+		return <MaterialIcons {...this.props} ref={c => this._root = c} />;
 	}
 }
-
-Icon.propTypes = {
-	size: React.PropTypes.number.isRequired,
-	name: React.PropTypes.string.isRequired
-};

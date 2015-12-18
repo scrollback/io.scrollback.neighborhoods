@@ -38,7 +38,7 @@ export default class AccountPhotoChooser extends React.Component {
 			<View style={styles.container}>
 				{photos.filter((uri, i) => photos.indexOf(uri) === i).slice(0, 9).map(uri => {
 					return (
-						<TouchableOpacity key={uri} onPress={() => this.props.onSelect(uri)}>
+						<TouchableOpacity onPress={() => this.props.onSelect(uri)}>
 							<View style={styles.photoContainer}>
 								<Image style={styles.photo} source={{ uri }} />
 							</View>
