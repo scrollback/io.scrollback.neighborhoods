@@ -43,9 +43,9 @@
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/source/rs/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/rs/androidTest/debug" type="java-test-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/resValues/androidTest/debug" type="java-test-resource" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/.DS_Store" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/assets" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/classes" />
-      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/debug" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/dependency-cache" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/dex" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars" />
@@ -61,7 +61,7 @@
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.facebook.fresco/fresco/0.8.1/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp/0.8.1/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/0.8.1/jars" />
-      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.facebook.react/react-native/0.17.0/jars" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.facebook.react/react-native/0.16.1/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.google.android.gms/play-services-base/8.3.0/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.3.0/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/8.3.0/jars" />
@@ -106,11 +106,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="crashlytics-2.5.2" level="project" />
     <orderEntry type="library" exported="" name="crashlytics-core-2.3.5" level="project" />
-    <orderEntry type="library" exported="" name="react-native-0.17.0" level="project" />
     <orderEntry type="library" exported="" name="fresco-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="answers-1.3.2" level="project" />
     <orderEntry type="library" exported="" name="imagepipeline-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-measurement-8.3.0" level="project" />
+    <orderEntry type="library" exported="" name="react-native-0.16.1" level="project" />
     <orderEntry type="library" exported="" name="stetho-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.2.3" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
@@ -129,8 +129,8 @@
     <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="beta-1.1.3" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="drawee-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="android-jsc-r174650" level="project" />
+    <orderEntry type="library" exported="" name="drawee-0.8.1" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.0.1" level="project" />

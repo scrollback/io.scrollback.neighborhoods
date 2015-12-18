@@ -1,4 +1,5 @@
 import NotificationIcon from "../views/notification-icon";
+import AccountButton from "../views/account-button";
 import ChatContainer from "../containers/chat-container";
 import ChatTitleContainer from "../containers/chat-title-container";
 import RoomTitleContainer from "../containers/room-title-container";
@@ -6,7 +7,6 @@ import DiscussionsContainer from "../containers/discussions-container";
 import NotificationCenterContainer from "../containers/notification-center-container";
 import NotificationClearIconContainer from "../containers/notification-clear-icon-container";
 import PeopleListContainer from "../containers/people-list-container";
-import UserIconContainer from "../containers/user-icon-container";
 import LocalitiesContainer from "../containers/localities-container";
 import AccountContainer from "../containers/account-container";
 import SignInContainer from "../containers/sign-in-container";
@@ -18,7 +18,7 @@ const routes = {};
 routes.home = () => {
 	return {
 		title: config.app_name,
-		leftComponent: UserIconContainer,
+		leftComponent: AccountButton,
 		rightComponent: NotificationIcon,
 		component: LocalitiesContainer,
 		index: 0

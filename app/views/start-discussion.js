@@ -2,7 +2,6 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
 import AppTextInput from "./app-text-input";
-import Loading from "./loading";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
@@ -10,6 +9,7 @@ import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
+import UserIconContainer from "../containers/user-icon-container";
 import ImageUploadContainer from "../containers/image-upload-container";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
@@ -44,40 +44,34 @@ const styles = StyleSheet.create({
 		padding: 16,
 		backgroundColor: Colors.white
 	},
-	button: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center"
-	},
-	buttonText: {
-		color: Colors.primary,
-		fontWeight: "bold",
-		marginRight: 16
-	},
-	buttonIcon: {
-		color: Colors.primary,
-		marginHorizontal: 12
-	},
-	loading: {
-		height: 19,
-		width: 19,
-		margin: 18
-	},
-	uploadButton: {
-		flexDirection: "row",
-		alignSelf: "flex-start",
-		alignItems: "center",
-		marginVertical: 12
-	},
-	uploadButtonText: {
-		fontWeight: "bold",
-		fontSize: 12,
-		paddingHorizontal: 4,
-		marginRight: 8
+	userIcon: {
+		margin: 12
 	},
 	uploadButtonIcon: {
 		color: Colors.fadedBlack,
-		margin: 8
+		marginHorizontal: 16,
+		marginVertical: 14
+	},
+	footer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		borderTopColor: Colors.separator,
+		borderTopWidth: 1
+	},
+	postButton: {
+		backgroundColor: Colors.info,
+		margin: 6,
+		width: 100,
+		borderRadius: 3
+	},
+	postButtonInner: {
+		paddingVertical: 10,
+		paddingHorizontal: 16
+	},
+	postButtonText: {
+		color: Colors.white,
+		fontWeight: "bold",
+		textAlign: "center"
 	}
 });
 
@@ -199,6 +193,10 @@ export default class StartDiscussionButton extends React.Component {
 
 	async _uploadImage() {
 		try {
+			this.setState({
+				imageData: null
+			});
+
 			const imageData = await ImageChooser.pickImage();
 
 			this.setState({
@@ -234,15 +232,7 @@ export default class StartDiscussionButton extends React.Component {
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
 
-					<AppbarTouchable type="secondary" onPress={this._onPress.bind(this)}>
-						{isLoading ?
-							<Loading style={styles.loading} /> :
-							(<View style={styles.button}>
-								<AppbarIcon name="done" style={styles.buttonIcon} />
-								<AppText style={styles.buttonText}>POST</AppText>
-							</View>)
-						}
-					</AppbarTouchable>
+					<UserIconContainer style={styles.userIcon} size={30} />
 				</AppbarSecondary>
 
 				<Banner text={this.state.error} type="error" />
@@ -274,20 +264,25 @@ export default class StartDiscussionButton extends React.Component {
 							inputStyle={styles.threadSummary}
 						/>
 					}
-
-					{this.state.imageData ? null :
-						<TouchFeedback onPress={this._uploadImage.bind(this)}>
-							<View style={styles.uploadButton}>
-								<Icon
-									name="image"
-									style={styles.uploadButtonIcon}
-									size={24}
-								/>
-								<AppText style={styles.uploadButtonText}>UPLOAD AN IMAGE</AppText>
+				</ScrollView>
+				<View style={styles.footer}>
+					<TouchFeedback onPress={this._uploadImage.bind(this)}>
+						<View style={styles.uploadButton}>
+							<Icon
+								name="image"
+								style={styles.uploadButtonIcon}
+								size={24}
+							/>
+						</View>
+					</TouchFeedback>
+					<View style={styles.postButton}>
+						<TouchFeedback onPress={this._onPress.bind(this)}>
+							<View style={styles.postButtonInner}>
+								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
 							</View>
 						</TouchFeedback>
-					}
-				</ScrollView>
+					</View>
+				</View>
 			</StatusbarContainer>
 		);
 	}
