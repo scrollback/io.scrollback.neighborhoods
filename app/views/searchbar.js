@@ -68,7 +68,7 @@ export default class SearchBar extends React.Component {
 		return (
 			<AppbarSecondary {...this.props}>
 				<AppbarTouchable type="secondary" onPress={this.props.onBack}>
-					<AppbarIcon name="arrow-back" style={styles.icon} />
+					<AppbarIcon name="arrow-left" style={styles.icon} />
 				</AppbarTouchable>
 
 				<AppTextInput

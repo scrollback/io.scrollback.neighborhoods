@@ -179,7 +179,7 @@ export default class ChatInput extends React.Component {
 					<TouchFeedback onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}>
 						<View style={styles.iconContainer}>
 							<Icon
-								name={this.state.text ? "send" : "image"}
+								name={this.state.text ? "mail-send" : "image"}
 								style={styles.icon}
 								size={24}
 							/>

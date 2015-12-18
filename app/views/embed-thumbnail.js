@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
 		borderRadius: 24
 	},
 	play: {
+		left: 3,
 		color: Colors.white
 	}
 });
@@ -78,7 +79,7 @@ export default class EmbedThumbnail extends React.Component {
 					{this.props.embed.type === "video" ?
 						<View style={styles.playContainer}>
 							<Icon
-								name="play-arrow"
+								name="play"
 								style={styles.play}
 								size={48}
 							/>

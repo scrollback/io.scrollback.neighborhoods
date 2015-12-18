@@ -1,20 +1,35 @@
 /**
  * Task to copy icon font files
  */
-def iconFontsDir = '../../node_modules/react-native-vector-icons/Fonts';
-def iconFontName = 'MaterialIcons.ttf';
+def iconFontsDir = '../../node_modules/react-native-icons/fonts';
+def iconFontName = 'Material-Design-Iconic-Font.ttf';
+def iconFontData = 'material.json';
 
-task copyDebugIconFonts(type: Copy) {
-    from("$iconFontsDir/$iconFontName")
-    into("$buildDir/intermediates/assets/debug/fonts/")
+task copyDebugIconFontData(type: Copy) {
+    from("$iconFontsDir/$iconFontData")
+    into("$buildDir/intermediates/assets/debug/")
 }
 
-task copyReleaseIconFonts(type: Copy) {
+task copyDebugIconFontFiles(type: Copy) {
     from("$iconFontsDir/$iconFontName")
-    into("$buildDir/intermediates/assets/release/fonts/")
+    into("$buildDir/intermediates/assets/debug/")
 }
+
+task copyReleaseIconFontData(type: Copy) {
+    from("$iconFontsDir/$iconFontData")
+    into("$buildDir/intermediates/assets/release/")
+}
+
+task copyReleaseIconFontFiles(type: Copy) {
+    from("$iconFontsDir/$iconFontName")
+    into("$buildDir/intermediates/assets/release/")
+}
+
+task copyDebugIconFontsAssets(dependsOn: [ copyDebugIconFontData, copyDebugIconFontFiles ])
+
+task copyReleaseIconFontsAssets(dependsOn: [ copyReleaseIconFontData, copyReleaseIconFontFiles ])
 
 gradle.projectsEvaluated {
-    generateDebugAssets.dependsOn copyDebugIconFonts
-    generateReleaseAssets.dependsOn copyReleaseIconFonts
+    generateDebugAssets.dependsOn copyDebugIconFontsAssets
+    generateReleaseAssets.dependsOn copyReleaseIconFontsAssets
 }

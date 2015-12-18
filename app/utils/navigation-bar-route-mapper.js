@@ -38,7 +38,7 @@ const NavigationBarRouteMapper = {
 		if (route.index !== 0) {
 			return (
 				<AppbarTouchable onPress={goBack}>
-					<AppbarIcon name="arrow-back" />
+					<AppbarIcon name="arrow-left" />
 				</AppbarTouchable>
 			);
 		}

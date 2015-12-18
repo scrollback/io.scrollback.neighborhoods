@@ -19,7 +19,7 @@ export default class StartDiscussionButton extends React.Component {
 		return (
 			<FloatingActionButton
 				{...this.props}
-				icon="create"
+				icon="edit"
 				onPress={this._onPress.bind(this)}
 			/>
 		);

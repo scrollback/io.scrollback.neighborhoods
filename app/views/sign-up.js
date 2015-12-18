@@ -146,7 +146,7 @@ export default class SignUp extends React.Component {
 			<StatusbarContainer style={styles.container}>
 				<AppbarSecondary>
 					<AppbarTouchable type="secondary" onPress={this.props.cancelSignUp}>
-						<AppbarIcon name="arrow-back" style={styles.icon} />
+						<AppbarIcon name="arrow-left" style={styles.icon} />
 					</AppbarTouchable>
 
 					<AppbarTitle>
@@ -189,7 +189,7 @@ export default class SignUp extends React.Component {
 						<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
 							<View style={styles.button}>
 								<Icon
-									name="arrow-forward"
+									name="arrow-right"
 									style={styles.buttonText}
 									size={24}
 								/>

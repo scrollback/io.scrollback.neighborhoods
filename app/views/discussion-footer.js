@@ -61,7 +61,7 @@ export default class DiscussionFooter extends React.Component {
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon
-							name="access-time"
+							name="time"
 							style={styles.icon}
 							size={24}
 						/>
@@ -73,7 +73,7 @@ export default class DiscussionFooter extends React.Component {
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon
-							name="forum"
+							name="comments"
 							style={styles.icon}
 							size={24}
 						/>

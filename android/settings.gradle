@@ -2,5 +2,8 @@ rootProject.name = 'HeyNeighbor'
 
 include ':app'
 
+include ':react-native-icons'
+project(':react-native-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-icons/android')
+
 include ':react-native-image-chooser'
 project(':react-native-image-chooser').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-chooser/android')

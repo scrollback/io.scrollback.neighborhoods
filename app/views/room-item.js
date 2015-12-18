@@ -117,7 +117,7 @@ export default class RoomItem extends React.Component {
 						{this.props.showMenuButton ?
 							<TouchableOpacity onPress={this._showMenu.bind(this)}>
 								<Icon
-									name="expand-more"
+									name="chevron-down"
 									style={styles.expand}
 									size={20}
 								/>

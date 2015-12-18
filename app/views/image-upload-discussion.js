@@ -58,9 +58,9 @@ export default class ChatInput extends React.Component {
 						<ImageUploadButton
 							onPress={this._onPress.bind(this)}
 							status={this.props.status}
-							idleIcon="file-upload"
+							idleIcon="cloud-upload"
 							closeIcon="close"
-							doneIcon="done"
+							doneIcon="check"
 							errorIcon="warning"
 							idleIconStyle={styles.iconIdle}
 							errorIconStyle={styles.iconError}
