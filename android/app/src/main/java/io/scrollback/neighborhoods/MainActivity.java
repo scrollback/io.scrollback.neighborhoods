@@ -1,9 +1,11 @@
 package io.scrollback.neighborhoods;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.ReactRootView;
 import com.imagechooser.ImageChooserPackage;
 
 import java.util.Arrays;
@@ -21,6 +23,15 @@ public class MainActivity extends ReactActivity {
     private GoogleLoginPackage mGoogleLoginPackage = new GoogleLoginPackage(this);
     private FacebookLoginPackage mFacebookLoginPackage = new FacebookLoginPackage(this);
     private ImageChooserPackage mChoosersPackage = new ImageChooserPackage(this);
+
+    @Override
+    protected ReactRootView getReactRootView() {
+        ReactRootView view = new ReactRootView(this);
+
+        view.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+
+        return view;
+    }
 
     @Override
     protected String getJSBundleFile() {

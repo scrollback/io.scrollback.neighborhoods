@@ -37,17 +37,19 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
     private boolean mDoRefresh = false;
 
     /**
-     * @return the name of the bundle in assets. If this is null, the app will only work with dev
-     * support on and will always try to load the JS bundle from the packager server.
-     * eg. "index.android.bundle"
+     * @return the name of the bundle in assets. If this is null, and no file path is specified for
+     * the bundle, the app will only work with `getUseDeveloperSupport` enabled and will always try
+     * to load the JS bundle from the packager server.
+     * e.g. "index.android.bundle"
      */
     protected @Nullable String getBundleAssetName() {
         return "index.android.bundle";
     };
 
     /**
-     * @return the path of the bundle file, if the bundle needs to be loaded from custom path
-     * e.g. file://sdcard/myapp_cache/index.android.bundle
+     * @return the path of the bundle file. This is used in cases the bundle should be loaded from
+     * a custom path
+     * e.g. "file://sdcard/myapp_cache/index.android.bundle"
      */
     protected @Nullable String getJSBundleFile() {
         return null;
@@ -57,7 +59,7 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
      * @return the name of the main module. This is used to determine the URL to fetch the JS bundle
      * from the packager server and is only used when dev support is enabled.
      * This is the first file to be executed once the {@code ReactInstanceManager} is created.
-     * eg. "RKJSModules/Apps/Airbourne/AirbourneAppBundle"
+     * e.g. "Movies/MoviesApp.android"
      */
     protected String getJSMainModuleName() {
         return "index.android";
@@ -115,6 +117,14 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
         return builder.build();
     }
 
+    /**
+     * @return a ReactRootView
+     * A subclass may override this method if it needs to use a custom ReactRootView
+     */
+    protected ReactRootView getReactRootView() {
+        return new ReactRootView(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +140,7 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
         }
 
         mReactInstanceManager = getReactInstanceManager();
-        ReactRootView mReactRootView = new ReactRootView(this);
+        ReactRootView mReactRootView = getReactRootView();
         mReactRootView.startReactApplication(mReactInstanceManager, getMainComponentName());
         setContentView(mReactRootView);
     }
@@ -182,6 +192,7 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_R && !(getCurrentFocus() instanceof EditText)) {
+                // Enable double-tap-R-to-reload
                 if (mDoRefresh) {
                     mReactInstanceManager.getDevSupportManager().handleReloadJS();
                     mDoRefresh = false;
@@ -215,4 +226,3 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
         super.onBackPressed();
     }
 }
-
