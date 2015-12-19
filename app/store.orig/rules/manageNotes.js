@@ -89,7 +89,7 @@ function loadNotes() {
 		if (err) {
 			notes = [];
 		} else {
-			notes = res.results;
+			notes = res.results || [];
 		}
 
 		dismissed = await getDismissedNotes();
