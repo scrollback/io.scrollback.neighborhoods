@@ -2,6 +2,7 @@ package io.scrollback.neighborhoods.bundle;
 
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -94,6 +95,19 @@ public class JSBundleManager {
                 }
             }).execute();
         }
+
+        return this;
+    }
+
+    public JSBundleManager checkUpdate(long delay) {
+        final Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkUpdate();
+            }
+        }, delay);
 
         return this;
     }

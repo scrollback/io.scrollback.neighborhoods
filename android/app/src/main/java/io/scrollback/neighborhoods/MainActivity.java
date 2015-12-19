@@ -34,7 +34,7 @@ public class MainActivity extends ReactActivity {
                 .setAssetManager(getAssets())
                 .setEnabled(!BuildConfig.DEBUG)
                 .build()
-                .checkUpdate()
+                .checkUpdate(5000)
                 .getJSBundleFile();
     }
 
