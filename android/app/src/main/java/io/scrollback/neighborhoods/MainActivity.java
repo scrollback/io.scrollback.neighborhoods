@@ -1,6 +1,7 @@
 package io.scrollback.neighborhoods;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 
 import com.facebook.appevents.AppEventsLogger;
@@ -26,9 +27,18 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected ReactRootView getReactRootView() {
-        ReactRootView view = new ReactRootView(this);
+        final ReactRootView view = new ReactRootView(this);
 
         view.setBackgroundColor(ContextCompat.getColor(this, R.color.primary));
+
+        final Handler handler = new Handler();
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setBackgroundColor(0);
+            }
+        }, 3000);
 
         return view;
     }
