@@ -28,7 +28,6 @@ public class CorePackage implements ReactPackage {
                 new VersionCodesModule(reactContext),
                 new URLResolverModule(reactContext),
                 new GeolocationModule(reactContext, mCurrentActivity),
-                new AlertDialogModule(reactContext, mCurrentActivity),
                 new ShareModule(reactContext, mCurrentActivity),
                 new IntentModule(reactContext, mCurrentActivity)
         );
