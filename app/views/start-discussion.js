@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
 	icon: {
 		color: Colors.fadedBlack
 	},
-	scene: {
-		padding: 16,
-		backgroundColor: Colors.white
+	disabled: {
+		opacity: 0.5
 	},
 	userIcon: {
 		margin: 12
+	},
+	entry: {
+		paddingHorizontal: 16
 	},
 	uploadButtonIcon: {
 		color: Colors.fadedBlack,
@@ -224,6 +226,7 @@ export default class StartDiscussionButton extends React.Component {
 
 	render() {
 		const isLoading = this.state.status === "loading";
+		const isDisabled = !(this.state.title && (this.state.text || this.state.uploadResult) && !isLoading);
 
 		return (
 			<StatusbarContainer style={styles.container}>
@@ -237,14 +240,15 @@ export default class StartDiscussionButton extends React.Component {
 
 				<Banner text={this.state.error} type="error" />
 
-				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
+				<ScrollView keyboardShouldPersistTaps>
 					<AppTextInput
 						autoFocus
 						value={this.state.title}
 						onChange={this._onTitleChange.bind(this)}
 						placeholder="Enter discussion title"
 						autoCapitalize="sentences"
-						style={styles.threadTitle}
+						style={[ styles.threadTitle, styles.entry ]}
+						underlineColorAndroid="transparent"
 					/>
 
 					{this.state.imageData ?
@@ -261,7 +265,8 @@ export default class StartDiscussionButton extends React.Component {
 							onChange={this._onTextChange.bind(this)}
 							placeholder="Enter discussion summary"
 							autoCapitalize="sentences"
-							inputStyle={styles.threadSummary}
+							inputStyle={[ styles.threadSummary, styles.entry ]}
+							underlineColorAndroid="transparent"
 						/>
 					}
 				</ScrollView>
@@ -275,12 +280,17 @@ export default class StartDiscussionButton extends React.Component {
 							/>
 						</View>
 					</TouchFeedback>
-					<View style={styles.postButton}>
-						<TouchFeedback onPress={this._onPress.bind(this)}>
+					<View style={[ styles.postButton, isDisabled ? styles.disabled : null ]}>
+						{isDisabled ?
 							<View style={styles.postButtonInner}>
 								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
-							</View>
-						</TouchFeedback>
+							</View> :
+							<TouchFeedback onPress={this._onPress.bind(this)}>
+								<View style={styles.postButtonInner}>
+									<AppText style={styles.postButtonText}>Post</AppText>
+								</View>
+							</TouchFeedback>
+						}
 					</View>
 				</View>
 			</StatusbarContainer>
