@@ -37,42 +37,34 @@ function dismissAllNotes() {
 function dismissNote(note) {
 	const notes = store.get("notes");
 
-	let dismiss;
-
 	if (notes.length === 0 || Object.keys(note).length === 1) {
 		return null;
 	}
 
-	if (note.noteType) {
-		if (note.group) {
-			dismiss = [];
-
-			for (let i = 0, l = notes.length; i < l; i++) {
-				const n = notes[i];
-
-				if (n.noteType === note.noteType && n.ref === note.ref && n.group === note.group) {
-					dismiss.push(n);
-
-					break;
-				}
+	const dismiss = notes.filter(n => {
+		if (note.noteType) {
+			if (note.group) {
+				return n.noteType === note.noteType && n.ref === note.ref && n.group === note.group;
+			} else if (note.ref) {
+				return n.noteType === note.noteType && n.ref === note.ref;
+			} else {
+				return n.noteType === note.noteType;
+			}
+		} else if (note.group) {
+			if (note.ref) {
+				return n.group === note.group && n.ref === note.ref;
+			} else {
+				return n.group === note.group;
 			}
 		} else if (note.ref) {
-			dismiss = notes.filter(n => n.noteType === note.noteType && n.ref === note.ref);
+			return n.ref === note.ref;
 		} else {
-			dismiss = notes.filter(n => n.noteType === note.noteType);
+			return false;
 		}
-	} else if (note.group) {
-		if (note.ref) {
-			dismiss = notes.filter(n => n.group === note.group && n.ref === note.ref);
-		} else {
-			dismiss = notes.filter(n => n.group === note.group);
-		}
-	} else if (note.ref) {
-		dismiss = notes.filter(n => n.ref === note.ref);
-	}
+	});
 
 	for (let i = 0, l = dismiss.length; i < l; i++) {
-		const id = getNoteIdentifier(notes[i]);
+		const id = getNoteIdentifier(dismiss[i]);
 
 		if (dismissed.indexOf(id) === -1) {
 			dismissed.push(id);
@@ -87,20 +79,24 @@ function loadNotes() {
 		let notes;
 
 		if (err) {
-			notes = [];
-		} else {
-			notes = res.results || [];
+			return;
 		}
 
-		dismissed = await getDismissedNotes();
+		if (res.results && res.results.length) {
+			notes = res.results;
 
-		if (Array.isArray(dismissed)) {
-			notes = notes.filter(n => dismissed.indexOf(getNoteIdentifier(n)) === -1);
-		} else {
-			dismissed = [];
+			try {
+				dismissed = await getDismissedNotes();
+
+				if (Array.isArray(dismissed)) {
+					notes = notes.filter(n => dismissed.indexOf(getNoteIdentifier(n)) < 0);
+				}
+			} catch (e) {
+				// Ignore
+			}
+
+			core.emit("setstate", { notes });
 		}
-
-		core.emit("setstate", { notes });
 	});
 }
 
@@ -126,24 +122,24 @@ function processChanges(changes) {
 			const threadId = future.get("nav", "thread");
 
 			if (threadId) {
-				core.emit("note-up", {
+				receiveNote({
 					group: roomId + "/" + threadId,
 					dismissTime: Date.now()
 				});
 
-				core.emit("note-up", {
+				receiveNote({
 					noteType: "thread",
 					ref: threadId,
 					dismissTime: Date.now()
 				});
 			} else {
-				core.emit("note-up", {
+				receiveNote({
 					group: roomId + "/all",
 					dismissTime: Date.now()
 				});
 			}
 		} else if (mode === "room") {
-			core.emit("note-up", {
+			receiveNote({
 				noteType: "thread",
 				group: roomId,
 				dismissTime: Date.now()
