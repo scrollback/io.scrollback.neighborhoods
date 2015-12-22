@@ -67,6 +67,10 @@ export default class GrowingTextInput extends React.Component {
 		setTimeout(() => this._input.focus(), 50);
 	}
 
+	onSubmitEditing(...args) {
+		this._input.onSubmitEditing(...args);
+	}
+
 	get value() {
 		return this.state.value;
 	}

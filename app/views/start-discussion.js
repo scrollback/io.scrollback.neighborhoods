@@ -179,6 +179,12 @@ export default class StartDiscussionButton extends React.Component {
 		this._postDiscussion();
 	}
 
+	_onTitleSubmit() {
+		if (this._summaryInput) {
+			this._summaryInput.focus();
+		}
+	}
+
 	_onTitleChange(e) {
 		this.setState({
 			title: e.nativeEvent.text,
@@ -249,10 +255,12 @@ export default class StartDiscussionButton extends React.Component {
 						autoCapitalize="sentences"
 						style={[ styles.threadTitle, styles.entry ]}
 						underlineColorAndroid="transparent"
+						onSubmitEditing={this._onTitleSubmit.bind(this)}
 					/>
 
 					{this.state.imageData ?
 						<ImageUploadContainer
+							ref={() => this._summaryInput = null}
 							component={ImageUploadDiscussion}
 							imageData={this.state.imageData}
 							onUploadClose={this._onUploadClose.bind(this)}
@@ -260,6 +268,7 @@ export default class StartDiscussionButton extends React.Component {
 							autoStart
 						/> :
 						<GrowingTextInput
+							ref={c => this._summaryInput = c}
 							numberOfLines={5}
 							value={this.state.text}
 							onChange={this._onTextChange.bind(this)}
