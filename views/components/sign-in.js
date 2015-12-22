@@ -80,8 +80,8 @@ export default class SignIn extends React.Component {
 		this.props.signIn(provider, e.token);
 	}
 
-	_onSignInFailure(e) {
-		switch (e.provider) {
+	_onSignInFailure(provider) {
+		switch (provider) {
 		case PROVIDER_GOOGLE:
 			this.setState({
 				googleLoading: false
@@ -101,7 +101,7 @@ export default class SignIn extends React.Component {
 
 			this._onSignInSuccess(PROVIDER_FACEBOOK, result);
 		} catch (e) {
-			this._onSignInFailure(e);
+			this._onSignInFailure(PROVIDER_FACEBOOK);
 		}
 	}
 
@@ -111,7 +111,7 @@ export default class SignIn extends React.Component {
 
 			this._onSignInSuccess(PROVIDER_GOOGLE, result);
 		} catch (e) {
-			this._onSignInFailure(e);
+			this._onSignInFailure(PROVIDER_GOOGLE);
 		}
 	}
 
@@ -120,7 +120,7 @@ export default class SignIn extends React.Component {
 			facebookLoading: true
 		});
 
-		this._signInWithFacebook();
+		requestAnimationFrame(() => this._signInWithFacebook());
 	}
 
 	_onGooglePress() {
@@ -128,7 +128,7 @@ export default class SignIn extends React.Component {
 			googleLoading: true
 		});
 
-		this._signInWithGoogle();
+		requestAnimationFrame(() => this._signInWithGoogle());
 	}
 
 	render() {
