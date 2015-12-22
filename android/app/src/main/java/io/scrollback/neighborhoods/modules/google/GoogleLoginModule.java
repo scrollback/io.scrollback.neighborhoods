@@ -6,7 +6,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
@@ -94,35 +94,36 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
     }
 
     protected void retrieveToken(final String accountName) {
-        new AsyncTask<String, Void, String>() {
+        new AsyncTask<String, Void, Void>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                dialog = new ProgressDialog(mCurrentActivity, DialogFragment.STYLE_NO_TITLE);
+                dialog = new ProgressDialog(mCurrentActivity, AppCompatDialogFragment.STYLE_NO_TITLE|ProgressDialog.STYLE_SPINNER);
+                dialog.setCancelable(false);
                 dialog.show();
             }
 
             @Override
-            protected String doInBackground(String... params) {
+            protected Void doInBackground(String... params) {
                 String accountName = params[0];
                 String scopes = "oauth2:profile email";
-                String token = null;
 
                 try {
-                    token = GoogleAuthUtil.getToken(mCurrentActivity, accountName, scopes);
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
+                    mAccessToken = GoogleAuthUtil.getToken(mCurrentActivity, accountName, scopes);
+
+                    WritableMap map = Arguments.createMap();
+
+                    map.putString("accountName", accountName);
+                    map.putString("token", mAccessToken);
 
                     if (mRetrievePromise != null) {
-                        rejectPromise(e.getMessage());
+                        resolvePromise(map);
                     }
                 } catch (UserRecoverableAuthException e) {
                     mCurrentActivity.startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
-
-                    return "false";
-                } catch (GoogleAuthException e) {
+                } catch (GoogleAuthException|IOException e) {
                     Log.e(TAG, e.getMessage());
 
                     if (mRetrievePromise != null) {
@@ -130,78 +131,37 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
                     }
                 }
 
-                return token;
+                return null;
             }
 
             @Override
-            protected void onPostExecute(String token) {
-                super.onPostExecute(token);
+            protected void onPostExecute(Void params) {
+                super.onPostExecute(params);
 
                 if (dialog != null && dialog.isShowing()) {
                     dialog.dismiss();
-                }
-
-                if (token.equals("false")) {
-                    return;
-                }
-
-                if (mRetrievePromise != null) {
-                    if (token != null) {
-                        mAccessToken = token;
-
-                        WritableMap map = Arguments.createMap();
-
-                        map.putString("accountName", accountName);
-                        map.putString("token", mAccessToken);
-
-                        resolvePromise(map);
-                    } else {
-                        rejectPromise("No access token found");
-                    }
                 }
             }
         }.execute(accountName);
     }
 
     protected void deleteToken(final String accountName, final Promise promise) {
-        new AsyncTask<String, Void, Boolean>() {
+        new AsyncTask<String, Void, Void>() {
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Boolean doInBackground(String... params) {
+            protected Void doInBackground(String... params) {
                 mAccessToken = params[0];
 
                 try {
                     GoogleAuthUtil.clearToken(mCurrentActivity, mAccessToken);
 
-                    return true;
-                } catch (GoogleAuthException e) {
-                    Log.e(TAG, e.getMessage());
-
-                    promise.reject(e.getMessage());
-
-                    return false;
-                } catch (IOException e) {
-                    Log.e(TAG, e.getMessage());
-
-                    promise.reject(e.getMessage());
-
-                    return false;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                super.onPostExecute(result);
-
-                mAccessToken = null;
-
-                if (result) {
                     promise.resolve(true);
+                } catch (GoogleAuthException|IOException e) {
+                    Log.e(TAG, e.getMessage());
+
+                    promise.reject(e.getMessage());
                 }
+
+                return null;
             }
         }.execute(accountName);
     }
