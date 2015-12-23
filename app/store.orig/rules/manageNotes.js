@@ -37,8 +37,14 @@ function dismissAllNotes() {
 function dismissNote(note) {
 	const notes = store.get("notes");
 
-	if (notes.length === 0 || Object.keys(note).length === 1) {
-		return null;
+	if (notes.length === 0) {
+		if (dismissed.length) {
+			dismissAllNotes();
+		}
+
+		if (Object.keys(note).length === 1) {
+			return null;
+		}
 	}
 
 	const dismiss = notes.filter(n => {
@@ -153,5 +159,4 @@ module.exports = () => {
 	core.on("note-up", note => receiveNote(note), 100);
 	core.on("note-dn", note => receiveNote(note), 100);
 	core.on("setstate", changes => processChanges(changes), 100);
-	core.on("statechange", changes => changes.notes && store.get("notes").length === 0 ? dismissAllNotes() : null, 100);
 };
