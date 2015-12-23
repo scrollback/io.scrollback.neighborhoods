@@ -1,5 +1,5 @@
 import React from "react-native";
-import Avatar from "../views/avatar.js";
+import Avatar from "../views/avatar";
 import Container from "./container";
 import store from "../store/store";
 import config from "../store/config";
@@ -53,10 +53,7 @@ class AvatarContainer extends React.Component {
 	}
 
 	render() {
-
-		return (
-			<Avatar {...this.props} {...this.state} />
-		);
+		return <Avatar {...this.props} {...this.state} />;
 	}
 }
 
