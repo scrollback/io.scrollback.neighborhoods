@@ -2,7 +2,7 @@ import React from "react-native";
 import LocalitiesBase from "./localities-base";
 import SearchButton from "./search-button";
 import BannerUnavailable from "./banner-unavailable";
-import BannerOfflineController from "../controllers/banner-offline-controller";
+import BannerOfflineContainer from "../containers/banner-offline-container";
 
 const {
 	StyleSheet,
@@ -19,7 +19,7 @@ export default class Localities extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<BannerOfflineController />
+				<BannerOfflineContainer />
 				{this.props.available === false ?
 					<BannerUnavailable /> :
 					<SearchButton navigator={this.props.navigator} />}

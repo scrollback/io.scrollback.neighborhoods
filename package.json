@@ -8,12 +8,11 @@
   "dependencies": {
     "ebus": "^0.12.0",
     "engine.io-client": "^1.5.4",
-    "eslint-plugin-react": "^3.8.0",
-    "react-native": "github:satya164/react-native#0.15-stable",
-    "react-native-vector-icons": "^0.8.5"
+    "react-native": "github:satya164/react-native#0.17-stable",
+    "react-native-image-chooser": "^0.1.1",
+    "react-native-vector-icons": "^1.0.2"
   },
   "devDependencies": {
-    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.6",
     "chalk": "^1.1.1",
     "crypto": "0.0.3",

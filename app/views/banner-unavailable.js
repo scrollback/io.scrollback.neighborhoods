@@ -1,6 +1,6 @@
 import React from "react-native";
 import Colors from "../../colors.json";
-import config from "../../store/config";
+import config from "../store/config";
 
 const {
 	StyleSheet,

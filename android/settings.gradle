@@ -5,5 +5,5 @@ include ':app'
 include ':ReactAndroid'
 project(':ReactAndroid').projectDir = new File(rootProject.projectDir, '../node_modules/react-native/ReactAndroid')
 
-include ':react-native-vector-icons'
-project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-image-chooser'
+project(':react-native-image-chooser').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-chooser/android')

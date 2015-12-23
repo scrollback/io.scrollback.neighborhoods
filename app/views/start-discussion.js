@@ -2,7 +2,6 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
 import AppTextInput from "./app-text-input";
-import Loading from "./loading";
 import StatusbarContainer from "./statusbar-container";
 import AppbarSecondary from "./appbar-secondary";
 import AppbarTouchable from "./appbar-touchable";
@@ -10,7 +9,8 @@ import AppbarIcon from "./appbar-icon";
 import GrowingTextInput from "./growing-text-input";
 import TouchFeedback from "./touch-feedback";
 import Icon from "./icon";
-import ImageUploadController from "../controllers/image-upload-controller";
+import UserIconContainer from "../containers/user-icon-container";
+import ImageUploadContainer from "../containers/image-upload-container";
 import Banner from "./banner";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../modules/image-chooser";
@@ -28,56 +28,57 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.white
 	},
+	scene: {
+		paddingHorizontal: 8,
+		paddingVertical: 16
+	},
 	threadTitle: {
 		fontWeight: "bold",
-		fontSize: 18,
-		lineHeight: 27
+		fontSize: 20,
+		lineHeight: 30
 	},
 	threadSummary: {
-		fontSize: 14,
-		lineHeight: 21
+		fontSize: 16,
+		lineHeight: 24
 	},
 	icon: {
 		color: Colors.fadedBlack
 	},
-	scene: {
-		padding: 16,
-		backgroundColor: Colors.white
+	disabled: {
+		opacity: 0.5
 	},
-	button: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center"
+	userIcon: {
+		margin: 12
 	},
-	buttonText: {
-		color: Colors.primary,
-		fontWeight: "bold",
-		marginRight: 16
-	},
-	buttonIcon: {
-		color: Colors.primary,
-		marginHorizontal: 12
-	},
-	loading: {
-		height: 19,
-		width: 19,
-		margin: 18
-	},
-	uploadButton: {
-		flexDirection: "row",
-		alignSelf: "flex-start",
-		alignItems: "center",
-		marginVertical: 12
-	},
-	uploadButtonText: {
-		fontWeight: "bold",
-		fontSize: 12,
-		paddingHorizontal: 4,
-		marginRight: 8
+	entry: {
+		paddingVertical: 4,
+		paddingHorizontal: 12
 	},
 	uploadButtonIcon: {
 		color: Colors.fadedBlack,
-		margin: 8
+		marginHorizontal: 16,
+		marginVertical: 14
+	},
+	footer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		borderTopColor: Colors.separator,
+		borderTopWidth: 1
+	},
+	postButton: {
+		backgroundColor: Colors.info,
+		margin: 6,
+		width: 100,
+		borderRadius: 3
+	},
+	postButtonInner: {
+		paddingVertical: 10,
+		paddingHorizontal: 16
+	},
+	postButtonText: {
+		color: Colors.white,
+		fontWeight: "bold",
+		textAlign: "center"
 	}
 });
 
@@ -199,6 +200,10 @@ export default class StartDiscussionButton extends React.Component {
 
 	async _uploadImage() {
 		try {
+			this.setState({
+				imageData: null
+			});
+
 			const imageData = await ImageChooser.pickImage();
 
 			this.setState({
@@ -226,6 +231,7 @@ export default class StartDiscussionButton extends React.Component {
 
 	render() {
 		const isLoading = this.state.status === "loading";
+		const isDisabled = !(this.state.title && (this.state.text || this.state.uploadResult) && !isLoading);
 
 		return (
 			<StatusbarContainer style={styles.container}>
@@ -234,15 +240,7 @@ export default class StartDiscussionButton extends React.Component {
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable>
 
-					<AppbarTouchable type="secondary" onPress={this._onPress.bind(this)}>
-						{isLoading ?
-							<Loading style={styles.loading} /> :
-							(<View style={styles.button}>
-								<AppbarIcon name="done" style={styles.buttonIcon} />
-								<AppText style={styles.buttonText}>POST</AppText>
-							</View>)
-						}
-					</AppbarTouchable>
+					<UserIconContainer style={styles.userIcon} size={30} />
 				</AppbarSecondary>
 
 				<Banner text={this.state.error} type="error" />
@@ -252,13 +250,14 @@ export default class StartDiscussionButton extends React.Component {
 						autoFocus
 						value={this.state.title}
 						onChange={this._onTitleChange.bind(this)}
-						placeholder="Enter discussion title"
+						placeholder="Write a discussion title"
 						autoCapitalize="sentences"
-						style={styles.threadTitle}
+						style={[ styles.threadTitle, styles.entry ]}
+						underlineColorAndroid="transparent"
 					/>
 
 					{this.state.imageData ?
-						<ImageUploadController
+						<ImageUploadContainer
 							component={ImageUploadDiscussion}
 							imageData={this.state.imageData}
 							onUploadClose={this._onUploadClose.bind(this)}
@@ -269,25 +268,36 @@ export default class StartDiscussionButton extends React.Component {
 							numberOfLines={5}
 							value={this.state.text}
 							onChange={this._onTextChange.bind(this)}
-							placeholder="Enter discussion summary"
+							placeholder="And a short summary…"
 							autoCapitalize="sentences"
-							inputStyle={styles.threadSummary}
+							inputStyle={[ styles.threadSummary, styles.entry ]}
+							underlineColorAndroid="transparent"
 						/>
 					}
-
-					{this.state.imageData ? null :
-						<TouchFeedback onPress={this._uploadImage.bind(this)}>
-							<View style={styles.uploadButton}>
-								<Icon
-									name="image"
-									style={styles.uploadButtonIcon}
-									size={24}
-								/>
-								<AppText style={styles.uploadButtonText}>UPLOAD AN IMAGE</AppText>
-							</View>
-						</TouchFeedback>
-					}
 				</ScrollView>
+				<View style={styles.footer}>
+					<TouchFeedback onPress={this._uploadImage.bind(this)}>
+						<View style={styles.uploadButton}>
+							<Icon
+								name="image"
+								style={styles.uploadButtonIcon}
+								size={24}
+							/>
+						</View>
+					</TouchFeedback>
+					<View style={[ styles.postButton, isDisabled ? styles.disabled : null ]}>
+						{isDisabled ?
+							<View style={styles.postButtonInner}>
+								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
+							</View> :
+							<TouchFeedback onPress={this._onPress.bind(this)}>
+								<View style={styles.postButtonInner}>
+									<AppText style={styles.postButtonText}>Post</AppText>
+								</View>
+							</TouchFeedback>
+						}
+					</View>
+				</View>
 			</StatusbarContainer>
 		);
 	}

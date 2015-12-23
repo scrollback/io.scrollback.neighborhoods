@@ -2,7 +2,7 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
-import NotificationBadgeController from "../controllers/notification-badge-controller";
+import NotificationBadgeContainer from "../containers/notification-badge-container";
 import routes from "../utils/routes";
 
 const {
@@ -30,7 +30,7 @@ export default class NotificationIcon extends React.Component {
 			<AppbarTouchable onPress={this._onPress.bind(this)}>
 				<View>
 					<AppbarIcon name="notifications" />
-					<NotificationBadgeController style={styles.badge} grouped />
+					<NotificationBadgeContainer style={styles.badge} grouped />
 				</View>
 			</AppbarTouchable>
 		);

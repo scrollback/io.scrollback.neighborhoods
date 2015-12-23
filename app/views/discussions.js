@@ -1,10 +1,10 @@
 import React from "react-native";
-import DiscussionItemController from "../controllers/discussion-item-controller";
+import DiscussionItemContainer from "../containers/discussion-item-container";
 import PageFailed from "./page-failed";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 import StartDiscussionButton from "./start-discussion-button";
-import BannerOfflineController from "../controllers/banner-offline-controller";
+import BannerOfflineContainer from "../containers/banner-offline-container";
 
 const {
 	StyleSheet,
@@ -36,7 +36,7 @@ export default class Discussions extends React.Component {
 	render() {
 		return (
 			<View {...this.props}>
-				<BannerOfflineController />
+				<BannerOfflineContainer />
 
 				{(() => {
 					if (this.props.data.length === 0) {
@@ -70,7 +70,7 @@ export default class Discussions extends React.Component {
 								}
 
 								return (
-									<DiscussionItemController
+									<DiscussionItemContainer
 										key={thread.id}
 										thread={thread}
 										navigator={this.props.navigator}

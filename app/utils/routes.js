@@ -1,16 +1,16 @@
 import NotificationIcon from "../views/notification-icon";
-import ChatController from "../controllers/chat-controller";
-import ChatTitleController from "../controllers/chat-title-controller";
-import RoomTitleController from "../controllers/room-title-controller";
-import DiscussionsController from "../controllers/discussions-controller";
-import NotificationCenterController from "../controllers/notification-center-controller";
-import NotificationClearIconController from "../controllers/notification-clear-icon-controller";
-import PeopleListController from "../controllers/people-list-controller";
-import UserIconController from "../controllers/user-icon-controller";
-import LocalitiesController from "../controllers/localities-controller";
-import AccountController from "../controllers/account-controller";
-import SignInController from "../controllers/sign-in-controller";
-import StartDiscussionController from "../controllers/start-discussion-controller";
+import AccountButton from "../views/account-button";
+import ChatContainer from "../containers/chat-container";
+import ChatTitleContainer from "../containers/chat-title-container";
+import RoomTitleContainer from "../containers/room-title-container";
+import DiscussionsContainer from "../containers/discussions-container";
+import NotificationCenterContainer from "../containers/notification-center-container";
+import NotificationClearIconContainer from "../containers/notification-clear-icon-container";
+import PeopleListContainer from "../containers/people-list-container";
+import LocalitiesContainer from "../containers/localities-container";
+import AccountContainer from "../containers/account-container";
+import SignInContainer from "../containers/sign-in-container";
+import StartDiscussionContainer from "../containers/start-discussion-container";
 import config from "../store/config";
 
 const routes = {};
@@ -18,18 +18,18 @@ const routes = {};
 routes.home = () => {
 	return {
 		title: config.app_name,
-		leftComponent: UserIconController,
+		leftComponent: AccountButton,
 		rightComponent: NotificationIcon,
-		component: LocalitiesController,
+		component: LocalitiesContainer,
 		index: 0
 	};
 };
 
 routes.chat = props => {
 	return {
-		titleComponent: ChatTitleController,
+		titleComponent: ChatTitleContainer,
 		rightComponent: NotificationIcon,
-		component: ChatController,
+		component: ChatContainer,
 		passProps: props
 	};
 };
@@ -37,16 +37,16 @@ routes.chat = props => {
 routes.people = props => {
 	return {
 		title: "People talking",
-		component: PeopleListController,
+		component: PeopleListContainer,
 		passProps: props
 	};
 };
 
 routes.room = props => {
 	return {
-		titleComponent: RoomTitleController,
+		titleComponent: RoomTitleContainer,
 		rightComponent: NotificationIcon,
-		component: DiscussionsController,
+		component: DiscussionsContainer,
 		passProps: props
 	};
 };
@@ -54,22 +54,22 @@ routes.room = props => {
 routes.notes = () => {
 	return {
 		title: "Notifications",
-		component: NotificationCenterController,
-		rightComponent: NotificationClearIconController
+		component: NotificationCenterContainer,
+		rightComponent: NotificationClearIconContainer
 	};
 };
 
 routes.account = () => {
 	return {
 		title: "My account",
-		component: AccountController
+		component: AccountContainer
 	};
 };
 
 routes.signin = props => {
 	return {
 		title: "Sign in",
-		component: SignInController,
+		component: SignInContainer,
 		passProps: props
 	};
 };
@@ -77,7 +77,7 @@ routes.signin = props => {
 routes.startthread = props => {
 	return {
 		title: "Start new discussion",
-		component: StartDiscussionController,
+		component: StartDiscussionContainer,
 		passProps: props
 	};
 };

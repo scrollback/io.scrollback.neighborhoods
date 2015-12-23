@@ -1,9 +1,8 @@
-"use strict";
+import actions from '../../store/actions';
 
 module.exports = function(core, config, store) {
-	var userUtils = require("./../../lib/user-utils.js"),
-		actions = require("../../store/actions.js"),
-		permissionLevels = require("./../../authorizer/permissionWeights.js"),
+	var userUtils = require("../../lib/user-utils"),
+		permissionLevels = require("../../store.orig/permissionWeights"),
 		queueBack = [];
 
 	function enter(roomId) {

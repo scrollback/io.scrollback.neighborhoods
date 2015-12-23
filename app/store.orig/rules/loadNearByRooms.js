@@ -1,4 +1,4 @@
-import AlertDialog from "../../modules/alert-dialog";
+import React from "react-native";
 import Geolocation from "../../modules/geolocation";
 import userUtils from "../../lib/user-utils";
 
@@ -6,6 +6,10 @@ const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enablin
 const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
 const NUM_ROOMS_TO_LOAD = 7;
+
+const {
+	Alert
+} = React;
 
 module.exports = function(core) {
 	function loadNearByRooms(position, memberOf) {
@@ -95,34 +99,25 @@ module.exports = function(core) {
 				const isEnabled = await Geolocation.isGPSEnabled();
 
 				if (!isEnabled) {
-					try {
-						await AlertDialog.show(null, GPS_ENABLE_MESSAGE,
-							[
-								{
-									type: AlertDialog.POSITIVE_BUTTON,
-									label: GPS_ENABLE_OK,
-									onPress: () => Geolocation.showGPSSettings()
-								},
-								{
-									type: AlertDialog.NEGATIVE_BUTTON,
-									label: GPS_ENABLE_CANCEL,
-									onPress: () => {
-										core.emit("setstate", {
-											app: {
-												nearByRooms: []
-											}
-										});
-									}
+					Alert.alert(
+						null, GPS_ENABLE_MESSAGE,
+						[
+							{
+								text: GPS_ENABLE_CANCEL,
+								onPress: () => {
+									core.emit("setstate", {
+										app: {
+											nearByRooms: []
+										}
+									});
 								}
-							]
-						);
-					} catch (err) {
-						core.emit("setstate", {
-							app: {
-								nearByRooms: []
-							}
-						});
-					}
+							},
+							{
+								text: GPS_ENABLE_OK,
+								onPress: () => Geolocation.showGPSSettings()
+							},
+						]
+					);
 				}
 			}
 		}

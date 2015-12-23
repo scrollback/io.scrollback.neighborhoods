@@ -58,3 +58,32 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+# stetho
+
+-keep class com.facebook.stetho.** { *; }
+-dontwarn com.facebook.stetho.**
+
+# support library
+
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+-dontwarn android.support.v7.**
+
+# play services
+
+-keep public class com.google.android.gms.**
+-dontwarn com.google.android.gms.**
+
+# appvirality
+
+-keep class com.appvirality.android.** { *; }
+-dontwarn com.appvirality.android.**
+
+# crashlytics
+
+-keep class com.crashlytics.** { *; }
+-keep class com.crashlytics.android.**
+-keepattributes SourceFile,LineNumberTable
+
+

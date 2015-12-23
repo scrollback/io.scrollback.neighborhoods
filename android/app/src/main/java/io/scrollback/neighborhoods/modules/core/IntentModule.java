@@ -6,11 +6,13 @@ import android.net.Uri;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
-import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+/**
+ * Intent module. Launch other activities or open URLs.
+ */
 public class IntentModule extends ReactContextBaseJavaModule {
 
     private Activity mCurrentActivity;
@@ -26,21 +28,42 @@ public class IntentModule extends ReactContextBaseJavaModule {
         return "IntentModule";
     }
 
+    /**
+     * Return the URL the activity was started with
+     *
+     * @param callback a callback which is called with the initial URL
+     */
     @ReactMethod
-    public void getInitialURL(final Promise promise) {
-        Intent intent = mCurrentActivity.getIntent();
-        String action = intent.getAction();
-        Uri uri = intent.getData();
+    public void getInitialURL(Callback callback) {
+        try {
+            String initialURL = null;
 
-        if (Intent.ACTION_VIEW.equals(action) && uri != null) {
-            promise.resolve(uri.toString());
-        } else {
-            promise.resolve(null);
+            if (mCurrentActivity != null) {
+                Intent intent = mCurrentActivity.getIntent();
+                String action = intent.getAction();
+                Uri uri = intent.getData();
+
+                if (Intent.ACTION_VIEW.equals(action) && uri != null) {
+                    initialURL = uri.toString();
+                }
+            }
+
+            callback.invoke(null, initialURL);
+        } catch (Exception e) {
+            callback.invoke(e.getMessage(), null);
         }
     }
 
+    /**
+     * Starts a corresponding external activity for the given URL.
+     *
+     * For example, if the URL is "https://www.facebook.com", the system browser will be opened,
+     * or the "choose application" dialog will be shown.
+     *
+     * @param url the URL to open
+     */
     @ReactMethod
-    public void openURL(final String url) {
+    public void openURL(String url) {
         if (url == null || url.isEmpty()) {
             throw new JSApplicationIllegalArgumentException("Invalid URL: " + url);
         }
@@ -48,31 +71,41 @@ public class IntentModule extends ReactContextBaseJavaModule {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-            mCurrentActivity.startActivity(intent);
+            if (mCurrentActivity != null) {
+                mCurrentActivity.startActivity(intent);
+            } else {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getReactApplicationContext().startActivity(intent);
+            }
         } catch (Exception e) {
             throw new JSApplicationIllegalArgumentException(
                     "Could not open URL '" + url + "': " + e.getMessage());
         }
     }
 
+    /**
+     * Determine whether or not an installed app can handle a given URL.
+     *
+     * @param url the URL to open
+     * @param callback a callback that is always called with a boolean argument
+     */
     @ReactMethod
-    public void canOpenURL(final String url, final Callback callback) {
+    public void canOpenURL(String url, Callback callback) {
         if (url == null || url.isEmpty()) {
             throw new JSApplicationIllegalArgumentException("Invalid URL: " + url);
         }
 
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-
             // We need Intent.FLAG_ACTIVITY_NEW_TASK since getReactApplicationContext() returns
             // the ApplicationContext instead of the Activity context.
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             boolean canOpen =
                     intent.resolveActivity(getReactApplicationContext().getPackageManager()) != null;
-            callback.invoke(canOpen);
+
+            callback.invoke(null, canOpen);
         } catch (Exception e) {
-            throw new JSApplicationIllegalArgumentException(
-                    "Could not check if URL '" + url + "' can be opened: " + e.getMessage());
+            callback.invoke(e.getMessage(), null);
         }
     }
 }

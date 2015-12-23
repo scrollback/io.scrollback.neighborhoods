@@ -2,6 +2,9 @@ import core from "../store/core";
 import GCM from "../extras/gcm/gcm";
 import Analytics from "../extras/analytics/analytics";
 
+GCM.initialize();
+Analytics.initialize();
+
 let bootComplete = false;
 
 export default function() {
@@ -34,6 +37,3 @@ export default function() {
 		}
 	}, 1000);
 }
-
-GCM.initialize();
-Analytics.initialize();

@@ -16,9 +16,9 @@ const {
 	StyleSheet,
 	ScrollView,
 	View,
-	Switch,
 	PixelRatio,
-	TouchableOpacity
+	TouchableOpacity,
+	SwitchAndroid: Switch
 } = React;
 
 const styles = StyleSheet.create({
