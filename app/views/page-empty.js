@@ -1,13 +1,11 @@
 import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
-import Icon from "./icon";
 import Page from "./page";
 
 const {
 	StyleSheet,
-	View,
-	TouchableOpacity
+	Image
 } = React;
 
 const styles = StyleSheet.create({
@@ -20,8 +18,8 @@ const styles = StyleSheet.create({
 	missing: {
 		margin: 16,
 		textAlign: "center",
-		fontSize: 18,
-		lineHeight: 27
+		fontSize: 16,
+		lineHeight: 18
 	},
 	button: {
 		flexDirection: "row",
@@ -40,39 +38,41 @@ const styles = StyleSheet.create({
 export default class PageEmpty extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
-			this.props.pageLabel !== nextProps.pageLabel ||
-			this.props.onRetry !== nextProps.onRetry
+			this.props.label !== nextProps.label ||
+			this.props.image !== nextProps.image
 		);
+	}
+
+	_getImageSource(name) {
+		switch (name) {
+		case "cool":
+			return require("../../assets/monkey-cool.png");
+		case "happy":
+			return require("../../assets/monkey-happy.png");
+		case "meh":
+			return require("../../assets/monkey-meh.png");
+		case "sad":
+			return require("../../assets/monkey-sad.png");
+		}
 	}
 
 	render() {
 		return (
 			<Page {...this.props}>
-				<TouchableOpacity onPress={this.props.onRetry} style={styles.container}>
-					<AppText style={styles.missing}>{this.props.pageLabel}</AppText>
-
-					{this.props.onRetry ?
-					<View style={styles.button}>
-						<Icon
-							name="refresh"
-							style={styles.icon}
-							size={24}
-						/>
-						<AppText style={styles.label}>Retry</AppText>
-					</View> :
+				{this.props.image ?
+					<Image source={this._getImageSource(this.props.image)} /> :
 					null
 				}
-				</TouchableOpacity>
+				{this.props.label ?
+					<AppText style={styles.missing}>{this.props.label}</AppText> :
+					null
+				}
 			</Page>
 		);
 	}
 }
 
 PageEmpty.propTypes = {
-	pageLabel: React.PropTypes.string,
-	onRetry: React.PropTypes.func
-};
-
-PageEmpty.defaultProps = {
-	pageLabel: "Failed to load data"
+	label: React.PropTypes.string,
+	image: React.PropTypes.any
 };

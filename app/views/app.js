@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
 		if (user === "missing") {
 			if (connectionStatus === "offline") {
-				return <PageEmpty pageLabel="Cannot connect to internet" />;
+				return <PageEmpty label="Cannot connect to internet" image="sad" />;
 			} else {
 				return <Splash />;
 			}

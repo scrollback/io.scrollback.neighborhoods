@@ -46,7 +46,7 @@ export default class ChatMessages extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty pageLabel="No messages yet" />;
+						return <PageEmpty label="No messages yet" image="sad" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -54,11 +54,11 @@ export default class ChatMessages extends React.Component {
 						case "missing":
 							return <PageLoading />;
 						case "banned":
-							return <PageEmpty pageLabel="You're banned in this community" />;
+							return <PageEmpty label="You're banned in this community" image="meh" />;
 						case "nonexistent":
-							return <PageEmpty pageLabel="This discussion doesn't exist" />;
+							return <PageEmpty label="This discussion doesn't exist" image="sad" />;
 						case "failed":
-							return <PageEmpty pageLabel="Failed to load messages" onRetry={this.props.refreshData} />;
+							return <PageEmpty label="Failed to load messages" image="sad" />;
 						}
 					}
 

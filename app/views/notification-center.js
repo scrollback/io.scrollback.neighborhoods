@@ -24,7 +24,7 @@ export default class NotificationCenter extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty pageLabel="All clear 😎" />;
+						return <PageEmpty label="No new notifications" image="cool" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -33,7 +33,7 @@ export default class NotificationCenter extends React.Component {
 						}
 
 						if (this.props.data[0] === "failed") {
-							return <PageEmpty pageLabel="Failed to load notifications" onRetry={this.props.refreshData} />;
+							return <PageEmpty label="Failed to load notifications" image="sad" />;
 						}
 					}
 

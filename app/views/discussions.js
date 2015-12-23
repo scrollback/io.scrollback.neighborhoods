@@ -40,7 +40,7 @@ export default class Discussions extends React.Component {
 
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageEmpty pageLabel="No discussions yet" />;
+						return <PageEmpty label="No discussions yet" image="sad" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -48,11 +48,11 @@ export default class Discussions extends React.Component {
 						case "missing":
 							return <PageLoading />;
 						case "banned":
-							return <PageEmpty pageLabel="You're banned in this community" />;
+							return <PageEmpty label="You're banned in this community" image="meh" />;
 						case "nonexistent":
-							return <PageEmpty pageLabel="This community doesn't exist" />;
+							return <PageEmpty label="This community doesn't exist" image="sad" />;
 						case "failed":
-							return <PageEmpty pageLabel="Failed to load discussions" onRetry={this.props.refreshData} />;
+							return <PageEmpty label="Failed to load discussions" image="sad" />;
 						}
 					}
 

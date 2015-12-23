@@ -196,7 +196,7 @@ export default class Account extends React.Component {
 					}
 
 					if (this.props.user === "failed") {
-						return <PageEmpty pageLabel="Failed to load account" />;
+						return <PageEmpty label="Failed to load account" image="sad" />;
 					}
 
 					return (
