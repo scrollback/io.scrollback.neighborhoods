@@ -28,14 +28,18 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.white
 	},
+	scene: {
+		paddingHorizontal: 8,
+		paddingVertical: 16
+	},
 	threadTitle: {
 		fontWeight: "bold",
-		fontSize: 18,
-		lineHeight: 27
+		fontSize: 20,
+		lineHeight: 30
 	},
 	threadSummary: {
-		fontSize: 14,
-		lineHeight: 21
+		fontSize: 16,
+		lineHeight: 24
 	},
 	icon: {
 		color: Colors.fadedBlack
@@ -47,7 +51,8 @@ const styles = StyleSheet.create({
 		margin: 12
 	},
 	entry: {
-		paddingHorizontal: 16
+		paddingVertical: 4,
+		paddingHorizontal: 12
 	},
 	uploadButtonIcon: {
 		color: Colors.fadedBlack,
@@ -240,12 +245,12 @@ export default class StartDiscussionButton extends React.Component {
 
 				<Banner text={this.state.error} type="error" />
 
-				<ScrollView keyboardShouldPersistTaps>
+				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
 					<AppTextInput
 						autoFocus
 						value={this.state.title}
 						onChange={this._onTitleChange.bind(this)}
-						placeholder="Enter discussion title"
+						placeholder="Write a discussion title"
 						autoCapitalize="sentences"
 						style={[ styles.threadTitle, styles.entry ]}
 						underlineColorAndroid="transparent"
@@ -263,7 +268,7 @@ export default class StartDiscussionButton extends React.Component {
 							numberOfLines={5}
 							value={this.state.text}
 							onChange={this._onTextChange.bind(this)}
-							placeholder="Enter discussion summary"
+							placeholder="And a short summary…"
 							autoCapitalize="sentences"
 							inputStyle={[ styles.threadSummary, styles.entry ]}
 							underlineColorAndroid="transparent"
