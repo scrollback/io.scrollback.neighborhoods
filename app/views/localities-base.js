@@ -97,7 +97,7 @@ export default class LocalitiesBase extends React.Component {
 					const keys = Object.keys(data);
 
 					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
-						return <PageEmpty pageLabel={this.props.pageEmptyLabel} image="sad" />;
+						return <PageEmpty label={this.props.pageEmptyLabel} image="sad" />;
 					}
 
 					if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
@@ -109,7 +109,7 @@ export default class LocalitiesBase extends React.Component {
 					}
 
 					if (keys.some(item => data[item].length === 1 && data[item][0] === "unavailable")) {
-						return <PageEmpty pageLabel={config.app_name + " is not available in your neighborhood yet."} image="sad" />;
+						return <PageEmpty label={config.app_name + " is not available in your neighborhood yet."} image="sad" />;
 					}
 
 					return (
