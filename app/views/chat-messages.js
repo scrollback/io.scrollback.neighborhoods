@@ -1,6 +1,6 @@
 import React from "react-native";
 import ChatItemContainer from "../containers/chat-item-container";
-import PageFailed from "./page-failed";
+import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 
@@ -46,7 +46,7 @@ export default class ChatMessages extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageFailed pageLabel="No messages yet" />;
+						return <PageEmpty pageLabel="No messages yet" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -54,11 +54,11 @@ export default class ChatMessages extends React.Component {
 						case "missing":
 							return <PageLoading />;
 						case "banned":
-							return <PageFailed pageLabel="You're banned in this community" />;
+							return <PageEmpty pageLabel="You're banned in this community" />;
 						case "nonexistent":
-							return <PageFailed pageLabel="This discussion doesn't exist" />;
+							return <PageEmpty pageLabel="This discussion doesn't exist" />;
 						case "failed":
-							return <PageFailed pageLabel="Failed to load messages" onRetry={this.props.refreshData} />;
+							return <PageEmpty pageLabel="Failed to load messages" onRetry={this.props.refreshData} />;
 						}
 					}
 

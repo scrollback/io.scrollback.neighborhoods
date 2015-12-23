@@ -2,7 +2,7 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
 import RoomItemContainer from "../containers/room-item-container";
-import PageFailed from "./page-failed";
+import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 import Geolocation from "../modules/geolocation";
@@ -97,7 +97,7 @@ export default class LocalitiesBase extends React.Component {
 					const keys = Object.keys(data);
 
 					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
-						return <PageFailed pageLabel={this.props.pageEmptyLabel} />;
+						return <PageEmpty pageLabel={this.props.pageEmptyLabel} />;
 					}
 
 					if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
@@ -105,11 +105,11 @@ export default class LocalitiesBase extends React.Component {
 					}
 
 					if (keys.every(item => data[item].length === 1 && data[item][0] === "failed")) {
-						return <PageFailed pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
+						return <PageEmpty pageLabel="Failed to load communities" onRetry={this.props.refreshData} />;
 					}
 
 					if (keys.some(item => data[item].length === 1 && data[item][0] === "unavailable")) {
-						return <PageFailed pageLabel={config.app_name + " is not available in your neighborhood yet."} />;
+						return <PageEmpty pageLabel={config.app_name + " is not available in your neighborhood yet."} />;
 					}
 
 					return (

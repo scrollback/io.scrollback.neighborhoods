@@ -1,6 +1,6 @@
 import React from "react-native";
 import PeopleListItem from "./people-list-item";
-import PageFailed from "./page-failed";
+import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 
 const {
@@ -24,7 +24,7 @@ export default class PeopleList extends React.Component {
 			<View {...this.props}>
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageFailed pageLabel="Nobody here" />;
+						return <PageEmpty pageLabel="Nobody here" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -33,7 +33,7 @@ export default class PeopleList extends React.Component {
 						}
 
 						if (this.props.data[0] === "failed") {
-							return <PageFailed pageLabel="Failed to load people list" onRetry={this.props.refreshData} />;
+							return <PageEmpty pageLabel="Failed to load people list" onRetry={this.props.refreshData} />;
 						}
 					}
 

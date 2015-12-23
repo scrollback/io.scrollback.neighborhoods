@@ -1,6 +1,6 @@
 import React from "react-native";
 import DiscussionItemContainer from "../containers/discussion-item-container";
-import PageFailed from "./page-failed";
+import PageEmpty from "./page-empty";
 import PageLoading from "./page-loading";
 import LoadingItem from "./loading-item";
 import StartDiscussionButton from "./start-discussion-button";
@@ -40,7 +40,7 @@ export default class Discussions extends React.Component {
 
 				{(() => {
 					if (this.props.data.length === 0) {
-						return <PageFailed pageLabel="No discussions yet" />;
+						return <PageEmpty pageLabel="No discussions yet" />;
 					}
 
 					if (this.props.data.length === 1) {
@@ -48,11 +48,11 @@ export default class Discussions extends React.Component {
 						case "missing":
 							return <PageLoading />;
 						case "banned":
-							return <PageFailed pageLabel="You're banned in this community" />;
+							return <PageEmpty pageLabel="You're banned in this community" />;
 						case "nonexistent":
-							return <PageFailed pageLabel="This community doesn't exist" />;
+							return <PageEmpty pageLabel="This community doesn't exist" />;
 						case "failed":
-							return <PageFailed pageLabel="Failed to load discussions" onRetry={this.props.refreshData} />;
+							return <PageEmpty pageLabel="Failed to load discussions" onRetry={this.props.refreshData} />;
 						}
 					}
 

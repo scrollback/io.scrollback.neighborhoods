@@ -2,7 +2,7 @@ import React from "react-native";
 import Colors from "../../colors.json";
 import AppText from "./app-text";
 import PageLoading from "./page-loading";
-import PageFailed from "./page-failed";
+import PageEmpty from "./page-empty";
 import AvatarRound from "./avatar-round";
 import GrowingTextInput from "./growing-text-input";
 import Modal from "./modal";
@@ -196,7 +196,7 @@ export default class Account extends React.Component {
 					}
 
 					if (this.props.user === "failed") {
-						return <PageFailed pageLabel="Failed to load account" />;
+						return <PageEmpty pageLabel="Failed to load account" />;
 					}
 
 					return (

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class PageFailed extends React.Component {
+export default class PageEmpty extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
 			this.props.pageLabel !== nextProps.pageLabel ||
@@ -68,11 +68,11 @@ export default class PageFailed extends React.Component {
 	}
 }
 
-PageFailed.propTypes = {
+PageEmpty.propTypes = {
 	pageLabel: React.PropTypes.string,
 	onRetry: React.PropTypes.func
 };
 
-PageFailed.defaultProps = {
+PageEmpty.defaultProps = {
 	pageLabel: "Failed to load data"
 };
