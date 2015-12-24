@@ -38,7 +38,7 @@ function dismissNote(note) {
 	const notes = store.get("notes");
 
 	if (notes.length === 0) {
-		if (dismissed.length) {
+		if (dismissed && dismissed.length) {
 			dismissAllNotes();
 		}
 
