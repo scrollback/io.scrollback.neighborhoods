@@ -6,8 +6,10 @@ import KeyboardSpacer from "./keyboard-spacer";
 import renderNavigationBar from "../utils/render-navigation-bar";
 import renderScene from "../utils/render-scene";
 import routes from "../utils/routes";
+import VersionCodes from "../modules/version-codes";
 
 const {
+	Platform,
 	StyleSheet,
 	Navigator
 } = React;
@@ -37,7 +39,10 @@ export default class Home extends React.Component {
 					sceneStyle={styles.scene}
 				/>
 
-				<KeyboardSpacer />
+				{Platform.Version >= VersionCodes.KITKAT ?
+					<KeyboardSpacer /> :
+					null
+				}
 				<Modal />
 			</StatusbarContainer>
 		);

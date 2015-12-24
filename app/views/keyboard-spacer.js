@@ -1,14 +1,12 @@
 import React from "react-native";
-import VersionCodes from "../modules/version-codes";
 
 const {
-	Platform,
 	Animated,
 	View,
 	DeviceEventEmitter
 } = React;
 
-class KeyboardSpacer extends React.Component {
+export default class KeyboardSpacer extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -51,7 +49,3 @@ class KeyboardSpacer extends React.Component {
 		return <Animated.View style={{ height: this.state.keyboardHeightAnim }} />;
 	}
 }
-
-// The app pans to show the Keyboard below Kitkat (We set it to resize from Kitkat to upwards)
-export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? View : KeyboardSpacer;
-

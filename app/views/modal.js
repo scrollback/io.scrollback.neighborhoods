@@ -97,10 +97,16 @@ export default class Modal extends React.Component {
 			return null;
 		}
 
-		const win = Dimensions.get("window");
+		let { height, width } = Dimensions.get("window");
+
+		// Android < 4.4 seems to include statusbar height also
+		if (Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT) {
+			height -= 25;
+			width -= 0;
+		}
 
 		return (
-			<Animated.View style={[ styles.container, { height: win.height, width: win.width, opacity: this.state.fadeAnim } ]}>
+			<Animated.View style={[ styles.container, { height, width, opacity: this.state.fadeAnim } ]}>
 				{this.state.component}
 
 				<KeyboardSpacer />
@@ -131,7 +137,7 @@ Modal.renderModal = component => {
 	return Modal.renderComponent((
 		<TouchableWithoutFeedback onPress={() => Modal.renderComponent(null)}>
 			<View style={styles.overlay}>
-				<ModalSheet style={Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? { marginBottom: 25 } : null}>
+				<ModalSheet>
 					{component}
 				</ModalSheet>
 			</View>
