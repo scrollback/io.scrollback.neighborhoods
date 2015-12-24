@@ -97,7 +97,7 @@ export default class LocalitiesBase extends React.Component {
 					const keys = Object.keys(data);
 
 					if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
-						return <PageEmpty label={this.props.pageEmptyLabel} image="sad" />;
+						return <PageEmpty label={this.props.pageEmptyLabel} image={this.props.pageEmptyImage} />;
 					}
 
 					if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
@@ -175,5 +175,6 @@ LocalitiesBase.propTypes = {
 	showMenuButton: React.PropTypes.bool,
 	showBadge: React.PropTypes.bool,
 	pageEmptyLabel: React.PropTypes.string.isRequired,
+	pageEmptyImage: React.PropTypes.string.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

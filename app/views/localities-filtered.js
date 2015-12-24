@@ -31,6 +31,7 @@ export default class LocalitiesFiltered extends React.Component {
 				<LocalitiesBase
 					{...this.props}
 					pageEmptyLabel={this.props.filter ? "No communities found" : "Type a place to search"}
+					pageEmptyImage={this.props.filter ? "sad" : "happy"}
 					style={[ styles.inner, this.props.style ]}
 					showMenuButton={false}
 					showBadge={false}

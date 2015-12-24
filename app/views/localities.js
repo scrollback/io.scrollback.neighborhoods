@@ -23,7 +23,7 @@ export default class Localities extends React.Component {
 				{this.props.available === false ?
 					<BannerUnavailable /> :
 					<SearchButton navigator={this.props.navigator} />}
-				<LocalitiesBase {...this.props} pageEmptyLabel="You've not joined any communities" />
+				<LocalitiesBase {...this.props} pageEmptyLabel="You've not joined any communities" pageEmptyImage="meh" />
 			</View>
 		);
 	}
