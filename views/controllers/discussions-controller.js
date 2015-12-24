@@ -17,10 +17,8 @@ class DiscussionsController extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
-
 		this.handle("statechange", changes => {
-			if (changes.threads && changes.threads[this.props.room] || changes.nav && changes.nav.threadRange) {
+			if (changes.threads && changes.threads[this.props.room]) {
 				this._updateData();
 			}
 		});
@@ -32,23 +30,29 @@ class DiscussionsController extends React.Component {
 					mode: "room"
 				}
 			});
+
+			const requested = this.store.get("nav", this.props.room + "_requested");
+
+			if (requested) {
+				const threads = this.store.getThreads(this.props.room, null, -requested);
+
+				if (threads.length) {
+					this._updateData();
+				}
+			} else {
+				this._onEndReached();
+			}
 		});
 	}
 
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const time = this.store.get("nav", "threadRange", "time");
-				const before = this.store.get("nav", "threadRange", "before");
-				const after = this.store.get("nav", "threadRange", "after");
-
-				const beforeData = this.store.getThreads(this.props.room, time, -before);
-				const afterData = this.store.getThreads(this.props.room, time, after);
-
-				afterData.splice(-1, 1);
+				const requested = this.store.get("nav", this.props.room + "_requested");
+				const threads = this.store.getThreads(this.props.room, null, -requested);
 
 				this.setState({
-					data: beforeData.concat(afterData).reverse(),
+					data: threads.reverse(),
 					user: this.store.get("user")
 				});
 			}
@@ -56,11 +60,17 @@ class DiscussionsController extends React.Component {
 	}
 
 	_onEndReached() {
+		const key = this.props.room + "_requested";
+		const requested = this.store.get("nav", key);
+		const threads = this.store.getThreads(this.props.room, null, -requested);
+
+		if (requested && requested > threads.length) {
+			return;
+		}
+
 		this.emit("setstate", {
 			nav: {
-				threadRange: {
-					before: this.store.get("nav", "threadRange", "before") + 20
-				}
+				[key]: (requested || 0) + 20
 			}
 		});
 	}

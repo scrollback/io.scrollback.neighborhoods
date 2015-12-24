@@ -6,17 +6,7 @@ import rangeOps from "../lib/range-ops";
 const state = {
 	nav: {
 		mode: "loading",
-		room: null,
-		textRange: {
-			time: null,
-			after: 0,
-			before: 20
-		},
-		threadRange: {
-			time: null,
-			after: 0,
-			before: 20
-		}
+		room: null
 	},
 	session: "",
 	user: "",

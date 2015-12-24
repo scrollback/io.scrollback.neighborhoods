@@ -1,24 +1,18 @@
-/*
-	Rule: LoadTextsOnTextRange
-	Requires: textRange
-	Provides: threads (async)
-*/
-/*eslint no-use-before-define:0 */
-"use strict";
+/* eslint no-use-before-define:0 */
 
-var permissionLevels = require("./../../authorizer/permissionWeights.js");
+const permissionLevels = require("../../authorizer/permissionWeights");
 
 module.exports = function(core, config, store) {
-
-	core.on('setstate', function(changes) {
-		var future = store.with(changes),
-			roomId = future.get("nav", "room"),
-			userId = future.get("user"),
-			rel = roomId + "_" + userId,
-			getRelation = store.getRelation(roomId, userId),
-			roomObj = store.getRoom(roomId),
-			userRelation = getRelation ? getRelation.role : "none",
-			guides = roomObj ? roomObj.guides : {};
+	core.on("setstate", changes => {
+		const future = store.with(changes);
+		const roomId = future.get("nav", "room");
+		const threadId = future.get("nav", "thread");
+		const userId = future.get("user");
+		const rel = roomId + "_" + userId;
+		const getRelation = store.getRelation(roomId, userId);
+		const roomObj = store.getRoom(roomId);
+		const userRelation = getRelation ? getRelation.role : "none";
+		const guides = roomObj ? roomObj.guides : {};
 
 		if (changes.app && changes.app.connectionStatus && store.get("app", "connectionStatus") === "offline" && future.get("app", "connectionStatus") === "online") {
 			updateTexts(future);
@@ -26,14 +20,10 @@ module.exports = function(core, config, store) {
 			(changes.nav && (
 				"room" in changes.nav ||
 				"thread" in changes.nav ||
-				"textRange" in changes.nav
+				roomId + "_" + threadId + "_requested" in changes.nav
 			)) || (
 				changes.entities &&
 				changes.entities[rel]
-			) || (
-				changes.app &&
-				changes.app.connectionStatus &&
-				future.get("app", "connectionStatus") === "online"
 			)) {
 			if (
 				(guides && guides.authorizer && (
@@ -43,38 +33,45 @@ module.exports = function(core, config, store) {
 				)) {
 				return;
 			}
+
 			handleTextChange(future);
 		}
 	}, 850);
 
 	function textResponse(err, texts) {
-		var updatingState = {
-				texts: {}
-			},
-			range = {},
-			key = texts.to;
+		if (err) {
+			return;
+		}
 
-		if (texts.thread) key += "_" + texts.thread;
+		const newState = { texts: {} };
+		const range = {};
 
-		if (!err && texts.results) {
+		if (texts.results && texts.results.length) {
+			const key = texts.to + "_" + texts.thread;
+
+			newState.texts[key] = [];
+
 			if (texts.before) {
 				range.end = texts.time;
 				range.start = texts.results.length < texts.before ? null : texts.results[0].time;
 			} else if (texts.after) {
-				range.start = texts.time;
+				newState.nav = { [key + "_requested"]: store.get("nav", key + "_requested") + texts.results.length - 1 };
+
+				range.start = texts.time ? texts.time : Date.now();
 				range.end = texts.results.length < texts.after ? null : texts.results[texts.results.length - 1].time;
 			}
+
 			range.items = texts.results;
 
-			updatingState.texts[key] = [range];
-			core.emit("setstate", updatingState);
+			newState.texts[key].push(range);
+
+			core.emit("setstate", newState);
 		}
 	}
 
 	function updateTexts(future) {
-		var roomId = future.get("nav", "room"),
-			threadId = future.get("nav", "thread");
-
+		const roomId = future.get("nav", "room");
+		const threadId = future.get("nav", "thread");
 		const lastText = store.getTexts(roomId, threadId, null, -1)[0];
 
 		if (lastText && lastText.time) {
@@ -88,43 +85,23 @@ module.exports = function(core, config, store) {
 	}
 
 	function handleTextChange(future) {
-		var thread = future.get("nav", "thread"),
-			/* threads may be in the process of being reset using null; in this case, use null. */
-			roomId = future.get("nav", "room"),
-			time = future.get("nav", "textRange", "time") || null,
-			before = future.get("nav", "textRange", "before"),
-			after = future.get("nav", "textRange", "after"),
-			queryTime, r;
+		const roomId = future.get("nav", "room");
+		const threadId = future.get("nav", "thread");
+		const requested = future.get("nav", roomId + "_" + threadId + "_requested");
 
-		if (after) {
-			r = store.getTexts(roomId, thread, time, after);
-
-			if (r[r.length - 1] === "missing") {
-				queryTime = (r.length > 1 ? r[r.length - 2].time : time);
-				if (queryTime !== null) {
-					core.emit("getTexts", {
-						to: roomId,
-						thread: thread,
-						time: queryTime,
-						after: Math.max(50, after - r.length + 1)
-					}, textResponse);
-				}
-
-			}
+		if (!requested) {
+			return;
 		}
 
-		if (before) {
-			r = store.getTexts(roomId, thread, time, -before);
+		const texts = store.getTexts(roomId, threadId, null, -requested);
 
-			if (r[0] === "missing") {
-				core.emit("getTexts", {
-					to: roomId,
-					thread: thread,
-					time: (r.length > 1 ? r[1].time : time),
-					before: Math.max(50, before - r.length + 1)
-				}, textResponse);
-			}
+		if (texts[0] === "missing") {
+			core.emit("getTexts", {
+				to: roomId,
+				thread: threadId,
+				time: (texts.length > 1 ? texts[1].time : null),
+				before: requested - texts.length + 1
+			}, textResponse);
 		}
 	}
-
 };

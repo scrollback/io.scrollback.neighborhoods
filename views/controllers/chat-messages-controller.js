@@ -20,12 +20,12 @@ class ChatMessagesController extends React.Component {
 		this._updateData();
 
 		this.handle("statechange", changes => {
-			if (changes.texts && changes.texts[this.props.room + "_" + this.props.thread] || changes.nav && changes.nav.textRange) {
+			if (changes.texts && changes.texts[this.props.room + "_" + this.props.thread]) {
 				this._updateData();
 			}
 		});
 
-		InteractionManager.runAfterInteractions(() => {
+		InteractionManager.runAfterInteractions(async () => {
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -33,31 +33,36 @@ class ChatMessagesController extends React.Component {
 					mode: "chat"
 				}
 			});
+
+			const requested = this.store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
+
+			if (requested) {
+				const texts = this.store.getTexts(this.props.room, this.props.thread, null, -requested);
+
+				if (texts.length) {
+					this._updateData();
+				}
+			} else {
+				this._onEndReached();
+			}
 		});
 	}
 
 	_updateData() {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
-				const time = this.store.get("nav", "textRange", "time");
-				const before = this.store.get("nav", "textRange", "before");
-				const after = this.store.get("nav", "textRange", "after");
+				const requested = this.store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
+				const texts = this.store.getTexts(this.props.room, this.props.thread, null, -requested);
 
-				const beforeData = this.store.getTexts(this.props.room, this.props.thread, time, -before);
-				const afterData = this.store.getTexts(this.props.room, this.props.thread, time, after);
-
-				afterData.splice(-1, 1);
-
-				const mergedData = beforeData.concat(afterData);
 				const data = [];
 
-				for (let i = mergedData.length - 1, l = 0; i >= l; i--) {
-					const text = mergedData[i];
+				for (let i = texts.length - 1, l = 0; i >= l; i--) {
+					const text = texts[i];
 
 					if (typeof text === "string") {
 						data.push(text);
 					} else {
-						const previousText = mergedData[i - 1];
+						const previousText = texts[i - 1];
 
 						data.push({
 							text,
@@ -75,11 +80,17 @@ class ChatMessagesController extends React.Component {
 	}
 
 	_onEndReached() {
+		const key = this.props.room + "_" + this.props.thread + "_requested";
+		const requested = this.store.get("nav", key);
+		const texts = this.store.getTexts(this.props.room, this.props.thread, null, -requested);
+
+		if (requested && requested > texts.length) {
+			return;
+		}
+
 		this.emit("setstate", {
 			nav: {
-				textRange: {
-					before: this.store.get("nav", "textRange", "before") + 20
-				}
+				[key]: (requested || 0) + 20
 			}
 		});
 	}
