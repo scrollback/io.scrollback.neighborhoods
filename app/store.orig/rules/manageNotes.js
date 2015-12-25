@@ -11,7 +11,7 @@ import store from "../../store/store";
 
 const NOTIFICATION_STORE_KEY = "notifications_dismissed_store";
 
-let dismissed;
+let dismissed = [];
 
 function getNoteIdentifier(note) {
 	return note.ref + ":" + note.group + ":" + note.noteType;
@@ -96,6 +96,8 @@ function loadNotes() {
 
 				if (Array.isArray(dismissed)) {
 					notes = notes.filter(n => dismissed.indexOf(getNoteIdentifier(n)) < 0);
+				} else {
+					dismissed = [];
 				}
 			} catch (e) {
 				// Ignore
