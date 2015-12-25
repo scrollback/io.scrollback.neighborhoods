@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.fadedBlack,
 		borderColor: Colors.white,
 		justifyContent: "center",
+		padding: 4,
 		borderWidth: 2,
 		borderRadius: 24
 	},
@@ -80,7 +81,7 @@ export default class EmbedThumbnail extends React.Component {
 							<Icon
 								name="play-arrow"
 								style={styles.play}
-								size={48}
+								size={36}
 							/>
 						</View> :
 						null
