@@ -12,7 +12,8 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		marginRight: 64,
-		paddingVertical: 10
+		height: 56,
+		justifyContent: "center"
 	},
 	title: {
 		color: Colors.white,
