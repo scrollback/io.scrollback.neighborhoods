@@ -8,8 +8,8 @@ import AppbarTitle from "./appbar-title";
 import AppbarTouchable from "./appbar-touchable";
 import AppbarIcon from "./appbar-icon";
 import KeyboardSpacer from "./keyboard-spacer";
-import Icon from "./icon";
 import Banner from "./banner";
+import SignUpButton from "./sign-up-button";
 import Validator from "../lib/validator";
 
 const {
@@ -72,18 +72,6 @@ const styles = StyleSheet.create({
 		width: 56,
 		borderRadius: 28,
 		marginVertical: 36
-	},
-	button: {
-		backgroundColor: Colors.success,
-		height: 56,
-		width: 56,
-		borderRadius: 28,
-		alignItems: "center",
-		justifyContent: "center"
-	},
-	buttonText: {
-		color: Colors.white,
-		textAlign: "center"
 	}
 });
 
@@ -94,7 +82,8 @@ export default class SignUp extends React.Component {
 		this.state = {
 			value: "",
 			error: null,
-			errorMessage: null
+			errorMessage: null,
+			inProgress: false
 		};
 	}
 
@@ -111,11 +100,16 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
+		this.setState({
+			inProgress: true
+		});
+
 		try {
 			await this.props.signUp(this.state.value);
 		} catch (err) {
 			this.setState({
-				errorMessage: err.message
+				errorMessage: err.message,
+				inProgress: false
 			});
 		}
 	}
@@ -186,15 +180,16 @@ export default class SignUp extends React.Component {
 							underlineColorAndroid={error ? "#f44336" : "#673ab7"}
 						/>
 
-						<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
-							<View style={styles.button}>
-								<Icon
-									name="arrow-forward"
-									style={styles.buttonText}
-									size={24}
-								/>
-							</View>
-						</TouchableHighlight>
+						{this.state.inProgress ?
+							<View style={styles.buttonContainer}>
+								<SignUpButton loading={this.state.inProgress} />
+							</View> :
+							<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
+								<View>
+									<SignUpButton loading={this.state.inProgress} />
+								</View>
+							</TouchableHighlight>
+						}
 					</View>
 				</ScrollView>
 
