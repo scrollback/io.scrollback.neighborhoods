@@ -59,6 +59,9 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16,
 		marginVertical: 14
 	},
+	uploadButtonIconActive: {
+		color: Colors.info
+	},
 	footer: {
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -283,7 +286,7 @@ export default class StartDiscussionButton extends React.Component {
 						<View style={styles.uploadButton}>
 							<Icon
 								name="image"
-								style={styles.uploadButtonIcon}
+								style={[ styles.uploadButtonIcon, this.state.imageData ? styles.uploadButtonIconActive : null ]}
 								size={24}
 							/>
 						</View>
