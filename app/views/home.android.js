@@ -41,8 +41,9 @@ export default class Home extends React.Component {
 
 				{Platform.Version >= VersionCodes.KITKAT ?
 					<KeyboardSpacer /> :
-					null
+					null // Android seems to Pan the screen on < Kitkat
 				}
+
 				<Modal />
 			</StatusbarContainer>
 		);
