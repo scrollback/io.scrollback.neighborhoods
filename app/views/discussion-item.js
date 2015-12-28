@@ -16,6 +16,7 @@ import Share from "../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
 import config from "../store/config";
+import colors from "../../colors.json";
 
 const {
 	ToastAndroid,
@@ -154,7 +155,7 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress.bind(this)} pressColor={colors.underlay}>
 					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
 							<CardTitle
