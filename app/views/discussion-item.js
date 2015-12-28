@@ -155,7 +155,7 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)} pressColor={colors.underlay}>
+				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
 							<CardTitle

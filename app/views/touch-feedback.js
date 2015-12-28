@@ -17,7 +17,7 @@ export default class TouchFeedback extends React.Component {
 			);
 		} else {
 			return (
-				<TouchableHighlight {...this.props} underlayColor={this.props.pressColor}>
+				<TouchableHighlight {...this.props} underlayColor={this.props.pressColor || "rgba(0, 0, 0, .12)"}>
 					{this.props.children}
 				</TouchableHighlight>
 			);

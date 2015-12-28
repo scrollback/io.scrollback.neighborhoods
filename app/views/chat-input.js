@@ -176,7 +176,10 @@ export default class ChatInput extends React.Component {
 						numberOfLines={7}
 					/>
 
-					<TouchFeedback onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}>
+				<TouchFeedback
+					borderless
+					onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}
+				>
 						<View style={styles.iconContainer}>
 							<Icon
 								name={this.state.text ? "send" : "image"}

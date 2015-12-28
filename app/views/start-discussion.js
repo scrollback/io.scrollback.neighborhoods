@@ -276,7 +276,10 @@ export default class StartDiscussionButton extends React.Component {
 					}
 				</ScrollView>
 				<View style={styles.footer}>
-					<TouchFeedback onPress={this._uploadImage.bind(this)}>
+					<TouchFeedback
+						borderless
+						onPress={this._uploadImage.bind(this)}
+					>
 						<View style={styles.uploadButton}>
 							<Icon
 								name="image"
