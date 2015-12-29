@@ -18,6 +18,7 @@ import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookLoginPackage;
 import io.scrollback.neighborhoods.modules.gcm.PushNotificationPackage;
 import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
+import io.scrollback.neighborhoods.modules.socialshare.SocialSharePackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -69,6 +70,7 @@ public class MainActivity extends ReactActivity {
         return Arrays.asList(
                 new CorePackage(this),
                 new PushNotificationPackage(this),
+                new SocialSharePackage(this),
                 new AnalyticsPackage(),
                 mGoogleLoginPackage,
                 mFacebookLoginPackage,

@@ -63,7 +63,6 @@
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/incremental" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/manifests" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/pre-dexed" />
-      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/release" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/res" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/rs" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/symbols" />
