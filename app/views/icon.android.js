@@ -7,6 +7,10 @@ export default class Icon extends React.Component {
 	}
 
 	render() {
-		return <MaterialIcons {...this.props} ref={c => this._root = c} />;
+		return <MaterialIcons
+			ref={c => this._root = c}
+			allowFontScaling={false}
+			{...this.props}
+		/>;
 	}
 }
