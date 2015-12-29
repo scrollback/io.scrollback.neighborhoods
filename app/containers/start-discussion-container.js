@@ -1,13 +1,15 @@
 import React from "react-native";
 import StartDiscussion from "../views/start-discussion";
 import Container from "./container";
+import SocialShare from "../modules/social-share";
 import generate from "../lib/generate.browser";
+import url from "../lib/url";
 
 class StartDiscussionContainer extends React.Component {
-	_postDiscussion(title, text, threadId) {
-		const id = threadId || generate.uid();
+	async _postDiscussion({ title, text, thread, image }, shareOnFacebook) {
+		const id = thread || generate.uid();
 
-		return this.dispatch("text", {
+		const post = await this.dispatch("text", {
 			id,
 			text: text.trim(),
 			title: title.trim(),
@@ -15,6 +17,23 @@ class StartDiscussionContainer extends React.Component {
 			to: this.props.room,
 			from: this.props.user
 		});
+
+		const content = {
+			title: title.trim(),
+			link: url.get("thread", post)
+		};
+
+		if (image) {
+			content.image = image;
+		} else {
+			content.description = text.trim();
+		}
+
+		if (shareOnFacebook) {
+			SocialShare.shareOnFacebook(content);
+		}
+
+		return post;
 	}
 
 	render() {

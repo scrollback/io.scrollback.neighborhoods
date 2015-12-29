@@ -8,8 +8,8 @@ import Modal from "./modal";
 import Share from "../modules/share";
 import Linking from "../modules/linking";
 import routes from "../utils/routes";
+import url from "../lib/url";
 import locationUtils from "../lib/location-utils";
-import config from "../store/config";
 
 const {
 	StyleSheet,
@@ -56,9 +56,7 @@ export default class RoomItem extends React.Component {
 
 		options.push("Share community");
 		actions.push(() => {
-			const { protocol, host } = config.server;
-
-			Share.shareItem("Share community", `${protocol}//${host}/${room.id}`);
+			Share.shareItem("Share community", url.get("room", room));
 		});
 
 		if (room.location && room.location.lat && room.location.lon) {

@@ -12,6 +12,7 @@ import Icon from "./icon";
 import UserIconContainer from "../containers/user-icon-container";
 import ImageUploadContainer from "../containers/image-upload-container";
 import Banner from "./banner";
+import CheckboxLabeled from "./checkbox-labeled";
 import ImageUploadDiscussion from "./image-upload-discussion";
 import ImageChooser from "../modules/image-chooser";
 import routes from "../utils/routes";
@@ -95,7 +96,8 @@ export default class StartDiscussionButton extends React.Component {
 			imageData: null,
 			uploadResult: null,
 			status: null,
-			error: null
+			error: null,
+			shareOnFacebook: false
 		};
 	}
 
@@ -149,16 +151,21 @@ export default class StartDiscussionButton extends React.Component {
 			try {
 				this._onLoading();
 
-				const thread = await this.props.postDiscussion(this.state.title, textUtils.getTextFromMetadata({
-					type: "photo",
-					title: name,
-					url: result.originalUrl,
-					height,
-					width,
-					thumbnail_height: Math.min(480, width) * aspectRatio,
-					thumbnail_width: Math.min(480, width),
-					thumbnail_url: result.thumbnailUrl
-				}), result.textId);
+				const thread = await this.props.postDiscussion({
+					title: this.state.title,
+					text: textUtils.getTextFromMetadata({
+						type: "photo",
+						title: name,
+						url: result.originalUrl,
+						height,
+						width,
+						thumbnail_height: Math.min(480, width) * aspectRatio,
+						thumbnail_width: Math.min(480, width),
+						thumbnail_url: result.thumbnailUrl
+					}),
+					thread: result.textId,
+					image: result.thumbnailUrl
+				}, this.state.shareOnFacebook);
 
 				this._onPosted(thread);
 			} catch (e) {
@@ -168,7 +175,10 @@ export default class StartDiscussionButton extends React.Component {
 			try {
 				this._onLoading();
 
-				const thread = await this.props.postDiscussion(this.state.title, this.state.text);
+				const thread = await this.props.postDiscussion({
+					title: this.state.title,
+					text: this.state.text
+				}, this.state.shareOnFacebook);
 
 				this._onPosted(thread);
 			} catch (e) {
@@ -277,6 +287,10 @@ export default class StartDiscussionButton extends React.Component {
 							underlineColorAndroid="transparent"
 						/>
 					}
+
+					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={() => this.setState({ shareOnFacebook: !this.state.shareOnFacebook })}>
+						Share the post on Facebook
+					</CheckboxLabeled>
 				</ScrollView>
 				<View style={styles.footer}>
 					<TouchFeedback

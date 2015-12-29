@@ -15,8 +15,7 @@ import Clipboard from "../modules/clipboard";
 import Share from "../modules/share";
 import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
-import config from "../store/config";
-import colors from "../../colors.json";
+import url from "../lib/url";
 
 const {
 	ToastAndroid,
@@ -88,10 +87,7 @@ export default class DiscussionItem extends React.Component {
 		}
 
 		menu["Share discussion"] = () => {
-			const { protocol, host } = config.server;
-			const { id, to, title } = thread;
-
-			Share.shareItem("Share discussion", `${protocol}//${host}/${to}/${id}/${title.toLowerCase().trim().replace(/['"]/g, "").replace(/\W+/g, "-")}`);
+			Share.shareItem("Share discussion", url.get("thread", thread));
 		};
 
 		if (this.props.isCurrentUserAdmin()) {
