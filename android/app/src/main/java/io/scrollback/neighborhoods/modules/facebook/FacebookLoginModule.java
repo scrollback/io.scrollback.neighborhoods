@@ -131,7 +131,7 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logInWithPubishPermissions(final ReadableArray permissions, final Promise promise) {
+    public void logInWithPublishPermissions(final ReadableArray permissions, final Promise promise) {
         registerPermissionCallback(promise);
 
         LoginManager.getInstance().logInWithPublishPermissions(
