@@ -65,6 +65,8 @@ const styles = StyleSheet.create({
 
 const PROVIDER_GOOGLE = "google";
 const PROVIDER_FACEBOOK = "facebook";
+const PERMISSION_PUBLIC_PROFILE = "public_profile";
+const PERMISSION_EMAIL = "email";
 
 export default class SignIn extends React.Component {
 	constructor(props) {
@@ -76,8 +78,8 @@ export default class SignIn extends React.Component {
 		};
 	}
 
-	_onSignInSuccess(provider, e) {
-		this.props.signIn(provider, e.token);
+	_onSignInSuccess(provider, token) {
+		this.props.signIn(provider, token);
 	}
 
 	_onSignInFailure(provider) {
@@ -97,9 +99,20 @@ export default class SignIn extends React.Component {
 
 	async _signInWithFacebook() {
 		try {
-			const result = await FacebookLogin.logIn();
+			const result = await FacebookLogin.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
 
-			this._onSignInSuccess(PROVIDER_FACEBOOK, result);
+			const {
+				permissions: {
+					granted
+				},
+				token
+			} = result;
+
+			if (granted.length && granted.indexOf(PERMISSION_PUBLIC_PROFILE) > -1 && granted.indexOf(PERMISSION_EMAIL) > -1) {
+				this._onSignInSuccess(PROVIDER_FACEBOOK, token);
+			} else {
+				this._onSignInFailure(PROVIDER_FACEBOOK);
+			}
 		} catch (e) {
 			this._onSignInFailure(PROVIDER_FACEBOOK);
 		}
@@ -109,7 +122,7 @@ export default class SignIn extends React.Component {
 		try {
 			const result = await GoogleLogin.logIn();
 
-			this._onSignInSuccess(PROVIDER_GOOGLE, result);
+			this._onSignInSuccess(PROVIDER_GOOGLE, result.token);
 		} catch (e) {
 			this._onSignInFailure(PROVIDER_GOOGLE);
 		}

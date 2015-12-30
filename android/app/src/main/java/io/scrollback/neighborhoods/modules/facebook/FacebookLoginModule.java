@@ -7,10 +7,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookRequestError;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.react.bridge.Arguments;
@@ -18,11 +15,13 @@ import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
-import org.json.JSONObject;
-
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
@@ -43,29 +42,19 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(final LoginResult loginResult) {
-                        if (loginResult.getRecentlyGrantedPermissions().contains("email")) {
-                            GraphRequest.newMeRequest(
-                                    loginResult.getAccessToken(),
-                                    new GraphRequest.GraphJSONObjectCallback() {
-                                        @Override
-                                        public void onCompleted(JSONObject me, GraphResponse response) {
-                                            if (mTokenPromise != null) {
-                                                FacebookRequestError error = response.getError();
+                        if (mTokenPromise != null) {
+                            WritableMap map = Arguments.createMap();
 
-                                                if (error != null) {
-                                                    rejectPromise(error.getErrorMessage());
-                                                } else {
-                                                    WritableMap map = Arguments.createMap();
+                            map.putString("token", loginResult.getAccessToken().getToken());
 
-                                                    map.putString("token", loginResult.getAccessToken().getToken());
+                            WritableMap permissions = Arguments.createMap();
 
-                                                    resolvePromise(map);
-                                                }
-                                            }
-                                        }
-                                    }).executeAsync();
-                        } else {
-                            rejectPromise("Insufficient permissions");
+                            permissions.putArray("granted", permissionsToWritableArray(loginResult.getRecentlyGrantedPermissions()));
+                            permissions.putArray("denied", permissionsToWritableArray(loginResult.getRecentlyDeniedPermissions()));
+
+                            map.putMap("permissions", permissions);
+
+                            resolvePromise(map);
                         }
                     }
 
@@ -99,33 +88,60 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
         }
     }
 
+    private List<String> readableArrayToStringList(final ReadableArray array) {
+        List<String> stringList = new ArrayList<>();
+
+        for (int i = 0, l = array.size(); i < l; i++) {
+            stringList.add(array.getString(i));
+        }
+
+        return stringList;
+    }
+
+    private WritableArray permissionsToWritableArray(Set<String> permissions) {
+        WritableArray result = Arguments.createArray();
+
+        for(String p: permissions) {
+            result.pushString(p);
+        }
+
+        return result;
+    }
+
     @Override
     public String getName() {
         return "FacebookLoginModule";
     }
 
-    @ReactMethod
-    public void logIn(final Promise promise) {
+    public void registerPermissionCallback(final Promise promise) {
         if (mTokenPromise != null) {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-
-            if (accessToken != null) {
-                WritableMap map = Arguments.createMap();
-
-                map.putString("token", AccessToken.getCurrentAccessToken().getToken());
-                map.putBoolean("cache", true);
-
-                resolvePromise(map);
-            } else {
-                rejectPromise("Cannot register multiple callbacks");
-            }
+            rejectPromise("Cannot register multiple callbacks");
         }
 
         mTokenPromise = promise;
+    }
+
+    @ReactMethod
+    public void logInWithReadPermissions(final ReadableArray permissions, final Promise promise) {
+        registerPermissionCallback(promise);
 
         LoginManager.getInstance().logInWithReadPermissions(
                 mCurrentActivity,
-                Arrays.asList("public_profile", "email"));
+                readableArrayToStringList(permissions));
+    }
+
+    @ReactMethod
+    public void logInWithPubishPermissions(final ReadableArray permissions, final Promise promise) {
+        registerPermissionCallback(promise);
+
+        LoginManager.getInstance().logInWithPublishPermissions(
+                mCurrentActivity,
+                readableArrayToStringList(permissions));
+    }
+
+    @ReactMethod
+    public void getPermissions(final Promise promise) {
+        promise.resolve(permissionsToWritableArray(AccessToken.getCurrentAccessToken().getPermissions()));
     }
 
     @ReactMethod
@@ -136,13 +152,13 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getCurrentToken(final Promise promise) {
+    public void getCurrentAccessToken(final Promise promise) {
         String token = AccessToken.getCurrentAccessToken().getToken();
 
         if (token != null) {
             promise.resolve(token);
         } else {
-            promise.reject("Failed to get current token");
+            promise.reject("Failed to get current access token");
         }
     }
 
