@@ -2,15 +2,21 @@ package io.scrollback.neighborhoods.modules.facebook;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -43,16 +49,10 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
                     @Override
                     public void onSuccess(final LoginResult loginResult) {
                         if (mTokenPromise != null) {
-                            WritableMap map = Arguments.createMap();
+                            WritableMap map = accessTokenToWritableMap(loginResult.getAccessToken());
 
-                            map.putString("token", loginResult.getAccessToken().getToken());
-
-                            WritableMap permissions = Arguments.createMap();
-
-                            permissions.putArray("granted", permissionsToWritableArray(loginResult.getRecentlyGrantedPermissions()));
-                            permissions.putArray("denied", permissionsToWritableArray(loginResult.getRecentlyDeniedPermissions()));
-
-                            map.putMap("permissions", permissions);
+                            map.putArray("permissions_granted", permissionsToWritableArray(loginResult.getRecentlyGrantedPermissions()));
+                            map.putArray("permissions_declined", permissionsToWritableArray(loginResult.getRecentlyDeniedPermissions()));
 
                             resolvePromise(map);
                         }
@@ -108,6 +108,16 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
         return result;
     }
 
+    private WritableMap accessTokenToWritableMap(AccessToken accessToken) {
+        WritableMap map = Arguments.createMap();
+
+        map.putString("token", accessToken.getToken());
+        map.putString("user_id", accessToken.getUserId());
+        map.putDouble("expires", accessToken.getExpires().getTime());
+
+        return map;
+    }
+
     @Override
     public String getName() {
         return "FacebookLoginModule";
@@ -140,11 +150,6 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void getPermissions(final Promise promise) {
-        promise.resolve(permissionsToWritableArray(AccessToken.getCurrentAccessToken().getPermissions()));
-    }
-
-    @ReactMethod
     public void logOut(final Promise promise) {
         LoginManager.getInstance().logOut();
 
@@ -153,13 +158,62 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getCurrentAccessToken(final Promise promise) {
-        String token = AccessToken.getCurrentAccessToken().getToken();
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
 
-        if (token != null) {
-            promise.resolve(token);
+        if (accessToken != null) {
+            WritableMap map = accessTokenToWritableMap(accessToken);
+
+            map.putArray("permissions_granted", permissionsToWritableArray(accessToken.getPermissions()));
+            map.putArray("permissions_declined", permissionsToWritableArray(accessToken.getDeclinedPermissions()));
+
+            promise.resolve(map);
         } else {
             promise.reject("Failed to get current access token");
         }
+    }
+
+    @ReactMethod
+    public void sendGraphRequest(final String method, final String path, @Nullable final ReadableArray fields, final Promise promise) {
+        Bundle parameters = null;
+
+        if (fields != null) {
+            String fieldsString = "";
+
+            for (int i = 0, l = fields.size(); i < l; i++) {
+                fieldsString += fields.getString(i);
+            }
+
+            parameters = new Bundle();
+            parameters.putString("fields", fieldsString);
+        }
+
+        HttpMethod requestMethod;
+
+        switch (method) {
+            case "POST":
+                requestMethod = HttpMethod.POST;
+                break;
+            case "DELETE":
+                requestMethod = HttpMethod.DELETE;
+                break;
+            case "GET":
+                requestMethod = HttpMethod.GET;
+                break;
+            default:
+                throw new JSApplicationIllegalArgumentException("Invalid method for graph request: " + method);
+        }
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                path,
+                parameters,
+                requestMethod,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        promise.resolve(response.getRawResponse());
+                    }
+                }
+        ).executeAsync();
     }
 
     public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {

@@ -102,13 +102,11 @@ export default class SignIn extends React.Component {
 			const result = await FacebookLogin.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
 
 			const {
-				permissions: {
-					granted
-				},
+				permissions_granted,
 				token
 			} = result;
 
-			if (granted.length && granted.indexOf(PERMISSION_PUBLIC_PROFILE) > -1 && granted.indexOf(PERMISSION_EMAIL) > -1) {
+			if (permissions_granted.length && permissions_granted.indexOf(PERMISSION_PUBLIC_PROFILE) > -1 && permissions_granted.indexOf(PERMISSION_EMAIL) > -1) {
 				this._onSignInSuccess(PROVIDER_FACEBOOK, token);
 			} else {
 				this._onSignInFailure(PROVIDER_FACEBOOK);
