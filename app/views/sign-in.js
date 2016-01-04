@@ -3,7 +3,7 @@ import Colors from "../../colors.json";
 import AppText from "./app-text";
 import LargeButton from "./large-button";
 import GoogleLogin from "../modules/google-login";
-import FacebookLogin from "../modules/facebook-login";
+import Facebook from "../modules/facebook";
 
 const {
 	StyleSheet,
@@ -99,7 +99,7 @@ export default class SignIn extends React.Component {
 
 	async _signInWithFacebook() {
 		try {
-			const result = await FacebookLogin.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
+			const result = await Facebook.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
 
 			const {
 				permissions_granted,

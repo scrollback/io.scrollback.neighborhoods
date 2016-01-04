@@ -1,11 +1,11 @@
 package io.scrollback.neighborhoods;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,7 +17,6 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.facebook.react.shell.MainReactPackage;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ import javax.annotation.Nullable;
 /**
  * Base Activity for React Native applications.
  */
-public abstract class ReactActivity extends FragmentActivity implements DefaultHardwareBackBtnHandler {
+public abstract class ReactActivity extends Activity implements DefaultHardwareBackBtnHandler {
 
     private static final String REDBOX_PERMISSION_MESSAGE =
             "Overlay permissions needs to be granted in order for react native apps to run in dev mode";
@@ -37,9 +36,9 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
     private boolean mDoRefresh = false;
 
     /**
-     * @return the name of the bundle in assets. If this is null, and no file path is specified for
-     * the bundle, the app will only work with `getUseDeveloperSupport` enabled and will always try
-     * to load the JS bundle from the packager server.
+     * Returns the name of the bundle in assets. If this is null, and no file path is specified for
+     * the bundle, the app will only work with {@code getUseDeveloperSupport} enabled and will
+     * always try to load the JS bundle from the packager server.
      * e.g. "index.android.bundle"
      */
     protected @Nullable String getBundleAssetName() {
@@ -47,8 +46,9 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
     };
 
     /**
-     * @return the path of the bundle file. This is used in cases the bundle should be loaded from
-     * a custom path
+     * Returns a custom path of the bundle file. This is used in cases the bundle should be loaded
+     * from a custom path. By default it is loaded from Android assets, from a path specified
+     * by {@link getBundleAssetName}.
      * e.g. "file://sdcard/myapp_cache/index.android.bundle"
      */
     protected @Nullable String getJSBundleFile() {
@@ -56,47 +56,48 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
     }
 
     /**
-     * @return the name of the main module. This is used to determine the URL to fetch the JS bundle
-     * from the packager server and is only used when dev support is enabled.
-     * This is the first file to be executed once the {@code ReactInstanceManager} is created.
-     * e.g. "Movies/MoviesApp.android"
+     * Returns the name of the main module. Determines the URL used to fetch the JS bundle
+     * from the packager server. It is only used when dev support is enabled.
+     * This is the first file to be executed once the {@link ReactInstanceManager} is created.
+     * e.g. "index.android"
      */
     protected String getJSMainModuleName() {
         return "index.android";
     }
 
     /**
-     * @return the name of the main component registered from JavaScript. This is used to schedule
-     * rendering of the component
+     * Returns the name of the main component registered from JavaScript.
+     * This is used to schedule rendering of the component.
      * e.g. "MoviesApp"
      */
     protected abstract String getMainComponentName();
 
     /**
-     * @return if debug mode should be enabled
+     * Returns whether dev mode should be enabled. This enables e.g. the dev menu.
      */
     protected abstract boolean getUseDeveloperSupport();
 
     /**
-     * Method returns a list of {@link ReactPackage} associated with this class.
-     * A subclass may override this method if it needs more views or modules.
-     * In that case a subclass should return a list of the ReactPackages
+     * Returns a list of {@link ReactPackage} used by the app.
+     * You'll most likely want to return at least the {@code MainReactPackage}.
+     * If your app uses additional views or modules besides the default ones,
+     * you'll want to include more packages here.
      */
-    protected @Nullable List<ReactPackage> getAdditionalPackages() {
-        return null;
-    };
+    protected abstract List<ReactPackage> getPackages();
 
     /**
-     * @return a ReactInstanceManager
-     * A subclass may override this method if it needs to use a custom instance
+     * A subclass may override this method if it needs to use a custom instance.
      */
-    protected ReactInstanceManager getReactInstanceManager() {
+    protected ReactInstanceManager createReactInstanceManager() {
         ReactInstanceManager.Builder builder = ReactInstanceManager.builder()
                 .setApplication(getApplication())
                 .setJSMainModuleName(getJSMainModuleName())
-                .addPackage(new MainReactPackage())
                 .setUseDeveloperSupport(getUseDeveloperSupport())
                 .setInitialLifecycleState(mLifecycleState);
+
+        for (ReactPackage reactPackage : getPackages()) {
+            builder.addPackage(reactPackage);
+        }
 
         String jsBundleFile = getJSBundleFile();
 
@@ -106,22 +107,13 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
             builder.setBundleAssetName(getBundleAssetName());
         }
 
-        List<ReactPackage> additionalPackages = getAdditionalPackages();
-
-        if (additionalPackages != null) {
-            for (ReactPackage reactPackage : additionalPackages) {
-                builder.addPackage(reactPackage);
-            }
-        }
-
         return builder.build();
     }
 
     /**
-     * @return a ReactRootView
-     * A subclass may override this method if it needs to use a custom ReactRootView
+     * A subclass may override this method if it needs to use a custom {@link ReactRootView}.
      */
-    protected ReactRootView getReactRootView() {
+    protected ReactRootView createRootView() {
         return new ReactRootView(this);
     }
 
@@ -139,8 +131,8 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
             }
         }
 
-        mReactInstanceManager = getReactInstanceManager();
-        ReactRootView mReactRootView = getReactRootView();
+        mReactInstanceManager = createReactInstanceManager();
+        ReactRootView mReactRootView = createRootView();
         mReactRootView.startReactApplication(mReactInstanceManager, getMainComponentName());
         setContentView(mReactRootView);
     }
@@ -178,6 +170,8 @@ public abstract class ReactActivity extends FragmentActivity implements DefaultH
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (mReactInstanceManager != null) {
             mReactInstanceManager.onActivityResult(requestCode, resultCode, data);
         }

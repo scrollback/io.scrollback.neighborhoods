@@ -15,6 +15,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.Promise;
@@ -31,14 +32,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class FacebookLoginModule extends ReactContextBaseJavaModule {
+public class FacebookModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
     private Activity mCurrentActivity;
     private CallbackManager mCallbackManager;
     private Promise mTokenPromise;
 
-    public FacebookLoginModule(ReactApplicationContext reactContext, Activity activity) {
+    public FacebookModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
+
+        reactContext.addActivityEventListener(this);
 
         mCurrentActivity = activity;
 
@@ -122,15 +125,15 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
 
     @Override
     public String getName() {
-        return "FacebookLoginModule";
+        return "FacebookModule";
     }
 
     public void registerPermissionCallback(final Promise promise) {
         if (mTokenPromise != null) {
             rejectPromise("Cannot register multiple callbacks");
+        } else {
+            mTokenPromise = promise;
         }
-
-        mTokenPromise = promise;
     }
 
     @ReactMethod
@@ -218,7 +221,7 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
         ).executeAsync();
     }
 
-    public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        return mCallbackManager.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

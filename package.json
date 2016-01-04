@@ -9,7 +9,7 @@
     "ebus": "^0.12.0",
     "engine.io-client": "^1.5.4",
     "react-native": "github:satya164/react-native#0.17-stable",
-    "react-native-image-chooser": "^0.1.1",
+    "react-native-image-chooser": "github:satya164/react-native-image-chooser#v1.0.0",
     "react-native-vector-icons": "^1.0.2"
   },
   "devDependencies": {

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 
+import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -22,7 +23,7 @@ import com.google.android.gms.common.AccountPicker;
 
 import java.io.IOException;
 
-public class GoogleLoginModule extends ReactContextBaseJavaModule {
+public class GoogleLoginModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
     private static final String TAG = "GoogleLogin";
 
@@ -39,6 +40,8 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
 
     public GoogleLoginModule(ReactApplicationContext reactContext, Activity activity) {
         super(reactContext);
+
+        reactContext.addActivityEventListener(this);
 
         mCurrentActivity = activity;
     }
@@ -166,28 +169,20 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule {
         }.execute(accountName);
     }
 
-    public boolean handleActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if ((requestCode == CHOOSE_ACCOUNT_REQUIRED || requestCode == REQ_SIGN_IN_REQUIRED) && resultCode == Activity.RESULT_CANCELED) {
             if (mRetrievePromise != null) {
                 rejectPromise("Login was cancelled");
             }
-
-            return true;
         }
 
         if (requestCode == CHOOSE_ACCOUNT_REQUIRED && resultCode == Activity.RESULT_OK) {
             mAccountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
 
             retrieveToken(mAccountName);
-
-            return true;
         } else if (requestCode == REQ_SIGN_IN_REQUIRED && resultCode == Activity.RESULT_OK) {
             // We had to sign in - now we can finish off the token request.
             retrieveToken(mAccountName);
-
-            return true;
         }
-
-        return false;
     }
 }
