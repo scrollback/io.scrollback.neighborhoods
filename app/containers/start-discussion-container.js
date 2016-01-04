@@ -61,8 +61,6 @@ class StartDiscussionContainer extends React.Component {
 
 		if (image) {
 			content.image = image;
-		} else {
-			content.description = text.trim();
 		}
 
 		if (shareOnFacebook) {
