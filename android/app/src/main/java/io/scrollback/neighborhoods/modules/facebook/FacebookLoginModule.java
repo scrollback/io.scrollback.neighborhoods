@@ -22,6 +22,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 
@@ -173,31 +175,31 @@ public class FacebookLoginModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void sendGraphRequest(final String method, final String path, @Nullable final ReadableArray fields, final Promise promise) {
+    public void sendGraphRequest(final String method, final String path, @Nullable final ReadableMap params, final Promise promise) {
         Bundle parameters = null;
 
-        if (fields != null) {
-            String fieldsString = "";
-
-            for (int i = 0, l = fields.size(); i < l; i++) {
-                fieldsString += fields.getString(i);
-            }
-
+        if (params != null) {
             parameters = new Bundle();
-            parameters.putString("fields", fieldsString);
+
+            ReadableMapKeySetIterator it = params.keySetIterator();
+
+            while (it.hasNextKey()) {
+                String key = it.nextKey();
+                parameters.putString(key, params.getString(key));
+            }
         }
 
         HttpMethod requestMethod;
 
         switch (method) {
+            case "GET":
+                requestMethod = HttpMethod.GET;
+                break;
             case "POST":
                 requestMethod = HttpMethod.POST;
                 break;
             case "DELETE":
                 requestMethod = HttpMethod.DELETE;
-                break;
-            case "GET":
-                requestMethod = HttpMethod.GET;
                 break;
             default:
                 throw new JSApplicationIllegalArgumentException("Invalid method for graph request: " + method);

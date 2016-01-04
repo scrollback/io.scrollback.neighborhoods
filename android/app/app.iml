@@ -43,6 +43,8 @@
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/source/rs/androidTest/debug" isTestSource="true" generated="true" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/rs/androidTest/debug" type="java-test-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/resValues/androidTest/debug" type="java-test-resource" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/.DS_Store" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/.DS_Store" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/assets" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/classes" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/debug" />
