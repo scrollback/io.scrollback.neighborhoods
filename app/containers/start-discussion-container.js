@@ -55,7 +55,7 @@ class StartDiscussionContainer extends React.Component {
 		});
 
 		const content = {
-			title: title.trim(),
+			message: title.trim(),
 			link: url.get("thread", post)
 		};
 
