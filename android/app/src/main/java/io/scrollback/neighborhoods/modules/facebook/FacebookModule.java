@@ -34,16 +34,15 @@ import java.util.Set;
 
 public class FacebookModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
-    private Activity mCurrentActivity;
+    private static final String ACTIVITY_DOES_NOT_EXIST_ERROR = "Activity doesn't exist";
+
     private CallbackManager mCallbackManager;
     private Promise mTokenPromise;
 
-    public FacebookModule(ReactApplicationContext reactContext, Activity activity) {
+    public FacebookModule(ReactApplicationContext reactContext) {
         super(reactContext);
 
         reactContext.addActivityEventListener(this);
-
-        mCurrentActivity = activity;
 
         FacebookSdk.sdkInitialize(reactContext.getApplicationContext());
 
@@ -138,20 +137,32 @@ public class FacebookModule extends ReactContextBaseJavaModule implements Activi
 
     @ReactMethod
     public void logInWithReadPermissions(final ReadableArray permissions, final Promise promise) {
-        registerPermissionCallback(promise);
+        Activity currentActivity = getCurrentActivity();
 
-        LoginManager.getInstance().logInWithReadPermissions(
-                mCurrentActivity,
-                readableArrayToStringList(permissions));
+        if (currentActivity != null) {
+            registerPermissionCallback(promise);
+
+            LoginManager.getInstance().logInWithReadPermissions(
+                    currentActivity,
+                    readableArrayToStringList(permissions));
+        } else {
+            promise.reject(ACTIVITY_DOES_NOT_EXIST_ERROR);
+        }
     }
 
     @ReactMethod
     public void logInWithPublishPermissions(final ReadableArray permissions, final Promise promise) {
-        registerPermissionCallback(promise);
+        Activity currentActivity = getCurrentActivity();
 
-        LoginManager.getInstance().logInWithPublishPermissions(
-                mCurrentActivity,
-                readableArrayToStringList(permissions));
+        if (currentActivity != null) {
+            registerPermissionCallback(promise);
+
+            LoginManager.getInstance().logInWithPublishPermissions(
+                    currentActivity,
+                    readableArrayToStringList(permissions));
+        } else {
+            promise.reject(ACTIVITY_DOES_NOT_EXIST_ERROR);
+        }
     }
 
     @ReactMethod

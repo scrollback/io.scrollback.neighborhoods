@@ -33,14 +33,11 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
     private String senderId;
 
     private String mCurrentRegId;
-    private Activity mCurrentActivity;
     private GoogleCloudMessaging mGcmInstance;
     private boolean isPlayServicesAvailable = false;
 
-    public PushNotificationModule(ReactApplicationContext reactContext, Activity activity) {
+    public PushNotificationModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
-        mCurrentActivity = activity;
 
         // Showing status
         if (checkPlayServices()) {
@@ -77,7 +74,13 @@ public class PushNotificationModule extends ReactContextBaseJavaModule {
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 try {
-                    GooglePlayServicesUtil.getErrorDialog(resultCode, mCurrentActivity,
+                    Activity currentActivity = getCurrentActivity();
+
+                    if (currentActivity == null) {
+                        return false;
+                    }
+
+                    GooglePlayServicesUtil.getErrorDialog(resultCode, currentActivity,
                             PLAY_SERVICES_RESOLUTION_REQUEST).show();
                 } catch (RuntimeException e) {
                     Log.e(TAG, "Failed to show Google Play Services dialog", e);

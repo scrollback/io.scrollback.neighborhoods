@@ -1,7 +1,5 @@
 package io.scrollback.neighborhoods.modules.google;
 
-import android.app.Activity;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -14,15 +12,9 @@ import java.util.List;
 
 public class GoogleLoginPackage implements ReactPackage {
 
-    private Activity mCurrentActivity;
-
-    public GoogleLoginPackage(Activity activity) {
-        mCurrentActivity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new GoogleLoginModule(reactContext, mCurrentActivity));
+        return Arrays.<NativeModule>asList(new GoogleLoginModule(reactContext));
     }
 
     @Override

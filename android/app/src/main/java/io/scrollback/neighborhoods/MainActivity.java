@@ -64,12 +64,12 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.asList(
                 new MainReactPackage(),
-                new CorePackage(this),
-                new PushNotificationPackage(this),
+                new CorePackage(),
+                new PushNotificationPackage(),
                 new AnalyticsPackage(),
-                new GoogleLoginPackage(this),
-                new FacebookPackage(this),
-                new ImageChooserPackage(this)
+                new GoogleLoginPackage(),
+                new FacebookPackage(),
+                new ImageChooserPackage()
         );
     }
 

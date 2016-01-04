@@ -1,7 +1,5 @@
 package io.scrollback.neighborhoods.modules.facebook;
 
-import android.app.Activity;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -14,15 +12,9 @@ import java.util.List;
 
 public class FacebookPackage implements ReactPackage {
 
-    private Activity mCurrentActivity;
-
-    public FacebookPackage(Activity activity) {
-        mCurrentActivity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new FacebookModule(reactContext, mCurrentActivity));
+        return Arrays.<NativeModule>asList(new FacebookModule(reactContext));
     }
 
     @Override

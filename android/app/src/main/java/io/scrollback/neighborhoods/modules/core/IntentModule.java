@@ -15,12 +15,8 @@ import com.facebook.react.bridge.ReactMethod;
  */
 public class IntentModule extends ReactContextBaseJavaModule {
 
-    private Activity mCurrentActivity;
-
-    public IntentModule(ReactApplicationContext reactContext, Activity activity) {
+    public IntentModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
-        mCurrentActivity = activity;
     }
 
     @Override
@@ -36,10 +32,11 @@ public class IntentModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getInitialURL(Callback callback) {
         try {
+            Activity currentActivity = getCurrentActivity();
             String initialURL = null;
 
-            if (mCurrentActivity != null) {
-                Intent intent = mCurrentActivity.getIntent();
+            if (currentActivity != null) {
+                Intent intent = currentActivity.getIntent();
                 String action = intent.getAction();
                 Uri uri = intent.getData();
 
@@ -69,10 +66,11 @@ public class IntentModule extends ReactContextBaseJavaModule {
         }
 
         try {
+            Activity currentActivity = getCurrentActivity();
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
-            if (mCurrentActivity != null) {
-                mCurrentActivity.startActivity(intent);
+            if (currentActivity != null) {
+                currentActivity.startActivity(intent);
             } else {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getReactApplicationContext().startActivity(intent);

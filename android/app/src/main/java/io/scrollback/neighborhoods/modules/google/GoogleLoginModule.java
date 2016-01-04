@@ -26,24 +26,22 @@ import java.io.IOException;
 public class GoogleLoginModule extends ReactContextBaseJavaModule implements ActivityEventListener {
 
     private static final String TAG = "GoogleLogin";
+    private static final String ACTIVITY_DOES_NOT_EXIST_ERROR = "Activity doesn't exist";
 
     private static final int REQ_SIGN_IN_REQUIRED = 1000;
     private static final int CHOOSE_ACCOUNT_REQUIRED = 1500;
 
     private String mAccountName;
     private String mAccessToken;
-    private Activity mCurrentActivity;
 
     private Promise mRetrievePromise;
 
     private Dialog dialog;
 
-    public GoogleLoginModule(ReactApplicationContext reactContext, Activity activity) {
+    public GoogleLoginModule(ReactApplicationContext reactContext) {
         super(reactContext);
 
         reactContext.addActivityEventListener(this);
-
-        mCurrentActivity = activity;
     }
 
     @Override
@@ -86,9 +84,15 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule implements Act
             }
         }
 
-        mRetrievePromise = promise;
+        Activity currentActivity = getCurrentActivity();
 
-        mCurrentActivity.startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
+        if (currentActivity != null) {
+            mRetrievePromise = promise;
+
+            currentActivity.startActivityForResult(intent, CHOOSE_ACCOUNT_REQUIRED);
+        } else {
+            promise.reject(ACTIVITY_DOES_NOT_EXIST_ERROR);
+        }
     }
 
     @ReactMethod
@@ -103,9 +107,15 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule implements Act
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                dialog = new ProgressDialog(mCurrentActivity, AppCompatDialogFragment.STYLE_NO_TITLE|ProgressDialog.STYLE_SPINNER);
-                dialog.setCancelable(false);
-                dialog.show();
+                Activity currentActivity = getCurrentActivity();
+
+                if (currentActivity != null) {
+                    dialog = new ProgressDialog(currentActivity, AppCompatDialogFragment.STYLE_NO_TITLE|ProgressDialog.STYLE_SPINNER);
+                    dialog.setCancelable(false);
+                    dialog.show();
+                } else {
+                    rejectPromise(ACTIVITY_DOES_NOT_EXIST_ERROR);
+                }
             }
 
             @Override
@@ -114,18 +124,31 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule implements Act
                 String scopes = "oauth2:profile email";
 
                 try {
-                    mAccessToken = GoogleAuthUtil.getToken(mCurrentActivity, accountName, scopes);
 
-                    WritableMap map = Arguments.createMap();
+                    Activity currentActivity = getCurrentActivity();
 
-                    map.putString("accountName", accountName);
-                    map.putString("token", mAccessToken);
+                    if (currentActivity != null) {
+                        mAccessToken = GoogleAuthUtil.getToken(currentActivity, accountName, scopes);
 
-                    if (mRetrievePromise != null) {
-                        resolvePromise(map);
+                        WritableMap map = Arguments.createMap();
+
+                        map.putString("accountName", accountName);
+                        map.putString("token", mAccessToken);
+
+                        if (mRetrievePromise != null) {
+                            resolvePromise(map);
+                        }
+                    } else {
+                        rejectPromise(ACTIVITY_DOES_NOT_EXIST_ERROR);
                     }
                 } catch (UserRecoverableAuthException e) {
-                    mCurrentActivity.startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+                    Activity currentActivity = getCurrentActivity();
+
+                    if (currentActivity != null) {
+                        currentActivity.startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+                    } else {
+                        rejectPromise(ACTIVITY_DOES_NOT_EXIST_ERROR);
+                    }
                 } catch (GoogleAuthException|IOException e) {
                     Log.e(TAG, e.getMessage());
 
@@ -154,14 +177,20 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule implements Act
             protected Void doInBackground(String... params) {
                 mAccessToken = params[0];
 
-                try {
-                    GoogleAuthUtil.clearToken(mCurrentActivity, mAccessToken);
+                Activity currentActivity = getCurrentActivity();
 
-                    promise.resolve(true);
-                } catch (GoogleAuthException|IOException e) {
-                    Log.e(TAG, e.getMessage());
+                if (currentActivity != null) {
+                    try {
+                        GoogleAuthUtil.clearToken(currentActivity, mAccessToken);
 
-                    promise.reject(e.getMessage());
+                        promise.resolve(true);
+                    } catch (GoogleAuthException | IOException e) {
+                        Log.e(TAG, e.getMessage());
+
+                        promise.reject(e.getMessage());
+                    }
+                } else {
+                    promise.reject(ACTIVITY_DOES_NOT_EXIST_ERROR);
                 }
 
                 return null;
