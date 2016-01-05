@@ -8,13 +8,13 @@ import ListHeader from "./ListHeader";
 
 const {
 	ScrollView,
-	View,
 	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
 	details: {
-		paddingVertical: 12
+		paddingVertical: 12,
+		marginVertical: 0
 	},
 
 	title: {
