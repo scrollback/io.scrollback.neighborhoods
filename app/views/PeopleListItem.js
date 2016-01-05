@@ -20,6 +20,9 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center"
 	},
+	offline: {
+		color: Colors.fadedBlack
+	},
 	avatar: {
 		marginHorizontal: 16,
 		marginVertical: 12
@@ -52,7 +55,12 @@ export default class PeopleListItem extends React.Component {
 	}
 
 	render() {
-		const { user } = this.props;
+		const {
+			user: {
+				id,
+				status
+			}
+		} = this.props;
 
 		return (
 			<View style={styles.item}>
@@ -61,14 +69,16 @@ export default class PeopleListItem extends React.Component {
 						<AvatarRound
 							style={styles.avatar}
 							size={36}
-							nick={user.id}
+							nick={id}
 						/>
 						<View style={styles.nick}>
-							<AppText style={styles.nickText}>{user.id}</AppText>
+							<AppText style={[ styles.nickText, status !== "online" ? styles.offline : null ]}>
+								{id}
+							</AppText>
 						</View>
 						<View>
-							<AppText style={[ styles.status, user.status === "online" ? styles.online : null ]}>
-								{user.status ? user.status.toUpperCase() : "OFFLINE"}
+							<AppText style={[ styles.status, status === "online" ? styles.online : null ]}>
+								{status ? status.toUpperCase() : "OFFLINE"}
 							</AppText>
 						</View>
 					</View>
@@ -81,6 +91,6 @@ export default class PeopleListItem extends React.Component {
 PeopleListItem.propTypes = {
 	user: React.PropTypes.shape({
 		id: React.PropTypes.string.isRequired,
-		status: React.PropTypes.string.isRequired
+		status: React.PropTypes.string
 	}).isRequired
 };

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
 export default class CardTitle extends React.Component {
 	shouldComponentUpdate(nextProps) {
-		return this.props.text !== nextProps.text;
+		return this.props.children !== nextProps.children;
 	}
 
 	render() {
@@ -25,12 +25,12 @@ export default class CardTitle extends React.Component {
 				style={[ styles.title, this.props.style ]}
 				numberOfLines={2}
 			>
-				{this.props.text}
+				{this.props.children}
 			</AppText>
 		);
 	}
 }
 
 CardTitle.propTypes = {
-	text: React.PropTypes.string.isRequired
+	children: React.PropTypes.string.isRequired
 };

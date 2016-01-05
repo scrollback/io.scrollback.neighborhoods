@@ -1,34 +1,16 @@
 import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
 import LocalityItemContainer from "../containers/LocalityItemContainer";
 import PageEmpty from "./PageEmpty";
 import PageLoading from "./PageLoading";
 import LoadingItem from "./LoadingItem";
+import ListHeader from "./ListHeader";
 import Geolocation from "../modules/Geolocation";
 import config from "../store/config";
 
 const {
-	StyleSheet,
-	PixelRatio,
 	ListView,
 	View
 } = React;
-
-const styles = StyleSheet.create({
-	header: {
-		paddingHorizontal: 16,
-		paddingVertical: 12,
-		borderColor: Colors.separator,
-		borderBottomWidth: 1 / PixelRatio.get()
-	},
-	headerText: {
-		color: Colors.fadedBlack,
-		fontSize: 12,
-		lineHeight: 18,
-		fontWeight: "bold"
-	}
-});
 
 export default class LocalitiesBase extends React.Component {
 	constructor(props) {
@@ -150,11 +132,7 @@ export default class LocalitiesBase extends React.Component {
 									break;
 								}
 
-								return (
-									<View style={styles.header}>
-										<AppText style={styles.headerText}>{header.toUpperCase()}</AppText>
-									</View>
-								);
+								return <ListHeader>{header}</ListHeader>;
 							}}
 						/>
 					);

@@ -1,12 +1,12 @@
 import NotificationIcon from "../views/NotificationIcon";
 import AccountButton from "../views/AccountButton";
+import DiscussionDetails from "../views/DiscussionDetails";
 import ChatContainer from "../containers/ChatContainer";
 import ChatTitleContainer from "../containers/ChatTitleContainer";
 import LocalityTitleContainer from "../containers/LocalityTitleContainer";
 import DiscussionsContainer from "../containers/DiscussionsContainer";
 import NotificationCenterContainer from "../containers/NotificationCenterContainer";
 import NotificationClearIconContainer from "../containers/NotificationClearIconContainer";
-import PeopleListContainer from "../containers/PeopleListContainer";
 import LocalitiesContainer from "../containers/LocalitiesContainer";
 import AccountContainer from "../containers/AccountContainer";
 import SignInContainer from "../containers/SignInContainer";
@@ -34,10 +34,10 @@ routes.chat = props => {
 	};
 };
 
-routes.people = props => {
+routes.details = props => {
 	return {
-		title: "People talking",
-		component: PeopleListContainer,
+		title: "Details",
+		component: DiscussionDetails,
 		passProps: props
 	};
 };

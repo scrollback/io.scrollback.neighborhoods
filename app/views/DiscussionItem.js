@@ -3,13 +3,11 @@ import Colors from "../../Colors.json";
 import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
 import Card from "./Card";
 import CardTitle from "./CardTitle";
-import CardSummary from "./CardSummary";
+import DiscussionSummary from "./DiscussionSummary";
 import DiscussionFooter from "./DiscussionFooter";
-import Embed from "./Embed";
 import TouchFeedback from "./TouchFeedback";
 import Modal from "./Modal";
 import Icon from "./Icon";
-import Link from "./Link";
 import Linking from "../modules/Linking";
 import Clipboard from "../modules/Clipboard";
 import Share from "../modules/Share";
@@ -25,11 +23,6 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
-	image: {
-		marginVertical: 4,
-		height: 180,
-		width: null
-	},
 	item: {
 		marginHorizontal: 16
 	},
@@ -117,47 +110,19 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	render() {
-		const { thread, hidden } = this.props;
-
-		const trimmedText = thread.text.trim();
-
-		const links = Link.parseLinks(trimmedText, 1);
-		const metadata = textUtils.getMetadata(trimmedText);
-
-		let cover, hideSummary;
-
-		if (metadata && metadata.type === "photo") {
-			cover = (
-				<Embed
-					url={metadata.url}
-					data={metadata}
-					thumbnailStyle={styles.image}
-					showTitle={false}
-					showSummary={false}
-				/>
-			);
-
-			hideSummary = true;
-		} else if (links.length) {
-			cover = (
-				<Embed
-					url={links[0]}
-					thumbnailStyle={styles.image}
-					showTitle={false}
-					showSummary={false}
-				/>
-			);
-		}
+		const {
+			thread,
+			hidden
+		} = this.props;
 
 		return (
 			<Card {...this.props}>
 				<TouchFeedback onPress={this._onPress.bind(this)}>
 					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
-							<CardTitle
-								style={[ styles.item, styles.title ]}
-								text={this.props.thread.title}
-							/>
+							<CardTitle style={[ styles.item, styles.title ]}>
+								{this.props.thread.title}
+							</CardTitle>
 
 							<NotificationBadgeContainer thread={this.props.thread.id} style={styles.badge} />
 
@@ -170,12 +135,7 @@ export default class DiscussionItem extends React.Component {
 							</TouchableOpacity>
 						</View>
 
-						{cover}
-
-						{hideSummary ? null :
-							<CardSummary style={styles.item} text={trimmedText} />
-						}
-
+						<DiscussionSummary text={thread.text} />
 						<DiscussionFooter style={[ styles.item, styles.footer ]} thread={thread} />
 					</View>
 				</TouchFeedback>

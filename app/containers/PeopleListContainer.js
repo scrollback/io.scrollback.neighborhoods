@@ -38,6 +38,16 @@ class PeopleListContainer extends React.Component {
 				}
 			}
 
+			data.sort((a, b) => {
+				if (a.status === b.status) {
+					return 0;
+				} else if (a.status === "online") {
+					return -1;
+				} else {
+					return 1;
+				}
+			});
+
 			this._onDataArrived(data);
 		} else {
 			this._onError();
