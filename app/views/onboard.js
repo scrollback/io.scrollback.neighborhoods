@@ -1,5 +1,5 @@
 import React from "react-native";
-import renderScene from "../utils/render-scene";
+import renderScene from "../utils/renderScene";
 import routes from "../utils/routes";
 
 const {

@@ -1,5 +1,5 @@
 import React from "react-native";
-import AppText from "./app-text";
+import AppText from "./AppText";
 import timeUtils from "../lib/time-utils";
 
 const msPerSec = 1000;

@@ -1,8 +1,8 @@
 import React from "react-native";
-import LocalitiesBase from "./localities-base";
-import SearchButton from "./search-button";
-import BannerUnavailable from "./banner-unavailable";
-import BannerOfflineContainer from "../containers/banner-offline-container";
+import LocalitiesBase from "./LocalitiesBase";
+import SearchButton from "./SearchButton";
+import BannerUnavailable from "./BannerUnavailable";
+import BannerOfflineContainer from "../containers/BannerOfflineContainer";
 
 const {
 	StyleSheet,
@@ -23,7 +23,11 @@ export default class Localities extends React.Component {
 				{this.props.available === false ?
 					<BannerUnavailable /> :
 					<SearchButton navigator={this.props.navigator} />}
-				<LocalitiesBase {...this.props} pageEmptyLabel="You've not joined any communities" pageEmptyImage="meh" />
+				<LocalitiesBase
+					{...this.props}
+					pageEmptyLabel="You've not joined any communities"
+					pageEmptyImage="meh"
+				/>
 			</View>
 		);
 	}

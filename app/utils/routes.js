@@ -1,16 +1,16 @@
-import NotificationIcon from "../views/notification-icon";
-import AccountButton from "../views/account-button";
-import ChatContainer from "../containers/chat-container";
-import ChatTitleContainer from "../containers/chat-title-container";
-import RoomTitleContainer from "../containers/room-title-container";
-import DiscussionsContainer from "../containers/discussions-container";
-import NotificationCenterContainer from "../containers/notification-center-container";
-import NotificationClearIconContainer from "../containers/notification-clear-icon-container";
-import PeopleListContainer from "../containers/people-list-container";
-import LocalitiesContainer from "../containers/localities-container";
-import AccountContainer from "../containers/account-container";
-import SignInContainer from "../containers/sign-in-container";
-import StartDiscussionContainer from "../containers/start-discussion-container";
+import NotificationIcon from "../views/NotificationIcon";
+import AccountButton from "../views/AccountButton";
+import ChatContainer from "../containers/ChatContainer";
+import ChatTitleContainer from "../containers/ChatTitleContainer";
+import LocalityTitleContainer from "../containers/LocalityTitleContainer";
+import DiscussionsContainer from "../containers/DiscussionsContainer";
+import NotificationCenterContainer from "../containers/NotificationCenterContainer";
+import NotificationClearIconContainer from "../containers/NotificationClearIconContainer";
+import PeopleListContainer from "../containers/PeopleListContainer";
+import LocalitiesContainer from "../containers/LocalitiesContainer";
+import AccountContainer from "../containers/AccountContainer";
+import SignInContainer from "../containers/SignInContainer";
+import StartDiscussionContainer from "../containers/StartDiscussionContainer";
 import config from "../store/config";
 
 const routes = {};
@@ -44,7 +44,7 @@ routes.people = props => {
 
 routes.room = props => {
 	return {
-		titleComponent: RoomTitleContainer,
+		titleComponent: LocalityTitleContainer,
 		rightComponent: NotificationIcon,
 		component: DiscussionsContainer,
 		passProps: props

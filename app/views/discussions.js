@@ -1,10 +1,10 @@
 import React from "react-native";
-import DiscussionItemContainer from "../containers/discussion-item-container";
-import PageEmpty from "./page-empty";
-import PageLoading from "./page-loading";
-import LoadingItem from "./loading-item";
-import StartDiscussionButton from "./start-discussion-button";
-import BannerOfflineContainer from "../containers/banner-offline-container";
+import DiscussionItemContainer from "../containers/DiscussionItemContainer";
+import PageEmpty from "./PageEmpty";
+import PageLoading from "./PageLoading";
+import LoadingItem from "./LoadingItem";
+import StartDiscussionButton from "./StartDiscussionButton";
+import BannerOfflineContainer from "../containers/BannerOfflineContainer";
 
 const {
 	StyleSheet,

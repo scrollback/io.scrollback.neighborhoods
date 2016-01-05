@@ -1,8 +1,8 @@
 import React from "react-native";
-import PageLoading from "./page-loading";
-import ChatMessagesContainer from "../containers/chat-messages-container";
-import ChatInput from "./chat-input";
-import BannerOfflineContainer from "../containers/banner-offline-container";
+import PageLoading from "./PageLoading";
+import ChatMessagesContainer from "../containers/ChatMessagesContainer";
+import ChatInput from "./ChatInput";
+import BannerOfflineContainer from "../containers/BannerOfflineContainer";
 
 const {
 	View,

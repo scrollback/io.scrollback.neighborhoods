@@ -1,7 +1,7 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import Linking from "../modules/linking";
-import AppText from "./app-text";
+import Colors from "../../Colors.json";
+import Linking from "../modules/Linking";
+import AppText from "./AppText";
 
 const {
 	StyleSheet

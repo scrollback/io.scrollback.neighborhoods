@@ -1,5 +1,5 @@
 import React from "react-native";
-import Geolocation from "../../modules/geolocation";
+import Geolocation from "../../modules/Geolocation";
 import userUtils from "../../lib/user-utils";
 
 const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";

@@ -1,8 +1,8 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import AppText from "./app-text";
-import Icon from "./icon";
-import TouchFeedback from "./touch-feedback";
+import Colors from "../../Colors.json";
+import AppText from "./AppText";
+import Icon from "./Icon";
+import TouchFeedback from "./TouchFeedback";
 
 const {
 	StyleSheet,

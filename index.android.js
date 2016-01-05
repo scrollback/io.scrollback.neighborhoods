@@ -1,5 +1,5 @@
 import React from "react-native";
-import AppContainer from "./app/containers/app-container";
+import AppContainer from "./app/containers/AppContainer";
 
 const {
 	AppRegistry

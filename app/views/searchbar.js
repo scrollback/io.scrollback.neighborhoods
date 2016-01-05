@@ -1,9 +1,9 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import AppTextInput from "./app-text-input";
-import AppbarSecondary from "./appbar-secondary";
-import AppbarTouchable from "./appbar-touchable";
-import AppbarIcon from "./appbar-icon";
+import Colors from "../../Colors.json";
+import AppTextInput from "./AppTextInput";
+import AppbarSecondary from "./AppbarSecondary";
+import AppbarTouchable from "./AppbarTouchable";
+import AppbarIcon from "./AppbarIcon";
 
 const {
 	StyleSheet

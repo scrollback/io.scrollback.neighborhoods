@@ -1,4 +1,4 @@
-import Answers from "../../modules/answers";
+import Answers from "../../modules/Answers";
 import userUtils from "../../lib/user-utils";
 import core from "../../store/core";
 

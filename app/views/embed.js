@@ -1,9 +1,9 @@
 import React from "react-native";
 import oembed from "../extras/oembed/oembed";
-import EmbedThumbnail from "./embed-thumbnail";
-import EmbedTitle from "./embed-title";
-import EmbedSummary from "./embed-summary";
-import Linking from "../modules/linking";
+import EmbedThumbnail from "./EmbedThumbnail";
+import EmbedTitle from "./EmbedTitle";
+import EmbedSummary from "./EmbedSummary";
+import Linking from "../modules/Linking";
 
 const {
 	TouchableOpacity,

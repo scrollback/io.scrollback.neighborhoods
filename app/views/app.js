@@ -1,8 +1,8 @@
 import React from "react-native";
-import Splash from "./splash";
-import Onboard from "./onboard";
-import Home from "./home";
-import PageEmpty from "./page-empty";
+import Splash from "./Splash";
+import Onboard from "./Onboard";
+import Home from "./Home";
+import PageEmpty from "./PageEmpty";
 import userUtils from "../lib/user-utils";
 
 export default class App extends React.Component {

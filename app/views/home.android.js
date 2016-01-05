@@ -1,12 +1,12 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import Modal from "./modal";
-import StatusbarContainer from "./statusbar-container";
-import KeyboardSpacer from "./keyboard-spacer";
-import renderNavigationBar from "../utils/render-navigation-bar";
-import renderScene from "../utils/render-scene";
+import Colors from "../../Colors.json";
+import Modal from "./Modal";
+import StatusbarContainer from "./StatusbarContainer";
+import KeyboardSpacer from "./KeyboardSpacer";
+import renderNavigationBar from "../utils/renderNavigationBar";
+import renderScene from "../utils/renderScene";
 import routes from "../utils/routes";
-import VersionCodes from "../modules/version-codes";
+import VersionCodes from "../modules/VersionCodes";
 
 const {
 	Platform,

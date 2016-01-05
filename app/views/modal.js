@@ -1,10 +1,10 @@
 import React from "react-native";
-import Colors from "../../colors.json";
-import AppText from "./app-text";
-import ModalSheet from "./modal-sheet";
-import TouchFeedback from "./touch-feedback";
-import KeyboardSpacer from "./keyboard-spacer";
-import VersionCodes from "../modules/version-codes";
+import Colors from "../../Colors.json";
+import AppText from "./AppText";
+import ModalSheet from "./ModalSheet";
+import TouchFeedback from "./TouchFeedback";
+import KeyboardSpacer from "./KeyboardSpacer";
+import VersionCodes from "../modules/VersionCodes";
 
 
 const {
