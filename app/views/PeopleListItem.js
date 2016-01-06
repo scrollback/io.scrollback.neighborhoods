@@ -20,9 +20,6 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center"
 	},
-	offline: {
-		color: Colors.fadedBlack
-	},
 	avatar: {
 		marginHorizontal: 16,
 		marginVertical: 12
@@ -38,11 +35,14 @@ const styles = StyleSheet.create({
 		lineHeight: 18,
 		marginHorizontal: 16,
 		paddingHorizontal: 4,
-		color: Colors.fadedBlack
+		color: Colors.darkGrey
 	},
 	online: {
 		color: Colors.success,
 		fontWeight: "bold"
+	},
+	offline: {
+		opacity: 0.5
 	}
 });
 
@@ -77,7 +77,7 @@ export default class PeopleListItem extends React.Component {
 							</AppText>
 						</View>
 						<View>
-							<AppText style={[ styles.status, status === "online" ? styles.online : null ]}>
+							<AppText style={[ styles.status, status === "online" ? styles.online : styles.offline ]}>
 								{status ? status.toUpperCase() : "OFFLINE"}
 							</AppText>
 						</View>
