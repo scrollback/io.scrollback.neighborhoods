@@ -1,6 +1,6 @@
 import NotificationIcon from "../views/NotificationIcon";
 import AccountButton from "../views/AccountButton";
-import DiscussionDetails from "../views/DiscussionDetails";
+import PeopleListContainer from "../containers/PeopleListContainer";
 import ChatContainer from "../containers/ChatContainer";
 import ChatTitleContainer from "../containers/ChatTitleContainer";
 import LocalityTitleContainer from "../containers/LocalityTitleContainer";
@@ -37,7 +37,7 @@ routes.chat = props => {
 routes.details = props => {
 	return {
 		title: "Details",
-		component: DiscussionDetails,
+		component: PeopleListContainer,
 		passProps: props
 	};
 };

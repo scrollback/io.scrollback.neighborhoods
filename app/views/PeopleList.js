@@ -2,6 +2,8 @@ import React from "react-native";
 import PeopleListItem from "./PeopleListItem";
 import PageEmpty from "./PageEmpty";
 import PageLoading from "./PageLoading";
+import ListHeader from "./ListHeader";
+import DiscussionDetailsCard from "./DiscussionDetailsCard";
 
 const {
 	ListView,
@@ -43,6 +45,8 @@ export default class PeopleList extends React.Component {
 						<ListView
 							initialListSize={1}
 							dataSource={dataSource}
+							renderHeader={() => <DiscussionDetailsCard thread={this.props.thread} />}
+							renderSectionHeader={() => <ListHeader>People talking</ListHeader>}
 							renderRow={user => {
 								return (
 									<PeopleListItem
@@ -68,5 +72,6 @@ PeopleList.propTypes = {
 		})
 	])).isRequired,
 	refreshData: React.PropTypes.func,
+	thread: React.PropTypes.object.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };

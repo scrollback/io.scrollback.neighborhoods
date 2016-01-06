@@ -17,7 +17,7 @@ class PeopleListContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		const thread = store.getThreadById(this.props.thread);
+		const { thread } = this.props;
 
 		if (thread && thread.concerns) {
 			const data = [];
@@ -83,7 +83,9 @@ class PeopleListContainer extends React.Component {
 }
 
 PeopleListContainer.propTypes = {
-	thread: React.PropTypes.string.isRequired
+	thread: React.PropTypes.shape({
+		concerns: React.PropTypes.arrayOf([ React.PropTypes.string ])
+	}).isRequired
 };
 
 export default Container(PeopleListContainer);
