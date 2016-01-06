@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.shell.MainReactPackage;
