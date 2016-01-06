@@ -1,5 +1,5 @@
-import { NativeModules } from "react-native";
+import React from "react-native";
 
-const { IntentModule } = NativeModules;
+const { IntentAndroid } = React;
 
-export default IntentModule;
+export default IntentAndroid;

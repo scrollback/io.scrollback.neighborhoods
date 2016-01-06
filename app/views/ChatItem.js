@@ -7,10 +7,10 @@ import Modal from "./Modal";
 import Icon from "./Icon";
 import Time from "./Time";
 import Link from "./Link";
-import Clipboard from "../modules/Clipboard";
 import Linking from "../modules/Linking";
 
 const {
+	Clipboard,
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
@@ -91,7 +91,7 @@ export default class ChatItem extends React.Component {
 	}
 
 	_copyToClipboard(text) {
-		Clipboard.setText(text);
+		Clipboard.setString(text);
 		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
 	}
 

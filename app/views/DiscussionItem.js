@@ -9,13 +9,13 @@ import TouchFeedback from "./TouchFeedback";
 import Modal from "./Modal";
 import Icon from "./Icon";
 import Linking from "../modules/Linking";
-import Clipboard from "../modules/Clipboard";
 import Share from "../modules/Share";
 import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
 import url from "../lib/url";
 
 const {
+	Clipboard,
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
@@ -60,7 +60,7 @@ export default class DiscussionItem extends React.Component {
 	}
 
 	_copyToClipboard(text) {
-		Clipboard.setText(text);
+		Clipboard.setString(text);
 		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
 	}
 

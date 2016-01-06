@@ -15,13 +15,11 @@ public class CorePackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new ClipboardModule(reactContext),
                 new BuildConfigModule(reactContext),
                 new VersionCodesModule(reactContext),
                 new URLResolverModule(reactContext),
                 new GeolocationModule(reactContext),
-                new ShareModule(reactContext),
-                new IntentModule(reactContext)
+                new ShareModule(reactContext)
         );
     }
 
