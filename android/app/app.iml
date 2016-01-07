@@ -45,6 +45,7 @@
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/resValues/androidTest/debug" type="java-test-resource" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/.DS_Store" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/.DS_Store" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/armeabi-v7aRelease" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/assets" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/classes" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/debug" />
@@ -78,6 +79,8 @@
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/rs" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/symbols" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/tmp" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/universalRelease" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/x86Release" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/outputs" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/tmp" />
     </content>

@@ -1,5 +1,7 @@
 apply plugin: "com.android.application"
 
+import com.android.build.OutputFile
+
 /**
  * The react.gradle file registers two tasks: bundleDebugJsAndAssets and bundleReleaseJsAndAssets.
  * These basically call `react-native bundle` with the correct arguments during the Android build
@@ -72,6 +74,8 @@ dependencies {
 apply from: "react.gradle"
 apply from: "fonts.gradle"
 
+def versionCodes = ['armeabi-v7a':1, 'x86':2]
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -84,6 +88,22 @@ android {
         versionName "1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            universalApk true
+            // Uncomment the line below to create three separate APKs instead of one:
+            //   - A universal APK that works on all devices
+            //   - An APK that only works on ARM devices
+            //   - An APK that only works on x86 devices
+            // The advantage is the size of the APK is reduced by about 4MB
+            // (8MB -> 4MB for a basic app). You just need to upload all these APKs to the
+            // Play Store.
+            include "armeabi-v7a", 'x86'
         }
     }
 
@@ -101,6 +121,16 @@ android {
             minifyEnabled false  // Set this to true to enable Proguard
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+        }
+    }
+
+    // variants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            if (output.getFilter(OutputFile.ABI) != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(output.getFilter(OutputFile.ABI)) * 1048576 + defaultConfig.versionCode
+            }
         }
     }
 }
