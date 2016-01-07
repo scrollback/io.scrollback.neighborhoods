@@ -8,7 +8,7 @@
   "dependencies": {
     "ebus": "^0.12.0",
     "engine.io-client": "^1.5.4",
-    "react-native": "github:facebook/react-native#v0.18.0-rc",
+    "react-native": "^0.18.0-rc",
     "react-native-image-chooser": "^1.0.1",
     "react-native-vector-icons": "^1.0.2"
   },
