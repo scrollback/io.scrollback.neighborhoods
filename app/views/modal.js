@@ -68,9 +68,11 @@ export default class Modal extends React.Component {
 	}
 
 	_renderComponent(component) {
-		if (component === this.state.component) {
+		if (component === this._component) {
 			return;
 		}
+
+		this._component = component;
 
 		if (component) {
 			this.setState({
@@ -80,7 +82,7 @@ export default class Modal extends React.Component {
 				toValue: 1,
 				duration: 300
 			}).start());
-		} else {
+		} else if (this.state.component) {
 			Animated.timing(this.state.fadeAnim, {
 				toValue: 0,
 				duration: 300
