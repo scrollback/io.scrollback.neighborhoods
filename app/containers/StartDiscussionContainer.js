@@ -23,11 +23,21 @@ class StartDiscussionContainer extends React.Component {
 		return result;
 	}
 
-	async _requestFacebookPermissions() {
+	async _isFacebookPermissionGranted() {
 		try {
 			const token = await Facebook.getCurrentAccessToken();
 
-			if (token.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
+			return token.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) > -1;
+		} catch (err) {
+			return false;
+		}
+	}
+
+	async _requestFacebookPermissions() {
+		try {
+			const granted = await this._isFacebookPermissionGranted();
+
+			if (!granted) {
 				await this._getPublishPermissions();
 			}
 		} catch (err) {
@@ -40,13 +50,17 @@ class StartDiscussionContainer extends React.Component {
 	}
 
 	async _shareOnFacebook(content) {
-		const token = await Facebook.getCurrentAccessToken();
+		try {
+			const token = await Facebook.getCurrentAccessToken();
 
-		if (token && token.user_id) {
-			await Facebook.sendGraphRequest("POST", `/${token.user_id}/feed`, content);
+			if (token && token.user_id) {
+				await Facebook.sendGraphRequest("POST", `/${token.user_id}/feed`, content);
+			}
+
+			ToastAndroid.show("Post shared on Facebook", ToastAndroid.SHORT);
+		} catch (err) {
+			ToastAndroid.show("Failed to share post on Facebook", ToastAndroid.SHORT);
 		}
-
-		ToastAndroid.show("Shared to Facebook", ToastAndroid.SHORT);
 	}
 
 	async _postDiscussion({ title, text, thread, image }, shareOnFacebook) {
@@ -83,6 +97,7 @@ class StartDiscussionContainer extends React.Component {
 				{...this.props}
 				postDiscussion={this._postDiscussion.bind(this)}
 				requestFacebookPermissions={this._requestFacebookPermissions.bind(this)}
+				isFacebookPermissionGranted={this._isFacebookPermissionGranted.bind(this)}
 			/>
 		);
 	}

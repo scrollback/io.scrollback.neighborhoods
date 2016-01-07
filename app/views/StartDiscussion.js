@@ -136,13 +136,21 @@ export default class StartDiscussionButton extends React.Component {
 		try {
 			const shareOnFacebook = JSON.parse(await AsyncStorage.getItem(FACEBOOK_SHARE_CHECKED_KEY));
 
-			if (shareOnFacebook !== this.state.shareOnFacebook) {
+			if (shareOnFacebook) {
+				const granted = await this.props.isFacebookPermissionGranted();
+
+				this.setState({
+					shareOnFacebook: granted
+				});
+			} else {
 				this.setState({
 					shareOnFacebook
 				});
 			}
 		} catch (err) {
-			// Ignore
+			this.setState({
+				shareOnFacebook: false
+			});
 		}
 	}
 
@@ -373,5 +381,6 @@ StartDiscussionButton.propTypes = {
 	dismiss: React.PropTypes.func.isRequired,
 	postDiscussion: React.PropTypes.func.isRequired,
 	requestFacebookPermissions: React.PropTypes.func.isRequired,
+	isFacebookPermissionGranted: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
