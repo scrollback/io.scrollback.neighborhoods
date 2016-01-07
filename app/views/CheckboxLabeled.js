@@ -19,12 +19,13 @@ const CheckboxLabeled = props => {
 	return (
 		<View style={styles.container}>
 			<Checkbox {...props} />
-			<AppText style={props.textStyle}>{props.children}</AppText>
+			<AppText onPress={props.onPress} style={props.textStyle}>{props.children}</AppText>
 		</View>
 	);
 };
 
 CheckboxLabeled.propTypes = {
+	onPress: React.PropTypes.func,
 	textStyle: Text.propTypes.style,
 	children: React.PropTypes.node
 };
