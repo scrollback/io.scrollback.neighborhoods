@@ -6,6 +6,7 @@ import generate from "../lib/generate.browser";
 import url from "../lib/url";
 
 const PERMISSION_PUBLISH_ACTIONS = "publish_actions";
+const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
 
 global.Facebook = Facebook;
 
@@ -14,28 +15,30 @@ class StartDiscussionContainer extends React.Component {
 		const result = await Facebook.logInWithPublishPermissions([ PERMISSION_PUBLISH_ACTIONS ]);
 
 		if (result.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
-			throw new Error("Failed to get permissions");
+			throw new Error(PERMISSION_PUBLISH_ERROR);
 		}
 
 		return result;
 	}
 
-	async _shareOnFacebook(content) {
-		let token;
-
+	async _requestFacebookPermissions() {
 		try {
-			token = await Facebook.getCurrentAccessToken();
+			const token = await Facebook.getCurrentAccessToken();
 
 			if (token.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
-				token = await this._getPublishPermissions();
+				await this._getPublishPermissions();
 			}
 		} catch (err) {
-			try {
-				token = await this._getPublishPermissions();
-			} catch (e) {
-				return;
+			if (err.message === PERMISSION_PUBLISH_ERROR) {
+				throw err;
+			} else {
+				await this._getPublishPermissions();
 			}
 		}
+	}
+
+	async _shareOnFacebook(content) {
+		const token = await Facebook.getCurrentAccessToken();
 
 		if (token && token.user_id) {
 			await Facebook.sendGraphRequest("POST", `/${token.user_id}/feed`, content);
@@ -55,7 +58,7 @@ class StartDiscussionContainer extends React.Component {
 		});
 
 		const content = {
-			message: title.trim(),
+			message: "I started a discussion on HeyNeighbor",
 			link: url.get("thread", post)
 		};
 
@@ -71,7 +74,13 @@ class StartDiscussionContainer extends React.Component {
 	}
 
 	render() {
-		return <StartDiscussion {...this.props} postDiscussion={this._postDiscussion.bind(this)} />;
+		return (
+			<StartDiscussion
+				{...this.props}
+				postDiscussion={this._postDiscussion.bind(this)}
+				requestFacebookPermissions={this._requestFacebookPermissions.bind(this)}
+			/>
+		);
 	}
 }
 

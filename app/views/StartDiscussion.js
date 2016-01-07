@@ -19,6 +19,7 @@ import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
 
 const {
+	AsyncStorage,
 	StyleSheet,
 	ScrollView,
 	View
@@ -86,6 +87,8 @@ const styles = StyleSheet.create({
 	}
 });
 
+const FACEBOOK_SHARE_CHECKED_KEY = "start_discussion_facebook_share_checked";
+
 export default class StartDiscussionButton extends React.Component {
 	constructor(props) {
 		super(props);
@@ -99,6 +102,48 @@ export default class StartDiscussionButton extends React.Component {
 			error: null,
 			shareOnFacebook: false
 		};
+	}
+
+	componentDidMount() {
+		this._setShareCheckbox();
+	}
+
+	_onSharePress() {
+		const shareOnFacebook = !this.state.shareOnFacebook;
+
+		this.setState({
+			shareOnFacebook
+		});
+
+		if (shareOnFacebook) {
+			requestAnimationFrame(async () => {
+				try {
+					await this.props.requestFacebookPermissions();
+
+					AsyncStorage.setItem(FACEBOOK_SHARE_CHECKED_KEY, "true");
+				} catch (err) {
+					this.setState({
+						shareOnFacebook: false
+					});
+
+					AsyncStorage.setItem(FACEBOOK_SHARE_CHECKED_KEY, "false");
+				}
+			});
+		}
+	}
+
+	async _setShareCheckbox() {
+		try {
+			const shareOnFacebook = JSON.parse(await AsyncStorage.getItem(FACEBOOK_SHARE_CHECKED_KEY));
+
+			if (shareOnFacebook !== this.state.shareOnFacebook) {
+				this.setState({
+					shareOnFacebook
+				});
+			}
+		} catch (err) {
+			// Ignore
+		}
 	}
 
 	_onLoading() {
@@ -288,8 +333,8 @@ export default class StartDiscussionButton extends React.Component {
 						/>
 					}
 
-					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={() => this.setState({ shareOnFacebook: !this.state.shareOnFacebook })}>
-						Share the post on Facebook
+					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={this._onSharePress.bind(this)}>
+						Share this post on Facebook
 					</CheckboxLabeled>
 				</ScrollView>
 				<View style={styles.footer}>
@@ -327,5 +372,6 @@ StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	dismiss: React.PropTypes.func.isRequired,
 	postDiscussion: React.PropTypes.func.isRequired,
+	requestFacebookPermissions: React.PropTypes.func.isRequired,
 	navigator: React.PropTypes.object.isRequired
 };
