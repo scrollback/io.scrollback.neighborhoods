@@ -5,10 +5,12 @@ import Facebook from "../modules/Facebook";
 import generate from "../lib/generate.browser";
 import url from "../lib/url";
 
+const {
+	ToastAndroid
+} = React;
+
 const PERMISSION_PUBLISH_ACTIONS = "publish_actions";
 const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
-
-global.Facebook = Facebook;
 
 class StartDiscussionContainer extends React.Component {
 	async _getPublishPermissions() {
@@ -43,6 +45,8 @@ class StartDiscussionContainer extends React.Component {
 		if (token && token.user_id) {
 			await Facebook.sendGraphRequest("POST", `/${token.user_id}/feed`, content);
 		}
+
+		ToastAndroid.show("Shared to Facebook", ToastAndroid.SHORT);
 	}
 
 	async _postDiscussion({ title, text, thread, image }, shareOnFacebook) {
