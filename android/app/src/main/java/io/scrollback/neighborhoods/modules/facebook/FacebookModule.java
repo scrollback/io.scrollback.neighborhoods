@@ -9,6 +9,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookRequestError;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -72,7 +73,7 @@ public class FacebookModule extends ReactContextBaseJavaModule implements Activi
                     @Override
                     public void onError(FacebookException exception) {
                         if (mTokenPromise != null) {
-                            rejectPromise(exception.getMessage());
+                            rejectPromise(exception);
                         }
                     }
                 });
@@ -86,6 +87,13 @@ public class FacebookModule extends ReactContextBaseJavaModule implements Activi
     }
 
     private void rejectPromise(String reason) {
+        if (mTokenPromise != null) {
+            mTokenPromise.reject(reason);
+            mTokenPromise = null;
+        }
+    }
+
+    private void rejectPromise(Exception reason) {
         if (mTokenPromise != null) {
             mTokenPromise.reject(reason);
             mTokenPromise = null;
@@ -226,7 +234,13 @@ public class FacebookModule extends ReactContextBaseJavaModule implements Activi
                 requestMethod,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        promise.resolve(response.getRawResponse());
+                        FacebookRequestError error = response.getError();
+
+                        if (error != null) {
+                            promise.reject(error.getException());
+                        } else {
+                            promise.resolve(response.getRawResponse());
+                        }
                     }
                 }
         ).executeAsync();
