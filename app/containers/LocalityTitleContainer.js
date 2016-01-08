@@ -30,7 +30,7 @@ class LocalityTitleContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const room = store.getRoom(this.props.room);
@@ -40,7 +40,7 @@ class LocalityTitleContainer extends React.Component {
 				}
 			}
 		});
-	}
+	};
 
 	render() {
 		return <LocalityTitle {...this.state} />;

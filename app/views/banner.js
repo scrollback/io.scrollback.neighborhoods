@@ -77,27 +77,27 @@ export default class Banner extends React.Component {
 		});
 	}
 
-	_animateIn(cb) {
+	_animateIn = cb => {
 		Animated.timing(this.state.heightAnim, {
 			toValue: 45,
 			duration: 200
 		}).start(cb);
-	}
+	};
 
-	_animateOut(cb) {
+	_animateOut = cb => {
 		Animated.timing(this.state.heightAnim, {
 			toValue: 0,
 			duration: 200
 		}).start(cb);
-	}
+	};
 
-	_closeBanner() {
+	_closeBanner = () => {
 		this._animateOut(() => {
 			this.setState({
 				text: null
 			});
 		});
-	}
+	};
 
 	render() {
 		if (!this.state.text) {
@@ -110,7 +110,7 @@ export default class Banner extends React.Component {
 					<AppText style={styles.text} numberOfLines={1}>{this.state.text}</AppText>
 				</View>
 				{this.props.showClose ?
-					<TouchFeedback onPress={this._closeBanner.bind(this)}>
+					<TouchFeedback onPress={this._closeBanner}>
 						<View>
 							<Icon
 								name="close"

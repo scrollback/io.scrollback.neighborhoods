@@ -22,7 +22,7 @@ export default class Link extends React.Component {
 		);
 	}
 
-	_openLink(url) {
+	_openLink = url => {
 		const event = {
 			preventDefault() {
 				this.defaultPrevented = true;
@@ -43,21 +43,21 @@ export default class Link extends React.Component {
 		if (!event.defaultPrevented) {
 			Linking.openURL(url);
 		}
-	}
+	};
 
-	_onPress(e) {
+	_onPress = e => {
 		if (this.props.onPress) {
 			this.props.onPress(e);
 		}
 
 		this._openLink(this.props.url);
-	}
+	};
 
 	render() {
 		return (
 			<AppText
 				{...this.props}
-				onPress={this._onPress.bind(this)}
+				onPress={this._onPress}
 				style={[ styles.link, this.props.style ]}
 			>
 				{this.props.children}

@@ -37,9 +37,9 @@ export default class ChatMessages extends React.Component {
 		}
 	}
 
-	_getDataSource() {
+	_getDataSource = () => {
 		return this._dataSource.cloneWithRows(this.props.data);
-	}
+	};
 
 	render() {
 		return (

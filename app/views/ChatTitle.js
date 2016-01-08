@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatTitle extends React.Component {
-	_onPress() {
+	_onPress = () => {
 		const { thread } = this.props;
 
 		if (thread && thread.id) {
 			this.props.navigator.push(routes.details({ thread }));
 		}
-	}
+	};
 
 	render() {
 		const { thread } = this.props;
@@ -50,7 +50,7 @@ export default class ChatTitle extends React.Component {
 		}
 
 		return (
-			<AppbarTouchable onPress={this._onPress.bind(this)} style={styles.container}>
+			<AppbarTouchable onPress={this._onPress} style={styles.container}>
 				<View style={styles.container}>
 					<AppText numberOfLines={1} style={styles.title}>
 						{title}

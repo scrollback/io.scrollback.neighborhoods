@@ -31,11 +31,11 @@ export default class Embed extends React.Component {
 		this._mounted = false;
 	}
 
-	_onPress() {
+	_onPress = () => {
 		Linking.openURL(this.props.url);
-	}
+	};
 
-	_fetchData() {
+	_fetchData = () => {
 		if (this.props.data) {
 			this.setState({
 				embed: this.props.data
@@ -43,9 +43,9 @@ export default class Embed extends React.Component {
 		} else {
 			this._fetchEmbedData(this.props.url);
 		}
-	}
+	};
 
-	async _fetchEmbedData(url) {
+	_fetchEmbedData = async url => {
 		try {
 			const embed = await oembed.get(url);
 
@@ -57,7 +57,7 @@ export default class Embed extends React.Component {
 		} catch (e) {
 			// Ignore
 		}
-	}
+	};
 
 	render() {
 		const { embed } = this.state;
@@ -69,7 +69,7 @@ export default class Embed extends React.Component {
 						if (this.props.showThumbnail !== false) {
 							if (embed.type === "video") {
 								return (
-									<TouchableOpacity onPress={this._onPress.bind(this)} activeOpacity={0.5}>
+									<TouchableOpacity onPress={this._onPress} activeOpacity={0.5}>
 										<View>
 											<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
 										</View>

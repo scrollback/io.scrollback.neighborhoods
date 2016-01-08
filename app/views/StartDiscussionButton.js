@@ -11,16 +11,16 @@ export default class StartDiscussionButton extends React.Component {
 		);
 	}
 
-	_onPress() {
+	_onPress = () => {
 		Modal.renderComponent(<StartDiscussionContainer {...this.props} dismiss={() => Modal.renderComponent(null)} />);
-	}
+	};
 
 	render() {
 		return (
 			<FloatingActionButton
 				{...this.props}
 				icon="create"
-				onPress={this._onPress.bind(this)}
+				onPress={this._onPress}
 			/>
 		);
 	}

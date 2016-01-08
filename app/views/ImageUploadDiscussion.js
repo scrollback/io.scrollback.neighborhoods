@@ -36,17 +36,17 @@ const styles = StyleSheet.create({
 });
 
 export default class ChatInput extends React.Component {
-	_onClose() {
+	_onClose = () => {
 		this.props.closeUpload();
-	}
+	};
 
-	_onPress() {
+	_onPress = () => {
 		if (this.props.status === "loading") {
 			this.props.cancelUpload();
 		} else if (this.props.status === "idle" || this.props.status === "error") {
 			this.props.startUpload();
 		}
-	}
+	};
 
 	render() {
 		const { uri, height, width } = this.props.imageData;
@@ -56,7 +56,7 @@ export default class ChatInput extends React.Component {
 				<View style={styles.thumbnailContainer}>
 					<Image source={{ uri, height: (height / width) * 160, width: 160 }} style={styles.thumbnailStyle}>
 						<ImageUploadButton
-							onPress={this._onPress.bind(this)}
+							onPress={this._onPress}
 							status={this.props.status}
 							idleIcon="file-upload"
 							closeIcon="close"
@@ -68,7 +68,7 @@ export default class ChatInput extends React.Component {
 					</Image>
 				</View>
 
-				<CloseButton onPress={this._onClose.bind(this)} style={styles.closeButton} />
+				<CloseButton onPress={this._onClose} style={styles.closeButton} />
 			</View>
 		);
 	}

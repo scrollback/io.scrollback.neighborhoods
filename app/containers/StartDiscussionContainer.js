@@ -13,7 +13,7 @@ const PERMISSION_PUBLISH_ACTIONS = "publish_actions";
 const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
 
 class StartDiscussionContainer extends React.Component {
-	async _getPublishPermissions() {
+	_getPublishPermissions = async () => {
 		const result = await Facebook.logInWithPublishPermissions([ PERMISSION_PUBLISH_ACTIONS ]);
 
 		if (result.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
@@ -21,9 +21,9 @@ class StartDiscussionContainer extends React.Component {
 		}
 
 		return result;
-	}
+	};
 
-	async _isFacebookPermissionGranted() {
+	_isFacebookPermissionGranted = async () => {
 		try {
 			const token = await Facebook.getCurrentAccessToken();
 
@@ -31,9 +31,9 @@ class StartDiscussionContainer extends React.Component {
 		} catch (err) {
 			return false;
 		}
-	}
+	};
 
-	async _requestFacebookPermissions() {
+	_requestFacebookPermissions = async () => {
 		try {
 			const granted = await this._isFacebookPermissionGranted();
 
@@ -47,9 +47,9 @@ class StartDiscussionContainer extends React.Component {
 				await this._getPublishPermissions();
 			}
 		}
-	}
+	};
 
-	async _shareOnFacebook(content) {
+	_shareOnFacebook = async content => {
 		try {
 			const token = await Facebook.getCurrentAccessToken();
 
@@ -61,9 +61,9 @@ class StartDiscussionContainer extends React.Component {
 		} catch (err) {
 			ToastAndroid.show("Failed to share post on Facebook", ToastAndroid.SHORT);
 		}
-	}
+	};
 
-	async _postDiscussion({ title, text, thread, image }, shareOnFacebook) {
+	_postDiscussion = async ({ title, text, thread, image }, shareOnFacebook) => {
 		const id = thread || generate.uid();
 
 		const post = await this.dispatch("text", {
@@ -89,15 +89,15 @@ class StartDiscussionContainer extends React.Component {
 		}
 
 		return post;
-	}
+	};
 
 	render() {
 		return (
 			<StartDiscussion
 				{...this.props}
-				postDiscussion={this._postDiscussion.bind(this)}
-				requestFacebookPermissions={this._requestFacebookPermissions.bind(this)}
-				isFacebookPermissionGranted={this._isFacebookPermissionGranted.bind(this)}
+				postDiscussion={this._postDiscussion}
+				requestFacebookPermissions={this._requestFacebookPermissions}
+				isFacebookPermissionGranted={this._isFacebookPermissionGranted}
 			/>
 		);
 	}

@@ -27,7 +27,7 @@ export default class Time extends React.Component {
 		this._root.setNativeProps(nativeProps);
 	}
 
-	_setTimer(time) {
+	_setTimer = time => {
 		const diff = time - this.props.time;
 
 		let interval;
@@ -49,7 +49,7 @@ export default class Time extends React.Component {
 				this._setTimer(now);
 			}, interval);
 		}
-	}
+	};
 
 	render() {
 		const {

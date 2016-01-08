@@ -28,13 +28,13 @@ export default class SearchBar extends React.Component {
 		return false;
 	}
 
-	_onPress() {
+	_onPress = () => {
 		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
-	}
+	};
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress.bind(this)}>
+			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress}>
 				<AppbarSecondary {...this.props}>
 					<AppText style={styles.searchbarText}>Search for communties...</AppText>
 					<AppbarIcon name="search" style={styles.icon} />

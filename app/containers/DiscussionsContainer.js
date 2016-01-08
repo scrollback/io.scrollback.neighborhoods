@@ -46,7 +46,7 @@ class DiscussionsContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const requested = store.get("nav", this.props.room + "_requested");
@@ -58,9 +58,9 @@ class DiscussionsContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
-	_onEndReached() {
+	_onEndReached = () => {
 		const key = this.props.room + "_requested";
 		const requested = store.get("nav", key);
 		const threads = store.getThreads(this.props.room, null, -requested);
@@ -74,14 +74,14 @@ class DiscussionsContainer extends React.Component {
 				[key]: (requested || 0) + 20
 			}
 		});
-	}
+	};
 
 	render() {
 		return (
 			<Discussions
 				{...this.props}
 				{...this.state}
-				onEndReached={this._onEndReached.bind(this)}
+				onEndReached={this._onEndReached}
 			/>
 		);
 	}

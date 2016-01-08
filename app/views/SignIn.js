@@ -79,11 +79,11 @@ export default class SignIn extends React.Component {
 		};
 	}
 
-	_onSignInSuccess(provider, token) {
+	_onSignInSuccess = (provider, token) => {
 		this.props.signIn(provider, token);
-	}
+	};
 
-	_onSignInFailure(provider) {
+	_onSignInFailure = provider => {
 		switch (provider) {
 		case PROVIDER_GOOGLE:
 			this.setState({
@@ -96,9 +96,9 @@ export default class SignIn extends React.Component {
 			});
 			break;
 		}
-	}
+	};
 
-	async _signInWithFacebook() {
+	_signInWithFacebook = async () => {
 		try {
 			const result = await Facebook.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
 
@@ -115,9 +115,9 @@ export default class SignIn extends React.Component {
 		} catch (e) {
 			this._onSignInFailure(PROVIDER_FACEBOOK);
 		}
-	}
+	};
 
-	async _signInWithGoogle() {
+	_signInWithGoogle = async () => {
 		try {
 			const result = await GoogleLogin.logIn();
 
@@ -125,23 +125,23 @@ export default class SignIn extends React.Component {
 		} catch (e) {
 			this._onSignInFailure(PROVIDER_GOOGLE);
 		}
-	}
+	};
 
-	_onFacebookPress() {
+	_onFacebookPress = () => {
 		this.setState({
 			facebookLoading: true
 		});
 
 		requestAnimationFrame(() => this._signInWithFacebook());
-	}
+	};
 
-	_onGooglePress() {
+	_onGooglePress = () => {
 		this.setState({
 			googleLoading: true
 		});
 
 		requestAnimationFrame(() => this._signInWithGoogle());
-	}
+	};
 
 	render() {
 		return (
@@ -159,14 +159,14 @@ export default class SignIn extends React.Component {
 								spinner={this.state.facebookLoading}
 								disabled={this.state.facebookLoading}
 								text={this.state.facebookLoading ? "" : "Facebook"}
-								onPress={this._onFacebookPress.bind(this)}
+								onPress={this._onFacebookPress}
 							/>
 							<LargeButton
 								style={styles.google}
 								spinner={this.state.googleLoading}
 								disabled={this.state.googleLoading}
 								text={this.state.googleLoading ? "" : "Google"}
-								onPress={this._onGooglePress.bind(this)}
+								onPress={this._onGooglePress}
 							/>
 						</View>
 					</View>

@@ -15,9 +15,9 @@ export default class NotificationCenter extends React.Component {
 		this._dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 	}
 
-	_getDataSource() {
+	_getDataSource = () => {
 		return this._dataSource.cloneWithRows(this.props.data);
-	}
+	};
 
 	render() {
 		return (

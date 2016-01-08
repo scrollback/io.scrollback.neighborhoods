@@ -26,13 +26,13 @@ class BannerOfflineContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			this.setState({
 				connectionStatus: store.get("app", "connectionStatus")
 			});
 		});
-	}
+	};
 
 	render() {
 		return (

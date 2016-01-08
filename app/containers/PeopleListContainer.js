@@ -54,15 +54,15 @@ class PeopleListContainer extends React.Component {
 		}
 	}
 
-	_onDataArrived(data) {
+	_onDataArrived = data => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({ data });
 			}
 		});
-	}
+	};
 
-	_onError() {
+	_onError = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
@@ -70,7 +70,7 @@ class PeopleListContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return (

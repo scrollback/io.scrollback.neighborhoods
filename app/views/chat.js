@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
 });
 
 export default class Chat extends React.Component {
-	_quoteMessage(text) {
+	_quoteMessage = text => {
 		this._input.quotedText = text;
-	}
+	};
 
-	_replyToMessage(user) {
+	_replyToMessage = user => {
 		this._input.replyTo = user;
-	}
+	};
 
 	render() {
 		if (this.props.user === "missing") {
@@ -38,8 +38,8 @@ export default class Chat extends React.Component {
 					room={this.props.room}
 					thread={this.props.thread}
 					user={this.props.user}
-					quoteMessage={this._quoteMessage.bind(this)}
-					replyToMessage={this._replyToMessage.bind(this)}
+					quoteMessage={this._quoteMessage}
+					replyToMessage={this._replyToMessage}
 				/>
 
 				<ChatInput

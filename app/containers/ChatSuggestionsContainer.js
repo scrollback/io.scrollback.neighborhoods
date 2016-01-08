@@ -20,7 +20,7 @@ class ChatSuggestionsContainer extends React.Component {
 		});
 	}
 
-	async _fetchUsers(query) {
+	_fetchUsers = async query => {
 		const results = await this.query("getUsers", {
 			ref: query + "*",
 			limit: 5
@@ -48,9 +48,9 @@ class ChatSuggestionsContainer extends React.Component {
 		this.setState({
 			data
 		});
-	}
+	};
 
-	_getMatchingUsers(text) {
+	_getMatchingUsers = text => {
 		let query;
 
 		if (text) {
@@ -78,7 +78,7 @@ class ChatSuggestionsContainer extends React.Component {
 		}
 
 		return all.filter((u, i) => u && u.indexOf(query) === 0 && all.indexOf(u) === i && u !== this.props.user).reverse();
-	}
+	};
 
 	render() {
 		return <ChatSuggestions {...this.props} {...this.state} />;

@@ -24,7 +24,7 @@ class NotificationBadgeContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const notes = store.getNotes();
@@ -63,7 +63,7 @@ class NotificationBadgeContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return <NotificationBadge {...this.props} {...this.state} />;

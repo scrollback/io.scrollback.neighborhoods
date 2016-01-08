@@ -87,7 +87,7 @@ export default class SignUp extends React.Component {
 		};
 	}
 
-	async _signUp() {
+	_signUp = async () => {
 		if (this.state.error) {
 			return;
 		}
@@ -112,9 +112,9 @@ export default class SignUp extends React.Component {
 				inProgress: false
 			});
 		}
-	}
+	};
 
-	_onChange(e) {
+	_onChange = e => {
 		const value = e.nativeEvent.text.toLowerCase();
 
 		let error;
@@ -130,7 +130,7 @@ export default class SignUp extends React.Component {
 			error,
 			errorMessage: null
 		});
-	}
+	};
 
 	render() {
 		const { user } = this.props;
@@ -170,7 +170,7 @@ export default class SignUp extends React.Component {
 
 						<AppTextInput
 							value={this.state.value}
-							onChange={this._onChange.bind(this)}
+							onChange={this._onChange}
 							style={styles.input}
 							autoCorrect={false}
 							maxLength={32}
@@ -184,7 +184,7 @@ export default class SignUp extends React.Component {
 							<View style={styles.buttonContainer}>
 								<SignUpButton loading={this.state.inProgress} />
 							</View> :
-							<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp.bind(this)}>
+							<TouchableHighlight style={styles.buttonContainer} onPress={this._signUp}>
 								<View>
 									<SignUpButton loading={this.state.inProgress} />
 								</View>

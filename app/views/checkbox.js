@@ -34,7 +34,7 @@ const Checkbox = props => {
 
 Checkbox.propTypes = {
 	onPress: React.PropTypes.func.isRequired,
-	checked: React.PropTypes.bool.isRequired,
+	checked: React.PropTypes.bool,
 	size: React.PropTypes.number
 };
 

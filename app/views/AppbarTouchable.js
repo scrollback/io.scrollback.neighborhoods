@@ -6,9 +6,9 @@ const {
 } = React;
 
 export default class AppbarTouchable extends React.Component {
-	_onPress() {
+	_onPress = () => {
 		global.requestAnimationFrame(() => this.props.onPress());
-	}
+	};
 
 	render() {
 		return (
@@ -16,7 +16,7 @@ export default class AppbarTouchable extends React.Component {
 				{...this.props}
 				borderless
 				pressColor={this.props.type === "secondary" ? "rgba(0, 0, 0, .15)" : "rgba(255, 255, 255, .15)"}
-				onPress={this._onPress.bind(this)}
+				onPress={this._onPress}
 				delayPressIn={0}
 			>
 				<View>

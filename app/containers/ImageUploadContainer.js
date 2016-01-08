@@ -28,7 +28,7 @@ class ImageUploadContainer extends React.Component {
 		this._closeUpload();
 	}
 
-	_pollThumbnail(opts) {
+	_pollThumbnail = opts => {
 		return new Promise((resolve, reject) => {
 			const startTime = Date.now();
 
@@ -74,9 +74,9 @@ class ImageUploadContainer extends React.Component {
 
 			setTimeout(checkThumb, 1500);
 		});
-	}
+	};
 
-	_createFormData(policy, key) {
+	_createFormData = (policy, key) => {
 		const formData = new FormData();
 
 		const fields = [
@@ -97,9 +97,9 @@ class ImageUploadContainer extends React.Component {
 		formData.append("file", { uri, type });
 
 		return formData;
-	}
+	};
 
-	_uploadImage(textId, policy, baseurl, url, thumbpath, formData) {
+	_uploadImage = (textId, policy, baseurl, url, thumbpath, formData) => {
 		return new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
 
@@ -125,9 +125,9 @@ class ImageUploadContainer extends React.Component {
 				request
 			});
 		});
-	}
+	};
 
-	async _startUpload() {
+	_startUpload = async () => {
 		if (this.state.status !== IDLE && this.state.status !== ERROR) {
 			return null;
 		}
@@ -196,9 +196,9 @@ class ImageUploadContainer extends React.Component {
 				this.props.onUploadError(err);
 			}
 		}
-	}
+	};
 
-	_cancelUpload() {
+	_cancelUpload = () => {
 		if (this.state.status === LOADING) {
 			if (this.state.request) {
 				this.state.request.abort();
@@ -209,24 +209,24 @@ class ImageUploadContainer extends React.Component {
 				request: null
 			});
 		}
-	}
+	};
 
-	_closeUpload() {
+	_closeUpload = () => {
 		this._cancelUpload();
 
 		if (this.props.onUploadClose) {
 			this.props.onUploadClose();
 		}
-	}
+	};
 
 	render() {
 		return (
 			<this.props.component
 				imageData={this.props.imageData}
 				status={this.state.status}
-				startUpload={this._startUpload.bind(this)}
-				cancelUpload={this._cancelUpload.bind(this)}
-				closeUpload={this._closeUpload.bind(this)}
+				startUpload={this._startUpload}
+				cancelUpload={this._cancelUpload}
+				closeUpload={this._closeUpload}
 			/>
 		);
 	}

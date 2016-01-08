@@ -24,7 +24,7 @@ class ChatContainer extends React.Component {
 		});
 	}
 
-	_sendMessage(text, textId) {
+	_sendMessage = (text, textId) => {
 		const textObj = {
 			text: text.trim(),
 			thread: this.props.thread,
@@ -37,12 +37,12 @@ class ChatContainer extends React.Component {
 		}
 
 		this.dispatch("text", textObj);
-	}
+	};
 
 	render() {
 		return (
 			<Chat
-				sendMessage={this._sendMessage.bind(this)}
+				sendMessage={this._sendMessage}
 				{...this.props}
 				{...this.state}
 			/>

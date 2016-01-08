@@ -13,7 +13,7 @@ class SignInContainer extends React.Component {
 		};
 	}
 
-	async _signIn(provider, token) {
+	_signIn = async (provider, token) => {
 		const init = await this.dispatch("init", {
 			auth: {
 				[provider]: { token }
@@ -29,9 +29,9 @@ class SignInContainer extends React.Component {
 				});
 			}
 		}
-	}
+	};
 
-	async _signUp(nick) {
+	_signUp = async nick => {
 		const { user } = this.state;
 
 		let results;
@@ -59,25 +59,25 @@ class SignInContainer extends React.Component {
 				}
 			});
 		}
-	}
+	};
 
-	_cancelSignUp() {
+	_cancelSignUp = () => {
 		this.setState({
 			user: null
 		});
-	}
+	};
 
 	render() {
 		if (this.state.user) {
 			return (
 				<SignUp
 					user={this.state.user}
-					signUp={this._signUp.bind(this)}
-					cancelSignUp={this._cancelSignUp.bind(this)}
+					signUp={this._signUp}
+					cancelSignUp={this._cancelSignUp}
 				/>
 			);
 		} else {
-			return <SignIn {...this.props} signIn={this._signIn.bind(this)} />;
+			return <SignIn {...this.props} signIn={this._signIn} />;
 		}
 	}
 }

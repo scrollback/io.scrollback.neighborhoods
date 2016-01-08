@@ -36,7 +36,7 @@ export default class Avatar extends React.Component {
 		this._mounted = false;
 	}
 
-	async _updateData(currentUri) {
+	_updateData = async currentUri => {
 		try {
 			// We manually resolve the links since RN doesn't seem to handle redirects properly
 			const uri = await URLResolver.resolveURL(currentUri);
@@ -51,7 +51,7 @@ export default class Avatar extends React.Component {
 				uri: currentUri
 			});
 		}
-	}
+	};
 
 	render() {
 		if (this.state.uri) {

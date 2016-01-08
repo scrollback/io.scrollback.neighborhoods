@@ -26,7 +26,7 @@ class ChatTitleContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
@@ -34,7 +34,7 @@ class ChatTitleContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return <ChatTitle {...this.props} {...this.state} />;

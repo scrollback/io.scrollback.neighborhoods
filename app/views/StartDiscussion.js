@@ -108,7 +108,7 @@ export default class StartDiscussionButton extends React.Component {
 		this._setShareCheckbox();
 	}
 
-	_onSharePress() {
+	_onSharePress = () => {
 		const shareOnFacebook = !this.state.shareOnFacebook;
 
 		this.setState({
@@ -130,9 +130,9 @@ export default class StartDiscussionButton extends React.Component {
 				}
 			});
 		}
-	}
+	};
 
-	async _setShareCheckbox() {
+	_setShareCheckbox = async () => {
 		try {
 			const shareOnFacebook = JSON.parse(await AsyncStorage.getItem(FACEBOOK_SHARE_CHECKED_KEY));
 
@@ -152,29 +152,29 @@ export default class StartDiscussionButton extends React.Component {
 				shareOnFacebook: false
 			});
 		}
-	}
+	};
 
-	_onLoading() {
+	_onLoading = () => {
 		this.setState({
 			status: "loading"
 		});
-	}
+	};
 
-	_onPosted(thread) {
+	_onPosted = thread => {
 		this.props.navigator.push(routes.chat({
 			thread: thread.id,
 			room: this.props.room
 		}));
-	}
+	};
 
-	_onError(message) {
+	_onError = message => {
 		this.setState({
 			error: message,
 			status: null
 		});
-	}
+	};
 
-	async _postDiscussion() {
+	_postDiscussion = async () => {
 		const FAIL_MESSAGE = "An error occurred while posting";
 		const SHORT_TITLE_MESSAGE = "Title needs be at least 2 words";
 		const LONG_TITLE_MESSAGE = "Title needs be less than 10 words";
@@ -240,31 +240,31 @@ export default class StartDiscussionButton extends React.Component {
 		} else {
 			this._onError(NO_SUMMARY_MESSAGE);
 		}
-	}
+	};
 
-	_onPress() {
+	_onPress = () => {
 		if (this.state.status === "loading") {
 			return;
 		}
 
 		this._postDiscussion();
-	}
+	};
 
-	_onTitleChange(e) {
+	_onTitleChange = e => {
 		this.setState({
 			title: e.nativeEvent.text,
 			error: null
 		});
-	}
+	};
 
-	_onTextChange(e) {
+	_onTextChange = e => {
 		this.setState({
 			text: e.nativeEvent.text,
 			error: null
 		});
-	}
+	};
 
-	async _uploadImage() {
+	_uploadImage = async () => {
 		try {
 			this.setState({
 				imageData: null
@@ -278,22 +278,22 @@ export default class StartDiscussionButton extends React.Component {
 		} catch (e) {
 			// Do nothing
 		}
-	}
+	};
 
-	_onUploadFinish(result) {
+	_onUploadFinish = result => {
 		this.setState({
 			uploadResult: result,
 			error: null
 		});
-	}
+	};
 
-	_onUploadClose() {
+	_onUploadClose = () => {
 		this.setState({
 			imageData: null,
 			uploadResult: null,
 			error: null
 		});
-	}
+	};
 
 	render() {
 		const isLoading = this.state.status === "loading";
@@ -315,7 +315,7 @@ export default class StartDiscussionButton extends React.Component {
 					<AppTextInput
 						autoFocus
 						value={this.state.title}
-						onChange={this._onTitleChange.bind(this)}
+						onChange={this._onTitleChange}
 						placeholder="Write a discussion title"
 						autoCapitalize="sentences"
 						style={[ styles.threadTitle, styles.entry ]}
@@ -326,14 +326,14 @@ export default class StartDiscussionButton extends React.Component {
 						<ImageUploadContainer
 							component={ImageUploadDiscussion}
 							imageData={this.state.imageData}
-							onUploadClose={this._onUploadClose.bind(this)}
-							onUploadFinish={this._onUploadFinish.bind(this)}
+							onUploadClose={this._onUploadClose}
+							onUploadFinish={this._onUploadFinish}
 							autoStart
 						/> :
 						<GrowingTextInput
 							numberOfLines={5}
 							value={this.state.text}
-							onChange={this._onTextChange.bind(this)}
+							onChange={this._onTextChange}
 							placeholder="And a short summary…"
 							autoCapitalize="sentences"
 							inputStyle={[ styles.threadSummary, styles.entry ]}
@@ -341,14 +341,14 @@ export default class StartDiscussionButton extends React.Component {
 						/>
 					}
 
-					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={this._onSharePress.bind(this)}>
+					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={this._onSharePress}>
 						Share this post on Facebook
 					</CheckboxLabeled>
 				</ScrollView>
 				<View style={styles.footer}>
 					<TouchFeedback
 						borderless
-						onPress={this._uploadImage.bind(this)}
+						onPress={this._uploadImage}
 					>
 						<View style={styles.uploadButton}>
 							<Icon
@@ -363,7 +363,7 @@ export default class StartDiscussionButton extends React.Component {
 							<View style={styles.postButtonInner}>
 								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
 							</View> :
-							<TouchFeedback onPress={this._onPress.bind(this)}>
+							<TouchFeedback onPress={this._onPress}>
 								<View style={styles.postButtonInner}>
 									<AppText style={styles.postButtonText}>Post</AppText>
 								</View>

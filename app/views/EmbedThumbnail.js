@@ -36,7 +36,7 @@ export default class EmbedThumbnail extends React.Component {
 		this._dimen = this.props.embed.thumbnail_url ? this._getOptimalDimensions() : null;
 	}
 
-	_getOptimalDimensions() {
+	_getOptimalDimensions = () => {
 		const {
 			height,
 			width,
@@ -70,7 +70,7 @@ export default class EmbedThumbnail extends React.Component {
 			height: displayWidth * ratio,
 			width: displayWidth
 		};
-	}
+	};
 
 	render() {
 		if (this.props.embed.thumbnail_url) {

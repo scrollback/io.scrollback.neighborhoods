@@ -32,7 +32,7 @@ export default class SearchBar extends React.Component {
 		};
 	}
 
-	_onChange(e) {
+	_onChange = e => {
 		const text = e.nativeEvent.text;
 
 		if (text) {
@@ -50,9 +50,9 @@ export default class SearchBar extends React.Component {
 		}
 
 		this.props.onSearchChange(text);
-	}
+	};
 
-	_clearInput() {
+	_clearInput = () => {
 		if (this._input) {
 			this._input.setNativeProps({ text: "" });
 		}
@@ -62,7 +62,7 @@ export default class SearchBar extends React.Component {
 		});
 
 		this.props.onSearchChange("");
-	}
+	};
 
 	render() {
 		return (
@@ -74,7 +74,7 @@ export default class SearchBar extends React.Component {
 				<AppTextInput
 					ref={c => this._input = c}
 					autoFocus={this.props.autoFocus}
-					onChange={this._onChange.bind(this)}
+					onChange={this._onChange}
 					placeholder={this.props.placeholder}
 					placeholderTextColor="rgba(0, 0, 0, 0.5)"
 					onFocus={this.props.onFocus}
@@ -83,7 +83,7 @@ export default class SearchBar extends React.Component {
 				/>
 
 				{this.state.showClear ?
-					<AppbarTouchable type="secondary" onPress={this._clearInput.bind(this)}>
+					<AppbarTouchable type="secondary" onPress={this._clearInput}>
 						<AppbarIcon name="close" style={styles.icon} />
 					</AppbarTouchable> :
 					null

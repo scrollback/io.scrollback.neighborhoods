@@ -43,7 +43,7 @@ export default class PageEmpty extends React.Component {
 		);
 	}
 
-	_getImageSource(name) {
+	_getImageSource = name => {
 		switch (name) {
 		case "cool":
 			return require("../../assets/monkey-cool.png");
@@ -54,7 +54,7 @@ export default class PageEmpty extends React.Component {
 		case "sad":
 			return require("../../assets/monkey-sad.png");
 		}
-	}
+	};
 
 	render() {
 		return (

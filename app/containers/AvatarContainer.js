@@ -29,7 +29,7 @@ class AvatarContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const { protocol, host } = config.server;
@@ -50,7 +50,7 @@ class AvatarContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return <Avatar {...this.props} {...this.state} />;

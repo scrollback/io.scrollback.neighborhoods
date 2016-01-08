@@ -58,7 +58,7 @@ export default class NotificationBadge extends React.Component {
 		}
 	}
 
-	_bounce() {
+	_bounce = () => {
 		Animated.timing(this.state.scaleAnim, {
 			toValue: 0.5,
 			duration: 100
@@ -68,19 +68,19 @@ export default class NotificationBadge extends React.Component {
 				duration: 100
 			}).start();
 		});
-	}
+	};
 
-	_scaleIn() {
+	_scaleIn = () => {
 		Animated.spring(this.state.scaleAnim, {
 			toValue: 1
 		}).start();
-	}
+	};
 
-	_scaleOut() {
+	_scaleOut = () => {
 		Animated.spring(this.state.scaleAnim, {
 			toValue: 0
 		}).start();
-	}
+	};
 
 	render() {
 		const { count } = this.props;

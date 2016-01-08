@@ -58,8 +58,8 @@ export default class Modal extends React.Component {
 	}
 
 	componentDidMount() {
-		_renderComponent = this._renderComponent.bind(this);
-		_isShown = this._isShown.bind(this);
+		_renderComponent = this._renderComponent;
+		_isShown = this._isShown;
 	}
 
 	componentWillUnmount() {
@@ -67,7 +67,7 @@ export default class Modal extends React.Component {
 		_isShown = null;
 	}
 
-	_renderComponent(component) {
+	_renderComponent = component => {
 		if (component === this._component) {
 			return;
 		}
@@ -88,11 +88,11 @@ export default class Modal extends React.Component {
 				duration: 300
 			}).start(() => this.setState({ component: null }));
 		}
-	}
+	};
 
-	_isShown() {
+	_isShown = () => {
 		return !!this.state.component;
-	}
+	};
 
 	render() {
 		if (!this.state.component) {

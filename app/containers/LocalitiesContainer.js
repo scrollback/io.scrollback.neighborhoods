@@ -36,7 +36,7 @@ class LocalitiesContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
@@ -54,7 +54,7 @@ class LocalitiesContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return (

@@ -39,21 +39,21 @@ export default class LocalitiesBase extends React.Component {
 		this._clearWatch();
 	}
 
-	_watchPosition() {
+	_watchPosition = () => {
 		this._watchID = Geolocation.watchPosition(location => {
 			if (this._mounted) {
 				this.setState({ location });
 			}
 		});
-	}
+	};
 
-	_clearWatch() {
+	_clearWatch = () => {
 		if (this._watchID) {
 			Geolocation.clearWatch(this._watchID);
 		}
-	}
+	};
 
-	async _setCurrentPosition() {
+	_setCurrentPosition = async () => {
 		try {
 			const location = await Geolocation.getCurrentPosition();
 
@@ -65,11 +65,11 @@ export default class LocalitiesBase extends React.Component {
 		} catch (e) {
 			// Ignore
 		}
-	}
+	};
 
-	_getDataSource() {
+	_getDataSource = () => {
 		return this._dataSource.cloneWithRowsAndSections(this.props.data);
-	}
+	};
 
 	render() {
 		return (

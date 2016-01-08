@@ -85,21 +85,21 @@ const styles = StyleSheet.create({
 });
 
 export default class NotificationCenterItem extends React.Component {
-	_extractPart(note, index) {
+	_extractPart = (note, index) => {
 		return typeof note.group === "string" ? note.group.split("/")[index] : null;
-	}
+	};
 
-	_getThread(note) {
+	_getThread = note => {
 		const thread = this._extractPart(note, 1);
 
 		return (thread === "all" || !thread) ? null : thread;
-	}
+	};
 
-	_getRoom(note) {
+	_getRoom = note => {
 		return this._extractPart(note, 0);
-	}
+	};
 
-	_getSummary(note) {
+	_getSummary = note => {
 		const { noteData, noteType, count } = note;
 
 		const room = this._getRoom(this.props.note);
@@ -160,9 +160,9 @@ export default class NotificationCenterItem extends React.Component {
 		}
 
 		return summary;
-	}
+	};
 
-	_getIconColor() {
+	_getIconColor = () => {
 		const { note } = this.props;
 
 		switch (note.noteType) {
@@ -175,9 +175,9 @@ export default class NotificationCenterItem extends React.Component {
 		default:
 			return "#673ab7";
 		}
-	}
+	};
 
-	_getIconName() {
+	_getIconName = () => {
 		const { note } = this.props;
 
 		switch (note.noteType) {
@@ -190,9 +190,9 @@ export default class NotificationCenterItem extends React.Component {
 		default:
 			return "notifications";
 		}
-	}
+	};
 
-	_onPress() {
+	_onPress = () => {
 		const { note, navigator } = this.props;
 
 		const room = this._getRoom(note);
@@ -221,18 +221,18 @@ export default class NotificationCenterItem extends React.Component {
 		default:
 			navigator.push(routes.room({ room }));
 		}
-	}
+	};
 
-	_onDismiss() {
+	_onDismiss = () => {
 		this.props.dismissNote(this.props.note);
-	}
+	};
 
 	render() {
 		const { note } = this.props;
 
 		return (
 			<View style={styles.item}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress}>
 					<View style={styles.note}>
 						<View style={styles.avatarContainer}>
 							<AvatarRound
@@ -270,7 +270,7 @@ export default class NotificationCenterItem extends React.Component {
 							<TouchableHighlight
 								style={styles.closeButton}
 								underlayColor={Colors.underlay}
-								onPress={this._onDismiss.bind(this)}
+								onPress={this._onDismiss}
 							>
 								<View style={styles.close}>
 									<Icon

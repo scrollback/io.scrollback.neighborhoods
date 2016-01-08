@@ -90,12 +90,12 @@ export default class ChatItem extends React.Component {
 		}
 	}
 
-	_copyToClipboard(text) {
+	_copyToClipboard = text => {
 		Clipboard.setString(text);
 		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
-	}
+	};
 
-	_showMenu() {
+	_showMenu = () => {
 		const { text, metadata, currentUser } = this.props;
 
 		const menu = {};
@@ -129,7 +129,7 @@ export default class ChatItem extends React.Component {
 		}
 
 		Modal.showActionSheetWithItems(menu);
-	}
+	};
 
 	render() {
 		const { text, hidden, metadata, previousText, currentUser } = this.props;
@@ -175,7 +175,7 @@ export default class ChatItem extends React.Component {
 						null
 					}
 
-					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu.bind(this)}>
+					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu}>
 						<ChatBubble
 							text={metadata && metadata.type === "photo" ? { from: text.from } : text}
 							type={received ? "left" : "right"}

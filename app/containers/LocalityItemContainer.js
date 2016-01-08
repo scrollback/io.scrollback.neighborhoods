@@ -28,7 +28,7 @@ class LocalityItemContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				const role = store.getUserRole(store.get("user"), this.props.room.id);
@@ -38,15 +38,15 @@ class LocalityItemContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
-	async _joinCommunity() {
+	_joinCommunity = async () => {
 		return await this.dispatch("join", {
 			to: this.props.room.id
 		});
-	}
+	};
 
-	async _leaveCommunity() {
+	_leaveCommunity = async () => {
 		const room = this.props.room.id;
 
 		await this.dispatch("part", {
@@ -56,9 +56,9 @@ class LocalityItemContainer extends React.Component {
 		return await this.dispatch("away", {
 			to: room
 		});
-	}
+	};
 
-	async _autoJoin() {
+	_autoJoin = async () => {
 		const { room } = this.props;
 
 		// Auto join room
@@ -81,16 +81,16 @@ class LocalityItemContainer extends React.Component {
 				// Ignore
 			}
 		}
-	}
+	};
 
 	render() {
 		return (
 			<LocalityItem
 				{...this.props}
 				{...this.state}
-				joinCommunity={this._joinCommunity.bind(this)}
-				leaveCommunity={this._leaveCommunity.bind(this)}
-				autoJoin={this._autoJoin.bind(this)}
+				joinCommunity={this._joinCommunity}
+				leaveCommunity={this._leaveCommunity}
+				autoJoin={this._autoJoin}
 			/>
 		);
 	}

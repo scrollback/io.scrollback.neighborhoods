@@ -17,13 +17,13 @@ const styles = StyleSheet.create({
 });
 
 export default class AccountButton extends React.Component {
-	_onPress() {
+	_onPress = () => {
 		this.props.navigator.push(routes.account());
-	}
+	};
 
 	render() {
 		return (
-			<AppbarTouchable onPress={this._onPress.bind(this)}>
+			<AppbarTouchable onPress={this._onPress}>
 				<UserIconContainer
 					style={styles.avatar}
 					size={24}

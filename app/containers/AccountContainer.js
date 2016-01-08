@@ -28,7 +28,7 @@ class AccountContainer extends React.Component {
 		});
 	}
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
@@ -36,28 +36,28 @@ class AccountContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
-	_saveUser(user) {
+	_saveUser = user => {
 		this.dispatch("user", {
 			to: user.id,
 			user
 		});
 
 		this.setState({ user });
-	}
+	};
 
-	_signOut() {
+	_signOut = () => {
 		this.emit("logout");
-	}
+	};
 
 	render() {
 		return (
 			<Account
 				{...this.props}
 				{...this.state}
-				saveUser={this._saveUser.bind(this)}
-				signOut={this._signOut.bind(this)}
+				saveUser={this._saveUser}
+				signOut={this._signOut}
 			/>
 		);
 	}

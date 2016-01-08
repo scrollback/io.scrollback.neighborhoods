@@ -59,12 +59,12 @@ export default class DiscussionItem extends React.Component {
 			);
 	}
 
-	_copyToClipboard(text) {
+	_copyToClipboard = text => {
 		Clipboard.setString(text);
 		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
-	}
+	};
 
-	_showMenu() {
+	_showMenu = () => {
 		const { thread } = this.props;
 		const menu = {};
 
@@ -100,14 +100,14 @@ export default class DiscussionItem extends React.Component {
 		}
 
 		Modal.showActionSheetWithItems(menu);
-	}
+	};
 
-	_onPress() {
+	_onPress = () => {
 		this.props.navigator.push(routes.chat({
 			thread: this.props.thread.id,
 			room: this.props.thread.to
 		}));
-	}
+	};
 
 	render() {
 		const {
@@ -117,7 +117,7 @@ export default class DiscussionItem extends React.Component {
 
 		return (
 			<Card {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress}>
 					<View style={hidden ? styles.hidden : null}>
 						<View style={styles.topArea}>
 							<CardTitle style={[ styles.item, styles.title ]}>
@@ -126,7 +126,7 @@ export default class DiscussionItem extends React.Component {
 
 							<NotificationBadgeContainer thread={this.props.thread.id} style={styles.badge} />
 
-							<TouchableOpacity onPress={this._showMenu.bind(this)}>
+							<TouchableOpacity onPress={this._showMenu}>
 								<Icon
 									name="expand-more"
 									style={styles.expand}

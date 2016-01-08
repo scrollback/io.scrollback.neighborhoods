@@ -68,15 +68,15 @@ export default class ChatInput extends React.Component {
 		});
 	}
 
-	_sendMessage() {
+	_sendMessage = () => {
 		this.props.sendMessage(this.state.text);
 
 		this.setState({
 			text: ""
 		});
-	}
+	};
 
-	async _uploadImage() {
+	_uploadImage = async () => {
 		try {
 			const imageData = await ImageChooser.pickImage();
 
@@ -86,9 +86,9 @@ export default class ChatInput extends React.Component {
 		} catch (e) {
 			// Do nothing
 		}
-	}
+	};
 
-	_onUploadFinish(result) {
+	_onUploadFinish = result => {
 		const { height, width, name } = this.state.imageData;
 
 		const aspectRatio = height / width;
@@ -105,31 +105,31 @@ export default class ChatInput extends React.Component {
 		}), result.textId);
 
 		setTimeout(() => this._onUploadClose(), 500);
-	}
+	};
 
-	_onUploadClose() {
+	_onUploadClose = () => {
 		this.setState({
 			imageData: ""
 		});
-	}
+	};
 
-	_onSuggestionSelect(nick) {
+	_onSuggestionSelect = nick => {
 		this.setState({
 			text: "@" + nick + " ",
 			query: ""
 		});
-	}
+	};
 
-	_onChangeText(text) {
+	_onChangeText = text => {
 		const query = /^@[a-z0-9]*$/.test(text) ? text : "";
 
 		this.setState({
 			text,
 			query
 		});
-	}
+	};
 
-	_computedAndSetText(opts) {
+	_computedAndSetText = opts => {
 		let newValue = this.state.text;
 
 		if (opts.quotedText) {
@@ -149,7 +149,7 @@ export default class ChatInput extends React.Component {
 		this.setState({
 			text: newValue
 		}, () => this._input.focusKeyboard());
-	}
+	};
 
 	render() {
 		return (
@@ -160,14 +160,14 @@ export default class ChatInput extends React.Component {
 					user={this.props.user}
 					text={this.state.query}
 					style={styles.suggestions}
-					onSelect={this._onSuggestionSelect.bind(this)}
+					onSelect={this._onSuggestionSelect}
 				/>
 
 				<View style={styles.container}>
 					<GrowingTextInput
 						ref={c => this._input = c}
 						value={this.state.text}
-						onChangeText={this._onChangeText.bind(this)}
+						onChangeText={this._onChangeText}
 						style={styles.inputContainer}
 						inputStyle={styles.inputStyle}
 						underlineColorAndroid="transparent"
@@ -178,7 +178,7 @@ export default class ChatInput extends React.Component {
 
 				<TouchFeedback
 					borderless
-					onPress={this.state.text ? this._sendMessage.bind(this) : this._uploadImage.bind(this)}
+					onPress={this.state.text ? this._sendMessage : this._uploadImage}
 				>
 						<View style={styles.iconContainer}>
 							<Icon
@@ -194,8 +194,8 @@ export default class ChatInput extends React.Component {
 					<ImageUploadContainer
 						component={ImageUploadChat}
 						imageData={this.state.imageData}
-						onUploadClose={this._onUploadClose.bind(this)}
-						onUploadFinish={this._onUploadFinish.bind(this)}
+						onUploadClose={this._onUploadClose}
+						onUploadFinish={this._onUploadFinish}
 					/> : null
 				}
 			</View>

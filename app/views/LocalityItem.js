@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 });
 
 export default class LocalityItem extends React.Component {
-	_showMenu() {
+	_showMenu = () => {
 		const { room, role } = this.props;
 
 		const options = [];
@@ -80,19 +80,19 @@ export default class LocalityItem extends React.Component {
 		}
 
 		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
-	}
+	};
 
-	_onPress() {
+	_onPress = () => {
 		this.props.navigator.push(routes.room({ room: this.props.room.id }));
 		this.props.autoJoin();
-	}
+	};
 
 	render() {
 		const { room, location } = this.props;
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback onPress={this._onPress.bind(this)}>
+				<TouchFeedback onPress={this._onPress}>
 					<View style={styles.container}>
 						<View style={styles.item}>
 							<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
@@ -113,7 +113,7 @@ export default class LocalityItem extends React.Component {
 						}
 
 						{this.props.showMenuButton ?
-							<TouchableOpacity onPress={this._showMenu.bind(this)}>
+							<TouchableOpacity onPress={this._showMenu}>
 								<Icon
 									name="expand-more"
 									style={styles.expand}

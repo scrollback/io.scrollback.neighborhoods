@@ -3,12 +3,12 @@ import NotificationClearIcon from "../views/NotificationClearIcon";
 import Container from "./Container";
 
 class NotificationClearIconContainer extends React.Component {
-	_clearAll() {
+	_clearAll = () => {
 		this.dispatch("note", { dismissTime: Date.now() });
-	}
+	};
 
 	render() {
-		return <NotificationClearIcon {...this.props} clearAll={this._clearAll.bind(this)} />;
+		return <NotificationClearIcon {...this.props} clearAll={this._clearAll} />;
 	}
 }
 

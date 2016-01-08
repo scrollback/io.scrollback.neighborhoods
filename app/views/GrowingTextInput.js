@@ -33,7 +33,7 @@ export default class GrowingTextInput extends React.Component {
 		});
 	}
 
-	_onChange(e) {
+	_onChange = e => {
 		if (this.props.onChange) {
 			this.props.onChange(e);
 		}
@@ -45,11 +45,11 @@ export default class GrowingTextInput extends React.Component {
 		}
 
 		this.setState({ value });
-	}
+	};
 
-	_onLayout(e) {
+	_onLayout = e => {
 		this._input.setNativeProps({ height: e.nativeEvent.layout.height });
-	}
+	};
 
 	focus(...args) {
 		this._input.focus(...args);
@@ -83,7 +83,7 @@ export default class GrowingTextInput extends React.Component {
 				<Text
 					numberOfLines={this.props.numberOfLines}
 					style={[ this.props.style, styles.phantom ]}
-					onLayout={this._onLayout.bind(this)}
+					onLayout={this._onLayout}
 					pointerEvents="none"
 				>
 					{(this.state.value || this.props.placeholder) + "\n"}
@@ -92,7 +92,7 @@ export default class GrowingTextInput extends React.Component {
 					{...this.props}
 					ref={c => this._input = c}
 					value={this.state.value}
-					onChange={this._onChange.bind(this)}
+					onChange={this._onChange}
 					style={this.props.inputStyle}
 					multiline
 				/>

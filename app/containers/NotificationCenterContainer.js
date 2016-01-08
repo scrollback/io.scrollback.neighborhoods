@@ -26,15 +26,15 @@ class NotificationCenterContainer extends React.Component {
 		});
 	}
 
-	_dismissNote(note) {
+	_dismissNote = note => {
 		this.dispatch("note", {
 			ref: note.ref,
 			noteType: note.noteType,
 			dismissTime: Date.now()
 		});
-	}
+	};
 
-	_updateData() {
+	_updateData = () => {
 		InteractionManager.runAfterInteractions(() => {
 			if (this._mounted) {
 				this.setState({
@@ -42,14 +42,14 @@ class NotificationCenterContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return (
 			<NotificationCenter
 				{...this.props}
 				{...this.state}
-				dismissNote={this._dismissNote.bind(this)}
+				dismissNote={this._dismissNote}
 			/>
 		);
 	}

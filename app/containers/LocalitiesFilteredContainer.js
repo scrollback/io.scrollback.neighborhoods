@@ -18,12 +18,12 @@ class LocalitiesFilteredContainer extends React.Component {
 			}
 		};
 
-		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate.bind(this));
+		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate);
 
 		this._cachedResults = {};
 	}
 
-	async _fetchMatchingRoomsImmediate(filter) {
+	_fetchMatchingRoomsImmediate = async filter => {
 		const opts = { ref: filter + "*" };
 
 		try {
@@ -47,15 +47,15 @@ class LocalitiesFilteredContainer extends React.Component {
 		}
 
 		this._onDataArrived(data);
-	}
+	};
 
-	_onDataArrived(results) {
+	_onDataArrived = results => {
 		this.setState({
 			data: { results }
 		});
-	}
+	};
 
-	_onSearchChange(text) {
+	_onSearchChange = text => {
 		const filter = text.toLowerCase();
 
 		if (filter) {
@@ -90,14 +90,14 @@ class LocalitiesFilteredContainer extends React.Component {
 				}
 			});
 		}
-	}
+	};
 
 	render() {
 		return (
 			<LocalitiesFiltered
 				{...this.props}
 				{...this.state}
-				onSearchChange={this._onSearchChange.bind(this)}
+				onSearchChange={this._onSearchChange}
 			/>
 		);
 	}

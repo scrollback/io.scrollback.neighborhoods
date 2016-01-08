@@ -40,7 +40,7 @@ class AppContainer extends React.Component {
 		});
 	}
 
-	_setInitialRoute() {
+	_setInitialRoute = () => {
 		Linking.getInitialURL((err, url) => {
 			if (err) {
 				return;
@@ -52,7 +52,7 @@ class AppContainer extends React.Component {
 				});
 			}
 		});
-	}
+	};
 
 	render() {
 		return <App {...this.props} {...this.state} />;

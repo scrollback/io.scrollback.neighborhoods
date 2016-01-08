@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
 });
 
 export default class NotificationIcon extends React.Component {
-	_onPress() {
+	_onPress = () => {
 		this.props.navigator.push(routes.notes());
-	}
+	};
 
 	render() {
 		return (
-			<AppbarTouchable onPress={this._onPress.bind(this)}>
+			<AppbarTouchable onPress={this._onPress}>
 				<View>
 					<AppbarIcon name="notifications" />
 					<NotificationBadgeContainer style={styles.badge} grouped />
