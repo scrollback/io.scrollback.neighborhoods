@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "build-android": "cd android && ./gradlew assembleRelease --stacktrace; cd .."
   },
   "dependencies": {
     "ebus": "^0.12.0",
