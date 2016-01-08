@@ -49,6 +49,22 @@ import com.android.build.OutputFile
  * ]
  */
 
+/**
+ * Set this to true to create three separate APKs instead of one:
+ *   - A universal APK that works on all devices
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = true
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = true
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -74,8 +90,6 @@ dependencies {
 apply from: "react.gradle"
 apply from: "fonts.gradle"
 
-def versionCodes = ['armeabi-v7a':1, 'x86':2]
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -93,16 +107,9 @@ android {
 
     splits {
         abi {
-            enable true
-            reset()
+            enable enableSeparateBuildPerCPUArchitecture
             universalApk true
-            // Uncomment the line below to create three separate APKs instead of one:
-            //   - A universal APK that works on all devices
-            //   - An APK that only works on ARM devices
-            //   - An APK that only works on x86 devices
-            // The advantage is the size of the APK is reduced by about 4MB
-            // (8MB -> 4MB for a basic app). You just need to upload all these APKs to the
-            // Play Store.
+            reset()
             include "armeabi-v7a", 'x86'
         }
     }
@@ -118,18 +125,22 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false  // Set this to true to enable Proguard
+            minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
     }
 
-    // variants are e.g. debug, release
+    // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            if (output.getFilter(OutputFile.ABI) != null) {  // null for the universal-debug, universal-release variants
+            // For each separate APK per architecture, set a unique version code as described here:
+            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride =
-                        versionCodes.get(output.getFilter(OutputFile.ABI)) * 1048576 + defaultConfig.versionCode
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
     }
