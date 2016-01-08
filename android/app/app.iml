@@ -34,6 +34,7 @@
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/source/aidl/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/source/rs/debug" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/google-services/debug" type="java-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/fabric/res/debug" type="java-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/rs/debug" type="java-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/resValues/debug" type="java-resource" />
@@ -47,6 +48,7 @@
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/armeabi-v7aDebug" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/armeabi-v7aRelease" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/assets" />
+      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/blame" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/classes" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/classes-proguard" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/dependency-cache" />

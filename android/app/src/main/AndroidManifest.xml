@@ -63,16 +63,30 @@
         </receiver>
 
         <receiver
-            android:name=".modules.gcm.PushNotificationBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="io.scrollback.neighborhoods" />
+                <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".modules.gcm.PushNotificationIntentService" />
+        <service
+            android:name=".modules.gcm.GCMListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".modules.gcm.GCMInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name="com.facebook.FacebookActivity"
