@@ -2,7 +2,7 @@ import React from "react-native";
 import Splash from "./Splash";
 import Onboard from "./Onboard";
 import Home from "./Home";
-import PageEmpty from "./PageEmpty";
+import Offline from "./Offline";
 import userUtils from "../lib/user-utils";
 
 export default class App extends React.Component {
@@ -19,7 +19,7 @@ export default class App extends React.Component {
 
 		if (user === "missing") {
 			if (connectionStatus === "offline") {
-				return <PageEmpty label="Cannot connect to internet" image="sad" />;
+				return <Offline />;
 			} else {
 				return <Splash />;
 			}

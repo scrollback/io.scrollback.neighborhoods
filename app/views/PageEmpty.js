@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignSelf: "stretch",
 		alignItems: "center",
-		justifyContent: "center"
+		justifyContent: "center",
+		padding: 16
 	},
 	missing: {
 		margin: 16,

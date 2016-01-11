@@ -13,16 +13,14 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class PageRetry extends React.Component {
-	render() {
-		return (
-			<View style={styles.page}>
-				{this.props.children}
-			</View>
-		);
-	}
-}
+const Page = props => (
+	<View style={[ styles.page, props.style ]}>
+		{props.children}
+	</View>
+);
 
-PageRetry.propTypes = {
+Page.propTypes = {
 	children: React.PropTypes.node.isRequired
 };
+
+export default Page;
