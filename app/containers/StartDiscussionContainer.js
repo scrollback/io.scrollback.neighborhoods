@@ -76,7 +76,6 @@ class StartDiscussionContainer extends React.Component {
 		});
 
 		const content = {
-			message: "I started a discussion on HeyNeighbor",
 			link: url.get("thread", post)
 		};
 
