@@ -85,7 +85,7 @@ class ChatMessagesContainer extends React.Component {
 		const requested = store.get("nav", key);
 		const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
 
-		if (requested && requested > texts.length) {
+		if (requested && requested > (texts.length + 1)) {
 			return;
 		}
 
