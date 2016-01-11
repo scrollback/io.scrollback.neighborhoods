@@ -1,4 +1,5 @@
 import React from "react-native";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
@@ -12,7 +13,6 @@ import Icon from "./Icon";
 import UserIconContainer from "../containers/UserIconContainer";
 import ImageUploadContainer from "../containers/ImageUploadContainer";
 import Banner from "./Banner";
-import CheckboxLabeled from "./CheckboxLabeled";
 import ImageUploadDiscussion from "./ImageUploadDiscussion";
 import ImageChooser from "../modules/ImageChooser";
 import routes from "../utils/routes";
@@ -20,6 +20,7 @@ import textUtils from "../lib/text-utils";
 
 const {
 	AsyncStorage,
+	TouchableOpacity,
 	StyleSheet,
 	ScrollView,
 	View
@@ -84,6 +85,38 @@ const styles = StyleSheet.create({
 		color: Colors.white,
 		fontWeight: "bold",
 		textAlign: "center"
+	},
+	socialItem: {
+		flexDirection: "row",
+		alignItems: "center"
+	},
+	socialIconContainer: {
+		height: 24,
+		width: 24,
+		marginHorizontal: 12,
+		marginVertical: 8,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: Colors.grey,
+		borderRadius: 2
+	},
+	socialIconContainerSelected: {
+		backgroundColor: Colors.facebook
+	},
+	socialIcon: {
+		fontSize: 24,
+		borderRadius: 12,
+		color: Colors.white
+	},
+	socialTextSelected: {
+		color: Colors.facebook,
+		fontWeight: "bold"
+	},
+	socialTip: {
+		marginHorizontal: 12,
+		marginVertical: 8,
+		fontSize: 12,
+		color: Colors.grey
 	}
 });
 
@@ -341,9 +374,20 @@ export default class StartDiscussionButton extends React.Component {
 						/>
 					}
 
-					<CheckboxLabeled checked={this.state.shareOnFacebook} onPress={this._onSharePress}>
-						Share this post on Facebook
-					</CheckboxLabeled>
+					<TouchableOpacity onPress={this._onSharePress}>
+						<View style={styles.socialItem}>
+							<View style={[ styles.socialIconContainer, this.state.shareOnFacebook ? styles.socialIconContainerSelected : null ]}>
+								<EvilIcons name="sc-facebook" style={styles.socialIcon} />
+							</View>
+							<AppText style={[ styles.socialText, this.state.shareOnFacebook ? styles.socialTextSelected : null ]}>
+								{this.state.shareOnFacebook ?
+									"This will appear on your timeline" :
+									"Tap to share this with your friends"
+								}
+							</AppText>
+						</View>
+					</TouchableOpacity>
+					<AppText style={styles.socialTip}>Tip: Sharing improves your discussion’s reach</AppText>
 				</ScrollView>
 				<View style={styles.footer}>
 					<TouchFeedback
