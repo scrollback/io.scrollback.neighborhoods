@@ -14,13 +14,18 @@ const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
 
 class StartDiscussionContainer extends React.Component {
 	_getPublishPermissions = async () => {
-		const result = await Facebook.logInWithPublishPermissions([ PERMISSION_PUBLISH_ACTIONS ]);
+		try {
+			const result = await Facebook.logInWithPublishPermissions([ PERMISSION_PUBLISH_ACTIONS ]);
 
-		if (result.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
-			throw new Error(PERMISSION_PUBLISH_ERROR);
+			if (result.permissions_granted.indexOf(PERMISSION_PUBLISH_ACTIONS) === -1) {
+				throw new Error(PERMISSION_PUBLISH_ERROR);
+			}
+
+			return result;
+		} catch (err) {
+			ToastAndroid.show("Failed to get permission to post on Facebook", ToastAndroid.SHORT);
+			throw err;
 		}
-
-		return result;
 	};
 
 	_isFacebookPermissionGranted = async () => {
