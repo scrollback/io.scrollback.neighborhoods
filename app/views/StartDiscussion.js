@@ -113,8 +113,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold"
 	},
 	socialTip: {
-		marginHorizontal: 12,
-		marginVertical: 8,
+		margin: 12,
 		fontSize: 12,
 		color: Colors.grey
 	}
@@ -142,49 +141,45 @@ export default class StartDiscussionButton extends React.Component {
 	}
 
 	_onSharePress = () => {
-		const shareOnFacebook = !this.state.shareOnFacebook;
+		requestAnimationFrame(async () => {
+			let shareOnFacebook = !this.state.shareOnFacebook;
+
+			if (shareOnFacebook) {
+				try {
+					await this.props.requestFacebookPermissions();
+				} catch (err) {
+					shareOnFacebook = false;
+				}
+			}
+
+			this.setState({
+				shareOnFacebook
+			});
+
+			AsyncStorage.setItem(FACEBOOK_SHARE_CHECKED_KEY, JSON.stringify(shareOnFacebook));
+		});
+	};
+
+	_setShareCheckbox = async () => {
+		let shareOnFacebook;
+
+		try {
+			const isEnabled = JSON.parse(await AsyncStorage.getItem(FACEBOOK_SHARE_CHECKED_KEY));
+
+			if (isEnabled) {
+				const granted = await this.props.isFacebookPermissionGranted();
+
+				shareOnFacebook = granted;
+			} else {
+				shareOnFacebook = false;
+			}
+		} catch (err) {
+			shareOnFacebook = false;
+		}
 
 		this.setState({
 			shareOnFacebook
 		});
-
-		if (shareOnFacebook) {
-			requestAnimationFrame(async () => {
-				try {
-					await this.props.requestFacebookPermissions();
-
-					AsyncStorage.setItem(FACEBOOK_SHARE_CHECKED_KEY, "true");
-				} catch (err) {
-					this.setState({
-						shareOnFacebook: false
-					});
-
-					AsyncStorage.setItem(FACEBOOK_SHARE_CHECKED_KEY, "false");
-				}
-			});
-		}
-	};
-
-	_setShareCheckbox = async () => {
-		try {
-			const shareOnFacebook = JSON.parse(await AsyncStorage.getItem(FACEBOOK_SHARE_CHECKED_KEY));
-
-			if (shareOnFacebook) {
-				const granted = await this.props.isFacebookPermissionGranted();
-
-				this.setState({
-					shareOnFacebook: granted
-				});
-			} else {
-				this.setState({
-					shareOnFacebook
-				});
-			}
-		} catch (err) {
-			this.setState({
-				shareOnFacebook: false
-			});
-		}
 	};
 
 	_onLoading = () => {
