@@ -41,11 +41,7 @@ class AppContainer extends React.Component {
 	}
 
 	_setInitialRoute = () => {
-		Linking.getInitialURL((err, url) => {
-			if (err) {
-				return;
-			}
-
+		Linking.getInitialURL(url => {
 			if (url) {
 				this.setState({
 					initialRoute: routes.fromURL(url)
