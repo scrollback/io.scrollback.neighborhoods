@@ -34,14 +34,17 @@ class StartDiscussionContainer extends React.Component {
 	};
 
 	_requestFacebookPermissions = async () => {
+		let requested;
+
 		try {
 			const granted = await this._isFacebookPermissionGranted();
 
 			if (!granted) {
+				requested = true;
 				await this._getPublishPermissions();
 			}
 		} catch (err) {
-			if (err.message === PERMISSION_PUBLISH_ERROR) {
+			if (requested) {
 				throw err;
 			} else {
 				await this._getPublishPermissions();
