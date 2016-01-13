@@ -3,11 +3,9 @@
 import React from "react-native";
 import AppbarTouchable from "../views/AppbarTouchable";
 import AppbarIcon from "../views/AppbarIcon";
-import AnimatedTitle from "./AnimatedTitle";
 import Colors from "../../Colors.json";
 
 const {
-	Animated,
 	NavigationReducer,
 	NavigationState,
 	NavigationContainer,
@@ -24,6 +22,7 @@ const styles = StyleSheet.create({
 	appbar: {
 		flexDirection: "row",
 		alignItems: "center",
+		justifyContent: "flex-start",
 		backgroundColor: Colors.primary,
 		borderBottomWidth: Platform.OS === "ios" ? 1 / PixelRatio.get() : 0,
 		borderBottomColor: Colors.separator,
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
 		elevation: 4
 	},
 
-	titleArea: {
+	title: {
 		flex: 1
 	},
 
@@ -59,10 +58,8 @@ class Appbar extends React.Component {
 
 		if (this.props.navigationState.index !== 0) {
 			return (
-				<AppbarTouchable onPress={this._handleBackPress}>
-					<View style={styles.button}>
-						<AppbarIcon name="arrow-back" />
-					</View>
+				<AppbarTouchable style={styles.button} onPress={this._handleBackPress}>
+					<AppbarIcon name="arrow-back" />
 				</AppbarTouchable>
 			);
 		}
@@ -78,19 +75,14 @@ class Appbar extends React.Component {
 		return null;
 	};
 
-	_renderTitle = (route, index, key) => {
+	_renderTitle = (): ReactElement => {
 		return (
-			<AnimatedTitle
-				key={key}
-				index={index}
-				position={this.props.position}
-				style={styles.titleArea}
-			>
+			<View style={styles.title}>
 				{this.props.titleComponent ?
 					<this.props.titleComponent onNavigation={this.props.onNavigation} {...this.props.passProps} /> :
-					<Text style={styles.titleText}>{this.props.title}</Text>
+					<Text numberOfLines={1} style={styles.titleText}>{this.props.title}</Text>
 				}
-			</AnimatedTitle>
+			</View>
 		);
 	};
 
@@ -99,14 +91,12 @@ class Appbar extends React.Component {
 	};
 
 	render() {
-		const state = this.props.navigationState;
-
 		return (
-			<Animated.View style={styles.appbar}>
+			<View style={styles.appbar}>
 				{this._renderLeftComponent()}
-				{state.mapToArray(this._renderTitle)}
+				{this._renderTitle()}
 				{this._renderRightComponent()}
-			</Animated.View>
+			</View>
 		);
 	}
 }
