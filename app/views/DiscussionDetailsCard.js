@@ -41,8 +41,10 @@ const DiscussionDetailsCard = props => {
 
 DiscussionDetailsCard.propTypes = {
 	thread: React.PropTypes.shape({
-		text: React.PropTypes.string.isRequired
-	}).isRequired
+		title: React.PropTypes.string.isRequired,
+		text: React.PropTypes.string.isRequired,
+		from: React.PropTypes.string.isRequired
+	})
 };
 
 export default DiscussionDetailsCard;

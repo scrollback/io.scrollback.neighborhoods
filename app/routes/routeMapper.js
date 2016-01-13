@@ -3,7 +3,7 @@
 import type { Route } from "./Route";
 import NotificationIcon from "../views/NotificationIcon";
 import AccountButton from "../views/AccountButton";
-import PeopleListContainer from "../containers/PeopleListContainer";
+import DiscussionsDetailsContainer from "../containers/DiscussionDetailsContainer";
 import ChatContainer from "../containers/ChatContainer";
 import ChatTitleContainer from "../containers/ChatTitleContainer";
 import LocalityTitleContainer from "../containers/LocalityTitleContainer";
@@ -55,7 +55,7 @@ export default function(route: Route): RouteDescription {
 	case "details":
 		return {
 			title: "Details",
-			component: PeopleListContainer,
+			component: DiscussionsDetailsContainer,
 			passProps: route.props
 		};
 	case "signin":

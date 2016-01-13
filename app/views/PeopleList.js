@@ -3,7 +3,6 @@ import PeopleListItem from "./PeopleListItem";
 import PageEmpty from "./PageEmpty";
 import PageLoading from "./PageLoading";
 import ListHeader from "./ListHeader";
-import DiscussionDetailsCard from "./DiscussionDetailsCard";
 
 const {
 	ListView,
@@ -45,14 +44,12 @@ export default class PeopleList extends React.Component {
 						<ListView
 							initialListSize={1}
 							dataSource={dataSource}
-							renderHeader={() => <DiscussionDetailsCard thread={this.props.thread} />}
 							renderSectionHeader={() => <ListHeader>People talking</ListHeader>}
 							renderRow={user => {
 								return (
 									<PeopleListItem
 										key={user.id}
 										user={user}
-										onNavigation={this.props.onNavigation}
 									/>
 								);
 							}}
@@ -70,8 +67,5 @@ PeopleList.propTypes = {
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})
-	])).isRequired,
-	refreshData: React.PropTypes.func,
-	thread: React.PropTypes.object.isRequired,
-	onNavigation: React.PropTypes.func.isRequired
+	])).isRequired
 };
