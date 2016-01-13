@@ -1,3 +1,4 @@
+import "./app/navigation-rfc/polyfill";
 import React from "react-native";
 import AppContainer from "./app/containers/AppContainer";
 
