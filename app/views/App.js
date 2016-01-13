@@ -5,8 +5,6 @@ import Home from "./Home";
 import Offline from "./Offline";
 import userUtils from "../lib/user-utils";
 
-const PERSISTANCE_KEY = "FLAT_PERSISTENCE_0";
-
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
@@ -28,10 +26,10 @@ export default class App extends React.Component {
 		}
 
 		if (userUtils.isGuest(user)) {
-			return <Onboard persistenceKey={PERSISTANCE_KEY} initialNavigationState={initialNavigationState} />;
+			return <Onboard initialNavigationState={initialNavigationState} />;
 		}
 
-		return <Home persistenceKey={PERSISTANCE_KEY} initialNavigationState={initialNavigationState} />;
+		return <Home initialNavigationState={initialNavigationState} />;
 	}
 }
 

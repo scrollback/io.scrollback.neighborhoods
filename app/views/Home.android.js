@@ -14,6 +14,8 @@ const {
 	StyleSheet
 } = React;
 
+const PERSISTANCE_KEY = __DEV__ ? "FLAT_PERSISTENCE_0" : null;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1
@@ -35,7 +37,7 @@ export default class Home extends React.Component {
 			<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
 				<PersistentNavigator
 					initialState={new NavigationState(routes, index)}
-					persistenceKey={this.props.persistenceKey}
+					persistenceKey={PERSISTANCE_KEY}
 				/>
 
 				{Platform.Version >= VersionCodes.KITKAT ?
@@ -50,6 +52,5 @@ export default class Home extends React.Component {
 }
 
 Home.propTypes = {
-	initialNavigationState: React.PropTypes.object,
-	persistenceKey: React.PropTypes.string.isRequired
+	initialNavigationState: React.PropTypes.object
 };
