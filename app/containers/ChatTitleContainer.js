@@ -3,10 +3,6 @@ import ChatTitle from "../views/ChatTitle";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class ChatTitleContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +13,7 @@ class ChatTitleContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
@@ -27,12 +23,8 @@ class ChatTitleContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					thread: store.getThreadById(this.props.thread) || "missing"
-				});
-			}
+		this.setState({
+			thread: store.getThreadById(this.props.thread) || "missing"
 		});
 	};
 

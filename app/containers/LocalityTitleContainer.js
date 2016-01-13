@@ -3,10 +3,6 @@ import LocalityTitle from "../views/LocalityTitle";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class LocalityTitleContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -21,7 +17,7 @@ class LocalityTitleContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes.entities && changes.entities[this.props.room]) {
@@ -31,15 +27,11 @@ class LocalityTitleContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const room = store.getRoom(this.props.room);
+		const room = store.getRoom(this.props.room);
 
-				if (room.guides && room.guides.displayName) {
-					this.setState({ room });
-				}
-			}
-		});
+		if (room.guides && room.guides.displayName) {
+			this.setState({ room });
+		}
 	};
 
 	render() {

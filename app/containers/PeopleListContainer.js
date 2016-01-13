@@ -3,10 +3,6 @@ import PeopleList from "../views/PeopleList";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class PeopleListContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,6 +13,10 @@ class PeopleListContainer extends React.Component {
 	}
 
 	componentDidMount() {
+		this.runAfterInteractions(this._updateData);
+	}
+
+	_updateData = () => {
 		const { thread } = this.props;
 
 		if (thread && thread.concerns) {
@@ -48,37 +48,14 @@ class PeopleListContainer extends React.Component {
 				}
 			});
 
-			this._onDataArrived(data);
+			this.setState({ data });
 		} else {
-			this._onError();
+			this.setState({ data: [ "failed" ] });
 		}
-	}
-
-	_onDataArrived = data => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({ data });
-			}
-		});
-	};
-
-	_onError = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					data: [ "failed" ]
-				});
-			}
-		});
 	};
 
 	render() {
-		return (
-			<PeopleList
-				{...this.props}
-				{...this.state}
-			/>
-		);
+		return <PeopleList {...this.props} {...this.state} />;
 	}
 }
 

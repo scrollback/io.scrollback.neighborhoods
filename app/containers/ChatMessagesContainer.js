@@ -4,10 +4,6 @@ import Container from "./Container";
 import store from "../store/store";
 import textUtils from "../lib/text-utils";
 
-const {
-	InteractionManager
-} = React;
-
 class ChatMessagesContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -18,7 +14,7 @@ class ChatMessagesContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes.texts && changes.texts[this.props.room + "_" + this.props.thread]) {
@@ -26,7 +22,7 @@ class ChatMessagesContainer extends React.Component {
 			}
 		});
 
-		InteractionManager.runAfterInteractions(async () => {
+		this.runAfterInteractions(async () => {
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -50,33 +46,29 @@ class ChatMessagesContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const requested = store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
-				const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
+		const requested = store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
+		const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
 
-				const data = [];
+		const data = [];
 
-				for (let i = texts.length - 1, l = 0; i >= l; i--) {
-					const text = texts[i];
+		for (let i = texts.length - 1, l = 0; i >= l; i--) {
+			const text = texts[i];
 
-					if (typeof text === "string") {
-						data.push(text);
-					} else {
-						const previousText = texts[i - 1];
+			if (typeof text === "string") {
+				data.push(text);
+			} else {
+				const previousText = texts[i - 1];
 
-						data.push({
-							text,
-							metadata: textUtils.getMetadata(text.text),
-							previousText: typeof previousText === "object" ? previousText : null
-						});
-					}
-				}
-
-				this.setState({
-					data
+				data.push({
+					text,
+					metadata: textUtils.getMetadata(text.text),
+					previousText: typeof previousText === "object" ? previousText : null
 				});
 			}
+		}
+
+		this.setState({
+			data
 		});
 	};
 

@@ -3,10 +3,6 @@ import Discussions from "../views/Discussions";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class DiscussionsContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -24,7 +20,7 @@ class DiscussionsContainer extends React.Component {
 			}
 		});
 
-		InteractionManager.runAfterInteractions(async () => {
+		this.runAfterInteractions(async () => {
 			this.emit("setstate", {
 				nav: {
 					room: this.props.room,
@@ -47,16 +43,12 @@ class DiscussionsContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const requested = store.get("nav", this.props.room + "_requested");
-				const threads = store.getThreads(this.props.room, null, -requested);
+		const requested = store.get("nav", this.props.room + "_requested");
+		const threads = store.getThreads(this.props.room, null, -requested);
 
-				this.setState({
-					data: threads.reverse(),
-					user: store.get("user")
-				});
-			}
+		this.setState({
+			data: threads.reverse(),
+			user: store.get("user")
 		});
 	};
 

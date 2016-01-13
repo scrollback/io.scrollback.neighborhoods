@@ -3,10 +3,6 @@ import Account from "../views/Account";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class AccountContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +13,7 @@ class AccountContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			const user = store.get("user");
@@ -29,12 +25,8 @@ class AccountContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					user: store.getUser()
-				});
-			}
+		this.setState({
+			user: store.getUser()
 		});
 	};
 

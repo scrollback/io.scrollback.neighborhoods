@@ -3,10 +3,6 @@ import Chat from "../views/Chat";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class ChatContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,13 +12,15 @@ class ChatContainer extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-		InteractionManager.runAfterInteractions(() => {
-			this.setState({
-				user: store.get("user")
-			});
-		});
+	componentDidMount() {
+		this.runAfterInteractions(this._updateData);
 	}
+
+	_updateData = () => {
+		this.setState({
+			user: store.get("user")
+		});
+	};
 
 	_sendMessage = (text, textId) => {
 		const textObj = {

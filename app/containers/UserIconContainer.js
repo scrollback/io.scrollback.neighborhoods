@@ -3,10 +3,6 @@ import UserIcon from "../views/UserIcon";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class UserIconContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +13,7 @@ class UserIconContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if ("user" in changes) {
@@ -27,12 +23,8 @@ class UserIconContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					nick: store.get("user")
-				});
-			}
+		this.setState({
+			nick: store.get("user")
 		});
 	};
 

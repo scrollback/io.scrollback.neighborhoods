@@ -3,10 +3,6 @@ import LocalityItem from "../views/LocalityItem";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class LocalityItemContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +13,7 @@ class LocalityItemContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			const user = store.get("user");
@@ -29,14 +25,10 @@ class LocalityItemContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const role = store.getUserRole(store.get("user"), this.props.room.id);
+		const role = store.getUserRole(store.get("user"), this.props.room.id);
 
-				this.setState({
-					role: role === "registered" || !role ? "none" : role
-				});
-			}
+		this.setState({
+			role: role === "registered" || !role ? "none" : role
 		});
 	};
 

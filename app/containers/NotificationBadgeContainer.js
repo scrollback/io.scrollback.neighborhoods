@@ -3,10 +3,6 @@ import NotificationBadge from "../views/NotificationBadge";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class NotificationBadgeContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -15,7 +11,7 @@ class NotificationBadgeContainer extends React.Component {
 	}
 
 	componentWillMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes && changes.notes) {
@@ -25,43 +21,39 @@ class NotificationBadgeContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const notes = store.getNotes();
-				const { room, thread, grouped } = this.props;
+		const notes = store.getNotes();
+		const { room, thread, grouped } = this.props;
 
-				let items;
+		let items;
 
-				if (room) {
-					items = notes.filter(note => note.group.split("/")[0] === room);
-				} else if (thread) {
-					items = notes.filter(note => note.group.split("/")[1] === thread);
+		if (room) {
+			items = notes.filter(note => note.group.split("/")[0] === room);
+		} else if (thread) {
+			items = notes.filter(note => note.group.split("/")[1] === thread);
+		} else {
+			items = notes;
+		}
+
+		let count;
+
+		if (grouped) {
+			count = items.length;
+		} else {
+			count = 0;
+
+			for (let i = 0, l = items.length; i < l; i++) {
+				const n = items[i];
+
+				if (n.count) {
+					count += n.count;
 				} else {
-					items = notes;
+					count++;
 				}
-
-				let count;
-
-				if (grouped) {
-					count = items.length;
-				} else {
-					count = 0;
-
-					for (let i = 0, l = items.length; i < l; i++) {
-						const n = items[i];
-
-						if (n.count) {
-							count += n.count;
-						} else {
-							count++;
-						}
-					}
-				}
-
-				this.setState({
-					count
-				});
 			}
+		}
+
+		this.setState({
+			count
 		});
 	};
 

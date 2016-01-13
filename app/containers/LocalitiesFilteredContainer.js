@@ -4,10 +4,6 @@ import Geolocation from "../modules/Geolocation";
 import debounce from "../lib/debounce";
 import Container from "./Container";
 
-const {
-	InteractionManager
-} = React;
-
 class LocalitiesFilteredContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,7 +55,7 @@ class LocalitiesFilteredContainer extends React.Component {
 		const filter = text.toLowerCase();
 
 		if (filter) {
-			InteractionManager.runAfterInteractions(() => {
+			this.runAfterInteractions(() => {
 				if (this._mounted) {
 					if (this._cachedResults[filter]) {
 						this.setState({

@@ -3,10 +3,6 @@ import NotificationCenter from "../views/NotificationCenter";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class NotificationCenterContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -17,7 +13,7 @@ class NotificationCenterContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes && changes.notes) {
@@ -35,12 +31,8 @@ class NotificationCenterContainer extends React.Component {
 	};
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				this.setState({
-					data: store.getNotes()
-				});
-			}
+		this.setState({
+			data: store.getNotes()
 		});
 	};
 

@@ -3,10 +3,6 @@ import Localities from "../views/Localities";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class LocalitiesContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,7 +15,7 @@ class LocalitiesContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			const user = store.get("user");
@@ -29,7 +25,7 @@ class LocalitiesContainer extends React.Component {
 			}
 		});
 
-		InteractionManager.runAfterInteractions(() => {
+		this.runAfterInteractions(() => {
 			this.emit("setstate", {
 				nav: { mode: "home" }
 			});
@@ -37,22 +33,18 @@ class LocalitiesContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
-				const followingRooms = following.map(room => room.id);
-				const nearby = store.getNearByRooms().filter(room => followingRooms.indexOf(room.id) === -1);
-				const available = store.get("app", "isAvailable") !== false;
+		const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
+		const followingRooms = following.map(room => room.id);
+		const nearby = store.getNearByRooms().filter(room => followingRooms.indexOf(room.id) === -1);
+		const available = store.get("app", "isAvailable") !== false;
 
-				this.setState({
-					data: {
-						following,
-						nearby
-					},
+		this.setState({
+			data: {
+				following,
+				nearby
+			},
 
-					available
-				});
-			}
+			available
 		});
 	};
 

@@ -1,8 +1,18 @@
+/* @flow */
+
+import React from "react-native";
 import core from "../store/core";
 import actions from "../store/actions";
 
-export default function(Target) {
+const {
+	InteractionManager
+} = React;
+
+export default function(Target: React.Component): React.Component {
 	class Container extends Target {
+		_mounted: boolean;
+		_handlers: Array<Array<any>>;
+
 		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {
 				super.componentDidMount();
@@ -26,7 +36,15 @@ export default function(Target) {
 			}
 		}
 
-		handle(event, cb, prio = 100, ...rest) {
+		runAfterInteractions(cb: Function) {
+			InteractionManager.runAfterInteractions(() => {
+				if (this._mounted) {
+					cb();
+				}
+			});
+		}
+
+		handle(event: string, cb: Function, prio: number = 100, ...rest) {
 			if (typeof super.handle === "function") {
 				return super.handle(event, cb, prio, ...rest);
 			}

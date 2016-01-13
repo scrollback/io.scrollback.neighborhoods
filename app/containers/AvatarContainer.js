@@ -6,8 +6,7 @@ import config from "../store/config";
 import getAvatar from "../lib/get-avatar";
 
 const {
-	PixelRatio,
-	InteractionManager
+	PixelRatio
 } = React;
 
 class AvatarContainer extends React.Component {
@@ -20,7 +19,7 @@ class AvatarContainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this._updateData();
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes.entities && changes.entities[this.props.nick]) {
@@ -30,25 +29,21 @@ class AvatarContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			if (this._mounted) {
-				const { protocol, host } = config.server;
-				const { nick, size } = this.props;
+		const { protocol, host } = config.server;
+		const { nick, size } = this.props;
 
-				const user = store.getUser(nick);
+		const user = store.getUser(nick);
 
-				let uri;
+		let uri;
 
-				if (user && user.picture) {
-					uri = getAvatar(user.picture, (size * PixelRatio.get()));
-				} else {
-					uri = protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
-				}
+		if (user && user.picture) {
+			uri = getAvatar(user.picture, (size * PixelRatio.get()));
+		} else {
+			uri = protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
+		}
 
-				this.setState({
-					uri
-				});
-			}
+		this.setState({
+			uri
 		});
 	};
 

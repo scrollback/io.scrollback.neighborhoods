@@ -3,10 +3,6 @@ import BannerOffline from "../views/BannerOffline";
 import Container from "./Container";
 import store from "../store/store";
 
-const {
-	InteractionManager
-} = React;
-
 class BannerOfflineContainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -16,8 +12,8 @@ class BannerOfflineContainer extends React.Component {
 		};
 	}
 
-	componentWillMount() {
-		this._updateData();
+	componentDidMount() {
+		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
 			if (changes.app && changes.app.connectionStatus) {
@@ -27,10 +23,8 @@ class BannerOfflineContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		InteractionManager.runAfterInteractions(() => {
-			this.setState({
-				connectionStatus: store.get("app", "connectionStatus")
-			});
+		this.setState({
+			connectionStatus: store.get("app", "connectionStatus")
 		});
 	};
 
