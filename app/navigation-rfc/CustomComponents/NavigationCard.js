@@ -122,7 +122,6 @@ NavigationCard = NavigationContainer.create(NavigationCard);
 
 var styles = StyleSheet.create({
   card: {
-    flex: 1,
     backgroundColor: '#E9E9EF',
     shadowColor: 'black',
     shadowOpacity: 0.4,
@@ -131,6 +130,7 @@ var styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     position: 'absolute',
+    elevation: 4,
   },
 });
 

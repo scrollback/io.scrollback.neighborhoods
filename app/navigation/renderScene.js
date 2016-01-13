@@ -5,12 +5,12 @@ import routeMapper from "../routes/routeMapper";
 
 const {
 	NavigationCard,
-	View,
-	StyleSheet
+	StyleSheet,
+	View
 } = React;
 
 const styles = StyleSheet.create({
-	scene: {
+	container: {
 		flex: 1
 	},
 
@@ -29,8 +29,12 @@ const renderScene = function(navState: Object, onNavigation: Function): Function
 
 		return (
 			<NavigationCard {...props}>
-				<View style={[ styles.scene, route.fullscreen ? null : styles.normal ]}>
-					<RouteComponent onNavigation={onNavigation} {...passProps} />
+				<View style={[ styles.container, route.fullscreen ? null : styles.normal ]}>
+					<RouteComponent
+						 {...passProps}
+						 style={styles.container}
+						 onNavigation={onNavigation}
+					/>
 				</View>
 			</NavigationCard>
 		);
