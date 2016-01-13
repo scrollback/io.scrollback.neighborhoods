@@ -1,22 +1,29 @@
+/* @flow */
+
 import React from "react-native";
-import renderScene from "../utils/renderScene";
-import routes from "../utils/routes";
+import PersistentNavigator from "../navigation/PersistentNavigator";
+import { convertRouteToState } from "../routes/Route";
 
 const {
-	Navigator
+	NavigationState
 } = React;
 
 export default class Onboard extends React.Component {
-	render() {
+	render(): ReactElement {
+		const navigationState = convertRouteToState({
+			type: "signin",
+			props: {},
+			fullscreen: true
+		});
+
 		return (
-			<Navigator
-				initialRoute={routes.signin({ initialRoute: this.props.initialRoute })}
-				renderScene={renderScene}
+			<PersistentNavigator
+				initialState={new NavigationState(navigationState.routes, navigationState.index)}
 			/>
 		);
 	}
 }
 
 Onboard.propTypes = {
-	initialRoute: React.PropTypes.object
+	initialNavigationState: React.PropTypes.object
 };

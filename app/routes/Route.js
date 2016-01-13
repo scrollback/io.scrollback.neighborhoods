@@ -16,6 +16,7 @@ export type Route = {
 		room?: string,
 		thread?: string;
 	};
+	fullscreen?: boolean
 }
 
 export type NavigationState = {
@@ -73,13 +74,17 @@ export function convertURLToRoute(url: string): Route {
 	}
 }
 
+export function getHomeRoute(): Route {
+	return {
+		type: "home",
+		props: {}
+	};
+}
+
 export function convertRouteToState(route: Route): NavigationState {
 	const state = {
 		routes: [
-			{
-				type: "home",
-				props: {}
-			}
+			getHomeRoute()
 		],
 		index: 0
 	};
@@ -124,6 +129,11 @@ export function convertRouteToState(route: Route): NavigationState {
 				route
 			],
 			index: state.index + 3
+		};
+	case "signin":
+		return {
+			routes: [ route ],
+			index: 0
 		};
 	default:
 		return state;

@@ -29,7 +29,7 @@ export default class SearchBar extends React.Component {
 	}
 
 	_onPress = () => {
-		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} navigator={this.props.navigator} />);
+		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} onNavigation={this.props.onNavigation} />);
 	};
 
 	render() {
@@ -45,5 +45,5 @@ export default class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

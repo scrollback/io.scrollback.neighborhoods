@@ -22,6 +22,7 @@ const AnimatedTitle = (props: Props): ReactElement => {
 	return (
 		<Animated.View
 			style={[
+				props.style,
 				{
 					opacity: position.interpolate({
 						inputRange: [ index - 1, index, index + 1 ],

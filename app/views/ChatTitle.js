@@ -2,11 +2,11 @@ import React from "react-native";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
 import AppbarTouchable from "./AppbarTouchable";
-import routes from "../utils/routes";
 
 const {
 	StyleSheet,
-	View
+	View,
+	NavigationActions
 } = React;
 
 const styles = StyleSheet.create({
@@ -32,7 +32,12 @@ export default class ChatTitle extends React.Component {
 		const { thread } = this.props;
 
 		if (thread && thread.id) {
-			this.props.navigator.push(routes.details({ thread }));
+			this.props.onNavigation(new NavigationActions.Push({
+				type: "details",
+				props: {
+					thread: thread.id
+				}
+			}));
 		}
 	};
 
@@ -72,5 +77,5 @@ ChatTitle.propTypes = {
 		}),
 		React.PropTypes.string
 	]).isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

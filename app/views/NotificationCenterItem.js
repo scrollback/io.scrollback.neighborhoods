@@ -5,12 +5,12 @@ import Icon from "./Icon";
 import AvatarRound from "./AvatarRound";
 import Time from "./Time";
 import TouchFeedback from "./TouchFeedback";
-import routes from "../utils/routes";
 
 const {
 	StyleSheet,
 	View,
 	TouchableHighlight,
+	NavigationActions,
 	PixelRatio
 } = React;
 
@@ -193,7 +193,7 @@ export default class NotificationCenterItem extends React.Component {
 	};
 
 	_onPress = () => {
-		const { note, navigator } = this.props;
+		const { note, onNavigation } = this.props;
 
 		const room = this._getRoom(note);
 		const thread = this._getThread(note);
@@ -201,25 +201,41 @@ export default class NotificationCenterItem extends React.Component {
 		switch (note.noteType) {
 		case "mention":
 		case "reply":
-			navigator.push(routes.chat({
-				thread,
-				room
+			onNavigation(new NavigationActions.Push({
+				type: "chat",
+				props: {
+					thread,
+					room
+				}
 			}));
 
 			break;
 		case "thread":
 			if (note.count > 1) {
-				navigator.push(routes.room({ room }));
+				onNavigation(new NavigationActions.Push({
+					type: "room",
+					props: {
+						room
+					}
+				}));
 			} else {
-				navigator.push(routes.chat({
-					thread: note.ref,
-					room
+				onNavigation(new NavigationActions.Push({
+					type: "chat",
+					props: {
+						thread: note.ref,
+						room
+					}
 				}));
 			}
 
 			break;
 		default:
-			navigator.push(routes.room({ room }));
+			onNavigation(new NavigationActions.Push({
+				type: "room",
+				props: {
+					room
+				}
+			}));
 		}
 	};
 
@@ -299,5 +315,5 @@ NotificationCenterItem.propTypes = {
 		}).isRequired
 	}).isRequired,
 	dismissNote: React.PropTypes.func.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

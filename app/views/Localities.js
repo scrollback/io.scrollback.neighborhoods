@@ -22,7 +22,7 @@ export default class Localities extends React.Component {
 				<BannerOfflineContainer />
 				{this.props.available === false ?
 					<BannerUnavailable /> :
-					<SearchButton navigator={this.props.navigator} />}
+					<SearchButton onNavigation={this.props.onNavigation} />}
 				<LocalitiesBase
 					{...this.props}
 					pageEmptyLabel="You've not joined any communities"
@@ -35,5 +35,5 @@ export default class Localities extends React.Component {
 
 Localities.propTypes = {
 	available: React.PropTypes.bool,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

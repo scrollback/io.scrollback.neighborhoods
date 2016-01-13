@@ -29,5 +29,5 @@ export default class StartDiscussionButton extends React.Component {
 StartDiscussionButton.propTypes = {
 	room: React.PropTypes.string.isRequired,
 	user: React.PropTypes.string.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

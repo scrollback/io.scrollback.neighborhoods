@@ -33,7 +33,7 @@ const PersistentNavigator = (props: Object): ReactElement => (
 
 PersistentNavigator.propTypes = {
 	initialState: React.PropTypes.any.isRequired,
-	persistenceKey: React.PropTypes.string.isRequired
+	persistenceKey: React.PropTypes.string
 };
 
 export default PersistentNavigator;

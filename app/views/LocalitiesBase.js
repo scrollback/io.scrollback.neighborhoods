@@ -111,7 +111,7 @@ export default class LocalitiesBase extends React.Component {
 										showMenuButton={this.props.showMenuButton}
 										showBadge={this.props.showBadge}
 										location={this.state.location}
-										navigator={this.props.navigator}
+										onNavigation={this.props.onNavigation}
 									/>
 								);
 							}}
@@ -154,5 +154,5 @@ LocalitiesBase.propTypes = {
 	showBadge: React.PropTypes.bool,
 	pageEmptyLabel: React.PropTypes.string.isRequired,
 	pageEmptyImage: React.PropTypes.string.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

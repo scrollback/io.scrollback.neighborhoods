@@ -5,17 +5,19 @@ import Home from "./Home";
 import Offline from "./Offline";
 import userUtils from "../lib/user-utils";
 
+const PERSISTANCE_KEY = "FLAT_PERSISTENCE_0";
+
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
 			this.props.user !== nextProps.user ||
 			this.props.connectionStatus !== nextProps.connectionStatus ||
-			this.props.initialRoute !== nextProps.initialRoute
+			this.props.initialNavigationState !== nextProps.initialNavigationState
 		);
 	}
 
 	render() {
-		const { user, connectionStatus, initialRoute } = this.props;
+		const { user, connectionStatus, initialNavigationState } = this.props;
 
 		if (user === "missing") {
 			if (connectionStatus === "offline") {
@@ -26,15 +28,15 @@ export default class App extends React.Component {
 		}
 
 		if (userUtils.isGuest(user)) {
-			return <Onboard initialRoute={initialRoute} />;
+			return <Onboard persistenceKey={PERSISTANCE_KEY} initialNavigationState={initialNavigationState} />;
 		}
 
-		return <Home initialRoute={initialRoute} />;
+		return <Home persistenceKey={PERSISTANCE_KEY} initialNavigationState={initialNavigationState} />;
 	}
 }
 
 App.propTypes = {
 	user: React.PropTypes.string.isRequired,
 	connectionStatus: React.PropTypes.oneOf([ "connecting", "online", "offline" ]).isRequired,
-	initialRoute: React.PropTypes.object
+	initialNavigationState: React.PropTypes.object
 };

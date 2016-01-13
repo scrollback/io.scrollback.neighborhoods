@@ -1,17 +1,17 @@
+/* @flow */
+
 import React from "react-native";
 import Colors from "../../Colors.json";
 import Modal from "./Modal";
+import PersistentNavigator from "../navigation/PersistentNavigator";
 import StatusbarContainer from "./StatusbarContainer";
 import KeyboardSpacer from "./KeyboardSpacer";
-import renderNavigationBar from "../utils/renderNavigationBar";
-import renderScene from "../utils/renderScene";
-import routes from "../utils/routes";
 import VersionCodes from "../modules/VersionCodes";
 
 const {
 	Platform,
-	StyleSheet,
-	Navigator
+	NavigationState,
+	StyleSheet
 } = React;
 
 const styles = StyleSheet.create({
@@ -29,14 +29,13 @@ const styles = StyleSheet.create({
 
 export default class Home extends React.Component {
 	render() {
+		const { routes, index } = this.props.initialNavigationState;
+
 		return (
 			<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
-				<Navigator
-					initialRoute={this.props.initialRoute || routes.home()}
-					renderScene={renderScene}
-					navigationBar={renderNavigationBar()}
-					configureScene={() => Navigator.SceneConfigs.FloatFromBottomAndroid}
-					sceneStyle={styles.scene}
+				<PersistentNavigator
+					initialState={new NavigationState(routes, index)}
+					persistenceKey={this.props.persistenceKey}
 				/>
 
 				{Platform.Version >= VersionCodes.KITKAT ?
@@ -51,5 +50,6 @@ export default class Home extends React.Component {
 }
 
 Home.propTypes = {
-	initialRoute: React.PropTypes.object
+	initialNavigationState: React.PropTypes.object,
+	persistenceKey: React.PropTypes.string.isRequired
 };

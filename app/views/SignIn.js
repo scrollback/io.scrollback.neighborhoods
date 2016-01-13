@@ -177,7 +177,5 @@ export default class SignIn extends React.Component {
 }
 
 SignIn.propTypes = {
-	navigator: React.PropTypes.object.isRequired,
-	initialRoute: React.PropTypes.object,
 	signIn: React.PropTypes.func.isRequired
 };

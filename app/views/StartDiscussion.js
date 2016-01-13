@@ -15,13 +15,13 @@ import ImageUploadContainer from "../containers/ImageUploadContainer";
 import Banner from "./Banner";
 import ImageUploadDiscussion from "./ImageUploadDiscussion";
 import ImageChooser from "../modules/ImageChooser";
-import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
 
 const {
 	AsyncStorage,
 	TouchableOpacity,
 	StyleSheet,
+	NavigationActions,
 	ScrollView,
 	View
 } = React;
@@ -189,9 +189,12 @@ export default class StartDiscussionButton extends React.Component {
 	};
 
 	_onPosted = thread => {
-		this.props.navigator.push(routes.chat({
-			thread: thread.id,
-			room: this.props.room
+		this.props.onNavigation(new NavigationActions.Push({
+			type: "chat",
+			props: {
+				thread: thread.id,
+				room: this.props.room
+			}
 		}));
 	};
 
@@ -421,5 +424,5 @@ StartDiscussionButton.propTypes = {
 	postDiscussion: React.PropTypes.func.isRequired,
 	requestFacebookPermissions: React.PropTypes.func.isRequired,
 	isFacebookPermissionGranted: React.PropTypes.func.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

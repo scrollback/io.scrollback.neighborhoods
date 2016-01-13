@@ -10,7 +10,6 @@ import Modal from "./Modal";
 import Icon from "./Icon";
 import Linking from "../modules/Linking";
 import Share from "../modules/Share";
-import routes from "../utils/routes";
 import textUtils from "../lib/text-utils";
 import url from "../lib/url";
 
@@ -19,6 +18,7 @@ const {
 	ToastAndroid,
 	StyleSheet,
 	TouchableOpacity,
+	NavigationActions,
 	View
 } = React;
 
@@ -103,9 +103,14 @@ export default class DiscussionItem extends React.Component {
 	};
 
 	_onPress = () => {
-		this.props.navigator.push(routes.chat({
-			thread: this.props.thread.id,
-			room: this.props.thread.to
+		const { thread } = this.props;
+
+		this.props.onNavigation(new NavigationActions.Push({
+			type: "chat",
+			props: {
+				thread: thread.id,
+				room: thread.to
+			}
 		}));
 	};
 
@@ -152,7 +157,7 @@ DiscussionItem.propTypes = {
 		from: React.PropTypes.string.isRequired,
 		to: React.PropTypes.string.isRequired
 	}).isRequired,
-	navigator: React.PropTypes.object.isRequired,
+	onNavigation: React.PropTypes.func.isRequired,
 	currentUser: React.PropTypes.string.isRequired,
 	hidden: React.PropTypes.bool.isRequired,
 	isCurrentUserAdmin: React.PropTypes.func.isRequired,

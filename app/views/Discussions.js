@@ -73,7 +73,7 @@ export default class Discussions extends React.Component {
 									<DiscussionItemContainer
 										key={thread.id}
 										thread={thread}
-										navigator={this.props.navigator}
+										onNavigation={this.props.onNavigation}
 										style={styles.item}
 									/>
 								);
@@ -85,7 +85,7 @@ export default class Discussions extends React.Component {
 				<StartDiscussionButton
 					room={this.props.room}
 					user={this.props.user}
-					navigator={this.props.navigator}
+					onNavigation={this.props.onNavigation}
 				/>
 			</View>
 		);
@@ -103,5 +103,5 @@ Discussions.propTypes = {
 	user: React.PropTypes.string.isRequired,
 	refreshData: React.PropTypes.func,
 	onEndReached: React.PropTypes.func.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

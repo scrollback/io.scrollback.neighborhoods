@@ -3,10 +3,10 @@ import Colors from "../../Colors.json";
 import AppbarTouchable from "./AppbarTouchable";
 import AppbarIcon from "./AppbarIcon";
 import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
-import routes from "../utils/routes";
 
 const {
 	StyleSheet,
+	NavigationActions,
 	View
 } = React;
 
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 export default class NotificationIcon extends React.Component {
 	_onPress = () => {
-		this.props.navigator.push(routes.notes());
+		this.props.onNavigation(new NavigationActions.Push({ type: "notes" }));
 	};
 
 	render() {
@@ -38,5 +38,5 @@ export default class NotificationIcon extends React.Component {
 }
 
 NotificationIcon.propTypes = {
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

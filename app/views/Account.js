@@ -9,7 +9,6 @@ import Modal from "./Modal";
 import AccountPhotoChooser from "./AccountPhotoChooser";
 import TouchFeedback from "./TouchFeedback";
 import PushNotification from "../modules/PushNotification";
-import routes from "../utils/routes";
 import debounce from "../lib/debounce";
 
 const {
@@ -18,7 +17,8 @@ const {
 	View,
 	PixelRatio,
 	TouchableOpacity,
-	SwitchAndroid: Switch
+	NavigationActions,
+	Switch
 } = React;
 
 const styles = StyleSheet.create({
@@ -161,7 +161,12 @@ export default class Account extends React.Component {
 	};
 
 	_reportIssue = () => {
-		this.props.navigator.push(routes.room({ room: "support" }));
+		this.props.onNavigation(new NavigationActions.Push({
+			type: "room",
+			props: {
+				room: "support"
+			}
+		}));
 	};
 
 	_choosePhoto = () => {
@@ -286,5 +291,5 @@ Account.propTypes = {
 	]).isRequired,
 	saveUser: React.PropTypes.func.isRequired,
 	signOut: React.PropTypes.func.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

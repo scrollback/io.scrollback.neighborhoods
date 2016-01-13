@@ -31,25 +31,38 @@ const styles = StyleSheet.create({
 		elevation: 4
 	},
 
+	titleArea: {
+		flex: 1
+	},
+
 	titleText: {
 		flex: 1,
 		lineHeight: 27,
 		fontSize: 18,
 		fontWeight: "bold",
 		color: Colors.white
+	},
+
+	button: {
+		alignItems: "center",
+		justifyContent: "center",
+		height: APPBAR_HEIGHT,
+		width: APPBAR_HEIGHT
 	}
 });
 
 class Appbar extends React.Component {
-	_renderLeftComponent = (route): ?ReactElement => {
+	_renderLeftComponent = (): ?ReactElement => {
 		if (this.props.leftComponent) {
-			return <this.props.leftComponent {...route.props} />;
+			return <this.props.leftComponent onNavigation={this.props.onNavigation} {...this.props.passProps} />;
 		}
 
 		if (this.props.navigationState.index !== 0) {
 			return (
 				<AppbarTouchable onPress={this._handleBackPress}>
-					<AppbarIcon name="arrow-back" />
+					<View style={styles.button}>
+						<AppbarIcon name="arrow-back" />
+					</View>
 				</AppbarTouchable>
 			);
 		}
@@ -57,9 +70,9 @@ class Appbar extends React.Component {
 		return null;
 	};
 
-	_renderRightComponent = (route): ?ReactElement => {
+	_renderRightComponent = (): ?ReactElement => {
 		if (this.props.rightComponent) {
-			return <this.props.rightComponent {...route.props} />;
+			return <this.props.rightComponent onNavigation={this.props.onNavigation} {...this.props.passProps} />;
 		}
 
 		return null;
@@ -71,10 +84,11 @@ class Appbar extends React.Component {
 				key={key}
 				index={index}
 				position={this.props.position}
+				style={styles.titleArea}
 			>
-				{route.titleComponent ?
-					<route.titleComponent {...route.props} /> :
-					<Text style={styles.titleText}>{route.title}</Text>
+				{this.props.titleComponent ?
+					<this.props.titleComponent onNavigation={this.props.onNavigation} {...this.props.passProps} /> :
+					<Text style={styles.titleText}>{this.props.title}</Text>
 				}
 			</AnimatedTitle>
 		);
@@ -89,8 +103,9 @@ class Appbar extends React.Component {
 
 		return (
 			<Animated.View style={styles.appbar}>
+				{this._renderLeftComponent()}
 				{state.mapToArray(this._renderTitle)}
-				{state.mapToArray(this._renderLeftComponent)}
+				{this._renderRightComponent()}
 			</Animated.View>
 		);
 	}
@@ -103,7 +118,8 @@ Appbar.propTypes = {
 	titleComponent: React.PropTypes.func,
 	leftComponent: React.PropTypes.func,
 	rightComponent: React.PropTypes.func,
-	position: React.PropTypes.any.isRequired
+	passProps: React.PropTypes.object,
+	position: React.PropTypes.object.isRequired
 };
 
 export default NavigationContainer.create(Appbar);

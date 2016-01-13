@@ -2,10 +2,10 @@ import React from "react-native";
 import Colors from "../../Colors.json";
 import UserIconContainer from "../containers/UserIconContainer";
 import AppbarTouchable from "./AppbarTouchable";
-import routes from "../utils/routes";
 
 const {
-	StyleSheet
+	StyleSheet,
+	NavigationActions
 } = React;
 
 const styles = StyleSheet.create({
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 export default class AccountButton extends React.Component {
 	_onPress = () => {
-		this.props.navigator.push(routes.account());
+		this.props.onNavigation(new NavigationActions.Push({ type: "account" }));
 	};
 
 	render() {
@@ -34,5 +34,5 @@ export default class AccountButton extends React.Component {
 }
 
 AccountButton.propTypes = {
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };

@@ -7,7 +7,6 @@ import Icon from "./Icon";
 import Modal from "./Modal";
 import Share from "../modules/Share";
 import Linking from "../modules/Linking";
-import routes from "../utils/routes";
 import url from "../lib/url";
 import locationUtils from "../lib/location-utils";
 
@@ -15,6 +14,7 @@ const {
 	StyleSheet,
 	PixelRatio,
 	TouchableOpacity,
+	NavigationActions,
 	View
 } = React;
 
@@ -83,7 +83,12 @@ export default class LocalityItem extends React.Component {
 	};
 
 	_onPress = () => {
-		this.props.navigator.push(routes.room({ room: this.props.room.id }));
+		this.props.onNavigation(new NavigationActions.Push({
+			type: "room",
+			props: {
+				room: this.props.room.id
+			}
+		}));
 		this.props.autoJoin();
 	};
 
@@ -152,7 +157,7 @@ LocalityItem.propTypes = {
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
 	autoJoin: React.PropTypes.func.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };
 
 LocalityItem.defaultProps = {

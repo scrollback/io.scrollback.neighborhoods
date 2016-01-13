@@ -52,7 +52,7 @@ export default class PeopleList extends React.Component {
 									<PeopleListItem
 										key={user.id}
 										user={user}
-										navigator={this.props.navigator}
+										onNavigation={this.props.onNavigation}
 									/>
 								);
 							}}
@@ -73,5 +73,5 @@ PeopleList.propTypes = {
 	])).isRequired,
 	refreshData: React.PropTypes.func,
 	thread: React.PropTypes.object.isRequired,
-	navigator: React.PropTypes.object.isRequired
+	onNavigation: React.PropTypes.func.isRequired
 };
