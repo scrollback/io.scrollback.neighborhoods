@@ -38,6 +38,11 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
 
 const renderNavigator = (): Function => {
 	return (navState, onNavigation) => {
+		// Hide modal on navigate
+		if (Modal.isShown()) {
+			Modal.renderComponent(null);
+		}
+
 		_navState = navState;
 		_onNavigation = onNavigation;
 
