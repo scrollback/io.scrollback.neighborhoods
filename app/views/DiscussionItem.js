@@ -72,7 +72,7 @@ export default class DiscussionItem extends React.Component {
 
 		const metadata = textUtils.getMetadata(thread.text);
 
-		if (metadata && metadata.type === "image") {
+		if (metadata && metadata.type === "photo") {
 			menu["Open image in browser"] = () => Linking.openURL(metadata.url);
 			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
 		} else {
