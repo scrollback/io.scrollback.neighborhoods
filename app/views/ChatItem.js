@@ -100,7 +100,7 @@ export default class ChatItem extends React.Component {
 
 		const menu = {};
 
-		if (metadata && metadata.type === "image") {
+		if (metadata && metadata.type === "photo") {
 			menu["Open image in browser"] = () => Linking.openURL(metadata.url.toLowerCase());
 			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
 		} else {
