@@ -2,6 +2,7 @@
 
 import React from "react-native";
 import routeMapper from "../routes/routeMapper";
+import Colors from "../../Colors.json";
 
 const {
 	NavigationCard,
@@ -11,7 +12,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1
+		flex: 1,
+		backgroundColor: Colors.lightGrey
 	},
 
 	normal: {
