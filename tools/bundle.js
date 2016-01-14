@@ -1,3 +1,5 @@
+"use strict";
+
 const fs = require("fs");
 const path = require("path");
 const chalk = require("chalk");
@@ -29,7 +31,7 @@ log.i("Reading gradle configuration", GRADLE_PATH);
 const lines = fs.readFileSync(GRADLE_PATH).toString().split("\n");
 
 // Extract the version number and version code
-for (const line of lines) {
+for (let line of lines) {
 	if (/versionName/.test(line)) {
 		// Version name should be changed whenever any native APIs change
 		metadata.version_name = line.trim().split(" ")[1].replace(/("|')/g, "");
