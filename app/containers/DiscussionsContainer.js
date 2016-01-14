@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Discussions from "../views/Discussions";
 import Container from "./Container";

@@ -1,9 +1,13 @@
+/* @flow */
+
 import React from "react-native";
 import ChatSuggestions from "../views/ChatSuggestions";
 import Container from "./Container";
 import store from "../store/store";
 
 class ChatSuggestionsContainer extends React.Component {
+	_cachedResults: Object;
+
 	constructor(props) {
 		super(props);
 

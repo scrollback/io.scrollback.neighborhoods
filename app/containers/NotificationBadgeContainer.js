@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import NotificationBadge from "../views/NotificationBadge";
 import Container from "./Container";

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import NotificationClearIcon from "../views/NotificationClearIcon";
 import Container from "./Container";

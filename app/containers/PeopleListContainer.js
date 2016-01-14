@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import PeopleList from "../views/PeopleList";
 import Container from "./Container";
@@ -20,7 +22,10 @@ class PeopleListContainer extends React.Component {
 		const { thread } = this.props;
 
 		if (thread && thread.concerns) {
-			const data = [];
+			const data: Array<{
+				id: string,
+				status?: string
+			}> = [];
 
 			for (let i = 0, l = thread.concerns.length; i < l; i++) {
 				const user = thread.concerns[i];

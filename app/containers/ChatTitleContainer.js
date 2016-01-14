@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import ChatTitle from "../views/ChatTitle";
 import Container from "./Container";

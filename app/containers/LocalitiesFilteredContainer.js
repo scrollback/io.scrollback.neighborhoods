@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import LocalitiesFiltered from "../views/LocalitiesFiltered";
 import Geolocation from "../modules/Geolocation";
@@ -5,6 +7,9 @@ import debounce from "../lib/debounce";
 import Container from "./Container";
 
 class LocalitiesFilteredContainer extends React.Component {
+	_fetchMatchingRooms: Function;
+	_cachedResults: Object;
+
 	constructor(props) {
 		super(props);
 
@@ -20,7 +25,15 @@ class LocalitiesFilteredContainer extends React.Component {
 	}
 
 	_fetchMatchingRoomsImmediate = async filter => {
-		const opts = { ref: filter + "*" };
+		const opts: {
+			ref: string;
+			location?: {
+				lat: number;
+				lon: number
+			}
+		} = {
+			ref: filter + "*"
+		};
 
 		try {
 			const position = await Geolocation.getCurrentPosition();

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import SignIn from "../views/SignIn";
 import SignUp from "../views/SignUp";

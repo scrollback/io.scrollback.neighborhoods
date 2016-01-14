@@ -11,7 +11,7 @@ const {
 export default function(Target: React.Component): React.Component {
 	class Container extends Target {
 		_mounted: boolean;
-		_handlers: Array<Array<any>>;
+		_handlers: Array<Array<string|number|Function>>;
 
 		componentDidMount() {
 			if (typeof super.componentDidMount === "function") {

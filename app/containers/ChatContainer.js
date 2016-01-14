@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Chat from "../views/Chat";
 import Container from "./Container";
@@ -24,6 +26,7 @@ class ChatContainer extends React.Component {
 
 	_sendMessage = (text, textId) => {
 		const textObj = {
+			id: null,
 			text: text.trim(),
 			thread: this.props.thread,
 			to: this.props.room,

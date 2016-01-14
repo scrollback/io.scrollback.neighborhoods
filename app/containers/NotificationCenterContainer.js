@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import NotificationCenter from "../views/NotificationCenter";
 import Container from "./Container";

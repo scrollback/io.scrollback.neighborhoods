@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import UserIcon from "../views/UserIcon";
 import Container from "./Container";

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import DiscussionItem from "../views/DiscussionItem";
 import Container from "./Container";
@@ -5,18 +7,42 @@ import store from "../store/store";
 import actions from "../store/actions";
 
 class DiscussionItemContainer extends React.Component {
+	_isCurrentUserAdmin = () => {
+		return store.isUserAdmin(store.get("user"), this.props.thread.to);
+	};
+
+	_isUserBanned = () => {
+		return store.isUserBanned(this.props.thread.from, this.props.thread.to);
+	};
+
+	_hideText = () => {
+		return actions.hideText(this.props.thread);
+	};
+
+	_unhideText = () => {
+		return actions.unhideText(this.props.thread);
+	};
+
+	_banUser = () => {
+		return actions.banUser(this.props.thread);
+	};
+
+	_unbanUser = () => {
+		return actions.unbanUser(this.props.thread);
+	};
+
 	render() {
 		return (
 			<DiscussionItem
 				{...this.props}
 				hidden={store.isHidden(this.props.thread)}
 				currentUser={store.get("user")}
-				isCurrentUserAdmin={() => store.isUserAdmin(store.get("user"), this.props.thread.to)}
-				isUserBanned={() => store.isUserBanned(this.props.thread.from, this.props.thread.to)}
-				hideText={() => actions.hideText(this.props.thread)}
-				unhideText={() => actions.unhideText(this.props.thread)}
-				banUser={() => actions.banUser(this.props.thread)}
-				unbanUser={() => actions.unbanUser(this.props.thread)}
+				isCurrentUserAdmin={this._isCurrentUserAdmin}
+				isUserBanned={this._isUserBanned}
+				hideText={this._hideText}
+				unhideText={this._unhideText}
+				banUser={this._banUser}
+				unbanUser={this._unbanUser}
 			/>
 		);
 	}

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Account from "../views/Account";
 import Container from "./Container";

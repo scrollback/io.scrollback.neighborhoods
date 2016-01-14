@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Container from "./Container";
 import store from "../store/store";

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import BannerOffline from "../views/BannerOffline";
 import Container from "./Container";

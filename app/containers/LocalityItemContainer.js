@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import LocalityItem from "../views/LocalityItem";
 import Container from "./Container";

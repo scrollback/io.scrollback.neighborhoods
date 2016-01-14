@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import StartDiscussion from "../views/StartDiscussion";
 import Container from "./Container";
@@ -71,7 +73,7 @@ class StartDiscussionContainer extends React.Component {
 		}
 	};
 
-	_postDiscussion = async ({ title, text, thread, image }, shareOnFacebook) => {
+	_postDiscussion = async ({ title, text, thread, picture }, shareOnFacebook) => {
 		const id = thread || generate.uid();
 
 		const post = await this.dispatch("text", {
@@ -80,16 +82,13 @@ class StartDiscussionContainer extends React.Component {
 			title: title.trim(),
 			thread: id,
 			to: this.props.room,
-			from: this.props.user
+			from: this.props.user,
 		});
 
 		const content = {
-			link: url.get("thread", post)
+			link: url.get("thread", post),
+			picture
 		};
-
-		if (image) {
-			content.image = image;
-		}
 
 		if (shareOnFacebook) {
 			this._shareOnFacebook(content);
