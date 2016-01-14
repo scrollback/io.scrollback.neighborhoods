@@ -1,21 +1,20 @@
 import React from "react-native";
 import Splash from "./Splash";
 import Onboard from "./Onboard";
-import Home from "./Home";
 import Offline from "./Offline";
+import HomeContainer from "../containers/HomeContainer";
 import userUtils from "../lib/user-utils";
 
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
 			this.props.user !== nextProps.user ||
-			this.props.connectionStatus !== nextProps.connectionStatus ||
-			this.props.initialNavigationState !== nextProps.initialNavigationState
+			this.props.connectionStatus !== nextProps.connectionStatus
 		);
 	}
 
 	render() {
-		const { user, connectionStatus, initialNavigationState } = this.props;
+		const { user, connectionStatus } = this.props;
 
 		if (user === "missing") {
 			if (connectionStatus === "offline") {
@@ -26,15 +25,14 @@ export default class App extends React.Component {
 		}
 
 		if (userUtils.isGuest(user)) {
-			return <Onboard initialNavigationState={initialNavigationState} />;
+			return <Onboard />;
 		}
 
-		return <Home initialNavigationState={initialNavigationState} />;
+		return <HomeContainer />;
 	}
 }
 
 App.propTypes = {
 	user: React.PropTypes.string.isRequired,
-	connectionStatus: React.PropTypes.oneOf([ "connecting", "online", "offline" ]).isRequired,
-	initialNavigationState: React.PropTypes.object
+	connectionStatus: React.PropTypes.oneOf([ "connecting", "online", "offline" ]).isRequired
 };

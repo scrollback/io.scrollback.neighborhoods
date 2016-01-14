@@ -23,7 +23,3 @@ export default class Onboard extends React.Component {
 		);
 	}
 }
-
-Onboard.propTypes = {
-	initialNavigationState: React.PropTypes.object
-};

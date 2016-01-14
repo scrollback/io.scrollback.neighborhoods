@@ -9,7 +9,7 @@ const {
 
 const styles = StyleSheet.create({
 	statusbar: {
-		height: 25 // offset for statusbar height
+		height: Platform.OS === "android" ? 25 : 20 // offset for statusbar height
 	}
 });
 
