@@ -64,7 +64,7 @@ export default function(route: Route): RouteDescription {
 			component: SignInContainer,
 			passProps: route.props
 		};
-	case "create":
+	case "compose":
 		return {
 			title: "Start new discussion",
 			component: StartDiscussionContainer,

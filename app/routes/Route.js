@@ -50,13 +50,12 @@ export function convertRouteToURL(route: Route): string {
 
 		return `/${encodeURIComponent(route.props.room || "")}/${encodeURIComponent(route.props.thread || "")}${title ? "?title=" + title : ""}`;
 	case "notes":
-		return `/p/notes`;
 	case "account":
-		return `/p/account`;
-	case "create":
-		return `/p/create?room=${encodeURIComponent(route.props.room || "")}`;
+		return `/p/${route.type}`;
+	case "compose":
+		return `/p/${route.type}?room=${encodeURIComponent(route.props.room || "")}`;
 	case "details":
-		return `/p/details?room=${encodeURIComponent(route.props.room || "")}&thread=${encodeURIComponent(route.props.thread || "")}`;
+		return `/p/${route.type}?room=${encodeURIComponent(route.props.room || "")}&thread=${encodeURIComponent(route.props.thread || "")}`;
 	default:
 		return `/me`;
 	}
@@ -167,7 +166,7 @@ export function convertRouteToState(route: Route): NavigationState {
 			index: state.index + 1
 		};
 	case "chat":
-	case "create":
+	case "compose":
 		return {
 			routes: [
 				...state.routes,
