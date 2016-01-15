@@ -12,10 +12,11 @@ describe("convertURLToRoute", () => {
 	});
 
 	it("should ignore protocol and host", () => {
-		const path1 = "http://localhost:7528/someroom/all/all-messages";
-		const path2 = "//localhost:7528/someroom/all/all-messages";
-		const path3 = "/someroom/all/all-messages";
-		const path4 = "someroom/all/all-messages";
+		const path1 = "https://heyneighbor.chat/someroom/all/all-messages";
+		const path2 = "http://localhost:7528/someroom/all/all-messages";
+		const path3 = "//localhost:7528/someroom/all/all-messages";
+		const path4 = "/someroom/all/all-messages";
+		const path5 = "someroom/all/all-messages";
 		const result = {
 			type: "room",
 			props: {
@@ -27,6 +28,7 @@ describe("convertURLToRoute", () => {
 		expect(result).toEqual(convertURLToRoute(path2));
 		expect(result).toEqual(convertURLToRoute(path3));
 		expect(result).toEqual(convertURLToRoute(path4));
+		expect(result).toEqual(convertURLToRoute(path5));
 	});
 
 	it("should parse url with /me", () => {
