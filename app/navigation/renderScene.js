@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
 
 const renderScene = function(navState: Object, onNavigation: Function): Function {
 	return props => {
-		const route = navState.get(navState.index);
+		const route = props.sceneRecord.get("route"); // eslint-disable-line react/prop-types
+
 		const {
 			component: RouteComponent,
 			passProps
