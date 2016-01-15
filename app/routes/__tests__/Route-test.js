@@ -12,11 +12,6 @@ describe("convertURLToRoute", () => {
 	});
 
 	it("should ignore protocol and host", () => {
-		const path1 = "https://heyneighbor.chat/someroom/all/all-messages";
-		const path2 = "http://localhost:7528/someroom/all/all-messages";
-		const path3 = "//localhost:7528/someroom/all/all-messages";
-		const path4 = "/someroom/all/all-messages";
-		const path5 = "someroom/all/all-messages";
 		const result = {
 			type: "room",
 			props: {
@@ -24,11 +19,11 @@ describe("convertURLToRoute", () => {
 			}
 		};
 
-		expect(result).toEqual(convertURLToRoute(path1));
-		expect(result).toEqual(convertURLToRoute(path2));
-		expect(result).toEqual(convertURLToRoute(path3));
-		expect(result).toEqual(convertURLToRoute(path4));
-		expect(result).toEqual(convertURLToRoute(path5));
+		expect(result).toEqual(convertURLToRoute("https://heyneighbor.chat/someroom/all/all-messages"));
+		expect(result).toEqual(convertURLToRoute("http://localhost:7528/someroom/all/all-messages"));
+		expect(result).toEqual(convertURLToRoute("//localhost:7528/someroom/all/all-messages"));
+		expect(result).toEqual(convertURLToRoute("/someroom/all/all-messages"));
+		expect(result).toEqual(convertURLToRoute("someroom/all/all-messages"));
 	});
 
 	it("should parse url with /me", () => {
@@ -134,6 +129,17 @@ describe("convertURLToRoute", () => {
 				time: 1214340045721
 			}
 		}).toEqual(convertURLToRoute("/someroom/abc456def/awesome-thread-is-this?time=1214340045721"));
+	});
+
+	it("should parse url when room in invalid", () => {
+		const result = {
+			type: "home",
+			props: {}
+		};
+
+		expect(result).toEqual(convertURLToRoute("/b"));
+		expect(result).toEqual(convertURLToRoute("/um"));
+		expect(result).toEqual(convertURLToRoute("/nm/abc456def/such-thread/?time=1214340045721"));
 	});
 
 	it("should parse url with /p/room?room=roomname", () => {
