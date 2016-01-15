@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from "react-native";
+import AppText from "../views/AppText";
 import AppbarTouchable from "../views/AppbarTouchable";
 import AppbarIcon from "../views/AppbarIcon";
 import Colors from "../../Colors.json";
@@ -12,8 +13,7 @@ const {
 	StyleSheet,
 	Platform,
 	PixelRatio,
-	View,
-	Text
+	View
 } = React;
 
 const APPBAR_HEIGHT = Platform.OS === "ios" ? 44 : 56;
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		flex: 1
+		flex: 1,
+		marginHorizontal: 8
 	},
 
 	titleText: {
@@ -81,7 +82,7 @@ class Appbar extends React.Component {
 			<View style={styles.title}>
 				{this.props.titleComponent ?
 					<this.props.titleComponent onNavigation={this.props.onNavigation} {...this.props.passProps} /> :
-					<Text numberOfLines={1} style={styles.titleText}>{this.props.title}</Text>
+					<AppText numberOfLines={1} style={styles.titleText}>{this.props.title}</AppText>
 				}
 			</View>
 		);
