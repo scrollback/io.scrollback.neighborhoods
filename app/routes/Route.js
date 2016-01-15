@@ -96,10 +96,6 @@ export function convertURLToRoute(url: string): Route {
 				};
 			}
 
-			if (name.length < 3) {
-				return getHomeRoute();
-			}
-
 			if (type === "all") {
 				return {
 					type: "room",
@@ -110,18 +106,18 @@ export function convertURLToRoute(url: string): Route {
 				};
 			}
 
-			return {
-				type: "chat",
-				props: {
-					...props,
-					room: name,
-					thread: type
-				}
-			};
+			if (name.length >= 3) {
+				return {
+					type: "chat",
+					props: {
+						...props,
+						room: name,
+						thread: type
+					}
+				};
+			}
 		} else {
-			if (name.length < 3) {
-				return getHomeRoute();
-			} else {
+			if (name.length >= 3) {
 				return {
 					type: "room",
 					props: {
