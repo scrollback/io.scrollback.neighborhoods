@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
 		borderBottomWidth: Platform.OS === "ios" ? 1 / PixelRatio.get() : 0,
 		borderBottomColor: Colors.separator,
 		height: APPBAR_HEIGHT,
-		elevation: 4
+		marginBottom: 10,
+		elevation: 4,
 	},
 
 	title: {
