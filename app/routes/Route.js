@@ -146,7 +146,7 @@ export function convertRouteToState(route: Route): NavigationState {
 	};
 
 	const chat = {
-		type: "room",
+		type: "chat",
 		props: route.props
 	};
 
