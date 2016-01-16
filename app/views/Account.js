@@ -162,7 +162,7 @@ export default class Account extends React.Component {
 
 	_reportIssue = () => {
 		this.props.onNavigation(new NavigationActions.Push({
-			type: "room",
+			name: "room",
 			props: {
 				room: "support"
 			}

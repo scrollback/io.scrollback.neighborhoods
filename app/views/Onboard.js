@@ -11,7 +11,7 @@ const {
 export default class Onboard extends React.Component {
 	render(): ReactElement {
 		const navigationState = convertRouteToState({
-			type: "signin",
+			name: "signin",
 			props: {},
 			fullscreen: true
 		});

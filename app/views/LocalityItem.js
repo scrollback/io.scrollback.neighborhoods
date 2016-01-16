@@ -84,7 +84,7 @@ export default class LocalityItem extends React.Component {
 
 	_onPress = () => {
 		this.props.onNavigation(new NavigationActions.Push({
-			type: "room",
+			name: "room",
 			props: {
 				room: this.props.room.id
 			}

@@ -13,7 +13,7 @@ describe("convertURLToRoute", () => {
 
 	it("should ignore protocol and host", () => {
 		const result = {
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -28,14 +28,14 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /me", () => {
 		expect({
-			type: "home",
+			name: "home",
 			props: {}
 		}).toEqual(convertURLToRoute("/me"));
 	});
 
 	it("should parse url with /roomname", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -44,7 +44,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with incorrect case /RoomName", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -53,7 +53,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/all", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -62,7 +62,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/all/all-messages", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -71,7 +71,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/threadid", () => {
 		expect({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def"
@@ -81,7 +81,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/threadid/some-thread-title", () => {
 		expect({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def"
@@ -91,7 +91,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname?time=1214340045721", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom",
 				time: 1214340045721
@@ -101,7 +101,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/all/all-messages?time=1214340045721", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom",
 				time: 1214340045721
@@ -111,7 +111,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/threadid?time=1214340045721", () => {
 		expect({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def",
@@ -122,7 +122,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /roomname/threadid/some-thread-title?t=1214340045721", () => {
 		expect({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def",
@@ -133,7 +133,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url when room in invalid", () => {
 		const result = {
-			type: "home",
+			name: "home",
 			props: {}
 		};
 
@@ -144,7 +144,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /p/room?room=roomname", () => {
 		expect({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -153,7 +153,7 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /p/chat/?room=roomname&thread=threadid", () => {
 		expect({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def"
@@ -163,14 +163,14 @@ describe("convertURLToRoute", () => {
 
 	it("should parse url with /p/notes", () => {
 		expect({
-			type: "notes",
+			name: "notes",
 			props: {}
 		}).toEqual(convertURLToRoute("/p/notes"));
 	});
 
 	it("should parse url with /p/account/", () => {
 		expect({
-			type: "account",
+			name: "account",
 			props: {}
 		}).toEqual(convertURLToRoute("/p/account/"));
 	});
@@ -192,14 +192,14 @@ describe("convertRouteToURL", () => {
 
 	it("should build url with home", () => {
 		expect("/me").toEqual(convertRouteToURL({
-			type: "home",
+			name: "home",
 			props: {}
 		}));
 	});
 
 	it("should build url with room", () => {
 		expect("/someroom").toEqual(convertRouteToURL({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom"
 			}
@@ -208,7 +208,7 @@ describe("convertRouteToURL", () => {
 
 	it("should build url with thread", () => {
 		expect("/someroom/abc456def").toEqual(convertRouteToURL({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def"
@@ -218,7 +218,7 @@ describe("convertRouteToURL", () => {
 
 	it("should build url when thread is not given", () => {
 		expect("/someroom").toEqual(convertRouteToURL({
-			type: "room",
+			name: "room",
 			props: {
 				room: "someroom",
 				thread: null
@@ -228,7 +228,7 @@ describe("convertRouteToURL", () => {
 
 	it("should build url when thread title is given", () => {
 		expect("/someroom/abc456def?title=such-awesome-much-thread-wow").toEqual(convertRouteToURL({
-			type: "chat",
+			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def",

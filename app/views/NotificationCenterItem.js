@@ -202,7 +202,7 @@ export default class NotificationCenterItem extends React.Component {
 		case "mention":
 		case "reply":
 			onNavigation(new NavigationActions.Push({
-				type: "chat",
+				name: "chat",
 				props: {
 					thread,
 					room
@@ -213,14 +213,14 @@ export default class NotificationCenterItem extends React.Component {
 		case "thread":
 			if (note.count > 1) {
 				onNavigation(new NavigationActions.Push({
-					type: "room",
+					name: "room",
 					props: {
 						room
 					}
 				}));
 			} else {
 				onNavigation(new NavigationActions.Push({
-					type: "chat",
+					name: "chat",
 					props: {
 						thread: note.ref,
 						room
@@ -231,7 +231,7 @@ export default class NotificationCenterItem extends React.Component {
 			break;
 		default:
 			onNavigation(new NavigationActions.Push({
-				type: "room",
+				name: "room",
 				props: {
 					room
 				}

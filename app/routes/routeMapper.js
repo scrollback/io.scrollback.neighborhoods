@@ -26,7 +26,7 @@ type RouteDescription = {
 }
 
 export default function(route: Route): RouteDescription {
-	switch (route.type) {
+	switch (route.name) {
 	case "room":
 		return {
 			titleComponent: LocalityTitleContainer,

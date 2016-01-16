@@ -190,7 +190,7 @@ export default class StartDiscussionButton extends React.Component {
 
 	_onPosted = thread => {
 		this.props.onNavigation(new NavigationActions.Push({
-			type: "chat",
+			name: "chat",
 			props: {
 				thread: thread.id,
 				room: this.props.room

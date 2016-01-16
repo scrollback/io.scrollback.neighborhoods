@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 
 export default class NotificationIcon extends React.Component {
 	_onPress = () => {
-		this.props.onNavigation(new NavigationActions.Push({ type: "notes" }));
+		this.props.onNavigation(new NavigationActions.Push({ name: "notes" }));
 	};
 
 	render() {

@@ -106,7 +106,7 @@ export default class DiscussionItem extends React.Component {
 		const { thread } = this.props;
 
 		this.props.onNavigation(new NavigationActions.Push({
-			type: "chat",
+			name: "chat",
 			props: {
 				thread: thread.id,
 				room: thread.to
