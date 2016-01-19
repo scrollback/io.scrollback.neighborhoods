@@ -1,5 +1,6 @@
 package io.scrollback.neighborhoods;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 
@@ -19,6 +20,7 @@ import io.scrollback.neighborhoods.modules.core.CorePackage;
 import io.scrollback.neighborhoods.modules.facebook.FacebookPackage;
 import io.scrollback.neighborhoods.modules.gcm.PushNotificationPackage;
 import io.scrollback.neighborhoods.modules.google.GoogleLoginPackage;
+import io.scrollback.neighborhoods.modules.places.GooglePlacesPackage;
 
 public class MainActivity extends ReactActivity {
 
@@ -69,6 +71,7 @@ public class MainActivity extends ReactActivity {
                 new PushNotificationPackage(),
                 new AnalyticsPackage(),
                 new GoogleLoginPackage(),
+                new GooglePlacesPackage(),
                 new FacebookPackage(),
                 new ImageChooserPackage()
         );
