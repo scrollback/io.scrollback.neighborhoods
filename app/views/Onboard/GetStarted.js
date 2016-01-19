@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
 const UserDetails = (props: { onComplete: Function }) => (
 	<StatusbarContainer style={styles.container}>
 		<View style={[ styles.container, styles.inner ]}>
-			<OnboardTitle style={styles.text}>We're all set!</OnboardTitle>
-			<OnboardParagraph style={styles.text}>Enjoy Hey, Neighbor!</OnboardParagraph>
+			<OnboardTitle style={styles.text}>You are all set!</OnboardTitle>
+			<OnboardParagraph style={styles.text}>Go, be the good neighbor you are.</OnboardParagraph>
 		</View>
-		<NextButton label="Done" onPress={props.onComplete} />
+		<NextButton label="Let's go" onPress={props.onComplete} />
 	</StatusbarContainer>
 );
 
