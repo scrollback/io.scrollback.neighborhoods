@@ -32,7 +32,7 @@ class LocalitiesFilteredContainer extends React.Component {
 				lon: number
 			}
 		} = {
-			ref: filter + "*"
+			ref: filter.trim().replace(/\W+/g, "-") + "*"
 		};
 
 		try {
