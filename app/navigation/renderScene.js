@@ -26,15 +26,14 @@ const renderScene = function(navState: Object, onNavigation: Function): Function
 		const route = props.sceneRecord.get("route"); // eslint-disable-line react/prop-types
 
 		const {
-			component: RouteComponent,
-			passProps
+			component: RouteComponent
 		} = routeMapper(route);
 
 		return (
 			<NavigationCard {...props}>
 				<View style={[ styles.container, route.fullscreen ? null : styles.normal ]}>
 					<RouteComponent
-						 {...passProps}
+						 {...route.props}
 						 style={styles.container}
 						 onNavigation={onNavigation}
 					/>
