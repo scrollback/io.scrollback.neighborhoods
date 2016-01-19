@@ -24,7 +24,7 @@ class LocalitiesFilteredContainer extends React.Component {
 	}
 
 	_fetchMatchingRoomsImmediate = async filter => {
-		const opts = { ref: filter + "*" };
+		const opts = { ref: filter.trim().replace(/\W+/g, "-") + "*" };
 
 		try {
 			const position = await Geolocation.getCurrentPosition();
