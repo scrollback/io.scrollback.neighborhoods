@@ -1,7 +1,7 @@
 package io.scrollback.neighborhoods.modules.core;
 
+import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,13 +21,12 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 public class GeolocationModule extends ReactContextBaseJavaModule {
 
     private static final String TAG = "GeoLocation";
+    private static final String ACTIVITY_DOES_NOT_EXIST_ERROR = "Activity doesn't exist";
 
     private static final int LOCATION_REFRESH_TIME = 0;
     private static final int LOCATION_REFRESH_DISTANCE = 0;
 
     private final String LOCATION_PROVIDER;
-
-    private final Context mActiviyContext;
 
     private Location mCurrentlocation;
     private final LocationListener mLocationListener = new LocationListener() {
@@ -56,10 +55,8 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     private LocationManager mLocationManager = null;
     private boolean isWatching = false;
 
-    public GeolocationModule(ReactApplicationContext reactContext, Context activityContext) {
+    public GeolocationModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
-        mActiviyContext = activityContext;
 
         mLocationManager = (LocationManager) reactContext.getSystemService(Application.LOCATION_SERVICE);
 
@@ -109,8 +106,15 @@ public class GeolocationModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void showGPSSettings() {
-        mActiviyContext.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+    public void showGPSSettings(final Promise promise) {
+        Activity currentActivity = getCurrentActivity();
+
+        if (currentActivity != null) {
+            currentActivity.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            promise.resolve(true);
+        } else {
+            promise.reject(ACTIVITY_DOES_NOT_EXIST_ERROR);
+        }
     }
 
     @ReactMethod

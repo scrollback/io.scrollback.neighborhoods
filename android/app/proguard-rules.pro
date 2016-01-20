@@ -40,9 +40,12 @@
 
 -keep class * extends com.facebook.react.bridge.JavaScriptModule { *; }
 -keep class * extends com.facebook.react.bridge.NativeModule { *; }
+-keepclassmembers,includedescriptorclasses class * { native <methods>; }
 -keepclassmembers class *  { @com.facebook.react.uimanager.UIProp <fields>; }
 -keepclassmembers class *  { @com.facebook.react.uimanager.ReactProp <methods>; }
 -keepclassmembers class *  { @com.facebook.react.uimanager.ReactPropGroup <methods>; }
+
+-dontwarn com.facebook.react.**
 
 # okhttp
 
@@ -64,21 +67,10 @@
 -keep class com.facebook.stetho.** { *; }
 -dontwarn com.facebook.stetho.**
 
-# support library
-
--keep class android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
--dontwarn android.support.v7.**
-
 # play services
 
 -keep public class com.google.android.gms.**
 -dontwarn com.google.android.gms.**
-
-# appvirality
-
--keep class com.appvirality.android.** { *; }
--dontwarn com.appvirality.android.**
 
 # crashlytics
 

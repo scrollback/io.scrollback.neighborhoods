@@ -32,7 +32,9 @@
     "setTimeout": false,
     "window": false,
     "XMLHttpRequest": false,
-    "FormData": false
+    "FormData": false,
+
+    "ReactElement": false
   },
 
   "rules": {
@@ -223,7 +225,7 @@
     "react/jsx-indent-props": [1, "tab"],
     "react/jsx-key": 2,
     "react/jsx-max-props-per-line": [1, { "maximum": 2 }],
-    "react/jsx-no-bind": 0,
+    "react/jsx-no-bind": 1,
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-literals": 0,
     "react/jsx-no-undef": 2,

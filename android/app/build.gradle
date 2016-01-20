@@ -1,5 +1,7 @@
 apply plugin: "com.android.application"
 
+import com.android.build.OutputFile
+
 /**
  * The react.gradle file registers two tasks: bundleDebugJsAndAssets and bundleReleaseJsAndAssets.
  * These basically call `react-native bundle` with the correct arguments during the Android build
@@ -47,6 +49,22 @@ apply plugin: "com.android.application"
  * ]
  */
 
+/**
+ * Set this to true to create three separate APKs instead of one:
+ *   - A universal APK that works on all devices
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = true
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = true
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -80,10 +98,19 @@ android {
         applicationId "io.scrollback.neighborhoods"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
+        versionCode 32
         versionName "1.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+
+    splits {
+        abi {
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk true
+            reset()
+            include "armeabi-v7a", 'x86'
         }
     }
 
@@ -98,9 +125,23 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false  // Set this to true to enable Proguard
+            minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+        }
+    }
+
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            def versionCodes = ["armeabi-v7a":1, "x86":2]
+            def abi = output.getFilter(OutputFile.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
         }
     }
 }
@@ -110,6 +151,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.facebook.android:facebook-android-sdk:4.0.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
+    compile 'com.facebook.react:react-native:0.18.+'
 
     compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
         transitive = true;
@@ -118,6 +160,4 @@ dependencies {
     compile(project(':react-native-image-chooser')) {
         exclude group: 'com.facebook.react', module: 'react-native'
     }
-
-    compile project(':ReactAndroid')
 }

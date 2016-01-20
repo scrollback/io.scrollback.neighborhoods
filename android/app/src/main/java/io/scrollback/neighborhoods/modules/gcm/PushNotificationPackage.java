@@ -1,7 +1,5 @@
 package io.scrollback.neighborhoods.modules.gcm;
 
-import android.app.Activity;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -14,16 +12,10 @@ import java.util.List;
 
 public class PushNotificationPackage implements ReactPackage {
 
-    private Activity mCurrentActivity;
-
-    public PushNotificationPackage(Activity activity) {
-        mCurrentActivity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new PushNotificationModule(reactContext, mCurrentActivity)
+                new PushNotificationModule(reactContext)
         );
     }
 

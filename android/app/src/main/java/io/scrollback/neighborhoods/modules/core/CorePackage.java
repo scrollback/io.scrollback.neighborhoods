@@ -1,7 +1,5 @@
 package io.scrollback.neighborhoods.modules.core;
 
-import android.app.Activity;
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
@@ -14,22 +12,14 @@ import java.util.List;
 
 public class CorePackage implements ReactPackage {
 
-    private Activity mCurrentActivity;
-
-    public CorePackage(Activity activity) {
-        mCurrentActivity = activity;
-    }
-
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(
-                new ClipboardModule(reactContext),
                 new BuildConfigModule(reactContext),
                 new VersionCodesModule(reactContext),
                 new URLResolverModule(reactContext),
-                new GeolocationModule(reactContext, mCurrentActivity),
-                new ShareModule(reactContext, mCurrentActivity),
-                new IntentModule(reactContext, mCurrentActivity)
+                new GeolocationModule(reactContext),
+                new ShareModule(reactContext)
         );
     }
 
