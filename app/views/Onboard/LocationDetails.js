@@ -4,9 +4,11 @@ import React from "react-native";
 import NextButton from "./NextButton";
 import AppText from "../AppText";
 import StatusbarContainer from "../StatusbarContainer";
-import Banner from "../Banner";
 import OnboardTitle from "./OnboardTitle";
 import OnboardParagraph from "./OnboardParagraph";
+import OnboardError from "./OnboardError";
+import LocalitiesFilterContainer from "../../containers/LocalitiesFilteredContainer";
+import Modal from "../Modal";
 import Colors from "../../../Colors.json";
 
 const {
@@ -28,6 +30,10 @@ const styles = StyleSheet.create({
 		justifyContent: "center"
 	},
 
+	error: {
+		borderBottomColor: Colors.error,
+	},
+
 	input: {
 		width: 220,
 		paddingVertical: 8,
@@ -38,6 +44,7 @@ const styles = StyleSheet.create({
 
 	inputText: {
 		color: Colors.darkGrey,
+		textAlign: "center",
 	},
 
 	placeholder: {
@@ -46,42 +53,57 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-	address?: string;
-	errorMessage?: string;
-	validationError: Object;
+	place: ?string;
+	error: ?Object;
 	onComplete: Function;
-	onSelectAddress: Function;
+	onChangePlace: Function;
 }
 
-const EXAMPLE_ADDRESS = "Example:\nRaheja Residency, 3rd Block, Koramangala";
+export default class LocationDetails extends React.Component {
+	static propTypes = {
+		place: React.PropTypes.string,
+		error: React.PropTypes.object,
+		onComplete: React.PropTypes.func.isRequired,
+		onChangePlace: React.PropTypes.func.isRequired
+	};
 
-const LocationDetails = (props: Props) => (
-	<StatusbarContainer style={styles.container}>
-		<Banner text={props.errorMessage} type="error" />
+	props: Props;
 
-		<ScrollView contentContainerStyle={[ styles.container, styles.inner ]}>
-			<OnboardTitle>Where do you stay?</OnboardTitle>
+	_dismissModal = () => {
+		Modal.renderComponent(null);
+	};
 
-			<TouchableOpacity>
-				<View style={styles.input}>
-					<AppText style={[ styles.inputText, props.address ? null : styles.placeholder ]}>
-						{props.address || EXAMPLE_ADDRESS}
-					</AppText>
-				</View>
-			</TouchableOpacity>
+	_onSelectLocality = (place: string) => {
+		this.props.onChangePlace(place);
+		this._dismissModal();
+	};
 
-			<OnboardParagraph>We will help you find relevant communities around your locality.</OnboardParagraph>
-		</ScrollView>
-		<NextButton label="Get started" onPress={props.onComplete} />
-	</StatusbarContainer>
-);
+	_onPress = () => {
+		Modal.renderComponent(<LocalitiesFilterContainer dismiss={this._dismissModal} onSelectLocality={this._onSelectLocality} />);
+	};
 
-LocationDetails.propTypes = {
-	address: React.PropTypes.string,
-	errorMessage: React.PropTypes.string,
-	validationError: React.PropTypes.objectOf(React.PropTypes.string),
-	onComplete: React.PropTypes.func.isRequired,
-	onSelectAddress: React.PropTypes.func.isRequired
-};
+	render() {
+		return (
+			<StatusbarContainer style={styles.container}>
+				<ScrollView contentContainerStyle={[ styles.container, styles.inner ]}>
+					<OnboardTitle>Where do you live?</OnboardTitle>
+
+				<TouchableOpacity onPress={this._onPress}>
+					<View style={[ styles.input, this.props.error ? styles.error : null ]}>
+						<AppText style={[ styles.inputText, this.props.place ? null : styles.placeholder ]}>
+							{this.props.place || "Enter the name of your locality"}
+						</AppText>
+					</View>
+				</TouchableOpacity>
+
+				<OnboardParagraph>We will help you find relevant communities around your locality.</OnboardParagraph>
+				<OnboardError message={this.props.error ? this.props.error.message : null} />
+				</ScrollView>
+				<NextButton label="Get started" onPress={this.props.onComplete} />
+				<Modal />
+			</StatusbarContainer>
+		);
+	}
+}
 
 export default LocationDetails;

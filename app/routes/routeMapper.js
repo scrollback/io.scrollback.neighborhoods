@@ -12,7 +12,7 @@ import NotificationCenterContainer from "../containers/NotificationCenterContain
 import NotificationClearIconContainer from "../containers/NotificationClearIconContainer";
 import LocalitiesContainer from "../containers/LocalitiesContainer";
 import AccountContainer from "../containers/AccountContainer";
-import SignInContainer from "../containers/SignInContainer";
+import SignUpContainer from "../containers/SignUpContainer";
 import StartDiscussionContainer from "../containers/StartDiscussionContainer";
 import config from "../store/config";
 
@@ -54,10 +54,10 @@ export default function(route: Route): RouteDescription {
 			title: "Details",
 			component: DiscussionsDetailsContainer,
 		};
-	case "signin":
+	case "onboard":
 		return {
 			title: "Sign in",
-			component: SignInContainer,
+			component: SignUpContainer,
 		};
 	case "compose":
 		return {

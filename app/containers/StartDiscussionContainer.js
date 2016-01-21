@@ -5,7 +5,8 @@ import StartDiscussion from "../views/StartDiscussion";
 import Container from "./Container";
 import Facebook from "../modules/Facebook";
 import generate from "../lib/generate.browser";
-import url from "../lib/url";
+import { convertRouteToURL } from "../routes/Route";
+import config from "../store/config";
 
 const {
 	ToastAndroid
@@ -86,7 +87,14 @@ class StartDiscussionContainer extends React.Component {
 		});
 
 		const content = {
-			link: url.get("thread", post),
+			link: config.server.protocol + "//" + config.server.host + convertRouteToURL({
+				name: "chat",
+				props: {
+					room: post.to,
+					thread: post.id,
+					title: post.title
+				}
+			}),
 			picture
 		};
 

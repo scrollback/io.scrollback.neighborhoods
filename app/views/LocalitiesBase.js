@@ -112,6 +112,7 @@ export default class LocalitiesBase extends React.Component {
 										showBadge={this.props.showBadge}
 										location={this.state.location}
 										onNavigation={this.props.onNavigation}
+										onSelect={this.props.onSelectLocality}
 									/>
 								);
 							}}
@@ -154,5 +155,6 @@ LocalitiesBase.propTypes = {
 	showBadge: React.PropTypes.bool,
 	pageEmptyLabel: React.PropTypes.string.isRequired,
 	pageEmptyImage: React.PropTypes.string.isRequired,
-	onNavigation: React.PropTypes.func.isRequired
+	onNavigation: React.PropTypes.func.isRequired,
+	onSelectLocality: React.PropTypes.func,
 };

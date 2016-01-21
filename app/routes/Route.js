@@ -181,7 +181,7 @@ export function convertRouteToState(route: Route): NavigationState {
 			],
 			index: state.index + 3
 		};
-	case "signin":
+	case "onboard":
 		return {
 			routes: [ route ],
 			index: 0

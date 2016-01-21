@@ -7,8 +7,9 @@ import Icon from "./Icon";
 import Modal from "./Modal";
 import Share from "../modules/Share";
 import Linking from "../modules/Linking";
-import url from "../lib/url";
 import locationUtils from "../lib/location-utils";
+import { convertRouteToURL } from "../routes/Route";
+import config from "../store/config";
 
 const {
 	StyleSheet,
@@ -56,7 +57,12 @@ export default class LocalityItem extends React.Component {
 
 		options.push("Share community");
 		actions.push(() => {
-			Share.shareItem("Share community", url.get("room", room));
+			Share.shareItem("Share community", config.server.protocol + "//" + config.server.host + convertRouteToURL({
+				name: "room",
+				props: {
+					room
+				}
+			}));
 		});
 
 		if (room.location && room.location.lat && room.location.lon) {
@@ -83,6 +89,11 @@ export default class LocalityItem extends React.Component {
 	};
 
 	_onPress = () => {
+		if (this.props.onSelect) {
+			this.props.onSelect(this.props.room.id);
+			return;
+		}
+
 		this.props.onNavigation(new NavigationActions.Push({
 			name: "room",
 			props: {
@@ -157,7 +168,8 @@ LocalityItem.propTypes = {
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
 	autoJoin: React.PropTypes.func.isRequired,
-	onNavigation: React.PropTypes.func.isRequired
+	onNavigation: React.PropTypes.func.isRequired,
+	onSelect: React.PropTypes.func,
 };
 
 LocalityItem.defaultProps = {

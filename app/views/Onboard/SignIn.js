@@ -1,9 +1,11 @@
+/* @flow */
+
 import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
+import AppText from "../AppText";
 import LargeButton from "./LargeButton";
-import GoogleLogin from "../modules/GoogleLogin";
-import Facebook from "../modules/Facebook";
+import GoogleLogin from "../../modules/GoogleLogin";
+import Facebook from "../../modules/Facebook";
+import Colors from "../../../Colors.json";
 
 const {
 	StyleSheet,
@@ -69,21 +71,22 @@ const PROVIDER_FACEBOOK = "facebook";
 const PERMISSION_PUBLIC_PROFILE = "public_profile";
 const PERMISSION_EMAIL = "email";
 
+type State = {
+	googleLoading: boolean;
+	facebookLoading: boolean;
+}
+
 export default class SignIn extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			googleLoading: false,
-			facebookLoading: false
-		};
-	}
-
-	_onSignInSuccess = (provider, token) => {
-		this.props.signIn(provider, token);
+	state: State = {
+		googleLoading: false,
+		facebookLoading: false
 	};
 
-	_onSignInFailure = provider => {
+	_onSignInSuccess = (provider: string, token: string) => {
+		this.props.signIn({ provider, token });
+	};
+
+	_onSignInFailure = (provider: string) => {
 		switch (provider) {
 		case PROVIDER_GOOGLE:
 			this.setState({
@@ -98,7 +101,7 @@ export default class SignIn extends React.Component {
 		}
 	};
 
-	_signInWithFacebook = async () => {
+	_signInWithFacebook = async (): Promise => {
 		try {
 			const result = await Facebook.logInWithReadPermissions([ PERMISSION_PUBLIC_PROFILE, PERMISSION_EMAIL ]);
 
@@ -117,7 +120,7 @@ export default class SignIn extends React.Component {
 		}
 	};
 
-	_signInWithGoogle = async () => {
+	_signInWithGoogle = async (): Promise => {
 		try {
 			const result = await GoogleLogin.logIn();
 
@@ -146,11 +149,11 @@ export default class SignIn extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image source={require("../../assets/signin_bg.jpg")} style={styles.cover}>
+				<Image source={require("../../../assets/signin_bg.jpg")} style={styles.cover}>
 					<View style={styles.overlay}>
 						<View style={styles.logoContainer}>
-							<Image source={require("../../assets/logo.png")} style={[ styles.image, styles.imageLogo ]} />
-							<Image source={require("../../assets/logotype.png")} style={[ styles.image, styles.imageLogoType ]} />
+							<Image source={require("../../../assets/logo.png")} style={[ styles.image, styles.imageLogo ]} />
+							<Image source={require("../../../assets/logotype.png")} style={[ styles.image, styles.imageLogoType ]} />
 						</View>
 						<View style={styles.buttonContainer}>
 							<AppText style={styles.tip}>SIGN IN OR SIGN UP WITH</AppText>
@@ -158,14 +161,14 @@ export default class SignIn extends React.Component {
 								style={styles.facebook}
 								spinner={this.state.facebookLoading}
 								disabled={this.state.facebookLoading}
-								text={this.state.facebookLoading ? "" : "Facebook"}
+								label={this.state.facebookLoading ? "" : "Facebook"}
 								onPress={this._onFacebookPress}
 							/>
 							<LargeButton
 								style={styles.google}
 								spinner={this.state.googleLoading}
 								disabled={this.state.googleLoading}
-								text={this.state.googleLoading ? "" : "Google"}
+								label={this.state.googleLoading ? "" : "Google"}
 								onPress={this._onGooglePress}
 							/>
 						</View>

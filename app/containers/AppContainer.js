@@ -15,7 +15,7 @@ class AppContainer extends React.Component {
 		};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.handle("statechange", changes => {
 			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
 				this._updateData();

@@ -1,9 +1,7 @@
 import React from "react-native";
 import Splash from "./Splash";
-import Onboard from "./Onboard";
+import Onboard from "./Onboard/Onboard";
 import Offline from "./Offline";
-import HomeContainer from "../containers/HomeContainer";
-import userUtils from "../lib/user-utils";
 
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -24,11 +22,7 @@ export default class App extends React.Component {
 			}
 		}
 
-		if (userUtils.isGuest(user)) {
-			return <Onboard />;
-		}
-
-		return <HomeContainer />;
+		return <Onboard />;
 	}
 }
 

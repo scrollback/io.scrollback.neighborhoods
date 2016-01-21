@@ -1,8 +1,10 @@
+/* @flow */
+
 import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import TouchFeedback from "./TouchFeedback";
-import Loading from "./Loading";
+import AppText from "../AppText";
+import TouchFeedback from "../TouchFeedback";
+import Loading from "../Loading";
+import Colors from "../../../Colors.json";
 
 const {
 	StyleSheet,
@@ -19,7 +21,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16
 	},
 	button: {
-		backgroundColor: Colors.primary,
+		backgroundColor: Colors.info,
 		padding: 12,
 		borderRadius: 3,
 		flexDirection: "row",
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
 export default class LargeButton extends React.Component {
 	shouldComponentUpdate(nextProps) {
 		return (
-			this.props.text !== nextProps.text ||
+			this.props.label !== nextProps.label ||
 			this.props.onPress !== nextProps.onPress ||
 			this.props.spinner !== nextProps.spinner ||
 			this.props.disabled !== nextProps.disabled
@@ -50,7 +52,7 @@ export default class LargeButton extends React.Component {
 					<View style={[ styles.button, this.props.style ]}>
 						{this.props.spinner ? <Loading style={styles.loader} /> : null}
 
-						<AppText style={styles.buttonText}>{this.props.text.toUpperCase()}</AppText>
+						<AppText style={styles.buttonText}>{this.props.label.toUpperCase()}</AppText>
 					</View>
 				</TouchFeedback>
 			</View>
@@ -59,7 +61,7 @@ export default class LargeButton extends React.Component {
 }
 
 LargeButton.propTypes = {
-	text: React.PropTypes.string.isRequired,
+	label: React.PropTypes.string.isRequired,
 	onPress: React.PropTypes.func.isRequired,
 	spinner: React.PropTypes.bool,
 	disabled: React.PropTypes.bool
