@@ -10,6 +10,7 @@ const {
 
 const styles = StyleSheet.create({
 	hint: {
+		height: 36,
 		color: Colors.grey,
 		textAlign: "center",
 		fontSize: 12,

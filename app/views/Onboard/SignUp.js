@@ -110,7 +110,7 @@ export default class SignUp extends React.Component {
 			this.setState({
 				error: {
 					field: "place",
-					message: "Locality cannot be empty!"
+					message: "You need to add at least one locality!"
 				}
 			});
 			return;

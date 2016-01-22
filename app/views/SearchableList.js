@@ -76,7 +76,7 @@ export default class SearchableList extends React.Component {
 		}
 	});
 
-	_onChangeSearch = (filter: string) => {
+	_handleChangeSearch = (filter: string) => {
 		this.setState({
 			filter,
 			data: [ "missing" ]
@@ -112,7 +112,7 @@ export default class SearchableList extends React.Component {
 			case 1:
 				switch (this.state.data[0]) {
 				case "blankslate":
-					placeHolder = <PageEmpty label="Type a place to search" image="happy" />;
+					placeHolder = <PageEmpty label="Come on, type something!" image="happy" />;
 					break;
 				case "missing":
 					placeHolder = <PageLoading />;
@@ -129,7 +129,7 @@ export default class SearchableList extends React.Component {
 				<SearchBar
 					placeholder={this.props.searchHint}
 					onBack={this.props.onDismiss}
-					onChangeSearch={this._onChangeSearch}
+					onChangeSearch={this._handleChangeSearch}
 					autoFocus
 				/>
 				{placeHolder ?
