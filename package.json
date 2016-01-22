@@ -23,6 +23,7 @@
     "crypto": "0.0.3",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.15.0",
+    "eslint-plugin-react-native": "^0.5.0",
     "flow-bin": "^0.20.1",
     "jest": "^0.1.40",
     "jest-cli": "^0.8.2",

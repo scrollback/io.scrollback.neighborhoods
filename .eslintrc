@@ -9,7 +9,10 @@
     "jsx": true
   },
 
-  "plugins": [ "react" ],
+  "plugins": [
+    "react",
+    "react-native"
+  ],
 
   "globals": {
     "__DEV__": true,
@@ -220,7 +223,7 @@
     "react/jsx-boolean-value": [1, "never"],
     "react/jsx-closing-bracket-location": 1,
     "react/jsx-curly-spacing": [1, "never"],
-    "react/jsx-handler-names": 0,
+    "react/jsx-handler-names": 1,
     "react/jsx-indent-props": [1, "tab"],
     "react/jsx-key": 2,
     "react/jsx-max-props-per-line": [1, { "maximum": 2 }],
@@ -228,7 +231,7 @@
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-literals": 0,
     "react/jsx-no-undef": 2,
-    "react/jsx-pascal-case": 1,
+    "react/jsx-pascal-case": 2,
     "react/jsx-sort-prop-types": 0,
     "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,
@@ -238,13 +241,17 @@
     "react/no-did-update-set-state": 2,
     "react/no-multi-comp": 1,
     "react/no-set-state": 0,
+    "react/no-string-refs": 2,
     "react/no-unknown-property": 1,
     "react/prefer-es6-class": 1,
-    "react/prop-types": [1, { "ignore": [ "style" ] }],
+    "react/prop-types": 1,
     "react/react-in-jsx-scope": 1,
-    "react/require-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/require-extension": [1, { "extensions": [".js"] }],
     "react/self-closing-comp": 1,
     "react/sort-comp": 1,
-    "react/wrap-multilines": 1
+    "react/wrap-multilines": 1,
+
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2
   }
 }
