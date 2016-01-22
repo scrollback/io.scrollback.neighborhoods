@@ -7,6 +7,14 @@ import store from "../store/store";
 import actions from "../store/actions";
 
 class ChatItemContainer extends React.Component {
+	static propTypes = {
+		text: React.PropTypes.shape({
+			id: React.PropTypes.string.isRequired,
+			from: React.PropTypes.string.isRequired,
+			to: React.PropTypes.string.isRequired
+		}).isRequired
+	};
+
 	_isUserAdmin = () => {
 		return store.isUserAdmin(store.get("user"), this.props.text.to);
 	};
@@ -46,13 +54,5 @@ class ChatItemContainer extends React.Component {
 		);
 	}
 }
-
-ChatItemContainer.propTypes = {
-	text: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired,
-		from: React.PropTypes.string.isRequired,
-		to: React.PropTypes.string.isRequired
-	}).isRequired
-};
 
 export default Container(ChatItemContainer);

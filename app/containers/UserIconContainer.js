@@ -6,13 +6,9 @@ import Container from "./Container";
 import store from "../store/store";
 
 class UserIconContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			nick: ""
-		};
-	}
+	state = {
+		nick: ""
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);

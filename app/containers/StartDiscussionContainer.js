@@ -16,6 +16,11 @@ const PERMISSION_PUBLISH_ACTIONS = "publish_actions";
 const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
 
 class StartDiscussionContainer extends React.Component {
+	static propTypes = {
+		room: React.PropTypes.string.isRequired,
+		user: React.PropTypes.string.isRequired
+	};
+
 	_getPublishPermissions = async () => {
 		try {
 			const result = await Facebook.logInWithPublishPermissions([ PERMISSION_PUBLISH_ACTIONS ]);
@@ -116,10 +121,5 @@ class StartDiscussionContainer extends React.Component {
 		);
 	}
 }
-
-StartDiscussionContainer.propTypes = {
-	room: React.PropTypes.string.isRequired,
-	user: React.PropTypes.string.isRequired
-};
 
 export default Container(StartDiscussionContainer);

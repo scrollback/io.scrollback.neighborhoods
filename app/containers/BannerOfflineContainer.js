@@ -6,13 +6,9 @@ import Container from "./Container";
 import store from "../store/store";
 
 class BannerOfflineContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			connectionStatus: null
-		};
-	}
+	state = {
+		connectionStatus: null
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);

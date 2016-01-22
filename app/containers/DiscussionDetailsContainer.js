@@ -6,13 +6,13 @@ import Container from "./Container";
 import store from "../store/store";
 
 class DiscussionDetailsContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		thread: React.PropTypes.string.isRequired
+	};
 
-		this.state = {
-			thread: "missing"
-		};
-	}
+	state = {
+		thread: "missing"
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -34,9 +34,5 @@ class DiscussionDetailsContainer extends React.Component {
 		return <DiscussionDetails {...this.props} {...this.state} />;
 	}
 }
-
-DiscussionDetailsContainer.propTypes = {
-	thread: React.PropTypes.string.isRequired
-};
 
 export default Container(DiscussionDetailsContainer);

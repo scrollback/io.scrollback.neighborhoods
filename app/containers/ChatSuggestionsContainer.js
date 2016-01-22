@@ -6,17 +6,18 @@ import Container from "./Container";
 import store from "../store/store";
 
 class ChatSuggestionsContainer extends React.Component {
-	_cachedResults: Object;
+	static propTypes = {
+		room: React.PropTypes.string.isRequired,
+		thread: React.PropTypes.string.isRequired,
+		user: React.PropTypes.string.isRequired,
+		text: React.PropTypes.string.isRequired
+	};
 
-	constructor(props) {
-		super(props);
+	state = {
+		data: this._getMatchingUsers(this.props.text)
+	};
 
-		this.state = {
-			data: this._getMatchingUsers(this.props.text)
-		};
-
-		this._cachedResults = {};
-	}
+	_cachedResults = {};
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({

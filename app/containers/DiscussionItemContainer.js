@@ -7,6 +7,14 @@ import store from "../store/store";
 import actions from "../store/actions";
 
 class DiscussionItemContainer extends React.Component {
+	static propTypes = {
+		thread: React.PropTypes.shape({
+			id: React.PropTypes.string.isRequired,
+			from: React.PropTypes.string.isRequired,
+			to: React.PropTypes.string.isRequired
+		}).isRequired
+	};
+
 	_isCurrentUserAdmin = () => {
 		return store.isUserAdmin(store.get("user"), this.props.thread.to);
 	};
@@ -47,13 +55,5 @@ class DiscussionItemContainer extends React.Component {
 		);
 	}
 }
-
-DiscussionItemContainer.propTypes = {
-	thread: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired,
-		from: React.PropTypes.string.isRequired,
-		to: React.PropTypes.string.isRequired
-	}).isRequired
-};
 
 export default Container(DiscussionItemContainer);

@@ -6,11 +6,15 @@ import Container from "./Container";
 import store from "../store/store";
 
 class NotificationBadgeContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		room: React.PropTypes.string,
+		thread: React.PropTypes.string,
+		grouped: React.PropTypes.bool
+	};
 
-		this.state = { count: 0 };
-	}
+	state = {
+		count: 0
+	};
 
 	componentWillMount() {
 		this.runAfterInteractions(this._updateData);
@@ -63,11 +67,5 @@ class NotificationBadgeContainer extends React.Component {
 		return <NotificationBadge {...this.props} {...this.state} />;
 	}
 }
-
-NotificationBadgeContainer.propTypes = {
-	room: React.PropTypes.string,
-	thread: React.PropTypes.string,
-	grouped: React.PropTypes.bool
-};
 
 export default Container(NotificationBadgeContainer);

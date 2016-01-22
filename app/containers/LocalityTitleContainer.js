@@ -6,6 +6,10 @@ import Container from "./Container";
 import store from "../store/store";
 
 class LocalityTitleContainer extends React.Component {
+	static propTypes = {
+		room: React.PropTypes.string.isRequired
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -40,9 +44,5 @@ class LocalityTitleContainer extends React.Component {
 		return <LocalityTitle {...this.state} />;
 	}
 }
-
-LocalityTitleContainer.propTypes = {
-	room: React.PropTypes.string.isRequired
-};
 
 export default Container(LocalityTitleContainer);

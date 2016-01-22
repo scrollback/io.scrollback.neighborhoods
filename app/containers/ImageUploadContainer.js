@@ -11,14 +11,34 @@ const FINISHED = "finished";
 const ERROR = "error";
 
 class ImageUploadContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		component: React.PropTypes.any.isRequired,
+		imageData: React.PropTypes.shape({
+			name: React.PropTypes.string.isRequired,
+			uri: React.PropTypes.string.isRequired,
+			height: React.PropTypes.number.isRequired,
+			width: React.PropTypes.number.isRequired,
+			size: React.PropTypes.number.isRequired
+		}).isRequired,
+		generateThumb: React.PropTypes.bool,
+		uploadType: React.PropTypes.string,
+		onUploadStart: React.PropTypes.func,
+		onUploadCancel: React.PropTypes.func,
+		onUploadClose: React.PropTypes.func,
+		onUploadError: React.PropTypes.func,
+		onUploadFinish: React.PropTypes.func,
+		autoStart: React.PropTypes.bool
+	};
 
-		this.state = {
-			status: IDLE,
-			request: null
-		};
-	}
+	static defaultProps = {
+		generateThumb: true,
+		uploadType: "content"
+	};
+
+	state = {
+		status: IDLE,
+		request: null
+	};
 
 	componentWillMount() {
 		if (this.props.autoStart) {
@@ -233,29 +253,5 @@ class ImageUploadContainer extends React.Component {
 		);
 	}
 }
-
-ImageUploadContainer.propTypes = {
-	component: React.PropTypes.any.isRequired,
-	imageData: React.PropTypes.shape({
-		name: React.PropTypes.string.isRequired,
-		uri: React.PropTypes.string.isRequired,
-		height: React.PropTypes.number.isRequired,
-		width: React.PropTypes.number.isRequired,
-		size: React.PropTypes.number.isRequired
-	}).isRequired,
-	generateThumb: React.PropTypes.bool,
-	uploadType: React.PropTypes.string,
-	onUploadStart: React.PropTypes.func,
-	onUploadCancel: React.PropTypes.func,
-	onUploadClose: React.PropTypes.func,
-	onUploadError: React.PropTypes.func,
-	onUploadFinish: React.PropTypes.func,
-	autoStart: React.PropTypes.bool
-};
-
-ImageUploadContainer.defaultProps = {
-	generateThumb: true,
-	uploadType: "content"
-};
 
 export default Container(ImageUploadContainer);

@@ -6,14 +6,10 @@ import Container from "./Container";
 import store from "../store/store";
 
 class AppContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			user: "missing",
-			connectionStatus: "connecting"
-		};
-	}
+	state = {
+		user: "missing",
+		connectionStatus: "connecting"
+	};
 
 	componentDidMount() {
 		this.handle("statechange", changes => {

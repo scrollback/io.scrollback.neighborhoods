@@ -6,13 +6,15 @@ import Container from "./Container";
 import store from "../store/store";
 
 class PeopleListContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		thread: React.PropTypes.shape({
+			concerns: React.PropTypes.arrayOf([ React.PropTypes.string ])
+		}).isRequired
+	};
 
-		this.state = {
-			data: [ "missing" ]
-		};
-	}
+	state = {
+		data: [ "missing" ]
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -63,11 +65,5 @@ class PeopleListContainer extends React.Component {
 		return <PeopleList {...this.props} {...this.state} />;
 	}
 }
-
-PeopleListContainer.propTypes = {
-	thread: React.PropTypes.shape({
-		concerns: React.PropTypes.arrayOf([ React.PropTypes.string ])
-	}).isRequired
-};
 
 export default Container(PeopleListContainer);

@@ -6,13 +6,9 @@ import Container from "./Container";
 import store from "../store/store";
 
 class NotificationCenterContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			data: [ "missing" ]
-		};
-	}
+	state = {
+		data: [ "missing" ]
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
