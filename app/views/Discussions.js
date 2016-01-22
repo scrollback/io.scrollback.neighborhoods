@@ -33,54 +33,58 @@ export default class Discussions extends React.Component {
 		return this._dataSource.cloneWithRows(this.props.data);
 	};
 
+	_renderRow = thread => {
+		if (thread === "missing") {
+			return <LoadingItem />;
+		}
+
+		return (
+			<DiscussionItemContainer
+				key={thread.id}
+				thread={thread}
+				onNavigation={this.props.onNavigation}
+				style={styles.item}
+			/>
+		);
+	};
+
 	render() {
+		let placeHolder;
+
+		if (this.props.data.length === 0) {
+			placeHolder = <PageEmpty label="No discussions yet" image="sad" />;
+		} else if (this.props.data.length === 1) {
+			switch (this.props.data[0]) {
+			case "missing":
+				placeHolder = <PageLoading />;
+				break;
+			case "banned":
+				placeHolder = <PageEmpty label="You're banned in this community" image="meh" />;
+				break;
+			case "nonexistent":
+				placeHolder = <PageEmpty label="This community doesn't exist" image="sad" />;
+				break;
+			case "failed":
+				placeHolder = <PageEmpty label="Failed to load discussions" image="sad" />;
+				break;
+			}
+		}
+
 		return (
 			<View {...this.props}>
 				<BannerOfflineContainer />
 
-				{(() => {
-					if (this.props.data.length === 0) {
-						return <PageEmpty label="No discussions yet" image="sad" />;
-					}
-
-					if (this.props.data.length === 1) {
-						switch (this.props.data[0]) {
-						case "missing":
-							return <PageLoading />;
-						case "banned":
-							return <PageEmpty label="You're banned in this community" image="meh" />;
-						case "nonexistent":
-							return <PageEmpty label="This community doesn't exist" image="sad" />;
-						case "failed":
-							return <PageEmpty label="Failed to load discussions" image="sad" />;
-						}
-					}
-
-					return (
-						<ListView
-							removeClippedSubviews
-							contentContainerStyle={styles.container}
-							initialListSize={1}
-							onEndReachedThreshold={1000}
-							onEndReached={this.props.onEndReached}
-							dataSource={this._getDataSource()}
-							renderRow={thread => {
-								if (thread === "missing") {
-									return <LoadingItem />;
-								}
-
-								return (
-									<DiscussionItemContainer
-										key={thread.id}
-										thread={thread}
-										onNavigation={this.props.onNavigation}
-										style={styles.item}
-									/>
-								);
-							}}
-						/>
-					);
-				})()}
+				{placeHolder ? placeHolder :
+					<ListView
+						removeClippedSubviews
+						contentContainerStyle={styles.container}
+						initialListSize={1}
+						onEndReachedThreshold={1000}
+						onEndReached={this.props.onEndReached}
+						dataSource={this._getDataSource()}
+						renderRow={this._renderRow}
+					/>
+				}
 
 				<StartDiscussionButton
 					room={this.props.room}
