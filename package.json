@@ -11,18 +11,18 @@
   },
   "dependencies": {
     "ebus": "^0.12.0",
-    "engine.io-client": "^1.5.4",
-    "react-native": "^0.18.0-rc",
+    "engine.io-client": "^1.6.7",
+    "react-native": "^0.18.1",
     "react-native-image-chooser": "^1.0.1",
-    "react-native-vector-icons": "^1.0.2"
+    "react-native-vector-icons": "^1.0.4"
   },
   "devDependencies": {
-    "babel-eslint": "^4.1.6",
+    "babel-eslint": "^5.0.0-beta6",
     "babel-jest": "^6.0.1",
     "chalk": "^1.1.1",
     "crypto": "0.0.3",
     "eslint": "^1.10.3",
-    "eslint-plugin-react": "^3.11.3",
+    "eslint-plugin-react": "^3.15.0",
     "flow-bin": "^0.20.1",
     "jest": "^0.1.40",
     "jest-cli": "^0.8.2",
