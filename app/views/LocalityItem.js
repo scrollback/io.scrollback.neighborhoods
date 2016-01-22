@@ -15,7 +15,6 @@ const {
 	StyleSheet,
 	PixelRatio,
 	TouchableOpacity,
-	NavigationActions,
 	View
 } = React;
 
@@ -90,17 +89,8 @@ export default class LocalityItem extends React.Component {
 
 	_onPress = () => {
 		if (this.props.onSelect) {
-			this.props.onSelect(this.props.room.id);
-			return;
+			this.props.onSelect(this.props.room);
 		}
-
-		this.props.onNavigation(new NavigationActions.Push({
-			name: "room",
-			props: {
-				room: this.props.room.id
-			}
-		}));
-		this.props.autoJoin();
 	};
 
 	render() {
@@ -167,8 +157,6 @@ LocalityItem.propTypes = {
 	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
-	autoJoin: React.PropTypes.func.isRequired,
-	onNavigation: React.PropTypes.func.isRequired,
 	onSelect: React.PropTypes.func,
 };
 

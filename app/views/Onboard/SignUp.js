@@ -9,10 +9,17 @@ import HomeContainer from "../../containers/HomeContainer";
 import userUtils from "../../lib/user-utils";
 import Validator from "../../lib/validator";
 
+type Place = {
+	id: string;
+	guides: {
+		displayName?: string;
+	}
+};
+
 type State = {
+	place: ?Place;
 	nick: ?string;
 	name: ?string;
-	place: ?string;
 	error: ?Object;
 	onboarding: boolean;
 	isLoading: boolean;
@@ -97,6 +104,7 @@ export default class SignUp extends React.Component {
 
 	_onCompleteLocation = async (): Promise => {
 		this._setOnboarding(true);
+		this._setIsLoading(true);
 
 		if (!this.state.place) {
 			this.setState({
@@ -108,11 +116,9 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
-		this._setIsLoading(true);
-
 		await this.props.saveParams({
 			places: {
-				current: this.state.place
+				current: this.state.place.id
 			}
 		});
 
@@ -148,7 +154,7 @@ export default class SignUp extends React.Component {
 		});
 	};
 
-	_onChangePlace = (place: string) => {
+	_onChangePlace = (place: Place) => {
 		this.setState({
 			place,
 			error: null

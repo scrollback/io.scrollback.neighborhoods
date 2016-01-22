@@ -8,7 +8,8 @@ import LocalitiesFilterContainer from "../containers/LocalitiesFilteredContainer
 
 const {
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	NavigationActions
 } = React;
 
 const styles = StyleSheet.create({
@@ -24,12 +25,29 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchBar extends React.Component {
+	static propTypes = {
+		onNavigation: React.PropTypes.func.isRequired
+	};
+
 	shouldComponentUpdate() {
 		return false;
 	}
 
+	_dismissModal = () => {
+		Modal.renderComponent(null);
+	};
+
+	_onSelectLocality = room => {
+		this.props.onNavigation(new NavigationActions.Push({
+			name: "room",
+			props: {
+				room: room.id
+			}
+		}));
+	};
+
 	_onPress = () => {
-		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} onNavigation={this.props.onNavigation} />);
+		Modal.renderComponent(<LocalitiesFilterContainer onDismiss={this._dismissModal} onSelectLocality={this._onSelectLocality} />);
 	};
 
 	render() {
@@ -43,7 +61,3 @@ export default class SearchBar extends React.Component {
 		);
 	}
 }
-
-SearchBar.propTypes = {
-	onNavigation: React.PropTypes.func.isRequired
-};

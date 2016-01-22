@@ -1,8 +1,8 @@
 import React from "react-native";
-import Colors from "../../Colors.json";
+import LocalityItemContainer from "../containers/LocalityItemContainer";
+import SearchableList from "./SearchableList";
 import StatusbarContainer from "./StatusbarContainer";
-import LocalitiesBase from "./LocalitiesBase";
-import SearchBar from "./Searchbar";
+import Colors from "../../Colors.json";
 
 const {
 	StyleSheet
@@ -19,30 +19,38 @@ const styles = StyleSheet.create({
 });
 
 export default class LocalitiesFiltered extends React.Component {
+	static propTypes = {
+		onDismiss: React.PropTypes.func.isRequired,
+		getResults: React.PropTypes.func.isRequired,
+		onSelectLocality: React.PropTypes.func.isRequired,
+	};
+
+	_renderRow = room => {
+		if (!room) {
+			return null;
+		}
+
+		return (
+			<LocalityItemContainer
+				key={room.id}
+				room={room}
+				onSelect={this.props.onSelectLocality}
+				showMenuButton={false}
+				showBadge={false}
+			/>
+		);
+	};
+
 	render() {
 		return (
 			<StatusbarContainer style={styles.container}>
-				<SearchBar
-					placeholder="Type a name..."
-					onBack={this.props.dismiss}
-					onSearchChange={this.props.onSearchChange}
-					autoFocus
-				/>
-				<LocalitiesBase
-					{...this.props}
-					pageEmptyLabel={this.props.filter ? "No communities found" : "Type a place to search"}
-					pageEmptyImage={this.props.filter ? "sad" : "happy"}
-					style={[ styles.inner, this.props.style ]}
-					showMenuButton={false}
-					showBadge={false}
+				<SearchableList
+					getResults={this.props.getResults}
+					renderRow={this._renderRow}
+					onDismiss={this.props.onDismiss}
+					searchHint="Type a place to search"
 				/>
 			</StatusbarContainer>
 		);
 	}
 }
-
-LocalitiesFiltered.propTypes = {
-	dismiss: React.PropTypes.func.isRequired,
-	onSearchChange: React.PropTypes.func.isRequired,
-	filter: React.PropTypes.string
-};

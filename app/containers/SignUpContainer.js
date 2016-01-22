@@ -6,13 +6,9 @@ import Container from "./Container";
 import store from "../store/store";
 
 class SignUpContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			user: null
-		};
-	}
+	state = {
+		user: null
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -46,6 +42,10 @@ class SignUpContainer extends React.Component {
 
 	_signUp = async ({ nick, name }) => {
 		const { user } = this.state;
+
+		if (!user) {
+			throw new Error("User is not initialized.");
+		}
 
 		let results;
 
@@ -83,6 +83,10 @@ class SignUpContainer extends React.Component {
 	};
 
 	_saveParams = (params: Object) => {
+		if (!this.state.user) {
+			throw new Error("User is not initialized.");
+		}
+
 		const user = {
 			...this.state.user,
 			params: {

@@ -68,6 +68,6 @@ export default class Avatar extends React.Component {
 }
 
 Avatar.propTypes = {
-	uri: React.PropTypes.string.isRequired,
+	uri: React.PropTypes.string,
 	size: React.PropTypes.number.isRequired
 };

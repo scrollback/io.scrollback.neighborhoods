@@ -52,34 +52,29 @@ const styles = StyleSheet.create({
 	},
 });
 
-type Props = {
-	place: ?string;
-	error: ?Object;
-	onComplete: Function;
-	onChangePlace: Function;
-}
-
 export default class LocationDetails extends React.Component {
 	static propTypes = {
-		place: React.PropTypes.string,
+		place: React.PropTypes.shape({
+			guides: React.PropTypes.shape({
+				displayName: React.PropTypes.string
+			})
+		}),
 		error: React.PropTypes.object,
 		onComplete: React.PropTypes.func.isRequired,
 		onChangePlace: React.PropTypes.func.isRequired
 	};
 
-	props: Props;
-
 	_dismissModal = () => {
 		Modal.renderComponent(null);
 	};
 
-	_onSelectLocality = (place: string) => {
+	_onSelectLocality = (place: Object) => {
 		this.props.onChangePlace(place);
 		this._dismissModal();
 	};
 
 	_onPress = () => {
-		Modal.renderComponent(<LocalitiesFilterContainer dismiss={this._dismissModal} onSelectLocality={this._onSelectLocality} />);
+		Modal.renderComponent(<LocalitiesFilterContainer onDismiss={this._dismissModal} onSelectLocality={this._onSelectLocality} />);
 	};
 
 	render() {
@@ -91,7 +86,7 @@ export default class LocationDetails extends React.Component {
 				<TouchableOpacity onPress={this._onPress}>
 					<View style={[ styles.input, this.props.error ? styles.error : null ]}>
 						<AppText style={[ styles.inputText, this.props.place ? null : styles.placeholder ]}>
-							{this.props.place || "Enter the name of your locality"}
+							{this.props.place ? this.props.place.guides.displayName : "Enter the name of your locality"}
 						</AppText>
 					</View>
 				</TouchableOpacity>
