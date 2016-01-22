@@ -41,60 +41,62 @@ export default class ChatMessages extends React.Component {
 		return this._dataSource.cloneWithRows(this.props.data);
 	};
 
+	_renderRow = item => {
+		if (item === "missing") {
+			return <LoadingItem />;
+		}
+
+		return (
+			<ChatItemContainer
+				key={item.text.id}
+				text={item.text}
+				metadata={item.metadata}
+				previousText={item.previousText}
+				currentUser={this.props.user}
+				replyToMessage={this.props.replyToMessage}
+				quoteMessage={this.props.quoteMessage}
+				style={[ styles.item, styles.inverted ]}
+			/>
+		);
+	};
+
 	render() {
+		let placeHolder;
+
+		if (this.props.data.length === 0) {
+			placeHolder = <PageEmpty label="No messages yet" image="sad" />;
+		} else if (this.props.data.length === 1) {
+			switch (this.props.data[0]) {
+			case "missing":
+				placeHolder = <PageLoading />;
+				break;
+			case "banned":
+				placeHolder = <PageEmpty label="You're banned in this community" image="meh" />;
+				break;
+			case "nonexistent":
+				placeHolder = <PageEmpty label="This discussion doesn't exist" image="sad" />;
+				break;
+			case "failed":
+				placeHolder = <PageEmpty label="Failed to load messages" image="sad" />;
+				break;
+			}
+		}
+
 		return (
 			<View {...this.props}>
-				{(() => {
-					if (this.props.data.length === 0) {
-						return <PageEmpty label="No messages yet" image="sad" />;
-					}
-
-					if (this.props.data.length === 1) {
-						switch (this.props.data[0]) {
-						case "missing":
-							return <PageLoading />;
-						case "banned":
-							return <PageEmpty label="You're banned in this community" image="meh" />;
-						case "nonexistent":
-							return <PageEmpty label="This discussion doesn't exist" image="sad" />;
-						case "failed":
-							return <PageEmpty label="Failed to load messages" image="sad" />;
-						}
-					}
-
-					const dataSource = this._getDataSource();
-
-					return (
-						<ListView
-							removeClippedSubviews
-							keyboardShouldPersistTaps={false}
-							style={styles.inverted}
-							contentContainerStyle={styles.container}
-							initialListSize={1}
-							onEndReachedThreshold={1000}
-							onEndReached={this.props.onEndReached}
-							dataSource={dataSource}
-							renderRow={item => {
-								if (item === "missing") {
-									return <LoadingItem />;
-								}
-
-								return (
-									<ChatItemContainer
-										key={item.text.id}
-										text={item.text}
-										metadata={item.metadata}
-										previousText={item.previousText}
-										currentUser={this.props.user}
-										replyToMessage={this.props.replyToMessage}
-										quoteMessage={this.props.quoteMessage}
-										style={[ styles.item, styles.inverted ]}
-									/>
-								);
-							}}
-						/>
-					);
-				})()}
+				{placeHolder ? placeHolder :
+					<ListView
+						removeClippedSubviews
+						keyboardShouldPersistTaps={false}
+						style={styles.inverted}
+						contentContainerStyle={styles.container}
+						initialListSize={1}
+						onEndReachedThreshold={1000}
+						onEndReached={this.props.onEndReached}
+						dataSource={this._getDataSource()}
+						renderRow={this._renderRow}
+					/>
+				}
 			</View>
 		);
 	}
