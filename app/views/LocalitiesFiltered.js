@@ -1,5 +1,6 @@
 import React from "react-native";
 import LocalityItemContainer from "../containers/LocalityItemContainer";
+import ListHeader from "./ListHeader";
 import SearchableList from "./SearchableList";
 import StatusbarContainer from "./StatusbarContainer";
 import Colors from "../../Colors.json";
@@ -38,12 +39,23 @@ export default class LocalitiesFiltered extends React.Component {
 		);
 	};
 
+	_renderHeader = (filter, data) => {
+		const count = data.length;
+
+		if (count) {
+			return <ListHeader>{filter ? (count + " result" + (count > 1 ? "s" : "") + " found") : "Communities nearby"}</ListHeader>;
+		}
+
+		return null;
+	};
+
 	render() {
 		return (
 			<StatusbarContainer style={styles.container}>
 				<SearchableList
 					getResults={this.props.getResults}
 					renderRow={this._renderRow}
+					renderHeader={this._renderHeader}
 					onDismiss={this.props.onDismiss}
 					searchHint="Type a place to search"
 				/>

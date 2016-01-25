@@ -9,7 +9,6 @@ import React from "react-native";
 import SearchBar from "./Searchbar";
 import PageEmpty from "./PageEmpty";
 import PageLoading from "./PageLoading";
-import ListHeader from "./ListHeader";
 import debounce from "../lib/debounce";
 
 const {
@@ -33,6 +32,7 @@ export default class SearchableList extends React.Component {
 	static propTypes = {
 		getResults: React.PropTypes.func.isRequired,
 		renderRow: React.PropTypes.func.isRequired,
+		renderHeader: React.PropTypes.func,
 		onDismiss: React.PropTypes.func.isRequired,
 		searchHint: React.PropTypes.string.isRequired,
 		style: View.propTypes.style,
@@ -40,8 +40,12 @@ export default class SearchableList extends React.Component {
 
 	state: State = {
 		filter: "",
-		data: [ "blankslate" ],
+		data: [ "missing" ],
 	};
+
+	componentDidMount() {
+		this._fetchResults();
+	}
 
 	_dataSource = new ListView.DataSource({
 		rowHasChanged: (r1, r2) => r1 !== r2
@@ -50,13 +54,6 @@ export default class SearchableList extends React.Component {
 	_cachedResults = {};
 
 	_fetchResults = debounce(async (filter: string): Promise => {
-		if (!filter) {
-			this.setState({
-				data: [ "blankslate" ]
-			});
-			return;
-		}
-
 		try {
 			let data;
 
@@ -68,7 +65,7 @@ export default class SearchableList extends React.Component {
 			}
 
 			this.setState({
-				data
+				data: data.length || filter ? data : [ "blankslate" ]
 			});
 		} catch (e) {
 			this.setState({
@@ -91,15 +88,11 @@ export default class SearchableList extends React.Component {
 	};
 
 	_renderHeader = () => {
-		const { data } = this.state;
-
-		if (data.length === 1 && typeof data[0] === "string") {
-			return null;
-		} else {
-			const count = data.length;
-
-			return <ListHeader>{count + " result" + (count > 1 ? "s" : "") + " found"}</ListHeader>;
+		if (this.props.renderHeader) {
+			return this.props.renderHeader(this.state.filter, this.state.data);
 		}
+
+		return null;
 	};
 
 	render() {
