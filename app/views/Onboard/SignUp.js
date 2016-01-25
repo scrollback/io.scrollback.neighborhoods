@@ -9,13 +9,8 @@ import HomeContainer from "../../containers/HomeContainer";
 import userUtils from "../../lib/user-utils";
 import Validator from "../../lib/validator";
 
-type Place = {
-	id: string;
-	type: string;
-};
-
 type State = {
-	places: ?Place;
+	places: Array<Object>;
 	nick: ?string;
 	name: ?string;
 	error: ?Object;
@@ -35,7 +30,7 @@ export default class SignUp extends React.Component {
 		user: React.PropTypes.object,
 		signUp: React.PropTypes.func.isRequired,
 		saveParams: React.PropTypes.func.isRequired,
-		joinRooms: React.PropTypes.func.isRequired,
+		saveRooms: React.PropTypes.func.isRequired,
 	};
 
 	state: State = {
@@ -117,12 +112,7 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
-		await Promise.all(
-			this.props.saveParams({
-				places
-			}),
-			this.props.joinRooms(places.map(p => p.id))
-		);
+		await this.props.saveRooms(places);
 
 		this._setIsLoading(false);
 	};
@@ -156,7 +146,7 @@ export default class SignUp extends React.Component {
 		});
 	};
 
-	_handleChangePlace = (places: Array<Place>) => {
+	_handleChangePlace = (places: Array<Object>) => {
 		this.setState({
 			places,
 			error: null

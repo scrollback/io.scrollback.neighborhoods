@@ -12,7 +12,6 @@ const {
 
 type Place = {
 	id: string;
-	type: string;
 }
 
 const TYPES = [ "current", "work", "home" ];
@@ -27,7 +26,7 @@ export default class PlaceManager extends React.Component {
 	static propTypes = {
 		onChange: React.PropTypes.func.isRequired,
 		places: React.PropTypes.arrayOf(React.PropTypes.shape({
-			id: React.PropTypes.string,
+			place: React.PropTypes.object,
 			type: React.PropTypes.oneOf(TYPES)
 		}))
 	};
@@ -50,14 +49,14 @@ export default class PlaceManager extends React.Component {
 		const { places } = this.props;
 
 		this.props.onChange([ ...places, {
-			id: place.id,
+			place,
 			type: this._getNextType(places)
 		} ]);
 		this._handleDismissModal();
 	};
 
 	_handleRemoveLocality = (place: Place) => {
-		this.props.onChange(this.props.places.filter(p => p.id !== place.id));
+		this.props.onChange(this.props.places.filter(it => it.place.id !== place.id));
 	};
 
 	_handlePress = () => {
@@ -75,10 +74,11 @@ export default class PlaceManager extends React.Component {
 
 		return (
 			<View {...this.props}>
-				{places.map(place => (
+				{places.map(item => (
 					<PlaceItem
-						key={place.id}
-						place={place}
+						key={item.place.id}
+						place={item.place}
+						type={item.type}
 						onRemove={this._handleRemoveLocality}
 					/>
 				))}

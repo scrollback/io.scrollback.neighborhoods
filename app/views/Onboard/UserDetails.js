@@ -49,10 +49,6 @@ const styles = StyleSheet.create({
 		width: 200,
 		marginHorizontal: 16,
 	},
-
-	icon: {
-		color: Colors.fadedBlack
-	},
 });
 
 type Props = {
@@ -106,8 +102,8 @@ const UserDetails = (props: Props) => {
 			</ScrollView>
 			<NextButton
 				label="Sign up"
-				onPress={props.onComplete}
 				loading={props.isLoading}
+				onPress={props.onComplete}
 			/>
 			{Platform.Version >= VersionCodes.KITKAT ?
 				<KeyboardSpacer /> :

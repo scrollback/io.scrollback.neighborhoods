@@ -102,8 +102,28 @@ class SignUpContainer extends React.Component {
 		});
 	};
 
-	_joinRooms = (places: Array<string>) => {
-		// TODO
+	_joinRooms = (places: Array<Object>) => {
+		const rooms = places.map(it => it.place);
+
+		return Promise.all(
+			rooms
+				.map(room => room.guides ? room.guides.alsoAutoFollow : null)
+				.concat(rooms.map(room => room.id))
+				.filter((it, i, self) => it && self.indexOf(it) === i)
+				.map(id => this.dispatch("join", { to: id }))
+		);
+	};
+
+	_saveRooms = (places: Array<Object>) => {
+		return Promise.all([
+			this._saveParams({
+				places: places.map(it => ({
+					id: it.place.id,
+					type: it.type
+				}))
+			}),
+			this._joinRooms(places)
+		]);
 	};
 
 	render() {
@@ -115,6 +135,7 @@ class SignUpContainer extends React.Component {
 				signUp={this._signUp}
 				cancelSignUp={this._cancelSignUp}
 				saveParams={this._saveParams}
+				saveRooms={this._saveRooms}
 			/>
 		);
 	}

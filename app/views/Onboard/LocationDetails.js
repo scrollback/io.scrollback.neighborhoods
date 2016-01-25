@@ -41,6 +41,7 @@ export default class LocationDetails extends React.Component {
 		}),
 		places: React.PropTypes.array.isRequired,
 		error: React.PropTypes.object,
+		isLoading: React.PropTypes.bool,
 		onComplete: React.PropTypes.func.isRequired,
 		onChangePlace: React.PropTypes.func.isRequired
 	};
@@ -62,7 +63,11 @@ export default class LocationDetails extends React.Component {
 						hint="PS: We are not stalking. This is to help you find relevant communities! 😊"
 					/>
 				</ScrollView>
-				<NextButton label="Get started" onPress={this.props.onComplete} />
+				<NextButton
+					label="Get started"
+					loading={this.props.isLoading}
+					onPress={this.props.onComplete}
+				/>
 				<Modal />
 			</StatusbarContainer>
 		);
