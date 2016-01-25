@@ -24,11 +24,6 @@ const styles = StyleSheet.create({
 		margin: 16
 	},
 
-	progress: {
-		color: Colors.white,
-		margin: 16
-	},
-
 	icon: {
 		color: Colors.fadedBlack
 	}
@@ -38,11 +33,7 @@ const NextButton = props => {
 	if (props.loading) {
 		return (
 			<View style={styles.button}>
-				<Icon
-					style={styles.progress}
-					name="more-horiz"
-					size={24}
-				/>
+				<AppText style={[ styles.label, styles.icon ]}>JUST A SEC…</AppText>
 			</View>
 		);
 	} else {
