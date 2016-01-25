@@ -4,6 +4,7 @@ import React from "react-native";
 import PlaceItem from "./PlaceItem";
 import PlaceButton from "./PlaceButton";
 import LocalitiesFilteredContainer from "../../containers/LocalitiesFilteredContainer";
+import StatesFilteredContainer from "../../containers/StatesFilteredContainer";
 import Modal from "../Modal";
 
 const {
@@ -60,12 +61,23 @@ export default class PlaceManager extends React.Component {
 	};
 
 	_handlePress = () => {
-		Modal.renderComponent(
-			<LocalitiesFilteredContainer
-				onDismiss={this._handleDismissModal}
-				onSelectItem={this._handleSelectItem}
-			/>
-		);
+		const next = this._getNextType(this.props.places);
+
+		if (next === "home") {
+			Modal.renderComponent(
+				<StatesFilteredContainer
+					onDismiss={this._handleDismissModal}
+					onSelectItem={this._handleSelectItem}
+				/>
+			);
+		} else {
+			Modal.renderComponent(
+				<LocalitiesFilteredContainer
+					onDismiss={this._handleDismissModal}
+					onSelectItem={this._handleSelectItem}
+				/>
+			);
+		}
 	};
 
 	render() {
