@@ -5,7 +5,7 @@ import userUtils from "../../lib/user-utils";
 const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
 const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
-const NUM_ROOMS_TO_LOAD = 7;
+const NUM_ROOMS_TO_LOAD = 3;
 
 const {
 	Alert
@@ -90,7 +90,6 @@ module.exports = function(core) {
 				const watchID = Geolocation.watchPosition(p => {
 					if (p) {
 						loadNearByRooms(p, memberOf);
-
 						Geolocation.clearWatch(watchID);
 					}
 				});
