@@ -20,7 +20,7 @@ export default class LocalitiesFiltered extends React.Component {
 	static propTypes = {
 		onDismiss: React.PropTypes.func.isRequired,
 		getResults: React.PropTypes.func.isRequired,
-		onSelectLocality: React.PropTypes.func.isRequired,
+		onSelectItem: React.PropTypes.func.isRequired,
 	};
 
 	_renderRow = room => {
@@ -32,7 +32,7 @@ export default class LocalitiesFiltered extends React.Component {
 			<LocalityItemContainer
 				key={room.id}
 				room={room}
-				onSelect={this.props.onSelectLocality}
+				onSelect={this.props.onSelectItem}
 				showMenuButton={false}
 				showBadge={false}
 			/>

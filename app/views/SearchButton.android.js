@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
@@ -33,11 +35,11 @@ export default class SearchBar extends React.Component {
 		return false;
 	}
 
-	_dismissModal = () => {
+	_handleDismissModal = () => {
 		Modal.renderComponent(null);
 	};
 
-	_onSelectLocality = room => {
+	_handleSelectLocality = room => {
 		this.props.onNavigation(new NavigationActions.Push({
 			name: "room",
 			props: {
@@ -46,13 +48,13 @@ export default class SearchBar extends React.Component {
 		}));
 	};
 
-	_onPress = () => {
-		Modal.renderComponent(<LocalitiesFilterContainer onDismiss={this._dismissModal} onSelectLocality={this._onSelectLocality} />);
+	_handlePress = () => {
+		Modal.renderComponent(<LocalitiesFilterContainer onDismiss={this._handleDismissModal} onSelectItem={this._handleSelectLocality} />);
 	};
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress}>
+			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._handlePress}>
 				<AppbarSecondary {...this.props}>
 					<AppText style={styles.searchbarText}>Search for communties...</AppText>
 					<AppbarIcon name="search" style={styles.icon} />

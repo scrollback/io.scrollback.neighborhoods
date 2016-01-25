@@ -3,7 +3,7 @@
 import React from "react-native";
 import PlaceItem from "./PlaceItem";
 import PlaceButton from "./PlaceButton";
-import LocalitiesFilterContainer from "../../containers/LocalitiesFilteredContainer";
+import LocalitiesFilteredContainer from "../../containers/LocalitiesFilteredContainer";
 import Modal from "../Modal";
 
 const {
@@ -45,7 +45,7 @@ export default class PlaceManager extends React.Component {
 		Modal.renderComponent(null);
 	};
 
-	_handleSelectLocality = (place: Place) => {
+	_handleSelectItem = (place: Place) => {
 		const { places } = this.props;
 
 		this.props.onChange([ ...places, {
@@ -61,9 +61,9 @@ export default class PlaceManager extends React.Component {
 
 	_handlePress = () => {
 		Modal.renderComponent(
-			<LocalitiesFilterContainer
+			<LocalitiesFilteredContainer
 				onDismiss={this._handleDismissModal}
-				onSelectLocality={this._handleSelectLocality}
+				onSelectItem={this._handleSelectItem}
 			/>
 		);
 	};
