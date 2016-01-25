@@ -102,6 +102,10 @@ class SignUpContainer extends React.Component {
 		});
 	};
 
+	_joinRooms = (places: Array<string>) => {
+		// TODO
+	};
+
 	render() {
 		return (
 			<SignUp

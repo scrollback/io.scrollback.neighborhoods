@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 	},
 
 	places: {
-		height: 186,
+		height: 210,
 		width: 240
 	},
 });
@@ -39,6 +39,7 @@ export default class LocationDetails extends React.Component {
 				displayName: React.PropTypes.string
 			})
 		}),
+		places: React.PropTypes.array.isRequired,
 		error: React.PropTypes.object,
 		onComplete: React.PropTypes.func.isRequired,
 		onChangePlace: React.PropTypes.func.isRequired
@@ -50,7 +51,11 @@ export default class LocationDetails extends React.Component {
 				<ScrollView contentContainerStyle={[ styles.container, styles.inner ]}>
 					<OnboardTitle>Tell us a bit more?</OnboardTitle>
 
-					<PlaceManager style={styles.places} onChangePlace={this.props.onChangePlace} />
+					<PlaceManager
+						style={styles.places}
+						places={this.props.places}
+						onChange={this.props.onChangePlace}
+					/>
 
 					<OnboardError
 						message={this.props.error ? this.props.error.message : null}

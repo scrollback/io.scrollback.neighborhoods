@@ -10,15 +10,54 @@ const {
 	View
 } = React;
 
+type Place = {
+	id: string;
+	type: string;
+}
+
+const TYPES = [ "current", "work", "home" ];
+const LABELS = {
+	current: "Add where you live",
+	work: "Add where you work",
+	home: "Add your hometown",
+};
+
 export default class PlaceManager extends React.Component {
+
+	static propTypes = {
+		onChange: React.PropTypes.func.isRequired,
+		places: React.PropTypes.arrayOf(React.PropTypes.shape({
+			id: React.PropTypes.string,
+			type: React.PropTypes.oneOf(TYPES)
+		}))
+	};
+
+	_getNextType = (places) => {
+		const placeTypes = places.map(p => p.type);
+
+		for (let i = 0, l = TYPES.length; i < l; i++) {
+			if (placeTypes.indexOf(TYPES[i]) === -1) {
+				return TYPES[i];
+			}
+		}
+	};
 
 	_handleDismissModal = () => {
 		Modal.renderComponent(null);
 	};
 
-	_handleSelectLocality = (place: Object) => {
-		this.props.onChangePlace(place);
+	_handleSelectLocality = (place: Place) => {
+		const { places } = this.props;
+
+		this.props.onChange([ ...places, {
+			id: place.id,
+			type: this._getNextType(places)
+		} ]);
 		this._handleDismissModal();
+	};
+
+	_handleRemoveLocality = (place: Place) => {
+		this.props.onChange(this.props.places.filter(p => p.id !== place.id));
 	};
 
 	_handlePress = () => {
@@ -31,10 +70,19 @@ export default class PlaceManager extends React.Component {
 	};
 
 	render() {
+		const { places } = this.props;
+		const next = this._getNextType(places);
+
 		return (
 			<View {...this.props}>
-				<PlaceItem name="Jeevan Beema Nagar" type="home" />
-				<PlaceButton label="Add your hometown" onPress={this._handlePress} />
+				{places.map(place => (
+					<PlaceItem
+						key={place.id}
+						place={place}
+						onRemove={this._handleRemoveLocality}
+					/>
+				))}
+				{next ? <PlaceButton label={LABELS[next]} onPress={this._handlePress} /> : null}
 			</View>
 		);
 	}

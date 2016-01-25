@@ -11,13 +11,11 @@ import Validator from "../../lib/validator";
 
 type Place = {
 	id: string;
-	guides: {
-		displayName?: string;
-	}
+	type: string;
 };
 
 type State = {
-	place: ?Place;
+	places: ?Place;
 	nick: ?string;
 	name: ?string;
 	error: ?Object;
@@ -28,7 +26,7 @@ type State = {
 const ERROR_MESSAGES = {
 	VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens, no spaces.",
 	VALIDATE_START: "Nickname cannot start with a hyphen.",
-	VALIDATE_ONLY_NUMS: "Nickname should have at least 1 letter.",
+	VALIDATE_handleLY_NUMS: "Nickname should have at least 1 letter.",
 	VALIDATE_LENGTH_SHORT: "Nickname should be 3-32 characters long.",
 };
 
@@ -37,12 +35,13 @@ export default class SignUp extends React.Component {
 		user: React.PropTypes.object,
 		signUp: React.PropTypes.func.isRequired,
 		saveParams: React.PropTypes.func.isRequired,
+		joinRooms: React.PropTypes.func.isRequired,
 	};
 
 	state: State = {
 		nick: null,
 		name: null,
-		place: null,
+		places: [],
 		error: null,
 		onboarding: false,
 		isLoading: false
@@ -60,7 +59,7 @@ export default class SignUp extends React.Component {
 		});
 	};
 
-	_onCompleteDetails = async (): Promise => {
+	_handleCompleteDetails = async (): Promise => {
 		this._setOnboarding(true);
 
 		if (!this.state.nick) {
@@ -102,11 +101,13 @@ export default class SignUp extends React.Component {
 		this._setIsLoading(false);
 	};
 
-	_onCompleteLocation = async (): Promise => {
+	_handleCompleteLocation = async (): Promise => {
+		const { places } = this.state;
+
 		this._setOnboarding(true);
 		this._setIsLoading(true);
 
-		if (!this.state.place) {
+		if (!places.length) {
 			this.setState({
 				error: {
 					field: "place",
@@ -116,20 +117,21 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
-		await this.props.saveParams({
-			places: {
-				current: this.state.place.id
-			}
-		});
+		await Promise.all(
+			this.props.saveParams({
+				places
+			}),
+			this.props.joinRooms(places.map(p => p.id))
+		);
 
 		this._setIsLoading(false);
 	};
 
-	_onCompleteOnboard = () => {
+	_handleCompleteOnboard = () => {
 		this._setOnboarding(false);
 	};
 
-	_onChangeNick = (nick: string) => {
+	_handleChangeNick = (nick: string) => {
 		let error = null;
 
 		const validation = new Validator(nick);
@@ -147,16 +149,16 @@ export default class SignUp extends React.Component {
 		});
 	};
 
-	_onChangeName = (name: string) => {
+	_handleChangeName = (name: string) => {
 		this.setState({
 			name,
 			error: null
 		});
 	};
 
-	_onChangePlace = (place: Place) => {
+	_handleChangePlace = (places: Array<Place>) => {
 		this.setState({
-			place,
+			places,
 			error: null
 		});
 	};
@@ -166,13 +168,13 @@ export default class SignUp extends React.Component {
 
 		if (user) {
 			if (!userUtils.isGuest(user.id)) {
-				if (user.params.places && user.params.places.current) {
+				if (user.params.places && user.params.places.length) {
 					if (this.state.onboarding) {
 						return (
 							<GetStarted
 								{...this.props}
 								{...this.state}
-								onComplete={this._onCompleteOnboard}
+								onComplete={this._handleCompleteOnboard}
 							/>
 						);
 					} else {
@@ -183,8 +185,8 @@ export default class SignUp extends React.Component {
 						<LocationDetails
 							{...this.props}
 							{...this.state}
-							onComplete={this._onCompleteLocation}
-							onChangePlace={this._onChangePlace}
+							onComplete={this._handleCompleteLocation}
+							onChangePlace={this._handleChangePlace}
 						/>
 					);
 				}
@@ -193,9 +195,9 @@ export default class SignUp extends React.Component {
 					<UserDetails
 						{...this.props}
 						{...this.state}
-						onComplete={this._onCompleteDetails}
-						onChangeNick={this._onChangeNick}
-						onChangeName={this._onChangeName}
+						onComplete={this._handleCompleteDetails}
+						onChangeNick={this._handleChangeNick}
+						onChangeName={this._handleChangeName}
 					/>
 				);
 			}

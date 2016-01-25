@@ -7,6 +7,7 @@ import Colors from "../../../Colors.json";
 
 const {
 	View,
+	TouchableOpacity,
 	StyleSheet
 } = React;
 
@@ -47,8 +48,8 @@ const styles = StyleSheet.create({
 	closeContainer: {
 		alignItems: "center",
 		justifyContent: "center",
-		height: 16,
-		width: 16,
+		marginVertical: 16,
+		marginHorizontal: 8,
 		borderRadius: 8,
 		backgroundColor: Colors.underlay,
 	},
@@ -63,32 +64,55 @@ type Props = {
 	type: string;
 }
 
-const PlaceItem = (props: Props) => (
-	<View style={styles.container}>
-		<View style={styles.iconContainer}>
-			<Icon
-				style={styles.icon}
-				name={props.type}
-				size={16}
-			/>
-		</View>
-		<View style={styles.nameContainer}>
-			<AppText style={styles.name}>{props.name}</AppText>
-			<AppText style={styles.type}>{props.type.charAt(0).toUpperCase() + props.type.slice(1)}</AppText>
-		</View>
-		<View style={styles.closeContainer}>
-			<Icon
-				style={styles.icon}
-				name="close"
-				size={12}
-			/>
-		</View>
-	</View>
-);
-
-PlaceItem.propTypes = {
-	name: React.PropTypes.string.isRequired,
-	type: React.PropTypes.string.isRequired,
+const ICONS = {
+	current: "location-city",
+	home: "home",
+	work: "work"
 };
+
+export default class PlaceItem extends React.Component {
+	static propTypes = {
+		place: React.PropTypes.shape({
+			id: React.PropTypes.string.isRequired,
+			type: React.PropTypes.oneOf([ "current", "home", "work" ]).isRequired,
+		}),
+		onRemove: React.PropTypes.func.isRequired
+	};
+
+	props: Props;
+
+	_handleRemove = () => {
+		this.props.onRemove(this.props.place);
+	};
+
+	render() {
+		const { place } = this.props;
+
+		return (
+			<View style={styles.container}>
+				<View style={styles.iconContainer}>
+					<Icon
+						style={styles.icon}
+						name={ICONS[place.type]}
+						size={16}
+					/>
+				</View>
+				<View style={styles.nameContainer}>
+					<AppText style={styles.name} numberOfLines={1}>{place.id.replace(/-+/g, " ").replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim()}</AppText>
+					<AppText style={styles.type}>{place.type.charAt(0).toUpperCase() + place.type.slice(1)}</AppText>
+				</View>
+				<TouchableOpacity onPress={this._handleRemove}>
+					<View style={styles.closeContainer}>
+						<Icon
+							style={styles.icon}
+							name="close"
+							size={12}
+						/>
+					</View>
+				</TouchableOpacity>
+			</View>
+		);
+	}
+}
 
 export default PlaceItem;
