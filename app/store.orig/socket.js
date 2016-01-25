@@ -46,6 +46,9 @@ function sendQuery(query, next) {
 	client.send(JSON.stringify(query));
 	pendingQueries[query.id] = next;
 	pendingQueries[query.id].query = query;
+
+	// Timeout pending queries in 5 seconds
+	setTimeout(() => delete pendingQueries[query.id], 5000);
 }
 
 function sendInit() {
