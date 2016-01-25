@@ -13,9 +13,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: Colors.lightGrey
 	},
-	inner: {
-		flex: 1
-	}
 });
 
 export default class LocalitiesFiltered extends React.Component {

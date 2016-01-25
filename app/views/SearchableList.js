@@ -35,6 +35,7 @@ export default class SearchableList extends React.Component {
 		renderRow: React.PropTypes.func.isRequired,
 		onDismiss: React.PropTypes.func.isRequired,
 		searchHint: React.PropTypes.string.isRequired,
+		style: View.propTypes.style,
 	};
 
 	state: State = {

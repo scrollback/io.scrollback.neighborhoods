@@ -2,7 +2,7 @@ import React from "react-native";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
 import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
-import TouchFeedback from "./TouchFeedback";
+import ListItem from "./ListItem";
 import Icon from "./Icon";
 import Modal from "./Modal";
 import Share from "../modules/Share";
@@ -13,20 +13,11 @@ import config from "../store/config";
 
 const {
 	StyleSheet,
-	PixelRatio,
 	TouchableOpacity,
 	View
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: Colors.white,
-		borderColor: Colors.separator,
-		borderBottomWidth: 1 / PixelRatio.get(),
-		height: 64
-	},
 	item: {
 		flex: 1,
 		justifyContent: "center",
@@ -48,7 +39,7 @@ const styles = StyleSheet.create({
 });
 
 export default class LocalityItem extends React.Component {
-	_showMenu = () => {
+	_handleShowMenu = () => {
 		const { room, role } = this.props;
 
 		const options = [];
@@ -87,7 +78,7 @@ export default class LocalityItem extends React.Component {
 		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
 	};
 
-	_onPress = () => {
+	_handlePress = () => {
 		if (this.props.onSelect) {
 			this.props.onSelect(this.props.room);
 		}
@@ -98,38 +89,36 @@ export default class LocalityItem extends React.Component {
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback onPress={this._onPress}>
-					<View style={styles.container}>
-						<View style={styles.item}>
-							<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
-							{location && location.coords && room.location && room.location.lat && room.location.lon ?
-								<AppText style={styles.distance}>
-									{locationUtils.getFormattedDistance(location.coords, {
-										latitude: room.location.lat,
-										longitude: room.location.lon
-									})}
-								</AppText> :
-								null
-							}
-						</View>
-
-						{this.props.showBadge ?
-							<NotificationBadgeContainer room={this.props.room.id} /> :
-							null
-						}
-
-						{this.props.showMenuButton ?
-							<TouchableOpacity onPress={this._showMenu}>
-								<Icon
-									name="expand-more"
-									style={styles.expand}
-									size={20}
-								/>
-							</TouchableOpacity> :
+				<ListItem onPress={this._handlePress}>
+					<View style={styles.item}>
+						<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
+						{location && location.coords && room.location && room.location.lat && room.location.lon ?
+							<AppText style={styles.distance}>
+								{locationUtils.getFormattedDistance(location.coords, {
+									latitude: room.location.lat,
+									longitude: room.location.lon
+								})}
+							</AppText> :
 							null
 						}
 					</View>
-				</TouchFeedback>
+
+					{this.props.showBadge ?
+						<NotificationBadgeContainer room={this.props.room.id} /> :
+						null
+					}
+
+					{this.props.showMenuButton ?
+						<TouchableOpacity onPress={this._handleShowMenu}>
+							<Icon
+								name="expand-more"
+								style={styles.expand}
+								size={20}
+							/>
+						</TouchableOpacity> :
+						null
+					}
+				</ListItem>
 			</View>
 		);
 	}
