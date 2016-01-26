@@ -31,7 +31,7 @@ export default class Embed extends React.Component {
 		this._mounted = false;
 	}
 
-	_onPress = () => {
+	_handlePress = () => {
 		Linking.openURL(this.props.url);
 	};
 
@@ -63,25 +63,25 @@ export default class Embed extends React.Component {
 		const { embed } = this.state;
 
 		if (typeof embed === "object" && embed !== null) {
+			let thumbnail;
+
+			if (this.props.showThumbnail !== false) {
+				if (embed.type === "video") {
+					thumbnail = (
+						<TouchableOpacity onPress={this._handlePress} activeOpacity={0.5}>
+							<View>
+								<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
+							</View>
+						</TouchableOpacity>
+					);
+				} else {
+					thumbnail = <EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />;
+				}
+			}
+
 			return (
 				<View {...this.props}>
-					{(() => {
-						if (this.props.showThumbnail !== false) {
-							if (embed.type === "video") {
-								return (
-									<TouchableOpacity onPress={this._onPress} activeOpacity={0.5}>
-										<View>
-											<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
-										</View>
-									</TouchableOpacity>
-								);
-							} else {
-								return <EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />;
-							}
-						} else {
-							return null;
-						}
-					})()}
+					{thumbnail}
 
 					{this.props.showTitle !== false ?
 						<EmbedTitle embed={embed} style={this.props.titleStyle} /> :

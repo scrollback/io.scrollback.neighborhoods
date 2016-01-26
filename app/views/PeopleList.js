@@ -20,43 +20,35 @@ export default class PeopleList extends React.Component {
 		return this._dataSource.cloneWithRows(this.props.data);
 	};
 
+	_renderHeader = () => <ListHeader>People talking</ListHeader>;
+
+	_renderRow = user => (
+		<PeopleListItem
+			key={user.id}
+			user={user}
+		/>
+	);
+
 	render() {
+		const { data } = this.props;
+
+		if (data.length === 0) {
+			return <PageEmpty label="Nobody here" image="sad" />;
+		} else if (data.length === 1) {
+			if (data[0] === "missing") {
+				return <PageLoading />;
+			} else if (data.length === 1 && data[0] === "failed") {
+				return <PageEmpty label="Failed to load people list" image="sad" />;
+			}
+		}
+
 		return (
-			<View {...this.props}>
-				{(() => {
-					if (this.props.data.length === 0) {
-						return <PageEmpty label="Nobody here" image="sad" />;
-					}
-
-					if (this.props.data.length === 1) {
-						if (this.props.data[0] === "missing") {
-							return <PageLoading />;
-						}
-
-						if (this.props.data[0] === "failed") {
-							return <PageEmpty label="Failed to load people list" image="sad" />;
-						}
-					}
-
-					const dataSource = this._getDataSource();
-
-					return (
-						<ListView
-							initialListSize={1}
-							dataSource={dataSource}
-							renderSectionHeader={() => <ListHeader>People talking</ListHeader>}
-							renderRow={user => {
-								return (
-									<PeopleListItem
-										key={user.id}
-										user={user}
-									/>
-								);
-							}}
-						/>
-					);
-				})()}
-			</View>
+			<ListView
+				initialListSize={1}
+				dataSource={this._getDataSource()}
+				renderHeader={this._renderHeader}
+				renderRow={this._renderRow}
+			/>
 		);
 	}
 }

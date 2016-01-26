@@ -165,22 +165,24 @@ export default class Account extends React.Component {
 		}));
 	};
 
-	_handleChoosePhoto = () => {
+	_handlerSelectPhoto = uri => {
+		const user = Object.assign({}, this.props.user);
+
+		user.picture = uri;
+
+		this.props.saveUser(user);
+
+		Modal.renderComponent(null);
+	};
+
+	_handlePhotoChooser = () => {
 		const photos = this.props.user.params.pictures;
 
 		if (photos && photos.length > 2) {
 			Modal.renderModal(
 				<AccountPhotoChooser
 					photos={photos}
-					onSelect={uri => {
-						const user = Object.assign({}, this.props.user);
-
-						user.picture = uri;
-
-						this.props.saveUser(user);
-
-						Modal.renderComponent(null);
-					}}
+					onSelect={this._handlerSelectPhoto}
 				/>
 			);
 		}
@@ -189,92 +191,86 @@ export default class Account extends React.Component {
 	render() {
 		const { user } = this.props;
 
+		if (user === "missing") {
+			return <PageLoading />;
+		}
+
+		if (user === "failed") {
+			return <PageEmpty label="Failed to load account" image="sad" />;
+		}
+
 		return (
-			<View {...this.props}>
-				{(() => {
-					if (this.props.user === "missing") {
-						return <PageLoading />;
-					}
-
-					if (this.props.user === "failed") {
-						return <PageEmpty label="Failed to load account" image="sad" />;
-					}
-
-					return (
-						<ScrollView contentContainerStyle={styles.settings}>
-							<TouchableOpacity onPress={this._handleChoosePhoto}>
-								<View style={styles.item}>
-									<AvatarRound
-										size={48}
-										nick={user.id}
-									/>
-									<View style={styles.info}>
-										<AppText style={styles.nick}>{user.id}</AppText>
-										<AppText style={styles.email}>{user.identities[0].slice(7)}</AppText>
-									</View>
-								</View>
-							</TouchableOpacity>
-							<View style={styles.inputContainer}>
-								<AppText style={styles.inputLabelText}>Status message</AppText>
-								<GrowingTextInput
-									style={styles.input}
-									defaultValue={user.description}
-									placeholder="Status message"
-									autoCapitalize="sentences"
-									initialHeight={39}
-									maxHeight={88}
-									onChangeText={this._handleStatusChange}
-								/>
-							</View>
-							<View style={styles.item}>
-								<View style={styles.itemLabel}>
-									<AppText style={styles.itemText}>Push notifications</AppText>
-								</View>
-								<Switch
-									value={this.state.pushNotificationEnabled}
-									onValueChange={this._handlePushNotificationChange}
-								/>
-							</View>
-							<View style={styles.item}>
-								<View style={styles.itemLabel}>
-									<AppText style={styles.itemText}>Mention notifications via email</AppText>
-								</View>
-								<Switch
-									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
-									onValueChange={this._handleEmailNotificationChange}
-								/>
-							</View>
-							<TouchFeedback onPress={this._handleSelectFrequency}>
-								<View style={styles.item}>
-									<View style={styles.itemLabel}>
-										<AppText style={styles.itemText}>Email digest frequency</AppText>
-										<AppText style={styles.itemValueText}>
-											{user.params && user.params.email && user.params.email.frequency ?
-												user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
-												"Daily"
-											}
-										</AppText>
-									</View>
-								</View>
-							</TouchFeedback>
-							<TouchFeedback onPress={this._handleReportIssue}>
-								<View style={styles.item}>
-									<View style={styles.itemLabel}>
-										<AppText style={styles.itemText}>Report an issue</AppText>
-									</View>
-								</View>
-							</TouchFeedback>
-							<TouchFeedback onPress={this._handleSignOut}>
-								<View style={styles.item}>
-									<View style={styles.itemLabel}>
-										<AppText style={styles.itemText}>Sign out</AppText>
-									</View>
-								</View>
-							</TouchFeedback>
-						</ScrollView>
-					);
-				})()}
-			</View>
+			<ScrollView contentContainerStyle={styles.settings}>
+				<TouchableOpacity onPress={this._handlePhotoChooser}>
+					<View style={styles.item}>
+						<AvatarRound
+							size={48}
+							nick={user.id}
+						/>
+						<View style={styles.info}>
+							<AppText style={styles.nick}>{user.id}</AppText>
+							<AppText style={styles.email}>{user.identities[0].slice(7)}</AppText>
+						</View>
+					</View>
+				</TouchableOpacity>
+				<View style={styles.inputContainer}>
+					<AppText style={styles.inputLabelText}>Status message</AppText>
+					<GrowingTextInput
+						style={styles.input}
+						defaultValue={user.description}
+						placeholder="Status message"
+						autoCapitalize="sentences"
+						initialHeight={39}
+						maxHeight={88}
+						onChangeText={this._handleStatusChange}
+					/>
+				</View>
+				<View style={styles.item}>
+					<View style={styles.itemLabel}>
+						<AppText style={styles.itemText}>Push notifications</AppText>
+					</View>
+					<Switch
+						value={this.state.pushNotificationEnabled}
+						onValueChange={this._handlePushNotificationChange}
+					/>
+				</View>
+				<View style={styles.item}>
+					<View style={styles.itemLabel}>
+						<AppText style={styles.itemText}>Mention notifications via email</AppText>
+					</View>
+					<Switch
+						value={user.params && user.params.email ? user.params.email.notifications !== false : false}
+						onValueChange={this._handleEmailNotificationChange}
+					/>
+				</View>
+				<TouchFeedback onPress={this._handleSelectFrequency}>
+					<View style={styles.item}>
+						<View style={styles.itemLabel}>
+							<AppText style={styles.itemText}>Email digest frequency</AppText>
+							<AppText style={styles.itemValueText}>
+								{user.params && user.params.email && user.params.email.frequency ?
+									user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
+									"Daily"
+								}
+							</AppText>
+						</View>
+					</View>
+				</TouchFeedback>
+				<TouchFeedback onPress={this._handleReportIssue}>
+					<View style={styles.item}>
+						<View style={styles.itemLabel}>
+							<AppText style={styles.itemText}>Report an issue</AppText>
+						</View>
+					</View>
+				</TouchFeedback>
+				<TouchFeedback onPress={this._handleSignOut}>
+					<View style={styles.item}>
+						<View style={styles.itemLabel}>
+							<AppText style={styles.itemText}>Sign out</AppText>
+						</View>
+					</View>
+				</TouchFeedback>
+			</ScrollView>
 		);
 	}
 }
