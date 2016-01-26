@@ -68,10 +68,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		lineHeight: 18
 	},
-	dropdown: {
-		height: 24,
-		width: 80
-	}
 });
 
 export default class Account extends React.Component {
@@ -104,15 +100,15 @@ export default class Account extends React.Component {
 		});
 	};
 
-	_onStatusChange = e => {
+	_handleStatusChange = text => {
 		const user = Object.assign({}, this.props.user);
 
-		user.description = e.nativeEvent.text;
+		user.description = text;
 
 		this._saveUserDebounced(user);
 	};
 
-	_onPushNotificationChange = value => {
+	_handlePushNotificationChange = value => {
 		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
 
 		this.setState({
@@ -120,7 +116,7 @@ export default class Account extends React.Component {
 		});
 	};
 
-	_onEmailNotificationChange = value => {
+	_handleEmailNotificationChange = value => {
 		const user = Object.assign({}, this.props.user);
 
 		const params = user.params ? Object.assign({}, user.params) : {};
@@ -134,7 +130,7 @@ export default class Account extends React.Component {
 		this.props.saveUser(user);
 	};
 
-	_onEmailFrequencyChange = value => {
+	_handleEmailFrequencyChange = value => {
 		const user = Object.assign({}, this.props.user);
 
 		const params = user.params ? Object.assign({}, user.params) : {};
@@ -148,19 +144,19 @@ export default class Account extends React.Component {
 		this.props.saveUser(user);
 	};
 
-	_selectFrequency = () => {
+	_handleSelectFrequency = () => {
 		const options = [ "Daily", "Never" ];
 
 		Modal.showActionSheetWithOptions({ options }, i =>
-			this._onEmailFrequencyChange(options[i].toLowerCase())
+			this._handleEmailFrequencyChange(options[i].toLowerCase())
 		);
 	};
 
-	_signOut = () => {
+	_handleSignOut = () => {
 		this.props.signOut();
 	};
 
-	_reportIssue = () => {
+	_handleReportIssue = () => {
 		this.props.onNavigation(new NavigationActions.Push({
 			name: "room",
 			props: {
@@ -169,7 +165,7 @@ export default class Account extends React.Component {
 		}));
 	};
 
-	_choosePhoto = () => {
+	_handleChoosePhoto = () => {
 		const photos = this.props.user.params.pictures;
 
 		if (photos && photos.length > 2) {
@@ -206,7 +202,7 @@ export default class Account extends React.Component {
 
 					return (
 						<ScrollView contentContainerStyle={styles.settings}>
-							<TouchableOpacity onPress={this._choosePhoto}>
+							<TouchableOpacity onPress={this._handleChoosePhoto}>
 								<View style={styles.item}>
 									<AvatarRound
 										size={48}
@@ -225,8 +221,9 @@ export default class Account extends React.Component {
 									defaultValue={user.description}
 									placeholder="Status message"
 									autoCapitalize="sentences"
-									numberOfLines={3}
-									onChange={this._onStatusChange}
+									initialHeight={39}
+									maxHeight={88}
+									onChangeText={this._handleStatusChange}
 								/>
 							</View>
 							<View style={styles.item}>
@@ -235,7 +232,7 @@ export default class Account extends React.Component {
 								</View>
 								<Switch
 									value={this.state.pushNotificationEnabled}
-									onValueChange={this._onPushNotificationChange}
+									onValueChange={this._handlePushNotificationChange}
 								/>
 							</View>
 							<View style={styles.item}>
@@ -244,10 +241,10 @@ export default class Account extends React.Component {
 								</View>
 								<Switch
 									value={user.params && user.params.email ? user.params.email.notifications !== false : false}
-									onValueChange={this._onEmailNotificationChange}
+									onValueChange={this._handleEmailNotificationChange}
 								/>
 							</View>
-							<TouchFeedback onPress={this._selectFrequency}>
+							<TouchFeedback onPress={this._handleSelectFrequency}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
 										<AppText style={styles.itemText}>Email digest frequency</AppText>
@@ -260,14 +257,14 @@ export default class Account extends React.Component {
 									</View>
 								</View>
 							</TouchFeedback>
-							<TouchFeedback onPress={this._reportIssue}>
+							<TouchFeedback onPress={this._handleReportIssue}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
 										<AppText style={styles.itemText}>Report an issue</AppText>
 									</View>
 								</View>
 							</TouchFeedback>
-							<TouchFeedback onPress={this._signOut}>
+							<TouchFeedback onPress={this._handleSignOut}>
 								<View style={styles.item}>
 									<View style={styles.itemLabel}>
 										<AppText style={styles.itemText}>Sign out</AppText>

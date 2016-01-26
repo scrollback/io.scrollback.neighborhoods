@@ -26,13 +26,8 @@ const styles = StyleSheet.create({
 	},
 	inputContainer: {
 		flex: 1,
-		paddingHorizontal: 16
-	},
-	input: {
-		color: Colors.black,
-		backgroundColor: "transparent",
-		paddingVertical: 16,
-		margin: 0
+		paddingHorizontal: 16,
+		paddingVertical: 10
 	},
 	iconContainer: {
 		alignItems: "center",
@@ -88,7 +83,7 @@ export default class ChatInput extends React.Component {
 		}
 	};
 
-	_onUploadFinish = result => {
+	_handleUploadFinish = result => {
 		const { height, width, name } = this.state.imageData;
 
 		const aspectRatio = height / width;
@@ -104,23 +99,23 @@ export default class ChatInput extends React.Component {
 			thumbnail_url: result.thumbnailUrl
 		}), result.textId);
 
-		setTimeout(() => this._onUploadClose(), 500);
+		setTimeout(() => this._handleUploadClose(), 500);
 	};
 
-	_onUploadClose = () => {
+	_handleUploadClose = () => {
 		this.setState({
 			imageData: ""
 		});
 	};
 
-	_onSuggestionSelect = nick => {
+	_handleSuggestionSelect = nick => {
 		this.setState({
 			text: "@" + nick + " ",
 			query: ""
 		});
 	};
 
-	_onChangeText = text => {
+	_handleChangeText = text => {
 		const query = /^@[a-z0-9]*$/.test(text) ? text : "";
 
 		this.setState({
@@ -160,26 +155,27 @@ export default class ChatInput extends React.Component {
 					user={this.props.user}
 					text={this.state.query}
 					style={styles.suggestions}
-					onSelect={this._onSuggestionSelect}
+					onSelect={this._handleSuggestionSelect}
 				/>
 
 				<View style={styles.container}>
-					<GrowingTextInput
-						ref={c => this._input = c}
-						value={this.state.text}
-						onChangeText={this._onChangeText}
-						style={styles.inputContainer}
-						inputStyle={styles.inputStyle}
-						underlineColorAndroid="transparent"
-						placeholder="Write a message…"
-						autoCapitalize="sentences"
-						numberOfLines={7}
-					/>
+					<View style={styles.inputContainer}>
+						<GrowingTextInput
+							ref={c => this._input = c}
+							value={this.state.text}
+							onChangeText={this._handleChangeText}
+							underlineColorAndroid="transparent"
+							placeholder="Write a message…"
+							autoCapitalize="sentences"
+							initialHeight={39}
+							maxHeight={154}
+						/>
+					</View>
 
-				<TouchFeedback
-					borderless
-					onPress={this.state.text ? this._sendMessage : this._uploadImage}
-				>
+					<TouchFeedback
+						borderless
+						onPress={this.state.text ? this._sendMessage : this._uploadImage}
+					>
 						<View style={styles.iconContainer}>
 							<Icon
 								name={this.state.text ? "send" : "image"}
@@ -194,8 +190,8 @@ export default class ChatInput extends React.Component {
 					<ImageUploadContainer
 						component={ImageUploadChat}
 						imageData={this.state.imageData}
-						onUploadClose={this._onUploadClose}
-						onUploadFinish={this._onUploadFinish}
+						onUploadClose={this._handleUploadClose}
+						onUploadFinish={this._handleUploadFinish}
 					/> : null
 				}
 			</View>

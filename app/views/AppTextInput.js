@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
 });
 
 export default class AppTextInput extends React.Component {
+	static propTypes = {
+		style: TextInput.propTypes.style
+	};
+
 	setNativeProps(nativeProps) {
 		this._root.setNativeProps(nativeProps);
 	}

@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
 	},
 	threadSummary: {
 		fontSize: 16,
-		lineHeight: 24
+		lineHeight: 24,
+		marginVertical: 8
 	},
 	icon: {
 		color: Colors.fadedBlack
@@ -140,7 +141,7 @@ export default class StartDiscussionButton extends React.Component {
 		this._setShareCheckbox();
 	}
 
-	_onSharePress = () => {
+	_handleSharePress = () => {
 		requestAnimationFrame(async () => {
 			let shareOnFacebook = !this.state.shareOnFacebook;
 
@@ -182,13 +183,13 @@ export default class StartDiscussionButton extends React.Component {
 		});
 	};
 
-	_onLoading = () => {
+	_handleLoading = () => {
 		this.setState({
 			status: "loading"
 		});
 	};
 
-	_onPosted = thread => {
+	_handlePosted = thread => {
 		this.props.onNavigation(new NavigationActions.Push({
 			name: "chat",
 			props: {
@@ -198,7 +199,7 @@ export default class StartDiscussionButton extends React.Component {
 		}));
 	};
 
-	_onError = message => {
+	_handleError = message => {
 		this.setState({
 			error: message,
 			status: null
@@ -213,17 +214,17 @@ export default class StartDiscussionButton extends React.Component {
 		const NO_SUMMARY_MESSAGE = "Enter a short summary";
 
 		if (!this.state.title) {
-			this._onError(NO_TITLE_MESSAGE);
+			this._handleError(NO_TITLE_MESSAGE);
 			return;
 		}
 
 		const words = this.state.title.trim().split(/\s+/);
 
 		if (words.length < 2) {
-			this._onError(SHORT_TITLE_MESSAGE);
+			this._handleError(SHORT_TITLE_MESSAGE);
 			return;
 		} else if (words.length > 10) {
-			this._onError(LONG_TITLE_MESSAGE);
+			this._handleError(LONG_TITLE_MESSAGE);
 			return;
 		}
 
@@ -233,7 +234,7 @@ export default class StartDiscussionButton extends React.Component {
 			const aspectRatio = height / width;
 
 			try {
-				this._onLoading();
+				this._handleLoading();
 
 				const thread = await this.props.postDiscussion({
 					title: this.state.title,
@@ -251,29 +252,29 @@ export default class StartDiscussionButton extends React.Component {
 					image: result.thumbnailUrl
 				}, this.state.shareOnFacebook);
 
-				this._onPosted(thread);
+				this._handlePosted(thread);
 			} catch (e) {
-				this._onError(FAIL_MESSAGE);
+				this._handleError(FAIL_MESSAGE);
 			}
 		} else if (this.state.text) {
 			try {
-				this._onLoading();
+				this._handleLoading();
 
 				const thread = await this.props.postDiscussion({
 					title: this.state.title,
 					text: this.state.text
 				}, this.state.shareOnFacebook);
 
-				this._onPosted(thread);
+				this._handlePosted(thread);
 			} catch (e) {
-				this._onError(FAIL_MESSAGE);
+				this._handleError(FAIL_MESSAGE);
 			}
 		} else {
-			this._onError(NO_SUMMARY_MESSAGE);
+			this._handleError(NO_SUMMARY_MESSAGE);
 		}
 	};
 
-	_onPress = () => {
+	_handlePress = () => {
 		if (this.state.status === "loading") {
 			return;
 		}
@@ -281,21 +282,21 @@ export default class StartDiscussionButton extends React.Component {
 		this._postDiscussion();
 	};
 
-	_onTitleChange = e => {
+	_handleChangeTitle = title => {
 		this.setState({
-			title: e.nativeEvent.text,
+			title,
 			error: null
 		});
 	};
 
-	_onTextChange = e => {
+	_handleChangeText = text => {
 		this.setState({
-			text: e.nativeEvent.text,
+			text,
 			error: null
 		});
 	};
 
-	_uploadImage = async () => {
+	_handleUploadImage = async () => {
 		try {
 			this.setState({
 				imageData: null
@@ -311,14 +312,14 @@ export default class StartDiscussionButton extends React.Component {
 		}
 	};
 
-	_onUploadFinish = result => {
+	_handleUploadFinish = result => {
 		this.setState({
 			uploadResult: result,
 			error: null
 		});
 	};
 
-	_onUploadClose = () => {
+	_handleUploadClose = () => {
 		this.setState({
 			imageData: null,
 			uploadResult: null,
@@ -346,7 +347,7 @@ export default class StartDiscussionButton extends React.Component {
 					<AppTextInput
 						autoFocus
 						value={this.state.title}
-						onChange={this._onTitleChange}
+						onChangeText={this._handleChangeTitle}
 						placeholder="Write a discussion title"
 						autoCapitalize="sentences"
 						style={[ styles.threadTitle, styles.entry ]}
@@ -357,22 +358,24 @@ export default class StartDiscussionButton extends React.Component {
 						<ImageUploadContainer
 							component={ImageUploadDiscussion}
 							imageData={this.state.imageData}
-							onUploadClose={this._onUploadClose}
-							onUploadFinish={this._onUploadFinish}
+							onUploadClose={this._handleUploadClose}
+							onUploadFinish={this._handleUploadFinish}
 							autoStart
 						/> :
 						<GrowingTextInput
 							numberOfLines={5}
 							value={this.state.text}
-							onChange={this._onTextChange}
-							placeholder="And a short summary…"
+							onChangeText={this._handleChangeText}
+							placeholder="And a short summary"
 							autoCapitalize="sentences"
-							inputStyle={[ styles.threadSummary, styles.entry ]}
+							initialHeight={29}
+							maxHeight={124}
+							style={[ styles.threadSummary, styles.entry ]}
 							underlineColorAndroid="transparent"
 						/>
 					}
 
-					<TouchableOpacity onPress={this._onSharePress}>
+					<TouchableOpacity onPress={this._handleSharePress}>
 						<View style={styles.socialItem}>
 							<View style={[ styles.socialIconContainer, this.state.shareOnFacebook ? styles.socialIconContainerSelected : null ]}>
 								<EvilIcons name="sc-facebook" style={styles.socialIcon} />
@@ -390,7 +393,7 @@ export default class StartDiscussionButton extends React.Component {
 				<View style={styles.footer}>
 					<TouchFeedback
 						borderless
-						onPress={this._uploadImage}
+						onPress={this._handleUploadImage}
 					>
 						<View style={styles.uploadButton}>
 							<Icon
@@ -405,7 +408,7 @@ export default class StartDiscussionButton extends React.Component {
 							<View style={styles.postButtonInner}>
 								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
 							</View> :
-							<TouchFeedback onPress={this._onPress}>
+							<TouchFeedback onPress={this._handlePress}>
 								<View style={styles.postButtonInner}>
 									<AppText style={styles.postButtonText}>Post</AppText>
 								</View>

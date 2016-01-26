@@ -1,113 +1,64 @@
 import React from "react-native";
-
-const {
-	StyleSheet,
-	View,
-	Text,
-	TextInput
-} = React;
-
-const styles = StyleSheet.create({
-	phantom: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
-		opacity: 0,
-		paddingHorizontal: 4,
-		paddingVertical: 16
-	}
-});
+import AppTextInput from "./AppTextInput";
 
 export default class GrowingTextInput extends React.Component {
+	static propTypes = {
+		onChange: React.PropTypes.func,
+		initialHeight: React.PropTypes.number.isRequired,
+		maxHeight: React.PropTypes.number,
+		style: AppTextInput.propTypes.style
+	};
+
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			value: this.props.value || this.props.defaultValue
+			height: this.props.initialHeight
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
+	_handleChange = e => {
 		this.setState({
-			value: nextProps.value
+			height: e.nativeEvent.contentSize.height
 		});
-	}
 
-	_onChange = e => {
 		if (this.props.onChange) {
 			this.props.onChange(e);
 		}
-
-		const value = e.nativeEvent.text;
-
-		if (this.props.onValueChange) {
-			this.props.onValueChange(value);
-		}
-
-		this.setState({ value });
 	};
 
-	_onLayout = e => {
-		this._input.setNativeProps({ height: e.nativeEvent.layout.height });
-	};
+	setNativeProps(nativeProps) {
+		this._root.setNativeProps(nativeProps);
+	}
 
 	focus(...args) {
-		this._input.focus(...args);
+		this._root.focus(...args);
 	}
 
 	blur(...args) {
-		this._input.blur(...args);
+		this._root.blur(...args);
 	}
 
 	focusKeyboard() {
 		// Need to blur first to trigger showing keyboard
-		this._input.blur();
+		this._root.blur();
 
 		// Add a timeout so that blur() and focus() are not batched at the same time
-		setTimeout(() => this._input.focus(), 50);
-	}
-
-	get value() {
-		return this.state.value;
-	}
-
-	set value(value) {
-		this.setState({
-			value
-		});
+		setTimeout(() => this._root.focus(), 50);
 	}
 
 	render() {
+		const { maxHeight } = this.props;
+		const { height } = this.state;
+
 		return (
-			<View style={this.props.style}>
-				<Text
-					numberOfLines={this.props.numberOfLines}
-					style={[ this.props.style, styles.phantom ]}
-					onLayout={this._onLayout}
-					pointerEvents="none"
-				>
-					{(this.state.value || this.props.placeholder) + "\n"}
-				</Text>
-				<TextInput
-					{...this.props}
-					ref={c => this._input = c}
-					value={this.state.value}
-					onChange={this._onChange}
-					style={this.props.inputStyle}
-					multiline
-				/>
-			</View>
+			<AppTextInput
+				{...this.props}
+				ref={c => this._root = c}
+				onChange={this._handleChange}
+				style={[ this.props.style, { height: maxHeight ? Math.min(maxHeight, height) : height } ]}
+				multiline
+			/>
 		);
 	}
 }
-
-GrowingTextInput.propTypes = {
-	value: React.PropTypes.string,
-	defaultValue: React.PropTypes.string,
-	placeholder: React.PropTypes.string,
-	numberOfLines: React.PropTypes.number,
-	onChange: React.PropTypes.func,
-	onValueChange: React.PropTypes.func,
-	inputStyle: React.PropTypes.any
-};
