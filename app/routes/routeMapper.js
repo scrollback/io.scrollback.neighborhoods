@@ -12,7 +12,7 @@ import NotificationCenterContainer from "../containers/NotificationCenterContain
 import NotificationClearIconContainer from "../containers/NotificationClearIconContainer";
 import LocalitiesContainer from "../containers/LocalitiesContainer";
 import AccountContainer from "../containers/AccountContainer";
-import SignInContainer from "../containers/SignInContainer";
+import SignUpContainer from "../containers/SignUpContainer";
 import StartDiscussionContainer from "../containers/StartDiscussionContainer";
 import config from "../store/config";
 
@@ -22,7 +22,6 @@ type RouteDescription = {
 	leftComponent?: Function;
 	rightComponent?: Function;
 	component?: Function;
-	passProps?: Object
 }
 
 export default function(route: Route): RouteDescription {
@@ -32,14 +31,12 @@ export default function(route: Route): RouteDescription {
 			titleComponent: LocalityTitleContainer,
 			rightComponent: NotificationIcon,
 			component: DiscussionsContainer,
-			passProps: route.props
 		};
 	case "chat":
 		return {
 			titleComponent: ChatTitleContainer,
 			rightComponent: NotificationIcon,
 			component: ChatContainer,
-			passProps: route.props
 		};
 	case "notes":
 		return {
@@ -56,19 +53,16 @@ export default function(route: Route): RouteDescription {
 		return {
 			title: "Details",
 			component: DiscussionsDetailsContainer,
-			passProps: route.props
 		};
-	case "signin":
+	case "onboard":
 		return {
 			title: "Sign in",
-			component: SignInContainer,
-			passProps: route.props
+			component: SignUpContainer,
 		};
 	case "compose":
 		return {
 			title: "Start new discussion",
 			component: StartDiscussionContainer,
-			passProps: route.props
 		};
 	default:
 		return {

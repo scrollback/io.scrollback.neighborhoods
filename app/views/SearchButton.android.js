@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
@@ -8,7 +10,8 @@ import LocalitiesFilterContainer from "../containers/LocalitiesFilteredContainer
 
 const {
 	StyleSheet,
-	TouchableHighlight
+	TouchableHighlight,
+	NavigationActions
 } = React;
 
 const styles = StyleSheet.create({
@@ -24,17 +27,34 @@ const styles = StyleSheet.create({
 });
 
 export default class SearchBar extends React.Component {
+	static propTypes = {
+		onNavigation: React.PropTypes.func.isRequired
+	};
+
 	shouldComponentUpdate() {
 		return false;
 	}
 
-	_onPress = () => {
-		Modal.renderComponent(<LocalitiesFilterContainer dismiss={() => Modal.renderComponent(null)} onNavigation={this.props.onNavigation} />);
+	_handleDismissModal = () => {
+		Modal.renderComponent(null);
+	};
+
+	_handleSelectLocality = room => {
+		this.props.onNavigation(new NavigationActions.Push({
+			name: "room",
+			props: {
+				room: room.id
+			}
+		}));
+	};
+
+	_handlePress = () => {
+		Modal.renderComponent(<LocalitiesFilterContainer onDismiss={this._handleDismissModal} onSelectItem={this._handleSelectLocality} />);
 	};
 
 	render() {
 		return (
-			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._onPress}>
+			<TouchableHighlight underlayColor={Colors.underlay} onPress={this._handlePress}>
 				<AppbarSecondary {...this.props}>
 					<AppText style={styles.searchbarText}>Search for communties...</AppText>
 					<AppbarIcon name="search" style={styles.icon} />
@@ -43,7 +63,3 @@ export default class SearchBar extends React.Component {
 		);
 	}
 }
-
-SearchBar.propTypes = {
-	onNavigation: React.PropTypes.func.isRequired
-};

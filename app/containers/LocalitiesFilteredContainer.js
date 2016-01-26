@@ -3,37 +3,20 @@
 import React from "react-native";
 import LocalitiesFiltered from "../views/LocalitiesFiltered";
 import Geolocation from "../modules/Geolocation";
-import debounce from "../lib/debounce";
 import Container from "./Container";
 
 class LocalitiesFilteredContainer extends React.Component {
-	_fetchMatchingRooms: Function;
-	_cachedResults: Object;
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			data: {
-				results: []
-			}
-		};
-
-		this._fetchMatchingRooms = debounce(this._fetchMatchingRoomsImmediate);
-
-		this._cachedResults = {};
-	}
-
-	_fetchMatchingRoomsImmediate = async filter => {
+	_getResults = async filter => {
 		const opts: {
-			ref: string;
+			ref?: string;
+			limit?: number;
 			location?: {
 				lat: number;
 				lon: number
 			}
-		} = {
+		} = filter ? {
 			ref: filter.trim().replace(/\W+/g, "-") + "*"
-		};
+		} : { limit: 5 };
 
 		try {
 			const position = await Geolocation.getCurrentPosition();
@@ -47,67 +30,16 @@ class LocalitiesFilteredContainer extends React.Component {
 			// Ignore
 		}
 
-		const data = await this.query("getRooms", opts) || [];
-
-		this._cachedResults[filter] = data;
-
-		if (filter !== this.state.filter) {
-			return;
-		}
-
-		this._onDataArrived(data);
-	};
-
-	_onDataArrived = results => {
-		this.setState({
-			data: { results }
-		});
-	};
-
-	_onSearchChange = text => {
-		const filter = text.toLowerCase();
-
-		if (filter) {
-			this.runAfterInteractions(() => {
-				if (this._mounted) {
-					if (this._cachedResults[filter]) {
-						this.setState({
-							filter,
-							data: {
-								results: this._cachedResults[filter]
-							}
-						});
-					} else {
-						this.setState({
-							filter,
-							data: {
-								results: [ "missing" ]
-							}
-						});
-					}
-				}
-			});
-
-			if (!this._cachedResults[filter]) {
-				this._fetchMatchingRooms(filter);
-			}
+		if (opts.ref || opts.location) {
+			return this.query("getRooms", opts);
 		} else {
-			this.setState({
-				filter,
-				data: {
-					results: []
-				}
-			});
+			return [];
 		}
 	};
 
 	render() {
 		return (
-			<LocalitiesFiltered
-				{...this.props}
-				{...this.state}
-				onSearchChange={this._onSearchChange}
-			/>
+			<LocalitiesFiltered {...this.props} getResults={this._getResults} />
 		);
 	}
 }

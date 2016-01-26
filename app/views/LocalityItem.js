@@ -2,31 +2,22 @@ import React from "react-native";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
 import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
-import TouchFeedback from "./TouchFeedback";
+import ListItem from "./ListItem";
 import Icon from "./Icon";
 import Modal from "./Modal";
 import Share from "../modules/Share";
 import Linking from "../modules/Linking";
-import url from "../lib/url";
 import locationUtils from "../lib/location-utils";
+import { convertRouteToURL } from "../routes/Route";
+import config from "../store/config";
 
 const {
 	StyleSheet,
-	PixelRatio,
 	TouchableOpacity,
-	NavigationActions,
 	View
 } = React;
 
 const styles = StyleSheet.create({
-	container: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: Colors.white,
-		borderColor: Colors.separator,
-		borderBottomWidth: 1 / PixelRatio.get(),
-		height: 64
-	},
 	item: {
 		flex: 1,
 		justifyContent: "center",
@@ -48,7 +39,7 @@ const styles = StyleSheet.create({
 });
 
 export default class LocalityItem extends React.Component {
-	_showMenu = () => {
+	_handleShowMenu = () => {
 		const { room, role } = this.props;
 
 		const options = [];
@@ -56,7 +47,12 @@ export default class LocalityItem extends React.Component {
 
 		options.push("Share community");
 		actions.push(() => {
-			Share.shareItem("Share community", url.get("room", room));
+			Share.shareItem("Share community", config.server.protocol + "//" + config.server.host + convertRouteToURL({
+				name: "room",
+				props: {
+					room
+				}
+			}));
 		});
 
 		if (room.location && room.location.lat && room.location.lon) {
@@ -82,14 +78,10 @@ export default class LocalityItem extends React.Component {
 		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
 	};
 
-	_onPress = () => {
-		this.props.onNavigation(new NavigationActions.Push({
-			name: "room",
-			props: {
-				room: this.props.room.id
-			}
-		}));
-		this.props.autoJoin();
+	_handlePress = () => {
+		if (this.props.onSelect) {
+			this.props.onSelect(this.props.room);
+		}
 	};
 
 	render() {
@@ -97,38 +89,36 @@ export default class LocalityItem extends React.Component {
 
 		return (
 			<View {...this.props}>
-				<TouchFeedback onPress={this._onPress}>
-					<View style={styles.container}>
-						<View style={styles.item}>
-							<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
-							{location && location.coords && room.location && room.location.lat && room.location.lon ?
-								<AppText style={styles.distance}>
-									{locationUtils.getFormattedDistance(location.coords, {
-										latitude: room.location.lat,
-										longitude: room.location.lon
-									})}
-								</AppText> :
-								null
-							}
-						</View>
-
-						{this.props.showBadge ?
-							<NotificationBadgeContainer room={this.props.room.id} /> :
-							null
-						}
-
-						{this.props.showMenuButton ?
-							<TouchableOpacity onPress={this._showMenu}>
-								<Icon
-									name="expand-more"
-									style={styles.expand}
-									size={20}
-								/>
-							</TouchableOpacity> :
+				<ListItem onPress={this._handlePress}>
+					<View style={styles.item}>
+						<AppText style={styles.title}>{room.guides && room.guides.displayName ? room.guides.displayName : room.id}</AppText>
+						{location && location.coords && room.location && room.location.lat && room.location.lon ?
+							<AppText style={styles.distance}>
+								{locationUtils.getFormattedDistance(location.coords, {
+									latitude: room.location.lat,
+									longitude: room.location.lon
+								})}
+							</AppText> :
 							null
 						}
 					</View>
-				</TouchFeedback>
+
+					{this.props.showBadge ?
+						<NotificationBadgeContainer room={this.props.room.id} /> :
+						null
+					}
+
+					{this.props.showMenuButton ?
+						<TouchableOpacity onPress={this._handleShowMenu}>
+							<Icon
+								name="expand-more"
+								style={styles.expand}
+								size={20}
+							/>
+						</TouchableOpacity> :
+						null
+					}
+				</ListItem>
 			</View>
 		);
 	}
@@ -156,8 +146,7 @@ LocalityItem.propTypes = {
 	showBadge: React.PropTypes.bool,
 	joinCommunity: React.PropTypes.func.isRequired,
 	leaveCommunity: React.PropTypes.func.isRequired,
-	autoJoin: React.PropTypes.func.isRequired,
-	onNavigation: React.PropTypes.func.isRequired
+	onSelect: React.PropTypes.func,
 };
 
 LocalityItem.defaultProps = {

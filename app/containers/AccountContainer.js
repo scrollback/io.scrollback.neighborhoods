@@ -6,13 +6,9 @@ import Container from "./Container";
 import store from "../store/store";
 
 class AccountContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			user: "missing"
-		};
-	}
+	state = {
+		user: "missing"
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);

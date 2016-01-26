@@ -6,16 +6,12 @@ import Container from "./Container";
 import store from "../store/store";
 
 class AppContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	state = {
+		user: "missing",
+		connectionStatus: "connecting"
+	};
 
-		this.state = {
-			user: "missing",
-			connectionStatus: "connecting"
-		};
-	}
-
-	componentWillMount() {
+	componentDidMount() {
 		this.handle("statechange", changes => {
 			if (changes && "user" in changes || this.state.user === "missing" && changes.app.connectionStatus) {
 				this._updateData();

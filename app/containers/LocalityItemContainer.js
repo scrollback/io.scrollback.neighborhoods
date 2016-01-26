@@ -6,13 +6,18 @@ import Container from "./Container";
 import store from "../store/store";
 
 class LocalityItemContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		room: React.PropTypes.shape({
+			id: React.PropTypes.string.isRequired,
+			guides: React.PropTypes.shape({
+				alsoAutoFollow: React.PropTypes.string
+			})
+		})
+	};
 
-		this.state = {
-			role: "none"
-		};
-	}
+	state = {
+		role: "none"
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -52,31 +57,6 @@ class LocalityItemContainer extends React.Component {
 		});
 	};
 
-	_autoJoin = async () => {
-		const { room } = this.props;
-
-		// Auto join room
-		if (this.state.role === "none") {
-			try {
-				await this.dispatch("join", {
-					to: room.id
-				});
-			} catch (err) {
-				// Do nothing
-			}
-		}
-
-		if (room.guides && room.guides.alsoAutoFollow) {
-			try {
-				await this.dispatch("join", {
-					to: room.guides.alsoAutoFollow
-				});
-			} catch (e) {
-				// Ignore
-			}
-		}
-	};
-
 	render() {
 		return (
 			<LocalityItem
@@ -84,19 +64,9 @@ class LocalityItemContainer extends React.Component {
 				{...this.state}
 				joinCommunity={this._joinCommunity}
 				leaveCommunity={this._leaveCommunity}
-				autoJoin={this._autoJoin}
 			/>
 		);
 	}
 }
-
-LocalityItemContainer.propTypes = {
-	room: React.PropTypes.shape({
-		id: React.PropTypes.string.isRequired,
-		guides: React.PropTypes.shape({
-			alsoAutoFollow: React.PropTypes.string
-		})
-	})
-};
 
 export default Container(LocalityItemContainer);

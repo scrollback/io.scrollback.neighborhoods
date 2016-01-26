@@ -7,13 +7,14 @@ import store from "../store/store";
 import textUtils from "../lib/text-utils";
 
 class ChatMessagesContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		room: React.PropTypes.string.isRequired,
+		thread: React.PropTypes.string.isRequired
+	};
 
-		this.state = {
-			data: [ "missing" ]
-		};
-	}
+	state = {
+		data: [ "missing" ]
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -100,10 +101,5 @@ class ChatMessagesContainer extends React.Component {
 		);
 	}
 }
-
-ChatMessagesContainer.propTypes = {
-	room: React.PropTypes.string.isRequired,
-	thread: React.PropTypes.string.isRequired
-};
 
 export default Container(ChatMessagesContainer);

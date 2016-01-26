@@ -6,15 +6,11 @@ import Container from "./Container";
 import store from "../store/store";
 
 class LocalitiesContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			data: {
-				following: [ "missing" ]
-			}
-		};
-	}
+	state = {
+		data: {
+			following: [ "missing" ]
+		}
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);

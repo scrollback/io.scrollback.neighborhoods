@@ -6,13 +6,13 @@ import Container from "./Container";
 import store from "../store/store";
 
 class ChatTitleContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		thread: React.PropTypes.string.isRequired
+	};
 
-		this.state = {
-			thread: "missing"
-		};
-	}
+	state = {
+		thread: "missing"
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -34,9 +34,5 @@ class ChatTitleContainer extends React.Component {
 		return <ChatTitle {...this.props} {...this.state} />;
 	}
 }
-
-ChatTitleContainer.propTypes = {
-	thread: React.PropTypes.string.isRequired
-};
 
 export default Container(ChatTitleContainer);

@@ -49,7 +49,7 @@ export default class SearchBar extends React.Component {
 			}
 		}
 
-		this.props.onSearchChange(text);
+		this.props.onChangeSearch(text);
 	};
 
 	_clearInput = () => {
@@ -61,7 +61,7 @@ export default class SearchBar extends React.Component {
 			showClear: false
 		});
 
-		this.props.onSearchChange("");
+		this.props.onChangeSearch("");
 	};
 
 	render() {
@@ -95,7 +95,7 @@ export default class SearchBar extends React.Component {
 
 SearchBar.propTypes = {
 	onBack: React.PropTypes.func.isRequired,
-	onSearchChange: React.PropTypes.func.isRequired,
+	onChangeSearch: React.PropTypes.func.isRequired,
 	onFocus: React.PropTypes.func,
 	onBlur: React.PropTypes.func,
 	placeholder: React.PropTypes.string,

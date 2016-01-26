@@ -246,6 +246,7 @@ public class FacebookModule extends ReactContextBaseJavaModule implements Activi
         ).executeAsync();
     }
 
+    @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }

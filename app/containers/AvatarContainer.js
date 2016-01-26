@@ -12,13 +12,19 @@ const {
 } = React;
 
 class AvatarContainer extends React.Component {
-	constructor(props) {
-		super(props);
 
-		this.state = {
-			uri: ""
-		};
-	}
+	static propTypes = {
+		nick: React.PropTypes.string.isRequired,
+		size: React.PropTypes.number
+	};
+
+	static defaultProps = {
+		size: 48
+	};
+
+	state = {
+		uri: null
+	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
@@ -53,14 +59,5 @@ class AvatarContainer extends React.Component {
 		return <Avatar {...this.props} {...this.state} />;
 	}
 }
-
-AvatarContainer.propTypes = {
-	nick: React.PropTypes.string.isRequired,
-	size: React.PropTypes.number
-};
-
-AvatarContainer.defaultProps = {
-	size: 48
-};
 
 export default Container(AvatarContainer);

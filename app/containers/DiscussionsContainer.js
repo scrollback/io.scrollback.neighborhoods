@@ -6,14 +6,14 @@ import Container from "./Container";
 import store from "../store/store";
 
 class DiscussionsContainer extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		room: React.PropTypes.string.isRequired
+	};
 
-		this.state = {
-			data: [ "missing" ],
-			user: ""
-		};
-	}
+	state = {
+		data: [ "missing" ],
+		user: ""
+	};
 
 	componentDidMount() {
 		this.handle("statechange", changes => {
@@ -41,6 +41,8 @@ class DiscussionsContainer extends React.Component {
 			} else {
 				this._onEndReached();
 			}
+
+			this._autoJoin();
 		});
 	}
 
@@ -70,6 +72,26 @@ class DiscussionsContainer extends React.Component {
 		});
 	};
 
+	_autoJoin = async () => {
+		const room = store.getRoom(this.props.room);
+
+		if (typeof room !== "object" || room === null) {
+			return;
+		}
+
+		if (room.guides && room.guides.alsoAutoFollow) {
+			// Auto join room
+			try {
+				await Promise.all(
+					this.dispatch("join", { to: room.id }),
+					this.dispatch("join", { to: room.guides.alsoAutoFollow })
+				);
+			} catch (err) {
+				// Do nothing
+			}
+		}
+	};
+
 	render() {
 		return (
 			<Discussions
@@ -80,9 +102,5 @@ class DiscussionsContainer extends React.Component {
 		);
 	}
 }
-
-DiscussionsContainer.propTypes = {
-	room: React.PropTypes.string.isRequired
-};
 
 export default Container(DiscussionsContainer);

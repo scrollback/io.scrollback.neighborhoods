@@ -3,28 +3,38 @@
 import React from "react-native";
 import ChatSuggestions from "../views/ChatSuggestions";
 import Container from "./Container";
+import debounce from "../lib/debounce";
 import store from "../store/store";
 
 class ChatSuggestionsContainer extends React.Component {
-	_cachedResults: Object;
+	static propTypes = {
+		room: React.PropTypes.string.isRequired,
+		thread: React.PropTypes.string.isRequired,
+		user: React.PropTypes.string.isRequired,
+		text: React.PropTypes.string.isRequired
+	};
 
-	constructor(props) {
-		super(props);
+	state = {
+		data: []
+	};
 
-		this.state = {
-			data: this._getMatchingUsers(this.props.text)
-		};
+	_cachedResults = {};
 
-		this._cachedResults = {};
+	componentDidMount() {
+		this._updateData(this.props.text);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({
-			data: this._getMatchingUsers(nextProps.text)
-		});
+		this._updateData(nextProps.text);
 	}
 
-	_fetchUsers = async query => {
+	_updateData = filter => {
+		this.setState({
+			data: this._getMatchingUsers(filter)
+		});
+	};
+
+	_fetchUsers = debounce(async query => {
 		const results = await this.query("getUsers", {
 			ref: query + "*",
 			limit: 5
@@ -52,7 +62,7 @@ class ChatSuggestionsContainer extends React.Component {
 		this.setState({
 			data
 		});
-	};
+	});
 
 	_getMatchingUsers = text => {
 		let query;

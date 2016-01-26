@@ -11,7 +11,8 @@ import Icon from "./Icon";
 import Linking from "../modules/Linking";
 import Share from "../modules/Share";
 import textUtils from "../lib/text-utils";
-import url from "../lib/url";
+import { convertRouteToURL } from "../routes/Route";
+import config from "../store/config";
 
 const {
 	Clipboard,
@@ -80,7 +81,14 @@ export default class DiscussionItem extends React.Component {
 		}
 
 		menu["Share discussion"] = () => {
-			Share.shareItem("Share discussion", url.get("thread", thread));
+			Share.shareItem("Share discussion", config.server.protocol + "//" + config.server.host + convertRouteToURL({
+				name: "chat",
+				props: {
+					room: thread.to,
+					thread: thread.id,
+					title: thread.title
+				}
+			}));
 		};
 
 		if (this.props.isCurrentUserAdmin()) {

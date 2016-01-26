@@ -6,13 +6,9 @@ import Linking from "../modules/Linking";
 import Container from "./Container";
 
 class AppContainer extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			initialURL: "missing"
-		};
-	}
+	state = {
+		initialURL: "missing"
+	};
 
 	componentDidMount() {
 		this._setInitialURL();

@@ -198,6 +198,7 @@ public class GoogleLoginModule extends ReactContextBaseJavaModule implements Act
         }.execute(accountName);
     }
 
+    @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if ((requestCode == CHOOSE_ACCOUNT_REQUIRED || requestCode == REQ_SIGN_IN_REQUIRED) && resultCode == Activity.RESULT_CANCELED) {
             if (mRetrievePromise != null) {
