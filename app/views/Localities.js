@@ -14,7 +14,8 @@ const {
 	StyleSheet,
 	View,
 	NavigationActions,
-	ListView
+	ListView,
+	RecyclerViewBackedScrollView
 } = React;
 
 const styles = StyleSheet.create({
@@ -127,6 +128,8 @@ export default class Localities extends React.Component {
 		return <ListHeader>{header}</ListHeader>;
 	};
 
+	_renderScrollComponent = props => <RecyclerViewBackedScrollView {...props} />;
+
 	render() {
 		let placeHolder;
 
@@ -147,6 +150,7 @@ export default class Localities extends React.Component {
 					keyboardShouldPersistTaps
 					initialListSize={1}
 					dataSource={this._getDataSource()}
+					renderScrollComponent={this._renderScrollComponent}
 					renderRow={this._renderRow}
 					renderSectionHeader={this._renderSectionHeader}
 				/>

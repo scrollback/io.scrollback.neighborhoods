@@ -7,6 +7,7 @@ import LoadingItem from "./LoadingItem";
 const {
 	StyleSheet,
 	ListView,
+	RecyclerViewBackedScrollView,
 	View
 } = React;
 
@@ -60,6 +61,8 @@ export default class ChatMessages extends React.Component {
 		);
 	};
 
+	_renderScrollComponent = props => <RecyclerViewBackedScrollView {...props} />;
+
 	render() {
 		let placeHolder;
 
@@ -94,6 +97,7 @@ export default class ChatMessages extends React.Component {
 						onEndReachedThreshold={1000}
 						onEndReached={this.props.onEndReached}
 						dataSource={this._getDataSource()}
+						renderScrollComponent={this._renderScrollComponent}
 						renderRow={this._renderRow}
 					/>
 				}

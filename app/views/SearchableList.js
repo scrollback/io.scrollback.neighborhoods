@@ -14,7 +14,8 @@ import debounce from "../lib/debounce";
 const {
 	StyleSheet,
 	View,
-	ListView
+	ListView,
+	RecyclerViewBackedScrollView
 } = React;
 
 const styles = StyleSheet.create({
@@ -95,6 +96,8 @@ export default class SearchableList extends React.Component {
 		return null;
 	};
 
+	_renderScrollComponent = props => <RecyclerViewBackedScrollView {...props} />;
+
 	render() {
 		let placeHolder;
 
@@ -132,6 +135,7 @@ export default class SearchableList extends React.Component {
 						keyboardShouldPersistTaps
 						initialListSize={1}
 						dataSource={this._getDataSource()}
+						renderScrollComponent={this._renderScrollComponent}
 						renderRow={this.props.renderRow}
 						renderHeader={this._renderHeader}
 					/>
