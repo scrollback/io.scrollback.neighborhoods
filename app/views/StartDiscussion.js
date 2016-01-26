@@ -89,13 +89,12 @@ const styles = StyleSheet.create({
 	},
 	socialItem: {
 		flexDirection: "row",
-		alignItems: "center"
+		alignItems: "center",
+		margin: 12
 	},
 	socialIconContainer: {
-		height: 24,
-		width: 24,
-		marginHorizontal: 12,
-		marginVertical: 8,
+		height: 28,
+		width: 28,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: Colors.grey,
@@ -105,37 +104,42 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.facebook
 	},
 	socialIcon: {
-		fontSize: 24,
-		borderRadius: 12,
+		fontSize: 28,
 		color: Colors.white
+	},
+	socialTextContainer: {
+		marginHorizontal: 12,
+		color: Colors.fadedBlack,
+		bottom: -3
 	},
 	socialTextSelected: {
 		color: Colors.facebook,
 		fontWeight: "bold"
 	},
-	socialTip: {
-		margin: 12,
+	socialLabel: {
 		fontSize: 12,
-		color: Colors.grey
+		lineHeight: 18,
+	},
+	socialTip: {
+		fontSize: 10,
+		lineHeight: 15,
+		opacity: 0.5,
+		fontWeight: "normal"
 	}
 });
 
 const FACEBOOK_SHARE_CHECKED_KEY = "start_discussion_facebook_share_checked";
 
 export default class StartDiscussionButton extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			title: "",
-			text: "",
-			imageData: null,
-			uploadResult: null,
-			status: null,
-			error: null,
-			shareOnFacebook: false
-		};
-	}
+	state = {
+		title: "",
+		text: "",
+		imageData: null,
+		uploadResult: null,
+		status: null,
+		error: null,
+		shareOnFacebook: false
+	};
 
 	componentDidMount() {
 		this._setShareCheckbox();
@@ -380,15 +384,17 @@ export default class StartDiscussionButton extends React.Component {
 							<View style={[ styles.socialIconContainer, this.state.shareOnFacebook ? styles.socialIconContainerSelected : null ]}>
 								<EvilIcons name="sc-facebook" style={styles.socialIcon} />
 							</View>
-							<AppText style={[ styles.socialText, this.state.shareOnFacebook ? styles.socialTextSelected : null ]}>
-								{this.state.shareOnFacebook ?
-									"This will appear on your timeline" :
-									"Tap to share this with your friends"
-								}
+							<AppText style={[ styles.socialTextContainer, this.state.shareOnFacebook ? styles.socialTextSelected : null ]}>
+								<AppText style={styles.socialLabel}>
+									{this.state.shareOnFacebook ?
+										"This will appear on your timeline\n" :
+										"Tap to share this with your friends\n"
+									}
+								</AppText>
+								<AppText style={styles.socialTip}>Tip: Sharing improves your discussion’s reach</AppText>
 							</AppText>
 						</View>
 					</TouchableOpacity>
-					<AppText style={styles.socialTip}>Tip: Sharing improves your discussion’s reach</AppText>
 				</ScrollView>
 				<View style={styles.footer}>
 					<TouchFeedback
