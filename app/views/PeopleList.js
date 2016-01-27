@@ -44,7 +44,6 @@ export default class PeopleList extends React.Component {
 
 		return (
 			<ListView
-				initialListSize={1}
 				dataSource={this._getDataSource()}
 				renderHeader={this._renderHeader}
 				renderRow={this._renderRow}

@@ -130,7 +130,6 @@ export default class SearchableList extends React.Component {
 					placeHolder :
 					<ListView
 						keyboardShouldPersistTaps
-						initialListSize={1}
 						dataSource={this._getDataSource()}
 						renderRow={this.props.renderRow}
 						renderHeader={this._renderHeader}

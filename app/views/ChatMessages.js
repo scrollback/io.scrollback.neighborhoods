@@ -90,8 +90,7 @@ export default class ChatMessages extends React.Component {
 						keyboardShouldPersistTaps={false}
 						style={styles.inverted}
 						contentContainerStyle={styles.container}
-						initialListSize={1}
-						onEndReachedThreshold={1000}
+						initialListSize={5}
 						onEndReached={this.props.onEndReached}
 						dataSource={this._getDataSource()}
 						renderRow={this._renderRow}

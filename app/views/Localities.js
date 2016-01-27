@@ -145,7 +145,6 @@ export default class Localities extends React.Component {
 			placeHolder = (
 				<ListView
 					keyboardShouldPersistTaps
-					initialListSize={1}
 					dataSource={this._getDataSource()}
 					renderRow={this._renderRow}
 					renderSectionHeader={this._renderSectionHeader}
