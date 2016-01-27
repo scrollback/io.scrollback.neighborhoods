@@ -142,37 +142,37 @@ describe("convertURLToRoute", () => {
 		expect(result).toEqual(convertURLToRoute("/nm/abc456def/such-thread/?time=1214340045721"));
 	});
 
-	it("should parse url with /p/room?room=roomname", () => {
+	it("should parse url with /:room?room=roomname", () => {
 		expect({
 			name: "room",
 			props: {
 				room: "someroom"
 			}
-		}).toEqual(convertURLToRoute("/p/room?room=someroom"));
+		}).toEqual(convertURLToRoute("/:room?room=someroom"));
 	});
 
-	it("should parse url with /p/chat/?room=roomname&thread=threadid", () => {
+	it("should parse url with /:chat/?room=roomname&thread=threadid", () => {
 		expect({
 			name: "chat",
 			props: {
 				room: "someroom",
 				thread: "abc456def"
 			}
-		}).toEqual(convertURLToRoute("/p/chat/?room=someroom&thread=abc456def"));
+		}).toEqual(convertURLToRoute("/:chat/?room=someroom&thread=abc456def"));
 	});
 
-	it("should parse url with /p/notes", () => {
+	it("should parse url with /:notes", () => {
 		expect({
 			name: "notes",
 			props: {}
-		}).toEqual(convertURLToRoute("/p/notes"));
+		}).toEqual(convertURLToRoute("/:notes"));
 	});
 
-	it("should parse url with /p/account/", () => {
+	it("should parse url with /:account/", () => {
 		expect({
 			name: "account",
 			props: {}
-		}).toEqual(convertURLToRoute("/p/account/"));
+		}).toEqual(convertURLToRoute("/:account/"));
 	});
 });
 

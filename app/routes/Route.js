@@ -51,11 +51,11 @@ export function convertRouteToURL(route: Route): string {
 		return `/${encodeURIComponent(route.props.room || "")}/${encodeURIComponent(route.props.thread || "")}${title ? "?title=" + title : ""}`;
 	case "notes":
 	case "account":
-		return `/p/${route.name}`;
+		return `/:${route.name}`;
 	case "compose":
-		return `/p/${route.name}?room=${encodeURIComponent(route.props.room || "")}`;
+		return `/:${route.name}?room=${encodeURIComponent(route.props.room || "")}`;
 	case "details":
-		return `/p/${route.name}?room=${encodeURIComponent(route.props.room || "")}&thread=${encodeURIComponent(route.props.thread || "")}`;
+		return `/:${route.name}?room=${encodeURIComponent(route.props.room || "")}&thread=${encodeURIComponent(route.props.thread || "")}`;
 	default:
 		return `/me`;
 	}
@@ -88,14 +88,14 @@ export function convertURLToRoute(url: string): Route {
 	}
 
 	if (type) {
-		if (name) {
-			if (type === "p") {
-				return {
-					name,
-					props
-				};
-			}
+		if (type.indexOf(":") === 0) {
+			return {
+				name: type.slice(1),
+				props
+			};
+		}
 
+		if (name) {
 			if (name === "all") {
 				return {
 					name: "room",
