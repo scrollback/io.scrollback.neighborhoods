@@ -18,7 +18,7 @@ const {
 	PixelRatio,
 	TouchableOpacity,
 	NavigationActions,
-	Switch
+	SwitchAndroid: Switch
 } = React;
 
 const styles = StyleSheet.create({
