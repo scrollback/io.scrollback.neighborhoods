@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import oembed from "../extras/oembed/oembed";
 import EmbedThumbnail from "./EmbedThumbnail";
@@ -11,13 +13,26 @@ const {
 } = React;
 
 export default class Embed extends React.Component {
-	constructor(props) {
-		super(props);
+	static propTypes = {
+		data: React.PropTypes.object,
+		url: React.PropTypes.string.isRequired,
+		showThumbnail: React.PropTypes.bool,
+		showTitle: React.PropTypes.bool,
+		showSummary: React.PropTypes.bool,
+		openOnPress: React.PropTypes.bool,
+		containerStyle: React.PropTypes.any,
+		thumbnailStyle: React.PropTypes.any,
+		titleStyle: React.PropTypes.any,
+		summaryStyle: React.PropTypes.any
+	};
 
-		this.state = {
-			embed: null
-		};
-	}
+	static defaultProps = {
+		openOnPress: true
+	};
+
+	state = {
+		embed: null
+	};
 
 	componentWillMount() {
 		this._fetchData();
@@ -63,25 +78,12 @@ export default class Embed extends React.Component {
 		const { embed } = this.state;
 
 		if (typeof embed === "object" && embed !== null) {
-			let thumbnail;
-
-			if (this.props.showThumbnail !== false) {
-				if (embed.type === "video") {
-					thumbnail = (
-						<TouchableOpacity onPress={this._handlePress} activeOpacity={0.5}>
-							<View>
-								<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />
-							</View>
-						</TouchableOpacity>
-					);
-				} else {
-					thumbnail = <EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} />;
-				}
-			}
-
-			return (
-				<View {...this.props}>
-					{thumbnail}
+			const embedItem = (
+				<View>
+					{this.props.showThumbnail !== false ?
+						<EmbedThumbnail embed={embed} style={this.props.thumbnailStyle} /> :
+						null
+					}
 
 					{this.props.showTitle !== false ?
 						<EmbedTitle embed={embed} style={this.props.titleStyle} /> :
@@ -94,20 +96,22 @@ export default class Embed extends React.Component {
 					}
 				</View>
 			);
+
+			if (this.props.openOnPress === false) {
+				return (
+					<View {...this.props}>
+						{embedItem}
+					</View>
+				);
+			} else {
+				return (
+					<TouchableOpacity {...this.props} onPress={this._handlePress}>
+						{embedItem}
+					</TouchableOpacity>
+				);
+			}
 		} else {
 			return null;
 		}
 	}
 }
-
-Embed.propTypes = {
-	data: React.PropTypes.object,
-	url: React.PropTypes.string.isRequired,
-	showThumbnail: React.PropTypes.bool,
-	showTitle: React.PropTypes.bool,
-	showSummary: React.PropTypes.bool,
-	containerStyle: React.PropTypes.any,
-	thumbnailStyle: React.PropTypes.any,
-	titleStyle: React.PropTypes.any,
-	summaryStyle: React.PropTypes.any
-};

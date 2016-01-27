@@ -36,6 +36,7 @@ const DiscussionSummary = props => {
 				thumbnailStyle={styles.image}
 				showTitle={false}
 				showSummary={false}
+				openOnPress={false}
 			/>
 		);
 

@@ -12,6 +12,7 @@ import Linking from "../modules/Linking";
 const {
 	Clipboard,
 	ToastAndroid,
+	PixelRatio,
 	StyleSheet,
 	TouchableOpacity,
 	View
@@ -62,6 +63,16 @@ const styles = StyleSheet.create({
 	},
 	thumbnail: {
 		marginVertical: 4
+	},
+	embed: {
+		borderColor: "rgba(0, 0, 0, .24)",
+		borderWidth: 1 / PixelRatio.get(),
+		padding: 8,
+		marginVertical: 4,
+		borderRadius: 2,
+	},
+	embedThumbnail: {
+		marginBottom: 8
 	},
 	bubbleReceived: {
 		marginRight: 8
@@ -146,10 +157,17 @@ export default class ChatItem extends React.Component {
 					data={metadata}
 					showTitle={false}
 					thumbnailStyle={styles.thumbnail}
+					openOnPress={false}
 				/>
 			);
 		} else if (links.length) {
-			cover = <Embed url={links[0]} thumbnailStyle={styles.thumbnail} />;
+			cover = (
+				<Embed
+					url={links[0]}
+					style={styles.embed}
+					thumbnailStyle={styles.embedThumbnail}
+				/>
+			);
 		}
 
 		let showAuthor = received,
