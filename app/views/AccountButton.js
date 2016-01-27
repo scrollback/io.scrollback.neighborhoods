@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
 export default class AccountButton extends React.Component {
 	_onPress = () => {
-		this.props.onNavigation(new NavigationActions.Push({ name: "account" }));
+		this.props.onNavigation(NavigationActions.Push({ name: "account" }));
 	};
 
 	render() {

@@ -37,12 +37,15 @@ var {
   View,
 } = React;
 
-class NavigationCard extends React.Component {
-  _responder: Object;
-  _lastWidth: number;
-  _widthListener: any;
-  constructor(props) {
-    super(props);
+var NavigationCard = React.createClass({
+  propTypes: {
+    navigationState: React.PropTypes.object,
+    index: React.PropTypes.number,
+    route: React.PropTypes.any,
+    position: React.PropTypes.instanceOf(Animated.Value),
+    layout: React.PropTypes.object,
+  },
+  componentWillMount: function(props) {
     this._responder = PanResponder.create({
       onMoveShouldSetPanResponder: (e, {dx, dy, moveX, moveY, x0, y0}) => {
         if (this.props.navigationState.index === 0) {
@@ -65,7 +68,7 @@ class NavigationCard extends React.Component {
         const xRatio = dx / this._lastWidth;
         const doesPop = (xRatio + vx) > 0.45;
         if (doesPop) {
-          this.props.onNavigation(new NavigationActions.Pop({ velocity: vx }));
+          this.props.onNavigation(NavigationActions.Pop({ velocity: vx }));
           return;
         }
         Animated.spring(this.props.position, {
@@ -78,28 +81,29 @@ class NavigationCard extends React.Component {
         }).start();
       },
     });
-  }
-  componentDidMount() {
-    this._lastHeight = this.props.initHeight;
-    this._lastWidth = this.props.initWidth;
-    this._widthListener = this.props.width.addListener(({value}) => {
+  },
+  componentDidMount: function() {
+    this._lastHeight = this.props.layout.initHeight;
+    this._lastWidth = this.props.layout.initWidth;
+    this._widthListener = this.props.layout.width.addListener(({value}) => {
       this._lastWidth = value;
     });
-    this._widthListener = this.props.width.addListener(({value}) => {
-      this._lastWidth = value;
+    this._heightListener = this.props.layout.height.addListener(({value}) => {
+      this._lastHeight = value;
     });
     // todo: fix listener and last layout dimentsions when props change. potential bugs here
-  }
-  componentWillUnmount() {
-    this.props.width.removeListener(this._widthListener);
-  }
-  render() {
-    const cardPosition = Animated.add(this.props.position, new Animated.Value(-this.props.sceneRecord.index));
-    const gestureValue = Animated.multiply(cardPosition, this.props.width);
+  },
+  componentWillUnmount: function() {
+    this.props.layout.width.removeListener(this._widthListener);
+    this.props.layout.height.removeListener(this._heightListener);
+  },
+  render: function() {
+    const cardPosition = Animated.add(this.props.position, new Animated.Value(-this.props.index));
+    const gestureValue = Animated.multiply(cardPosition, this.props.layout.width);
     return (
       <Animated.View
         {...this._responder.panHandlers}
-        key={this.props.sceneRecord.key}
+        key={this.props.route.key}
         style={[
           styles.card,
           {
@@ -107,21 +111,17 @@ class NavigationCard extends React.Component {
               {
                 translateX: gestureValue.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, -1],
+                  outputRange: [0, 1],
                 }),
               },
             ],
-
           }
         ]}>
         {this.props.children}
       </Animated.View>
     );
-  }
-}
-NavigationCard.propTypes = {
-  navigationState: React.PropTypes.instanceOf(NavigationState),
-};
+  },
+});
 NavigationCard = NavigationContainer.create(NavigationCard);
 
 var styles = StyleSheet.create({
@@ -135,7 +135,7 @@ var styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    position: 'absolute'
+    position: 'absolute',
   },
 });
 

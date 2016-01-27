@@ -11,7 +11,6 @@ import { getHomeRoute, convertRouteToState, convertURLToState } from "../routes/
 
 const {
 	Platform,
-	NavigationState,
 	StyleSheet
 } = React;
 
@@ -28,12 +27,12 @@ const styles = StyleSheet.create({
 
 const Home = (props: { initialURL: string }) => {
 	const { initialURL } = props;
-	const { index, routes } = initialURL ? convertURLToState(initialURL) : convertRouteToState(getHomeRoute());
+	const navigationState = initialURL ? convertURLToState(initialURL) : convertRouteToState(getHomeRoute());
 
 	return (
 		<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
 			<PersistentNavigator
-				initialState={new NavigationState(routes, index)}
+				initialState={navigationState}
 				persistenceKey={initialURL ? null : PERSISTANCE_KEY}
 			/>
 

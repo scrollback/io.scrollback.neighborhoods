@@ -36,29 +36,24 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
 	return false;
 });
 
-const renderNavigator = (): Function => {
-	return (navState, onNavigation) => {
-		// Hide modal on navigate
-		if (Modal.isShown()) {
-			Modal.renderComponent(null);
-		}
+const renderNavigator = navState => {
+	if (!navState) {
+		return null;
+	}
 
-		_navState = navState;
-		_onNavigation = onNavigation;
+	// Hide modal on navigate
+	if (Modal.isShown()) {
+		Modal.renderComponent(null);
+	}
 
-		if (!navState) {
-			return null;
-		}
-
-		return (
-			<NavigationAnimatedView
-				navigationState={navState}
-				style={styles.animatedView}
-				renderOverlay={renderOverlay(navState, onNavigation)}
-				renderScene={renderScene(navState, onNavigation)}
-			/>
-		);
-	};
+	return (
+		<NavigationAnimatedView
+			navigationState={navState}
+			style={styles.animatedView}
+			renderOverlay={renderOverlay}
+			renderScene={renderScene}
+		/>
+	);
 };
 
 export default renderNavigator;

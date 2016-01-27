@@ -157,7 +157,7 @@ export default class Account extends React.Component {
 	};
 
 	_handleReportIssue = () => {
-		this.props.onNavigation(new NavigationActions.Push({
+		this.props.onNavigation(NavigationActions.Push({
 			name: "room",
 			props: {
 				room: "support"

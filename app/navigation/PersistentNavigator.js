@@ -27,7 +27,7 @@ const PersistentNavigator = (props: Object): ReactElement => (
 		persistenceKey={props.persistenceKey}
 		stateToString={stateToString}
 		stringToState={stringToState}
-		renderNavigator={renderNavigator(props)}
+		renderNavigator={renderNavigator}
 	/>
 );
 

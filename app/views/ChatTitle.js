@@ -32,7 +32,7 @@ export default class ChatTitle extends React.Component {
 		const { thread } = this.props;
 
 		if (thread && thread.id) {
-			this.props.onNavigation(new NavigationActions.Push({
+			this.props.onNavigation(NavigationActions.Push({
 				name: "details",
 				props: {
 					thread: thread.id

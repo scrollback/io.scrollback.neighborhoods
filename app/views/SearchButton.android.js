@@ -40,7 +40,7 @@ export default class SearchBar extends React.Component {
 	};
 
 	_handleSelectLocality = room => {
-		this.props.onNavigation(new NavigationActions.Push({
+		this.props.onNavigation(NavigationActions.Push({
 			name: "room",
 			props: {
 				room: room.id

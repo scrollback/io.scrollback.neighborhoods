@@ -42,7 +42,6 @@
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/rs/androidTest/debug" type="java-test-resource" />
       <sourceFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/generated/res/resValues/androidTest/debug" type="java-test-resource" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/.DS_Store" />
-      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/.DS_Store" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/armeabi-v7aDebug" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/armeabi-v7aRelease" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/assets" />
@@ -74,7 +73,6 @@
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/exploded-aar/org.webkit/android-jsc/r174650/jars" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/incremental" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/manifests" />
-      <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/mockable-android-23.jar" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/pre-dexed" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/proguard-rules" />
       <excludeFolder url="file://$USER_HOME$/.gradle-build/HeyNeighbor/app/intermediates/res" />

@@ -82,7 +82,7 @@ export default class Localities extends React.Component {
 	};
 
 	_onSelectLocality = room => {
-		this.props.onNavigation(new NavigationActions.Push({
+		this.props.onNavigation(NavigationActions.Push({
 			name: "room",
 			props: {
 				room: room.id

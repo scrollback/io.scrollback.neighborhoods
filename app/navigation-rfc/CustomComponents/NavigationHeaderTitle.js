@@ -35,6 +35,12 @@ const {
   Text,
 } = React;
 
+const NavigationHeaderTitle = ({ children, style, textStyle }) => (
+  <View style={[ styles.title, style ]}>
+    <Text style={[ styles.titleText, textStyle ]}>{children}</Text>
+  </View>
+);
+
 const styles = StyleSheet.create({
   title: {
     flex: 1,
@@ -51,12 +57,6 @@ const styles = StyleSheet.create({
     textAlign: Platform.OS === 'ios' ? 'center' : 'left'
   }
 });
-
-const NavigationHeaderTitle = ({ children, style, textStyle }) => (
-  <View style={[ styles.title, style ]}>
-    <Text style={[ styles.titleText, textStyle ]}>{children}</Text>
-  </View>
-);
 
 NavigationHeaderTitle.propTypes = {
   children: React.PropTypes.string.isRequired,

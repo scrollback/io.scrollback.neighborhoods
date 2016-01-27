@@ -13,7 +13,8 @@ const {
 	StyleSheet,
 	Platform,
 	NavigationHeader,
-	NavigationReducer
+	NavigationReducer,
+	NavigationContainer
 } = React;
 
 const APPBAR_HEIGHT = Platform.OS === "ios" ? 44 : 56;
@@ -91,22 +92,22 @@ const _renderRightComponent = (route, index, onNavigation) => {
 	}
 };
 
-const renderOverlay = function(navState: Object, onNavigation: Function): Function {
-	return props => {
-		if (navState.get(navState.index).fullscreen) {
-			return null;
-		}
+const NavigationOverlay = NavigationContainer.create(props => (
+	<NavigationHeader
+		{...props}
+		style={styles.header}
+		renderTitleComponent={(route, index) => _renderTitleComponent(route, index, props.onNavigation)}
+		renderLeftComponent={(route, index) => _renderLeftComponent(route, index, props.onNavigation)}
+		renderRightComponent={(route, index) => _renderRightComponent(route, index, props.onNavigation)}
+	/>
+));
 
-		return (
-			<NavigationHeader
-				{...props}
-				style={styles.header}
-				renderTitleComponent={(route, index) => _renderTitleComponent(route, index, onNavigation)}
-				renderLeftComponent={(route, index) => _renderLeftComponent(route, index, onNavigation)}
-				renderRightComponent={(route, index) => _renderRightComponent(route, index, onNavigation)}
-			/>
-		);
-	};
+const renderOverlay = (navState, position, layout) => {
+	if (navState.routes[navState.index].fullscreen) {
+		return null;
+	}
+
+	return <NavigationOverlay position={position} layout={layout} />;
 };
 
 export default renderOverlay;

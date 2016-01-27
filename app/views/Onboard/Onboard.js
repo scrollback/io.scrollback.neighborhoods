@@ -4,10 +4,6 @@ import React from "react-native";
 import PersistentNavigator from "../../navigation/PersistentNavigator";
 import { convertRouteToState } from "../../routes/Route";
 
-const {
-	NavigationState
-} = React;
-
 export default class Onboard extends React.Component {
 	render(): ReactElement {
 		const navigationState = convertRouteToState({
@@ -18,7 +14,7 @@ export default class Onboard extends React.Component {
 
 		return (
 			<PersistentNavigator
-				initialState={new NavigationState(navigationState.routes, navigationState.index)}
+				initialState={navigationState}
 			/>
 		);
 	}
