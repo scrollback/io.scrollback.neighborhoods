@@ -27,7 +27,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
-		height: APPBAR_HEIGHT
+		height: APPBAR_HEIGHT,
+		marginHorizontal: 16
 	},
 
 	titleText: {
@@ -36,13 +37,13 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: "bold",
 		color: Colors.white,
-		textAlign: Platform.OS === "ios" ? "center" : "left"
+		textAlign: Platform.OS === "ios" ? "center" : "left",
 	},
 
 	button: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center"
+		justifyContent: "center",
 	}
 });
 
@@ -51,7 +52,11 @@ const _renderTitleComponent = (route, index, onNavigation) => {
 	const TitleComponent = routeDesc.titleComponent;
 
 	if (TitleComponent) {
-		return <TitleComponent {...route.props} onNavigation={onNavigation} />;
+		return (
+			<View style={styles.title}>
+				<TitleComponent {...route.props} onNavigation={onNavigation} />
+			</View>
+		);
 	}
 
 	if (routeDesc.title) {
