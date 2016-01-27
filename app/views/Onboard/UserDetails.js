@@ -9,6 +9,7 @@ import OnboardTitle from "./OnboardTitle";
 import OnboardParagraph from "./OnboardParagraph";
 import OnboardError from "./OnboardError";
 import VersionCodes from "../../modules/VersionCodes";
+import Facebook from "../../modules/Facebook";
 import Colors from "../../../Colors.json";
 
 const {
@@ -63,70 +64,88 @@ type Props = {
 	isDisabled: boolean;
 };
 
-const UserDetails = (props: Props) => {
-	const nick_color = props.error && props.error.field === "nick" ? Colors.error : Colors.placeholder;
-	const name_color = props.error && props.error.field === "name" ? Colors.error : Colors.placeholder;
+export default class UserDetails extends React.Component {
+	static propTypes = {
+		onComplete: React.PropTypes.func.isRequired,
+		onChangeNick: React.PropTypes.func.isRequired,
+		onChangeName: React.PropTypes.func.isRequired,
+		nick: React.PropTypes.string,
+		name: React.PropTypes.string,
+		user: React.PropTypes.shape({
+			picture: React.PropTypes.string
+		}),
+		error: React.PropTypes.object,
+		isLoading: React.PropTypes.bool,
+		isDisabled: React.PropTypes.bool,
+	};
 
-	return (
-		<StatusbarContainer style={styles.container}>
-			<ScrollView keyboardShouldPersistTaps contentContainerStyle={[ styles.container, styles.inner ]}>
-				<OnboardTitle>Hey, Neighbor!</OnboardTitle>
-				<View style={styles.avatarContainer}>
-					<Image style={styles.avatar} source={{ uri: props.user ? props.user.picture : null }} />
-				</View>
-				<OnboardParagraph>What should we call you?</OnboardParagraph>
+	props: Props;
 
-				<View style={styles.inputContainer}>
-					<AppTextInput
-						autoCorrect={false}
-						maxLength={32}
-						placeholder="Your ninja nickname"
-						textAlign="center"
-						underlineColorAndroid={nick_color}
-						onChangeText={props.onChangeNick}
-						value={props.nick}
-					/>
-					<AppTextInput
-						placeholder="Your fabulous fullname"
-						textAlign="center"
-						underlineColorAndroid={name_color}
-						onChangeText={props.onChangeName}
-						value={props.name}
-					/>
-				</View>
+	componentDidMount() {
+		this._fetchFullName();
+	}
 
-				<OnboardError
-					hint="People on Hey, Neighbor! will know you by your nickname."
-					message={props.error ? props.error.message : null}
-				/>
-				<KeyboardSpacer />
-			</ScrollView>
-			<NextButton
-				label="Sign up"
-				loading={props.isLoading}
-				disabled={props.isDisabled}
-				onPress={props.onComplete}
-			/>
-			{Platform.Version >= VersionCodes.KITKAT ?
-				<KeyboardSpacer /> :
-				null // Android seems to Pan the screen on < Kitkat
+	_fetchFullName = async () => {
+		try {
+			const res = await Facebook.sendGraphRequest("GET", "/me", { fields: "name" }).then(JSON.parse);
+
+			if (res && res.name && !this.props.name) {
+				this.props.onChangeName(res.name);
 			}
-		</StatusbarContainer>
-	);
-};
+		} catch (e) {
+			// ignore
+		}
+	};
 
-UserDetails.propTypes = {
-	onComplete: React.PropTypes.func.isRequired,
-	onChangeNick: React.PropTypes.func.isRequired,
-	onChangeName: React.PropTypes.func.isRequired,
-	nick: React.PropTypes.string,
-	name: React.PropTypes.string,
-	user: React.PropTypes.shape({
-		picture: React.PropTypes.string
-	}),
-	error: React.PropTypes.object,
-	isLoading: React.PropTypes.bool,
-	isDisabled: React.PropTypes.bool,
-};
+	render() {
+		const nick_color = this.props.error && this.props.error.field === "nick" ? Colors.error : Colors.placeholder;
+		const name_color = this.props.error && this.props.error.field === "name" ? Colors.error : Colors.placeholder;
 
-export default UserDetails;
+		return (
+			<StatusbarContainer style={styles.container}>
+				<ScrollView keyboardShouldPersistTaps contentContainerStyle={[ styles.container, styles.inner ]}>
+					<OnboardTitle>Hey, Neighbor!</OnboardTitle>
+					<View style={styles.avatarContainer}>
+						<Image style={styles.avatar} source={{ uri: this.props.user ? this.props.user.picture : null }} />
+					</View>
+					<OnboardParagraph>What should we call you?</OnboardParagraph>
+
+					<View style={styles.inputContainer}>
+						<AppTextInput
+							autoCorrect={false}
+							maxLength={32}
+							placeholder="Your ninja nickname"
+							textAlign="center"
+							underlineColorAndroid={nick_color}
+							onChangeText={this.props.onChangeNick}
+							value={this.props.nick}
+						/>
+						<AppTextInput
+							placeholder="Your fabulous fullname"
+							textAlign="center"
+							underlineColorAndroid={name_color}
+							onChangeText={this.props.onChangeName}
+							value={this.props.name}
+						/>
+					</View>
+
+					<OnboardError
+						hint="People on Hey, Neighbor! will know you by your nickname."
+						message={this.props.error ? this.props.error.message : null}
+					/>
+					<KeyboardSpacer />
+				</ScrollView>
+				<NextButton
+					label="Sign up"
+					loading={this.props.isLoading}
+					disabled={this.props.isDisabled}
+					onPress={this.props.onComplete}
+				/>
+				{Platform.Version >= VersionCodes.KITKAT ?
+					<KeyboardSpacer /> :
+					null // Android seems to Pan the screen on < Kitkat
+				}
+			</StatusbarContainer>
+		);
+	}
+}
