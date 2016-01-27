@@ -5,7 +5,6 @@ import PageLoading from "./PageLoading";
 
 const {
 	ListView,
-	RecyclerViewBackedScrollView
 } = React;
 
 export default class NotificationCenter extends React.Component {
@@ -18,8 +17,6 @@ export default class NotificationCenter extends React.Component {
 	_getDataSource = () => {
 		return this._dataSource.cloneWithRows(this.props.data);
 	};
-
-	_renderScrollComponent = props => <RecyclerViewBackedScrollView {...props} />;
 
 	_renderRow = note => (
 		<NotificationCenterItem
@@ -51,7 +48,6 @@ export default class NotificationCenter extends React.Component {
 			<ListView
 				initialListSize={1}
 				dataSource={this._getDataSource()}
-				renderScrollComponent={this._renderScrollComponent}
 				renderRow={this._renderRow}
 			/>
 		);
