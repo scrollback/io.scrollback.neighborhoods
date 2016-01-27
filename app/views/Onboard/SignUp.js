@@ -97,10 +97,9 @@ export default class SignUp extends React.Component {
 	};
 
 	_handleCompleteLocation = async (): Promise => {
-		const { places } = this.state;
-
 		this._setOnboarding(true);
-		this._setIsLoading(true);
+
+		const { places } = this.state;
 
 		if (!places.length) {
 			this.setState({
@@ -112,7 +111,20 @@ export default class SignUp extends React.Component {
 			return;
 		}
 
-		await this.props.saveRooms(places);
+		this._setIsLoading(true);
+
+		try {
+			await this.props.saveRooms(places);
+		} catch (e) {
+			if (!/ALREADY_FOLLOWER/.test(e.message)) {
+				this.setState({
+					error: {
+						field: "place",
+						message: e.message
+					}
+				});
+			}
+		}
 
 		this._setIsLoading(false);
 	};
@@ -177,6 +189,7 @@ export default class SignUp extends React.Component {
 							{...this.state}
 							onComplete={this._handleCompleteLocation}
 							onChangePlace={this._handleChangePlace}
+							isDisabled={!this.state.places.length}
 						/>
 					);
 				}
@@ -188,6 +201,7 @@ export default class SignUp extends React.Component {
 						onComplete={this._handleCompleteDetails}
 						onChangeNick={this._handleChangeNick}
 						onChangeName={this._handleChangeName}
+						isDisabled={this.state.error || !(this.state.nick && this.state.name)}
 					/>
 				);
 			}

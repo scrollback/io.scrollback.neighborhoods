@@ -42,6 +42,7 @@ export default class LocationDetails extends React.Component {
 		places: React.PropTypes.array.isRequired,
 		error: React.PropTypes.object,
 		isLoading: React.PropTypes.bool,
+		isDisabled: React.PropTypes.bool,
 		onComplete: React.PropTypes.func.isRequired,
 		onChangePlace: React.PropTypes.func.isRequired
 	};
@@ -66,6 +67,7 @@ export default class LocationDetails extends React.Component {
 				<NextButton
 					label="Get started"
 					loading={this.props.isLoading}
+					disabled={this.props.isDisabled}
 					onPress={this.props.onComplete}
 				/>
 				<Modal />

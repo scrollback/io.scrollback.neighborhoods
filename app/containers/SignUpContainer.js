@@ -111,7 +111,7 @@ class SignUpContainer extends React.Component {
 			.concat(rooms.map(room => room.id))
 			.filter((it, i, self) => it && self.indexOf(it) === i);
 
-		const statesToFollow = roomsToFollow.map(room => states[0].id + "-in-" + room);
+		const statesToFollow = states.length ? roomsToFollow.map(room => states[0].id + "-in-" + room) : [];
 
 		return Promise.all([ ...roomsToFollow, ...statesToFollow ].map(id => this.dispatch("join", { to: id })));
 	};

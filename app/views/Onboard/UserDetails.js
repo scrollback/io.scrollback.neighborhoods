@@ -60,6 +60,7 @@ type Props = {
 	name: string;
 	avatar: string;
 	isLoading: boolean;
+	isDisabled: boolean;
 };
 
 const UserDetails = (props: Props) => {
@@ -103,6 +104,7 @@ const UserDetails = (props: Props) => {
 			<NextButton
 				label="Sign up"
 				loading={props.isLoading}
+				disabled={props.isDisabled}
 				onPress={props.onComplete}
 			/>
 			{Platform.Version >= VersionCodes.KITKAT ?
@@ -123,7 +125,8 @@ UserDetails.propTypes = {
 		picture: React.PropTypes.string
 	}),
 	error: React.PropTypes.object,
-	isLoading: React.PropTypes.bool
+	isLoading: React.PropTypes.bool,
+	isDisabled: React.PropTypes.bool,
 };
 
 export default UserDetails;

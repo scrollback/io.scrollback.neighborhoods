@@ -1,6 +1,8 @@
+/* @flow */
+
 import React from "react-native";
 import AppText from "../AppText";
-import Icon from "../Icon";
+import NextButtonLabel from "./NextButtonLabel";
 import Colors from "../../../Colors.json";
 
 const {
@@ -19,42 +21,43 @@ const styles = StyleSheet.create({
 	},
 
 	label: {
-		color: Colors.white,
+		color: Colors.fadedBlack,
 		fontWeight: "bold",
 		margin: 16
 	},
 
-	icon: {
-		color: Colors.fadedBlack
-	}
+	disabled: {
+		opacity: 0.5
+	},
 });
 
 const NextButton = props => {
 	if (props.loading) {
 		return (
 			<View style={styles.button}>
-				<AppText style={[ styles.label, styles.icon ]}>JUST A SEC…</AppText>
+				<AppText style={styles.label}>
+					JUST A SEC…
+				</AppText>
 			</View>
 		);
-	} else {
-		return (
-			<TouchableHighlight {...props}>
-				<View style={styles.button}>
-					<AppText style={styles.label}>{props.label.toUpperCase()}</AppText>
-					<Icon
-						style={styles.icon}
-						name="arrow-forward"
-						size={16}
-					/>
-				</View>
-			</TouchableHighlight>
-		);
 	}
+
+	if (props.disabled) {
+		return <NextButtonLabel label={props.label} style={[ styles.button, styles.disabled ]} />;
+	}
+
+	return (
+		<TouchableHighlight onPress={props.onPress}>
+			<NextButtonLabel label={props.label} style={styles.button} />
+		</TouchableHighlight>
+	);
 };
 
 NextButton.propTypes = {
 	label: React.PropTypes.string,
-	loading: React.PropTypes.bool
+	loading: React.PropTypes.bool,
+	disabled: React.PropTypes.bool,
+	onPress: React.PropTypes.func.isRequired
 };
 
 export default NextButton;
