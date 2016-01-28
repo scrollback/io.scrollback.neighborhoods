@@ -12,8 +12,8 @@ function emit(type, params = {}) {
 	});
 }
 
-async function query(...args) {
-	return (await emit(...args)).results;
+function query(...args) {
+	return emit(...args).then(res => res.results);
 }
 
 function dispatch(name, params = {}, prio = 1) {
@@ -102,4 +102,3 @@ export default {
 		});
 	}
 };
-

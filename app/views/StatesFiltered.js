@@ -2,6 +2,7 @@ import React from "react-native";
 import StateItem from "./StateItem";
 import SearchableList from "./SearchableList";
 import StatusbarContainer from "./StatusbarContainer";
+import ListHeader from "./ListHeader";
 import Colors from "../../Colors.json";
 
 const {
@@ -36,12 +37,15 @@ export default class StatesFiltered extends React.Component {
 		);
 	};
 
+	_renderHeader = () => <ListHeader>States in India</ListHeader>;
+
 	render() {
 		return (
 			<StatusbarContainer style={styles.container}>
 				<SearchableList
 					getResults={this.props.getResults}
 					renderRow={this._renderRow}
+					renderHeader={this._renderHeader}
 					onDismiss={this.props.onDismiss}
 					searchHint="Type a place to search"
 				/>

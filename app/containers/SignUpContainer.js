@@ -58,7 +58,7 @@ class SignUpContainer extends React.Component {
 		if (results && results.length) {
 			throw new Error(nick + " is already taken.");
 		} else {
-			return this.dispatch("user", {
+			await this.dispatch("user", {
 				from: nick,
 				to: nick,
 				user: {
@@ -104,14 +104,14 @@ class SignUpContainer extends React.Component {
 
 	_joinRooms = (places: Array<Object>) => {
 		const rooms = places.filter(it => it.type !== "home").map(it => it.place);
-		const states = places.filter(it => it.type === "home").map(it => it.place);
+		const states = places.filter(it => it.type === "home").map(it => it.place.id);
 
-		const roomsToFollow = rooms
+		const parentRooms = rooms
 			.map(room => room.guides ? room.guides.alsoAutoFollow : null)
-			.concat(rooms.map(room => room.id))
 			.filter((it, i, self) => it && self.indexOf(it) === i);
 
-		const statesToFollow = states.length ? roomsToFollow.map(room => states[0].id + "-in-" + room) : [];
+		const roomsToFollow = rooms.map(room => room.id).concat(parentRooms);
+		const statesToFollow = states.length ? parentRooms.map(room => states[0] + "-in-" + room) : [];
 
 		return Promise.all([ ...roomsToFollow, ...statesToFollow ].map(id => this.dispatch("join", { to: id })));
 	};

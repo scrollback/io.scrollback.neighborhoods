@@ -6,6 +6,10 @@ import Geolocation from "../modules/Geolocation";
 import Container from "./Container";
 
 class LocalitiesFilteredContainer extends React.Component {
+	static propTypes = {
+		excludeList: React.PropTypes.arrayOf(React.PropTypes.string)
+	};
+
 	_getResults = async filter => {
 		const opts: {
 			ref?: string;
@@ -31,7 +35,14 @@ class LocalitiesFilteredContainer extends React.Component {
 		}
 
 		if (opts.ref || opts.location) {
-			return this.query("getRooms", opts);
+			const { excludeList } = this.props;
+			const results = await this.query("getRooms", opts);
+
+			if (excludeList && excludeList.length) {
+				return results.filter(room => room && excludeList.indexOf(room.id) === -1);
+			} else {
+				return results;
+			}
 		} else {
 			return [];
 		}

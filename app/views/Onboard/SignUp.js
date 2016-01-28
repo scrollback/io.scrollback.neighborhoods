@@ -19,10 +19,11 @@ type State = {
 }
 
 const ERROR_MESSAGES = {
-	VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens, no spaces.",
-	VALIDATE_START: "Nickname cannot start with a hyphen.",
-	VALIDATE_handleLY_NUMS: "Nickname should have at least 1 letter.",
-	VALIDATE_LENGTH_SHORT: "Nickname should be 3-32 characters long.",
+	ERR_VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens, no spaces.",
+	ERR_VALIDATE_START: "Nickname cannot start with a hyphen.",
+	ERR_VALIDATE_NO_ONLY_NUMS: "Nickname should have at least 1 letter.",
+	ERR_VALIDATE_LENGTH_SHORT: "Nickname should be more than 3 letters.",
+	ERR_VALIDATE_LENGTH_LONG: "Nickname should be less than 32 letters.",
 };
 
 export default class SignUp extends React.Component {
@@ -92,8 +93,6 @@ export default class SignUp extends React.Component {
 				}
 			});
 		}
-
-		this._setIsLoading(false);
 	};
 
 	_handleCompleteLocation = async (): Promise => {
@@ -126,7 +125,7 @@ export default class SignUp extends React.Component {
 			}
 		}
 
-		this._setIsLoading(false);
+		setTimeout(() => this._setIsLoading(false), 10);
 	};
 
 	_handleCompleteOnboard = () => {
@@ -165,6 +164,12 @@ export default class SignUp extends React.Component {
 		});
 	};
 
+	componentWillReceiveProps() {
+		this.setState({
+			isLoading: false
+		});
+	}
+
 	render() {
 		const { user } = this.props;
 
@@ -201,7 +206,7 @@ export default class SignUp extends React.Component {
 						onComplete={this._handleCompleteDetails}
 						onChangeNick={this._handleChangeNick}
 						onChangeName={this._handleChangeName}
-						isDisabled={this.state.error || !(this.state.nick && this.state.name)}
+						isDisabled={!!(this.state.error || !(this.state.nick && this.state.name))}
 					/>
 				);
 			}

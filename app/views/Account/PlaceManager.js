@@ -75,6 +75,7 @@ export default class PlaceManager extends React.Component {
 				<LocalitiesFilteredContainer
 					onDismiss={this._handleDismissModal}
 					onSelectItem={this._handleSelectItem}
+					excludeList={this.props.places.map(item => item.place.id)}
 				/>
 			);
 		}

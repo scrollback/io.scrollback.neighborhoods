@@ -65,25 +65,25 @@ export default function(Target: React.Component): React.Component {
 		emit(...args) {
 			if (typeof super.emit === "function") {
 				return super.emit(...args);
+			} else {
+				return actions.emit(...args);
 			}
-
-			return actions.emit(...args);
 		}
 
 		query(...args) {
 			if (typeof super.query === "function") {
 				return super.query(...args);
+			} else {
+				return actions.query(...args);
 			}
-
-			return actions.query(...args);
 		}
 
 		dispatch(...args) {
 			if (typeof super.dispatch === "function") {
 				return super.dispatch(...args);
+			} else {
+				return actions.dispatch(...args);
 			}
-
-			return actions.dispatch(...args);
 		}
 	}
 
