@@ -32,6 +32,12 @@ class SignUpContainer extends React.Component {
 		});
 	};
 
+	_checkNickName = async nick => {
+		const results = await this.query("getEntities", { ref: nick });
+
+		return results && results.length;
+	};
+
 	_signIn = ({ provider, token }) => {
 		return this.dispatch("init", {
 			auth: {
@@ -47,33 +53,21 @@ class SignUpContainer extends React.Component {
 			throw new Error("USER_NOT_INITED");
 		}
 
-		let results;
-
-		try {
-			results = await this.query("getEntities", { ref: nick });
-		} catch (e) {
-			throw new Error("UNKNOWN_ERROR");
-		}
-
-		if (results && results.length) {
-			throw new Error("NICK_TAKEN");
-		} else {
-			await this.dispatch("user", {
-				from: nick,
-				to: nick,
-				user: {
-					id: nick,
-					identities: [ user.identities[user.identities.length - 1] ],
-					picture: user.params.pictures && user.params.pictures[0] || "",
-					params: {
-						pictures: user.params.pictures
-					},
-					guides: {
-						fullname: name
-					}
+		await this.dispatch("user", {
+			from: nick,
+			to: nick,
+			user: {
+				id: nick,
+				identities: [ user.identities[user.identities.length - 1] ],
+				picture: user.params.pictures && user.params.pictures[0] || "",
+				params: {
+					pictures: user.params.pictures
+				},
+				guides: {
+					fullname: name
 				}
-			});
-		}
+			}
+		});
 	};
 
 	_cancelSignUp = () => {
@@ -138,6 +132,7 @@ class SignUpContainer extends React.Component {
 				cancelSignUp={this._cancelSignUp}
 				saveParams={this._saveParams}
 				saveRooms={this._saveRooms}
+				checkNickName={this._checkNickName}
 			/>
 		);
 	}

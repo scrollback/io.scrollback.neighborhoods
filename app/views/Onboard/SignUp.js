@@ -8,6 +8,7 @@ import GetStarted from "./GetStarted";
 import HomeContainer from "../../containers/HomeContainer";
 import userUtils from "../../lib/user-utils";
 import Validator from "../../lib/validator";
+import debounce from "../../lib/debounce";
 
 type State = {
 	places: Array<Object>;
@@ -39,6 +40,7 @@ export default class SignUp extends React.Component {
 		signUp: React.PropTypes.func.isRequired,
 		saveParams: React.PropTypes.func.isRequired,
 		saveRooms: React.PropTypes.func.isRequired,
+		checkNickName: React.PropTypes.func.isRequired
 	};
 
 	state: State = {
@@ -49,6 +51,33 @@ export default class SignUp extends React.Component {
 		onboarding: false,
 		isLoading: false
 	};
+
+	_nickCache = {};
+
+	_checkNickName = debounce(async nick => {
+		try {
+			let exists;
+
+			if (nick in this._nickCache) {
+				exists = this._nickCache[nick];
+			} else {
+				exists = await this.props.checkNickName(nick);
+			}
+
+			if (this.state.nick === nick && exists) {
+				this.setState({
+					error: {
+						field: "nick",
+						message: ERROR_MESSAGES.NICK_TAKEN
+					}
+				});
+			}
+
+			this._nickCache[nick] = exists;
+		} catch (e) {
+			// ignore
+		}
+	});
 
 	_setOnboarding = (onboarding: boolean) => {
 		this.setState({
@@ -138,11 +167,13 @@ export default class SignUp extends React.Component {
 	};
 
 	_handleChangeNick = (nick: string) => {
+		this._checkNickName(nick);
+
 		let error = null;
 
 		const validation = new Validator(nick);
 
-		if (!validation.isValid()) {
+		if (nick && !validation.isValid()) {
 			error = {
 				field: "nick",
 				message: ERROR_MESSAGES[validation.error] || ERROR_MESSAGES.UNKNOWN_ERROR
