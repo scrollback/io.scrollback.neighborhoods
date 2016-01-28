@@ -44,7 +44,7 @@ class SignUpContainer extends React.Component {
 		const { user } = this.state;
 
 		if (!user) {
-			throw new Error("User is not initialized.");
+			throw new Error("USER_NOT_INITED");
 		}
 
 		let results;
@@ -52,11 +52,11 @@ class SignUpContainer extends React.Component {
 		try {
 			results = await this.query("getEntities", { ref: nick });
 		} catch (e) {
-			throw new Error("An error occured!");
+			throw new Error("UNKNOWN_ERROR");
 		}
 
 		if (results && results.length) {
-			throw new Error(nick + " is already taken.");
+			throw new Error("NICK_TAKEN");
 		} else {
 			await this.dispatch("user", {
 				from: nick,
@@ -84,7 +84,7 @@ class SignUpContainer extends React.Component {
 
 	_saveParams = (params: Object) => {
 		if (!this.state.user) {
-			throw new Error("User is not initialized.");
+			throw new Error("USER_NOT_INITED");
 		}
 
 		const user = {

@@ -19,11 +19,18 @@ type State = {
 }
 
 const ERROR_MESSAGES = {
-	ERR_VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens, no spaces.",
+	ERR_VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens without spaces.",
 	ERR_VALIDATE_START: "Nickname cannot start with a hyphen.",
-	ERR_VALIDATE_NO_ONLY_NUMS: "Nickname should have at least 1 letter.",
-	ERR_VALIDATE_LENGTH_SHORT: "Nickname should be more than 3 letters.",
-	ERR_VALIDATE_LENGTH_LONG: "Nickname should be less than 32 letters.",
+	ERR_VALIDATE_NO_ONLY_NUMS: "Nickname should have at least 1 letter in it.",
+	ERR_VALIDATE_LENGTH_SHORT: "Nickname should be more than 3 letters long.",
+	ERR_VALIDATE_LENGTH_LONG: "Nickname should be less than 32 letters long.",
+	ERR_USER_EXISTS: "Oops! Somebody claimed this username just before you did.",
+	NICK_TAKEN: "This username is already taken. Maybe try another?",
+	USER_NOT_INITED: "An error occurred. Maybe try restarting the app?",
+	NO_LOCALITY_GIVEN: "You need to add at least one locality!",
+	EMPTY_NICKNAME: "Nickname cannot be empty!",
+	EMPTY_FULLNAME: "Fullname cannot be empty!",
+	UNKNOWN_ERROR: "An error occurred. Maybe try after a while?",
 };
 
 export default class SignUp extends React.Component {
@@ -62,7 +69,7 @@ export default class SignUp extends React.Component {
 			this.setState({
 				error: {
 					field: "nick",
-					message: "Nickname cannot be empty!"
+					message: ERROR_MESSAGES.EMPTY_NICKNAME
 				}
 			});
 			return;
@@ -72,7 +79,7 @@ export default class SignUp extends React.Component {
 			this.setState({
 				error: {
 					field: "name",
-					message: "Fullname cannot be empty!"
+					message: ERROR_MESSAGES.EMPTY_FULLNAME
 				}
 			});
 			return;
@@ -89,7 +96,7 @@ export default class SignUp extends React.Component {
 			this.setState({
 				error: {
 					field: "nick",
-					message: e.message
+					message: ERROR_MESSAGES[e.message]
 				}
 			});
 		}
@@ -104,7 +111,7 @@ export default class SignUp extends React.Component {
 			this.setState({
 				error: {
 					field: "place",
-					message: "You need to add at least one locality!"
+					message: ERROR_MESSAGES.NO_LOCALITY_GIVEN
 				}
 			});
 			return;
@@ -115,17 +122,15 @@ export default class SignUp extends React.Component {
 		try {
 			await this.props.saveRooms(places);
 		} catch (e) {
-			if (!/ALREADY_FOLLOWER/.test(e.message)) {
+			if (!/(NO_ROOM_WITH_GIVEN_ID|ALREADY_FOLLOWER|ERR_NOT_ALLOWED|OWNER_CANT_CHANGE_ROLE)/.test(e.message)) {
 				this.setState({
 					error: {
 						field: "place",
-						message: e.message
+						message: ERROR_MESSAGES.UNKNOWN_ERROR
 					}
 				});
 			}
 		}
-
-		setTimeout(() => this._setIsLoading(false), 10);
 	};
 
 	_handleCompleteOnboard = () => {
@@ -140,7 +145,7 @@ export default class SignUp extends React.Component {
 		if (!validation.isValid()) {
 			error = {
 				field: "nick",
-				message: ERROR_MESSAGES[validation.error]
+				message: ERROR_MESSAGES[validation.error] || ERROR_MESSAGES.UNKNOWN_ERROR
 			};
 		}
 
