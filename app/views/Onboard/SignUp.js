@@ -40,7 +40,8 @@ export default class SignUp extends React.Component {
 		signUp: React.PropTypes.func.isRequired,
 		saveParams: React.PropTypes.func.isRequired,
 		saveRooms: React.PropTypes.func.isRequired,
-		checkNickName: React.PropTypes.func.isRequired
+		checkNickName: React.PropTypes.func.isRequired,
+		skipRooms: React.PropTypes.func.isRequired
 	};
 
 	state: State = {
@@ -166,6 +167,11 @@ export default class SignUp extends React.Component {
 		this._setOnboarding(false);
 	};
 
+	_handleSkipRooms = () => {
+		this._setOnboarding(true);
+		this.props.skipRooms();
+	};
+
 	_handleChangeNick = (nick: string) => {
 		this._checkNickName(nick);
 
@@ -211,12 +217,13 @@ export default class SignUp extends React.Component {
 
 		if (user) {
 			if (!userUtils.isGuest(user.id)) {
-				if (user.params.places) {
+				if (user.params.places || user.params.skipped) {
 					if (this.state.onboarding) {
 						return (
 							<GetStarted
 								{...this.props}
 								{...this.state}
+								isSkipped={user.params.skipped}
 								onComplete={this._handleCompleteOnboard}
 							/>
 						);
@@ -228,6 +235,7 @@ export default class SignUp extends React.Component {
 						<LocationDetails
 							{...this.props}
 							{...this.state}
+							onSkip={this._handleSkipRooms}
 							onComplete={this._handleCompleteLocation}
 							onChangePlace={this._handleChangePlace}
 							isDisabled={!this.state.places.length}

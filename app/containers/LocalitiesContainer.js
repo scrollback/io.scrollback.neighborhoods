@@ -29,14 +29,22 @@ class LocalitiesContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		let data;
+
 		const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
-		const available = store.get("app", "isAvailable") !== false;
+		const user = store.getUser();
+		const available = user && user.params ? user.params.skipped !== true : false;
+
+		let data;
 
 		if (available) {
 			data = following;
 		} else {
-			data = [ { id: "open-house" } ];
+			data = [ {
+				id: "open-house",
+				guides: {
+					displayName: "Open House"
+				}
+			} ];
 		}
 
 		this.setState({

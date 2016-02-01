@@ -20,7 +20,7 @@ class MyPlacesContainer extends React.Component {
 
 		this.setState({
 			user,
-			places: this._getPlacesData(user) || this.state.places
+			places: this._getPlacesData(user)
 		});
 	};
 
@@ -34,6 +34,8 @@ class MyPlacesContainer extends React.Component {
 					type: it.type
 				};
 			});
+		} else {
+			return [];
 		}
 	};
 

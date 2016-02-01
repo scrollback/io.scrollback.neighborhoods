@@ -34,14 +34,21 @@ const UserDetails = (props: { onComplete: Function }) => (
 		<StatusbarWrapper />
 		<View style={[ styles.container, styles.inner ]}>
 			<OnboardTitle style={styles.text}>You are all set!</OnboardTitle>
-			<OnboardParagraph style={styles.text}>Go, be the good neighbor you are.</OnboardParagraph>
+			<OnboardParagraph style={styles.text}>
+				{
+					props.isSkipped ?
+					"We are coming to your city soon! Stay connected by joining the open house group." :
+					"Have fun and help make your neighbourhood better."
+				}
+			</OnboardParagraph>
 		</View>
 		<NextButton label="Let's go" onPress={props.onComplete} />
 	</View>
 );
 
 UserDetails.propTypes = {
-	onComplete: React.PropTypes.func.isRequired
+	onComplete: React.PropTypes.func.isRequired,
+	isSkipped: React.PropTypes.bool
 };
 
 export default UserDetails;

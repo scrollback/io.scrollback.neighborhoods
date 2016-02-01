@@ -23,8 +23,12 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 
+	footer: {
+		marginTop: 8,
+	},
+
 	footerItem: {
-		height: 48
+		height: 48,
 	},
 
 	footerLabel: {
@@ -140,7 +144,7 @@ export default class Localities extends React.Component {
 
 	_renderFooter = () => {
 		return (
-			<View>
+			<View style={styles.footer}>
 				<ListItem containerStyle={styles.footerItem} onPress={this._handleManagePlaces}>
 					<Icon
 						style={styles.footerIcon}

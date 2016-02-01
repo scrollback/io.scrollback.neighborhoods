@@ -7,12 +7,14 @@ import OnboardTitle from "./OnboardTitle";
 import OnboardError from "./OnboardError";
 import PlaceManager from "../Account/PlaceManager";
 import Modal from "../Modal";
+import AppText from "../AppText";
 import Colors from "../../../Colors.json";
 
 const {
 	ScrollView,
 	StyleSheet,
-	View
+	View,
+	TouchableOpacity
 } = React;
 
 const styles = StyleSheet.create({
@@ -31,6 +33,16 @@ const styles = StyleSheet.create({
 		marginHorizontal: 8,
 		height: 216,
 	},
+
+	skip: {
+		margin: 16,
+		fontSize: 12,
+		textAlign: "center",
+		color: Colors.darkGrey,
+		textDecorationColor: Colors.darkGrey,
+		textDecorationStyle: "solid",
+		textDecorationLine: "underline",
+	},
 });
 
 export default class LocationDetails extends React.Component {
@@ -40,7 +52,8 @@ export default class LocationDetails extends React.Component {
 		isLoading: React.PropTypes.bool,
 		isDisabled: React.PropTypes.bool,
 		onComplete: React.PropTypes.func.isRequired,
-		onChangePlace: React.PropTypes.func.isRequired
+		onChangePlace: React.PropTypes.func.isRequired,
+		onSkip: React.PropTypes.func.isRequired
 	};
 
 	render() {
@@ -56,7 +69,12 @@ export default class LocationDetails extends React.Component {
 						onChange={this.props.onChangePlace}
 					/>
 
-					<OnboardError message={this.props.error ? this.props.error.message : null} />
+					{this.props.error ?
+						<OnboardError message={this.props.error.message} /> :
+						<TouchableOpacity onPress={this.props.onSkip}>
+							<AppText style={styles.skip}>I'm not in Bangalore or Mumbai</AppText>
+						</TouchableOpacity>
+					}
 				</ScrollView>
 				<NextButton
 					label="Get started"

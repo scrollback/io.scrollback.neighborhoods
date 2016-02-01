@@ -10,5 +10,4 @@ module.exports = (...args) => {
 	require("./rules/removeRelations")(...args);
 	require("./rules/manageNotes")(...args);
 	require("./rules/clearQueuedActions")(...args);
-	require("./rules/checkIfAvailable")(...args);
 };

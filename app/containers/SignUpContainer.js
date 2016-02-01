@@ -105,6 +105,12 @@ class SignUpContainer extends React.Component {
 		});
 	};
 
+	_skipRooms = () => {
+		return this._saveParams({
+			skipped: true
+		});
+	};
+
 	render() {
 		return (
 			<SignUp
@@ -115,6 +121,7 @@ class SignUpContainer extends React.Component {
 				cancelSignUp={this._cancelSignUp}
 				saveParams={this._saveParams}
 				saveRooms={this._saveRooms}
+				skipRooms={this._skipRooms}
 				checkNickName={this._checkNickName}
 			/>
 		);
