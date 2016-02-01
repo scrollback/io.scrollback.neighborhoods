@@ -13,18 +13,6 @@ class MyPlacesContainer extends React.Component {
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
-
-		this.handle("statechange", changes => {
-			if (changes.user) {
-				this._updateData();
-			} else {
-				const user = store.get("user");
-
-				if (changes.entities && changes.entities[user]) {
-					this._updateData();
-				}
-			}
-		});
 	}
 
 	_updateData = () => {
