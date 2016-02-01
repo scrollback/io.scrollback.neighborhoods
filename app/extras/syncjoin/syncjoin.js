@@ -9,8 +9,8 @@ function initialize() {
 		const roomsFollowing = store.getRelatedRooms().filter(rel => rel.role === "follower").map(rel => rel.id);
 
 		const places = action.user.params && action.user.params.places ? action.user.params.places : [];
-		const rooms = places.filter(it => it.type !== "home").map(it => it.id);
-		const states = places.filter(it => it.type === "home").map(it => it.id);
+		const rooms = places.filter(it => it.type !== "state").map(it => it.id);
+		const states = places.filter(it => it.type === "state").map(it => it.id);
 
 		const parentRooms = rooms
 			.map(id => {
