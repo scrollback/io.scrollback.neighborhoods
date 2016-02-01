@@ -78,7 +78,7 @@ export default class PlaceItem extends React.Component {
 	};
 
 	_handleRemove = () => {
-		this.props.onRemove(this.props.place);
+		this.props.onRemove(this.props.place, this.props.type);
 	};
 
 	render() {

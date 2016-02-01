@@ -56,8 +56,8 @@ export default class PlaceManager extends React.Component {
 		this._handleDismissModal();
 	};
 
-	_handleRemoveLocality = (place: Place) => {
-		this.props.onChange(this.props.places.filter(it => it.place.id !== place.id));
+	_handleRemoveLocality = (place: Place, type: string) => {
+		this.props.onChange(this.props.places.filter(it => !(it.place.id === place.id && it.type === type)));
 	};
 
 	_handlePress = () => {
@@ -75,7 +75,6 @@ export default class PlaceManager extends React.Component {
 				<LocalitiesFilteredContainer
 					onDismiss={this._handleDismissModal}
 					onSelectItem={this._handleSelectItem}
-					excludeList={this.props.places.map(item => item.place.id)}
 				/>
 			);
 		}
@@ -89,7 +88,7 @@ export default class PlaceManager extends React.Component {
 			<View {...this.props}>
 				{places.map(item => (
 					<PlaceItem
-						key={item.place.id}
+						key={`${item.place.id}:${item.type}`}
 						place={item.place}
 						type={item.type}
 						onRemove={this._handleRemoveLocality}
