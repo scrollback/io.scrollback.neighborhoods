@@ -21,14 +21,15 @@ const styles = StyleSheet.create({
 
 const ListItem = props => (
 	<TouchFeedback {...props}>
-		<View style={styles.container}>
+		<View style={[ styles.container, props.containerStyle ]}>
 			{props.children}
 		</View>
 	</TouchFeedback>
 );
 
 ListItem.propTypes = {
-	children: React.PropTypes.node.isRequired
+	children: React.PropTypes.node.isRequired,
+	containerStyle: View.propTypes.style
 };
 
 export default ListItem;

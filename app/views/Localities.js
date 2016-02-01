@@ -5,7 +5,11 @@ import PageLoading from "./PageLoading";
 import LoadingItem from "./LoadingItem";
 import BannerOfflineContainer from "../containers/BannerOfflineContainer";
 import LocalityItem from "./LocalityItem";
+import ListItem from "./ListItem";
+import AppText from "./AppText";
+import Icon from "./Icon";
 import Geolocation from "../modules/Geolocation";
+import Colors from "../../Colors.json";
 
 const {
 	StyleSheet,
@@ -17,7 +21,23 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1
-	}
+	},
+
+	footerItem: {
+		height: 48
+	},
+
+	footerLabel: {
+		fontSize: 12,
+		lineHeight: 18,
+		fontWeight: "bold",
+		color: Colors.fadedBlack,
+	},
+
+	footerIcon: {
+		color: Colors.fadedBlack,
+		marginHorizontal: 16
+	},
 });
 
 export default class Localities extends React.Component {
@@ -103,12 +123,48 @@ export default class Localities extends React.Component {
 		);
 	};
 
+	_handleManagePlaces = () => {
+		this.props.onNavigation(new NavigationActions.Push({
+			name: "places",
+		}));
+	};
+
+	_handleReportIssue = () => {
+		this.props.onNavigation(new NavigationActions.Push({
+			name: "room",
+			props: {
+				room: "support"
+			}
+		}));
+	};
+
+	_renderFooter = () => {
+		return (
+			<View>
+				<ListItem containerStyle={styles.footerItem} onPress={this._handleManagePlaces}>
+					<Icon
+						style={styles.footerIcon}
+						name="settings"
+						size={18}
+					/>
+					<AppText style={styles.footerLabel}>MANAGE MY PLACES</AppText>
+				</ListItem>
+				<ListItem containerStyle={styles.footerItem} onPress={this._handleReportIssue}>
+					<Icon
+						style={styles.footerIcon}
+						name="info"
+						size={18}
+					/>
+					<AppText style={styles.footerLabel}>REPORT AN ISSUE</AppText>
+				</ListItem>
+			</View>
+		);
+	};
+
 	render() {
 		let placeHolder;
 
-		if (this.props.data.length === 0) {
-			placeHolder = <PageEmpty label="You've not joined any communities" image="meh" />;
-		} else if (this.props.data.length === 1) {
+		if (this.props.data.length === 1) {
 			switch (this.props.data[0]) {
 			case "missing":
 				placeHolder = <PageLoading />;
@@ -132,6 +188,7 @@ export default class Localities extends React.Component {
 						keyboardShouldPersistTaps
 						dataSource={this._getDataSource()}
 						renderRow={this._renderRow}
+						renderFooter={this._renderFooter}
 					/>
 				}
 			</View>

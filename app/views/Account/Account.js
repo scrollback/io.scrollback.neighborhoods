@@ -17,7 +17,6 @@ const {
 	View,
 	PixelRatio,
 	TouchableOpacity,
-	NavigationActions,
 	SwitchAndroid: Switch
 } = React;
 
@@ -108,12 +107,6 @@ export default class Account extends React.Component {
 		this._saveUserDebounced(user);
 	};
 
-	_handleManagePlaces = () => {
-		this.props.onNavigation(new NavigationActions.Push({
-			name: "places",
-		}));
-	};
-
 	_handlePushNotificationChange = value => {
 		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
 
@@ -160,15 +153,6 @@ export default class Account extends React.Component {
 
 	_handleSignOut = () => {
 		this.props.signOut();
-	};
-
-	_handleReportIssue = () => {
-		this.props.onNavigation(new NavigationActions.Push({
-			name: "room",
-			props: {
-				room: "support"
-			}
-		}));
 	};
 
 	_handlerSelectPhoto = uri => {
@@ -231,13 +215,6 @@ export default class Account extends React.Component {
 						onChangeText={this._handleStatusChange}
 					/>
 				</View>
-				<TouchFeedback onPress={this._handleManagePlaces}>
-					<View style={styles.item}>
-						<View style={styles.itemLabel}>
-							<AppText style={styles.itemText}>Manage my places</AppText>
-						</View>
-					</View>
-				</TouchFeedback>
 				<View style={styles.item}>
 					<View style={styles.itemLabel}>
 						<AppText style={styles.itemText}>Push notifications</AppText>
@@ -266,13 +243,6 @@ export default class Account extends React.Component {
 									"Daily"
 								}
 							</AppText>
-						</View>
-					</View>
-				</TouchFeedback>
-				<TouchFeedback onPress={this._handleReportIssue}>
-					<View style={styles.item}>
-						<View style={styles.itemLabel}>
-							<AppText style={styles.itemText}>Report an issue</AppText>
 						</View>
 					</View>
 				</TouchFeedback>
