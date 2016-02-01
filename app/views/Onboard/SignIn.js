@@ -82,8 +82,12 @@ export default class SignIn extends React.Component {
 		facebookLoading: false
 	};
 
-	_onSignInSuccess = (provider: string, token: string) => {
-		this.props.signIn({ provider, token });
+	_onSignInSuccess = async (provider: string, token: string) => {
+		try {
+			await this.props.signIn({ provider, token });
+		} catch (e) {
+			this._onSignInFailure(provider);
+		}
 	};
 
 	_onSignInFailure = (provider: string) => {
@@ -130,7 +134,7 @@ export default class SignIn extends React.Component {
 		}
 	};
 
-	_onFacebookPress = () => {
+	_handleFacebookPress = () => {
 		this.setState({
 			facebookLoading: true
 		});
@@ -138,7 +142,7 @@ export default class SignIn extends React.Component {
 		requestAnimationFrame(() => this._signInWithFacebook());
 	};
 
-	_onGooglePress = () => {
+	_handleGooglePress = () => {
 		this.setState({
 			googleLoading: true
 		});
@@ -162,14 +166,14 @@ export default class SignIn extends React.Component {
 								spinner={this.state.facebookLoading}
 								disabled={this.state.facebookLoading}
 								label={this.state.facebookLoading ? "" : "Facebook"}
-								onPress={this._onFacebookPress}
+								onPress={this._handleFacebookPress}
 							/>
 							<LargeButton
 								style={styles.google}
 								spinner={this.state.googleLoading}
 								disabled={this.state.googleLoading}
 								label={this.state.googleLoading ? "" : "Google"}
-								onPress={this._onGooglePress}
+								onPress={this._handleGooglePress}
 							/>
 						</View>
 					</View>
