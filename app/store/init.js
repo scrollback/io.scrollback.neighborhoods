@@ -1,9 +1,11 @@
 import core from "../store/core";
 import GCM from "../extras/gcm/gcm";
 import Analytics from "../extras/analytics/analytics";
+import syncJoin from "../extras/syncjoin/syncjoin";
 
 GCM.initialize();
 Analytics.initialize();
+syncJoin.initialize();
 
 let bootComplete = false;
 

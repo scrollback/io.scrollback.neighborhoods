@@ -211,7 +211,7 @@ export default class SignUp extends React.Component {
 
 		if (user) {
 			if (!userUtils.isGuest(user.id)) {
-				if (user.params.places && user.params.places.length) {
+				if (user.params.places) {
 					if (this.state.onboarding) {
 						return (
 							<GetStarted

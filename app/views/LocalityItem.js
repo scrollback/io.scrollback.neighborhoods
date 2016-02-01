@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 
 export default class LocalityItem extends React.Component {
 	_handleShowMenu = () => {
-		const { room, role } = this.props;
+		const { room } = this.props;
 
 		const options = [];
 		const actions = [];
@@ -62,17 +62,6 @@ export default class LocalityItem extends React.Component {
 
 				Linking.openURL("http://maps.google.com/maps?q=loc:" + lat + "," + lon);
 			});
-		}
-
-		switch (role) {
-		case "none":
-			options.push("Join community");
-			actions.push(this.props.joinCommunity);
-			break;
-		case "follower":
-			options.push("Leave community");
-			actions.push(this.props.leaveCommunity);
-			break;
 		}
 
 		Modal.showActionSheetWithOptions({ options }, index => actions[index]());
@@ -141,11 +130,8 @@ LocalityItem.propTypes = {
 			longitude: React.PropTypes.number.isRequired
 		}).isRequired
 	}),
-	role: React.PropTypes.string.isRequired,
 	showMenuButton: React.PropTypes.bool,
 	showBadge: React.PropTypes.bool,
-	joinCommunity: React.PropTypes.func.isRequired,
-	leaveCommunity: React.PropTypes.func.isRequired,
 	onSelect: React.PropTypes.func,
 };
 

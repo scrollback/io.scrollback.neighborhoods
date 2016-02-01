@@ -1,14 +1,11 @@
 import React from "react-native";
-import SearchButton from "./SearchButton";
 import BannerUnavailable from "./BannerUnavailable";
 import PageEmpty from "./PageEmpty";
 import PageLoading from "./PageLoading";
 import LoadingItem from "./LoadingItem";
-import ListHeader from "./ListHeader";
 import BannerOfflineContainer from "../containers/BannerOfflineContainer";
-import LocalityItemContainer from "../containers/LocalityItemContainer";
+import LocalityItem from "./LocalityItem";
 import Geolocation from "../modules/Geolocation";
-import config from "../store/config";
 
 const {
 	StyleSheet,
@@ -27,12 +24,12 @@ export default class Localities extends React.Component {
 	static propTypes = {
 		available: React.PropTypes.bool,
 		onNavigation: React.PropTypes.func.isRequired,
-		data: React.PropTypes.objectOf(React.PropTypes.arrayOf(React.PropTypes.oneOfType([
+		data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
 			React.PropTypes.oneOf([ "missing", "failed" ]),
 			React.PropTypes.shape({
 				id: React.PropTypes.string
 			})
-		]))).isRequired,
+		])).isRequired,
 	};
 
 	state = {
@@ -40,8 +37,7 @@ export default class Localities extends React.Component {
 	};
 
 	_dataSource = new ListView.DataSource({
-		rowHasChanged: (r1, r2) => r1 !== r2,
-		sectionHeaderHasChanged: (h1, h2) => h1 !== h2
+		rowHasChanged: (r1, r2) => r1 !== r2
 	});
 
 	componentDidMount() {
@@ -78,10 +74,10 @@ export default class Localities extends React.Component {
 	};
 
 	_getDataSource = () => {
-		return this._dataSource.cloneWithRowsAndSections(this.props.data);
+		return this._dataSource.cloneWithRows(this.props.data);
 	};
 
-	_onSelectLocality = room => {
+	_handleSelectLocality = room => {
 		this.props.onNavigation(new NavigationActions.Push({
 			name: "room",
 			props: {
@@ -96,60 +92,31 @@ export default class Localities extends React.Component {
 		}
 
 		return (
-			<LocalityItemContainer
+			<LocalityItem
 				key={room.id}
 				room={room}
 				location={this.state.location}
-				onSelect={this._onSelectLocality}
+				onSelect={this._handleSelectLocality}
 				showMenuButton
 				showBadge
 			/>
 		);
 	};
 
-	_renderSectionHeader = (sectionData, sectionID) => {
-		let header;
-
-		switch (sectionID) {
-		case "following":
-			header = "My communities";
-			break;
-		case "nearby":
-			header = "Communities nearby";
-			break;
-		case "results":
-			const count = sectionData.length;
-
-			header = count + " result" + (count > 1 ? "s" : "") + " found";
-			break;
-		}
-
-		return <ListHeader>{header}</ListHeader>;
-	};
-
 	render() {
 		let placeHolder;
 
-		const { data } = this.props;
-		const keys = Object.keys(data);
-
-		if (keys.length === 0 || keys.every(item => data[item].length === 0)) {
+		if (this.props.data.length === 0) {
 			placeHolder = <PageEmpty label="You've not joined any communities" image="meh" />;
-		} else if (keys.every(item => data[item].length === 0 || data[item][0] === "missing") && keys.some(item => data[item][0] === "missing")) {
-			placeHolder = <PageLoading />;
-		} else if (keys.every(item => data[item].length === 1 && data[item][0] === "failed")) {
-			placeHolder = <PageEmpty label="Failed to load communities" image="sad" />;
-		} else if (keys.some(item => data[item].length === 1 && data[item][0] === "unavailable")) {
-			placeHolder = <PageEmpty label={config.app_name + " is not available in your neighborhood yet."} image="sad" />;
-		} else {
-			placeHolder = (
-				<ListView
-					keyboardShouldPersistTaps
-					dataSource={this._getDataSource()}
-					renderRow={this._renderRow}
-					renderSectionHeader={this._renderSectionHeader}
-				/>
-			);
+		} else if (this.props.data.length === 1) {
+			switch (this.props.data[0]) {
+			case "missing":
+				placeHolder = <PageLoading />;
+				break;
+			case "failed":
+				placeHolder = <PageEmpty label="Failed to load discussions" image="sad" />;
+				break;
+			}
 		}
 
 		return (
@@ -157,8 +124,16 @@ export default class Localities extends React.Component {
 				<BannerOfflineContainer />
 				{this.props.available === false ?
 					<BannerUnavailable /> :
-					<SearchButton onNavigation={this.props.onNavigation} />}
-				{placeHolder}
+					null
+				}
+
+				{placeHolder ? placeHolder :
+					<ListView
+						keyboardShouldPersistTaps
+						dataSource={this._getDataSource()}
+						renderRow={this._renderRow}
+					/>
+				}
 			</View>
 		);
 	}

@@ -14,6 +14,7 @@ import LocalitiesContainer from "../containers/LocalitiesContainer";
 import AccountContainer from "../containers/AccountContainer";
 import SignUpContainer from "../containers/SignUpContainer";
 import StartDiscussionContainer from "../containers/StartDiscussionContainer";
+import MyPlacesContainer from "../containers/MyPlacesContainer";
 import config from "../store/config";
 
 type RouteDescription = {
@@ -48,6 +49,11 @@ export default function(route: Route): RouteDescription {
 		return {
 			title: "My account",
 			component: AccountContainer
+		};
+	case "places":
+		return {
+			title: "My places",
+			component: MyPlacesContainer
 		};
 	case "details":
 		return {

@@ -96,30 +96,13 @@ class SignUpContainer extends React.Component {
 		});
 	};
 
-	_joinRooms = (places: Array<Object>) => {
-		const rooms = places.filter(it => it.type !== "home").map(it => it.place);
-		const states = places.filter(it => it.type === "home").map(it => it.place.id);
-
-		const parentRooms = rooms
-			.map(room => room.guides ? room.guides.alsoAutoFollow : null)
-			.filter((it, i, self) => it && self.indexOf(it) === i);
-
-		const roomsToFollow = rooms.map(room => room.id).concat(parentRooms);
-		const statesToFollow = states.length ? parentRooms.map(room => states[0] + "-in-" + room) : [];
-
-		return Promise.all([ ...roomsToFollow, ...statesToFollow ].map(id => this.dispatch("join", { to: id })));
-	};
-
 	_saveRooms = (places: Array<Object>) => {
-		return Promise.all([
-			this._saveParams({
-				places: places.map(it => ({
-					id: it.place.id,
-					type: it.type
-				}))
-			}),
-			this._joinRooms(places)
-		]);
+		return this._saveParams({
+			places: places.map(it => ({
+				id: it.place.id,
+				type: it.type
+			}))
+		});
 	};
 
 	render() {

@@ -15,7 +15,8 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginVertical: 12,
+		marginVertical: 8,
+		height: 56,
 	},
 
 	name: {
@@ -48,9 +49,9 @@ const styles = StyleSheet.create({
 	closeContainer: {
 		alignItems: "center",
 		justifyContent: "center",
-		marginVertical: 16,
-		marginHorizontal: 8,
-		borderRadius: 8,
+		margin: 16,
+		padding: 4,
+		borderRadius: 12,
 		backgroundColor: Colors.underlay,
 	},
 
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
 });
 
 const ICONS = {
-	current: "location-city",
 	home: "home",
-	work: "work"
+	work: "work",
+	state: "location-city",
 };
 
 export default class PlaceItem extends React.Component {
@@ -73,12 +74,19 @@ export default class PlaceItem extends React.Component {
 				displayName: React.PropTypes.string
 			})
 		}),
-		type: React.PropTypes.oneOf([ "current", "home", "work" ]).isRequired,
+		type: React.PropTypes.string.isRequired,
 		onRemove: React.PropTypes.func.isRequired
 	};
 
 	_handleRemove = () => {
 		this.props.onRemove(this.props.place, this.props.type);
+	};
+
+	_capitalizeText = text => {
+		return text
+			.replace(/-+/g, " ")
+			.replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1))
+			.trim();
 	};
 
 	render() {
@@ -97,8 +105,8 @@ export default class PlaceItem extends React.Component {
 					/>
 				</View>
 				<View style={styles.nameContainer}>
-					<AppText style={styles.name} numberOfLines={1}>{place.guides ? place.guides.displayName : place.id}</AppText>
-					<AppText style={styles.type}>{type.charAt(0).toUpperCase() + type.slice(1)}</AppText>
+					<AppText style={styles.name} numberOfLines={1}>{place.guides ? place.guides.displayName : this._capitalizeText(place.id)}</AppText>
+					<AppText style={styles.type} numberOfLines={1}>{this._capitalizeText(type)}</AppText>
 				</View>
 				<TouchableOpacity onPress={this._handleRemove}>
 					<View style={styles.closeContainer}>

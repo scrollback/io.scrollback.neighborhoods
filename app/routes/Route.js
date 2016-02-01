@@ -150,6 +150,11 @@ export function convertRouteToState(route: Route): NavigationState {
 		props: route.props
 	};
 
+	const account = {
+		name: "account",
+		props: route.props
+	};
+
 	switch (route.name) {
 	case "room":
 	case "notes":
@@ -160,6 +165,15 @@ export function convertRouteToState(route: Route): NavigationState {
 				route
 			],
 			index: state.index + 1
+		};
+	case "places":
+		return {
+			routes: [
+				...state.routes,
+				account,
+				route
+			],
+			index: state.index + 2
 		};
 	case "chat":
 	case "compose":

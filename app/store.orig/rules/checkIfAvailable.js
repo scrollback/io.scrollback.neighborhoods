@@ -5,59 +5,28 @@ import userUtils from "../../lib/user-utils";
 const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
 const GPS_ENABLE_OK = "Go to settings";
 const GPS_ENABLE_CANCEL = "Not now";
-const NUM_ROOMS_TO_LOAD = 3;
 
 const {
 	Alert
 } = React;
 
 module.exports = function(core) {
-	function loadNearByRooms(position, memberOf) {
-		const limit = memberOf.length ? NUM_ROOMS_TO_LOAD : null;
-
+	function checkIfAvailable(position) {
 		core.emit("getRooms", {
 			location: {
 				lat: position.coords.latitude,
 				lon: position.coords.longitude
 			},
-			limit
+			limit: 1
 		}, (err, res) => {
 			if (err) {
-				core.emit("setstate", {
-					app: {
-						nearByRooms: []
-					}
-				});
-
 				return;
 			}
 
-			if (res.results && res.results.length) {
+			if (!(res.results && res.results.length)) {
 				core.emit("setstate", {
 					app: {
-						nearByRooms: res.results
-					}
-				});
-			} else {
-				core.emit("getRooms", { ref: "open-house" }, (e, r) => {
-					if (e) {
-						core.emit("setstate", {
-							app: {
-								nearByRooms: [ "unavailable" ],
-								isAvailable: false
-							}
-						});
-
-						return;
-					}
-
-					if (r.results && r.results.length) {
-						core.emit("setstate", {
-							app: {
-								nearByRooms: r.results,
-								isAvailable: false
-							}
-						});
+						isAvailable: false
 					}
 				});
 			}
@@ -69,11 +38,7 @@ module.exports = function(core) {
 			return;
 		}
 
-		let memberOf;
-
-		memberOf = init.memberOf.map(room => room.id);
-
-		if (memberOf.length < 4) {
+		if (init.memberOf.length < 1) {
 			core.emit("setstate", {
 				app: {
 					nearByRooms: [ "missing" ]
@@ -84,12 +49,12 @@ module.exports = function(core) {
 				// Get current position
 				const position = await Geolocation.getCurrentPosition();
 
-				loadNearByRooms(position, memberOf);
+				checkIfAvailable(position);
 			} catch (e) {
 				// Watch for position change
 				const watchID = Geolocation.watchPosition(p => {
 					if (p) {
-						loadNearByRooms(p, memberOf);
+						checkIfAvailable(p);
 						Geolocation.clearWatch(watchID);
 					}
 				});
@@ -101,16 +66,7 @@ module.exports = function(core) {
 					Alert.alert(
 						null, GPS_ENABLE_MESSAGE,
 						[
-							{
-								text: GPS_ENABLE_CANCEL,
-								onPress: () => {
-									core.emit("setstate", {
-										app: {
-											nearByRooms: []
-										}
-									});
-								}
-							},
+							{ text: GPS_ENABLE_CANCEL },
 							{
 								text: GPS_ENABLE_OK,
 								onPress: () => Geolocation.showGPSSettings()

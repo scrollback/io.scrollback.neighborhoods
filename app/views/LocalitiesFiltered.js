@@ -1,5 +1,5 @@
 import React from "react-native";
-import LocalityItemContainer from "../containers/LocalityItemContainer";
+import LocalityItem from "./LocalityItem";
 import ListHeader from "./ListHeader";
 import SearchableList from "./SearchableList";
 import StatusbarWrapper from "./StatusbarWrapper";
@@ -30,7 +30,7 @@ export default class LocalitiesFiltered extends React.Component {
 		}
 
 		return (
-			<LocalityItemContainer
+			<LocalityItem
 				key={room.id}
 				room={room}
 				onSelect={this.props.onSelectItem}

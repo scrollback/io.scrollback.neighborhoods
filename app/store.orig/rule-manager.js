@@ -10,5 +10,5 @@ module.exports = (...args) => {
 	require("./rules/removeRelations")(...args);
 	require("./rules/manageNotes")(...args);
 	require("./rules/clearQueuedActions")(...args);
-	require("./rules/loadNearByRooms")(...args);
+	require("./rules/checkIfAvailable")(...args);
 };

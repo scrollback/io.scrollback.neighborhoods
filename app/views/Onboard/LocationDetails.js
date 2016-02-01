@@ -22,24 +22,19 @@ const styles = StyleSheet.create({
 	},
 
 	inner: {
-		padding: 15,
-		alignItems: "center",
+		padding: 16,
+		alignItems: "stretch",
 		justifyContent: "center"
 	},
 
 	places: {
-		height: 210,
-		width: 240
+		marginHorizontal: 8,
+		height: 216,
 	},
 });
 
 export default class LocationDetails extends React.Component {
 	static propTypes = {
-		place: React.PropTypes.shape({
-			guides: React.PropTypes.shape({
-				displayName: React.PropTypes.string
-			})
-		}),
 		places: React.PropTypes.array.isRequired,
 		error: React.PropTypes.object,
 		isLoading: React.PropTypes.bool,
@@ -53,7 +48,7 @@ export default class LocationDetails extends React.Component {
 			<View style={styles.container}>
 				<StatusbarWrapper />
 				<ScrollView contentContainerStyle={[ styles.container, styles.inner ]}>
-					<OnboardTitle>Tell us a bit more?</OnboardTitle>
+					<OnboardTitle>Pick neighborhoods to join</OnboardTitle>
 
 					<PlaceManager
 						style={styles.places}
@@ -61,10 +56,7 @@ export default class LocationDetails extends React.Component {
 						onChange={this.props.onChangePlace}
 					/>
 
-					<OnboardError
-						message={this.props.error ? this.props.error.message : null}
-						hint="PS: We are not stalking. This is to help you find relevant communities! 😊"
-					/>
+					<OnboardError message={this.props.error ? this.props.error.message : null} />
 				</ScrollView>
 				<NextButton
 					label="Get started"

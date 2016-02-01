@@ -32,5 +32,6 @@ export default class AppText extends React.Component {
 }
 
 AppText.propTypes = {
-	children: React.PropTypes.node.isRequired
+	children: React.PropTypes.node.isRequired,
+	style: Text.propTypes.style
 };

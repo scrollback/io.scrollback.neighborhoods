@@ -7,9 +7,7 @@ import store from "../store/store";
 
 class LocalitiesContainer extends React.Component {
 	state = {
-		data: {
-			following: [ "missing" ]
-		}
+		data: [ "missing" ]
 	};
 
 	componentDidMount() {
@@ -31,17 +29,18 @@ class LocalitiesContainer extends React.Component {
 	}
 
 	_updateData = () => {
+		let data;
 		const following = store.getRelatedRooms().filter(room => room.role && room.role !== "none");
-		const followingRooms = following.map(room => room.id);
-		const nearby = store.getNearByRooms().filter(room => followingRooms.indexOf(room.id) === -1);
 		const available = store.get("app", "isAvailable") !== false;
 
-		this.setState({
-			data: {
-				following,
-				nearby
-			},
+		if (available) {
+			data = following;
+		} else {
+			data = [ { id: "open-house" } ];
+		}
 
+		this.setState({
+			data,
 			available
 		});
 	};

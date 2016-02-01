@@ -15,6 +15,7 @@ const {
 	StyleSheet,
 	View,
 	ListView,
+	InteractionManager,
 } = React;
 
 const styles = StyleSheet.create({
@@ -44,7 +45,7 @@ export default class SearchableList extends React.Component {
 	};
 
 	componentDidMount() {
-		this._fetchResults();
+		InteractionManager.runAfterInteractions(() => this._fetchResults());
 	}
 
 	_dataSource = new ListView.DataSource({

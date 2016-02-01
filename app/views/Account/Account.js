@@ -78,7 +78,7 @@ export default class Account extends React.Component {
 		this._pushNotificationEnabledKey = "enabled";
 
 		this.state = {
-			pushNotificationEnabled: true
+			pushNotificationEnabled: true,
 		};
 	}
 
@@ -106,6 +106,12 @@ export default class Account extends React.Component {
 		user.description = text;
 
 		this._saveUserDebounced(user);
+	};
+
+	_handleManagePlaces = () => {
+		this.props.onNavigation(new NavigationActions.Push({
+			name: "places",
+		}));
 	};
 
 	_handlePushNotificationChange = value => {
@@ -208,7 +214,7 @@ export default class Account extends React.Component {
 							nick={user.id}
 						/>
 						<View style={styles.info}>
-							<AppText style={styles.nick}>{user.id}</AppText>
+							<AppText style={styles.nick}>{user.guides && user.guides.fullname ? `${user.guides.fullname} (${user.id})` : user.id}</AppText>
 							<AppText style={styles.email}>{user.identities[0].slice(7)}</AppText>
 						</View>
 					</View>
@@ -225,6 +231,13 @@ export default class Account extends React.Component {
 						onChangeText={this._handleStatusChange}
 					/>
 				</View>
+				<TouchFeedback onPress={this._handleManagePlaces}>
+					<View style={styles.item}>
+						<View style={styles.itemLabel}>
+							<AppText style={styles.itemText}>Manage my places</AppText>
+						</View>
+					</View>
+				</TouchFeedback>
 				<View style={styles.item}>
 					<View style={styles.itemLabel}>
 						<AppText style={styles.itemText}>Push notifications</AppText>

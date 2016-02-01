@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		lineHeight: 42,
 		margin: 16,
+		textAlign: "center",
 	},
 });
 
@@ -25,7 +26,8 @@ type Props = {
 const OnboardTitle = (props: Props) => <AppText style={[ styles.title, props.style ]}>{props.children}</AppText>;
 
 OnboardTitle.propTypes = {
-	children: React.PropTypes.node.isRequired
+	children: React.PropTypes.node.isRequired,
+	style: AppText.propTypes.style
 };
 
 export default OnboardTitle;

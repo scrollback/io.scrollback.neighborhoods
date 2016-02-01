@@ -1,6 +1,6 @@
 import core from "./core";
 
-function emit(type, params = {}) {
+export function emit(type, params = {}) {
 	return new Promise((resolve, reject) => {
 		core.emit(type, params, (err, res) => {
 			if (err) {
@@ -12,11 +12,11 @@ function emit(type, params = {}) {
 	});
 }
 
-function query(...args) {
+export function query(...args) {
 	return emit(...args).then(res => res.results);
 }
 
-function dispatch(name, params = {}, prio = 1) {
+export function dispatch(name, params = {}, prio = 1) {
 	return new Promise(async (resolve, reject) => {
 		const down = name + "-dn";
 

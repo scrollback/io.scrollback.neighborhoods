@@ -8,19 +8,34 @@ import StatesFilteredContainer from "../../containers/StatesFilteredContainer";
 import Modal from "../Modal";
 
 const {
-	View
+	View,
+	InteractionManager
 } = React;
 
 type Place = {
 	id: string;
 }
 
-const TYPES = [ "current", "work", "home" ];
-const LABELS = {
-	current: "Add where you live",
-	work: "Add where you work",
-	home: "Add your hometown",
-};
+const TYPES = [
+	{
+		type: "home",
+		title: "Home",
+		label: "Add where you live",
+		hint: "Join your neighborhood group"
+	},
+	{
+		type: "work",
+		title: "Work",
+		label: "Add where you work or study",
+		hint: "Join your office or campus group"
+	},
+	{
+		type: "state",
+		title: "Hometown",
+		label: "Add your hometown",
+		hint: "Join people from your state in the city"
+	}
+];
 
 export default class PlaceManager extends React.Component {
 
@@ -28,53 +43,44 @@ export default class PlaceManager extends React.Component {
 		onChange: React.PropTypes.func.isRequired,
 		places: React.PropTypes.arrayOf(React.PropTypes.shape({
 			place: React.PropTypes.object,
-			type: React.PropTypes.oneOf(TYPES)
+			type: React.PropTypes.oneOf([ "home", "work", "state" ])
 		}))
-	};
-
-	_getNextType = (places) => {
-		const placeTypes = places.map(p => p.type);
-
-		for (let i = 0, l = TYPES.length; i < l; i++) {
-			if (placeTypes.indexOf(TYPES[i]) === -1) {
-				return TYPES[i];
-			}
-		}
 	};
 
 	_handleDismissModal = () => {
 		Modal.renderComponent(null);
 	};
 
-	_handleSelectItem = (place: Place) => {
-		const { places } = this.props;
-
-		this.props.onChange([ ...places, {
-			place,
-			type: this._getNextType(places)
-		} ]);
+	_handleSelectItem = (type: string, place: Place) => {
 		this._handleDismissModal();
+
+		InteractionManager.runAfterInteractions(() => {
+			const { places } = this.props;
+
+			this.props.onChange([ ...places, {
+				place,
+				type
+			} ]);
+		});
 	};
 
 	_handleRemoveLocality = (place: Place, type: string) => {
 		this.props.onChange(this.props.places.filter(it => !(it.place.id === place.id && it.type === type)));
 	};
 
-	_handlePress = () => {
-		const next = this._getNextType(this.props.places);
-
-		if (next === "home") {
+	_handlePress = type => {
+		if (type === "state") {
 			Modal.renderComponent(
 				<StatesFilteredContainer
 					onDismiss={this._handleDismissModal}
-					onSelectItem={this._handleSelectItem}
+					onSelectItem={place => this._handleSelectItem(type, place)}
 				/>
 			);
 		} else {
 			Modal.renderComponent(
 				<LocalitiesFilteredContainer
 					onDismiss={this._handleDismissModal}
-					onSelectItem={this._handleSelectItem}
+					onSelectItem={place => this._handleSelectItem(type, place)}
 				/>
 			);
 		}
@@ -82,19 +88,37 @@ export default class PlaceManager extends React.Component {
 
 	render() {
 		const { places } = this.props;
-		const next = this._getNextType(places);
+
+		const placesMap = {};
+
+		for (let i = 0, l = places.length; i < l; i++) {
+			placesMap[places[i].type] = places[i].place;
+		}
 
 		return (
 			<View {...this.props}>
-				{places.map(item => (
-					<PlaceItem
-						key={`${item.place.id}:${item.type}`}
-						place={item.place}
-						type={item.type}
-						onRemove={this._handleRemoveLocality}
-					/>
-				))}
-				{next ? <PlaceButton label={LABELS[next]} onPress={this._handlePress} /> : null}
+				{TYPES.map(item => {
+					if (placesMap[item.type]) {
+						return (
+							<PlaceItem
+								key={item.type}
+								type={item.type}
+								place={placesMap[item.type]}
+								onRemove={this._handleRemoveLocality}
+							/>
+						);
+					}
+
+					return (
+						<PlaceButton
+							key={item.type}
+							type={item.type}
+							label={item.label}
+							hint={item.hint}
+							onPress={this._handlePress}
+						/>
+					);
+				})}
 			</View>
 		);
 	}
