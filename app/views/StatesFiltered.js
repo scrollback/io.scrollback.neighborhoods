@@ -1,12 +1,13 @@
 import React from "react-native";
 import StateItem from "./StateItem";
 import SearchableList from "./SearchableList";
-import StatusbarContainer from "./StatusbarContainer";
+import StatusbarWrapper from "./StatusbarWrapper";
 import ListHeader from "./ListHeader";
 import Colors from "../../Colors.json";
 
 const {
-	StyleSheet
+	StyleSheet,
+	View,
 } = React;
 
 const styles = StyleSheet.create({
@@ -41,7 +42,8 @@ export default class StatesFiltered extends React.Component {
 
 	render() {
 		return (
-			<StatusbarContainer style={styles.container}>
+			<View style={styles.container}>
+				<StatusbarWrapper />
 				<SearchableList
 					getResults={this.props.getResults}
 					renderRow={this._renderRow}
@@ -49,7 +51,7 @@ export default class StatesFiltered extends React.Component {
 					onDismiss={this.props.onDismiss}
 					searchHint="Type a place to search"
 				/>
-			</StatusbarContainer>
+			</View>
 		);
 	}
 }

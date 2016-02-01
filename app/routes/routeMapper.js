@@ -2,7 +2,7 @@
 
 import type { Route } from "./Route";
 import NotificationIcon from "../views/NotificationIcon";
-import AccountButton from "../views/AccountButton";
+import AccountButton from "../views/Account/AccountButton";
 import DiscussionsDetailsContainer from "../containers/DiscussionDetailsContainer";
 import ChatContainer from "../containers/ChatContainer";
 import ChatTitleContainer from "../containers/ChatTitleContainer";

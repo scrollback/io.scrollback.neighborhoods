@@ -15,7 +15,7 @@ const {
 const styles = StyleSheet.create({
 	animatedView: {
 		flex: 1,
-	}
+	},
 });
 
 let _navState, _onNavigation;
@@ -38,6 +38,10 @@ BackAndroid.addEventListener("hardwareBackPress", () => {
 
 const renderNavigator = (): Function => {
 	return (navState, onNavigation) => {
+		if (!navState) {
+			return null;
+		}
+
 		// Hide modal on navigate
 		if (Modal.isShown()) {
 			Modal.renderComponent(null);
@@ -45,10 +49,6 @@ const renderNavigator = (): Function => {
 
 		_navState = navState;
 		_onNavigation = onNavigation;
-
-		if (!navState) {
-			return null;
-		}
 
 		return (
 			<NavigationAnimatedView

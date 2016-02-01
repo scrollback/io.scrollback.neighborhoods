@@ -3,7 +3,7 @@ import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Colors from "../../Colors.json";
 import AppText from "./AppText";
 import AppTextInput from "./AppTextInput";
-import StatusbarContainer from "./StatusbarContainer";
+import StatusbarWrapper from "./StatusbarWrapper";
 import AppbarSecondary from "./AppbarSecondary";
 import AppbarTouchable from "./AppbarTouchable";
 import AppbarIcon from "./AppbarIcon";
@@ -336,7 +336,9 @@ export default class StartDiscussionButton extends React.Component {
 		const isDisabled = !(this.state.title && (this.state.text || this.state.uploadResult) && !isLoading);
 
 		return (
-			<StatusbarContainer style={styles.container}>
+			<View style={styles.container}>
+				<StatusbarWrapper />
+
 				<AppbarSecondary>
 					<AppbarTouchable type="secondary" onPress={this.props.dismiss}>
 						<AppbarIcon name="close" style={styles.icon} />
@@ -422,7 +424,7 @@ export default class StartDiscussionButton extends React.Component {
 						}
 					</View>
 				</View>
-			</StatusbarContainer>
+			</View>
 		);
 	}
 }

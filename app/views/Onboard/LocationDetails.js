@@ -2,7 +2,7 @@
 
 import React from "react-native";
 import NextButton from "./NextButton";
-import StatusbarContainer from "../StatusbarContainer";
+import StatusbarWrapper from "../StatusbarWrapper";
 import OnboardTitle from "./OnboardTitle";
 import OnboardError from "./OnboardError";
 import PlaceManager from "../Account/PlaceManager";
@@ -12,6 +12,7 @@ import Colors from "../../../Colors.json";
 const {
 	ScrollView,
 	StyleSheet,
+	View
 } = React;
 
 const styles = StyleSheet.create({
@@ -49,7 +50,8 @@ export default class LocationDetails extends React.Component {
 
 	render() {
 		return (
-			<StatusbarContainer style={styles.container}>
+			<View style={styles.container}>
+				<StatusbarWrapper />
 				<ScrollView contentContainerStyle={[ styles.container, styles.inner ]}>
 					<OnboardTitle>Tell us a bit more?</OnboardTitle>
 
@@ -71,7 +73,7 @@ export default class LocationDetails extends React.Component {
 					onPress={this.props.onComplete}
 				/>
 				<Modal />
-			</StatusbarContainer>
+			</View>
 		);
 	}
 }

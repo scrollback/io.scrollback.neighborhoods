@@ -3,7 +3,7 @@
 import React from "react-native";
 import NextButton from "./NextButton";
 import AppTextInput from "../AppTextInput";
-import StatusbarContainer from "../StatusbarContainer";
+import StatusbarWrapper from "../StatusbarWrapper";
 import KeyboardSpacer from "../KeyboardSpacer";
 import OnboardTitle from "./OnboardTitle";
 import OnboardParagraph from "./OnboardParagraph";
@@ -102,7 +102,8 @@ export default class UserDetails extends React.Component {
 		const name_color = this.props.error && this.props.error.field === "name" ? Colors.error : Colors.placeholder;
 
 		return (
-			<StatusbarContainer style={styles.container}>
+			<View style={styles.container}>
+				<StatusbarWrapper />
 				<ScrollView keyboardShouldPersistTaps contentContainerStyle={[ styles.container, styles.inner ]}>
 					<OnboardTitle>Hey, Neighbor!</OnboardTitle>
 					<View style={styles.avatarContainer}>
@@ -145,7 +146,7 @@ export default class UserDetails extends React.Component {
 					<KeyboardSpacer /> :
 					null // Android seems to Pan the screen on < Kitkat
 				}
-			</StatusbarContainer>
+			</View>
 		);
 	}
 }

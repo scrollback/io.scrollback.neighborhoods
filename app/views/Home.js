@@ -1,21 +1,20 @@
 /* @flow */
 
 import React from "react-native";
-import Colors from "../../Colors.json";
-import Modal from "./Modal";
 import PersistentNavigator from "../navigation/PersistentNavigator";
-import StatusbarContainer from "./StatusbarContainer";
+import StatusbarWrapper from "./StatusbarWrapper";
 import KeyboardSpacer from "./KeyboardSpacer";
+import Modal from "./Modal";
 import VersionCodes from "../modules/VersionCodes";
+import Colors from "../../Colors.json";
 import { getHomeRoute, convertRouteToState, convertURLToState } from "../routes/Route";
 
 const {
-	Platform,
 	NavigationState,
-	StyleSheet
+	StyleSheet,
+	Platform,
+	View
 } = React;
-
-const PERSISTANCE_KEY = __DEV__ ? "FLAT_PERSISTENCE_0" : `FLAT_PERSISTENCE_${Math.round(Date.now() / (1000 * 60 * 15))}`;
 
 const styles = StyleSheet.create({
 	container: {
@@ -23,15 +22,18 @@ const styles = StyleSheet.create({
 	},
 	statusbar: {
 		backgroundColor: Colors.primary
-	}
+	},
 });
+
+const PERSISTANCE_KEY = __DEV__ ? "FLAT_PERSISTENCE_0" : `FLAT_PERSISTENCE_${Math.round(Date.now() / (1000 * 60 * 15))}`;
 
 const Home = (props: { initialURL: string }) => {
 	const { initialURL } = props;
 	const { index, routes } = initialURL ? convertURLToState(initialURL) : convertRouteToState(getHomeRoute());
 
 	return (
-		<StatusbarContainer style={styles.container} statusbarStyle={styles.statusbar}>
+		<View style={styles.container}>
+			<StatusbarWrapper style={styles.statusbar} />
 			<PersistentNavigator
 				initialState={new NavigationState(routes, index)}
 				persistenceKey={initialURL ? null : PERSISTANCE_KEY}
@@ -41,9 +43,8 @@ const Home = (props: { initialURL: string }) => {
 				<KeyboardSpacer /> :
 				null // Android seems to Pan the screen on < Kitkat
 			}
-
 			<Modal />
-		</StatusbarContainer>
+		</View>
 	);
 };
 

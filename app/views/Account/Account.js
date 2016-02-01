@@ -1,15 +1,15 @@
 import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import PageLoading from "./PageLoading";
-import PageEmpty from "./PageEmpty";
-import AvatarRound from "./AvatarRound";
-import GrowingTextInput from "./GrowingTextInput";
-import Modal from "./Modal";
+import Colors from "../../../Colors.json";
+import AppText from "../AppText";
+import PageLoading from "../PageLoading";
+import PageEmpty from "../PageEmpty";
+import AvatarRound from "../AvatarRound";
+import GrowingTextInput from "../GrowingTextInput";
+import Modal from "../Modal";
 import AccountPhotoChooser from "./AccountPhotoChooser";
-import TouchFeedback from "./TouchFeedback";
-import PushNotification from "../modules/PushNotification";
-import debounce from "../lib/debounce";
+import TouchFeedback from "../TouchFeedback";
+import PushNotification from "../../modules/PushNotification";
+import debounce from "../../lib/debounce";
 
 const {
 	StyleSheet,

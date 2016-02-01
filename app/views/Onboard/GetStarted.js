@@ -2,7 +2,7 @@
 
 import React from "react-native";
 import NextButton from "./NextButton";
-import StatusbarContainer from "../StatusbarContainer";
+import StatusbarWrapper from "../StatusbarWrapper";
 import OnboardTitle from "./OnboardTitle";
 import OnboardParagraph from "./OnboardParagraph";
 import Colors from "../../../Colors.json";
@@ -30,13 +30,14 @@ const styles = StyleSheet.create({
 });
 
 const UserDetails = (props: { onComplete: Function }) => (
-	<StatusbarContainer style={styles.container}>
+	<View style={styles.container}>
+		<StatusbarWrapper />
 		<View style={[ styles.container, styles.inner ]}>
 			<OnboardTitle style={styles.text}>You are all set!</OnboardTitle>
 			<OnboardParagraph style={styles.text}>Go, be the good neighbor you are.</OnboardParagraph>
 		</View>
 		<NextButton label="Let's go" onPress={props.onComplete} />
-	</StatusbarContainer>
+	</View>
 );
 
 UserDetails.propTypes = {
