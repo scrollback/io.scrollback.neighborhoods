@@ -3,14 +3,25 @@
 import React from "react-native";
 import SignUp from "../views/Onboard/SignUp";
 import Container from "./Container";
+import Geolocation from "../modules/Geolocation";
 import store from "../store/store";
+
+const {
+	Alert
+} = React;
+
+const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
+const GPS_ENABLE_OK = "Go to settings";
+const GPS_ENABLE_CANCEL = "Not now";
 
 class SignUpContainer extends React.Component {
 	state = {
-		user: null
+		user: null,
+		skipped: false
 	};
 
 	componentDidMount() {
+		this.runAfterInteractions(this._checkPosition);
 		this.runAfterInteractions(this._updateData);
 
 		this.handle("statechange", changes => {
@@ -25,6 +36,58 @@ class SignUpContainer extends React.Component {
 			}
 		});
 	}
+
+	_checkIfAvailable = async (position) => {
+		try {
+			const results = await this.query("getRooms", {
+				location: {
+					lat: position.coords.latitude,
+					lon: position.coords.longitude
+				},
+				limit: 1
+			});
+
+			if (!results.length) {
+				this.setState({
+					skipped: true
+				});
+			}
+		} catch (e) {
+			// Ignore
+		}
+	};
+
+	_checkPosition = async () => {
+		try {
+			// Get current position
+			const position = await Geolocation.getCurrentPosition();
+
+			this._checkIfAvailable(position);
+		} catch (e) {
+			// Watch for position change
+			const watchID = Geolocation.watchPosition(p => {
+				if (p) {
+					this._checkIfAvailable(p);
+					Geolocation.clearWatch(watchID);
+				}
+			});
+
+			// Request to enable GPS
+			const isEnabled = await Geolocation.isGPSEnabled();
+
+			if (!isEnabled) {
+				Alert.alert(null, GPS_ENABLE_MESSAGE,
+					[
+						{ text: GPS_ENABLE_CANCEL },
+						{
+							text: GPS_ENABLE_OK,
+							onPress: () => Geolocation.showGPSSettings()
+						},
+					]
+				);
+			}
+		}
+	};
 
 	_updateData = () => {
 		this.setState({
@@ -61,7 +124,8 @@ class SignUpContainer extends React.Component {
 				identities: [ user.identities[user.identities.length - 1] ],
 				picture: user.params.pictures && user.params.pictures[0] || "",
 				params: {
-					pictures: user.params.pictures
+					pictures: user.params.pictures,
+					skipped: this.state.skipped
 				},
 				guides: {
 					fullname: name
