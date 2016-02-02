@@ -43,7 +43,7 @@ class ChatMessagesContainer extends React.Component {
 					this._updateData();
 				}
 			} else {
-				this._onEndReached();
+				this._handleEndReached();
 			}
 		});
 	}
@@ -75,7 +75,7 @@ class ChatMessagesContainer extends React.Component {
 		});
 	};
 
-	_onEndReached = () => {
+	_handleEndReached = () => {
 		const key = this.props.room + "_" + this.props.thread + "_requested";
 		const requested = store.get("nav", key);
 		const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
@@ -96,7 +96,7 @@ class ChatMessagesContainer extends React.Component {
 			<ChatMessages
 				{...this.props}
 				{...this.state}
-				onEndReached={this._onEndReached}
+				onEndReached={this._handleEndReached}
 			/>
 		);
 	}

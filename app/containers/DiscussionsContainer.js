@@ -39,10 +39,8 @@ class DiscussionsContainer extends React.Component {
 					this._updateData();
 				}
 			} else {
-				this._onEndReached();
+				this._handleEndReached();
 			}
-
-			this._autoJoin();
 		});
 	}
 
@@ -56,7 +54,7 @@ class DiscussionsContainer extends React.Component {
 		});
 	};
 
-	_onEndReached = () => {
+	_handleEndReached = () => {
 		const key = this.props.room + "_requested";
 		const requested = store.get("nav", key);
 		const threads = store.getThreads(this.props.room, null, -requested);
@@ -72,32 +70,12 @@ class DiscussionsContainer extends React.Component {
 		});
 	};
 
-	_autoJoin = async () => {
-		const room = store.getRoom(this.props.room);
-
-		if (typeof room !== "object" || room === null) {
-			return;
-		}
-
-		if (room.guides && room.guides.alsoAutoFollow) {
-			// Auto join room
-			try {
-				await Promise.all(
-					this.dispatch("join", { to: room.id }),
-					this.dispatch("join", { to: room.guides.alsoAutoFollow })
-				);
-			} catch (err) {
-				// Do nothing
-			}
-		}
-	};
-
 	render() {
 		return (
 			<Discussions
 				{...this.props}
 				{...this.state}
-				onEndReached={this._onEndReached}
+				onEndReached={this._handleEndReached}
 			/>
 		);
 	}
