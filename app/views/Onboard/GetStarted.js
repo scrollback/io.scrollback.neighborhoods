@@ -10,30 +10,42 @@ import Colors from "../../../Colors.json";
 const {
 	View,
 	StyleSheet,
+	Image,
 } = React;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Colors.white
+		backgroundColor: Colors.white,
 	},
 
 	inner: {
 		padding: 15,
 		alignItems: "center",
-		justifyContent: "center"
+		justifyContent: "center",
 	},
 
 	text: {
-		marginVertical: 8
-	}
+		marginVertical: 8,
+	},
+
+	image: {
+		margin: 8,
+	},
 });
 
 const UserDetails = (props: { onComplete: Function }) => (
 	<View style={styles.container}>
 		<StatusbarWrapper />
 		<View style={[ styles.container, styles.inner ]}>
-			<OnboardTitle style={styles.text}>You are all set!</OnboardTitle>
+			<OnboardTitle style={styles.text}>
+				{
+					props.isSkipped ?
+					"Join the Open House" :
+					"You are all set!"
+				}
+			</OnboardTitle>
+			<Image style={styles.image} source={require("../../../assets/open-door.png")} />
 			<OnboardParagraph style={styles.text}>
 				{
 					props.isSkipped ?
