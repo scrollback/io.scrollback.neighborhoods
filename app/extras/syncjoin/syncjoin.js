@@ -2,7 +2,7 @@
 
 import core from "../../store/core";
 import store from "../../store/store";
-import { dispatch } from "../../store/actions";
+import { query, dispatch } from "../../store/actions";
 
 function initialize() {
 	core.on("user-dn", async action => {
@@ -12,15 +12,33 @@ function initialize() {
 		const rooms = places.filter(it => it.type !== "state").map(it => it.id);
 		const states = places.filter(it => it.type === "state").map(it => it.id);
 
+		const roomsData = {};
+
+		try {
+			const results = await Promise.all(rooms.map(id => query("getRooms", { ref: id })));
+
+			for (let i = 0, l = results.length; i < l; i++) {
+				if (results[i] && results[i].length) {
+					const room = results[i][0];
+
+					if (room) {
+						roomsData[room.id] = room;
+					}
+				}
+			}
+		} catch (e) {
+			// ignore
+		}
+
 		const parentRooms = rooms
 			.map(id => {
-				const room = store.getRoom(id);
+				const room = roomsData[id];
 
 				return room && room.guides ? room.guides.alsoAutoFollow : null;
 			})
 			.filter((it, i, self) => it && self.indexOf(it) === i);
 
-		const roomsToProcess = rooms.slice().concat(parentRooms);
+		const roomsToProcess = [ ...rooms, ...parentRooms ];
 		const statesToProcess = states.length ? parentRooms.map(room => states[0] + "-in-" + room) : [];
 
 		const roomsSaved = [ ...roomsToProcess, ...statesToProcess ];
