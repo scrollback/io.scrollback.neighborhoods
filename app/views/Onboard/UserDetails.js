@@ -130,6 +130,7 @@ export default class UserDetails extends React.Component {
 
 					<View style={styles.inputContainer}>
 						<AppTextInput
+							autoCapitalize="none"
 							autoCorrect={false}
 							maxLength={32}
 							placeholder="Username, e.g. barry43"
@@ -139,6 +140,7 @@ export default class UserDetails extends React.Component {
 							value={this.props.nick}
 						/>
 						<AppTextInput
+							autoCapitalize="words"
 							placeholder="Fullname, e.g. Barry Allen"
 							textAlign="center"
 							underlineColorAndroid={name_color}

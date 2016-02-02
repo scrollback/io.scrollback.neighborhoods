@@ -172,7 +172,9 @@ export default class SignUp extends React.Component {
 		this.props.skipRooms();
 	};
 
-	_handleChangeNick = (nick: string) => {
+	_handleChangeNick = (value: string) => {
+		const nick = value.toLowerCase();
+
 		this._checkNickName(nick);
 
 		let error = null;
