@@ -135,9 +135,7 @@ class SignUpContainer extends React.Component {
 	};
 
 	_cancelSignUp = () => {
-		this.setState({
-			user: null
-		});
+		this.emit("logout");
 	};
 
 	_saveParams = (params: Object) => {

@@ -2,12 +2,13 @@
 
 import React from "react-native";
 import NextButton from "./NextButton";
-import AppTextInput from "../AppTextInput";
 import StatusbarWrapper from "../StatusbarWrapper";
+import AppTextInput from "../AppTextInput";
 import KeyboardSpacer from "../KeyboardSpacer";
 import OnboardTitle from "./OnboardTitle";
 import OnboardParagraph from "./OnboardParagraph";
 import OnboardError from "./OnboardError";
+import Icon from "../Icon";
 import VersionCodes from "../../modules/VersionCodes";
 import Facebook from "../../modules/Facebook";
 import Colors from "../../../Colors.json";
@@ -18,6 +19,7 @@ const {
 	Image,
 	StyleSheet,
 	Platform,
+	TouchableOpacity,
 } = React;
 
 const styles = StyleSheet.create({
@@ -27,7 +29,6 @@ const styles = StyleSheet.create({
 	},
 
 	inner: {
-		padding: 15,
 		alignItems: "center",
 		justifyContent: "center"
 	},
@@ -49,6 +50,15 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		width: 200,
 		marginHorizontal: 16,
+	},
+
+	closeButtonContainer: {
+		alignSelf: "flex-start"
+	},
+
+	closeButton: {
+		margin: 16,
+		color: Colors.fadedBlack
 	},
 });
 
@@ -103,9 +113,16 @@ export default class UserDetails extends React.Component {
 
 		return (
 			<View style={styles.container}>
-				<StatusbarWrapper />
 				<ScrollView keyboardShouldPersistTaps contentContainerStyle={[ styles.container, styles.inner ]}>
-					<OnboardTitle>Hey, Neighbor!</OnboardTitle>
+					<StatusbarWrapper />
+					<TouchableOpacity style={styles.closeButtonContainer} onPress={this.props.cancelSignUp}>
+						<Icon
+							name="close"
+							size={24}
+							style={styles.closeButton}
+						/>
+					</TouchableOpacity>
+					<OnboardTitle>Create an Account!</OnboardTitle>
 					<View style={styles.avatarContainer}>
 						<Image style={styles.avatar} source={{ uri: this.props.user ? this.props.user.picture : null }} />
 					</View>
@@ -115,14 +132,14 @@ export default class UserDetails extends React.Component {
 						<AppTextInput
 							autoCorrect={false}
 							maxLength={32}
-							placeholder="Your ninja nickname"
+							placeholder="Username, e.g. barry43"
 							textAlign="center"
 							underlineColorAndroid={nick_color}
 							onChangeText={this.props.onChangeNick}
 							value={this.props.nick}
 						/>
 						<AppTextInput
-							placeholder="Your fabulous fullname"
+							placeholder="Fullname, e.g. Barry Allen"
 							textAlign="center"
 							underlineColorAndroid={name_color}
 							onChangeText={this.props.onChangeName}
@@ -131,7 +148,7 @@ export default class UserDetails extends React.Component {
 					</View>
 
 					<OnboardError
-						hint="People on Hey, Neighbor! will know you by your nickname."
+						hint="People on Hey, Neighbor! will know you by your username."
 						message={this.props.error ? this.props.error.message : null}
 					/>
 					<KeyboardSpacer />
