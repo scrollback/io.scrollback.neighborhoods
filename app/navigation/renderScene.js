@@ -32,11 +32,7 @@ const renderScene = function(navState: Object, onNavigation: Function): Function
 		return (
 			<NavigationCard {...props}>
 				<View style={[ styles.container, route.fullscreen ? null : styles.normal ]}>
-					<RouteComponent
-						 {...route.props}
-						 style={styles.container}
-						 onNavigation={onNavigation}
-					/>
+					<RouteComponent {...route.props} onNavigation={onNavigation} />
 				</View>
 			</NavigationCard>
 		);
