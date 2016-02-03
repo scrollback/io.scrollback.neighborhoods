@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	threadSummary: {
 		fontSize: 16,
 		lineHeight: 24,
-		marginVertical: 8
+		margin: 0,
 	},
 	icon: {
 		color: Colors.fadedBlack
@@ -374,9 +374,7 @@ export default class StartDiscussionButton extends React.Component {
 							onChangeText={this._handleChangeText}
 							placeholder="And a short summary"
 							autoCapitalize="sentences"
-							initialHeight={29}
-							maxHeight={124}
-							style={[ styles.threadSummary, styles.entry ]}
+							inputStyle={[ styles.threadSummary, styles.entry ]}
 							underlineColorAndroid="transparent"
 						/>
 					}

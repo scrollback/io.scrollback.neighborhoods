@@ -17,9 +17,17 @@ export default class AppTextInput extends React.Component {
 		style: TextInput.propTypes.style
 	};
 
-	setNativeProps(nativeProps) {
+	setNativeProps = (nativeProps) => {
 		this._root.setNativeProps(nativeProps);
-	}
+	};
+
+	focus = (...args) => {
+		this._root.focus(...args);
+	};
+
+	blur = (...args) => {
+		this._root.blur(...args);
+	};
 
 	render() {
 		return (

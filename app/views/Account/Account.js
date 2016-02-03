@@ -210,8 +210,7 @@ export default class Account extends React.Component {
 						defaultValue={user.description}
 						placeholder="Status message"
 						autoCapitalize="sentences"
-						initialHeight={39}
-						maxHeight={88}
+						numberOfLines={5}
 						onChangeText={this._handleStatusChange}
 					/>
 				</View>

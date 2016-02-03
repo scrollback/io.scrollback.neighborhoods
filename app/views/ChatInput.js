@@ -27,7 +27,12 @@ const styles = StyleSheet.create({
 	inputContainer: {
 		flex: 1,
 		paddingHorizontal: 16,
-		paddingVertical: 10
+	},
+	input: {
+		paddingVertical: 8,
+		margin: 0,
+		backgroundColor: "transparent",
+		color: Colors.black,
 	},
 	iconContainer: {
 		alignItems: "center",
@@ -159,18 +164,17 @@ export default class ChatInput extends React.Component {
 				/>
 
 				<View style={styles.container}>
-					<View style={styles.inputContainer}>
-						<GrowingTextInput
-							ref={c => this._input = c}
-							value={this.state.text}
-							onChangeText={this._handleChangeText}
-							underlineColorAndroid="transparent"
-							placeholder="Write a message…"
-							autoCapitalize="sentences"
-							initialHeight={39}
-							maxHeight={154}
-						/>
-					</View>
+					<GrowingTextInput
+						ref={c => this._input = c}
+						value={this.state.text}
+						onChangeText={this._handleChangeText}
+						underlineColorAndroid="transparent"
+						placeholder="Write a message…"
+						autoCapitalize="sentences"
+						numberOfLines={7}
+						style={styles.inputContainer}
+						inputStyle={styles.input}
+					/>
 
 					<TouchFeedback
 						borderless
