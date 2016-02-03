@@ -56,14 +56,14 @@ export default class ChatInput extends React.Component {
 	}
 
 	set quotedText(text) {
-		this._computedAndSetText({
+		this._computeAndSetText({
 			replyTo: text.from,
 			quotedText: text.text
 		});
 	}
 
 	set replyTo(text) {
-		this._computedAndSetText({
+		this._computeAndSetText({
 			replyTo: text.from
 		});
 	}
@@ -129,15 +129,20 @@ export default class ChatInput extends React.Component {
 		});
 	};
 
-	_computedAndSetText = opts => {
+	_computeAndSetText = opts => {
 		let newValue = this.state.text;
+		let quotedText = opts.quotedText.replace(/\n/g, " ");
 
-		if (opts.quotedText) {
+		if (quotedText.length > 140) {
+			quotedText = quotedText.slice(0, 140) + "…";
+		}
+
+		if (quotedText) {
 			if (newValue) {
 				newValue += "\n\n";
 			}
 
-			newValue += "> " + (opts.replyTo ? "@" + opts.replyTo + " - " : "") + opts.quotedText + "\n\n";
+			newValue += "> " + (opts.replyTo ? "@" + opts.replyTo + " - " : "") + quotedText + "\n\n";
 		} else if (opts.replyTo) {
 			if (newValue) {
 				newValue += " ";
