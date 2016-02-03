@@ -1,17 +1,17 @@
 /* @flow */
 
 import React from "react-native";
-import ChatTitle from "../views/ChatTitle";
+import ShareButton from "../views/ShareButton";
 import Container from "./Container";
 import store from "../store/store";
 
-class ChatTitleContainer extends React.Component {
+class ShareButtonContainer extends React.Component {
 	static propTypes = {
 		thread: React.PropTypes.string.isRequired
 	};
 
 	state = {
-		thread: "missing"
+		thread: null
 	};
 
 	componentDidMount() {
@@ -35,8 +35,13 @@ class ChatTitleContainer extends React.Component {
 	};
 
 	render() {
-		return <ChatTitle {...this.props} {...this.state} />;
+		return (
+			<ShareButton
+				{...this.props}
+				{...this.state}
+			/>
+		);
 	}
 }
 
-export default Container(ChatTitleContainer);
+export default Container(ShareButtonContainer);

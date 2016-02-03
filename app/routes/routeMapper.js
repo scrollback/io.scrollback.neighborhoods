@@ -3,6 +3,7 @@
 import type { Route } from "./Route";
 import NotificationIcon from "../views/NotificationIcon";
 import AccountButton from "../views/Account/AccountButton";
+import ShareButtonContainer from "../containers/ShareButtonContainer";
 import DiscussionsDetailsContainer from "../containers/DiscussionDetailsContainer";
 import ChatContainer from "../containers/ChatContainer";
 import ChatTitleContainer from "../containers/ChatTitleContainer";
@@ -59,6 +60,7 @@ export default function(route: Route): RouteDescription {
 		return {
 			title: "Details",
 			component: DiscussionsDetailsContainer,
+			rightComponent: ShareButtonContainer
 		};
 	case "onboard":
 		return {
