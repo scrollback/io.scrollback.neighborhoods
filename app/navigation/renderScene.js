@@ -11,9 +11,12 @@ const {
 } = React;
 
 const styles = StyleSheet.create({
+	scene: {
+		backgroundColor: Colors.lightGrey
+	},
+
 	container: {
 		flex: 1,
-		backgroundColor: Colors.lightGrey
 	},
 
 	normal: {
@@ -31,8 +34,8 @@ const renderScene = function(navState: Object, onNavigation: Function): Function
 
 		return (
 			<NavigationCard {...props}>
-				<View style={[ styles.container, route.fullscreen ? null : styles.normal ]}>
-					<RouteComponent {...route.props} onNavigation={onNavigation} />
+				<View style={[ styles.container, styles.scene, route.fullscreen ? null : styles.normal ]}>
+					<RouteComponent {...route.props} style={[ styles.container, route.props ? route.props.style : null ]} onNavigation={onNavigation} />
 				</View>
 			</NavigationCard>
 		);
