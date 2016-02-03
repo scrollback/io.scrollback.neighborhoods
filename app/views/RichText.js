@@ -1,6 +1,7 @@
 import React from "react-native";
 import AppText from "./AppText";
 import Link from "./Link";
+import { buildLink } from "../lib/URL";
 import smiley from "../lib/smiley";
 
 const {
@@ -72,7 +73,7 @@ export default class RichText extends React.Component {
 									// a hashtag
 									items.push(<Link onOpen={onOpenLink} key={key}>{t}</Link>);
 								} else {
-									const url = Link.buildLink(t);
+									const url = buildLink(t);
 
 									if (url !== null) {
 										items.push(

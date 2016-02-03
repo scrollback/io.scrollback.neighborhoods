@@ -116,6 +116,7 @@ async function get(url) {
 	if (!/^https?:\/\//i.test(url)) {
 		throw new Error("URL must start with 'http://' or 'https://'");
 	}
+
 	const json = await storage.get(url);
 
 	if (typeof json !== "undefined") {

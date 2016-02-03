@@ -6,8 +6,8 @@ import Embed from "./Embed";
 import Modal from "./Modal";
 import Icon from "./Icon";
 import Time from "./Time";
-import Link from "./Link";
 import Linking from "../modules/Linking";
+import { parseURLs } from "../lib/URL";
 
 const {
 	Clipboard,
@@ -146,7 +146,7 @@ export default class ChatItem extends React.Component {
 		const { text, hidden, metadata, previousText, currentUser } = this.props;
 
 		const received = text.from !== currentUser;
-		const links = Link.parseLinks(text.text, 1);
+		const links = parseURLs(text.text, 1);
 
 		let cover;
 

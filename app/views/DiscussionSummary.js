@@ -1,7 +1,7 @@
 import React from "react-native";
 import CardSummary from "./CardSummary";
 import Embed from "./Embed";
-import Link from "./Link";
+import { parseURLs } from "../lib/URL";
 import textUtils from "../lib/text-utils";
 
 const {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 const DiscussionSummary = props => {
 	const trimmedText = props.text.trim();
 
-	const links = Link.parseLinks(trimmedText, 1);
+	const links = parseURLs(trimmedText, 1);
 	const metadata = textUtils.getMetadata(trimmedText);
 
 	let cover, hideSummary;
