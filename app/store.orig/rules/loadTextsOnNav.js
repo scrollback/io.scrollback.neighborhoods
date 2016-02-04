@@ -46,7 +46,7 @@ module.exports = function(core, config, store) {
 		const newState = { texts: {} };
 		const range = {};
 
-		if (texts.results && texts.results.length) {
+		if (texts.results) {
 			const key = texts.to + "_" + texts.thread;
 
 			newState.texts[key] = [];

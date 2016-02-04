@@ -33,11 +33,7 @@ class DiscussionsContainer extends React.Component {
 			const requested = store.get("nav", this.props.room + "_requested");
 
 			if (requested) {
-				const threads = store.getThreads(this.props.room, null, -requested);
-
-				if (threads.length) {
-					this._updateData();
-				}
+				this._updateData();
 			} else {
 				this._handleEndReached();
 			}

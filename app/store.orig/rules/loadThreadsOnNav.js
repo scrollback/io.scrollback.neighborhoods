@@ -44,7 +44,7 @@ module.exports = function(core, config, store) {
 		const newState = { threads: {} };
 		const range = {};
 
-		if (threads.results && threads.results.length) {
+		if (threads.results) {
 			newState.threads[threads.to] = [];
 
 			if (threads.before) {
