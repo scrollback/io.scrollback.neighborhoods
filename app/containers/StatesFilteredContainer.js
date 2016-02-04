@@ -41,7 +41,7 @@ class StatesFilteredContainer extends React.Component {
 		const data = filter ? STATES.filter(state => state.toLowerCase().indexOf(filter.toLowerCase()) > -1) : STATES;
 
 		return data.map(state => ({
-			id: state.toLowerCase().replace(/\s+/, "-"),
+			id: state.toLowerCase().replace(/\s+/g, "-"),
 			guides: {
 				displayName: state
 			}
