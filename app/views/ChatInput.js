@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from "react-native";
 import Colors from "../../Colors.json";
 import Icon from "./Icon";
@@ -131,9 +133,9 @@ export default class ChatInput extends React.Component {
 
 	_computeAndSetText = opts => {
 		let newValue = this.state.text;
-		let quotedText = opts.quotedText.replace(/\n/g, " ");
+		let quotedText = opts.quotedText ? opts.quotedText.replace(/\n/g, " ") : null;
 
-		if (quotedText.length > 140) {
+		if (quotedText && quotedText.length > 140) {
 			quotedText = quotedText.slice(0, 140) + "…";
 		}
 
