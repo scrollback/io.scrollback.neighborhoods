@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 
 function clone(obj) {
 	var tmp;
 
-	if (obj === null || typeof obj !== "object") {
+	if (obj === null || typeof obj !== 'object') {
 		return obj;
 	}
 
@@ -32,7 +32,7 @@ function get(obj) {
 	var keys = Array.prototype.slice.call(arguments, 1);
 
 	for (var i = 0, l = keys.length; i < l; i++) {
-		if (obj === null || typeof obj !== "object") {
+		if (obj === null || typeof obj !== 'object') {
 			return;
 		}
 
@@ -43,7 +43,7 @@ function get(obj) {
 }
 
 function equal(o1, o2) {
-	if (typeof o1 !== "object" || typeof o2 !== "object" || o1 === null || o2 === null) {
+	if (typeof o1 !== 'object' || typeof o2 !== 'object' || o1 === null || o2 === null) {
 		return o1 === o2;
 	}
 
@@ -61,7 +61,7 @@ function equal(o1, o2) {
 }
 
 function deepEqual(o1, o2) {
-	if (typeof o1 !== "object" || typeof o2 !== "object" || o1 === null || o2 === null) {
+	if (typeof o1 !== 'object' || typeof o2 !== 'object' || o1 === null || o2 === null) {
 		return o1 === o2;
 	}
 
@@ -70,7 +70,7 @@ function deepEqual(o1, o2) {
 	}
 
 	for (var k in o1) {
-		if (typeof o1[k] === "object" && typeof o2[k] === "object") {
+		if (typeof o1[k] === 'object' && typeof o2[k] === 'object') {
 			return deepEqual(o1[k], o2[k]);
 		}
 	}
@@ -81,7 +81,7 @@ function deepEqual(o1, o2) {
 function deepFreeze(o) {
 	var prop;
 
-	if (typeof o !== "object" || o === null) {
+	if (typeof o !== 'object' || o === null) {
 		return o;
 	}
 
@@ -92,7 +92,7 @@ function deepFreeze(o) {
 	for (var key in o) {
 		prop = o[key];
 
-		if (!o.hasOwnProperty(key) || (typeof prop !== "object") || (prop === null) || Object.isFrozen(prop)) {
+		if (!o.hasOwnProperty(key) || (typeof prop !== 'object') || (prop === null) || Object.isFrozen(prop)) {
 			// If the object is on the prototype, not an object, or is already frozen,
 			// skip it. Note that this might leave an unfrozen reference somewhere in the
 			// object if there is an already frozen object containing an unfrozen object.
@@ -108,7 +108,7 @@ function deepFreeze(o) {
 function merge(obj1, obj2) {
 	var frozen = false;
 
-	if (obj1 === null || typeof obj1 !== "object" || typeof obj2 !== "object") {
+	if (obj1 === null || typeof obj1 !== 'object' || typeof obj2 !== 'object') {
 		return obj2;
 	}
 
@@ -126,7 +126,7 @@ function merge(obj1, obj2) {
 		if (obj2[name] === null) {
 			obj1[name] = null;
 		//	delete obj1[name];
-		} else if (typeof obj1[name] === "object" && typeof obj2[name] === "object" && obj1[name] !== null) {
+		} else if (typeof obj1[name] === 'object' && typeof obj2[name] === 'object' && obj1[name] !== null) {
 			obj1[name] = merge(obj1[name], obj2[name]);
 		} else {
 			obj1[name] = obj2[name];

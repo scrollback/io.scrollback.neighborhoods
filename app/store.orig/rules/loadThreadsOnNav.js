@@ -1,24 +1,24 @@
 /* eslint no-use-before-define:0 */
 
-const permissionLevels = require("../../store.orig/permissionWeights");
+const permissionLevels = require('../../store.orig/permissionWeights');
 
 module.exports = function(core, config, store) {
-	core.on("setstate", changes => {
+	core.on('setstate', changes => {
 		const future = store.with(changes);
-		const roomId = future.get("nav", "room");
-		const userId = future.get("user");
-		const rel = roomId + "_" + userId;
+		const roomId = future.get('nav', 'room');
+		const userId = future.get('user');
+		const rel = roomId + '_' + userId;
 		const getRelation = store.getRelation(roomId, userId);
 		const roomObj = store.getRoom(roomId);
-		const userRelation = getRelation ? getRelation.role : "none";
+		const userRelation = getRelation ? getRelation.role : 'none';
 		const guides = roomObj ? roomObj.guides : {};
 
-		if (changes.app && changes.app.connectionStatus && store.get("app", "connectionStatus") === "offline" && future.get("app", "connectionStatus") === "online") {
+		if (changes.app && changes.app.connectionStatus && store.get('app', 'connectionStatus') === 'offline' && future.get('app', 'connectionStatus') === 'online') {
 			updateThreads(future);
 		} else if (
 			(changes.nav && (
-				"room" in changes.nav ||
-				roomId + "_requested" in changes.nav
+				'room' in changes.nav ||
+				roomId + '_requested' in changes.nav
 			)) || (
 				changes.entities &&
 				changes.entities[rel]
@@ -27,7 +27,7 @@ module.exports = function(core, config, store) {
 				(guides && guides.authorizer && (
 					permissionLevels[userRelation] < permissionLevels[guides.authorizer.readLevel]
 				)) || (
-					userRelation === "banned"
+					userRelation === 'banned'
 				)) {
 				return;
 			}
@@ -51,7 +51,7 @@ module.exports = function(core, config, store) {
 				range.end = threads.time;
 				range.start = threads.results.length < threads.before ? null : threads.results[0].startTime;
 			} else if (threads.after) {
-				newState.nav = { [threads.to + "_requested"]: store.get("nav", threads.to + "_requested") + threads.results.length - 1 };
+				newState.nav = { [threads.to + '_requested']: store.get('nav', threads.to + '_requested') + threads.results.length - 1 };
 
 				range.start = threads.time ? threads.time : Date.now();
 				range.end = threads.results.length < threads.after ? null : threads.results[threads.results.length - 1].startTime;
@@ -61,16 +61,16 @@ module.exports = function(core, config, store) {
 
 			newState.threads[threads.to].push(range);
 
-			core.emit("setstate", newState);
+			core.emit('setstate', newState);
 		}
 	}
 
 	function updateThreads(future) {
-		const roomId = future.get("nav", "room");
+		const roomId = future.get('nav', 'room');
 		const lastThread = store.getThreads(roomId, null, -1)[0];
 
 		if (lastThread && lastThread.startTime) {
-			core.emit("getThreads", {
+			core.emit('getThreads', {
 				to: roomId,
 				time: lastThread.startTime,
 				after: 100
@@ -79,8 +79,8 @@ module.exports = function(core, config, store) {
 	}
 
 	function handleThreadChange(future) {
-		const roomId = future.get("nav", "room");
-		const requested = future.get("nav", roomId + "_requested");
+		const roomId = future.get('nav', 'room');
+		const requested = future.get('nav', roomId + '_requested');
 
 		if (!requested) {
 			return;
@@ -88,8 +88,8 @@ module.exports = function(core, config, store) {
 
 		const threads = store.getThreads(roomId, null, -requested);
 
-		if (threads[0] === "missing") {
-			core.emit("getThreads", {
+		if (threads[0] === 'missing') {
+			core.emit('getThreads', {
 				to: roomId,
 				time: (threads.length > 1 ? threads[1].startTime : null),
 				before: requested - threads.length + 1

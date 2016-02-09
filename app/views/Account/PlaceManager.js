@@ -1,11 +1,11 @@
 /* @flow */
 
-import React from "react-native";
-import PlaceItem from "./PlaceItem";
-import PlaceButton from "./PlaceButton";
-import LocalitiesFilteredContainer from "../../containers/LocalitiesFilteredContainer";
-import StatesFilteredContainer from "../../containers/StatesFilteredContainer";
-import Modal from "../Modal";
+import React from 'react-native';
+import PlaceItem from './PlaceItem';
+import PlaceButton from './PlaceButton';
+import LocalitiesFilteredContainer from '../../containers/LocalitiesFilteredContainer';
+import StatesFilteredContainer from '../../containers/StatesFilteredContainer';
+import Modal from '../Modal';
 
 const {
 	View,
@@ -18,22 +18,22 @@ type Place = {
 
 const TYPES = [
 	{
-		type: "home",
-		title: "Home",
-		label: "Add where you live",
-		hint: "Join your neighborhood group"
+		type: 'home',
+		title: 'Home',
+		label: 'Add where you live',
+		hint: 'Join your neighborhood group'
 	},
 	{
-		type: "work",
-		title: "Work",
-		label: "Add where you work or study",
-		hint: "Join your office or campus group"
+		type: 'work',
+		title: 'Work',
+		label: 'Add where you work or study',
+		hint: 'Join your office or campus group'
 	},
 	{
-		type: "state",
-		title: "Hometown",
-		label: "Add your hometown",
-		hint: "Join people from your state in the city"
+		type: 'state',
+		title: 'Hometown',
+		label: 'Add your hometown',
+		hint: 'Join people from your state in the city'
 	}
 ];
 
@@ -43,7 +43,7 @@ export default class PlaceManager extends React.Component {
 		onChange: React.PropTypes.func.isRequired,
 		places: React.PropTypes.arrayOf(React.PropTypes.shape({
 			place: React.PropTypes.object,
-			type: React.PropTypes.oneOf([ "home", "work", "state" ])
+			type: React.PropTypes.oneOf([ 'home', 'work', 'state' ])
 		}))
 	};
 
@@ -69,7 +69,7 @@ export default class PlaceManager extends React.Component {
 	};
 
 	_handlePress = type => {
-		if (type === "state") {
+		if (type === 'state') {
 			Modal.renderComponent(
 				<StatesFilteredContainer
 					onDismiss={this._handleDismissModal}

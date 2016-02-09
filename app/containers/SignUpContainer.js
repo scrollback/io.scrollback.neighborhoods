@@ -1,18 +1,18 @@
 /* @flow */
 
-import React from "react-native";
-import SignUp from "../views/Onboard/SignUp";
-import Container from "./Container";
-import Geolocation from "../modules/Geolocation";
-import store from "../store/store";
+import React from 'react-native';
+import SignUp from '../views/Onboard/SignUp';
+import Container from './Container';
+import Geolocation from '../modules/Geolocation';
+import store from '../store/store';
 
 const {
 	Alert
 } = React;
 
-const GPS_ENABLE_MESSAGE = "Help us find the best communities for you by enabling your GPS.";
-const GPS_ENABLE_OK = "Go to settings";
-const GPS_ENABLE_CANCEL = "Not now";
+const GPS_ENABLE_MESSAGE = 'Help us find the best communities for you by enabling your GPS.';
+const GPS_ENABLE_OK = 'Go to settings';
+const GPS_ENABLE_CANCEL = 'Not now';
 
 class SignUpContainer extends React.Component {
 	state = {
@@ -24,11 +24,11 @@ class SignUpContainer extends React.Component {
 		this.runAfterInteractions(this._checkPosition);
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.user) {
 				this._updateData();
 			} else {
-				const user = store.get("user");
+				const user = store.get('user');
 
 				if (changes.entities && changes.entities[user]) {
 					this._updateData();
@@ -39,7 +39,7 @@ class SignUpContainer extends React.Component {
 
 	_checkIfAvailable = async (position) => {
 		try {
-			const results = await this.query("getRooms", {
+			const results = await this.query('getRooms', {
 				location: {
 					lat: position.coords.latitude,
 					lon: position.coords.longitude
@@ -96,13 +96,13 @@ class SignUpContainer extends React.Component {
 	};
 
 	_checkNickName = async nick => {
-		const results = await this.query("getEntities", { ref: nick });
+		const results = await this.query('getEntities', { ref: nick });
 
 		return results && results.length;
 	};
 
 	_signIn = ({ provider, token }) => {
-		return this.dispatch("init", {
+		return this.dispatch('init', {
 			auth: {
 				[provider]: { token }
 			}
@@ -113,16 +113,16 @@ class SignUpContainer extends React.Component {
 		const { user } = this.state;
 
 		if (!user) {
-			throw new Error("USER_NOT_INITED");
+			throw new Error('USER_NOT_INITED');
 		}
 
-		await this.dispatch("user", {
+		await this.dispatch('user', {
 			from: nick,
 			to: nick,
 			user: {
 				id: nick,
 				identities: [ user.identities[user.identities.length - 1] ],
-				picture: user.params.pictures && user.params.pictures[0] || "",
+				picture: user.params.pictures && user.params.pictures[0] || '',
 				params: {
 					pictures: user.params.pictures,
 					skipped: this.state.skipped
@@ -135,12 +135,12 @@ class SignUpContainer extends React.Component {
 	};
 
 	_cancelSignUp = () => {
-		this.emit("logout");
+		this.emit('logout');
 	};
 
 	_saveParams = (params: Object) => {
 		if (!this.state.user) {
-			throw new Error("USER_NOT_INITED");
+			throw new Error('USER_NOT_INITED');
 		}
 
 		const user = {
@@ -151,7 +151,7 @@ class SignUpContainer extends React.Component {
 			}
 		};
 
-		return this.dispatch("user", {
+		return this.dispatch('user', {
 			from: user.id,
 			to: user.id,
 			user

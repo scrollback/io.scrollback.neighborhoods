@@ -1,5 +1,5 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import Colors from '../../Colors.json';
 
 const {
 	PixelRatio,
@@ -9,9 +9,9 @@ const {
 
 const styles = StyleSheet.create({
 	appbar: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
 		backgroundColor: Colors.white,
 		borderColor: Colors.placeholder,
 		borderBottomWidth: 1 / PixelRatio.get(),

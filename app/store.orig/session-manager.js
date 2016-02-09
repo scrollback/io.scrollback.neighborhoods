@@ -1,22 +1,22 @@
 /* eslint-env browser */
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
 module.exports = function(core) {
 	let key;
 
-	core.on("boot", changes => {
+	core.on('boot', changes => {
 		const { context } = changes;
 
-		let host = "";
+		let host = '';
 
-		if (context && context.env === "embed" && context.init && changes.context.init.jws) {
+		if (context && context.env === 'embed' && context.init && changes.context.init.jws) {
 			host = context.origin && context.origin.host;
 		}
 
-		key = (host ? host + "_" : "") + "session";
+		key = (host ? host + '_' : '') + 'session';
 	}, 700);
 
-	core.on("init-up", (initUp, next) => {
+	core.on('init-up', (initUp, next) => {
 		AsyncStorage.getItem(key)
 			.then(value => {
 				initUp.session = value;
@@ -25,13 +25,13 @@ module.exports = function(core) {
 			.catch(next);
 	}, 999);
 
-	core.on("init-dn", initDn => AsyncStorage.setItem(key, initDn.session), 999);
+	core.on('init-dn', initDn => AsyncStorage.setItem(key, initDn.session), 999);
 
-	core.on("logout", () => {
+	core.on('logout', () => {
 		AsyncStorage.removeItem(key)
 			.then(() => {
-				core.emit("setstate", {
-					user: "guest-someguy" // emit a setstate so that our UI reloads
+				core.emit('setstate', {
+					user: 'guest-someguy' // emit a setstate so that our UI reloads
 				});
 			});
 	}, 1000);

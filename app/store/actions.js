@@ -1,4 +1,4 @@
-import core from "./core";
+import core from './core';
 
 export function emit(type, params = {}) {
 	return new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ export function query(...args) {
 
 export function dispatch(name, params = {}, prio = 1) {
 	return new Promise(async (resolve, reject) => {
-		const down = name + "-dn";
+		const down = name + '-dn';
 
 		let id;
 
@@ -26,7 +26,7 @@ export function dispatch(name, params = {}, prio = 1) {
 
 			/* eslint-disable no-use-before-define */
 			core.off(down, onSuccess);
-			core.off("error-dn", onError);
+			core.off('error-dn', onError);
 		}
 
 		function onSuccess(action) {
@@ -44,10 +44,10 @@ export function dispatch(name, params = {}, prio = 1) {
 		}
 
 		core.on(down, onSuccess, prio);
-		core.on("error-dn", onError, prio);
+		core.on('error-dn', onError, prio);
 
 		try {
-			const action = await emit(name + "-up", params);
+			const action = await emit(name + '-up', params);
 
 			id = action.id;
 		} catch (err) {
@@ -65,13 +65,13 @@ export default {
 	hideText(text) {
 		const tags = Array.isArray(text.tags) ? text.tags.slice(0) : [];
 
-		tags.push("hidden");
+		tags.push('hidden');
 
 		if (text.id === text.thread) {
-			tags.push("thread-hidden");
+			tags.push('thread-hidden');
 		}
 
-		return dispatch("edit", {
+		return dispatch('edit', {
 			to: text.to,
 			ref: text.id,
 			tags
@@ -79,26 +79,26 @@ export default {
 	},
 
 	unhideText(text) {
-		return dispatch("edit", {
+		return dispatch('edit', {
 			to: text.to,
 			ref: text.id,
-			tags: text.tags.filter(t => t !== "thread-hidden" && t !== "hidden")
+			tags: text.tags.filter(t => t !== 'thread-hidden' && t !== 'hidden')
 		});
 	},
 
 	banUser(text) {
-		return dispatch("expel", {
+		return dispatch('expel', {
 			to: text.to,
 			ref: text.from,
-			role: "banned"
+			role: 'banned'
 		});
 	},
 
 	unbanUser(text) {
-		return dispatch("admit", {
+		return dispatch('admit', {
 			to: text.to,
 			ref: text.from,
-			role: "follower"
+			role: 'follower'
 		});
 	}
 };

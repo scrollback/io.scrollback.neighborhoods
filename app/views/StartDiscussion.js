@@ -1,21 +1,21 @@
-import React from "react-native";
-import EvilIcons from "react-native-vector-icons/EvilIcons";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import AppTextInput from "./AppTextInput";
-import StatusbarWrapper from "./StatusbarWrapper";
-import AppbarSecondary from "./AppbarSecondary";
-import AppbarTouchable from "./AppbarTouchable";
-import AppbarIcon from "./AppbarIcon";
-import GrowingTextInput from "./GrowingTextInput";
-import TouchFeedback from "./TouchFeedback";
-import Icon from "./Icon";
-import UserIconContainer from "../containers/UserIconContainer";
-import ImageUploadContainer from "../containers/ImageUploadContainer";
-import Banner from "./Banner";
-import ImageUploadDiscussion from "./ImageUploadDiscussion";
-import ImageChooser from "../modules/ImageChooser";
-import textUtils from "../lib/text-utils";
+import React from 'react-native';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import AppTextInput from './AppTextInput';
+import StatusbarWrapper from './StatusbarWrapper';
+import AppbarSecondary from './AppbarSecondary';
+import AppbarTouchable from './AppbarTouchable';
+import AppbarIcon from './AppbarIcon';
+import GrowingTextInput from './GrowingTextInput';
+import TouchFeedback from './TouchFeedback';
+import Icon from './Icon';
+import UserIconContainer from '../containers/UserIconContainer';
+import ImageUploadContainer from '../containers/ImageUploadContainer';
+import Banner from './Banner';
+import ImageUploadDiscussion from './ImageUploadDiscussion';
+import ImageChooser from '../modules/ImageChooser';
+import textUtils from '../lib/text-utils';
 
 const {
 	AsyncStorage,
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 16
 	},
 	threadTitle: {
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		fontSize: 20,
 		lineHeight: 30
 	},
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
 		color: Colors.info
 	},
 	footer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		borderTopColor: Colors.separator,
 		borderTopWidth: 1
 	},
@@ -84,19 +84,19 @@ const styles = StyleSheet.create({
 	},
 	postButtonText: {
 		color: Colors.white,
-		fontWeight: "bold",
-		textAlign: "center"
+		fontWeight: 'bold',
+		textAlign: 'center'
 	},
 	socialItem: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		margin: 12
 	},
 	socialIconContainer: {
 		height: 28,
 		width: 28,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		backgroundColor: Colors.grey,
 		borderRadius: 2
 	},
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 	},
 	socialTextSelected: {
 		color: Colors.facebook,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	socialLabel: {
 		fontSize: 12,
@@ -124,16 +124,16 @@ const styles = StyleSheet.create({
 		fontSize: 10,
 		lineHeight: 15,
 		opacity: 0.5,
-		fontWeight: "normal"
+		fontWeight: 'normal'
 	}
 });
 
-const FACEBOOK_SHARE_CHECKED_KEY = "start_discussion_facebook_share_checked";
+const FACEBOOK_SHARE_CHECKED_KEY = 'start_discussion_facebook_share_checked';
 
 export default class StartDiscussionButton extends React.Component {
 	state = {
-		title: "",
-		text: "",
+		title: '',
+		text: '',
 		imageData: null,
 		uploadResult: null,
 		status: null,
@@ -189,13 +189,13 @@ export default class StartDiscussionButton extends React.Component {
 
 	_handleLoading = () => {
 		this.setState({
-			status: "loading"
+			status: 'loading'
 		});
 	};
 
 	_handlePosted = thread => {
 		this.props.onNavigation(new NavigationActions.Push({
-			name: "chat",
+			name: 'chat',
 			props: {
 				thread: thread.id,
 				room: this.props.room
@@ -211,11 +211,11 @@ export default class StartDiscussionButton extends React.Component {
 	};
 
 	_postDiscussion = async () => {
-		const FAIL_MESSAGE = "An error occurred while posting";
-		const SHORT_TITLE_MESSAGE = "Title needs be at least 2 words";
-		const LONG_TITLE_MESSAGE = "Title needs be less than 10 words";
-		const NO_TITLE_MESSAGE = "Enter a title in 2 to 10 words";
-		const NO_SUMMARY_MESSAGE = "Enter a short summary";
+		const FAIL_MESSAGE = 'An error occurred while posting';
+		const SHORT_TITLE_MESSAGE = 'Title needs be at least 2 words';
+		const LONG_TITLE_MESSAGE = 'Title needs be less than 10 words';
+		const NO_TITLE_MESSAGE = 'Enter a title in 2 to 10 words';
+		const NO_SUMMARY_MESSAGE = 'Enter a short summary';
 
 		if (!this.state.title) {
 			this._handleError(NO_TITLE_MESSAGE);
@@ -243,7 +243,7 @@ export default class StartDiscussionButton extends React.Component {
 				const thread = await this.props.postDiscussion({
 					title: this.state.title,
 					text: textUtils.getTextFromMetadata({
-						type: "photo",
+						type: 'photo',
 						title: name,
 						url: result.originalUrl,
 						height,
@@ -279,7 +279,7 @@ export default class StartDiscussionButton extends React.Component {
 	};
 
 	_handlePress = () => {
-		if (this.state.status === "loading") {
+		if (this.state.status === 'loading') {
 			return;
 		}
 
@@ -332,7 +332,7 @@ export default class StartDiscussionButton extends React.Component {
 	};
 
 	render() {
-		const isLoading = this.state.status === "loading";
+		const isLoading = this.state.status === 'loading';
 		const isDisabled = !(this.state.title && (this.state.text || this.state.uploadResult) && !isLoading);
 
 		return (
@@ -340,24 +340,24 @@ export default class StartDiscussionButton extends React.Component {
 				<StatusbarWrapper />
 
 				<AppbarSecondary>
-					<AppbarTouchable type="secondary" onPress={this.props.dismiss}>
-						<AppbarIcon name="close" style={styles.icon} />
+					<AppbarTouchable type='secondary' onPress={this.props.dismiss}>
+						<AppbarIcon name='close' style={styles.icon} />
 					</AppbarTouchable>
 
 					<UserIconContainer style={styles.userIcon} size={30} />
 				</AppbarSecondary>
 
-				<Banner text={this.state.error} type="error" />
+				<Banner text={this.state.error} type='error' />
 
 				<ScrollView style={styles.scene} keyboardShouldPersistTaps>
 					<AppTextInput
 						autoFocus
 						value={this.state.title}
 						onChangeText={this._handleChangeTitle}
-						placeholder="Write a discussion title"
-						autoCapitalize="sentences"
+						placeholder='Write a discussion title'
+						autoCapitalize='sentences'
 						style={[ styles.threadTitle, styles.entry ]}
-						underlineColorAndroid="transparent"
+						underlineColorAndroid='transparent'
 					/>
 
 					{this.state.imageData ?
@@ -372,23 +372,23 @@ export default class StartDiscussionButton extends React.Component {
 							numberOfLines={5}
 							value={this.state.text}
 							onChangeText={this._handleChangeText}
-							placeholder="And a short summary"
-							autoCapitalize="sentences"
+							placeholder='And a short summary'
+							autoCapitalize='sentences'
 							inputStyle={[ styles.threadSummary, styles.entry ]}
-							underlineColorAndroid="transparent"
+							underlineColorAndroid='transparent'
 						/>
 					}
 
 					<TouchableOpacity onPress={this._handleSharePress}>
 						<View style={styles.socialItem}>
 							<View style={[ styles.socialIconContainer, this.state.shareOnFacebook ? styles.socialIconContainerSelected : null ]}>
-								<EvilIcons name="sc-facebook" style={styles.socialIcon} />
+								<EvilIcons name='sc-facebook' style={styles.socialIcon} />
 							</View>
 							<AppText style={[ styles.socialTextContainer, this.state.shareOnFacebook ? styles.socialTextSelected : null ]}>
 								<AppText style={styles.socialLabel}>
 									{this.state.shareOnFacebook ?
-										"This will appear on your timeline\n" :
-										"Tap to share this with your friends\n"
+										'This will appear on your timeline\n' :
+										'Tap to share this with your friends\n'
 									}
 								</AppText>
 								<AppText style={styles.socialTip}>Tip: Sharing improves your discussion’s reach</AppText>
@@ -403,7 +403,7 @@ export default class StartDiscussionButton extends React.Component {
 					>
 						<View style={styles.uploadButton}>
 							<Icon
-								name="image"
+								name='image'
 								style={[ styles.uploadButtonIcon, this.state.imageData ? styles.uploadButtonIconActive : null ]}
 								size={24}
 							/>
@@ -412,7 +412,7 @@ export default class StartDiscussionButton extends React.Component {
 					<View style={[ styles.postButton, isDisabled ? styles.disabled : null ]}>
 						{isDisabled ?
 							<View style={styles.postButtonInner}>
-								<AppText style={styles.postButtonText}>{isLoading ? "Posting…" : "Post"}</AppText>
+								<AppText style={styles.postButtonText}>{isLoading ? 'Posting…' : 'Post'}</AppText>
 							</View> :
 							<TouchFeedback onPress={this._handlePress}>
 								<View style={styles.postButtonInner}>

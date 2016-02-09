@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Icon from "./Icon";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Icon from './Icon';
 
 const {
 	StyleSheet

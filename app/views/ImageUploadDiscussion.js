@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import CloseButton from "./CloseButton";
-import ImageUploadButton from "./ImageUploadButton";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import CloseButton from './CloseButton';
+import ImageUploadButton from './ImageUploadButton';
 
 const {
 	StyleSheet,
@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
 		elevation: 4
 	},
 	thumbnailStyle: {
-		alignItems: "center",
-		justifyContent: "center"
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	iconIdle: {
 		color: Colors.fadedBlack
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 		marginBottom: 18
 	},
 	closeButton: {
-		position: "absolute",
+		position: 'absolute',
 		top: 16,
 		left: 0
 	}
@@ -41,9 +41,9 @@ export default class ChatInput extends React.Component {
 	};
 
 	_onPress = () => {
-		if (this.props.status === "loading") {
+		if (this.props.status === 'loading') {
 			this.props.cancelUpload();
-		} else if (this.props.status === "idle" || this.props.status === "error") {
+		} else if (this.props.status === 'idle' || this.props.status === 'error') {
 			this.props.startUpload();
 		}
 	};
@@ -58,10 +58,10 @@ export default class ChatInput extends React.Component {
 						<ImageUploadButton
 							onPress={this._onPress}
 							status={this.props.status}
-							idleIcon="file-upload"
-							closeIcon="close"
-							doneIcon="done"
-							errorIcon="warning"
+							idleIcon='file-upload'
+							closeIcon='close'
+							doneIcon='done'
+							errorIcon='warning'
 							idleIconStyle={styles.iconIdle}
 							errorIconStyle={styles.iconError}
 						/>

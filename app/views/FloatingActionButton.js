@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Icon from "./Icon";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Icon from './Icon';
 
 const {
 	StyleSheet,
@@ -10,7 +10,7 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		position: "absolute",
+		position: 'absolute',
 		right: 16,
 		bottom: 16,
 		height: 56,

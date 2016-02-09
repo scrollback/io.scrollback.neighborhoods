@@ -1,14 +1,14 @@
 /* @flow */
 
-import React from "react-native";
-import NextButton from "./NextButton";
-import StatusbarWrapper from "../StatusbarWrapper";
-import OnboardTitle from "./OnboardTitle";
-import OnboardError from "./OnboardError";
-import PlaceManager from "../Account/PlaceManager";
-import Modal from "../Modal";
-import AppText from "../AppText";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import NextButton from './NextButton';
+import StatusbarWrapper from '../StatusbarWrapper';
+import OnboardTitle from './OnboardTitle';
+import OnboardError from './OnboardError';
+import PlaceManager from '../Account/PlaceManager';
+import Modal from '../Modal';
+import AppText from '../AppText';
+import Colors from '../../../Colors.json';
 
 const {
 	ScrollView,
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 
 	inner: {
 		padding: 16,
-		alignItems: "stretch",
-		justifyContent: "center"
+		alignItems: 'stretch',
+		justifyContent: 'center'
 	},
 
 	places: {
@@ -37,11 +37,11 @@ const styles = StyleSheet.create({
 	skip: {
 		margin: 16,
 		fontSize: 12,
-		textAlign: "center",
+		textAlign: 'center',
 		color: Colors.darkGrey,
 		textDecorationColor: Colors.darkGrey,
-		textDecorationStyle: "solid",
-		textDecorationLine: "underline",
+		textDecorationStyle: 'solid',
+		textDecorationLine: 'underline',
 	},
 });
 

@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Icon from "./Icon";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Icon from './Icon';
 
 const {
 	StyleSheet,
@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		alignItems: "center",
-		justifyContent: "center"
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	icon: {
 		color: Colors.white
@@ -38,7 +38,7 @@ export default class CloseButton extends React.Component {
 			>
 				<View style={styles.button}>
 					<Icon
-						name="close"
+						name='close'
 						style={styles.icon}
 						size={16}
 					/>

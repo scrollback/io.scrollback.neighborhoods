@@ -1,6 +1,6 @@
-import React from "react-native";
-import Icon from "./Icon";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import Icon from './Icon';
+import Colors from '../../Colors.json';
 
 const {
 	StyleSheet,
@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
 	thumbnail: {
 		width: 240,
 		height: 135,
-		justifyContent: "center",
-		alignItems: "center"
+		justifyContent: 'center',
+		alignItems: 'center'
 	},
 	playContainer: {
 		backgroundColor: Colors.fadedBlack,
 		borderColor: Colors.white,
-		justifyContent: "center",
+		justifyContent: 'center',
 		padding: 4,
 		borderWidth: 2,
 		borderRadius: 24
@@ -44,7 +44,7 @@ export default class EmbedThumbnail extends React.Component {
 			thumbnail_height
 		} = this.props.embed;
 
-		const win = Dimensions.get("window");
+		const win = Dimensions.get('window');
 
 		let ratio;
 
@@ -76,10 +76,10 @@ export default class EmbedThumbnail extends React.Component {
 		if (this.props.embed.thumbnail_url) {
 			return (
 				<Image source={{ uri: this.props.embed.thumbnail_url }} style={[ styles.thumbnail, this._dimen, this.props.style ]}>
-					{this.props.embed.type === "video" ?
+					{this.props.embed.type === 'video' ?
 						<View style={styles.playContainer}>
 							<Icon
-								name="play-arrow"
+								name='play-arrow'
 								style={styles.play}
 								size={36}
 							/>

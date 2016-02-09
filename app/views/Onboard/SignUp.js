@@ -1,14 +1,14 @@
 /* @flow */
 
-import React from "react-native";
-import SignIn from "./SignIn";
-import UserDetails from "./UserDetails";
-import LocationDetails from "./LocationDetails";
-import GetStarted from "./GetStarted";
-import HomeContainer from "../../containers/HomeContainer";
-import userUtils from "../../lib/user-utils";
-import Validator from "../../lib/validator";
-import debounce from "../../lib/debounce";
+import React from 'react-native';
+import SignIn from './SignIn';
+import UserDetails from './UserDetails';
+import LocationDetails from './LocationDetails';
+import GetStarted from './GetStarted';
+import HomeContainer from '../../containers/HomeContainer';
+import userUtils from '../../lib/user-utils';
+import Validator from '../../lib/validator';
+import debounce from '../../lib/debounce';
 
 type State = {
 	places: Array<Object>;
@@ -20,18 +20,18 @@ type State = {
 }
 
 const ERROR_MESSAGES = {
-	ERR_VALIDATE_CHARS: "Nickname can contain only letters, numbers and hyphens without spaces.",
-	ERR_VALIDATE_START: "Nickname cannot start with a hyphen.",
-	ERR_VALIDATE_NO_ONLY_NUMS: "Nickname should have at least 1 letter in it.",
-	ERR_VALIDATE_LENGTH_SHORT: "Nickname should be more than 3 letters long.",
-	ERR_VALIDATE_LENGTH_LONG: "Nickname should be less than 32 letters long.",
-	ERR_USER_EXISTS: "Oops! Somebody claimed this username just before you did.",
-	NICK_TAKEN: "This username is already taken. Maybe try another?",
-	USER_NOT_INITED: "An error occurred. Maybe try restarting the app?",
-	NO_LOCALITY_GIVEN: "You need to add at least one locality!",
-	EMPTY_NICKNAME: "Nickname cannot be empty!",
-	EMPTY_FULLNAME: "Fullname cannot be empty!",
-	UNKNOWN_ERROR: "An error occurred. Maybe try after a while?",
+	ERR_VALIDATE_CHARS: 'Nickname can contain only letters, numbers and hyphens without spaces.',
+	ERR_VALIDATE_START: 'Nickname cannot start with a hyphen.',
+	ERR_VALIDATE_NO_ONLY_NUMS: 'Nickname should have at least 1 letter in it.',
+	ERR_VALIDATE_LENGTH_SHORT: 'Nickname should be more than 3 letters long.',
+	ERR_VALIDATE_LENGTH_LONG: 'Nickname should be less than 32 letters long.',
+	ERR_USER_EXISTS: 'Oops! Somebody claimed this username just before you did.',
+	NICK_TAKEN: 'This username is already taken. Maybe try another?',
+	USER_NOT_INITED: 'An error occurred. Maybe try restarting the app?',
+	NO_LOCALITY_GIVEN: 'You need to add at least one locality!',
+	EMPTY_NICKNAME: 'Nickname cannot be empty!',
+	EMPTY_FULLNAME: 'Fullname cannot be empty!',
+	UNKNOWN_ERROR: 'An error occurred. Maybe try after a while?',
 };
 
 export default class SignUp extends React.Component {
@@ -68,7 +68,7 @@ export default class SignUp extends React.Component {
 			if (this.state.nick === nick && exists) {
 				this.setState({
 					error: {
-						field: "nick",
+						field: 'nick',
 						message: ERROR_MESSAGES.NICK_TAKEN
 					}
 				});
@@ -98,7 +98,7 @@ export default class SignUp extends React.Component {
 		if (!this.state.nick) {
 			this.setState({
 				error: {
-					field: "nick",
+					field: 'nick',
 					message: ERROR_MESSAGES.EMPTY_NICKNAME
 				}
 			});
@@ -108,7 +108,7 @@ export default class SignUp extends React.Component {
 		if (!this.state.name) {
 			this.setState({
 				error: {
-					field: "name",
+					field: 'name',
 					message: ERROR_MESSAGES.EMPTY_FULLNAME
 				}
 			});
@@ -125,7 +125,7 @@ export default class SignUp extends React.Component {
 		} catch (e) {
 			this.setState({
 				error: {
-					field: "nick",
+					field: 'nick',
 					message: ERROR_MESSAGES[e.message]
 				}
 			});
@@ -140,7 +140,7 @@ export default class SignUp extends React.Component {
 		if (!places.length) {
 			this.setState({
 				error: {
-					field: "place",
+					field: 'place',
 					message: ERROR_MESSAGES.NO_LOCALITY_GIVEN
 				}
 			});
@@ -155,7 +155,7 @@ export default class SignUp extends React.Component {
 			if (!/(NO_ROOM_WITH_GIVEN_ID|ALREADY_FOLLOWER|ERR_NOT_ALLOWED|OWNER_CANT_CHANGE_ROLE)/.test(e.message)) {
 				this.setState({
 					error: {
-						field: "place",
+						field: 'place',
 						message: ERROR_MESSAGES.UNKNOWN_ERROR
 					}
 				});
@@ -183,7 +183,7 @@ export default class SignUp extends React.Component {
 
 		if (nick && !validation.isValid()) {
 			error = {
-				field: "nick",
+				field: 'nick',
 				message: ERROR_MESSAGES[validation.error] || ERROR_MESSAGES.UNKNOWN_ERROR
 			};
 		}
@@ -244,7 +244,7 @@ export default class SignUp extends React.Component {
 						/>
 					);
 				}
-			} else if (user.identities && user.identities.some(ident => ident.indexOf("mailto:") === 0)) {
+			} else if (user.identities && user.identities.some(ident => ident.indexOf('mailto:') === 0)) {
 				return (
 					<UserDetails
 						{...this.props}

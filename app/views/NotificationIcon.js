@@ -1,8 +1,8 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppbarTouchable from "./AppbarTouchable";
-import AppbarIcon from "./AppbarIcon";
-import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppbarTouchable from './AppbarTouchable';
+import AppbarIcon from './AppbarIcon';
+import NotificationBadgeContainer from '../containers/NotificationBadgeContainer';
 
 const {
 	StyleSheet,
@@ -12,7 +12,7 @@ const {
 
 const styles = StyleSheet.create({
 	badge: {
-		position: "absolute",
+		position: 'absolute',
 		top: 10,
 		right: 10,
 		backgroundColor: Colors.badge,
@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
 
 export default class NotificationIcon extends React.Component {
 	_onPress = () => {
-		this.props.onNavigation(new NavigationActions.Push({ name: "notes" }));
+		this.props.onNavigation(new NavigationActions.Push({ name: 'notes' }));
 	};
 
 	render() {
 		return (
 			<AppbarTouchable onPress={this._onPress}>
 				<View>
-					<AppbarIcon name="notifications" />
+					<AppbarIcon name='notifications' />
 					<NotificationBadgeContainer style={styles.badge} grouped />
 				</View>
 			</AppbarTouchable>

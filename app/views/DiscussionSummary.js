@@ -1,8 +1,8 @@
-import React from "react-native";
-import CardSummary from "./CardSummary";
-import Embed from "./Embed";
-import { parseURLs } from "../lib/URL";
-import textUtils from "../lib/text-utils";
+import React from 'react-native';
+import CardSummary from './CardSummary';
+import Embed from './Embed';
+import { parseURLs } from '../lib/URL';
+import textUtils from '../lib/text-utils';
 
 const {
 	StyleSheet,
@@ -28,7 +28,7 @@ const DiscussionSummary = props => {
 
 	let cover, hideSummary;
 
-	if (metadata && metadata.type === "photo") {
+	if (metadata && metadata.type === 'photo') {
 		cover = (
 			<Embed
 				url={metadata.url}

@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import Loading from "./Loading";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import Loading from './Loading';
 
 const {
 	StyleSheet,
@@ -12,13 +12,13 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundColor: Colors.primary
 	},
 	logo: {
 		flex: 1,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		marginTop: 180
 	},
 	loading: {
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
 		marginVertical: 32
 	},
 	attribution: {
-		alignItems: "center",
-		alignSelf: "stretch",
+		alignItems: 'center',
+		alignSelf: 'stretch',
 		margin: 16
 	},
 	by: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	scrollback: {
-		resizeMode: "contain"
+		resizeMode: 'contain'
 	}
 });
 
@@ -49,11 +49,11 @@ export default class Splash extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image style={styles.logo} source={require("../../assets/logo.png")} />
+				<Image style={styles.logo} source={require('../../assets/logo.png')} />
 				<Loading style={styles.loading} />
 				<View style={styles.attribution}>
 					<AppText style={styles.by}>by</AppText>
-					<Image style={styles.scrollback} source={require("../../assets/scrollback_logo.png")} />
+					<Image style={styles.scrollback} source={require('../../assets/scrollback_logo.png')} />
 				</View>
 			</View>
 		);

@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import AppbarTouchable from "./AppbarTouchable";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import AppbarTouchable from './AppbarTouchable';
 
 const {
 	StyleSheet,
@@ -13,11 +13,11 @@ const styles = StyleSheet.create({
 	container: {
 		marginRight: 64,
 		height: 56,
-		justifyContent: "center"
+		justifyContent: 'center'
 	},
 	title: {
 		color: Colors.white,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	subtitle: {
 		color: Colors.fadedWhite,
@@ -33,7 +33,7 @@ export default class ChatTitle extends React.Component {
 
 		if (thread && thread.id) {
 			this.props.onNavigation(new NavigationActions.Push({
-				name: "details",
+				name: 'details',
 				props: {
 					thread: thread.id
 				}
@@ -44,14 +44,14 @@ export default class ChatTitle extends React.Component {
 	render() {
 		const { thread } = this.props;
 
-		let title = "…",
+		let title = '…',
 			concerns = 1;
 
 		if (thread && thread.title) {
 			title = thread.title;
 			concerns = thread.concerns && thread.concerns.length ? thread.concerns.length : 1;
-		} else if (thread === "missing") {
-			title = "Loading…";
+		} else if (thread === 'missing') {
+			title = 'Loading…';
 		}
 
 		return (
@@ -61,7 +61,7 @@ export default class ChatTitle extends React.Component {
 						{title}
 					</AppText>
 					<AppText numberOfLines={1} style={styles.subtitle}>
-						{concerns} {concerns > 1 ? " people" : " person"} talking
+						{concerns} {concerns > 1 ? ' people' : ' person'} talking
 					</AppText>
 				</View>
 			</AppbarTouchable>

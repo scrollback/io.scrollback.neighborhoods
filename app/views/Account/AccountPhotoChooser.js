@@ -1,5 +1,5 @@
-import React from "react-native";
-import AccountPhotoChooserItem from "./AccountPhotoChooserItem";
+import React from 'react-native';
+import AccountPhotoChooserItem from './AccountPhotoChooserItem';
 
 const {
 	StyleSheet,
@@ -8,8 +8,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		flexWrap: "wrap",
+		flexDirection: 'row',
+		flexWrap: 'wrap',
 		padding: 8
 	}
 });

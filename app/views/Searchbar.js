@@ -1,9 +1,9 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppTextInput from "./AppTextInput";
-import AppbarSecondary from "./AppbarSecondary";
-import AppbarTouchable from "./AppbarTouchable";
-import AppbarIcon from "./AppbarIcon";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppTextInput from './AppTextInput';
+import AppbarSecondary from './AppbarSecondary';
+import AppbarTouchable from './AppbarTouchable';
+import AppbarIcon from './AppbarIcon';
 
 const {
 	StyleSheet
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		lineHeight: 24,
 		color: Colors.black,
-		backgroundColor: "transparent"
+		backgroundColor: 'transparent'
 	},
 	icon: {
 		color: Colors.fadedBlack
@@ -27,7 +27,7 @@ export default class SearchBar extends React.Component {
 		super(props);
 
 		this.state = {
-			inputText: "",
+			inputText: '',
 			showClear: false
 		};
 	}
@@ -54,21 +54,21 @@ export default class SearchBar extends React.Component {
 
 	_clearInput = () => {
 		if (this._input) {
-			this._input.setNativeProps({ text: "" });
+			this._input.setNativeProps({ text: '' });
 		}
 
 		this.setState({
 			showClear: false
 		});
 
-		this.props.onChangeSearch("");
+		this.props.onChangeSearch('');
 	};
 
 	render() {
 		return (
 			<AppbarSecondary {...this.props}>
-				<AppbarTouchable type="secondary" onPress={this.props.onBack}>
-					<AppbarIcon name="arrow-back" style={styles.icon} />
+				<AppbarTouchable type='secondary' onPress={this.props.onBack}>
+					<AppbarIcon name='arrow-back' style={styles.icon} />
 				</AppbarTouchable>
 
 				<AppTextInput
@@ -76,15 +76,15 @@ export default class SearchBar extends React.Component {
 					autoFocus={this.props.autoFocus}
 					onChange={this._onChange}
 					placeholder={this.props.placeholder}
-					placeholderTextColor="rgba(0, 0, 0, 0.5)"
+					placeholderTextColor='rgba(0, 0, 0, 0.5)'
 					onFocus={this.props.onFocus}
 					onBlur={this.props.onBlur}
 					style={styles.input}
 				/>
 
 				{this.state.showClear ?
-					<AppbarTouchable type="secondary" onPress={this._clearInput}>
-						<AppbarIcon name="close" style={styles.icon} />
+					<AppbarTouchable type='secondary' onPress={this._clearInput}>
+						<AppbarIcon name='close' style={styles.icon} />
 					</AppbarTouchable> :
 					null
 				}

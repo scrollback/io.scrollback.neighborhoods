@@ -1,10 +1,10 @@
 /* @flow */
 
-import React from "react-native";
-import ChatMessages from "../views/ChatMessages";
-import Container from "./Container";
-import store from "../store/store";
-import textUtils from "../lib/text-utils";
+import React from 'react-native';
+import ChatMessages from '../views/ChatMessages';
+import Container from './Container';
+import store from '../store/store';
+import textUtils from '../lib/text-utils';
 
 class ChatMessagesContainer extends React.Component {
 	static propTypes = {
@@ -13,28 +13,28 @@ class ChatMessagesContainer extends React.Component {
 	};
 
 	state = {
-		data: [ "missing" ]
+		data: [ 'missing' ]
 	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
-			if (changes.texts && changes.texts[this.props.room + "_" + this.props.thread]) {
+		this.handle('statechange', changes => {
+			if (changes.texts && changes.texts[this.props.room + '_' + this.props.thread]) {
 				this._updateData();
 			}
 		});
 
 		this.runAfterInteractions(async () => {
-			this.emit("setstate", {
+			this.emit('setstate', {
 				nav: {
 					room: this.props.room,
 					thread: this.props.thread,
-					mode: "chat"
+					mode: 'chat'
 				}
 			});
 
-			const requested = store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
+			const requested = store.get('nav', this.props.room + '_' + this.props.thread + '_requested');
 
 			if (requested) {
 				this._updateData();
@@ -45,7 +45,7 @@ class ChatMessagesContainer extends React.Component {
 	}
 
 	_updateData = () => {
-		const requested = store.get("nav", this.props.room + "_" + this.props.thread + "_requested");
+		const requested = store.get('nav', this.props.room + '_' + this.props.thread + '_requested');
 		const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
 
 		const data = [];
@@ -53,7 +53,7 @@ class ChatMessagesContainer extends React.Component {
 		for (let i = texts.length - 1, l = 0; i >= l; i--) {
 			const text = texts[i];
 
-			if (typeof text === "string") {
+			if (typeof text === 'string') {
 				data.push(text);
 			} else {
 				const previousText = texts[i - 1];
@@ -61,7 +61,7 @@ class ChatMessagesContainer extends React.Component {
 				data.push({
 					text,
 					metadata: textUtils.getMetadata(text.text),
-					previousText: typeof previousText === "object" ? previousText : null
+					previousText: typeof previousText === 'object' ? previousText : null
 				});
 			}
 		}
@@ -72,15 +72,15 @@ class ChatMessagesContainer extends React.Component {
 	};
 
 	_handleEndReached = () => {
-		const key = this.props.room + "_" + this.props.thread + "_requested";
-		const requested = store.get("nav", key);
+		const key = this.props.room + '_' + this.props.thread + '_requested';
+		const requested = store.get('nav', key);
 		const texts = store.getTexts(this.props.room, this.props.thread, null, -requested);
 
 		if (requested && requested > (texts.length + 1)) {
 			return;
 		}
 
-		this.emit("setstate", {
+		this.emit('setstate', {
 			nav: {
 				[key]: (requested || 0) + 20
 			}

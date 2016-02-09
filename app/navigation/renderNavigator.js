@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import Modal from "../views/Modal";
-import renderOverlay from "./renderOverlay";
-import renderScene from "./renderScene";
+import React from 'react-native';
+import Modal from '../views/Modal';
+import renderOverlay from './renderOverlay';
+import renderScene from './renderScene';
 
 const {
 	NavigationAnimatedView,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 
 let _navState, _onNavigation;
 
-BackAndroid.addEventListener("hardwareBackPress", () => {
+BackAndroid.addEventListener('hardwareBackPress', () => {
 	if (Modal.isShown()) {
 		Modal.renderComponent(null);
 

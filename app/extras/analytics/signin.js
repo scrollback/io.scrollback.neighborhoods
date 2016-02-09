@@ -1,6 +1,6 @@
-import Answers from "../../modules/Answers";
-import userUtils from "../../lib/user-utils";
-import core from "../../store/core";
+import Answers from '../../modules/Answers';
+import userUtils from '../../lib/user-utils';
+import core from '../../store/core';
 
 function track() {
 	let pending;
@@ -17,18 +17,18 @@ function track() {
 		pending = null;
 	}
 
-	core.on("error-dn", error => {
+	core.on('error-dn', error => {
 		if (pending && error.id === pending.id) {
 			log(false);
 		}
 	});
 
-	core.on("init-dn", init => {
+	core.on('init-dn', init => {
 		if (pending && init.id === pending.id) {
 			// Check if its a signup
 			const { user } = init;
 
-			if (userUtils.isGuest(user.id) && user.identities && user.identities.some(ident => ident.indexOf("mailto:") === 0)) {
+			if (userUtils.isGuest(user.id) && user.identities && user.identities.some(ident => ident.indexOf('mailto:') === 0)) {
 				pending.signup = true;
 			}
 
@@ -36,15 +36,15 @@ function track() {
 		}
 	});
 
-	core.on("init-up", init => {
+	core.on('init-up', init => {
 		// Check if it's a sign in
 		if (init.auth) {
 			let provider;
 
 			if (init.auth.facebook) {
-				provider = "Facebook";
+				provider = 'Facebook';
 			} else if (init.auth.google) {
-				provider = "Google";
+				provider = 'Google';
 			}
 
 			pending = {

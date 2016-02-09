@@ -1,5 +1,5 @@
-import React from "react-native";
-import Banner from "./Banner";
+import React from 'react-native';
+import Banner from './Banner';
 
 export default class BannerOffline extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -12,14 +12,14 @@ export default class BannerOffline extends React.Component {
 		let label;
 
 		switch (connectionStatus) {
-		case "offline":
-			label = "Network unavailable. Waiting for connection…";
+		case 'offline':
+			label = 'Network unavailable. Waiting for connection…';
 			break;
-		case "connecting":
-			label = "Connecting to server…";
+		case 'connecting':
+			label = 'Connecting to server…';
 			break;
 		default:
-			label = "";
+			label = '';
 		}
 
 		return (
@@ -33,5 +33,5 @@ export default class BannerOffline extends React.Component {
 }
 
 BannerOffline.propTypes = {
-	connectionStatus: React.PropTypes.oneOf([ "offline", "connecting", "online" ])
+	connectionStatus: React.PropTypes.oneOf([ 'offline', 'connecting', 'online' ])
 };

@@ -1,8 +1,8 @@
-import React from "react-native";
-import Card from "./Card";
-import CardTitle from "./CardTitle";
-import DiscussionSummary from "./DiscussionSummary";
-import CardAuthor from "./CardAuthor";
+import React from 'react-native';
+import Card from './Card';
+import CardTitle from './CardTitle';
+import DiscussionSummary from './DiscussionSummary';
+import CardAuthor from './CardAuthor';
 
 const {
 	StyleSheet

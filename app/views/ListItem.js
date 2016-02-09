@@ -1,6 +1,6 @@
-import React from "react-native";
-import TouchFeedback from "./TouchFeedback";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import TouchFeedback from './TouchFeedback';
+import Colors from '../../Colors.json';
 
 const {
 	StyleSheet,
@@ -10,8 +10,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		backgroundColor: Colors.white,
 		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),

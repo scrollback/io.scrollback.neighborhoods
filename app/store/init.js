@@ -1,7 +1,7 @@
-import core from "../store/core";
-import GCM from "../extras/gcm/gcm";
-import Analytics from "../extras/analytics/analytics";
-import syncJoin from "../extras/syncjoin/syncjoin";
+import core from '../store/core';
+import GCM from '../extras/gcm/gcm';
+import Analytics from '../extras/analytics/analytics';
+import syncJoin from '../extras/syncjoin/syncjoin';
 
 GCM.initialize();
 Analytics.initialize();
@@ -18,20 +18,20 @@ export default function() {
 		newState.app = {};
 	}
 
-	newState.app.connectionStatus = "connecting";
+	newState.app.connectionStatus = 'connecting';
 
-	core.emit("boot", newState, () => {
+	core.emit('boot', newState, () => {
 		newState.app.bootComplete = true;
 		bootComplete = true;
 
-		core.emit("setstate", newState);
+		core.emit('setstate', newState);
 
 		if (initNext) {
 			initNext();
 		}
 	});
 
-	core.on("init-up", (action, next) => {
+	core.on('init-up', (action, next) => {
 		if (!bootComplete) {
 			initNext = next;
 		} else {

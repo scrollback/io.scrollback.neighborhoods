@@ -1,10 +1,10 @@
 /* @flow */
 
-import React from "react-native";
-import ChatSuggestions from "../views/ChatSuggestions";
-import Container from "./Container";
-import debounce from "../lib/debounce";
-import store from "../store/store";
+import React from 'react-native';
+import ChatSuggestions from '../views/ChatSuggestions';
+import Container from './Container';
+import debounce from '../lib/debounce';
+import store from '../store/store';
 
 class ChatSuggestionsContainer extends React.Component {
 	static propTypes = {
@@ -35,8 +35,8 @@ class ChatSuggestionsContainer extends React.Component {
 	};
 
 	_fetchUsers = debounce(async query => {
-		const results = await this.query("getUsers", {
-			ref: query + "*",
+		const results = await this.query('getUsers', {
+			ref: query + '*',
 			limit: 5
 		});
 

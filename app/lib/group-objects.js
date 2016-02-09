@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 
-var objUtils = require("./obj-utils.js");
+var objUtils = require('./obj-utils.js');
 
 module.exports = function(objs, opts, grouper) {
 	var grouped = opts && Array.isArray(opts.base) ? opts.base : [],
 		groups = {},
 		count, items, obj, group;
 
-	if (!((typeof objs === "object" && objs !== null) || Array.isArray(objs))) {
-		throw new TypeError("Invalid list of objects given");
+	if (!((typeof objs === 'object' && objs !== null) || Array.isArray(objs))) {
+		throw new TypeError('Invalid list of objects given');
 	}
 
-	if (!(opts && typeof opts.max === "number")) {
-		throw new TypeError("No maximum value specified");
+	if (!(opts && typeof opts.max === 'number')) {
+		throw new TypeError('No maximum value specified');
 	}
 
-	if (typeof grouper !== "function") {
+	if (typeof grouper !== 'function') {
 		grouper = function(item) {
 			return item.group;
 		};

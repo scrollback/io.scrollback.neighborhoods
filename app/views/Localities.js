@@ -1,15 +1,15 @@
-import React from "react-native";
-import BannerUnavailable from "./BannerUnavailable";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import LoadingItem from "./LoadingItem";
-import BannerOfflineContainer from "../containers/BannerOfflineContainer";
-import LocalityItem from "./LocalityItem";
-import ListItem from "./ListItem";
-import AppText from "./AppText";
-import Icon from "./Icon";
-import Geolocation from "../modules/Geolocation";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import BannerUnavailable from './BannerUnavailable';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import LoadingItem from './LoadingItem';
+import BannerOfflineContainer from '../containers/BannerOfflineContainer';
+import LocalityItem from './LocalityItem';
+import ListItem from './ListItem';
+import AppText from './AppText';
+import Icon from './Icon';
+import Geolocation from '../modules/Geolocation';
+import Colors from '../../Colors.json';
 
 const {
 	StyleSheet,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	footerLabel: {
 		fontSize: 12,
 		lineHeight: 18,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		color: Colors.fadedBlack,
 	},
 
@@ -49,7 +49,7 @@ export default class Localities extends React.Component {
 		available: React.PropTypes.bool,
 		onNavigation: React.PropTypes.func.isRequired,
 		data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-			React.PropTypes.oneOf([ "missing", "failed" ]),
+			React.PropTypes.oneOf([ 'missing', 'failed' ]),
 			React.PropTypes.shape({
 				id: React.PropTypes.string
 			})
@@ -103,7 +103,7 @@ export default class Localities extends React.Component {
 
 	_handleSelectLocality = room => {
 		this.props.onNavigation(new NavigationActions.Push({
-			name: "room",
+			name: 'room',
 			props: {
 				room: room.id
 			}
@@ -111,7 +111,7 @@ export default class Localities extends React.Component {
 	};
 
 	_renderRow = room => {
-		if (room === "missing") {
+		if (room === 'missing') {
 			return <LoadingItem />;
 		}
 
@@ -129,15 +129,15 @@ export default class Localities extends React.Component {
 
 	_handleManagePlaces = () => {
 		this.props.onNavigation(new NavigationActions.Push({
-			name: "places",
+			name: 'places',
 		}));
 	};
 
 	_handleReportIssue = () => {
 		this.props.onNavigation(new NavigationActions.Push({
-			name: "room",
+			name: 'room',
 			props: {
-				room: "support"
+				room: 'support'
 			}
 		}));
 	};
@@ -148,7 +148,7 @@ export default class Localities extends React.Component {
 				<ListItem containerStyle={styles.footerItem} onPress={this._handleManagePlaces}>
 					<Icon
 						style={styles.footerIcon}
-						name="settings"
+						name='settings'
 						size={18}
 					/>
 					<AppText style={styles.footerLabel}>MANAGE MY PLACES</AppText>
@@ -156,7 +156,7 @@ export default class Localities extends React.Component {
 				<ListItem containerStyle={styles.footerItem} onPress={this._handleReportIssue}>
 					<Icon
 						style={styles.footerIcon}
-						name="info"
+						name='info'
 						size={18}
 					/>
 					<AppText style={styles.footerLabel}>REPORT AN ISSUE</AppText>
@@ -170,11 +170,11 @@ export default class Localities extends React.Component {
 
 		if (this.props.data.length === 1) {
 			switch (this.props.data[0]) {
-			case "missing":
+			case 'missing':
 				placeHolder = <PageLoading />;
 				break;
-			case "failed":
-				placeHolder = <PageEmpty label="Failed to load discussions" image="sad" />;
+			case 'failed':
+				placeHolder = <PageEmpty label='Failed to load discussions' image='sad' />;
 				break;
 			}
 		}

@@ -1,19 +1,19 @@
 /* @flow */
 
-import React from "react-native";
-import StartDiscussion from "../views/StartDiscussion";
-import Container from "./Container";
-import Facebook from "../modules/Facebook";
-import generate from "../lib/generate.browser";
-import { convertRouteToURL } from "../routes/Route";
-import config from "../store/config";
+import React from 'react-native';
+import StartDiscussion from '../views/StartDiscussion';
+import Container from './Container';
+import Facebook from '../modules/Facebook';
+import generate from '../lib/generate.browser';
+import { convertRouteToURL } from '../routes/Route';
+import config from '../store/config';
 
 const {
 	ToastAndroid
 } = React;
 
-const PERMISSION_PUBLISH_ACTIONS = "publish_actions";
-const PERMISSION_PUBLISH_ERROR = "REQUEST_PERMISSION_ERROR";
+const PERMISSION_PUBLISH_ACTIONS = 'publish_actions';
+const PERMISSION_PUBLISH_ERROR = 'REQUEST_PERMISSION_ERROR';
 
 class StartDiscussionContainer extends React.Component {
 	static propTypes = {
@@ -31,7 +31,7 @@ class StartDiscussionContainer extends React.Component {
 
 			return result;
 		} catch (err) {
-			ToastAndroid.show("Failed to get permission to post on Facebook", ToastAndroid.SHORT);
+			ToastAndroid.show('Failed to get permission to post on Facebook', ToastAndroid.SHORT);
 			throw err;
 		}
 	};
@@ -70,19 +70,19 @@ class StartDiscussionContainer extends React.Component {
 			const token = await Facebook.getCurrentAccessToken();
 
 			if (token && token.user_id) {
-				await Facebook.sendGraphRequest("POST", `/${token.user_id}/feed`, content);
+				await Facebook.sendGraphRequest('POST', `/${token.user_id}/feed`, content);
 			}
 
-			ToastAndroid.show("Post shared on Facebook", ToastAndroid.SHORT);
+			ToastAndroid.show('Post shared on Facebook', ToastAndroid.SHORT);
 		} catch (err) {
-			ToastAndroid.show("Failed to share post on Facebook", ToastAndroid.SHORT);
+			ToastAndroid.show('Failed to share post on Facebook', ToastAndroid.SHORT);
 		}
 	};
 
 	_postDiscussion = async ({ title, text, thread, picture }, shareOnFacebook) => {
 		const id = thread || generate.uid();
 
-		const post = await this.dispatch("text", {
+		const post = await this.dispatch('text', {
 			id,
 			text: text.trim(),
 			title: title.trim(),
@@ -92,8 +92,8 @@ class StartDiscussionContainer extends React.Component {
 		});
 
 		const content = {
-			link: config.server.protocol + "//" + config.server.host + convertRouteToURL({
-				name: "chat",
+			link: config.server.protocol + '//' + config.server.host + convertRouteToURL({
+				name: 'chat',
 				props: {
 					room: post.to,
 					thread: post.id,

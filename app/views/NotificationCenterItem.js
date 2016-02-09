@@ -1,10 +1,10 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import Icon from "./Icon";
-import AvatarRound from "./AvatarRound";
-import Time from "./Time";
-import TouchFeedback from "./TouchFeedback";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import Icon from './Icon';
+import AvatarRound from './AvatarRound';
+import Time from './Time';
+import TouchFeedback from './TouchFeedback';
 
 const {
 	StyleSheet,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	note: {
-		flexDirection: "row"
+		flexDirection: 'row'
 	},
 	avatarContainer: {
 		margin: 16
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		color: Colors.darkGrey
 	},
 	timestampContainer: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		marginTop: 4
 	},
 	timestamp: {
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
 		margin: 2
 	},
 	badge: {
-		position: "absolute",
-		alignItems: "center",
+		position: 'absolute',
+		alignItems: 'center',
 		bottom: -1,
 		right: -1,
 		height: 15,
@@ -79,20 +79,20 @@ const styles = StyleSheet.create({
 	},
 	badgeIcon: {
 		marginVertical: 1,
-		textAlign: "center",
+		textAlign: 'center',
 		color: Colors.white
 	}
 });
 
 export default class NotificationCenterItem extends React.Component {
 	_extractPart = (note, index) => {
-		return typeof note.group === "string" ? note.group.split("/")[index] : null;
+		return typeof note.group === 'string' ? note.group.split('/')[index] : null;
 	};
 
 	_getThread = note => {
 		const thread = this._extractPart(note, 1);
 
-		return (thread === "all" || !thread) ? null : thread;
+		return (thread === 'all' || !thread) ? null : thread;
 	};
 
 	_getRoom = note => {
@@ -107,56 +107,56 @@ export default class NotificationCenterItem extends React.Component {
 		const summary = [];
 
 		switch (noteType) {
-		case "mention":
+		case 'mention':
 			if (count > 1) {
-				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new mentions in");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, ' new mentions in');
 			} else {
-				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " mentioned you in");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, ' mentioned you in');
 			}
 
 			if (noteData.title) {
-				summary.push(" ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
+				summary.push(' ', <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" - ", <AppText key={3} style={styles.strong}>{room}</AppText>);
+			summary.push(' - ', <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
-		case "reply":
+		case 'reply':
 			if (count > 1) {
-				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new replies");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, ' new replies');
 			} else {
-				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " replied");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, ' replied');
 			}
 
 			if (noteData.title) {
-				summary.push(" to ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
+				summary.push(' to ', <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 			}
 
-			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
+			summary.push(' in ', <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
-		case "thread":
+		case 'thread':
 			if (count > 1) {
-				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new discussions");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, ' new discussions');
 			} else {
-				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, " started a discussion");
+				summary.push(<AppText key={1} style={styles.strong}>{noteData.from}</AppText>, ' started a discussion');
 
 				if (noteData.title) {
-					summary.push(" on ", <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
+					summary.push(' on ', <AppText key={2} style={styles.strong}>{noteData.title}</AppText>);
 				}
 			}
 
-			summary.push(" in ", <AppText key={3} style={styles.strong}>{room}</AppText>);
+			summary.push(' in ', <AppText key={3} style={styles.strong}>{room}</AppText>);
 
 			break;
 		default:
 			if (count > 1) {
-				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, " new notifications");
+				summary.push(<AppText key={1} style={styles.strong}>{count}</AppText>, ' new notifications');
 			} else {
-				summary.push("New notification from ", <AppText key={1} style={styles.strong}>{noteData.from}</AppText>);
+				summary.push('New notification from ', <AppText key={1} style={styles.strong}>{noteData.from}</AppText>);
 			}
 
-			summary.push(" in ", <AppText key={2} style={styles.strong}>{room}</AppText>);
+			summary.push(' in ', <AppText key={2} style={styles.strong}>{room}</AppText>);
 		}
 
 		return summary;
@@ -166,14 +166,14 @@ export default class NotificationCenterItem extends React.Component {
 		const { note } = this.props;
 
 		switch (note.noteType) {
-		case "mention":
-			return "#ff5722";
-		case "reply":
-			return "#2196F3";
-		case "thread":
-			return "#009688";
+		case 'mention':
+			return '#ff5722';
+		case 'reply':
+			return '#2196F3';
+		case 'thread':
+			return '#009688';
 		default:
-			return "#673ab7";
+			return '#673ab7';
 		}
 	};
 
@@ -181,14 +181,14 @@ export default class NotificationCenterItem extends React.Component {
 		const { note } = this.props;
 
 		switch (note.noteType) {
-		case "mention":
-			return "person";
-		case "reply":
-			return "reply";
-		case "thread":
-			return "create";
+		case 'mention':
+			return 'person';
+		case 'reply':
+			return 'reply';
+		case 'thread':
+			return 'create';
 		default:
-			return "notifications";
+			return 'notifications';
 		}
 	};
 
@@ -199,10 +199,10 @@ export default class NotificationCenterItem extends React.Component {
 		const thread = this._getThread(note);
 
 		switch (note.noteType) {
-		case "mention":
-		case "reply":
+		case 'mention':
+		case 'reply':
 			onNavigation(new NavigationActions.Push({
-				name: "chat",
+				name: 'chat',
 				props: {
 					thread,
 					room
@@ -210,17 +210,17 @@ export default class NotificationCenterItem extends React.Component {
 			}));
 
 			break;
-		case "thread":
+		case 'thread':
 			if (note.count > 1) {
 				onNavigation(new NavigationActions.Push({
-					name: "room",
+					name: 'room',
 					props: {
 						room
 					}
 				}));
 			} else {
 				onNavigation(new NavigationActions.Push({
-					name: "chat",
+					name: 'chat',
 					props: {
 						thread: note.ref,
 						room
@@ -231,7 +231,7 @@ export default class NotificationCenterItem extends React.Component {
 			break;
 		default:
 			onNavigation(new NavigationActions.Push({
-				name: "room",
+				name: 'room',
 				props: {
 					room
 				}
@@ -272,12 +272,12 @@ export default class NotificationCenterItem extends React.Component {
 							</View>
 							<View style={styles.timestampContainer}>
 								<Icon
-									name="access-time"
+									name='access-time'
 									style={[ styles.icon, styles.metaIcon ]}
 									size={12}
 								/>
 								<Time
-									type="long"
+									type='long'
 									time={note.time}
 									style={styles.timestamp}
 								/>
@@ -290,7 +290,7 @@ export default class NotificationCenterItem extends React.Component {
 							>
 								<View style={styles.close}>
 									<Icon
-										name="close"
+										name='close'
 										style={styles.icon}
 										size={16}
 									/>

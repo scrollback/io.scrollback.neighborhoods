@@ -13,17 +13,17 @@ export function isValidTel(link) {
 export function buildLink(link) {
 	if (isValidURL(link)) {
 		// a normal link
-		return /^(https?|ftp):\/\//.test(link) ? link : "http://" + link;
+		return /^(https?|ftp):\/\//.test(link) ? link : 'http://' + link;
 	}
 
 	if (isValidMail(link)) {
 		// an email id
-		return /^mailto:/.test(link) ? link : "mailto:" + link;
+		return /^mailto:/.test(link) ? link : 'mailto:' + link;
 	}
 
 	if (isValidTel(link)) {
 		// a phone number
-		return /^tel:/.test(link) ? link : "tel:" + link;
+		return /^tel:/.test(link) ? link : 'tel:' + link;
 	}
 
 	return null;
@@ -31,12 +31,12 @@ export function buildLink(link) {
 
 export function parseURLs(text, count) {
 	const links = [];
-	const words = text.replace(/(\r\n|\n|\r)/g, " ").split(" ");
+	const words = text.replace(/(\r\n|\n|\r)/g, ' ').split(' ');
 
 	let url;
 
 	for (let i = 0, l = words.length; i < l; i++) {
-		url = buildLink(words[i].trim().replace(/[\.,\?!:;]+$/, ""));
+		url = buildLink(words[i].trim().replace(/[\.,\?!:;]+$/, ''));
 
 		if (/^https?:\/\//.test(url)) {
 			links.push(url);

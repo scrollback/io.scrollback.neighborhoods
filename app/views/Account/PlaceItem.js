@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import Icon from "../Icon";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import Icon from '../Icon';
+import Colors from '../../../Colors.json';
 
 const {
 	View,
@@ -13,8 +13,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		marginVertical: 8,
 		height: 56,
 	},
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	name: {
 		fontSize: 14,
 		lineHeight: 21,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		color: Colors.darkGrey,
 	},
 
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
 	},
 
 	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		height: 36,
 		width: 36,
 		borderRadius: 18,
@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
 	},
 
 	closeContainer: {
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		margin: 16,
 		padding: 4,
 		borderRadius: 12,
@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
 });
 
 const ICONS = {
-	home: "home",
-	work: "work",
-	state: "location-city",
+	home: 'home',
+	work: 'work',
+	state: 'location-city',
 };
 
 export default class PlaceItem extends React.Component {
@@ -84,7 +84,7 @@ export default class PlaceItem extends React.Component {
 
 	_capitalizeText = text => {
 		return text
-			.replace(/-+/g, " ")
+			.replace(/-+/g, ' ')
 			.replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1))
 			.trim();
 	};

@@ -1,21 +1,21 @@
-"use strict";
+'use strict';
 
 var store, core,
-	entityOps = require("./entity-ops.js"),
-	objUtils = require("../lib/obj-utils.js"),
-	userUtils = require("../lib/user-utils.js"),
-	generate = require("../lib/generate.browser.js"),
+	entityOps = require('./entity-ops.js'),
+	objUtils = require('../lib/obj-utils.js'),
+	userUtils = require('../lib/user-utils.js'),
+	generate = require('../lib/generate.browser.js'),
 	pendingActions = {},
 	timeAdjustment = 0;
 
 function entitiesFromRooms(list, entities, userId) {
 	list.forEach(function(e) {
-		var rkey = e.id + "_" + userId,
+		var rkey = e.id + '_' + userId,
 			relation, entity;
 
 		relation = entityOps.relatedEntityToRelation(e, {
 			id: userId,
-			type: "user"
+			type: 'user'
 		});
 		entity = entityOps.relatedEntityToEntity(e);
 
@@ -29,9 +29,9 @@ function entitiesFromRooms(list, entities, userId) {
 function keyFromText(text) {
 	var key = text.to;
 	if (text.thread) {
-		key = key + "_" + text.thread;
+		key = key + '_' + text.thread;
 	} else if (text.threads && text.threads.length > 0 && text.threads[0] && text.threads[0].id) {
-		key = key + "_" + text.threads[0].id;
+		key = key + '_' + text.threads[0].id;
 	}
 
 	return key;
@@ -79,16 +79,16 @@ function onInit(init, next) {
 		newstate = {};
 
 	if (
-		init.user.identities.filter(ident => ident.split(":")[0] === "mailto").length > 0 &&
+		init.user.identities.filter(ident => ident.split(':')[0] === 'mailto').length > 0 &&
 		userUtils.isGuest(init.user.id)
 	) {
 		init.user = init.user || {};
-		init.user.type = "user";
+		init.user.type = 'user';
 
-		entities[store.get("user")] = init.user;
+		entities[store.get('user')] = init.user;
 		newstate.entities = entities;
 
-		core.emit("setstate", newstate);
+		core.emit('setstate', newstate);
 
 		return next();
 	}
@@ -98,11 +98,11 @@ function onInit(init, next) {
 
 	entities[init.user.id] = init.user;
 
-	core.emit("setstate", {
+	core.emit('setstate', {
 		entities: entities,
 		user: init.user.id,
-		app:(init.old && init.old.id !== init.user.id)?{listeningRooms : []}:{}
-	}, function(){
+		app:(init.old && init.old.id !== init.user.id) ? { listeningRooms : [] }:{}
+	}, function() {
 		next();
 	});
 }
@@ -112,22 +112,22 @@ function onRoomUser(action, next) {
 		entities = {},
 		currentUser = store.getUser();
 
-	entities[action.to] = action[action.type === "room" ? "room" : "user"];
+	entities[action.to] = action[action.type === 'room' ? 'room' : 'user'];
 	changes.entities = entities;
 
 	if (action.type === 'room' && action.from === currentUser.id) {
-		changes.entities[action.to + "_" + currentUser.id] = {
+		changes.entities[action.to + '_' + currentUser.id] = {
 			room: action.to,
 			user: currentUser.id,
-			role: "owner"
+			role: 'owner'
 		};
 	}
 
-	if(action.type === 'user' && action.old && userUtils.isGuest(action.old.id)) {
-		changes.app = {listeningRooms: []};
+	if (action.type === 'user' && action.old && userUtils.isGuest(action.old.id)) {
+		changes.app = { listeningRooms: [] };
 		changes.user = action.user.id;
 	}
-	core.emit("setstate", changes, function(){
+	core.emit('setstate', changes, function() {
 		next();
 	});
 }
@@ -144,13 +144,13 @@ function onAwayBack(action) {
 
 	relation = entityOps.relatedEntityToRelation(entities[action.to], {
 		id: action.from,
-		type: "user"
+		type: 'user'
 	});
-	relation.status = action.type === "away" ? "offline" : "online";
+	relation.status = action.type === 'away' ? 'offline' : 'online';
 
-	entities[relation.room + "_" + relation.user] = relation;
+	entities[relation.room + '_' + relation.user] = relation;
 
-	core.emit("setstate", {
+	core.emit('setstate', {
 		entities: entities
 	});
 
@@ -162,24 +162,24 @@ function onTextUp(text) {
 	var newState = {
 			texts: {}
 		},
-		currentTexts = store.get("texts", text.to);
+		currentTexts = store.get('texts', text.to);
 
 	pendingActions[text.id] = text;
 
 	text = objUtils.clone(text);
 
-	newState.texts[text.to] = [{ // put the text in all messages
+	newState.texts[text.to] = [ { // put the text in all messages
 		start: text.time,
 		end: (currentTexts && currentTexts.length) ? text.time : null,
-		items: [text]
-	}];
+		items: [ text ]
+	} ];
 
 	if (text.thread) {
-		newState.texts[keyFromText(text)] = [{ // put the text in the appropriate thread
+		newState.texts[keyFromText(text)] = [ { // put the text in the appropriate thread
 			start: text.time,
 			end: (text.thread !== text.id) ? text.time : null,
-			items: [text]
-		}];
+			items: [ text ]
+		} ];
 	}
 
 	//	Optimistically adding new threads is made complex
@@ -196,32 +196,32 @@ function onTextUp(text) {
 	//		}];
 	//	}
 
-	core.emit("setstate", newState);
+	core.emit('setstate', newState);
 
 }
 
 function onTextDn(text) {
 	let oldRange,
 		currentThreads, currentTexts,
-		oldKey = "",
+		oldKey = '',
 		newState = {
 			texts: {}
 		};
 
-	currentTexts = store.get("texts", text.to);
+	currentTexts = store.get('texts', text.to);
 
-	newState.texts[text.to] = [{ // put the text in all messages
+	newState.texts[text.to] = [ { // put the text in all messages
 		start: text.time,
 		end: (currentTexts && currentTexts.length) ? text.time : null,
-		items: [text]
-	}];
+		items: [ text ]
+	} ];
 
 	if (text.thread) {
-		newState.texts[keyFromText(text)] = [{ // put the text in the appropriate thread
+		newState.texts[keyFromText(text)] = [ { // put the text in the appropriate thread
 			start: text.time,
 			end: (text.thread === text.id) ? null : text.time,
-			items: [text]
-		}];
+			items: [ text ]
+		} ];
 	}
 
 	if (pendingActions[text.id]) {
@@ -242,7 +242,7 @@ function onTextDn(text) {
 	}
 
 	if (text.thread === text.id) {
-		currentThreads = store.get("threads", text.to);
+		currentThreads = store.get('threads', text.to);
 
 		text.concerns = [];
 
@@ -251,13 +251,13 @@ function onTextDn(text) {
 		}
 
 		newState.threads = {};
-		newState.threads[text.to] = [{
+		newState.threads[text.to] = [ {
 			start: text.time,
 			end: (currentThreads && currentThreads.length) ? text.time : null,
 			items: [ threadFromText(text) ]
-		}];
+		} ];
 	} else if (!userUtils.isGuest(text.from) || (text.mentions && text.mentions.length)) {
-		let threadObj = store.get("indexes", "threadsById", text.thread);
+		let threadObj = store.get('indexes', 'threadsById', text.thread);
 
 		if (threadObj) {
 			let changed;
@@ -302,11 +302,11 @@ function onTextDn(text) {
 
 			if (changed) {
 				newState.threads = {
-					[text.to]: [{
+					[text.to]: [ {
 						start: threadObj.startTime,
 						end: threadObj.startTime,
 						items: [ threadObj ]
-					}]
+					} ]
 				};
 			}
 		}
@@ -314,7 +314,7 @@ function onTextDn(text) {
 
 	// TODO? If text.title exists, change title of thread.
 
-	core.emit("setstate", newState);
+	core.emit('setstate', newState);
 }
 
 function onEdit(edit) {
@@ -325,7 +325,7 @@ function onEdit(edit) {
 
 	if (text) {
 		if (text.id === text.thread) {
-			currentThread = store.get("indexes", "threadsById", text.id);
+			currentThread = store.get('indexes', 'threadsById', text.id);
 
 			text.title = currentThread ? currentThread.title : text.title;
 			text.length = currentThread ? currentThread.length : text.length;
@@ -339,11 +339,11 @@ function onEdit(edit) {
 		if (edit.text) text.text = edit.text;
 
 		changes.texts = changes.texts || {};
-		changes.texts[keyFromText(text)] = changes.texts[text.to] = [{
+		changes.texts[keyFromText(text)] = changes.texts[text.to] = [ {
 			start: text.time,
 			end: text.time,
-			items: pleb && text.tags.indexOf("hidden") >= 0 ? [] : [text]
-		}];
+			items: pleb && text.tags.indexOf('hidden') >= 0 ? [] : [ text ]
+		} ];
 	}
 
 	if (thread) {
@@ -351,14 +351,14 @@ function onEdit(edit) {
 		if (edit.title) thread.title = edit.title;
 
 		changes.threads = changes.threads || {};
-		changes.threads[thread.to] = [{
+		changes.threads[thread.to] = [ {
 			start: thread.startTime,
 			end: thread.startTime,
-			items: pleb && thread.tags.indexOf("thread-hidden") >= 0 ? [] : [thread]
-		}];
+			items: pleb && thread.tags.indexOf('thread-hidden') >= 0 ? [] : [ thread ]
+		} ];
 	}
 
-	core.emit("setstate", changes);
+	core.emit('setstate', changes);
 }
 
 function onJoinPart(join) {
@@ -380,9 +380,9 @@ function onJoinPart(join) {
 	}
 	entities[roomObj.id] = entityOps.relatedEntityToEntity(roomObj);
 	entities[userObj.id] = entityOps.relatedEntityToEntity(userObj);
-	entities[roomObj.id + "_" + userObj.id] = relation;
+	entities[roomObj.id + '_' + userObj.id] = relation;
 
-	core.emit("setstate", {
+	core.emit('setstate', {
 		entities: entities
 	});
 }
@@ -403,71 +403,71 @@ function onAdmitDn(action) {
 
 	entities[roomObj.id] = entityOps.relatedEntityToEntity(roomObj);
 	entities[victim.id] = entityOps.relatedEntityToEntity(victim);
-	entities[roomObj.id + "_" + victim.id] = relation;
+	entities[roomObj.id + '_' + victim.id] = relation;
 
 	newState = {
 		entities: entities
 	};
 
-	roomId = store.get("nav", "room");
+	roomId = store.get('nav', 'room');
 	if (roomId === roomObj.id) {
 		newState.nav = {
 			room: roomId
 		};
 	}
 
-	core.emit("setstate", newState);
+	core.emit('setstate', newState);
 }
 
 module.exports = function(c, conf, s) {
 	store = s;
 	core = c;
 
-	core.on("admit-dn", onAdmitDn, 950);
-	core.on("expel-dn", onAdmitDn, 950);
-	core.on("init-dn", onInit, 950);
-	core.on("join-dn", onJoinPart, 950);
-	core.on("part-dn", onJoinPart, 950);
-	core.on("edit-dn", onEdit, 950);
-	core.on("text-up", onTextUp, 950);
-	core.on("text-dn", onTextDn, 950);
-	core.on("away-dn", onAwayBack, 950);
-	core.on("back-dn", onAwayBack, 950);
-	core.on("room-dn", onRoomUser, 950);
-	core.on("user-dn", onRoomUser, 950);
+	core.on('admit-dn', onAdmitDn, 950);
+	core.on('expel-dn', onAdmitDn, 950);
+	core.on('init-dn', onInit, 950);
+	core.on('join-dn', onJoinPart, 950);
+	core.on('part-dn', onJoinPart, 950);
+	core.on('edit-dn', onEdit, 950);
+	core.on('text-up', onTextUp, 950);
+	core.on('text-dn', onTextDn, 950);
+	core.on('away-dn', onAwayBack, 950);
+	core.on('back-dn', onAwayBack, 950);
+	core.on('room-dn', onRoomUser, 950);
+	core.on('user-dn', onRoomUser, 950);
 
-	core.on("error-dn", function(error) {
+	core.on('error-dn', function(error) {
 		var newState = {
 			texts: {}
 		};
-		var text = store.get("indexes", "textsById", error.id);
+		var text = store.get('indexes', 'textsById', error.id);
 		if (text) {
 			text = objUtils.clone(text);
 
-			(text.tags = text.tags ? text.tags : []).push("failed");
+			(text.tags = text.tags ? text.tags : []).push('failed');
 
-			newState.texts[text.to] = [{ // put the text in all messages
+			newState.texts[text.to] = [ { // put the text in all messages
 				start: text.time,
 				end: text.time,
-				items: [text]
-			}];
+				items: [ text ]
+			} ];
 
 			if (text.thread) {
-				newState.texts[keyFromText(text)] = [{ // put the text in the appropriate thread
+				newState.texts[keyFromText(text)] = [ { // put the text in the appropriate thread
 					start: text.time,
 					end: (text.thread === text.id) ? null : text.time,
-					items: [text]
-				}];
+					items: [ text ]
+				} ];
 			}
 
 
-			core.emit("setstate", newState);
+			core.emit('setstate', newState);
 			error.handled = true;
 		}
 	}, 1000);
 	[
-		"text-up", "edit-up", "back-up", "away-up", "init-up",
-		"join-up", "part-up", "admit-up", "expel-up", "room-up"
+		'text-up', 'edit-up', 'back-up', 'away-up', 'init-up',
+		'join-up', 'part-up', 'admit-up', 'expel-up', 'room-up'
 	].forEach(function(event) {
 		core.on(event, function(action, next) {
 			if (!action.id) {
@@ -482,7 +482,7 @@ module.exports = function(c, conf, s) {
 		}, 1000);
 	});
 
-	["getTexts", "getUsers", "getRooms", "getThreads", "getEntities", "upload/getPolicy"].forEach(function(event) {
+	['getTexts', 'getUsers', 'getRooms', 'getThreads', 'getEntities', "upload/getPolicy" ].forEach(function(event) {
 		core.on(event, function(query, next) {
 			if (!query.id) {
 				query.id = generate.uid();
@@ -493,8 +493,8 @@ module.exports = function(c, conf, s) {
 	});
 
 	[
-		"text-dn", "edit-dn", "back-dn", "away-dn", "init-dn",
-		"join-dn", "part-dn", "admit-dn", "expel-dn", "room-dn"
+		'text-dn', 'edit-dn', 'back-dn', 'away-dn', 'init-dn',
+		'join-dn', 'part-dn', 'admit-dn', 'expel-dn', 'room-dn'
 	].forEach(function(event) {
 		core.on(event, function(action) {
 			timeAdjustment = action.time - Date.now();

@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var relationsProps = require("./../property-list.js").relations;
+var relationsProps = require('./../property-list.js').relations;
 var core, store;
 
 
@@ -8,15 +8,15 @@ function constructEntitiesFromUserList(list, entities, roomId) {
 	list.forEach(function(e) {
 		var relation;
 
-		if (entities[roomId + "_" + e.id]) {
-			relation = entities[roomId + "_" + e.id];
+		if (entities[roomId + '_' + e.id]) {
+			relation = entities[roomId + '_' + e.id];
 		} else {
 			relation = {};
 		}
 
 		relation.room = roomId;
 		relation.user = e.id;
-		relation.status = "offline";
+		relation.status = 'offline';
 		relationsProps.forEach(function(key) {
 			if (e[key]) {
 				relation[key] = e[key];
@@ -25,7 +25,7 @@ function constructEntitiesFromUserList(list, entities, roomId) {
 		});
 
 		entities[e.id] = e;
-		entities[roomId + "_" + e.id] = relation;
+		entities[roomId + '_' + e.id] = relation;
 	});
 }
 
@@ -38,14 +38,14 @@ function loadUsersList(roomId) {
 		constructEntitiesFromUserList(occupantList, entities, roomId);
 
 		occupantList.forEach(function(e) {
-			entities[roomId + "_" + e.id].status = "online";
+			entities[roomId + '_' + e.id].status = 'online';
 		});
 
-		core.emit("setstate", { entities: entities });
+		core.emit('setstate', { entities: entities });
 	}
 
-	core.emit("getUsers", {
-		type: "getUsers",
+	core.emit('getUsers', {
+		type: 'getUsers',
 		memberOf: roomId
 	}, function(err, data) {
 		memberList = data.results || [];
@@ -57,8 +57,8 @@ function loadUsersList(roomId) {
 		}
 	});
 
-	core.emit("getUsers", {
-		type: "getUsers",
+	core.emit('getUsers', {
+		type: 'getUsers',
 		occupantOf: roomId
 	}, function(err, data) {
 		occupantList = data.results || [];
@@ -75,9 +75,9 @@ module.exports = function(c, conf, s) {
 	core = c;
 	store = s;
 
-	core.on("setstate", function(changes) {
-		var roomId = store.with(changes).get("nav", "room"),
-			oldRoomId = store.get("nav", "room");
+	core.on('setstate', function(changes) {
+		var roomId = store.with(changes).get('nav', 'room'),
+			oldRoomId = store.get('nav', 'room');
 
 		if (!changes.entities) changes.entities = {};
 

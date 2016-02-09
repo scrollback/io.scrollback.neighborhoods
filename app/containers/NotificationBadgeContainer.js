@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import NotificationBadge from "../views/NotificationBadge";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import NotificationBadge from '../views/NotificationBadge';
+import Container from './Container';
+import store from '../store/store';
 
 class NotificationBadgeContainer extends React.Component {
 	static propTypes = {
@@ -19,7 +19,7 @@ class NotificationBadgeContainer extends React.Component {
 	componentWillMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes && changes.notes) {
 				this._updateData();
 			}
@@ -33,9 +33,9 @@ class NotificationBadgeContainer extends React.Component {
 		let items;
 
 		if (room) {
-			items = notes.filter(note => note.group.split("/")[0] === room);
+			items = notes.filter(note => note.group.split('/')[0] === room);
 		} else if (thread) {
-			items = notes.filter(note => note.group.split("/")[1] === thread);
+			items = notes.filter(note => note.group.split('/')[1] === thread);
 		} else {
 			items = notes;
 		}

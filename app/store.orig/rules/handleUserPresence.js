@@ -1,34 +1,33 @@
 import actions from '../../store/actions';
 
 module.exports = function(core, config, store) {
-	var userUtils = require("../../lib/user-utils"),
-		permissionLevels = require("../../store.orig/permissionWeights"),
+	var userUtils = require('../../lib/user-utils'),
+		permissionLevels = require('../../store.orig/permissionWeights'),
 		queueBack = [];
 
 	function enter(roomId) {
 		var room = store.getRoom(roomId),
 			relation = store.getRelation(roomId),
-			role = relation ? relation.role : "none";
+			role = relation ? relation.role : 'none';
 
-		if ((room && room.guides && room.guides.authorizer && (permissionLevels[role] < permissionLevels[room.guides.authorizer.readLevel])) ||
-		   (role === "banned")) {
+		if ((room && room.guides && room.guides.authorizer && (permissionLevels[role] < permissionLevels[room.guides.authorizer.readLevel])) || (role === 'banned')) {
 			return;
 		}
 
-		actions.dispatch("back", { to: roomId }).then(() => {
-			let listeningRooms = store.get("app", "listeningRooms");
+		actions.dispatch('back', { to: roomId }).then(() => {
+			let listeningRooms = store.get('app', 'listeningRooms');
 
 			listeningRooms = Array.isArray(listeningRooms) ? listeningRooms.slice(0) : [];
 
 			if (listeningRooms.indexOf(roomId) === -1) {
 				listeningRooms.push(roomId);
 
-				core.emit("setstate", {
+				core.emit('setstate', {
 					app: { listeningRooms }
 				});
 			}
 		}).catch(() => {
-			let listeningRooms = store.get("app", "listeningRooms");
+			let listeningRooms = store.get('app', 'listeningRooms');
 
 			listeningRooms = Array.isArray(listeningRooms) ? listeningRooms.slice(0) : [];
 
@@ -37,7 +36,7 @@ module.exports = function(core, config, store) {
 			if (index > -1) {
 				listeningRooms.splice(index, 1);
 
-				core.emit("setstate", {
+				core.emit('setstate', {
 					app: { listeningRooms }
 				});
 			}
@@ -45,10 +44,10 @@ module.exports = function(core, config, store) {
 	}
 
 	function sendBack(roomId) {
-		var listeningRooms = store.get("app", "listeningRooms");
+		var listeningRooms = store.get('app', 'listeningRooms');
 
 		if (listeningRooms.indexOf(roomId) < 0) {
-			if (store.get("app", "connectionStatus") === "online") {
+			if (store.get('app', 'connectionStatus') === 'online') {
 				enter(roomId);
 			} else {
 				queueBack.push(roomId);
@@ -56,8 +55,8 @@ module.exports = function(core, config, store) {
 		}
 	}
 
-	core.on("setstate", changes => {
-		if (changes.app && changes.app.connectionStatus === "offline") {
+	core.on('setstate', changes => {
+		if (changes.app && changes.app.connectionStatus === 'offline') {
 			changes.app = changes.app || {};
 			changes.app.listeningRooms = [];
 		}
@@ -67,26 +66,26 @@ module.exports = function(core, config, store) {
 		}
 	}, 998);
 
-	core.on("statechange", function(changes, next) {
+	core.on('statechange', function(changes, next) {
 		if (changes.app && changes.app.connectionStatus) {
-			if (changes.app.connectionStatus === "online") {
+			if (changes.app.connectionStatus === 'online') {
 				while (queueBack.length) enter(queueBack.splice(0, 1)[0]);
 			}
 		}
 		next();
 	}, 500);
 
-	core.on("init-dn", function(init, next) {
+	core.on('init-dn', function(init, next) {
 		var entities = {};
 
 		init.occupantOf.forEach(function(roomObj) {
 			if (init.old && init.old.id) {
 				if (userUtils.isGuest(init.old.id)) {
 					entities[init.old.id] = null;
-					entities[roomObj.id + "_" + init.old.id] = null;
+					entities[roomObj.id + '_' + init.old.id] = null;
 				}else {
-					entities[roomObj.id + "_" + init.old.id] = {
-						statue: "offline"
+					entities[roomObj.id + '_' + init.old.id] = {
+						statue: 'offline'
 					};
 				}
 			}
@@ -101,7 +100,7 @@ module.exports = function(core, config, store) {
 		next();
 	}, 500);
 
-	core.on("user-dn", function(userDn) {
+	core.on('user-dn', function(userDn) {
 		if (userDn.old && userUtils.isGuest(userDn.old.id)) {
 			if (userDn.occupantOf && userDn.occupantOf.length) {
 				userDn.occupantOf.map(function(e) {

@@ -1,7 +1,7 @@
-import React from "react-native";
-import FloatingActionButton from "./FloatingActionButton";
-import Modal from "./Modal";
-import StartDiscussionContainer from "../containers/StartDiscussionContainer";
+import React from 'react-native';
+import FloatingActionButton from './FloatingActionButton';
+import Modal from './Modal';
+import StartDiscussionContainer from '../containers/StartDiscussionContainer';
 
 export default class StartDiscussionButton extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -19,7 +19,7 @@ export default class StartDiscussionButton extends React.Component {
 		return (
 			<FloatingActionButton
 				{...this.props}
-				icon="create"
+				icon='create'
 				onPress={this._onPress}
 			/>
 		);

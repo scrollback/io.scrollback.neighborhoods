@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import LocalitiesFiltered from "../views/LocalitiesFiltered";
-import Geolocation from "../modules/Geolocation";
-import Container from "./Container";
+import React from 'react-native';
+import LocalitiesFiltered from '../views/LocalitiesFiltered';
+import Geolocation from '../modules/Geolocation';
+import Container from './Container';
 
 class LocalitiesFilteredContainer extends React.Component {
 	static propTypes = {
@@ -19,7 +19,7 @@ class LocalitiesFilteredContainer extends React.Component {
 				lon: number
 			}
 		} = filter ? {
-			ref: filter.trim().replace(/\W+/g, "-") + "*"
+			ref: filter.trim().replace(/\W+/g, '-') + '*'
 		} : { limit: 5 };
 
 		try {
@@ -36,7 +36,7 @@ class LocalitiesFilteredContainer extends React.Component {
 
 		if (opts.ref || opts.location) {
 			const { excludeList } = this.props;
-			const results = await this.query("getRooms", opts);
+			const results = await this.query('getRooms', opts);
 
 			if (excludeList && excludeList.length) {
 				return results.filter(room => room && excludeList.indexOf(room.id) === -1);

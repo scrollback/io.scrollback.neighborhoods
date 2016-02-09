@@ -1,8 +1,8 @@
-import React from "react-native";
-import AppText from "./AppText";
-import Link from "./Link";
-import { buildLink } from "../lib/URL";
-import smiley from "../lib/smiley";
+import React from 'react-native';
+import AppText from './AppText';
+import Link from './Link';
+import { buildLink } from '../lib/URL';
+import smiley from '../lib/smiley';
 
 const {
 	StyleSheet
@@ -10,7 +10,7 @@ const {
 
 const styles = StyleSheet.create({
 	emojiOnly: {
-		textAlign: "center",
+		textAlign: 'center',
 		fontSize: 32,
 		lineHeight: 48
 	}
@@ -47,17 +47,17 @@ export default class RichText extends React.Component {
 					style={[ styles.text, this.props.style ]}
 					ref={c => this._root = c}
 				>
-					{textWithEmoji.split("\n").map((text, index, arr) => {
+					{textWithEmoji.split('\n').map((text, index, arr) => {
 						return ([
-							text.split(" ").map((inner, i) => {
+							text.split(' ').map((inner, i) => {
 								let t = inner;
 
 								const items = [];
 
-								const key = "inner-" + index + "-" + i;
+								const key = 'inner-' + index + '-' + i;
 
 								// Strip out ending punctuations
-								let punctuation = "";
+								let punctuation = '';
 
 								const matches = t.match(/[\.,\?!:;]+$/);
 
@@ -86,15 +86,15 @@ export default class RichText extends React.Component {
 											</Link>
 										);
 									} else {
-										return t + punctuation + " ";
+										return t + punctuation + ' ';
 									}
 								}
 
-								items.push(punctuation + " ");
+								items.push(punctuation + ' ');
 
 								return items;
 							}),
-							index !== (arr.length - 1) ? "\n" : ""
+							index !== (arr.length - 1) ? '\n' : ''
 						]);
 					})}
 				</AppText>

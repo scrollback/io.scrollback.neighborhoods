@@ -1,4 +1,4 @@
-import React from "react-native";
+import React from 'react-native';
 
 const {
 	StyleSheet,
@@ -8,8 +8,8 @@ const {
 const styles = StyleSheet.create({
 	page: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center"
+		alignItems: 'center',
+		justifyContent: 'center'
 	}
 });
 

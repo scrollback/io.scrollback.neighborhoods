@@ -1,20 +1,20 @@
 /* @flow */
 
-import React from "react-native";
-import UserIcon from "../views/UserIcon";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import UserIcon from '../views/UserIcon';
+import Container from './Container';
+import store from '../store/store';
 
 class UserIconContainer extends React.Component {
 	state = {
-		nick: ""
+		nick: ''
 	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
-			if ("user" in changes) {
+		this.handle('statechange', changes => {
+			if ('user' in changes) {
 				this._updateData();
 			}
 		});
@@ -22,7 +22,7 @@ class UserIconContainer extends React.Component {
 
 	_updateData = () => {
 		this.setState({
-			nick: store.get("user")
+			nick: store.get('user')
 		});
 	};
 

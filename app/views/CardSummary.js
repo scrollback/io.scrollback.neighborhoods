@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import RichText from "./RichText";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import RichText from './RichText';
 
 const {
 	StyleSheet

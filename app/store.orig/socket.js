@@ -1,11 +1,11 @@
 /* eslint-env browser */
-"use strict";
+'use strict';
 
-var eio = require("engine.io-client/engine.io"),
-	generate = require("../lib/generate.browser.js"),
-	userUtils = require("../lib/user-utils.js"),
-	objUtils = require("../lib/obj-utils.js"),
-	pending = require("../lib/pendingQueries.js"),
+var eio = require('engine.io-client/engine.io'),
+	generate = require('../lib/generate.browser.js'),
+	userUtils = require('../lib/user-utils.js'),
+	objUtils = require('../lib/obj-utils.js'),
+	pending = require('../lib/pendingQueries.js'),
 	config, core, client, store;
 
 var backOff = 1,
@@ -37,7 +37,7 @@ var currentQueries = {};
 
 function sendAction(action) {
 	action.session = session;
-	action.from = store.get("user");
+	action.from = store.get('user');
 	client.send(JSON.stringify(action));
 }
 
@@ -52,7 +52,7 @@ function sendQuery(query, next) {
 }
 
 function sendInit() {
-	core.emit("init-up", { id: generate.uid(), resource: generate.uid() });
+	core.emit('init-up', { id: generate.uid(), resource: generate.uid() });
 }
 
 function receiveMessage(event) {
@@ -61,19 +61,19 @@ function receiveMessage(event) {
 	try {
 		data = JSON.parse(event);
 	} catch (err) {
-		core.emit("error", err);
+		core.emit('error', err);
 	}
 
 	if (!data) {
 		return;
 	}
 
-	if ([ "getTexts", "getThreads", "getUsers", "getRooms", "getSessions", "getEntities", "upload/getPolicy", "getNotes", "error" ].indexOf(data.type) !== -1) {
+	if ([ 'getTexts', 'getThreads', 'getUsers', 'getRooms', 'getSessions', 'getEntities', 'upload/getPolicy', 'getNotes', 'error' ].indexOf(data.type) !== -1) {
 		if (pendingQueries[data.id]) {
 			if (data.results) { pendingQueries[data.id].query.results = data.results; }
 			if (data.response) { pendingQueries[data.id].query.response = data.response; }
 
-			if (data.type === "error") {
+			if (data.type === 'error') {
 				pendingQueries[data.id](data);
 			} else {
 				pendingQueries[data.id]();
@@ -83,7 +83,7 @@ function receiveMessage(event) {
 		}
 	}
 
-	if ([ "text", "edit", "back", "away", "join", "part", "admit", "expel", "user", "room", "init", "note", "error" ].indexOf(data.type) !== -1) {
+	if ([ 'text', 'edit', 'back', 'away', 'join', 'part', 'admit', 'expel', 'user', 'room', 'init', 'note', 'error' ].indexOf(data.type) !== -1) {
 		// data is an action
 		if (pendingActions[data.id]) {
 			pendingActions[data.id](data);
@@ -91,14 +91,14 @@ function receiveMessage(event) {
 		}
 
 		// Generate notifications from the action
-		userId = store.get("user");
+		userId = store.get('user');
 
 		if (data.note && data.from !== userId) {
 			for (var n in data.note) {
 				if (data.note[n]) {
 					note = data.note[n];
 
-					if (typeof note.score !== "number") {
+					if (typeof note.score !== 'number') {
 						note.score = 0;
 					}
 
@@ -107,13 +107,13 @@ function receiveMessage(event) {
 					note.time = data.time;
 					note.noteType = n;
 
-					core.emit("note-dn", note);
+					core.emit('note-dn', note);
 				}
 			}
 		}
 
 //		console.log(data.type+ "-dn", data);
-		core.emit(data.type + "-dn", data);
+		core.emit(data.type + '-dn', data);
 	}
 }
 
@@ -121,8 +121,8 @@ function disconnected() {
 
 	/* eslint-disable block-scoped-var, no-use-before-define */
 	if (backOff === 1) {
-		core.emit("setstate", {
-			app: { connectionStatus: "offline" }
+		core.emit('setstate', {
+			app: { connectionStatus: 'offline' }
 		}, function(err) {
 			if (err) console.log(err.message);
 		});
@@ -138,19 +138,19 @@ function disconnected() {
 }
 
 function connect() {
-	client = new eio.Socket((config.server.protocol === "https:" ? "wss:" : "ws:") + "//" + config.server.host, {
-		jsonp: "document" in window // Disable JSONP in non-web environments, e.g.- react-native
+	client = new eio.Socket((config.server.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + config.server.host, {
+		jsonp: 'document' in window // Disable JSONP in non-web environments, e.g.- react-native
 	});
 
-	client.on("close", disconnected);
+	client.on('close', disconnected);
 
-	client.on("open", function() {
+	client.on('open', function() {
 		backOff = 1;
 
 		sendInit();
 	});
 
-	client.on("message", receiveMessage);
+	client.on('message', receiveMessage);
 }
 
 module.exports = function(c, conf, s) {
@@ -160,7 +160,7 @@ module.exports = function(c, conf, s) {
 
 	connect();
 
-	[ "getTexts", "getUsers", "getRooms", "getThreads", "getEntities", "upload/getPolicy", "getNotes" ].forEach(function(e) {
+	[ 'getTexts', 'getUsers', 'getRooms', 'getThreads', 'getEntities', 'upload/getPolicy', 'getNotes' ].forEach(function(e) {
 		core.on(e, function(q, n) {
 			q.type = e;
 			var key = pending.generateKey(q);
@@ -187,10 +187,10 @@ module.exports = function(c, conf, s) {
 				delete currentQueries[key];
 			}
 
-			currentQueries[key] = [{
+			currentQueries[key] = [ {
 				query:q,
 				next: n
-			}];
+			} ];
 
 			if (initDone) {
 				sendQuery(q, finishQuery);
@@ -204,12 +204,12 @@ module.exports = function(c, conf, s) {
 	});
 
 	[
-		"text-up", "edit-up", "back-up", "away-up",
-		"join-up", "part-up", "admit-up", "expel-up",
-		"room-up", "note-up"
+		'text-up', 'edit-up', 'back-up', 'away-up',
+		'join-up', 'part-up', 'admit-up', 'expel-up',
+		'room-up', 'note-up'
 	].forEach(function(event) {
 		core.on(event, function(action, next) {
-			action.type = event.replace(/-up$/, "");
+			action.type = event.replace(/-up$/, '');
 			if (initDone) {
 				sendAction(action);
 			} else {
@@ -221,12 +221,12 @@ module.exports = function(c, conf, s) {
 		}, 1);
 	});
 
-	core.on("user-up", function(userUp, next) {
+	core.on('user-up', function(userUp, next) {
 		if (userUtils.isGuest(userUp.user.id)) {
 			next();
-			core.emit("user-dn", userUp);
+			core.emit('user-dn', userUp);
 		} else {
-			userUp.type = "user";
+			userUp.type = 'user';
 			if (initDone) {
 				sendAction(userUp);
 			} else {
@@ -238,29 +238,29 @@ module.exports = function(c, conf, s) {
 		}
 	}, 1);
 
-	core.on("init-up", function(init, next) {
-		if (!init.session) session = init.session = "web://" + generate.uid();
+	core.on('init-up', function(init, next) {
+		if (!init.session) session = init.session = 'web://' + generate.uid();
 
-		init.type = "init";
-		init.to = "me";
+		init.type = 'init';
+		init.to = 'me';
 
 		// TODO: Handle properly in react-native
 		init.origin = init.origin || {
-			host: "io.scrollback.neighborhoods",
+			host: 'io.scrollback.neighborhoods',
 			verified: true
 		};
 
 		client.send(JSON.stringify(init));
 
 		pendingActions[init.id] = function(action) {
-			if (action.type === "init") {
+			if (action.type === 'init') {
 				initDone = true;
 				while (queue.length) {
 					queue.splice(0, 1)[0]();
 				}
-				core.emit("setstate", {
+				core.emit('setstate', {
 					app: {
-						connectionStatus: "online"
+						connectionStatus: 'online'
 					},
 					user: action.user.id
 				});
@@ -270,8 +270,8 @@ module.exports = function(c, conf, s) {
 		next();
 	}, 1);
 
-	core.on("statechange", function(changes, next) {
-		if (changes.app && changes.app.connectionStatus === "online") {
+	core.on('statechange', function(changes, next) {
+		if (changes.app && changes.app.connectionStatus === 'online') {
 			initDone = true;
 			while (queue.length) {
 				queue.splice(0, 1)[0]();

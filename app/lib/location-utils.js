@@ -34,7 +34,7 @@ function compareAreas(o: Location, a1: Location, a2: Location): number {
 function getFormattedDistance(from: Location, to: Location): string {
 	const dist = Math.round(calculateDistance(from, to));
 
-	return (dist < 1000) ? (dist + " m") : (Math.round(dist / 100) / 10 + " km");
+	return (dist < 1000) ? (dist + ' m') : (Math.round(dist / 100) / 10 + ' km');
 }
 
 export default {

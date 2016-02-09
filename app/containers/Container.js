@@ -1,8 +1,8 @@
 /* @flow */
 
-import React from "react-native";
-import core from "../store/core";
-import actions from "../store/actions";
+import React from 'react-native';
+import core from '../store/core';
+import actions from '../store/actions';
 
 const {
 	InteractionManager
@@ -14,7 +14,7 @@ export default function(Target: React.Component): React.Component {
 		_handlers: Array<Array<string|number|Function>>;
 
 		componentDidMount() {
-			if (typeof super.componentDidMount === "function") {
+			if (typeof super.componentDidMount === 'function') {
 				super.componentDidMount();
 			}
 
@@ -22,7 +22,7 @@ export default function(Target: React.Component): React.Component {
 		}
 
 		componentWillUnmount() {
-			if (typeof super.componentWillUnmount === "function") {
+			if (typeof super.componentWillUnmount === 'function') {
 				super.componentWillUnmount();
 			}
 
@@ -45,7 +45,7 @@ export default function(Target: React.Component): React.Component {
 		}
 
 		handle(event: string, cb: Function, prio: number = 100, ...rest) {
-			if (typeof super.handle === "function") {
+			if (typeof super.handle === 'function') {
 				return super.handle(event, cb, prio, ...rest);
 			}
 
@@ -63,7 +63,7 @@ export default function(Target: React.Component): React.Component {
 		}
 
 		emit(...args) {
-			if (typeof super.emit === "function") {
+			if (typeof super.emit === 'function') {
 				return super.emit(...args);
 			} else {
 				return actions.emit(...args);
@@ -71,7 +71,7 @@ export default function(Target: React.Component): React.Component {
 		}
 
 		query(...args) {
-			if (typeof super.query === "function") {
+			if (typeof super.query === 'function') {
 				return super.query(...args);
 			} else {
 				return actions.query(...args);
@@ -79,7 +79,7 @@ export default function(Target: React.Component): React.Component {
 		}
 
 		dispatch(...args) {
-			if (typeof super.dispatch === "function") {
+			if (typeof super.dispatch === 'function') {
 				return super.dispatch(...args);
 			} else {
 				return actions.dispatch(...args);

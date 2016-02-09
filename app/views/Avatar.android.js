@@ -1,5 +1,5 @@
-import React from "react-native";
-import URLResolver from "../modules/URLResolver";
+import React from 'react-native';
+import URLResolver from '../modules/URLResolver';
 
 const {
 	Image
@@ -10,7 +10,7 @@ export default class Avatar extends React.Component {
 		super(props);
 
 		this.state = {
-			uri: ""
+			uri: ''
 		};
 	}
 

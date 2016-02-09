@@ -1,9 +1,9 @@
-import React from "react-native";
-import StateItem from "./StateItem";
-import SearchableList from "./SearchableList";
-import StatusbarWrapper from "./StatusbarWrapper";
-import ListHeader from "./ListHeader";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import StateItem from './StateItem';
+import SearchableList from './SearchableList';
+import StatusbarWrapper from './StatusbarWrapper';
+import ListHeader from './ListHeader';
+import Colors from '../../Colors.json';
 
 const {
 	StyleSheet,
@@ -49,7 +49,7 @@ export default class StatesFiltered extends React.Component {
 					renderRow={this._renderRow}
 					renderHeader={this._renderHeader}
 					onDismiss={this.props.onDismiss}
-					searchHint="Type a place to search"
+					searchHint='Type a place to search'
 				/>
 			</View>
 		);

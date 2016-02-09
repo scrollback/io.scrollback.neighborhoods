@@ -1,15 +1,15 @@
 /* @flow */
 
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Icon from "./Icon";
-import GrowingTextInput from "./GrowingTextInput";
-import TouchFeedback from "./TouchFeedback";
-import ChatSuggestionsContainer from "../containers/ChatSuggestionsContainer";
-import ImageUploadContainer from "../containers/ImageUploadContainer";
-import ImageUploadChat from "./ImageUploadChat";
-import ImageChooser from "../modules/ImageChooser";
-import textUtils from "../lib/text-utils";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Icon from './Icon';
+import GrowingTextInput from './GrowingTextInput';
+import TouchFeedback from './TouchFeedback';
+import ChatSuggestionsContainer from '../containers/ChatSuggestionsContainer';
+import ImageUploadContainer from '../containers/ImageUploadContainer';
+import ImageUploadChat from './ImageUploadChat';
+import ImageChooser from '../modules/ImageChooser';
+import textUtils from '../lib/text-utils';
 
 const {
 	StyleSheet,
@@ -19,8 +19,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		alignItems: "stretch",
+		flexDirection: 'row',
+		alignItems: 'stretch',
 		backgroundColor: Colors.white,
 		borderColor: Colors.underlay,
 		borderTopWidth: 1 / PixelRatio.get(),
@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
 	input: {
 		paddingVertical: 8,
 		margin: 0,
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		color: Colors.black,
 	},
 	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center"
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	icon: {
 		color: Colors.fadedBlack,
@@ -51,8 +51,8 @@ export default class ChatInput extends React.Component {
 		super(props);
 
 		this.state = {
-			text: "",
-			query: "",
+			text: '',
+			query: '',
 			imageData: null
 		};
 	}
@@ -74,7 +74,7 @@ export default class ChatInput extends React.Component {
 		this.props.sendMessage(this.state.text);
 
 		this.setState({
-			text: ""
+			text: ''
 		});
 	};
 
@@ -96,7 +96,7 @@ export default class ChatInput extends React.Component {
 		const aspectRatio = height / width;
 
 		this.props.sendMessage(textUtils.getTextFromMetadata({
-			type: "photo",
+			type: 'photo',
 			title: name,
 			url: result.originalUrl,
 			height,
@@ -111,19 +111,19 @@ export default class ChatInput extends React.Component {
 
 	_handleUploadClose = () => {
 		this.setState({
-			imageData: ""
+			imageData: ''
 		});
 	};
 
 	_handleSuggestionSelect = nick => {
 		this.setState({
-			text: "@" + nick + " ",
-			query: ""
+			text: '@' + nick + ' ',
+			query: ''
 		});
 	};
 
 	_handleChangeText = text => {
-		const query = /^@[a-z0-9]*$/.test(text) ? text : "";
+		const query = /^@[a-z0-9]*$/.test(text) ? text : '';
 
 		this.setState({
 			text,
@@ -133,21 +133,21 @@ export default class ChatInput extends React.Component {
 
 	_computeAndSetText = opts => {
 		let newValue = this.state.text;
-		let quotedText = opts.quotedText ? opts.quotedText.replace(/\n/g, " ") : null;
+		let quotedText = opts.quotedText ? opts.quotedText.replace(/\n/g, ' ') : null;
 
 		if (quotedText && quotedText.length > 140) {
-			quotedText = quotedText.slice(0, 140) + "…";
+			quotedText = quotedText.slice(0, 140) + '…';
 		}
 
 		if (quotedText) {
 			if (newValue) {
-				newValue += "\n\n";
+				newValue += '\n\n';
 			}
 
-			newValue += "> " + (opts.replyTo ? "@" + opts.replyTo + " - " : "") + quotedText + "\n\n";
+			newValue += '> ' + (opts.replyTo ? '@' + opts.replyTo + ' - ' : '') + quotedText + '\n\n';
 		} else if (opts.replyTo) {
 			if (newValue) {
-				newValue += " ";
+				newValue += ' ';
 			}
 
 			newValue += `@${opts.replyTo} `;
@@ -175,9 +175,9 @@ export default class ChatInput extends React.Component {
 						ref={c => this._input = c}
 						value={this.state.text}
 						onChangeText={this._handleChangeText}
-						underlineColorAndroid="transparent"
-						placeholder="Write a message…"
-						autoCapitalize="sentences"
+						underlineColorAndroid='transparent'
+						placeholder='Write a message…'
+						autoCapitalize='sentences'
 						numberOfLines={7}
 						style={styles.inputContainer}
 						inputStyle={styles.input}
@@ -189,7 +189,7 @@ export default class ChatInput extends React.Component {
 					>
 						<View style={styles.iconContainer}>
 							<Icon
-								name={this.state.text ? "send" : "image"}
+								name={this.state.text ? 'send' : 'image'}
 								style={styles.icon}
 								size={24}
 							/>

@@ -1,8 +1,8 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import Colors from '../../../Colors.json';
 
 const {
 	StyleSheet,
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 		color: Colors.darkGrey,
 		fontSize: 16,
 		lineHeight: 24,
-		textAlign: "center",
+		textAlign: 'center',
 		margin: 16,
 	},
 });

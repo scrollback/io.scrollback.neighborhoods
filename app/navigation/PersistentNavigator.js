@@ -1,7 +1,7 @@
 /* @flow */
 
-import React from "react-native";
-import renderNavigator from "./renderNavigator";
+import React from 'react-native';
+import renderNavigator from './renderNavigator';
 
 const {
 	NavigationContainer,

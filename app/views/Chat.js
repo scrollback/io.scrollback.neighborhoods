@@ -1,8 +1,8 @@
-import React from "react-native";
-import PageLoading from "./PageLoading";
-import ChatMessagesContainer from "../containers/ChatMessagesContainer";
-import ChatInput from "./ChatInput";
-import BannerOfflineContainer from "../containers/BannerOfflineContainer";
+import React from 'react-native';
+import PageLoading from './PageLoading';
+import ChatMessagesContainer from '../containers/ChatMessagesContainer';
+import ChatInput from './ChatInput';
+import BannerOfflineContainer from '../containers/BannerOfflineContainer';
 
 const {
 	View,
@@ -25,7 +25,7 @@ export default class Chat extends React.Component {
 	};
 
 	render() {
-		if (this.props.user === "missing") {
+		if (this.props.user === 'missing') {
 			return <PageLoading />;
 		}
 

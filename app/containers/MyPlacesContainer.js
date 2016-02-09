@@ -1,14 +1,14 @@
 /* @flow */
 
-import React from "react-native";
-import MyPlaces from "../views/Account/MyPlaces";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import MyPlaces from '../views/Account/MyPlaces';
+import Container from './Container';
+import store from '../store/store';
 
 class MyPlacesContainer extends React.Component {
 	state = {
 		user: null,
-		places: [ "missing" ]
+		places: [ 'missing' ]
 	};
 
 	componentDidMount() {
@@ -30,7 +30,7 @@ class MyPlacesContainer extends React.Component {
 				const room = store.getRoom(it.id);
 
 				return {
-					place: typeof room === "object" ? room : { id: it.id },
+					place: typeof room === 'object' ? room : { id: it.id },
 					type: it.type
 				};
 			});
@@ -48,7 +48,7 @@ class MyPlacesContainer extends React.Component {
 			}
 		};
 
-		return this.dispatch("user", {
+		return this.dispatch('user', {
 			from: user.id,
 			to: user.id,
 			user

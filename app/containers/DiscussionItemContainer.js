@@ -1,10 +1,10 @@
 /* @flow */
 
-import React from "react-native";
-import DiscussionItem from "../views/DiscussionItem";
-import Container from "./Container";
-import store from "../store/store";
-import actions from "../store/actions";
+import React from 'react-native';
+import DiscussionItem from '../views/DiscussionItem';
+import Container from './Container';
+import store from '../store/store';
+import actions from '../store/actions';
 
 class DiscussionItemContainer extends React.Component {
 	static propTypes = {
@@ -16,7 +16,7 @@ class DiscussionItemContainer extends React.Component {
 	};
 
 	_isCurrentUserAdmin = () => {
-		return store.isUserAdmin(store.get("user"), this.props.thread.to);
+		return store.isUserAdmin(store.get('user'), this.props.thread.to);
 	};
 
 	_isUserBanned = () => {
@@ -44,7 +44,7 @@ class DiscussionItemContainer extends React.Component {
 			<DiscussionItem
 				{...this.props}
 				hidden={store.isHidden(this.props.thread)}
-				currentUser={store.get("user")}
+				currentUser={store.get('user')}
 				isCurrentUserAdmin={this._isCurrentUserAdmin}
 				isUserBanned={this._isUserBanned}
 				hideText={this._hideText}

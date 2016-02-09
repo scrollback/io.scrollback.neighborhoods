@@ -1,11 +1,11 @@
 /* @flow */
 
-import React from "react-native";
-import oembed from "../extras/oembed/oembed";
-import EmbedThumbnail from "./EmbedThumbnail";
-import EmbedTitle from "./EmbedTitle";
-import EmbedSummary from "./EmbedSummary";
-import Linking from "../modules/Linking";
+import React from 'react-native';
+import oembed from '../extras/oembed/oembed';
+import EmbedThumbnail from './EmbedThumbnail';
+import EmbedTitle from './EmbedTitle';
+import EmbedSummary from './EmbedSummary';
+import Linking from '../modules/Linking';
 
 const {
 	TouchableOpacity,
@@ -77,7 +77,7 @@ export default class Embed extends React.Component {
 	render() {
 		const { embed } = this.state;
 
-		if (typeof embed === "object" && embed !== null) {
+		if (typeof embed === 'object' && embed !== null) {
 			const embedItem = (
 				<View>
 					{this.props.showThumbnail !== false ?

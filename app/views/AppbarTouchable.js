@@ -1,5 +1,5 @@
-import React from "react-native";
-import TouchFeedback from "./TouchFeedback";
+import React from 'react-native';
+import TouchFeedback from './TouchFeedback';
 
 const {
 	View
@@ -15,7 +15,7 @@ export default class AppbarTouchable extends React.Component {
 			<TouchFeedback
 				{...this.props}
 				borderless
-				pressColor={this.props.type === "secondary" ? "rgba(0, 0, 0, .15)" : "rgba(255, 255, 255, .15)"}
+				pressColor={this.props.type === 'secondary' ? 'rgba(0, 0, 0, .15)' : 'rgba(255, 255, 255, .15)'}
 				onPress={this._onPress}
 				delayPressIn={0}
 			>
@@ -28,7 +28,7 @@ export default class AppbarTouchable extends React.Component {
 }
 
 AppbarTouchable.propTypes = {
-	type: React.PropTypes.oneOf([ "primary", "secondary" ]),
+	type: React.PropTypes.oneOf([ 'primary', 'secondary' ]),
 	onPress: React.PropTypes.func.isRequired,
 	children: React.PropTypes.node.isRequired
 };

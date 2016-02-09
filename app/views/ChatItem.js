@@ -1,13 +1,13 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AvatarRound from "./AvatarRound";
-import ChatBubble from "./ChatBubble";
-import Embed from "./Embed";
-import Modal from "./Modal";
-import Icon from "./Icon";
-import Time from "./Time";
-import Linking from "../modules/Linking";
-import { parseURLs } from "../lib/URL";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AvatarRound from './AvatarRound';
+import ChatBubble from './ChatBubble';
+import Embed from './Embed';
+import Modal from './Modal';
+import Icon from './Icon';
+import Time from './Time';
+import Linking from '../modules/Linking';
+import { parseURLs } from '../lib/URL';
 
 const {
 	Clipboard,
@@ -25,22 +25,22 @@ const styles = StyleSheet.create({
 	},
 	chat: {
 		flex: 0,
-		flexDirection: "column",
-		alignItems: "flex-end"
+		flexDirection: 'column',
+		alignItems: 'flex-end'
 	},
 	received: {
-		alignItems: "flex-start",
+		alignItems: 'flex-start',
 		marginLeft: 44
 	},
 	timestamp: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		marginTop: 4
 	},
 	timestampLeft: {
 		marginLeft: 52
 	},
 	timestampRight: {
-		alignSelf: "flex-end"
+		alignSelf: 'flex-end'
 	},
 	timestampIcon: {
 		color: Colors.black,
@@ -56,16 +56,16 @@ const styles = StyleSheet.create({
 		opacity: 0.3
 	},
 	avatar: {
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: -36,
-		alignSelf: "flex-end"
+		alignSelf: 'flex-end'
 	},
 	thumbnail: {
 		marginVertical: 4
 	},
 	embed: {
-		borderColor: "rgba(0, 0, 0, .24)",
+		borderColor: 'rgba(0, 0, 0, .24)',
 		borderWidth: 1 / PixelRatio.get(),
 		padding: 8,
 		marginVertical: 4,
@@ -103,7 +103,7 @@ export default class ChatItem extends React.Component {
 
 	_copyToClipboard = text => {
 		Clipboard.setString(text);
-		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+		ToastAndroid.show('Copied to clipboard', ToastAndroid.SHORT);
 	};
 
 	_showMenu = () => {
@@ -111,30 +111,30 @@ export default class ChatItem extends React.Component {
 
 		const menu = {};
 
-		if (metadata && metadata.type === "photo") {
-			menu["Open image in browser"] = () => Linking.openURL(metadata.url.toLowerCase());
-			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
+		if (metadata && metadata.type === 'photo') {
+			menu['Open image in browser'] = () => Linking.openURL(metadata.url.toLowerCase());
+			menu['Copy image link'] = () => this._copyToClipboard(metadata.url);
 		} else {
-			menu["Copy text"] = () => this._copyToClipboard(text.text);
-			menu["Quote message"] = () => this.props.quoteMessage(text);
+			menu['Copy text'] = () => this._copyToClipboard(text.text);
+			menu['Quote message'] = () => this.props.quoteMessage(text);
 		}
 
 		if (currentUser !== text.from) {
-			menu["Reply to @" + text.from] = () => this.props.replyToMessage(text);
+			menu['Reply to @' + text.from] = () => this.props.replyToMessage(text);
 		}
 
 		if (this.props.isCurrentUserAdmin()) {
 			if (this.props.hidden) {
-				menu["Unhide message"] = () => this.props.unhideText();
+				menu['Unhide message'] = () => this.props.unhideText();
 			} else {
-				menu["Hide message"] = () => this.props.hideText();
+				menu['Hide message'] = () => this.props.hideText();
 			}
 
 			if (text.from !== this.props.currentUser) {
 				if (this.props.isUserBanned()) {
-					menu["Unban " + text.from] = () => this.props.unbanUser();
+					menu['Unban ' + text.from] = () => this.props.unbanUser();
 				} else {
-					menu["Ban " + text.from] = () => this.props.banUser();
+					menu['Ban ' + text.from] = () => this.props.banUser();
 				}
 			}
 		}
@@ -150,7 +150,7 @@ export default class ChatItem extends React.Component {
 
 		let cover;
 
-		if (metadata && metadata.type === "photo") {
+		if (metadata && metadata.type === 'photo') {
 			cover = (
 				<Embed
 					url={metadata.url}
@@ -195,8 +195,8 @@ export default class ChatItem extends React.Component {
 
 					<TouchableOpacity activeOpacity={0.5} onPress={this._showMenu}>
 						<ChatBubble
-							text={metadata && metadata.type === "photo" ? { from: text.from } : text}
-							type={received ? "left" : "right"}
+							text={metadata && metadata.type === 'photo' ? { from: text.from } : text}
+							type={received ? 'left' : 'right'}
 							showAuthor={showAuthor}
 							showArrow={received ? showAuthor : true}
 							style={received ? styles.bubbleReceived : styles.bubbleSent}
@@ -209,12 +209,12 @@ export default class ChatItem extends React.Component {
 				{showTime ?
 					(<View style={[ styles.timestamp, received ? styles.timestampLeft : styles.timestampRight ]}>
 					 <Icon
-						name="access-time"
+						name='access-time'
 						style={styles.timestampIcon}
 						size={12}
 					 />
 					 <Time
-						type="long"
+						type='long'
 						time={text.time}
 						style={styles.timestampText}
 					 />

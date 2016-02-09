@@ -1,8 +1,8 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import Icon from "./Icon";
-import TouchFeedback from "./TouchFeedback";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import Icon from './Icon';
+import TouchFeedback from './TouchFeedback';
 
 const {
 	StyleSheet,
@@ -12,8 +12,8 @@ const {
 
 const styles = StyleSheet.create({
 	banner: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		backgroundColor: Colors.fadedBlack
 	},
 	info: {
@@ -113,7 +113,7 @@ export default class Banner extends React.Component {
 					<TouchFeedback onPress={this._closeBanner}>
 						<View>
 							<Icon
-								name="close"
+								name='close'
 								style={styles.icon}
 								size={16}
 							/>
@@ -128,7 +128,7 @@ export default class Banner extends React.Component {
 
 Banner.propTypes = {
 	text: React.PropTypes.string,
-	type: React.PropTypes.oneOf([ "info", "success", "error" ]),
+	type: React.PropTypes.oneOf([ 'info', 'success', 'error' ]),
 	showClose: React.PropTypes.bool
 };
 

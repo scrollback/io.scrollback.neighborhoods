@@ -1,5 +1,5 @@
-import React from "react-native";
-import AppText from "./AppText";
+import React from 'react-native';
+import AppText from './AppText';
 
 const {
 	StyleSheet

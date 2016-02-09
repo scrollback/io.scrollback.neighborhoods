@@ -1,11 +1,11 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import LargeButton from "./LargeButton";
-import GoogleLogin from "../../modules/GoogleLogin";
-import Facebook from "../../modules/Facebook";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import LargeButton from './LargeButton';
+import GoogleLogin from '../../modules/GoogleLogin';
+import Facebook from '../../modules/Facebook';
+import Colors from '../../../Colors.json';
 
 const {
 	StyleSheet,
@@ -16,8 +16,8 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		flexDirection: "row",
-		alignItems: "stretch",
+		flexDirection: 'row',
+		alignItems: 'stretch',
 		backgroundColor: Colors.primary
 	},
 	cover: {
@@ -27,12 +27,12 @@ const styles = StyleSheet.create({
 	},
 	overlay: {
 		flex: 1,
-		alignItems: "stretch",
+		alignItems: 'stretch',
 		padding: 32,
 		backgroundColor: Colors.fadedBlack
 	},
 	image: {
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		margin: 4
 	},
 	imageLogo: {
@@ -45,18 +45,18 @@ const styles = StyleSheet.create({
 	},
 	logoContainer: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		margin: 16
 	},
 	tip: {
 		color: Colors.white,
-		textAlign: "center",
+		textAlign: 'center',
 		paddingHorizontal: 4,
 		marginVertical: 8
 	},
 	buttonContainer: {
-		alignItems: "stretch"
+		alignItems: 'stretch'
 	},
 	facebook: {
 		backgroundColor: Colors.facebook
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
 	}
 });
 
-const PROVIDER_GOOGLE = "google";
-const PROVIDER_FACEBOOK = "facebook";
-const PERMISSION_PUBLIC_PROFILE = "public_profile";
-const PERMISSION_EMAIL = "email";
+const PROVIDER_GOOGLE = 'google';
+const PROVIDER_FACEBOOK = 'facebook';
+const PERMISSION_PUBLIC_PROFILE = 'public_profile';
+const PERMISSION_EMAIL = 'email';
 
 type State = {
 	googleLoading: boolean;
@@ -153,11 +153,11 @@ export default class SignIn extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Image source={require("../../../assets/signin_bg.jpg")} style={styles.cover}>
+				<Image source={require('../../../assets/signin_bg.jpg')} style={styles.cover}>
 					<View style={styles.overlay}>
 						<View style={styles.logoContainer}>
-							<Image source={require("../../../assets/logo.png")} style={[ styles.image, styles.imageLogo ]} />
-							<Image source={require("../../../assets/logotype.png")} style={[ styles.image, styles.imageLogoType ]} />
+							<Image source={require('../../../assets/logo.png')} style={[ styles.image, styles.imageLogo ]} />
+							<Image source={require('../../../assets/logotype.png')} style={[ styles.image, styles.imageLogoType ]} />
 						</View>
 						<View style={styles.buttonContainer}>
 							<AppText style={styles.tip}>SIGN IN OR SIGN UP WITH</AppText>
@@ -165,14 +165,14 @@ export default class SignIn extends React.Component {
 								style={styles.facebook}
 								spinner={this.state.facebookLoading}
 								disabled={this.state.facebookLoading}
-								label={this.state.facebookLoading ? "" : "Facebook"}
+								label={this.state.facebookLoading ? '' : 'Facebook'}
 								onPress={this._handleFacebookPress}
 							/>
 							<LargeButton
 								style={styles.google}
 								spinner={this.state.googleLoading}
 								disabled={this.state.googleLoading}
-								label={this.state.googleLoading ? "" : "Google"}
+								label={this.state.googleLoading ? '' : 'Google'}
 								onPress={this._handleGooglePress}
 							/>
 						</View>

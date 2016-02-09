@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import NextButtonLabel from "./NextButtonLabel";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import NextButtonLabel from './NextButtonLabel';
+import Colors from '../../../Colors.json';
 
 const {
 	View,
@@ -14,15 +14,15 @@ const {
 const styles = StyleSheet.create({
 	button: {
 		height: 56,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
 		backgroundColor: Colors.info,
 	},
 
 	label: {
 		color: Colors.fadedBlack,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		margin: 16
 	},
 

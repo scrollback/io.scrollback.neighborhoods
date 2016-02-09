@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import Icon from "../Icon";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import Icon from '../Icon';
+import Colors from '../../../Colors.json';
 
 const {
 	View,
@@ -13,7 +13,7 @@ const {
 const styles = StyleSheet.create({
 	label: {
 		color: Colors.white,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		margin: 16
 	},
 

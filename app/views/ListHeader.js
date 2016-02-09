@@ -1,6 +1,6 @@
-import React from "react-native";
-import AppText from "./AppText";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import AppText from './AppText';
+import Colors from '../../Colors.json';
 
 const {
 	View,
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 		color: Colors.fadedBlack,
 		fontSize: 12,
 		lineHeight: 18,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	}
 });
 

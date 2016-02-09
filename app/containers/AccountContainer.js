@@ -1,20 +1,20 @@
 /* @flow */
 
-import React from "react-native";
-import Account from "../views/Account/Account";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import Account from '../views/Account/Account';
+import Container from './Container';
+import store from '../store/store';
 
 class AccountContainer extends React.Component {
 	state = {
-		user: "missing"
+		user: 'missing'
 	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
-			const user = store.get("user");
+		this.handle('statechange', changes => {
+			const user = store.get('user');
 
 			if (changes.entities && changes.entities[user]) {
 				this._updateData();
@@ -29,7 +29,7 @@ class AccountContainer extends React.Component {
 	};
 
 	_saveUser = user => {
-		this.dispatch("user", {
+		this.dispatch('user', {
 			to: user.id,
 			user
 		});
@@ -38,7 +38,7 @@ class AccountContainer extends React.Component {
 	};
 
 	_signOut = () => {
-		this.emit("logout");
+		this.emit('logout');
 	};
 
 	render() {

@@ -1,17 +1,17 @@
-import React from "react-native";
-import AppbarTouchable from "./AppbarTouchable";
-import AppbarIcon from "./AppbarIcon";
-import Share from "../modules/Share";
-import { convertRouteToURL } from "../routes/Route";
-import config from "../store/config";
+import React from 'react-native';
+import AppbarTouchable from './AppbarTouchable';
+import AppbarIcon from './AppbarIcon';
+import Share from '../modules/Share';
+import { convertRouteToURL } from '../routes/Route';
+import config from '../store/config';
 
 export default class ShareButton extends React.Component {
 	_handlePress = () => {
 		const { thread } = this.props;
 
 		if (thread) {
-			Share.shareItem("Share discussion", config.server.protocol + "//" + config.server.host + convertRouteToURL({
-				name: "chat",
+			Share.shareItem('Share discussion', config.server.protocol + '//' + config.server.host + convertRouteToURL({
+				name: 'chat',
 				props: {
 					room: thread.to,
 					thread: thread.id,
@@ -24,7 +24,7 @@ export default class ShareButton extends React.Component {
 	render() {
 		return (
 			<AppbarTouchable onPress={this._handlePress}>
-				<AppbarIcon name="share" />
+				<AppbarIcon name='share' />
 			</AppbarTouchable>
 		);
 	}

@@ -1,12 +1,12 @@
 /* @flow */
 /* eslint-disable react/no-multi-comp, react/jsx-no-bind */
 
-import React from "react-native";
-import AppText from "../views/AppText";
-import AppbarTouchable from "../views/AppbarTouchable";
-import AppbarIcon from "../views/AppbarIcon";
-import Colors from "../../Colors.json";
-import routeMapper from "../routes/routeMapper";
+import React from 'react-native';
+import AppText from '../views/AppText';
+import AppbarTouchable from '../views/AppbarTouchable';
+import AppbarIcon from '../views/AppbarIcon';
+import Colors from '../../Colors.json';
+import routeMapper from '../routes/routeMapper';
 
 const {
 	View,
@@ -16,7 +16,7 @@ const {
 	NavigationReducer
 } = React;
 
-const APPBAR_HEIGHT = Platform.OS === "ios" ? 44 : 56;
+const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
 
 const styles = StyleSheet.create({
 	header: {
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
 
 	title: {
 		flex: 1,
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		height: APPBAR_HEIGHT,
 		marginHorizontal: 16
 	},
@@ -35,15 +35,15 @@ const styles = StyleSheet.create({
 		flex: 1,
 		lineHeight: 27,
 		fontSize: 18,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		color: Colors.white,
-		textAlign: Platform.OS === "ios" ? "center" : "left",
+		textAlign: Platform.OS === 'ios' ? 'center' : 'left',
 	},
 
 	button: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	}
 });
 

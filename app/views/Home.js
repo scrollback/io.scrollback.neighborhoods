@@ -1,13 +1,13 @@
 /* @flow */
 
-import React from "react-native";
-import PersistentNavigator from "../navigation/PersistentNavigator";
-import StatusbarWrapper from "./StatusbarWrapper";
-import KeyboardSpacer from "./KeyboardSpacer";
-import Modal from "./Modal";
-import VersionCodes from "../modules/VersionCodes";
-import Colors from "../../Colors.json";
-import { getHomeRoute, convertRouteToState, convertURLToState } from "../routes/Route";
+import React from 'react-native';
+import PersistentNavigator from '../navigation/PersistentNavigator';
+import StatusbarWrapper from './StatusbarWrapper';
+import KeyboardSpacer from './KeyboardSpacer';
+import Modal from './Modal';
+import VersionCodes from '../modules/VersionCodes';
+import Colors from '../../Colors.json';
+import { getHomeRoute, convertRouteToState, convertURLToState } from '../routes/Route';
 
 const {
 	NavigationState,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PERSISTANCE_KEY = __DEV__ ? "FLAT_PERSISTENCE_0" : `FLAT_PERSISTENCE_${Math.round(Date.now() / (1000 * 60 * 15))}`;
+const PERSISTANCE_KEY = __DEV__ ? 'FLAT_PERSISTENCE_0' : `FLAT_PERSISTENCE_${Math.round(Date.now() / (1000 * 60 * 15))}`;
 
 const Home = (props: { initialURL: string }) => {
 	const { initialURL } = props;

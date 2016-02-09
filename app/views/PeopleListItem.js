@@ -1,8 +1,8 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import AvatarRound from "./AvatarRound";
-import TouchFeedback from "./TouchFeedback";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import AvatarRound from './AvatarRound';
+import TouchFeedback from './TouchFeedback';
 
 const {
 	StyleSheet,
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1 / PixelRatio.get()
 	},
 	person: {
-		flexDirection: "row",
-		alignItems: "center"
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	avatar: {
 		marginHorizontal: 16,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 	},
 	online: {
 		color: Colors.success,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	offline: {
 		opacity: 0.5
@@ -72,13 +72,13 @@ export default class PeopleListItem extends React.Component {
 							nick={id}
 						/>
 						<View style={styles.nick}>
-							<AppText style={[ styles.nickText, status !== "online" ? styles.offline : null ]}>
+							<AppText style={[ styles.nickText, status !== 'online' ? styles.offline : null ]}>
 								{id}
 							</AppText>
 						</View>
 						<View>
-							<AppText style={[ styles.status, status === "online" ? styles.online : styles.offline ]}>
-								{status ? status.toUpperCase() : "OFFLINE"}
+							<AppText style={[ styles.status, status === 'online' ? styles.online : styles.offline ]}>
+								{status ? status.toUpperCase() : 'OFFLINE'}
 							</AppText>
 						</View>
 					</View>

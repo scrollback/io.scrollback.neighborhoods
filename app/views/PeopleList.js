@@ -1,8 +1,8 @@
-import React from "react-native";
-import PeopleListItem from "./PeopleListItem";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import ListHeader from "./ListHeader";
+import React from 'react-native';
+import PeopleListItem from './PeopleListItem';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import ListHeader from './ListHeader';
 
 const {
 	ListView,
@@ -33,12 +33,12 @@ export default class PeopleList extends React.Component {
 		const { data } = this.props;
 
 		if (data.length === 0) {
-			return <PageEmpty label="Nobody here" image="sad" />;
+			return <PageEmpty label='Nobody here' image='sad' />;
 		} else if (data.length === 1) {
-			if (data[0] === "missing") {
+			if (data[0] === 'missing') {
 				return <PageLoading />;
-			} else if (data.length === 1 && data[0] === "failed") {
-				return <PageEmpty label="Failed to load people list" image="sad" />;
+			} else if (data.length === 1 && data[0] === 'failed') {
+				return <PageEmpty label='Failed to load people list' image='sad' />;
 			}
 		}
 
@@ -54,7 +54,7 @@ export default class PeopleList extends React.Component {
 
 PeopleList.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "missing", "failed" ]),
+		React.PropTypes.oneOf([ 'missing', 'failed' ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

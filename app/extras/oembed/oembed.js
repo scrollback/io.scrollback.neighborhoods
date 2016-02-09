@@ -1,6 +1,6 @@
-import storage from "./oembed-storage";
-import regexes from "./regexes";
-import providers from "./providers";
+import storage from './oembed-storage';
+import regexes from './regexes';
+import providers from './providers';
 
 function getContent(regex) {
 	return regex[0].match(regexes.content)[0].match(/['|"].*/)[0].slice(1);
@@ -8,27 +8,27 @@ function getContent(regex) {
 
 function decodeText(text) {
 	return text
-	.replace(/&lt;/g, "<")
-	.replace(/&gt;/g, ">")
-	.replace(/&amp;/g, "&")
+	.replace(/&lt;/g, '<')
+	.replace(/&gt;/g, '>')
+	.replace(/&amp;/g, '&')
 	.replace(/&quot;/g, '"')
-	.replace(/&nbsp;/g, " ")
-	.replace(/&#(x?)(\d+);/g, (m, p1, p2) => String.fromCharCode(((p1 === "x") ? parseInt(p2, 16) : p2)));
+	.replace(/&nbsp;/g, ' ')
+	.replace(/&#(x?)(\d+);/g, (m, p1, p2) => String.fromCharCode(((p1 === 'x') ? parseInt(p2, 16) : p2)));
 }
 
 function parseHTML(body) {
-	const bodyString = body.replace(/(\r\n|\n|\r)/g, "");
+	const bodyString = body.replace(/(\r\n|\n|\r)/g, '');
 	const res = bodyString.match(regexes.link);
 
 	if (res !== null) {
-		return res[0].match(regexes.matchHTTP)[0].replace(/&amp;/g, "&");
+		return res[0].match(regexes.matchHTTP)[0].replace(/&amp;/g, '&');
 	}
 
 	const oembed = {
-		type: "rich"
+		type: 'rich'
 	};
 
-	const props = [ "title", "description" ];
+	const props = [ 'title', 'description' ];
 
 	for (let i = 0; i < props.length; i++) {
 		const match = bodyString.match(regexes.propertyRegex(props[i]));
@@ -38,10 +38,10 @@ function parseHTML(body) {
 		}
 	}
 
-	const propsWithType = [ "width", "height" ];
+	const propsWithType = [ 'width', 'height' ];
 
 	for (let i = 0; i < propsWithType.length; i++) {
-		const types = [ "video", "image" ];
+		const types = [ 'video', 'image' ];
 
 		for (let j = 0; j < types.length; j++) {
 			const match = bodyString.match(regexes.propertyRegex(propsWithType[i], types[j]));
@@ -85,7 +85,7 @@ function parseHTML(body) {
 	if (Object.keys(oembed).length) {
 		return oembed;
 	} else {
-		throw new Error("No oEmbed data found");
+		throw new Error('No oEmbed data found');
 	}
 }
 
@@ -96,7 +96,7 @@ async function embed(url) {
 
 	let data;
 
-	if (typeof parsed === "string") {
+	if (typeof parsed === 'string') {
 		data = await (await fetch(parsed)).json();
 	} else {
 		data = parsed;
@@ -109,8 +109,8 @@ async function embed(url) {
 }
 
 async function get(url) {
-	if (typeof url !== "string") {
-		throw new TypeError("URL must be a string");
+	if (typeof url !== 'string') {
+		throw new TypeError('URL must be a string');
 	}
 
 	if (!/^https?:\/\//i.test(url)) {
@@ -119,7 +119,7 @@ async function get(url) {
 
 	const json = await storage.get(url);
 
-	if (typeof json !== "undefined") {
+	if (typeof json !== 'undefined') {
 		return json;
 	}
 
@@ -127,7 +127,7 @@ async function get(url) {
 		const provider = providers[i];
 
 		if (provider[0].test(url)) {
-			const endpoint = provider[1] + "?format=json&maxheight=240&url=" + encodeURIComponent(url);
+			const endpoint = provider[1] + '?format=json&maxheight=240&url=' + encodeURIComponent(url);
 			const data = await (await fetch(endpoint)).json();
 
 			storage.set(url, data);
@@ -141,24 +141,24 @@ async function get(url) {
 
 		request.onload = function() {
 			if (request.status === 200) {
-				const contentType = request.getResponseHeader("content-type");
+				const contentType = request.getResponseHeader('content-type');
 
-				if (contentType && contentType.indexOf("image") > -1) {
+				if (contentType && contentType.indexOf('image') > -1) {
 					resolve({
-						type: "image",
+						type: 'image',
 						thumbnail_url: url
 					});
-				} else if (contentType && contentType.indexOf("text/html") > -1) {
+				} else if (contentType && contentType.indexOf('text/html') > -1) {
 					resolve(embed(url));
 				} else {
-					reject(new Error("Unknown content-type: " + contentType));
+					reject(new Error('Unknown content-type: ' + contentType));
 				}
 			} else {
-				reject(new Error(request.responseText + ": " + request.responseCode));
+				reject(new Error(request.responseText + ': ' + request.responseCode));
 			}
 		};
 
-		request.open("HEAD", url, true);
+		request.open('HEAD', url, true);
 		request.send();
 	});
 }

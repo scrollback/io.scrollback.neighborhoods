@@ -1,10 +1,10 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import ModalSheet from "./ModalSheet";
-import TouchFeedback from "./TouchFeedback";
-import KeyboardSpacer from "./KeyboardSpacer";
-import VersionCodes from "../modules/VersionCodes";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import ModalSheet from './ModalSheet';
+import TouchFeedback from './TouchFeedback';
+import KeyboardSpacer from './KeyboardSpacer';
+import VersionCodes from '../modules/VersionCodes';
 
 
 const {
@@ -20,14 +20,14 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: 0
 	},
 	overlay: {
 		flex: 1,
-		alignItems: "stretch",
-		justifyContent: "flex-end",
+		alignItems: 'stretch',
+		justifyContent: 'flex-end',
 		backgroundColor: Colors.fadedBlack
 	},
 	menuItem: {
@@ -99,10 +99,10 @@ export default class Modal extends React.Component {
 			return null;
 		}
 
-		let { height, width } = Dimensions.get("window");
+		let { height, width } = Dimensions.get('window');
 
 		// Android < 4.4 seems to include statusbar height also
-		if (Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT) {
+		if (Platform.OS === 'android' && Platform.Version < VersionCodes.KITKAT) {
 			height -= 25;
 			width -= 0;
 		}

@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Icon from "./Icon";
-import Loading from "./Loading";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Icon from './Icon';
+import Loading from './Loading';
 
 const {
 	StyleSheet,
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
 		margin: 8
 	},
 	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		height: 56,
 		width: 56,
 		borderRadius: 32
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		margin: 16
 	},
 	loading: {
-		position: "absolute",
+		position: 'absolute',
 		left: 2,
 		top: 2,
 		height: 52,
@@ -53,17 +53,17 @@ export default class ImageUploadButton extends React.Component {
 		let containerStyle, iconStyle, iconName;
 
 		switch (this.props.status) {
-		case "loading":
+		case 'loading':
 			containerStyle = styles.closeIconContainer;
 			iconStyle = this.props.closeIconStyle;
 			iconName = this.props.closeIcon;
 			break;
-		case "finished":
+		case 'finished':
 			containerStyle = styles.doneIconContainer;
 			iconStyle = this.props.doneIconStyle;
 			iconName = this.props.doneIcon;
 			break;
-		case "error":
+		case 'error':
 			containerStyle = styles.errorIconContainer;
 			iconStyle = this.props.errorIconStyle;
 			iconName = this.props.errorIcon;
@@ -87,7 +87,7 @@ export default class ImageUploadButton extends React.Component {
 						size={24}
 					/>
 
-					{this.props.status === "loading" ? <Loading style={styles.loading} /> : null}
+					{this.props.status === 'loading' ? <Loading style={styles.loading} /> : null}
 				</View>
 			</TouchableHighlight>
 		);

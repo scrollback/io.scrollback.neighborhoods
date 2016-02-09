@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import ChatTitle from "../views/ChatTitle";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import ChatTitle from '../views/ChatTitle';
+import Container from './Container';
+import store from '../store/store';
 
 class ChatTitleContainer extends React.Component {
 	static propTypes = {
@@ -11,13 +11,13 @@ class ChatTitleContainer extends React.Component {
 	};
 
 	state = {
-		thread: "missing"
+		thread: 'missing'
 	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
 				this._updateData();
 			}

@@ -1,5 +1,5 @@
-import React from "react-native";
-import LoadingFancy from "./LoadingFancy";
+import React from 'react-native';
+import LoadingFancy from './LoadingFancy';
 
 const {
 	StyleSheet,
@@ -8,8 +8,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		alignSelf: "stretch",
-		alignItems: "center"
+		alignSelf: 'stretch',
+		alignItems: 'center'
 	}
 });
 

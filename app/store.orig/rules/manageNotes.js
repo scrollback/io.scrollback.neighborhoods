@@ -5,16 +5,16 @@
 // We save the dismissed notifications in `AsyncStorage`, and avoid showing them.
 // When there are no notifications left, we dismiss all notifications.
 
-import { AsyncStorage } from "react-native";
-import core from "../../store/core";
-import store from "../../store/store";
+import { AsyncStorage } from 'react-native';
+import core from '../../store/core';
+import store from '../../store/store';
 
-const NOTIFICATION_STORE_KEY = "notifications_dismissed_store";
+const NOTIFICATION_STORE_KEY = 'notifications_dismissed_store';
 
 let dismissed = [];
 
 function getNoteIdentifier(note) {
-	return note.ref + ":" + note.group + ":" + note.noteType;
+	return note.ref + ':' + note.group + ':' + note.noteType;
 }
 
 async function getDismissedNotes() {
@@ -29,13 +29,13 @@ async function getDismissedNotes() {
 
 function dismissAllNotes() {
 	dismissed = [];
-	core.emit("note-up", { dismissTime: Date.now() });
+	core.emit('note-up', { dismissTime: Date.now() });
 
-	return AsyncStorage.setItem(NOTIFICATION_STORE_KEY, "[]");
+	return AsyncStorage.setItem(NOTIFICATION_STORE_KEY, '[]');
 }
 
 function dismissNote(note) {
-	const notes = store.get("notes");
+	const notes = store.get('notes');
 
 	if (notes.length === 0) {
 		if (dismissed && dismissed.length) {
@@ -81,7 +81,7 @@ function dismissNote(note) {
 }
 
 function loadNotes() {
-	core.emit("getNotes", {}, async (err, res) => {
+	core.emit('getNotes', {}, async (err, res) => {
 		let notes;
 
 		if (err) {
@@ -103,7 +103,7 @@ function loadNotes() {
 				// Ignore
 			}
 
-			core.emit("setstate", { notes });
+			core.emit('setstate', { notes });
 		}
 	});
 }
@@ -113,42 +113,42 @@ function receiveNote(note) {
 		dismissNote(note);
 	}
 
-	const notes = store.get("notes").slice(0);
+	const notes = store.get('notes').slice(0);
 
 	notes.push(note);
 
-	core.emit("setstate", { notes });
+	core.emit('setstate', { notes });
 }
 
 function processChanges(changes) {
-	if (changes.nav && (changes.nav.mode || changes.nav.room || "thread" in changes.nav)) {
+	if (changes.nav && (changes.nav.mode || changes.nav.room || 'thread' in changes.nav)) {
 		const future = store.with(changes);
-		const roomId = future.get("nav", "room");
-		const mode = future.get("nav", "mode");
+		const roomId = future.get('nav', 'room');
+		const mode = future.get('nav', 'mode');
 
-		if (mode === "chat") {
-			const threadId = future.get("nav", "thread");
+		if (mode === 'chat') {
+			const threadId = future.get('nav', 'thread');
 
 			if (threadId) {
 				receiveNote({
-					group: roomId + "/" + threadId,
+					group: roomId + '/' + threadId,
 					dismissTime: Date.now()
 				});
 
 				receiveNote({
-					noteType: "thread",
+					noteType: 'thread',
 					ref: threadId,
 					dismissTime: Date.now()
 				});
 			} else {
 				receiveNote({
-					group: roomId + "/all",
+					group: roomId + '/all',
 					dismissTime: Date.now()
 				});
 			}
-		} else if (mode === "room") {
+		} else if (mode === 'room') {
 			receiveNote({
-				noteType: "thread",
+				noteType: 'thread',
 				group: roomId,
 				dismissTime: Date.now()
 			});
@@ -157,8 +157,8 @@ function processChanges(changes) {
 }
 
 module.exports = () => {
-	core.on("init-dn", () => loadNotes(), 100);
-	core.on("note-up", note => receiveNote(note), 100);
-	core.on("note-dn", note => receiveNote(note), 100);
-	core.on("setstate", changes => processChanges(changes), 100);
+	core.on('init-dn', () => loadNotes(), 100);
+	core.on('note-up', note => receiveNote(note), 100);
+	core.on('note-dn', note => receiveNote(note), 100);
+	core.on('setstate', changes => processChanges(changes), 100);
 };

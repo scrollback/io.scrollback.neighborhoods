@@ -1,6 +1,6 @@
-import React from "react-native";
-import AppbarTouchable from "../AppbarTouchable";
-import AppbarIcon from "../AppbarIcon";
+import React from 'react-native';
+import AppbarTouchable from '../AppbarTouchable';
+import AppbarIcon from '../AppbarIcon';
 
 const {
 	NavigationActions
@@ -8,7 +8,7 @@ const {
 
 export default class AccountButton extends React.Component {
 	_handlePress = () => {
-		this.props.onNavigation(new NavigationActions.Push({ name: "account" }));
+		this.props.onNavigation(new NavigationActions.Push({ name: 'account' }));
 	};
 
 	render() {

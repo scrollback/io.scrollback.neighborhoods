@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import RichText from "./RichText";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import RichText from './RichText';
 
 const {
 	StyleSheet,
@@ -11,10 +11,10 @@ const {
 
 const styles = StyleSheet.create({
 	containerLeft: {
-		alignItems: "flex-start"
+		alignItems: 'flex-start'
 	},
 	containerRight: {
-		alignItems: "flex-end"
+		alignItems: 'flex-end'
 	},
 	bubble: {
 		backgroundColor: Colors.white,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 		marginLeft: 8
 	},
 	bubbleRight: {
-		backgroundColor: "#ddd",
+		backgroundColor: '#ddd',
 		marginRight: 8
 	},
 	text: {
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	triangle: {
-		position: "absolute",
+		position: 'absolute',
 		height: 12,
 		width: 10
 	},
@@ -63,12 +63,12 @@ export default class ChatBubble extends React.Component {
 	render() {
 		const { text, type, showArrow } = this.props;
 
-		const right = type === "right";
+		const right = type === 'right';
 
 		return (
 			<View style={[ right ? styles.containerRight : styles.containerLeft, this.props.style ]} ref={c => this._root = c}>
 				{right || !showArrow ? null :
-					<Image style={[ styles.triangle, styles.triangleLeft ]} source={require("../../assets/triangle_left.png")} />
+					<Image style={[ styles.triangle, styles.triangleLeft ]} source={require('../../assets/triangle_left.png')} />
 				}
 
 				<View style={[ styles.bubble, right ? styles.bubbleRight : styles.bubbleLeft ]}>
@@ -86,7 +86,7 @@ export default class ChatBubble extends React.Component {
 				</View>
 
 				{right && showArrow ?
-					<Image style={[ styles.triangle, styles.triangleRight ]} source={require("../../assets/triangle_right.png")} /> :
+					<Image style={[ styles.triangle, styles.triangleRight ]} source={require('../../assets/triangle_right.png')} /> :
 					null
 				}
 			</View>
@@ -104,7 +104,7 @@ ChatBubble.propTypes = {
 		text: React.PropTypes.string,
 		from: React.PropTypes.string.isRequired
 	}).isRequired,
-	type: React.PropTypes.oneOf([ "left", "right" ]),
+	type: React.PropTypes.oneOf([ 'left', 'right' ]),
 	showAuthor: React.PropTypes.bool,
 	showArrow: React.PropTypes.bool,
 	onPress: React.PropTypes.func,

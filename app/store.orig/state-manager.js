@@ -1,10 +1,8 @@
 /* jshint esnext: true, browser: true */
 
-"use strict";
+'use strict';
 
-const objUtils = require("./../lib/obj-utils.js"),
-	  groupObjs = require("./../lib/group-objects.js"),
-	  rangeOps = require("../lib/range-ops.js");
+const objUtils = require('./../lib/obj-utils.js'), groupObjs = require('./../lib/group-objects.js'), rangeOps = require('../lib/range-ops.js');
 
 let allChanges = {},
 	gapTimer = null,
@@ -16,7 +14,7 @@ module.exports = function(c, conf, s, st) {
 	store = s;
 	state = st;
 
-	core.on("setstate", function(changes) {
+	core.on('setstate', function(changes) {
 		applyChanges(changes, allChanges);
 		applyChanges(changes, state);
 		buildIndex(state, changes);
@@ -37,15 +35,15 @@ function fireStateChange() {
 
 	buildIndex(allChanges);
 
-	core.emit("statechange", allChanges);
+	core.emit('statechange', allChanges);
 
 	allChanges = {};
 }
 
 function applyChanges(changes, base) {
-	if (changes.nav)      { base.nav      = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.nav)      || {}, changes.nav)); }
-	if (changes.context)  { base.context  = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.context)  || {}, changes.context)); }
-	if (changes.app)      { base.app      = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.app)      || {}, changes.app)); }
+	if (changes.nav) { base.nav = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.nav) || {}, changes.nav)); }
+	if (changes.context) { base.context = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.context) || {}, changes.context)); }
+	if (changes.app) { base.app = objUtils.deepFreeze(objUtils.merge(objUtils.clone(base.app) || {}, changes.app)); }
 
 	if (changes.entities) {
 		for (var e in changes.entities) {
@@ -55,12 +53,12 @@ function applyChanges(changes, base) {
 		base.entities = objUtils.merge(base.entities || {}, changes.entities);
 	}
 
-	if (changes.notes)          { updateNotes           (base.notes     = base.notes    || [], changes.notes); }
-	if (changes.texts)          { updateTexts           (base.texts     = base.texts    || {}, changes.texts); }
-	if (changes.threads)        { updateThreads         (base.threads   = base.threads  || {}, changes.threads); }
+	if (changes.notes) { updateNotes (base.notes = base.notes || [], changes.notes); }
+	if (changes.texts) { updateTexts (base.texts = base.texts || {}, changes.texts); }
+	if (changes.threads) { updateThreads (base.threads = base.threads || {}, changes.threads); }
 
-	if (changes.session)        { base.session = changes.session; }
-	if (changes.user)           { base.user    = changes.user; }
+	if (changes.session) { base.session = changes.session; }
+	if (changes.user) { base.user = changes.user; }
 }
 
 function updateNotes(baseNotes, notes) {
@@ -68,7 +66,7 @@ function updateNotes(baseNotes, notes) {
 	baseNotes.splice(0, baseNotes.length);
 
 	// Filter unique notes
-	let dismissed = notes.filter(n => typeof n.dismissTime === "number"),
+	let dismissed = notes.filter(n => typeof n.dismissTime === 'number'),
 		map = {};
 
 	for (let i = 0, l = notes.length; i < l; i++) {
@@ -76,7 +74,7 @@ function updateNotes(baseNotes, notes) {
 
 		let skip = false;
 
-		if (typeof n.dismissTime === "number") {
+		if (typeof n.dismissTime === 'number') {
 			continue;
 		}
 
@@ -116,14 +114,14 @@ function updateNotes(baseNotes, notes) {
 			continue;
 		}
 
-		map[n.ref + "_" + n.noteType] = n;
+		map[n.ref + '_' + n.noteType] = n;
 	}
 
 	// Handle groups
 	groupObjs(map, {
 		max: 3,
 		base: baseNotes
-	}, o => o.group + ":" + o.noteType);
+	}, o => o.group + ':' + o.noteType);
 
 	// Short notes based on time in descending order
 	baseNotes.sort((a, b) => b.time - a.time);
@@ -133,14 +131,14 @@ function updateThreads(baseThreads, threads) {
 	var rooms = Object.keys(threads), ranges;
 
 	rooms.forEach(function(roomId) {
-		ranges = store.get("threads", roomId);
+		ranges = store.get('threads', roomId);
 
 		if (!ranges) { ranges = baseThreads[roomId] = []; }
 
 		if (threads[roomId].length) {
 			threads[roomId].forEach(function(newRange) {
 				newRange.items.forEach(objUtils.deepFreeze);
-				baseThreads[roomId] = rangeOps.merge(ranges, newRange, "startTime");
+				baseThreads[roomId] = rangeOps.merge(ranges, newRange, 'startTime');
 			});
 		} else {
 			console.log(roomId + ' has no threads yet.');
@@ -152,7 +150,7 @@ function updateTexts(baseTexts, texts) {
 	var rooms = Object.keys(texts), ranges;
 
 	rooms.forEach(function(roomThread) {
-		ranges = store.get("texts", roomThread);
+		ranges = store.get('texts', roomThread);
 
 		if (!ranges) {
 			ranges = baseTexts[roomThread] = [];
@@ -161,7 +159,7 @@ function updateTexts(baseTexts, texts) {
 		if (texts[roomThread].length) {
 			texts[roomThread].forEach(function(newRange) {
 				newRange.items.forEach(objUtils.deepFreeze);
-				baseTexts[roomThread] = rangeOps.merge(ranges, newRange, "time");
+				baseTexts[roomThread] = rangeOps.merge(ranges, newRange, 'time');
 			});
 		}
 	});
@@ -197,7 +195,7 @@ function buildIndex(obj, changes) {
 	}
 
 	function buildRangeIndex(o, prop) {
-		var index = o.indexes[prop + "ById"] = {};
+		var index = o.indexes[prop + 'ById'] = {};
 
 		function addToIndex(range) {
 			range.items.forEach(item => index[item.id] = item);
@@ -209,7 +207,7 @@ function buildIndex(obj, changes) {
 			}
 		}
 
-		objUtils.deepFreeze(o.indexes[prop + "ById"]);
+		objUtils.deepFreeze(o.indexes[prop + 'ById']);
 	}
 
 	if (obj.threads && changes.threads) { buildRangeIndex(obj, 'threads'); }

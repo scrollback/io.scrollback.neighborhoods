@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import Chat from "../views/Chat";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import Chat from '../views/Chat';
+import Container from './Container';
+import store from '../store/store';
 
 class ChatContainer extends React.Component {
 	static propTypes = {
@@ -12,7 +12,7 @@ class ChatContainer extends React.Component {
 	};
 
 	state = {
-		user: "missing"
+		user: 'missing'
 	};
 
 	componentDidMount() {
@@ -21,7 +21,7 @@ class ChatContainer extends React.Component {
 
 	_updateData = () => {
 		this.setState({
-			user: store.get("user")
+			user: store.get('user')
 		});
 	};
 
@@ -38,7 +38,7 @@ class ChatContainer extends React.Component {
 			textObj.id = textId;
 		}
 
-		this.dispatch("text", textObj);
+		this.dispatch('text', textObj);
 	};
 
 	render() {

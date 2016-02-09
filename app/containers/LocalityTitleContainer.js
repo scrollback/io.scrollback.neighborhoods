@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import LocalityTitle from "../views/LocalityTitle";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import LocalityTitle from '../views/LocalityTitle';
+import Container from './Container';
+import store from '../store/store';
 
 class LocalityTitleContainer extends React.Component {
 	static propTypes = {
@@ -13,7 +13,7 @@ class LocalityTitleContainer extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const displayName = this.props.room.replace(/-+/g, " ").replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim();
+		const displayName = this.props.room.replace(/-+/g, ' ').replace(/\w\S*/g, s => s.charAt(0).toUpperCase() + s.slice(1)).trim();
 
 		this.state = {
 			room: {
@@ -25,7 +25,7 @@ class LocalityTitleContainer extends React.Component {
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.entities && changes.entities[this.props.room]) {
 				this._updateData();
 			}

@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import ListItem from "./ListItem";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import ListItem from './ListItem';
 
 const {
 	StyleSheet,
@@ -10,7 +10,7 @@ const {
 const styles = StyleSheet.create({
 	item: {
 		color: Colors.darkGrey,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		marginHorizontal: 16
 	}
 });

@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import Icon from "../Icon";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import Icon from '../Icon';
+import Colors from '../../../Colors.json';
 
 const {
 	StyleSheet,
@@ -13,8 +13,8 @@ const {
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		marginVertical: 8,
 		height: 56,
 	},
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 	label: {
 		fontSize: 12,
 		lineHeight: 18,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		color: Colors.info,
 	},
 
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
 	},
 
 	iconContainer: {
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		height: 36,
 		width: 36,
 		borderRadius: 18,

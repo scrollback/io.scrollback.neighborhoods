@@ -1,9 +1,9 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import Icon from "./Icon";
-import CardAuthor from "./CardAuthor";
-import Time from "./Time";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import Icon from './Icon';
+import CardAuthor from './CardAuthor';
+import Time from './Time';
 
 const {
 	StyleSheet,
@@ -12,19 +12,19 @@ const {
 
 const styles = StyleSheet.create({
 	footer: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		marginTop: 6
 	},
 	left: {
 		flex: 1
 	},
 	right: {
-		flexDirection: "row",
-		justifyContent: "flex-end"
+		flexDirection: 'row',
+		justifyContent: 'flex-end'
 	},
 	info: {
-		flexDirection: "row",
-		alignItems: "center"
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	label: {
 		color: Colors.black,
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 4
 	},
 	action: {
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	icon: {
 		color: Colors.black
@@ -61,19 +61,19 @@ export default class DiscussionFooter extends React.Component {
 				<View style={styles.right}>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon
-							name="access-time"
+							name='access-time'
 							style={styles.icon}
 							size={24}
 						/>
 						<Time
-							type="short"
+							type='short'
 							time={this.props.thread.updateTime}
 							style={styles.label}
 						/>
 					</View>
 					<View style={[ styles.info, styles.faded ]}>
 						<Icon
-							name="forum"
+							name='forum'
 							style={styles.icon}
 							size={24}
 						/>

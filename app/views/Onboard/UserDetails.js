@@ -1,17 +1,17 @@
 /* @flow */
 
-import React from "react-native";
-import NextButton from "./NextButton";
-import StatusbarWrapper from "../StatusbarWrapper";
-import AppTextInput from "../AppTextInput";
-import KeyboardSpacer from "../KeyboardSpacer";
-import OnboardTitle from "./OnboardTitle";
-import OnboardParagraph from "./OnboardParagraph";
-import OnboardError from "./OnboardError";
-import Icon from "../Icon";
-import VersionCodes from "../../modules/VersionCodes";
-import Facebook from "../../modules/Facebook";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import NextButton from './NextButton';
+import StatusbarWrapper from '../StatusbarWrapper';
+import AppTextInput from '../AppTextInput';
+import KeyboardSpacer from '../KeyboardSpacer';
+import OnboardTitle from './OnboardTitle';
+import OnboardParagraph from './OnboardParagraph';
+import OnboardError from './OnboardError';
+import Icon from '../Icon';
+import VersionCodes from '../../modules/VersionCodes';
+import Facebook from '../../modules/Facebook';
+import Colors from '../../../Colors.json';
 
 const {
 	View,
@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
 	},
 
 	inner: {
-		alignItems: "center",
-		justifyContent: "center"
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 
 	avatar: {
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	},
 
 	closeButtonContainer: {
-		alignSelf: "flex-start"
+		alignSelf: 'flex-start'
 	},
 
 	closeButton: {
@@ -97,7 +97,7 @@ export default class UserDetails extends React.Component {
 
 	_fetchFullName = async () => {
 		try {
-			const res = await Facebook.sendGraphRequest("GET", "/me", { fields: "name" }).then(JSON.parse);
+			const res = await Facebook.sendGraphRequest('GET', '/me', { fields: 'name' }).then(JSON.parse);
 
 			if (res && res.name && !this.props.name) {
 				this.props.onChangeName(res.name);
@@ -108,8 +108,8 @@ export default class UserDetails extends React.Component {
 	};
 
 	render() {
-		const nick_color = this.props.error && this.props.error.field === "nick" ? Colors.error : Colors.placeholder;
-		const name_color = this.props.error && this.props.error.field === "name" ? Colors.error : Colors.placeholder;
+		const nick_color = this.props.error && this.props.error.field === 'nick' ? Colors.error : Colors.placeholder;
+		const name_color = this.props.error && this.props.error.field === 'name' ? Colors.error : Colors.placeholder;
 
 		return (
 			<View style={styles.container}>

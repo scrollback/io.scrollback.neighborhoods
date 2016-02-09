@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import BannerOffline from "../views/BannerOffline";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import BannerOffline from '../views/BannerOffline';
+import Container from './Container';
+import store from '../store/store';
 
 class BannerOfflineContainer extends React.Component {
 	state = {
@@ -13,7 +13,7 @@ class BannerOfflineContainer extends React.Component {
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.app && changes.app.connectionStatus) {
 				this._updateData();
 			}
@@ -22,7 +22,7 @@ class BannerOfflineContainer extends React.Component {
 
 	_updateData = () => {
 		this.setState({
-			connectionStatus: store.get("app", "connectionStatus")
+			connectionStatus: store.get('app', 'connectionStatus')
 		});
 	};
 

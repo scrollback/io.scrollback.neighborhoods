@@ -1,10 +1,10 @@
-import React from "react-native";
-import DiscussionItemContainer from "../containers/DiscussionItemContainer";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import LoadingItem from "./LoadingItem";
-import StartDiscussionButton from "./StartDiscussionButton";
-import BannerOfflineContainer from "../containers/BannerOfflineContainer";
+import React from 'react-native';
+import DiscussionItemContainer from '../containers/DiscussionItemContainer';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import LoadingItem from './LoadingItem';
+import StartDiscussionButton from './StartDiscussionButton';
+import BannerOfflineContainer from '../containers/BannerOfflineContainer';
 
 const {
 	StyleSheet,
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 		paddingBottom: 88
 	},
 	item: {
-		overflow: "hidden"
+		overflow: 'hidden'
 	}
 });
 
@@ -34,7 +34,7 @@ export default class Discussions extends React.Component {
 	};
 
 	_renderRow = thread => {
-		if (thread === "missing") {
+		if (thread === 'missing') {
 			return <LoadingItem />;
 		}
 
@@ -52,20 +52,20 @@ export default class Discussions extends React.Component {
 		let placeHolder;
 
 		if (this.props.data.length === 0) {
-			placeHolder = <PageEmpty label="No discussions yet" image="sad" />;
+			placeHolder = <PageEmpty label='No discussions yet' image='sad' />;
 		} else if (this.props.data.length === 1) {
 			switch (this.props.data[0]) {
-			case "missing":
+			case 'missing':
 				placeHolder = <PageLoading />;
 				break;
-			case "banned":
-				placeHolder = <PageEmpty label="You're banned in this community" image="meh" />;
+			case 'banned':
+				placeHolder = <PageEmpty label="You're banned in this community" image='meh' />;
 				break;
-			case "nonexistent":
-				placeHolder = <PageEmpty label="This community doesn't exist" image="sad" />;
+			case 'nonexistent':
+				placeHolder = <PageEmpty label="This community doesn't exist" image='sad' />;
 				break;
-			case "failed":
-				placeHolder = <PageEmpty label="Failed to load discussions" image="sad" />;
+			case 'failed':
+				placeHolder = <PageEmpty label='Failed to load discussions' image='sad' />;
 				break;
 			}
 		}
@@ -97,7 +97,7 @@ export default class Discussions extends React.Component {
 
 Discussions.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "missing", "failed" ]),
+		React.PropTypes.oneOf([ 'missing', 'failed' ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

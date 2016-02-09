@@ -1,15 +1,15 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
-import ListItem from "./ListItem";
-import Icon from "./Icon";
-import Modal from "./Modal";
-import Share from "../modules/Share";
-import Linking from "../modules/Linking";
-import locationUtils from "../lib/location-utils";
-import { convertRouteToURL } from "../routes/Route";
-import config from "../store/config";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import NotificationBadgeContainer from '../containers/NotificationBadgeContainer';
+import ListItem from './ListItem';
+import Icon from './Icon';
+import Modal from './Modal';
+import Share from '../modules/Share';
+import Linking from '../modules/Linking';
+import locationUtils from '../lib/location-utils';
+import { convertRouteToURL } from '../routes/Route';
+import config from '../store/config';
 
 const {
 	StyleSheet,
@@ -20,12 +20,12 @@ const {
 const styles = StyleSheet.create({
 	item: {
 		flex: 1,
-		justifyContent: "center",
+		justifyContent: 'center',
 		paddingHorizontal: 16
 	},
 	title: {
 		color: Colors.darkGrey,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	distance: {
 		color: Colors.grey,
@@ -45,10 +45,10 @@ export default class LocalityItem extends React.Component {
 		const options = [];
 		const actions = [];
 
-		options.push("Share community");
+		options.push('Share community');
 		actions.push(() => {
-			Share.shareItem("Share community", config.server.protocol + "//" + config.server.host + convertRouteToURL({
-				name: "room",
+			Share.shareItem('Share community', config.server.protocol + '//' + config.server.host + convertRouteToURL({
+				name: 'room',
 				props: {
 					room
 				}
@@ -56,11 +56,11 @@ export default class LocalityItem extends React.Component {
 		});
 
 		if (room.location && room.location.lat && room.location.lon) {
-			options.push("View in Google Maps");
+			options.push('View in Google Maps');
 			actions.push(() => {
 				const { lat, lon } = room.location;
 
-				Linking.openURL("http://maps.google.com/maps?q=loc:" + lat + "," + lon);
+				Linking.openURL('http://maps.google.com/maps?q=loc:' + lat + ',' + lon);
 			});
 		}
 
@@ -100,7 +100,7 @@ export default class LocalityItem extends React.Component {
 					{this.props.showMenuButton ?
 						<TouchableOpacity onPress={this._handleShowMenu}>
 							<Icon
-								name="expand-more"
+								name='expand-more'
 								style={styles.expand}
 								size={20}
 							/>

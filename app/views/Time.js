@@ -1,6 +1,6 @@
-import React from "react-native";
-import AppText from "./AppText";
-import timeUtils from "../lib/time-utils";
+import React from 'react-native';
+import AppText from './AppText';
+import timeUtils from '../lib/time-utils';
 
 const msPerSec = 1000;
 const msPerMin = msPerSec * 60;
@@ -59,13 +59,13 @@ export default class Time extends React.Component {
 
 		return (
 			<AppText ref={c => this._root = c} {...this.props}>
-				{type === "short" ? timeUtils.short(time, this.state.now) : timeUtils.long(time, this.state.now)}
+				{type === 'short' ? timeUtils.short(time, this.state.now) : timeUtils.long(time, this.state.now)}
 			</AppText>
 		);
 	}
 }
 
 Time.propTypes = {
-	type: React.PropTypes.oneOf([ "short", "long" ]).isRequired,
+	type: React.PropTypes.oneOf([ 'short', 'long' ]).isRequired,
 	time: React.PropTypes.number.isRequired
 };

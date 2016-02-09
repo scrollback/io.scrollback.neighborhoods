@@ -1,6 +1,6 @@
-import React from "react-native";
-import LoadingItem from "./LoadingItem";
-import Page from "./Page";
+import React from 'react-native';
+import LoadingItem from './LoadingItem';
+import Page from './Page';
 
 export default class PageLoading extends React.Component {
 	shouldComponentUpdate() {

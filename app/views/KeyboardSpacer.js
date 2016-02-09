@@ -1,4 +1,4 @@
-import React from "react-native";
+import React from 'react-native';
 
 const {
 	Animated,
@@ -24,8 +24,8 @@ export default class KeyboardSpacer extends React.Component {
 	}
 
 	_registerEvents = () => {
-		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener("keyboardDidShow", e => this._keyboardDidShow(e));
-		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener("keyboardDidHide", e => this._keyboardDidHide(e));
+		this._keyboardDidShowSubscription = DeviceEventEmitter.addListener('keyboardDidShow', e => this._keyboardDidShow(e));
+		this._keyboardDidHideSubscription = DeviceEventEmitter.addListener('keyboardDidHide', e => this._keyboardDidHide(e));
 	};
 
 	_unRegisterEvents = () => {

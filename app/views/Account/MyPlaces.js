@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import PlaceManager from "./PlaceManager";
-import PageLoading from "../PageLoading";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import PlaceManager from './PlaceManager';
+import PageLoading from '../PageLoading';
+import Colors from '../../../Colors.json';
 
 const {
 	StyleSheet,
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 const MyPlaces = props => {
-	if (props.places && props.places.length === 1 && props.places[0] === "missing") {
+	if (props.places && props.places.length === 1 && props.places[0] === 'missing') {
 		return <PageLoading />;
 	}
 

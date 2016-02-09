@@ -1,10 +1,10 @@
 /* @flow */
 
-import React from "react-native";
-import AppText from "../AppText";
-import TouchFeedback from "../TouchFeedback";
-import Loading from "../Loading";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import AppText from '../AppText';
+import TouchFeedback from '../TouchFeedback';
+import Loading from '../Loading';
+import Colors from '../../../Colors.json';
 
 const {
 	StyleSheet,
@@ -24,13 +24,13 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.info,
 		padding: 12,
 		borderRadius: 3,
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center"
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	buttonText: {
 		color: Colors.white,
-		textAlign: "center",
+		textAlign: 'center',
 		paddingHorizontal: 4
 	}
 });

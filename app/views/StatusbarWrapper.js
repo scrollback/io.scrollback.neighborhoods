@@ -1,5 +1,5 @@
-import React from "react-native";
-import VersionCodes from "../modules/VersionCodes";
+import React from 'react-native';
+import VersionCodes from '../modules/VersionCodes';
 
 const {
 	Platform,
@@ -9,7 +9,7 @@ const {
 
 const styles = StyleSheet.create({
 	statusbar: {
-		height: Platform.OS === "android" ? 25 : 20 // offset for statusbar height
+		height: Platform.OS === 'android' ? 25 : 20 // offset for statusbar height
 	}
 });
 
@@ -20,4 +20,4 @@ StatusbarWrapper.propTypes = {
 };
 
 // Versions below KitKat don't have translucent statusbar
-export default Platform.OS === "android" && Platform.Version < VersionCodes.KITKAT ? View : StatusbarWrapper;
+export default Platform.OS === 'android' && Platform.Version < VersionCodes.KITKAT ? View : StatusbarWrapper;

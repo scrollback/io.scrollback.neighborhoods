@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import ShareButton from "../views/ShareButton";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import ShareButton from '../views/ShareButton';
+import Container from './Container';
+import store from '../store/store';
 
 class ShareButtonContainer extends React.Component {
 	static propTypes = {
@@ -17,7 +17,7 @@ class ShareButtonContainer extends React.Component {
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.indexes && changes.indexes.threadsById && changes.indexes.threadsById[this.props.thread]) {
 				this._updateData();
 			}

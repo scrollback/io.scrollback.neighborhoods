@@ -1,4 +1,4 @@
-import React from "react-native";
+import React from 'react-native';
 
 const {
 	StyleSheet,
@@ -7,7 +7,7 @@ const {
 
 const styles = StyleSheet.create({
 	text: {
-		fontFamily: "Lato",
+		fontFamily: 'Lato',
 		fontSize: 14,
 		lineHeight: 21
 	}

@@ -1,18 +1,18 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import NotificationBadgeContainer from "../containers/NotificationBadgeContainer";
-import Card from "./Card";
-import CardTitle from "./CardTitle";
-import DiscussionSummary from "./DiscussionSummary";
-import DiscussionFooter from "./DiscussionFooter";
-import TouchFeedback from "./TouchFeedback";
-import Modal from "./Modal";
-import Icon from "./Icon";
-import Linking from "../modules/Linking";
-import Share from "../modules/Share";
-import textUtils from "../lib/text-utils";
-import { convertRouteToURL } from "../routes/Route";
-import config from "../store/config";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import NotificationBadgeContainer from '../containers/NotificationBadgeContainer';
+import Card from './Card';
+import CardTitle from './CardTitle';
+import DiscussionSummary from './DiscussionSummary';
+import DiscussionFooter from './DiscussionFooter';
+import TouchFeedback from './TouchFeedback';
+import Modal from './Modal';
+import Icon from './Icon';
+import Linking from '../modules/Linking';
+import Share from '../modules/Share';
+import textUtils from '../lib/text-utils';
+import { convertRouteToURL } from '../routes/Route';
+import config from '../store/config';
 
 const {
 	Clipboard,
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 		marginVertical: 12
 	},
 	topArea: {
-		flexDirection: "row"
+		flexDirection: 'row'
 	},
 	title: {
 		flex: 1,
@@ -62,27 +62,27 @@ export default class DiscussionItem extends React.Component {
 
 	_copyToClipboard = text => {
 		Clipboard.setString(text);
-		ToastAndroid.show("Copied to clipboard", ToastAndroid.SHORT);
+		ToastAndroid.show('Copied to clipboard', ToastAndroid.SHORT);
 	};
 
 	_showMenu = () => {
 		const { thread } = this.props;
 		const menu = {};
 
-		menu["Copy title"] = () => this._copyToClipboard(thread.title);
+		menu['Copy title'] = () => this._copyToClipboard(thread.title);
 
 		const metadata = textUtils.getMetadata(thread.text);
 
-		if (metadata && metadata.type === "photo") {
-			menu["Open image in browser"] = () => Linking.openURL(metadata.url);
-			menu["Copy image link"] = () => this._copyToClipboard(metadata.url);
+		if (metadata && metadata.type === 'photo') {
+			menu['Open image in browser'] = () => Linking.openURL(metadata.url);
+			menu['Copy image link'] = () => this._copyToClipboard(metadata.url);
 		} else {
-			menu["Copy summary"] = () => this._copyToClipboard(thread.text);
+			menu['Copy summary'] = () => this._copyToClipboard(thread.text);
 		}
 
-		menu["Share discussion"] = () => {
-			Share.shareItem("Share discussion", config.server.protocol + "//" + config.server.host + convertRouteToURL({
-				name: "chat",
+		menu['Share discussion'] = () => {
+			Share.shareItem('Share discussion', config.server.protocol + '//' + config.server.host + convertRouteToURL({
+				name: 'chat',
 				props: {
 					room: thread.to,
 					thread: thread.id,
@@ -93,16 +93,16 @@ export default class DiscussionItem extends React.Component {
 
 		if (this.props.isCurrentUserAdmin()) {
 			if (this.props.hidden) {
-				menu["Unhide discussion"] = () => this.props.unhideText();
+				menu['Unhide discussion'] = () => this.props.unhideText();
 			} else {
-				menu["Hide discussion"] = () => this.props.hideText();
+				menu['Hide discussion'] = () => this.props.hideText();
 			}
 
 			if (thread.from !== this.props.currentUser) {
 				if (this.props.isUserBanned()) {
-					menu["Unban " + thread.from] = () => this.props.unbanUser();
+					menu['Unban ' + thread.from] = () => this.props.unbanUser();
 				} else {
-					menu["Ban " + thread.from] = () => this.props.banUser();
+					menu['Ban ' + thread.from] = () => this.props.banUser();
 				}
 			}
 		}
@@ -114,7 +114,7 @@ export default class DiscussionItem extends React.Component {
 		const { thread } = this.props;
 
 		this.props.onNavigation(new NavigationActions.Push({
-			name: "chat",
+			name: 'chat',
 			props: {
 				thread: thread.id,
 				room: thread.to

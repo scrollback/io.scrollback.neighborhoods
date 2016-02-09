@@ -5,11 +5,11 @@
  *  @flow
  */
 
-import React from "react-native";
-import SearchBar from "./Searchbar";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import debounce from "../lib/debounce";
+import React from 'react-native';
+import SearchBar from './Searchbar';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import debounce from '../lib/debounce';
 
 const {
 	StyleSheet,
@@ -40,8 +40,8 @@ export default class SearchableList extends React.Component {
 	};
 
 	state: State = {
-		filter: "",
-		data: [ "missing" ],
+		filter: '',
+		data: [ 'missing' ],
 	};
 
 	componentDidMount() {
@@ -66,11 +66,11 @@ export default class SearchableList extends React.Component {
 			}
 
 			this.setState({
-				data: data.length || filter ? data : [ "blankslate" ]
+				data: data.length || filter ? data : [ 'blankslate' ]
 			});
 		} catch (e) {
 			this.setState({
-				data: [ "failed" ]
+				data: [ 'failed' ]
 			});
 		}
 	});
@@ -78,7 +78,7 @@ export default class SearchableList extends React.Component {
 	_handleChangeSearch = (filter: string) => {
 		this.setState({
 			filter,
-			data: [ "missing" ]
+			data: [ 'missing' ]
 		});
 
 		this._fetchResults(filter);
@@ -102,18 +102,18 @@ export default class SearchableList extends React.Component {
 		if (this.state.data) {
 			switch (this.state.data.length) {
 			case 0:
-				placeHolder = <PageEmpty label="No results found" image="sad" />;
+				placeHolder = <PageEmpty label='No results found' image='sad' />;
 				break;
 			case 1:
 				switch (this.state.data[0]) {
-				case "blankslate":
-					placeHolder = <PageEmpty label="Come on, type something!" image="happy" />;
+				case 'blankslate':
+					placeHolder = <PageEmpty label='Come on, type something!' image='happy' />;
 					break;
-				case "missing":
+				case 'missing':
 					placeHolder = <PageLoading />;
 					break;
-				case "failed":
-					placeHolder = <PageEmpty label="Failed to load results" image="sad" />;
+				case 'failed':
+					placeHolder = <PageEmpty label='Failed to load results' image='sad' />;
 					break;
 				}
 			}

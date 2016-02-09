@@ -1,9 +1,9 @@
-import React from "react-native";
-import LocalityItem from "./LocalityItem";
-import ListHeader from "./ListHeader";
-import SearchableList from "./SearchableList";
-import StatusbarWrapper from "./StatusbarWrapper";
-import Colors from "../../Colors.json";
+import React from 'react-native';
+import LocalityItem from './LocalityItem';
+import ListHeader from './ListHeader';
+import SearchableList from './SearchableList';
+import StatusbarWrapper from './StatusbarWrapper';
+import Colors from '../../Colors.json';
 
 const {
 	StyleSheet,
@@ -44,7 +44,7 @@ export default class LocalitiesFiltered extends React.Component {
 		const count = data.length;
 
 		if (count) {
-			return <ListHeader>{filter ? (count + " result" + (count > 1 ? "s" : "") + " found") : "Communities nearby"}</ListHeader>;
+			return <ListHeader>{filter ? (count + ' result' + (count > 1 ? 's' : '') + ' found') : 'Communities nearby'}</ListHeader>;
 		}
 
 		return null;
@@ -59,7 +59,7 @@ export default class LocalitiesFiltered extends React.Component {
 					renderRow={this._renderRow}
 					renderHeader={this._renderHeader}
 					onDismiss={this.props.onDismiss}
-					searchHint="Type a place to search"
+					searchHint='Type a place to search'
 				/>
 			</View>
 		);

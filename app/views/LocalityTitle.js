@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
 
 const {
 	StyleSheet
@@ -9,7 +9,7 @@ const {
 const styles = StyleSheet.create({
 	title: {
 		color: Colors.white,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		fontSize: 18,
 		lineHeight: 27,
 		marginVertical: 14,

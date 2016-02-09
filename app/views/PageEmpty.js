@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import Page from "./Page";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import Page from './Page';
 
 const {
 	StyleSheet,
@@ -11,20 +11,20 @@ const {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignSelf: "stretch",
-		alignItems: "center",
-		justifyContent: "center",
+		alignSelf: 'stretch',
+		alignItems: 'center',
+		justifyContent: 'center',
 		padding: 16
 	},
 	missing: {
 		margin: 16,
-		textAlign: "center",
+		textAlign: 'center',
 		fontSize: 16,
 		lineHeight: 24
 	},
 	button: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		padding: 16
 	},
 	label: {
@@ -46,14 +46,14 @@ export default class PageEmpty extends React.Component {
 
 	_getImageSource = name => {
 		switch (name) {
-		case "cool":
-			return require("../../assets/monkey-cool.png");
-		case "happy":
-			return require("../../assets/monkey-happy.png");
-		case "meh":
-			return require("../../assets/monkey-meh.png");
-		case "sad":
-			return require("../../assets/monkey-sad.png");
+		case 'cool':
+			return require('../../assets/monkey-cool.png');
+		case 'happy':
+			return require('../../assets/monkey-happy.png');
+		case 'meh':
+			return require('../../assets/monkey-meh.png');
+		case 'sad':
+			return require('../../assets/monkey-sad.png');
 		}
 	};
 

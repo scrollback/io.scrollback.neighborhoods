@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = {
 	findIndex: findIndex,
@@ -39,20 +39,20 @@ function findIndex(items, propName, value, start, end) {
 
 
 function getItems(ranges, req, propName) {
-    var index, startIndex, endIndex, range, missingBefore, missingAfter;
-    range = ranges.filter(function (r) {
-        return (
+    	var index, startIndex, endIndex, range, missingBefore, missingAfter;
+    	range = ranges.filter(function (r) {
+        	return (
             (req[propName] === null && r.end === null) ||
             ((r.start === null || r.start <= req[propName]) &&
             (r.end === null || r.end >= req[propName]))
         );
 
     })[0];
-    if(!range) return ["missing"];
+    	if (!range) return [ "missing" ];
 
-    index = findIndex(range.items, propName, req[propName]);
+    	index = findIndex(range.items, propName, req[propName]);
 
-	if(range.items[index] && range.items[index][propName] === req[propName] && req.before && !req.after) index++;
+	if (range.items[index] && range.items[index][propName] === req[propName] && req.before && !req.after) index++;
 	/*
 		Consider the range [1, 2, 3, 4, 5].
 		(index: 3, before: 2) => 2 items [2, 3] so that it is consistent with
@@ -60,23 +60,23 @@ function getItems(ranges, req, propName) {
 		(index: 3, before: 2, after: 2) => 4 items [1, 2, 3, 4].
 	*/
 
-    startIndex = index - (req.before || 0);
-    endIndex = index + (req.after || 0);
+    	startIndex = index - (req.before || 0);
+    	endIndex = index + (req.after || 0);
 
-    if(startIndex < 0) {
-        if(range.start !== null) missingBefore = true;
-        startIndex = 0;
+    	if (startIndex < 0) {
+        	if (range.start !== null) missingBefore = true;
+        	startIndex = 0;
     }
 
-    if(endIndex > range.items.length) {
-        if(range.end !== null) missingAfter = true;
-        endIndex = range.items.length;
+    	if (endIndex > range.items.length) {
+        	if (range.end !== null) missingAfter = true;
+        	endIndex = range.items.length;
     }
 
-    return Array.prototype.concat(
-        (missingBefore? ['missing']: []),
+    	return Array.prototype.concat(
+        (missingBefore ? [ 'missing' ]: []),
         range.items.slice(startIndex, endIndex),
-        (missingAfter? ['missing']: [])
+        (missingAfter ? [ 'missing' ]: [])
     );
 }
 
@@ -100,7 +100,7 @@ function mergeRange(ranges, range, propName) {
 	if (range.end === null) bottomRangeIndex = ranges.length;
 	else {
 		for (
-			bottomRangeIndex = ranges.length-1;
+			bottomRangeIndex = ranges.length - 1;
 			bottomRangeIndex >= 0 && (
 				ranges[bottomRangeIndex].start !== null &&
 				ranges[bottomRangeIndex].start > range.end);
@@ -110,17 +110,17 @@ function mergeRange(ranges, range, propName) {
 
 	if (ranges[topRangeIndex] && isInRange(ranges[topRangeIndex], range.start)) {
 		topItemIndex = findIndex(ranges[topRangeIndex].items, propName, range.start);
-		while(
-			ranges[topRangeIndex].items[topItemIndex-1] &&
-			ranges[topRangeIndex].items[topItemIndex-1][propName] === range.start
+		while (
+			ranges[topRangeIndex].items[topItemIndex - 1] &&
+			ranges[topRangeIndex].items[topItemIndex - 1][propName] === range.start
 		) topItemIndex--;
 	} else {
 		topItemIndex = -1;
 	}
 
-	if(ranges[bottomRangeIndex] && isInRange(ranges[bottomRangeIndex], range.end)){
+	if (ranges[bottomRangeIndex] && isInRange(ranges[bottomRangeIndex], range.end)) {
 		bottomItemIndex = findIndex(ranges[bottomRangeIndex].items, propName, range.end);
-		while(
+		while (
 			ranges[bottomRangeIndex].items[bottomItemIndex] &&
 			ranges[bottomRangeIndex].items[bottomItemIndex][propName] === range.end
 		) bottomItemIndex++;
@@ -130,9 +130,9 @@ function mergeRange(ranges, range, propName) {
 
 /*	console.log(JSON.stringify(ranges),'\n', JSON.stringify(range),'\n', topRangeIndex, topItemIndex, bottomRangeIndex, bottomItemIndex);*/
 
-	mergedRange = {start: range.start, end: range.end, items: []};
+	mergedRange = { start: range.start, end: range.end, items: [] };
 
-	if(topItemIndex !== -1) {
+	if (topItemIndex !== -1) {
 		mergedRange.start = ranges[topRangeIndex].start;
 		mergedRange.items = mergedRange.items.concat(ranges[topRangeIndex].items.slice(0, topItemIndex));
 	}

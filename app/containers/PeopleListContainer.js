@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from "react-native";
-import PeopleList from "../views/PeopleList";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import PeopleList from '../views/PeopleList';
+import Container from './Container';
+import store from '../store/store';
 
 class PeopleListContainer extends React.Component {
 	static propTypes = {
@@ -13,7 +13,7 @@ class PeopleListContainer extends React.Component {
 	};
 
 	state = {
-		data: [ "missing" ]
+		data: [ 'missing' ]
 	};
 
 	componentDidMount() {
@@ -31,7 +31,7 @@ class PeopleListContainer extends React.Component {
 
 			for (let i = 0, l = thread.concerns.length; i < l; i++) {
 				const user = thread.concerns[i];
-				const relation = store.get("entities", thread.to + "_" + user);
+				const relation = store.get('entities', thread.to + '_' + user);
 
 				if (relation) {
 					data.push({
@@ -48,7 +48,7 @@ class PeopleListContainer extends React.Component {
 			data.sort((a, b) => {
 				if (a.status === b.status) {
 					return 0;
-				} else if (a.status === "online") {
+				} else if (a.status === 'online') {
 					return -1;
 				} else {
 					return 1;
@@ -57,7 +57,7 @@ class PeopleListContainer extends React.Component {
 
 			this.setState({ data });
 		} else {
-			this.setState({ data: [ "failed" ] });
+			this.setState({ data: [ 'failed' ] });
 		}
 	};
 

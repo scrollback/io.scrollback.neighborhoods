@@ -1,7 +1,7 @@
-import React from "react-native";
-import Splash from "./Splash";
-import Onboard from "./Onboard/Onboard";
-import Offline from "./Offline";
+import React from 'react-native';
+import Splash from './Splash';
+import Onboard from './Onboard/Onboard';
+import Offline from './Offline';
 
 export default class App extends React.Component {
 	shouldComponentUpdate(nextProps) {
@@ -14,8 +14,8 @@ export default class App extends React.Component {
 	render() {
 		const { user, connectionStatus } = this.props;
 
-		if (user === "missing") {
-			if (connectionStatus === "offline") {
+		if (user === 'missing') {
+			if (connectionStatus === 'offline') {
 				return <Offline />;
 			} else {
 				return <Splash />;
@@ -28,5 +28,5 @@ export default class App extends React.Component {
 
 App.propTypes = {
 	user: React.PropTypes.string.isRequired,
-	connectionStatus: React.PropTypes.oneOf([ "connecting", "online", "offline" ]).isRequired
+	connectionStatus: React.PropTypes.oneOf([ 'connecting', 'online', 'offline' ]).isRequired
 };

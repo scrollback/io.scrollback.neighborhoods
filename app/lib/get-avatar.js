@@ -1,17 +1,17 @@
 export default function(url, size) {
 	function replaceparams(u, params) {
-		let link = u.replace(/(&|\?)(.+=.+)*/g, "");
+		let link = u.replace(/(&|\?)(.+=.+)*/g, '');
 
 		for (const q in params) {
 			if (params[q]) {
-				link += ((/\?(.*=.*)*/).test(link) ? "&" : "?") + q + "=" + params[q];
+				link += ((/\?(.*=.*)*/).test(link) ? '&' : '?') + q + '=' + params[q];
 			}
 		}
 
 		return link;
 	}
 
-	if (typeof url !== "string") {
+	if (typeof url !== 'string') {
 		return null;
 	}
 
@@ -23,7 +23,7 @@ export default function(url, size) {
 
 	if (/https?\:\/\/graph\.facebook\.com\//.test(url)) {
 		return replaceparams(url, {
-			type: "square",
+			type: 'square',
 			height: size,
 			width: size
 		});
@@ -32,7 +32,7 @@ export default function(url, size) {
 	if (/https?\:\/\/gravatar\.com\//.test(url)) {
 		return replaceparams(url, {
 			size,
-			d: "retro"
+			d: 'retro'
 		});
 	}
 

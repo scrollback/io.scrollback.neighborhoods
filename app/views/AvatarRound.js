@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AvatarContainer from "../containers/AvatarContainer";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AvatarContainer from '../containers/AvatarContainer';
 
 const {
 	StyleSheet,
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		flex: 1,
-		resizeMode: "cover"
+		resizeMode: 'cover'
 	}
 });
 

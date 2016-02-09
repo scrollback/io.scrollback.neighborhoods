@@ -1,9 +1,9 @@
-import React from "react-native";
-import PushNotification from "../modules/push-notification";
-import BuildConfig from "../modules/build-config";
-import core from "../store/core";
-import config from "../store/config";
-import userUtils from "../lib/user-utils";
+import React from 'react-native';
+import PushNotification from '../modules/push-notification';
+import BuildConfig from '../modules/build-config';
+import core from '../store/core';
+import config from '../store/config';
+import userUtils from '../lib/user-utils';
 
 const {
 	AsyncStorage,
@@ -11,7 +11,7 @@ const {
 } = React;
 
 const GCM_TIME_VALIDITY = 12 * 60 * 60 * 1000;
-const KEY_REGISTER_TIME = "push_notification_gcm_register_time";
+const KEY_REGISTER_TIME = 'push_notification_gcm_register_time';
 
 async function registerGCM(userObj, registerTime) {
 	if (Date.now() - (parseInt(registerTime, 10) || 0) > GCM_TIME_VALIDITY) {
@@ -24,7 +24,7 @@ async function registerGCM(userObj, registerTime) {
 			const pushNotifications = params.pushNotifications ? Object.assign({}, params.pushNotifications) : {};
 			const devices = pushNotifications.devices ? Object.assign({}, pushNotifications.devices) : {};
 
-			devices[result.uuid + "_" + BuildConfig.APPLICATION_ID] = {
+			devices[result.uuid + '_' + BuildConfig.APPLICATION_ID] = {
 				model: result.deviceModel,
 				regId: result.registrationId,
 				uuid: result.uuid,
@@ -38,7 +38,7 @@ async function registerGCM(userObj, registerTime) {
 			params.pushNotifications = pushNotifications;
 			user.params = params;
 
-			core.emit("user-up", {
+			core.emit('user-up', {
 				to: user.id,
 				user
 			}, () => {
@@ -53,7 +53,7 @@ async function registerGCM(userObj, registerTime) {
 function initialize() {
 	PushNotification.setGCMSenderID(config.gcm.sender_id);
 
-	core.on("init-dn", async init => {
+	core.on('init-dn', async init => {
 		const userObj = init.user;
 
 		if (!userUtils.isGuest(userObj.id)) {
@@ -67,7 +67,7 @@ function initialize() {
 		}
 	});
 
-	core.on("logout", () => {
+	core.on('logout', () => {
 		PushNotification.unRegisterGCM();
 		AsyncStorage.removeItem(KEY_REGISTER_TIME);
 	});

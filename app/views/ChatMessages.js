@@ -1,8 +1,8 @@
-import React from "react-native";
-import ChatItemContainer from "../containers/ChatItemContainer";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import LoadingItem from "./LoadingItem";
+import React from 'react-native';
+import ChatItemContainer from '../containers/ChatItemContainer';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import LoadingItem from './LoadingItem';
 
 const {
 	StyleSheet,
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		]
 	},
 	item: {
-		overflow: "hidden"
+		overflow: 'hidden'
 	}
 });
 
@@ -42,7 +42,7 @@ export default class ChatMessages extends React.Component {
 	};
 
 	_renderRow = item => {
-		if (item === "missing") {
+		if (item === 'missing') {
 			return <LoadingItem />;
 		}
 
@@ -64,20 +64,20 @@ export default class ChatMessages extends React.Component {
 		let placeHolder;
 
 		if (this.props.data.length === 0) {
-			placeHolder = <PageEmpty label="No messages yet" image="sad" />;
+			placeHolder = <PageEmpty label='No messages yet' image='sad' />;
 		} else if (this.props.data.length === 1) {
 			switch (this.props.data[0]) {
-			case "missing":
+			case 'missing':
 				placeHolder = <PageLoading />;
 				break;
-			case "banned":
-				placeHolder = <PageEmpty label="You're banned in this community" image="meh" />;
+			case 'banned':
+				placeHolder = <PageEmpty label="You\'re banned in this community" image='meh' />;
 				break;
-			case "nonexistent":
-				placeHolder = <PageEmpty label="This discussion doesn't exist" image="sad" />;
+			case 'nonexistent':
+				placeHolder = <PageEmpty label="This discussion doesn't exist" image='sad' />;
 				break;
-			case "failed":
-				placeHolder = <PageEmpty label="Failed to load messages" image="sad" />;
+			case 'failed':
+				placeHolder = <PageEmpty label='Failed to load messages' image='sad' />;
 				break;
 			}
 		}
@@ -103,7 +103,7 @@ export default class ChatMessages extends React.Component {
 
 ChatMessages.propTypes = {
 	data: React.PropTypes.arrayOf(React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "missing", "failed" ]),
+		React.PropTypes.oneOf([ 'missing', 'failed' ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

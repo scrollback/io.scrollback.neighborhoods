@@ -1,17 +1,17 @@
-import React from "react-native";
-import PageEmpty from "./PageEmpty";
-import PageLoading from "./PageLoading";
-import DiscussionDetailsCard from "./DiscussionDetailsCard";
-import PeopleListContainer from "../containers/PeopleListContainer";
+import React from 'react-native';
+import PageEmpty from './PageEmpty';
+import PageLoading from './PageLoading';
+import DiscussionDetailsCard from './DiscussionDetailsCard';
+import PeopleListContainer from '../containers/PeopleListContainer';
 
 const {
 	ScrollView
 } = React;
 
 const DiscussionDetails = props => {
-	if (props.thread === "missing") {
+	if (props.thread === 'missing') {
 		return <PageLoading />;
-	} else if (typeof props.thread === "object") {
+	} else if (typeof props.thread === 'object') {
 		return (
 			<ScrollView {...props}>
 				<DiscussionDetailsCard thread={props.thread} />
@@ -19,13 +19,13 @@ const DiscussionDetails = props => {
 			</ScrollView>
 		);
 	} else {
-		return <PageEmpty label="Failed to load discussion" image="sad" />;
+		return <PageEmpty label='Failed to load discussion' image='sad' />;
 	}
 };
 
 DiscussionDetails.propTypes = {
 	thread: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "missing", "failed" ]),
+		React.PropTypes.oneOf([ 'missing', 'failed' ]),
 		React.PropTypes.object
 	])
 };

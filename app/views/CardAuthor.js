@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import AvatarRound from "./AvatarRound";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import AvatarRound from './AvatarRound';
 
 const {
 	StyleSheet,
@@ -10,8 +10,8 @@ const {
 
 const styles = StyleSheet.create({
 	author: {
-		flexDirection: "row",
-		alignItems: "center"
+		flexDirection: 'row',
+		alignItems: 'center'
 	},
 	name: {
 		flex: 1,

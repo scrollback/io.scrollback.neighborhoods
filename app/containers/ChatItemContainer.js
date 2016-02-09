@@ -1,10 +1,10 @@
 /* @flow */
 
-import React from "react-native";
-import ChatItem from "../views/ChatItem";
-import Container from "./Container";
-import store from "../store/store";
-import actions from "../store/actions";
+import React from 'react-native';
+import ChatItem from '../views/ChatItem';
+import Container from './Container';
+import store from '../store/store';
+import actions from '../store/actions';
 
 class ChatItemContainer extends React.Component {
 	static propTypes = {
@@ -16,7 +16,7 @@ class ChatItemContainer extends React.Component {
 	};
 
 	_isUserAdmin = () => {
-		return store.isUserAdmin(store.get("user"), this.props.text.to);
+		return store.isUserAdmin(store.get('user'), this.props.text.to);
 	};
 
 	_isUserBanned = () => {

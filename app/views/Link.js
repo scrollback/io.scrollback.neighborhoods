@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Linking from "../modules/Linking";
-import AppText from "./AppText";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Linking from '../modules/Linking';
+import AppText from './AppText';
 
 const {
 	StyleSheet
@@ -75,5 +75,5 @@ Link.propTypes = {
 };
 
 Link.defaultProps = {
-	url: "#"
+	url: '#'
 };

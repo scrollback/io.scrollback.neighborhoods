@@ -1,5 +1,5 @@
-import { NativeModules } from "react-native";
-import RCTDeviceEventEmitter from "RCTDeviceEventEmitter";
+import { NativeModules } from 'react-native';
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 const { GeolocationModule } = NativeModules;
 
@@ -7,7 +7,7 @@ const watchCallbacks = {};
 
 let watchID = 0;
 
-RCTDeviceEventEmitter.addListener("geolocationChange", ev => {
+RCTDeviceEventEmitter.addListener('geolocationChange', ev => {
 	for (const id in watchCallbacks) {
 		watchCallbacks[id](ev);
 	}

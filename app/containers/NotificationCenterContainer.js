@@ -1,19 +1,19 @@
 /* @flow */
 
-import React from "react-native";
-import NotificationCenter from "../views/NotificationCenter";
-import Container from "./Container";
-import store from "../store/store";
+import React from 'react-native';
+import NotificationCenter from '../views/NotificationCenter';
+import Container from './Container';
+import store from '../store/store';
 
 class NotificationCenterContainer extends React.Component {
 	state = {
-		data: [ "missing" ]
+		data: [ 'missing' ]
 	};
 
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes && changes.notes) {
 				this._updateData();
 			}
@@ -21,7 +21,7 @@ class NotificationCenterContainer extends React.Component {
 	}
 
 	_dismissNote = note => {
-		this.dispatch("note", {
+		this.dispatch('note', {
 			ref: note.ref,
 			noteType: note.noteType,
 			dismissTime: Date.now()

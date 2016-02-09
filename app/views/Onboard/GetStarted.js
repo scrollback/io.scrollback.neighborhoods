@@ -1,11 +1,11 @@
 /* @flow */
 
-import React from "react-native";
-import NextButton from "./NextButton";
-import StatusbarWrapper from "../StatusbarWrapper";
-import OnboardTitle from "./OnboardTitle";
-import OnboardParagraph from "./OnboardParagraph";
-import Colors from "../../../Colors.json";
+import React from 'react-native';
+import NextButton from './NextButton';
+import StatusbarWrapper from '../StatusbarWrapper';
+import OnboardTitle from './OnboardTitle';
+import OnboardParagraph from './OnboardParagraph';
+import Colors from '../../../Colors.json';
 
 const {
 	View,
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 
 	inner: {
 		padding: 15,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 
 	text: {
@@ -41,16 +41,16 @@ const UserDetails = (props: { onComplete: Function }) => (
 			<OnboardTitle style={styles.text}>
 				{
 					props.isSkipped ?
-					"Join the Open House" :
-					"You are all set!"
+					'Join the Open House' :
+					'You are all set!'
 				}
 			</OnboardTitle>
-			<Image style={styles.image} source={require("../../../assets/open-door.png")} />
+			<Image style={styles.image} source={require('../../../assets/open-door.png')} />
 			<OnboardParagraph style={styles.text}>
 				{
 					props.isSkipped ?
-					"We are coming to your city soon! Stay connected by joining the open house group." :
-					"Have fun and help make your neighbourhood better."
+					'We are coming to your city soon! Stay connected by joining the open house group.' :
+					'Have fun and help make your neighbourhood better.'
 				}
 			</OnboardParagraph>
 		</View>

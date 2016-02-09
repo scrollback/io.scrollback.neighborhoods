@@ -1,10 +1,10 @@
-import { AsyncStorage } from "react-native";
+import { AsyncStorage } from 'react-native';
 
 let data;
 
 export default {
 	async _readData() {
-		const dataString = await AsyncStorage.getItem("oembed_storage");
+		const dataString = await AsyncStorage.getItem('oembed_storage');
 
 		if (dataString) {
 			data = JSON.parse(dataString);
@@ -37,7 +37,7 @@ export default {
 			data.splice(0, 10);
 		}
 
-		return AsyncStorage.setItem("oembed_storage", JSON.stringify(data));
+		return AsyncStorage.setItem('oembed_storage', JSON.stringify(data));
 	},
 
 	async get(url) {

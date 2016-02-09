@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-var relationsProps = require("./property-list.js").relations,
-	objUtils = require("../lib/obj-utils.js");
+var relationsProps = require('./property-list.js').relations,
+	objUtils = require('../lib/obj-utils.js');
 
 module.exports = {
 	relatedEntityToEntity: function(relatedEntity) {
@@ -23,7 +23,7 @@ module.exports = {
 		var relation = {};
 
 		relationsProps.forEach(function(e) {
-			if (typeof entity[e] !== "undefined") {
+			if (typeof entity[e] !== 'undefined') {
 				relation[e] = entity[e];
 			}
 		});

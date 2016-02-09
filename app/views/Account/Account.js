@@ -1,15 +1,15 @@
-import React from "react-native";
-import Colors from "../../../Colors.json";
-import AppText from "../AppText";
-import PageLoading from "../PageLoading";
-import PageEmpty from "../PageEmpty";
-import AvatarRound from "../AvatarRound";
-import GrowingTextInput from "../GrowingTextInput";
-import Modal from "../Modal";
-import AccountPhotoChooser from "./AccountPhotoChooser";
-import TouchFeedback from "../TouchFeedback";
-import PushNotification from "../../modules/PushNotification";
-import debounce from "../../lib/debounce";
+import React from 'react-native';
+import Colors from '../../../Colors.json';
+import AppText from '../AppText';
+import PageLoading from '../PageLoading';
+import PageEmpty from '../PageEmpty';
+import AvatarRound from '../AvatarRound';
+import GrowingTextInput from '../GrowingTextInput';
+import Modal from '../Modal';
+import AccountPhotoChooser from './AccountPhotoChooser';
+import TouchFeedback from '../TouchFeedback';
+import PushNotification from '../../modules/PushNotification';
+import debounce from '../../lib/debounce';
 
 const {
 	StyleSheet,
@@ -27,14 +27,14 @@ const styles = StyleSheet.create({
 	},
 	nick: {
 		color: Colors.darkGrey,
-		fontWeight: "bold"
+		fontWeight: 'bold'
 	},
 	email: {
 		fontSize: 12,
 		lineHeight: 18
 	},
 	settings: {
-		alignItems: "stretch",
+		alignItems: 'stretch',
 		backgroundColor: Colors.white
 	},
 	inputContainer: {
@@ -51,8 +51,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: 12
 	},
 	item: {
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		borderColor: Colors.separator,
 		borderBottomWidth: 1 / PixelRatio.get(),
 		padding: 16
@@ -74,7 +74,7 @@ export default class Account extends React.Component {
 		super(props);
 
 		this._saveUserDebounced = debounce(this.props.saveUser, 1000);
-		this._pushNotificationEnabledKey = "enabled";
+		this._pushNotificationEnabledKey = 'enabled';
 
 		this.state = {
 			pushNotificationEnabled: true,
@@ -95,7 +95,7 @@ export default class Account extends React.Component {
 		}
 
 		this.setState({
-			pushNotificationEnabled: value !== "false"
+			pushNotificationEnabled: value !== 'false'
 		});
 	};
 
@@ -108,7 +108,7 @@ export default class Account extends React.Component {
 	};
 
 	_handlePushNotificationChange = value => {
-		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? "true" : "false");
+		PushNotification.setPreference(this._pushNotificationEnabledKey, value ? 'true' : 'false');
 
 		this.setState({
 			pushNotificationEnabled: value
@@ -144,7 +144,7 @@ export default class Account extends React.Component {
 	};
 
 	_handleSelectFrequency = () => {
-		const options = [ "Daily", "Never" ];
+		const options = [ 'Daily', 'Never' ];
 
 		Modal.showActionSheetWithOptions({ options }, i =>
 			this._handleEmailFrequencyChange(options[i].toLowerCase())
@@ -181,11 +181,11 @@ export default class Account extends React.Component {
 	render() {
 		const { user } = this.props;
 
-		if (user === "missing") {
+		if (user === 'missing') {
 			return <PageLoading />;
 		}
 
-		if (user === "failed") {
+		if (user === 'failed') {
 			return <PageEmpty label="Failed to load account" image="sad" />;
 		}
 
@@ -239,7 +239,7 @@ export default class Account extends React.Component {
 							<AppText style={styles.itemValueText}>
 								{user.params && user.params.email && user.params.email.frequency ?
 									user.params.email.frequency.charAt(0).toUpperCase() + user.params.email.frequency.slice(1) :
-									"Daily"
+									'Daily'
 								}
 							</AppText>
 						</View>
@@ -259,7 +259,7 @@ export default class Account extends React.Component {
 
 Account.propTypes = {
 	user: React.PropTypes.oneOfType([
-		React.PropTypes.oneOf([ "missing", "failed" ]),
+		React.PropTypes.oneOf([ 'missing', 'failed' ]),
 		React.PropTypes.shape({
 			id: React.PropTypes.string
 		})

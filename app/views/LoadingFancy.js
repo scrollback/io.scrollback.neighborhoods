@@ -1,6 +1,6 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import Loading from "./Loading";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import Loading from './Loading';
 
 const {
 	StyleSheet,
@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
 		height: 36,
 		width: 36,
 		borderRadius: 18,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		margin: 24,
 		elevation: 1
 	},

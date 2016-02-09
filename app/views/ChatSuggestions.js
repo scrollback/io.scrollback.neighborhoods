@@ -1,7 +1,7 @@
-import React from "react-native";
-import Colors from "../../Colors.json";
-import AppText from "./AppText";
-import AvatarRound from "./AvatarRound";
+import React from 'react-native';
+import Colors from '../../Colors.json';
+import AppText from './AppText';
+import AvatarRound from './AvatarRound';
 
 const {
 	StyleSheet,
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 		backgroundColor: Colors.white,
 		borderColor: Colors.separator,
 		borderTopWidth: 1 / PixelRatio.get(),
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		paddingHorizontal: 16,
 		height: 40
 	},

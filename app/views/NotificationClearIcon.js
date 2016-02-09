@@ -1,6 +1,6 @@
-import React from "react-native";
-import AppbarTouchable from "./AppbarTouchable";
-import AppbarIcon from "./AppbarIcon";
+import React from 'react-native';
+import AppbarTouchable from './AppbarTouchable';
+import AppbarIcon from './AppbarIcon';
 
 export default class NotificationClearIcon extends React.Component {
 	shouldComponentUpdate() {
@@ -10,7 +10,7 @@ export default class NotificationClearIcon extends React.Component {
 	render() {
 		return (
 			<AppbarTouchable onPress={this.props.clearAll}>
-				<AppbarIcon name="clear-all" />
+				<AppbarIcon name='clear-all' />
 			</AppbarTouchable>
 		);
 	}

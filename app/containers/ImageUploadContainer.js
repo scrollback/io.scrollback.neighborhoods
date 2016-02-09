@@ -1,14 +1,14 @@
 /* @flow */
 
-import React from "react-native";
-import Container from "./Container";
-import store from "../store/store";
-import generate from "../lib/generate.browser";
+import React from 'react-native';
+import Container from './Container';
+import store from '../store/store';
+import generate from '../lib/generate.browser';
 
-const IDLE = "idle";
-const LOADING = "loading";
-const FINISHED = "finished";
-const ERROR = "error";
+const IDLE = 'idle';
+const LOADING = 'loading';
+const FINISHED = 'finished';
+const ERROR = 'error';
 
 class ImageUploadContainer extends React.Component {
 	static propTypes = {
@@ -32,7 +32,7 @@ class ImageUploadContainer extends React.Component {
 
 	static defaultProps = {
 		generateThumb: true,
-		uploadType: "content"
+		uploadType: 'content'
 	};
 
 	state = {
@@ -59,7 +59,7 @@ class ImageUploadContainer extends React.Component {
 			const checkThumb = () => {
 				const onError = () => {
 					if (Date.now() - startTime > 15000) {
-						reject(new Error("Thumbnail generation timed out!"));
+						reject(new Error('Thumbnail generation timed out!'));
 					} else {
 						thumbTimer = setTimeout(checkThumb, 1500);
 					}
@@ -74,7 +74,7 @@ class ImageUploadContainer extends React.Component {
 				const req = new XMLHttpRequest();
 
 				// Avoid doing a GET request, otherwise the app will crash due to memory limitations
-				req.open("HEAD", opts.thumbnailUrl, true);
+				req.open('HEAD', opts.thumbnailUrl, true);
 
 				req.onload = () => {
 					clearTimer();
@@ -102,21 +102,21 @@ class ImageUploadContainer extends React.Component {
 		const formData = new FormData();
 
 		const fields = [
-			"acl", "policy", "x-amz-algorithm", "x-amz-credential",
-			"x-amz-date", "x-amz-signature"
+			'acl', 'policy', 'x-amz-algorithm', 'x-amz-credential',
+			'x-amz-date', 'x-amz-signature'
 		];
 
 		for (let i = 0, l = fields.length; i < l; i++) {
 			formData.append(fields[i], policy[fields[i]]);
 		}
 
-		formData.append("key", key);
-		formData.append("success_action_status", "201");
+		formData.append('key', key);
+		formData.append('success_action_status', '201');
 
 		const { uri, name } = this.props.imageData;
-		const type = "image/" + (name.split(".").pop() || "jpg");
+		const type = 'image/' + (name.split('.').pop() || 'jpg');
 
-		formData.append("file", { uri, type });
+		formData.append('file', { uri, type });
 
 		return formData;
 	};
@@ -125,13 +125,13 @@ class ImageUploadContainer extends React.Component {
 		return new Promise((resolve, reject) => {
 			const request = new XMLHttpRequest();
 
-			request.open("POST", baseurl, true);
+			request.open('POST', baseurl, true);
 
 			request.onload = () => {
 				if (request.status === 201) {
 					resolve({
 						textId,
-						thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, "generated") + thumbpath,
+						thumbnailUrl: baseurl + policy.keyPrefix.replace(/^uploaded/, 'generated') + thumbpath,
 						originalUrl: url
 					});
 				} else {
@@ -165,31 +165,31 @@ class ImageUploadContainer extends React.Component {
 		const textId = generate.uid();
 
 		try {
-			const res = await this.emit("upload/getPolicy", {
+			const res = await this.emit('upload/getPolicy', {
 				uploadType: this.props.uploadType,
-				userId: store.get("user"),
+				userId: store.get('user'),
 				textId
 			});
 
 			const policy = res.response;
 
-			const baseurl = "https://" + policy.bucket + ".s3.amazonaws.com/";
-			const filename = this.props.imageData.name.replace(/\s+/g, " ");
+			const baseurl = 'https://' + policy.bucket + '.s3.amazonaws.com/';
+			const filename = this.props.imageData.name.replace(/\s+/g, ' ');
 
 			let key = policy.keyPrefix,
 				url, thumbpath;
 
 			switch (this.props.uploadType) {
-			case "avatar":
-			case "banner":
-				thumbpath = "256x256.jpg";
-				key += "original." + filename.split(".").pop();
+			case 'avatar':
+			case 'banner':
+				thumbpath = '256x256.jpg';
+				key += 'original.' + filename.split('.').pop();
 				url = baseurl + key;
 				break;
-			case "content":
-				thumbpath = "1/480x960.jpg";
-				key += "1/" + filename;
-				url = baseurl + policy.keyPrefix + "1/" + encodeURIComponent(filename);
+			case 'content':
+				thumbpath = '1/480x960.jpg';
+				key += '1/' + filename;
+				url = baseurl + policy.keyPrefix + '1/' + encodeURIComponent(filename);
 				break;
 			}
 

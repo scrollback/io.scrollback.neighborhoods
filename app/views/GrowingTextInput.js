@@ -1,6 +1,6 @@
-import React from "react-native";
-import AppText from "./AppText";
-import AppTextInput from "./AppTextInput";
+import React from 'react-native';
+import AppText from './AppText';
+import AppTextInput from './AppTextInput';
 
 const {
 	StyleSheet,
@@ -9,7 +9,7 @@ const {
 
 const styles = StyleSheet.create({
 	phantom: {
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: 0,
 		right: 0,
@@ -73,9 +73,9 @@ export default class GrowingTextInput extends React.Component {
 					numberOfLines={this.props.numberOfLines}
 					style={[ this.props.inputStyle, styles.phantom ]}
 					onLayout={this._handleLayout}
-					pointerEvents="none"
+					pointerEvents='none'
 				>
-					{(this.state.value || this.props.placeholder) + "\n"}
+					{(this.state.value || this.props.placeholder) + '\n'}
 				</AppText>
 				<AppTextInput
 					{...this.props}

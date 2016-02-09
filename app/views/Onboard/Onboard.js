@@ -1,8 +1,8 @@
 /* @flow */
 
-import React from "react-native";
-import PersistentNavigator from "../../navigation/PersistentNavigator";
-import { convertRouteToState } from "../../routes/Route";
+import React from 'react-native';
+import PersistentNavigator from '../../navigation/PersistentNavigator';
+import { convertRouteToState } from '../../routes/Route';
 
 const {
 	NavigationState
@@ -11,7 +11,7 @@ const {
 export default class Onboard extends React.Component {
 	render(): ReactElement {
 		const navigationState = convertRouteToState({
-			name: "onboard",
+			name: 'onboard',
 			props: {},
 			fullscreen: true
 		});

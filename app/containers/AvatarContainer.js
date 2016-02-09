@@ -1,11 +1,11 @@
 /* @flow */
 
-import React from "react-native";
-import Avatar from "../views/Avatar";
-import Container from "./Container";
-import store from "../store/store";
-import config from "../store/config";
-import getAvatar from "../lib/get-avatar";
+import React from 'react-native';
+import Avatar from '../views/Avatar';
+import Container from './Container';
+import store from '../store/store';
+import config from '../store/config';
+import getAvatar from '../lib/get-avatar';
 
 const {
 	PixelRatio
@@ -29,7 +29,7 @@ class AvatarContainer extends React.Component {
 	componentDidMount() {
 		this.runAfterInteractions(this._updateData);
 
-		this.handle("statechange", changes => {
+		this.handle('statechange', changes => {
 			if (changes.entities && changes.entities[this.props.nick]) {
 				this._updateData();
 			}
@@ -47,7 +47,7 @@ class AvatarContainer extends React.Component {
 		if (user && user.picture) {
 			uri = getAvatar(user.picture, (size * PixelRatio.get()));
 		} else {
-			uri = protocol + "//" + host + "/i/" + nick + "/picture?size=" + (size * PixelRatio.get());
+			uri = protocol + '//' + host + '/i/' + nick + '/picture?size=' + (size * PixelRatio.get());
 		}
 
 		this.setState({
