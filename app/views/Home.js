@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PERSISTANCE_KEY = __DEV__ ? 'FLAT_PERSISTENCE_0' : `FLAT_PERSISTENCE_${Math.round(Date.now() / (1000 * 60 * 15))}`;
+const PERSISTANCE_KEY = __DEV__ ? 'FLAT_PERSISTENCE_0' : null;
 
 const Home = (props: { initialURL: string }) => {
 	const { initialURL } = props;
