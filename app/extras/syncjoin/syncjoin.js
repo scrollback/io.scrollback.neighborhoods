@@ -1,5 +1,7 @@
 /* @flow */
 
+import compact from 'lodash/compact';
+import difference from 'lodash/difference';
 import core from '../../store/core';
 import store from '../../store/store';
 import { query, dispatch } from '../../store/actions';
@@ -30,20 +32,28 @@ function initialize() {
 			// ignore
 		}
 
-		const parentRooms = rooms
-			.map(id => {
-				const room = roomsData[id];
+		const parentRooms = [];
 
-				return room && room.guides ? room.guides.alsoAutoFollow : null;
-			})
-			.filter((it, i, self) => it && self.indexOf(it) === i);
+		for (let i = 0, l = rooms.length; i < l; i++) {
+			const room = roomsData[rooms[i]];
+
+			if (room && room.guides) {
+				if (room.guides.alsoAutoFollow) {
+					parentRooms.push(room.guides.alsoAutoFollow);
+				}
+
+				if (room.guides.alsoAutoFollowList) {
+					Array.prototype.push.apply(parentRooms, room.guides.alsoAutoFollowList);
+				}
+			}
+		}
 
 		const roomsToProcess = [ ...rooms, ...parentRooms ];
 		const statesToProcess = states.length ? parentRooms.map(room => states[0] + '-in-' + room) : [];
 
 		const roomsSaved = [ ...roomsToProcess, ...statesToProcess ];
-		const roomsShouldFollow = roomsSaved.filter(room => roomsFollowing.indexOf(room) === -1);
-		const roomsShouldLeave = roomsFollowing.filter(room => roomsSaved.indexOf(room) === -1);
+		const roomsShouldFollow = compact(difference(roomsSaved, roomsFollowing));
+		const roomsShouldLeave = compact(difference(roomsFollowing, roomsSaved));
 
 		try {
 			await Promise.all([].concat(
