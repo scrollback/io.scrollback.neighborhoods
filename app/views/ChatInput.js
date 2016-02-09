@@ -132,12 +132,9 @@ export default class ChatInput extends React.Component {
 	};
 
 	_computeAndSetText = opts => {
-		let newValue = this.state.text;
-		let quotedText = opts.quotedText ? opts.quotedText.replace(/\n/g, ' ') : null;
+		const quotedText = opts.quotedText ? opts.quotedText.replace(/\n/g, ' ') : null;
 
-		if (quotedText && quotedText.length > 140) {
-			quotedText = quotedText.slice(0, 140) + '…';
-		}
+		let newValue = this.state.text;
 
 		if (quotedText) {
 			if (newValue) {
