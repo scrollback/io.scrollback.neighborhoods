@@ -117,7 +117,7 @@ export default class UserDetails extends React.Component {
 					<StatusbarWrapper />
 					<TouchableOpacity style={styles.closeButtonContainer} onPress={this.props.cancelSignUp}>
 						<Icon
-							name="close"
+							name='close'
 							size={24}
 							style={styles.closeButton}
 						/>
@@ -130,19 +130,19 @@ export default class UserDetails extends React.Component {
 
 					<View style={styles.inputContainer}>
 						<AppTextInput
-							autoCapitalize="none"
+							autoCapitalize='none'
 							autoCorrect={false}
 							maxLength={32}
-							placeholder="Username, e.g. barry43"
-							textAlign="center"
+							placeholder='Username, e.g. barry43'
+							textAlign='center'
 							underlineColorAndroid={nick_color}
 							onChangeText={this.props.onChangeNick}
 							value={this.props.nick}
 						/>
 						<AppTextInput
-							autoCapitalize="words"
-							placeholder="Fullname, e.g. Barry Allen"
-							textAlign="center"
+							autoCapitalize='words'
+							placeholder='Fullname, e.g. Barry Allen'
+							textAlign='center'
 							underlineColorAndroid={name_color}
 							onChangeText={this.props.onChangeName}
 							value={this.props.name}
@@ -150,13 +150,13 @@ export default class UserDetails extends React.Component {
 					</View>
 
 					<OnboardError
-						hint="People on Hey, Neighbor! will know you by your username."
+						hint='People on Hey, Neighbor! will know you by your username.'
 						message={this.props.error ? this.props.error.message : null}
 					/>
 					<KeyboardSpacer />
 				</ScrollView>
 				<NextButton
-					label="Sign up"
+					label='Sign up'
 					loading={this.props.isLoading}
 					disabled={this.props.isDisabled}
 					onPress={this.props.onComplete}

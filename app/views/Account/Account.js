@@ -17,6 +17,7 @@ const {
 	View,
 	PixelRatio,
 	TouchableOpacity,
+	TextInput,
 	SwitchAndroid: Switch
 } = React;
 
@@ -48,6 +49,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: 16
 	},
 	input: {
+		paddingVertical: 8,
+		marginVertical: 0,
 		marginHorizontal: 12
 	},
 	item: {
@@ -99,12 +102,16 @@ export default class Account extends React.Component {
 		});
 	};
 
-	_handleStatusChange = text => {
-		const user = Object.assign({}, this.props.user);
+	_handleStatusChange = description => {
+		this._saveUserDebounced(Object.assign({}, this.props.user, { description }));
+	};
 
-		user.description = text;
+	_handleNameChange = fullname => {
+		const { user } = this.props;
 
-		this._saveUserDebounced(user);
+		this._saveUserDebounced(Object.assign({}, user, Object.assign({}, user.guides, {
+			guides: { fullname }
+		})));
 	};
 
 	_handlePushNotificationChange = value => {
@@ -186,7 +193,7 @@ export default class Account extends React.Component {
 		}
 
 		if (user === 'failed') {
-			return <PageEmpty label="Failed to load account" image="sad" />;
+			return <PageEmpty label='Failed to load account' image='sad' />;
 		}
 
 		return (
@@ -206,12 +213,22 @@ export default class Account extends React.Component {
 				<View style={styles.inputContainer}>
 					<AppText style={styles.inputLabelText}>Status message</AppText>
 					<GrowingTextInput
-						style={styles.input}
+						inputStyle={styles.input}
 						defaultValue={user.description}
-						placeholder="Status message"
-						autoCapitalize="sentences"
+						placeholder='Status message'
+						autoCapitalize='sentences'
 						numberOfLines={5}
 						onChangeText={this._handleStatusChange}
+					/>
+				</View>
+				<View style={styles.inputContainer}>
+					<AppText style={styles.inputLabelText}>Fullname</AppText>
+					<TextInput
+						style={styles.input}
+						defaultValue={user.guides ? user.guides.fullname : ''}
+						placeholder='Fullname'
+						autoCapitalize='words'
+						onChangeText={this._handleNameChange}
 					/>
 				</View>
 				<View style={styles.item}>
