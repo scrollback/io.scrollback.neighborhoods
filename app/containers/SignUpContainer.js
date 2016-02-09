@@ -17,11 +17,11 @@ const GPS_ENABLE_CANCEL = 'Not now';
 class SignUpContainer extends React.Component {
 	state = {
 		user: null,
-		skipped: false
+		skipped: false,
+		positionChecked: false
 	};
 
 	componentDidMount() {
-		this.runAfterInteractions(this._checkPosition);
 		this.runAfterInteractions(this._updateData);
 
 		this.handle('statechange', changes => {
@@ -90,9 +90,20 @@ class SignUpContainer extends React.Component {
 	};
 
 	_updateData = () => {
-		this.setState({
-			user: store.getUser()
-		});
+		const user = store.getUser();
+
+		if (user && user.params && !this.state.positionChecked && !user.params.places) {
+			this.setState({
+				user,
+				positionChecked: true,
+			});
+
+			this._checkPosition();
+		} else {
+			this.setState({
+				user,
+			});
+		}
 	};
 
 	_checkNickName = async nick => {
