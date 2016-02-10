@@ -32,7 +32,7 @@ class LocalitiesContainer extends React.Component {
 
 		const following = store.getRelatedRooms().filter(room => room.role && room.role !== 'none');
 		const user = store.getUser();
-		const available = user && user.params ? user.params.skipped !== true : false;
+		const available = user && user.params ? (user.params.places && user.params.places.length || user.params.skipped !== true) : false;
 
 		let data;
 
