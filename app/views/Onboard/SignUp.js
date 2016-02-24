@@ -95,7 +95,21 @@ export default class SignUp extends React.Component {
 	_handleCompleteDetails = async (): Promise => {
 		this._setOnboarding(true);
 
-		if (!this.state.nick) {
+		if (this.state.nick) {
+			const { nick } = this.state;
+
+			const validation = new Validator(nick);
+
+			if (!validation.isValid()) {
+				this.setState({
+					error: {
+						field: 'nick',
+						message: ERROR_MESSAGES[validation.error] || ERROR_MESSAGES.UNKNOWN_ERROR
+					}
+				});
+				return;
+			}
+		} else {
 			this.setState({
 				error: {
 					field: 'nick',
@@ -196,7 +210,8 @@ export default class SignUp extends React.Component {
 
 	_handleChangeName = (name: string) => {
 		this.setState({
-			name
+			name,
+			error: null
 		});
 	};
 
