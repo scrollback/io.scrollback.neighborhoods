@@ -9,6 +9,7 @@ const STATES = [
 	'Arunachal Pradesh',
 	'Assam',
 	'Bihar',
+	'Delhi',
 	'Chhattisgarh',
 	'Goa',
 	'Gujarat',

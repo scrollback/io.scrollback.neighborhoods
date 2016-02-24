@@ -196,8 +196,7 @@ export default class SignUp extends React.Component {
 
 	_handleChangeName = (name: string) => {
 		this.setState({
-			name,
-			error: null
+			name
 		});
 	};
 
