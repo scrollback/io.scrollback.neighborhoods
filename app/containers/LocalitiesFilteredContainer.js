@@ -19,7 +19,7 @@ class LocalitiesFilteredContainer extends React.Component {
 				lon: number
 			}
 		} = filter ? {
-			ref: filter.trim().replace(/\W+/g, '-') + '*'
+			ref: filter.trim().replace(/\W+/g, '-').toLowerCase() + '*'
 		} : { limit: 5 };
 
 		try {
