@@ -1,6 +1,5 @@
-import "./app/navigation-rfc/polyfill";
-import React from "react-native";
-import AppContainer from "./app/containers/AppContainer";
+import React from 'react-native';
+import UpgradeBanner from './app/views/UpgradeBanner';
 
 const {
 	AppRegistry
@@ -8,8 +7,8 @@ const {
 
 export default class HeyNeighbor extends React.Component {
 	render() {
-		return <AppContainer />;
+		return <UpgradeBanner />;
 	}
 }
 
-AppRegistry.registerComponent("HeyNeighbor", () => HeyNeighbor);
+AppRegistry.registerComponent('HeyNeighbor', () => HeyNeighbor);
