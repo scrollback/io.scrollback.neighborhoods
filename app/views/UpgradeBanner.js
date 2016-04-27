@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
 export default class UpgradeBanner extends React.Component {
 	_handlePress() {
-		Linking.openURL('https://play.google.com/store/apps/details?id=chat.belong.hello');
+		Linking.openURL('https://play.google.com/store/apps/details?id=chat.belong.hello&referrer=utm_source%3Dandroid_app%26utm_medium%3Dbanner%26utm_campaign%3Dheyeneighbor_update');
 	}
 
 	render() {
