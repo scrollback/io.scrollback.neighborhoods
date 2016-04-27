@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0",
-    "babel-jest": "^6.0.1",
+    "babel-jest": "^12.0.1",
     "chalk": "^1.1.1",
     "crypto": "0.0.3",
     "eslint": "^2.1.0",
