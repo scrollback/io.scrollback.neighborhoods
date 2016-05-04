@@ -15,7 +15,7 @@
     "lodash": "^4.5.0",
     "react-native": "^0.18.1",
     "react-native-image-chooser": "^1.0.1",
-    "react-native-vector-icons": "^1.2.0"
+    "react-native-vector-icons": "^1.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^5.0.0",
