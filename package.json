@@ -23,7 +23,7 @@
     "chalk": "^1.1.1",
     "crypto": "0.0.3",
     "eslint": "^2.1.0",
-    "eslint-plugin-react": "^3.16.1",
+    "eslint-plugin-react": "^4.2.1",
     "eslint-plugin-react-native": "^0.6.0",
     "flow-bin": "^0.21.0",
     "jest": "^0.1.40",
